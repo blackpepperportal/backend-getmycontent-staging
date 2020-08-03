@@ -175,6 +175,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+
+        Akaunting\Setting\Provider::class,
+        vidhyar2612\Enveditor\EnveditorServiceProvider::class,
+
     ],
 
     /*
@@ -226,6 +230,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Setting' => Akaunting\Setting\Facade::class,
+        'Enveditor' => 'vidhyar2612\Enveditor\Facade',
 
     ],
 
