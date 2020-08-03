@@ -47,13 +47,6 @@ if(!defined('USER_DECLINED')) define('USER_DECLINED', 2);
 if(!defined('USER_EMAIL_NOT_VERIFIED')) define('USER_EMAIL_NOT_VERIFIED', 0);
 if(!defined('USER_EMAIL_VERIFIED')) define('USER_EMAIL_VERIFIED', 1);
 
-if(!defined('INSTRUCTOR_EMAIL_NOT_VERIFIED')) define('INSTRUCTOR_EMAIL_NOT_VERIFIED', 0);
-if(!defined('INSTRUCTOR_EMAIL_VERIFIED')) define('INSTRUCTOR_EMAIL_VERIFIED', 1);
-
-if(!defined('INSTRUCTOR_PENDING')) define('INSTRUCTOR_PENDING', 0);
-if(!defined('INSTRUCTOR_APPROVED')) define('INSTRUCTOR_APPROVED', 1);
-if(!defined('INSTRUCTOR_DECLINED')) define('INSTRUCTOR_DECLINED', 2);
-
 //////// USERS END
 
 /***** ADMIN CONTROLS KEYS ********/
@@ -63,19 +56,12 @@ if(!defined('ADMIN_CONTROL_DISABLED')) define('ADMIN_CONTROL_DISABLED', 0);
 
 if(!defined('NO_DEVICE_TOKEN')) define("NO_DEVICE_TOKEN", "NO_DEVICE_TOKEN");
 
-if(!defined('MEETING_TYPE_LIVE')) define('MEETING_TYPE_LIVE', 'live');
-if(!defined('MEETING_TYPE_VOD')) define('MEETING_TYPE_VOD', 'vod');
-
 if(!defined('PLAN_TYPE_MONTH')) define('PLAN_TYPE_MONTH', 'months');
 if(!defined('PLAN_TYPE_YEAR')) define('PLAN_TYPE_YEAR', 'years');
 
 if(!defined('PLAN_TYPE_WEEK')) define('PLAN_TYPE_WEEK', 'weeks');
 
 if(!defined('PLAN_TYPE_DAY')) define('PLAN_TYPE_DAY', 'days');
-
-if(!defined('PAID_INSTRUCTOR')) define('PAID_INSTRUCTOR', 1);
-
-if(!defined('NON_PAID_INSTRUCTOR')) define('NON_PAID_INSTRUCTOR', 'days');
 
 if(!defined('TODAY')) define('TODAY', 'today');
 

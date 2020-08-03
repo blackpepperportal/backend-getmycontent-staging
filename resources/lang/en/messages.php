@@ -1,0 +1,454 @@
+<?php
+return [
+
+	'dashboard' =>'Dashboard',
+	'login_success' => 'You have successfully login!!',
+	'email' => 'Email',
+	'password' => 'Password',
+	'sign_in' =>'sign in',
+	'enter_email' => 'Enter email',
+	'enter_password' => 'Enter Password',
+
+	//users messages
+	'users' => 'Users',
+	'add_user' => 'Add User',
+	'view_users' => 'View Users',
+	'edit_user' => 'Edit User',
+	'all_right_reserved' => 'All rights are reserved',
+
+	'settings' =>'Settings',
+	'profile' => 'Profile',
+	'is_verified' => 'Is Verified',
+	/*********** FORM FIELDS ************/
+
+	'submit' => 'Submit',
+	'reset' => 'Reset',
+	'close' => 'Close',
+
+	'active' => 'Active',
+	'inactive' => 'Inactive',
+	'activate' => 'Activate',
+	'inactivate' => 'In Activate',
+
+	'id'	=>	'ID',
+	'email' => 'Email',
+	'email_address' => 'Email Address',
+	'password' =>  'Password',
+	'confirm_password' => 'Confirm Password',
+	'new_password' => 'New Password',
+	'old_password' => 'Old Password',
+
+	'first_name' => 'First Name',
+	'last_name' => 'Last Name',
+	'username' => 'User Name',
+
+	'mobile' => 'Mobile',
+	'picture' => 'Picture',
+	'about' => 'About Me',
+	'address' => 'Address',
+	'description' => 'Description',
+	'name' => 'Name',
+	'title' => 'Title',
+	'type' => 'Type',
+	'gender' =>'Gender',
+	'remove' => 'Remove',
+	'amount'	=> 	'Amount',
+	'frontend_url' => 'Frontend Url',
+	'currency' 	=>	'Currency',
+	'total_amount_spent' => 'Total Amount Spent',
+	/*********** FORM FIELDS ************/
+	
+
+	/*********** COMMON CONTENT *******/
+
+	'select_picture' => 'Selecte Picture',
+	'member_since' => "Since ",
+
+	'version' => 'Version',
+	'copyright' => 'Copyright',
+	'all_right_reserved' => 'All right reserved',
+	'analytics' => 'Analytics',
+	'core' => 'Core',
+
+	'approve'	=>	'Approve',
+	'decline'	=>	'Decline',
+	'approved'	=>	'Approved',
+	'pending'	=>	'Pending',
+	'added'	=> 	'Added',
+
+	'YES' => 'Yes',
+	'NO' => 'No',
+
+	'user' => 'User',
+	'admin' => 'Admin',
+	'user_welcome_title' => 'Welcome to ',
+	'login_content' => 'Login to your account',
+	'images_not_found' => 'Images Not Available. You can',
+
+	'provider_welcome_title' => 'Welcome to ',
+
+	'forgot_email_title' => 'Your New password',
+
+	'login_type' => 'Login Type',
+
+	'action' => 'Action',
+
+	'edit' => 'Edit',
+
+	'status' => 'Status',
+
+	'joined' => 'Joined At',
+
+	's_no' => 'S No',
+
+	'delete' => 'Delete',
+
+	'approve' => 'Approve',
+
+	'decline' => 'Decline',
+
+	'approved' => 'Approved',
+
+	'pending' => 'Pending',
+
+	'declined' => 'Declined',
+
+	'verify' => 'Verify',
+
+	'verified' => 'Verified',
+
+	'verified_status' => 'Verified Status',
+
+	'unverify' => 'Unverify',
+
+	'help' => 'Help',
+	'faq' => 'FAQ',
+
+	'settings' => 'Settings',
+	'profile' => 'Profile',
+	'dashboard' => 'Dashboard',
+	'revenue' => 'Revenue',
+	'revenues' => 'Revenues',
+	'login' => 'Login',
+	'signup' => 'Signup',
+	'account' => 'Account',
+	'edit_profile' => 'Edit Profile',
+	'change_password' => 'Change Password',
+	'delete_account' => 'Delete Account',
+	'logout' => 'Logout',
+	'hello_text' => 'Hello! let\'s get started',
+	'provider_redeems' => 'Provider Redeems',
+	'user_refunds' => 'User Refunds',
+
+	'device_type' => 'Device Type',
+	'login_by' => 'Login By',
+	'register_type' => 'Register Type',
+	'payment_mode' => 'Payment Mode',
+	'timezone' => 'Timezone',
+	'latitude' => 'Latitude',
+	'longitude' => 'Longitude',
+	'push_notification' => 'Mobile Notification',
+	'email_notification' => 'Email Notification',
+	'is_email_verified' => 'Is Email Verified?',
+	'notification_settings' => 'Notification Settings',
+
+	'properties' => 'Properties',
+	'amenties_and_bookings' => 'Amenities & Booking Settings',
+	'history' => 'History',
+	'host_reviews' =>'Host Reviews',
+	'booking_preference'=> 'Booking Preference',
+	'check_in_time' =>'Check In',
+	'check_out_time' =>'Check Out',
+
+	'home' => 'Home',
+
+	'on' => 'ON',
+	'off' => 'OFF',
+	'no' => 'NO',
+	'yes' => 'YES',
+
+	'no_reviews_found' => 'No Reviews Found!!',
+	'add_images' => 'Add Gallery Images.',
+
+	'created' => 'Created',
+	'updated_on' => 'Updated On',
+
+	'created_at' => 'Created Time',
+	'updated_at' => 'Updated Time',
+
+	'file' =>'File',
+
+	'update_profile' => 'Update Profile',
+	'change_password' => 'Change Password',
+
+	'view' => 'View',
+	'view_all' => 'View All',
+	'success' => 'Success!!',
+
+	'total_amount' => 'Total Amount',
+	'revenues' => 'Revenues',
+	'added_on' => 'Added On',
+
+    'admin_not_error'	=>	'Something Went Wrong, Try Again!',
+
+    'paid' => 'Paid',
+    'subscription_amount' => 'Subscription Amount',
+	'paid_amount' => 'Paid Amount',
+	'admin_amount' => 'Admin Amount',
+	'provider_amount' => 'Provider Amount',
+	'paid_date' => 'Paid At',
+	'sub_total' => 'Sub Total',
+	'actual_total' => 'Actual Total',
+	'coupon_amount' => 'Coupon Discount',
+	'tax_price' =>'Tax Price',
+	'details' => 'Details',
+	'invoice' => 'Invoice',
+	'no_of_months' => 'No Of Months',
+	'no_of_class' => 'No Of Class',
+	'no_of_users_each_class' => 'No Of Users Each Class',
+	'no_of_user' => 'No Of User',
+	'is_free' => 'Is Free?',
+	'is_popular' => 'Is Popular?',
+
+	'location_details' => 'Location Details',
+	'space_details_text' => 'Space Details',
+	'access_method_key' => 'Key',
+	'secret_code' => 'Secret code',
+	'images' => 'Image',
+
+	'remaining_amount' => 'Remaining Amount',
+	'remaining' => 'Remaining',
+
+	'upload' => 'Upload',
+	'upload_image' => 'Upload Image',
+	'mobile_note' => 'Note : The mobile must be between 6 and 13 digits.',
+	'png_image_note' => 'Please enter .png images only.',
+	'description' => 'Description',
+
+	'invalid_request_input' => 'Invalid request details',
+
+	'paypal_email' => 'Paypal Email',
+	'account_name' => 'Account Name',
+	'account_no' => 'Account Number',
+	'route_no' => 'Route Number',
+
+	/*********** COMMON CONTENT *******/
+
+	
+	// Settings 
+
+	'settings_update_success' => 'Settings Updated successfully!!',
+	
+	'booking_settings' => 'Booking Settings',
+
+	'settings' => 'Settings',
+	'site_settings' => 'Site Settings',
+	'email_settings' => 'Email Settings',
+	'payment_settings' => 'Payment Settings',
+	'mobile_settings' => 'Mobile Settings',
+	'social_settings' => 'Social Settings',
+	'social_login'=>'Social Login',
+	'social_and_app_settings' => 'Social & App Settings',
+	'social_settings' => 'Social Links',
+	'other_settings' => 'Others',
+	'push_notification_settings' => 'Push Notification Settings',
+	'mail_push_settings' => 'Email & Push Settings',
+	
+	'payment_settings' => 'Payment Settings',
+	
+
+	'stripe_settings' => 'Stripe Settings',
+
+	'site_name' => 'Site Name',
+	'site_logo' => 'Site Logo',
+	'site_icon' => 'Favicon',
+	'tag_name' => 'Tag Name',
+
+	'MAIL_DRIVER' => 'MAIL DRIVER',
+	'MAIL_HOST' => 'MAIL HOST',
+	'MAIL_PORT' => 'MAIL PORT',
+	'MAIL_USERNAME' => 'MAIL USERNAME',
+	'MAIL_PASSWORD' => 'MAIL PASSWORD',
+	'MAIL_ENCRYPTION' => 'MAIL ENCRYPTION',
+	'MAIL_FROM_ADDRESS' => 'MAIL FORM ADDRESS',
+	'MAIL_FROM_NAME' => 'MAIL FORM NAME',
+
+	'mail_driver_note' => 'Supported - "smtp", "mailgun"',
+	'mail_host_note' => 'Ex- "smtp.gmail.com", "smtp.mailgun.org"',
+	'mail_port_note' => 'Ex- 587,445',
+	'mail_username_note' => 'Ex- "abcd.gmail.com"',
+	'mail_password_note' => '',
+	'mail_encryption_note' => 'Ex- "tls"',
+	'MAIL_FROM_ADDRESS_note' => 'Ex- "no-reply@gmail.com"',
+	'MAIL_FROM_NAME_note' => 'Ex- "Site Name"',
+
+	'FCM_SERVER_KEY' => 'FCM SERVER KEY',
+	'FCM_SENDER_ID' => 'FCM SENDER ID',
+	'FCM_PROTOCOL' => 'FCM PROTOCOL',
+
+	'stripe_publishable_key' => 'Publishable Key',
+	'stripe_secret_key' => 'Secret Key',
+	'stripe_mode' => 'Mode',
+	'live' => 'Live',
+	'sandbox' => 'Sandbox',
+	'payment' => 'Payment',
+
+
+	'icon_for_provider' => 'Provider Icon',
+	'icon_for_provider_note' => 'Provider Icon',
+	'icon_for_user' => 'User Icon',
+	'icon_for_user_note' => 'User Icon',
+	'icon_for_destination' => 'Destination Icon',
+	'icon_for_destination_note' => 'Destination Icon',
+
+	'booking_admin_commission' => 'Admin Commission in %',
+	'booking_admin_commission_note' => 'Commission in % like 10, 21, etc',
+	'tax_percentage' => 'Tax in % (18%)',
+	'tax_percentage_note' => 'Tax in %',
+
+	'tax_percentage_note' => '',
+	'base_price_distance_limit' => 'Distance limit for base price',
+
+	'base_price' => 'Base Price',
+	'per_base_price' => 'Per Base Price',
+	'settings_per_price' => 'Per Price',
+	'settings_per_price_note' => 'Per Price By Distance. (Ex. 1KM = $0.5)',
+
+	'base_price_note' => 'Base Price. (Ex.Min:1)',
+	'base_price_distance_limit_note' => 'Set distance for base price.(upto 5km - $10)',
+
+	'provider_select_timeout' => 'Provider Request Timeout',
+	'provider_select_timeout_note' => 'Provider Timeout for new request in secs',
+
+
+	'google_api_key' => 'Google API KEY',
+	'push_notification_browser_key' => 'Browser key for push Notification',
+	'socket_url' => 'Chat Socket url',
+
+	'socket_url' => 'Chat Socket url',
+	
+	'apps_settings' => 'Apps Settings',
+	'playstore_user' => 'User - PlayStore',
+	'appstore_user' => 'User - Appstore',
+	'playstore_provider' => 'Provider - PlayStore',
+	'appstore_provider' => 'Provider - Appstore',
+
+	'facebook_link' => 'Facebook Link',
+	'linkedin_link' => 'LinkedIn Link',
+	'twitter_link' => 'Twitter Link',
+	'google_plus_link' => 'Google Plus Link',
+	'pinterest_link' => 'Pinterest Link',
+
+	'google_analytics' => 'Google Analytics',
+	'body_scripts' => 'Body Scripts' ,
+	'header_scripts' => 'Header Scripts',
+
+	// SEO Settings Part
+
+	'seo_settings' => 'SEO Settings',
+	'meta_title' => 'Meta Title',
+	'meta_keywords' => 'Meta Keywords',
+	'meta_author' => 'Meta Author',
+	'meta_description' => 'Meta Description',
+
+	'social_settings' => 'Social Settings',
+	'fb_settings' => 'FB Settings',
+	'twitter_settings' => 'Twitter Settings',
+	'google_settings' => 'Google Settings',
+
+	'FB_CLIENT_ID' => 'FB Client Id',
+	'FB_CLIENT_SECRET' => 'FB Client Secret',
+	'FB_CALL_BACK' => 'FB CallBack',
+
+	'TWITTER_CLIENT_ID' => 'Twitter Client Id',
+	'TWITTER_CLIENT_SECRET' => 'Twitter Client Secret',
+	'TWITTER_CALL_BACK' => 'Twitter CallBack',
+
+	'GOOGLE_CLIENT_ID' => 'Google Client Id',
+	'GOOGLE_CLIENT_SECRET' => 'Google Client Secret',
+	'GOOGLE_CALL_BACK' => 'Google CallBack',
+
+	'PAYPAL_ID' => 'Paypal Id',
+	'PAYPAL_SECRET' => 'Paypal Secret',
+	'PAYPAL_MODE' => 'Paypal Mode',
+
+	'instructors' => 'Instructors',
+	'view_instructors' => 'View Instructors',
+	'add_instructor' => 'Add Instructor',
+	'edit_instructor' => 'Edit Instructor',
+
+	'subscriptions' => 'Subscriptions',
+	'view_subscriptions' => 'View Subscriptions',
+	'add_subscription' => 'Add Subscription',
+	'edit_subscription' => 'Edit Subscription',
+
+
+	'account_management' => 'ACCOUNT MANAGEMENT',
+	'revenue_management' => 'REVENUE MANAGEMENT',
+	'setting_management' => 'SETTING MANAGEMENT',
+
+	//users
+	'delete_user'	=>	'Delete User',
+	
+	'user_created_success' => 'The user created successfully!!',
+	'user_updated_success' => 'The user updated successfully!!',
+	'user_save_failed' => 'The user details updating failed!!',
+	'user_not_found' => 'The selected user details not found.',
+
+	'user_deleted_success' => 'The user deleted successfully!!',
+	'user_delete_failed' => 'The user deletion failed!!',
+	'user_delete_confirmation' => 'Once you\'ve deleted the record , the user (:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.',
+
+	'user_approve_success' => 'The user approved successfully..!!',
+	'user_decline_success' => 'The user declined successfully..!!',
+	'user_decline_confirmation' => 'Do you want decline this user?',
+	'user_status_change_failed' => 'The user status updating failed..!!',
+
+	'user_verify_success' => 'The user email verification completed!',
+	'user_unverify_success' => 'The user email verification removed!',
+	'user_verify_change_failed' => 'Updating user email verification status failed..!!',
+
+	'user_email_confirmation' => 'Do you want change this user as email verified user?',
+	'amenities_updated_success' => 'Updated Amenities for the selected Host.',
+	'user_account_name_not_avail'=>'User account name is not available',
+	'user_account_no_not_avail'=>'User account number is not available',
+	'user_route_no_not_avail'=>'User route number is not available',
+	'user_paypal_email_not_avail'=>'User paypal email is not available',
+
+	
+	'static_pages' => 'Pages',
+	'add_static_page' => 'Add Page',
+	'edit_static_page' => 'Edit Page',
+	'view_static_page' => 'View Page',
+	'view_static_pages' => 'View Pages',
+	'delete_static_page' => 'Delete Page',
+
+	'static_page_created_success' => 'The Page updated successfully..!!',
+	'static_page_updated_success' => 'The Page updated successfully..!!',
+	'static_page_deleted_success' => 'The Page deleted successfully..!!',
+	'static_page_approve_success' => 'Page Approved successfully..!!',
+	'static_page_decline_success' => 'Page Declined successfully..!!',
+
+	'static_page_already_alert' => 'The selected page is already exists!!!',
+
+	'static_page_decline_confirmation' => 'Do you want decline this Page?',
+
+	'static_page_delete_confirmation' => 'Once you\'ve deleted this Page, the Page (:other_key) will not available to the site or apps. This action cannot be undone.',
+
+	'static_page_not_found' => 'Page details not found!!',
+
+	'static_page_error' => 'Something went wrong, while doing the action!!.',
+
+	'select_static_page_type' => 'Select Page Type',
+
+	'static_page_type' => 'Page Type',
+
+	'admin_profile_success' => 'Admin profile updated successfully!!',
+
+	'select_status' => 'Select Status',
+	'users_search_placeholder' => 'Search by Username,Email Id,Mobile',
+
+
+]
+
+?>

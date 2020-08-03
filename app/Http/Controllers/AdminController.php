@@ -194,7 +194,7 @@ class AdminController extends Controller
      *
      */
     public function users_save(Request $request) {
-
+        
         try {
 
             DB::begintransaction();
@@ -205,7 +205,7 @@ class AdminController extends Controller
                 'password' => $request->user_id ? "" : 'required|min:6',
                 'mobile' => $request->mobile ? 'digits_between:6,13' : '',
                 'picture' => 'mimes:jpg,png,jpeg',
-                'user_id' => 'exists:users,id'
+                'user_id' => 'exists:users,id|nullable'
             ];
 
             Helper::custom_validator($request->all(),$rules);
@@ -231,6 +231,10 @@ class AdminController extends Controller
                 $user_details->picture = asset('placeholder.jpeg');
 
                 $user_details->is_verified = USER_EMAIL_VERIFIED;
+
+                $user_details->token = Helper::generate_token();
+
+                $user_details->token_expiry = Helper::generate_token_expiry();
 
             }
 
