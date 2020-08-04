@@ -514,7 +514,7 @@ class AdminController extends Controller
      * @return success/error message
      */
     public function settings_save(Request $request) {
-       
+      
         try {
             
             DB::beginTransaction();
@@ -800,4 +800,24 @@ class AdminController extends Controller
         }    
     
     }
+    
+    /**
+     * @method admin_control()
+     *
+     * @uses 
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param 
+     *
+     * @return view page 
+     */
+    public function admin_control() {
+           
+        return view('admin.settings.control')->with('page', tr('admin_control'));
+        
+    }
 }
+

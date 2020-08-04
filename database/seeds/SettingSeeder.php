@@ -222,6 +222,8 @@ class SettingSeeder extends Seeder
 	         		[
 				        'key' => $value,
 				        'value' => "",
+				        'created_at' => date('Y-m-d H:i:s'),
+				        'updated_at' => date('Y-m-d H:i:s')
 				    ],
 				]);
 

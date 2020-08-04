@@ -1,20 +1,16 @@
 @extends('layouts.admin') 
 
-@section('title', tr('admin_demo_control_settings')) 
+@section('title', tr('admin_control')) 
 
-@section('content-header', tr('admin_demo_control_settings')) 
+@section('content-header', tr('admin_control')) 
 
-@section('breadcrumb_left')
+@section('breadcrumb')
 
     <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
     </li>
 
-    <li class="breadcrumb-item active">{{ tr('admin_demo_control_settings') }}</a>
+    <li class="breadcrumb-item active">{{ tr('admin_control') }}</a>
     </li>
-
-@endsection 
-
-@section('breadcrumb_right')
 
 @endsection 
 
@@ -51,94 +47,180 @@
 
                                             </div>
 
-                                            <form class="form-horizontal" action="{{ route('admin.admin_control.save')}}" method="POST" enctype="multipart/form-data" role="form">
-                                               
-                                                @csrf
-                                              
-                                                <div class="form-body">
+                                           <form class="forms-sample" action="{{ route('admin.settings.save') }}" method="POST" enctype="multipart/form-data" role="form">
 
-                                                    <div class="row">
+                                            @csrf
 
-                    	                                <div class="col-md-6">
-                    	                                	
-                    		                                <div class="form-group">
-                                                                <label><b> {{ tr('demo_control')}}</b></label>
-                    		                                    <div>   
-                    										      <input type="radio" name="is_demo_control_enabled" value="1"  @if(Setting::get('is_demo_control_enabled') == YES) checked  @endif > <label> {{ tr('enable') }}</label>
-                    										    
-                    										      <input type="radio" value="0" name="is_demo_control_enabled" @if(Setting::get('is_demo_control_enabled') == NO) checked  @endif > <label> {{ tr('disable') }}</label>
-                    										    </div>                             
-                    		                            	</div>
+                                            <div class="card-header bg-card-header ">
 
+                                                <h4 class="">{{tr('admin_control')}}</h4>
 
-                                                            <div class="form-group">
-                                                                <label><b> {{ tr('is_email_notification')}}</b></label>
-                                                                <div>
-                                                                  <input type="radio" name="is_email_notification" value="1"  @if(Setting::get('is_email_notification') == YES) checked  @endif > <label> {{ tr('enable') }}</label>
-                                                                
-                                                                  <input type="radio" value="0" name="is_email_notification" @if(Setting::get('is_email_notification') == NO) checked  @endif >
-                                                                  <label> {{ tr('disable') }}</label>
-                                                                </div>                                                      
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
+                                            </div>
 
+                                            <div class="card-body">
 
-                                                            <div class="form-group">
-                                                                <label><b>{{ tr('is_push_notification')}}</b></label>
-                                                                <div>
-                                                                     <input type="radio" name="is_push_notification" value="1"  @if(Setting::get('is_push_notification') == YES) checked  @endif ><label> {{ tr('enable') }}</label>
-                                                                
-                                                                  <input type="radio" value="0" name="is_push_notification" @if(Setting::get('is_push_notification') == NO) checked  @endif > <label>{{ tr('disable') }}</label>
-                                                                </div>                                                      
-                                                            </div>
+                                                <div class="row">
 
-                                                            <div class="form-group">
-                                                                <label><b>{{ tr('is_account_email_verification')}}</b></label>
-                                                                <div>
-                                                                    <input type="radio" name="is_account_email_verification" value="1"  @if(Setting::get('is_account_email_verification') == YES) checked  @endif > <label> {{ tr('enable') }}</label>
-                                                                
-                                                                 <input type="radio" value="0" name="is_account_email_verification" @if(Setting::get('is_account_email_verification') == NO) checked  @endif > <label> {{ tr('disable') }}</label>
-                                                                </div>                                                      
-                                                            </div>
+                                                    <div class="form-group col-md-6">
+                                                                   
+                                                        <label>{{ tr('is_demo_control_enabled') }}</label>
+                                                        <br>
+                                                        <label>
+                                                            <input required type="radio" name="is_demo_control_enabled" value="1" class="flat-red" @if(Setting::get('is_demo_control_enabled') == 1) checked @endif>
+                                                            {{tr('yes')}}
+                                                        </label>
 
-                                                        </div>
+                                                        <label>
+                                                            <input required type="radio" name="is_demo_control_enabled" class="flat-red"  value="0" @if(Setting::get('is_demo_control_enabled') == 0) checked @endif>
+                                                            {{tr('no')}}
+                                                        </label>
+                                                
+                                                    </div>
 
-                                                        <div class="col-md-6">
+                                                    <div class="form-group col-md-6">
+                                                                   
+                                                        <label>{{ tr('is_account_email_verification') }}</label>
+                                                        <br>
+                                                        <label>
+                                                            <input required type="radio" name="is_account_email_verification" value="1" class="flat-red" @if(Setting::get('is_account_email_verification') == 1) checked @endif>
+                                                            {{tr('yes')}}
+                                                        </label>
 
-                                                            <div class="form-group">
-                                                                <label><b>{{ tr('appstore_update_status')}}</b></label>
-                                                                <div>
-                                                                     <input type="radio" name="appstore_update_status" value="1"  @if(Setting::get('appstore_update_status') == YES) checked  @endif ><label> {{ tr('yes') }}</label>
-                                                                
-                                                                  <input type="radio" value="0" name="appstore_update_status" @if(Setting::get('appstore_update_status') == NO) checked  @endif > <label>{{ tr('no') }}</label>
-                                                                </div>                                                      
-                                                            </div>
+                                                        <label>
+                                                            <input required type="radio" name="is_account_email_verification" class="flat-red"  value="0" @if(Setting::get('is_account_email_verification') == 0) checked @endif>
+                                                            {{tr('no')}}
+                                                        </label>
+                                                
+                                                    </div>
 
+                                                    <div class="form-group col-md-6">
+                                                                   
+                                                        <label>{{ tr('is_email_notification') }}</label>
+                                                        <br>
+                                                        <label>
+                                                            <input required type="radio" name="is_email_notification" value="1" class="flat-red" @if(Setting::get('is_email_notification') == 1) checked @endif>
+                                                            {{tr('yes')}}
+                                                        </label>
 
-                    	                            	</div>
+                                                        <label>
+                                                            <input required type="radio" name="is_email_notification" class="flat-red"  value="0" @if(Setting::get('is_email_notification') == 0) checked @endif>
+                                                            {{tr('no')}}
+                                                        </label>
+                                                
+                                                    </div>
 
-                                                	</div>
-                                              
-                    	                            <div class="form-actions">
+                                                    <div class="form-group col-md-6">
+                                                                   
+                                                        <label>{{ tr('is_email_configured') }}</label>
+                                                        <br>
+                                                        <label>
+                                                            <input required type="radio" name="is_email_configured" value="1" class="flat-red" @if(Setting::get('is_email_configured') == 1) checked @endif>
+                                                            {{tr('yes')}}
+                                                        </label>
 
-                    	                                <div class="pull-right">
-                    	                                
-                    	                                        <button type="reset" class="btn btn-warning mr-1">
-                    	                                            <i class="ft-x"></i> {{tr('reset')}} 
-                    	                                        </button>
+                                                        <label>
+                                                            <input required type="radio" name="is_email_configured" class="flat-red"  value="0" @if(Setting::get('is_email_configured') == 0) checked @endif>
+                                                            {{tr('no')}}
+                                                        </label>
+                                                
+                                                    </div>
 
-                    	                                        <button type="submit" class="btn btn-primary" ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
-                    	                                
-                    	                                </div>
+                                                    <div class="form-group col-md-6">
+                                                                   
+                                                        <label>{{ tr('is_push_notification') }}</label>
+                                                        <br>
+                                                        <label>
+                                                            <input required type="radio" name="is_push_notification" value="1" class="flat-red" @if(Setting::get('is_push_notification') == 1) checked @endif>
+                                                            {{tr('yes')}}
+                                                        </label>
 
-                    	                                <div class="clearfix"></div>
+                                                        <label>
+                                                            <input required type="radio" name="is_push_notification" class="flat-red"  value="0" @if(Setting::get('is_push_notification') == 0) checked @endif>
+                                                            {{tr('no')}}
+                                                        </label>
+                                                
+                                                    </div>
 
-                    	                            </div>
+                                                    <div class="form-group col-md-6">
+                                                                   
+                                                        <label>{{ tr('admin_take_count') }}</label>
+                                                        
+                                                        <input type="number" name="admin_take_count" class="form-control" value="{{Setting::get('admin_take_count', 6)}}">
+                                                
+                                                    </div>
 
-                    	                         </div>
+                                                    <div class="form-group col-md-6">
+                                                                   
+                                                        <label>{{ tr('currency') }}</label>
+                                                        
+                                                        <input type="text" name="currency" class="form-control" value="{{Setting::get('currency', '$')}}">
+                                                
+                                                    </div>
 
-                                            </form>
+                                                    <div class="form-group col-md-6">
+                                                                   
+                                                        <label>{{ tr('currency_code') }}</label>
+                                                        
+                                                        <input type="text" name="currency_code" class="form-control" value="{{Setting::get('currency_code', 'USD')}}">
+                                                
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="clearfix"></div>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-12">
+
+                                                        <hr><h4>Demo Login Details</h4><hr>
+
+                                                    </div>
+
+                                                    <div class="form-group col-md-6">
+                                                                   
+                                                        <label>{{ tr('demo_admin_email') }}</label>
+                                                        
+                                                        <input type="text" name="demo_admin_email" class="form-control" value="{{Setting::get('demo_admin_email')}}">
+                                                
+                                                    </div>
+
+                                                    <div class="form-group col-md-6">
+                                                                   
+                                                        <label>{{ tr('demo_admin_password') }}</label>
+                                                        
+                                                        <input type="text" name="demo_admin_password" class="form-control" value="{{Setting::get('demo_admin_password')}}">
+                                                
+                                                    </div>
+
+                                                    <div class="form-group col-md-6">
+                                                                   
+                                                        <label>{{ tr('demo_user_email') }}</label>
+                                                        
+                                                        <input type="text" name="demo_user_email" class="form-control" value="{{Setting::get('demo_user_email')}}">
+                                                
+                                                    </div>
+
+                                                    <div class="form-group col-md-6">
+                                                                   
+                                                        <label>{{ tr('demo_user_password') }}</label>
+                                                        
+                                                        <input type="text" name="demo_user_password" class="form-control" value="{{Setting::get('demo_user_password')}}">
+                                                
+                                                    </div>
+                                                
+                                                </div>
+                                            
+                                            </div>
+
+                                            <div class="card-footer">
+
+                                                <button type="reset" class="btn btn-secondary pull-left mr-2">{{tr('reset')}}</button>
+
+                                                <button type="submit" class="btn btn-success mr-2 pull-right">{{ tr('submit') }}</button>
+                                            </div>
+
+                                        </form>
                                         </div>
                                     
                                     </div>

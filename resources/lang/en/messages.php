@@ -448,6 +448,36 @@ return [
 	'select_status' => 'Select Status',
 	'users_search_placeholder' => 'Search by Username,Email Id,Mobile',
 
+	'admin_control' => 'Admin Control',
+	'is_demo_control_enabled' => 'Do you want to prevent the edit/delete Actions',
+	
+	'is_account_email_verification' => 'Is Account email verification enabled',
+	'is_email_notification' => 'Is email notification',
+	'is_email_configured' => 'Is email configured',
+
+	'is_push_notification' => 'Is push notification',
+
+	'admin_take_count' => 'Admin Take Count',
+
+	'demo_admin_email' => 'Demo - Admin Email',
+	'demo_admin_password' => 'Demo - Admin Password',
+
+	'demo_provider_email' => 'Demo - Provider Email',
+	'demo_provider_password' => 'Demo - Provider Password',
+
+	'demo_user_email' => 'Demo - User Email',
+	'demo_user_password' => 'Demo - User Password',
+
+	'is_appstore_updated' => 'Is Appstore Updated?',
+
+	'currency_code' => 'Currency Code',
+	'months'=>'Months',	
+	'settings_key_not_found' => ' - In this key value not found on settings table.',
+	'settings_save_error' => 'Failed to save setting details',
+	'image_validate'=>'Please enter .png .jpeg .jpg images only.', 
+	'image_notes' => 'Please enter .png images only.',
+	'confirm_logout' => 'Confirm Logout',
+	'logout_note' => 'Do you want logout from this session?',
 
 ]
 

@@ -93,6 +93,8 @@
     
     </div>
 
+    @include('layouts.admin._logout_model')
+
     @include('layouts.admin.footer')
 
     @include('layouts.admin.scripts')
@@ -109,6 +111,17 @@
             $("#{{$sub_page}}").addClass("active");
         @endif
         
+    </script>
+
+     <script>
+            ClassicEditor
+                    .create( document.querySelector( '#editor' ) )
+                    .then( editor => {
+                            console.log( editor );
+                    } )
+                    .catch( error => {
+                            console.error( error );
+                    } );
     </script>
 
     <script type="text/javascript">

@@ -38,7 +38,7 @@
             </li>
 
             <li class="nav-item" id="settings">
-                <a href="{{route('admin.logout')}}">
+                <a href="{{route('admin.logout')}}" data-toggle="modal" data-target="#logoutModel">
                     <i class="ft-power"></i>
                     <span class="menu-title" data-i18n="">{{tr('logout')}}</span>
                 </a>

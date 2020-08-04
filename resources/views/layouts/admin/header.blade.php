@@ -49,9 +49,7 @@
                                 <i class="ft-user"></i> {{tr('edit_profile')}}
                             </a>
                             
-                            <div class="dropdown-divider"></div>
-
-                            <a class="dropdown-item" href="{{route('admin.logout')}}"><i class="ft-power"></i> Logout</a>
+                            <a class="dropdown-item"  data-toggle="modal" data-target="#logoutModel" href="{{route('admin.logout')}}"><i class="ft-power"></i> Logout</a>
                         </div>
 
                     </li>
