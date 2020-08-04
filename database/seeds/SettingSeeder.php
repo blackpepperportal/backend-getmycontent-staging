@@ -200,7 +200,7 @@ class SettingSeeder extends Seeder
 		    ],
 		    [
 		        'key' => 'fcm_server_key',
-		        'value' => 'AAAASJFloB0:APA91bHBe54g5RP63U3EMTRClOVIXV3R8dwQ0xdwGTimGIWuKklipnpn3a7ASHDmEIuZ_OHTUDpWPYIzsXLTXXPE_UEJOz0BR1GgZ7s_gF41DKZjmJVsO3qfUOpZT2SqVMInOcL1Z55e'
+		        'value' => ''
 		    ],
 
 		]);

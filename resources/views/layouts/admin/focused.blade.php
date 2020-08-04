@@ -16,13 +16,13 @@
     
     <meta name="author" content="{{Setting::get('site_name')}}">
     
-    <title>@yield('title')</title>  
+    <title>{{Setting::get('site_name')}}</title>  
 
     <meta name="robots" content="noindex">
 
     <link rel="apple-touch-icon" href="@if(Setting::get('site_logo')) {{ Setting::get('site_logo') }}  @else {{asset('admin-assets/images/ico/apple-icon-120.png') }} @endif">
 
-    <link rel="shortcut icon" type="image/x-icon" href="{{Setting::get('site_logo')}}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{Setting::get('site_icon')}}">
     
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i%7COpen+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
 
@@ -52,6 +52,7 @@
     </div>
 
     @include('layouts.admin.scripts')
+    
 </body>
 
 </html>

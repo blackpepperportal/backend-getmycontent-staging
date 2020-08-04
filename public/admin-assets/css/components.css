@@ -47,7 +47,7 @@ html body.boxed-layout {
   padding-right : 0;
 }
 html body.bg-full-screen-image {
-  background : url(../images/backgrounds/bg-12.jpg) no-repeat center center fixed;
+  background : url(../images/admin-bg.jpeg) no-repeat center center fixed;
   -webkit-background-size : cover;
           background-size : cover;
 }

@@ -6,7 +6,7 @@ use Mailgun\Mailgun;
 
 use Validator, Hash, Exception, Auth, Mail, File, Log, Storage, Setting, DB;
 
-use App\Admin, App\User, App\Settings;
+use App\Admin, App\User, App\Settings, App\StaticPage;
 
 class Helper {
 
@@ -354,6 +354,18 @@ class Helper {
 
             $sample_data[$setting_details->key] = $setting_details->value;
         }
+        $static_page_ids1 = ['about', 'terms', 'privacy', 'contact'];
+
+        $footer_pages1 = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->whereIn('type', $static_page_ids1)->where('status', APPROVED)->get();
+
+        $static_page_ids1 = ['help', 'faq', 'others'];
+
+        $footer_pages2 = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->whereIn('type', $static_page_ids1)->where('status', APPROVED)->skip(0)->take(4)->get();
+
+        $sample_data['footer_pages1'] = $footer_pages1;
+
+        $sample_data['footer_pages2'] = $footer_pages2;
+
         $data['data'] = $sample_data;
 
         $data = json_encode($data);
