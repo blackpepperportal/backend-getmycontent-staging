@@ -4,9 +4,11 @@ namespace App\Helpers;
 
 use Mailgun\Mailgun;
 
-use Validator, Hash, Exception, Auth, Mail, File, Log, Storage, Setting, DB;
+use Hash, Exception, Auth, Mail, File, Log, Storage, Setting, DB;
 
-use App\Admin, App\User, App\Settings, App\StaticPage;
+use App\Admin, App\User, App\Provider;
+
+use Validator;
 
 class Helper {
 
@@ -34,8 +36,8 @@ class Helper {
     public static function is_token_valid($entity, $id, $token, &$error) {
 
         if (
-            ( $entity == USER && ($row = User::where('id', '=', $id)->where('token', '=', $token)->first()) ) ||
-            ( $entity== INSTRUCTOR && ($row = \App\Instructor::where('id', '=', $id)->where('token', '=', $token)->first()) )
+            ( $entity== USER && ($row = User::where('id', '=', $id)->where('token', '=', $token)->first()) ) ||
+            ( $entity== PROVIDER && ($row = Provider::where('id', '=', $id)->where('token', '=', $token)->first()) )
         ) {
 
             if ($row->token_expiry > time()) {
@@ -43,13 +45,12 @@ class Helper {
                 $error = NULL;
                 return true;
             } else {
-                $error = ['success' => false, 'error' => Helper::error_message(1003), 'error_code' => 1003];
+                $error = ['success' => false, 'error' => api_error(1003), 'error_code' => 1003];
                 return FALSE;
             }
         }
 
-        $error = ['success' => false, 'error' => Helper::error_message(1004), 'error_code' => 1004];
-        
+        $error = ['success' => false, 'error' => api_error(1004), 'error_code' => 1004];
         return FALSE;
    
     }
@@ -157,36 +158,23 @@ class Helper {
     public static function generate_password() {
 
         $new_password = time();
-
         $new_password .= rand();
-
         $new_password = sha1($new_password);
-
-        $new_password = substr($new_password, 0,8);
-
+        $new_password = substr($new_password,0,8);
         return $new_password;
-    
     }
 
     public static function file_name() {
 
         $file_name = time();
-
         $file_name .= rand();
-
         $file_name = sha1($file_name);
 
         return $file_name;    
     }
 
-    public static function web_url() 
-    {
-        return url('/');
-    }
-    
+    public static function upload_file($picture , $folder_path = COMMON_FILE_PATH) {
 
-     public static function upload_file($picture , $folder_path = COMMON_FILE_PATH) {
-       
         $file_path_url = "";
 
         $file_name = Helper::file_name();
@@ -205,12 +193,16 @@ class Helper {
     
     }
 
+    public static function web_url() 
+    {
+        return url('/');
+    }
 
     public static function delete_file($picture, $path = COMMON_FILE_PATH) {
 
-        if(file_exists(public_path().$path.basename($picture))) {
+        if ( file_exists( public_path() . $path . basename($picture))) {
 
-            File::delete(public_path().$path.basename($picture));
+            File::delete( public_path() . $path . basename($picture));
       
         } else {
 
@@ -218,7 +210,6 @@ class Helper {
         }  
 
         return true;    
-    
     }
  
     public static function send_email($page,$subject,$email,$email_data) {
@@ -267,7 +258,7 @@ class Helper {
                                 }
                         )) {
 
-                            $message = Helper::success_message(102);
+                            $message = api_success(102);
 
                             $response_array = ['success' => true , 'message' => $message];
 
@@ -275,13 +266,13 @@ class Helper {
 
                         } else {
 
-                            throw new Exception(Helper::error_message(116) , 116);
+                            throw new Exception(api_error(116) , 116);
                             
                         }
 
                     } else {
 
-                        $error = Helper::error_message();
+                        $error = api_error();
 
                         throw new Exception($error, 115);                  
 
@@ -301,7 +292,7 @@ class Helper {
             
             } else {
 
-                $error = Helper::error_message(106);
+                $error = api_error(106);
 
                 $response_array = ['success' => false , 'error' => $error , 'error_code' => 106];
                     
@@ -313,6 +304,313 @@ class Helper {
             Log::info("email notification disabled by admin");
         }
     
+    }
+
+    public static function push_message($code) {
+
+        switch ($code) {
+            case 601:
+                $string = tr('push_no_provider_available');
+                break;
+            default:
+                $string = "";
+        }
+
+        return $string;
+
+    }  
+
+    // Convert all NULL values to empty strings
+    public static function null_safe($input_array) {
+ 
+        $new_array = [];
+
+        foreach ($input_array as $key => $value) {
+
+            $new_array[$key] = ($value == NULL) ? "" : $value;
+        }
+
+        return $new_array;
+    }
+
+    /**
+     * Creating date collection between two dates
+     *
+     * <code>
+     * <?php
+     * # Example 1
+     * generate_date_range("2014-01-01", "2014-01-20", "+1 day", "m/d/Y");
+     *
+     * # Example 2. you can use even time
+     * generate_date_range("01:00:00", "23:00:00", "+1 hour", "H:i:s");
+     * </code>
+     *
+     * @param string since any date, time or datetime format
+     * @param string until any date, time or datetime format
+     * @param string step
+     * @param string date of output format
+     * @return array
+     */
+    public static function generate_date_range($month = "", $year = "", $step = '+1 day', $output_format = 'd/m/Y', $loops = 2) {
+
+        $month = $set_current_month = $month ?: date('F');
+
+        $year = $set_current_year = $year ?: date('Y');
+
+        $last_month = date('F', strtotime('+'.$loops.' months'));
+
+        $dates = $response = [];
+
+        // $response = new \stdClass;
+
+        $response = [];
+
+        $current_loop = 1;
+
+        while ($current_loop <= $loops) {
+        
+            $month_response = new \stdClass;
+
+            $timestamp = strtotime($set_current_month.' '.$set_current_year); // Get te timestamp from the given 
+
+            $first_date_of_the_month = date('Y-m-01', $timestamp);
+
+            $last_date_of_month  = date('Y-m-t', $timestamp); 
+
+            $dates = [];
+
+            $set_current_date = strtotime($first_date_of_the_month); // time convertions and set dates
+
+            $last_date_of_month = strtotime($last_date_of_month);  // time convertions and set dates
+
+            // Generate dates based first and last dates
+
+            while( $set_current_date <= $last_date_of_month ) {
+
+                $dates[] = date($output_format, $set_current_date);
+
+                $set_current_date = strtotime($step, $set_current_date);
+            }
+
+            $month_response->month = $set_current_month;
+
+            $month_response->total_days = count($dates);
+
+            $month_response->dates = $dates;
+
+
+            $set_current_month = date('F', strtotime("+".$current_loop." months", $last_date_of_month));
+
+            $set_current_year = date('Y', strtotime("+".$current_loop." months", $last_date_of_month));
+
+
+            $current_loop++;
+
+            array_push($response, $month_response);
+
+        }
+
+        return $response;
+    }
+
+    /**
+     *
+     * @method get_months()
+     *
+     * @uses get months list or get month number
+     *
+     * @created vithya R
+     *
+     * @updated vithya R
+     *
+     * @param
+     *
+     * @return 
+     */
+
+    public static function get_months($get_month_name = "") {
+
+        $months = ['01' => 'January', '02' => 'February','03' => 'March','04' => 'April','05' => 'May','06' => 'June','07' => 'July ','08' => 'August','09' => 'September','10' => 'October','11' => 'November','12' => 'December'];
+
+        if($get_month_name) {
+
+            return $months[$get_month_name];
+
+        }
+
+        return $months;
+    }
+
+    /**
+     *
+     * @method get_host_types()
+     *
+     * @uses get host types
+     *
+     * @created vithya R
+     *
+     * @updated vithya R
+     *
+     * @param
+     *
+     * @return 
+     */
+
+    public static function get_host_types($host_type = "") {
+
+        $host_data[0]['title'] = tr('user_host_type_entire_place_title');
+        $host_data[0]['search_key'] = HOST_ENTIRE;
+        $host_data[0]['description'] = tr('user_host_type_entire_place_description');
+
+        $host_data[1]['title'] = tr('user_host_type_private_title');
+        $host_data[1]['search_key'] = HOST_PRIVATE;
+        $host_data[1]['description'] = tr('user_host_type_private_description');
+        
+        $host_data[2]['title'] = tr('user_host_type_shared_title');
+        $host_data[2]['search_key'] = HOST_SHARED;
+        $host_data[2]['description'] = tr('user_host_type_shared_description');
+
+        return $host_data;
+    
+    }
+
+    /**
+     *
+     * @method get_host_types()
+     *
+     * @uses get host types
+     *
+     * @created vithya R
+     *
+     * @updated vithya R
+     *
+     * @param
+     *
+     * @return 
+     */
+
+    public static function get_provider_host_types($host = []) {
+
+        $host_data[0]['key'] = HOST_ENTIRE;
+        $host_data[0]['value'] = tr('user_host_type_entire_place_title');
+        $host_data[0]['description'] = tr('user_host_type_entire_place_description');
+        $host_data[0]['picture'] = "";
+
+
+        $host_data[1]['key'] = HOST_PRIVATE;
+        $host_data[1]['value'] = tr('user_host_type_private_title');
+        $host_data[1]['description'] = tr('user_host_type_private_description');
+        $host_data[1]['picture'] = "";
+
+        $host_data[2]['key'] = HOST_SHARED;
+        $host_data[2]['value'] = tr('user_host_type_shared_title');
+        $host_data[2]['description'] = tr('user_host_type_shared_description');
+        $host_data[2]['picture'] = "";
+
+        $host_data = json_decode(json_encode($host_data));
+
+        foreach ($host_data as $key => $value) {
+
+            $value->is_checked = NO;
+
+            if($host) {
+
+                $value->is_checked = $host->host_type == $value->key ? YES : NO;
+
+            }
+        }
+
+        return $host_data;
+    
+    }
+
+
+    /**
+    * @method generate_referral_code()
+    *
+    * @uses used to genarate referral code to the owner
+    *
+    * @created Akshata
+    * 
+    * @updated 
+    *
+    * @param $value
+    *
+    * @return boolean
+    */
+    public static function generate_referral_code($value = "") {
+
+        $referral_name = strtolower(substr(str_replace(' ','',$value),0,3));
+        
+        $referral_random_number = rand(100,999);
+
+        $referral_code = $referral_name.$referral_random_number;
+
+        return $referral_code;
+    }
+
+    /**
+    * @method referral_code_earnings_update()
+    *
+    * @uses used to update referral bonus to the owner
+    *
+    * @created vithya R
+    * 
+    * @updated vithya R
+    *
+    * @param string $referral_code
+    *
+    * @return boolean
+    */
+
+    public static function referral_code_earnings_update($referral_code) {
+
+        $referrer_user = User::where('referral_code', $referral_code)->first();
+
+        if(!$referrer_user) {
+
+            throw new Exception(api_error(132), 132);
+            
+        }
+
+        $referrer_bonus = Setting::get('referrer_bonus', 1) ?: 0;
+
+        $referrer_user->referrer_bonus += $referrer_bonus;
+        
+        $referrer_user->save();
+
+        Log::info("referral_code_earnings_update - ".$referrer_bonus);
+
+        return true;
+
+    }
+
+    /**
+     *
+     * @method get_bathrooms()
+     *
+     * @uses get host types
+     *
+     * @created vithya R
+     *
+     * @updated vithya R
+     *
+     * @param
+     *
+     * @return 
+     */
+
+    public static function get_bathrooms($host_type = "") {
+
+       //$data = [0 => "0 Bathrooms", ]
+    
+    }
+
+    public static function get_times() {
+
+        $times = ['flexible' => 'Flexible', '12 AM' => '12 AM(midnight)', '1 AM' => '1 AM', '2 AM' => '2 AM', '3 AM' => '3 AM', '4 AM' => '4 AM', '5 AM' => '5 AM', '6 AM' => '6 AM', '7 AM' => '7 AM', '8 AM' => '8 AM', '9 AM' => '9 AM', '10 AM' => '10 AM', '11 AM' => '11 AM', '12 PM' => '12 PM(Afternoon)', '1 PM' => '1 PM', '2 PM' => '2 PM', '3 PM' => '3 PM', '4 PM' => '4 PM', '5 PM' => '5 PM', '6 PM' => '6 PM', '7 PM' => '7 PM', '8 PM' => '8 PM', '9 PM' => '9 PM', '10 PM' => '10 PM', '11 PM' => '11 PM'];
+
+        return $times;
     }
 
     public static function custom_validator($request, $request_inputs, $custom_errors = []) {
@@ -328,89 +626,6 @@ class Helper {
         }
     }
 
-    /**
-     * @method settings_generate_json()
-     *
-     * @uses used to update settings.json file with updated details.
-     *
-     * @created vidhya
-     * 
-     * @updated vidhya
-     *
-     * @param -
-     *
-     * @return boolean
-     */
-    
-    public static function settings_generate_json() {
-
-        $basic_keys = ['site_name', 'site_logo', 'site_icon', 'tag_name','currency', 'currency_code', 'google_analytics', 'header_scripts', 'body_scripts', 'facebook_link', 'linkedin_link', 'twitter_link', 'google_plus_link', 'pinterest_link', 'demo_user_email', 'demo_user_password', 'appstore', 'playstore', 'meta_title', 'meta_description', 'meta_author', 'meta_keywords'];
-
-        $settings = Settings::get();
-
-        $sample_data = [];
-
-        foreach ($settings as $key => $setting_details) {
-
-            $sample_data[$setting_details->key] = $setting_details->value;
-        }
-        $static_page_ids1 = ['about', 'terms', 'privacy', 'contact'];
-
-        $footer_pages1 = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->whereIn('type', $static_page_ids1)->where('status', APPROVED)->get();
-
-        $static_page_ids1 = ['help', 'faq', 'others'];
-
-        $footer_pages2 = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->whereIn('type', $static_page_ids1)->where('status', APPROVED)->skip(0)->take(4)->get();
-
-        $sample_data['footer_pages1'] = $footer_pages1;
-
-        $sample_data['footer_pages2'] = $footer_pages2;
-
-        $data['data'] = $sample_data;
-
-        $data = json_encode($data);
-
-        $file_name = public_path('default-json/settings.json');
-
-        File::put($file_name, $data);
-   
-    }
-
-    /**
-     * @method upload_file
-     */
-    
-    public static function storage_upload_file($input_file, $folder_path = COMMON_FILE_PATH) {
-       
-        $name = Helper::file_name();
-
-        $ext = $input_file->getClientOriginalExtension();
-
-        $file_name = $name.".".$ext;
-
-        $public_folder_path = "public/".$folder_path;
-
-        Storage::putFileAs($public_folder_path, $input_file, $file_name);
-
-        $storage_file_path = $folder_path.$file_name;
-
-        $url = asset(Storage::url($storage_file_path));
-    
-        return $url;
-
-    }
-
-    /**
-     * @method
-     * 
-     */
-    public static function storage_delete_file($url, $folder_path = COMMON_FILE_PATH) {
-
-        $file_name = basename($url);
-
-        $storage_file_path = $folder_path.$file_name;
-
-        Storage::delete($storage_file_path);
-    }
-
 }
+
+

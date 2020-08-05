@@ -3,6 +3,5 @@
         <span class="float-md-left d-block d-md-inline-block">
             Copyright &copy; {{date('Y')}} <a class="text-bold-800 grey darken-2" href="https://themeforest.net/user/pixinvent/portfolio?ref=pixinvent" target="_blank">{{Setting::get('site_name' , 'FansClub')}}</a>, {{tr('all_right_reserved')}}.
         </span>
-        <span class="float-md-right d-block d-md-inline-block d-none d-lg-block">Hand-crafted & Made with <i class="ft-heart pink"></i></span>
     </p>
 </footer>

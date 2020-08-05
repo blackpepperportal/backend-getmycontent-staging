@@ -1,0 +1,35 @@
+<?php
+
+return [
+
+    101 => 'Successfully loggedin!!',
+
+    102 => 'Mail sent successfully',
+
+    103 => 'Your account deleted.',
+
+    104 => 'Your password changed.',
+
+    106 => 'Logged out',
+
+    105 => 'The card added to your account.',
+
+    108 => 'The card changed to default.',
+
+    109 => 'The card deleted',
+
+    110 => 'The card marked as default.',
+
+    111 => 'The profile updated',
+
+    112 => 'The billing account added',
+
+    113 => 'The billing account deleted',
+
+    114 => 'The document uploaded and waiting for approval',
+
+    115 => 'The uploaded document deleted',
+
+    116 => 'The uploaded documents are deleted',
+
+];

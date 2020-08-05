@@ -11,6 +11,8 @@
                 </a>
             </li>
 
+            <li class="nav-item nav-header sidebar-header">{{tr('account_management')}}</li>
+            
             <li class="nav-item" id="users">
                 <a href="{{route('admin.users.index')}}">
                     <i class="ft-user"></i>
@@ -29,6 +31,8 @@
                     </li>
                 </ul>            
             </li>
+
+            <li class="nav-item nav-header sidebar-header">{{tr('setting_management')}}</li>
 
             <li class="nav-item" id="settings">
                 <a href="{{route('admin.settings')}}">
