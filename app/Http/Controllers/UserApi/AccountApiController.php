@@ -39,9 +39,9 @@ class AccountApiController extends Controller
      *
      * @uses Registered user can register through manual or social login
      * 
-     * @created Vithya R 
+     * @created Akshata
      *
-     * @updated Vithya R
+     * @updated 
      *
      * @param Form data
      *
@@ -262,9 +262,9 @@ class AccountApiController extends Controller
      *
      * @uses Registered user can login using their email & password
      * 
-     * @created Vithya R 
+     * @created Akshata
      *
-     * @updated Vithya R
+     * @updated 
      *
      * @param object $request - User Email & Password
      *
@@ -396,9 +396,9 @@ class AccountApiController extends Controller
      *
      * @uses If the user forgot his/her password he can hange it over here
      *
-     * @created Vithya R 
+     * @created Akshata
      *
-     * @updated Vithya R
+     * @updated 
      *
      * @param object $request - Email id
      *
@@ -487,9 +487,9 @@ class AccountApiController extends Controller
      *
      * @uses To change the password of the user
      *
-     * @created Vithya R 
+     * @created Akshata
      *
-     * @updated Vithya R
+     * @updated 
      *
      * @param object $request - Password & confirm Password
      *
@@ -564,9 +564,9 @@ class AccountApiController extends Controller
      *
      * @uses To display the user details based on user  id
      *
-     * @created Vithya R 
+     * @created Akshata
      *
-     * @updated Vithya R
+     * @updated 
      *
      * @param object $request - User Id
      *
@@ -599,9 +599,9 @@ class AccountApiController extends Controller
      *
      * @uses To update the user details
      *
-     * @created Vithya R 
+     * @created Akshata
      *
-     * @updated Vithya R
+     * @updated 
      *
      * @param objecct $request : User details
      *
@@ -685,9 +685,9 @@ class AccountApiController extends Controller
      * 
      * @uses Delete user account based on user id
      *
-     * @created Vithya R 
+     * @created Akshata
      *
-     * @updated Vithya R
+     * @updated 
      *
      * @param object $request - Password and user id
      *
@@ -756,9 +756,9 @@ class AccountApiController extends Controller
      *
      * @uses Logout the user
      *
-     * @created Vithya R
+     * @created Akshata
      *
-     * @updated Vithya R
+     * @updated 
      *
      * @param 
      * 
@@ -767,311 +767,6 @@ class AccountApiController extends Controller
     public function logout(Request $request) {
 
         return $this->sendResponse(api_success(106), 106);
-
-    }
-
-    /**
-     * @method subscriptions_index()
-     *
-     * @uses To display all the subscription plans
-     *
-     * @created vithya R
-     *
-     * @updated Vidhya R
-     *
-     * @param request id
-     *
-     * @return JSON Response
-     */
-    public function subscriptions_index(Request $request) {
-
-        try {
-
-            $subscriptions = Subscription::Approved()->orderBy('amount', 'asc')->get();
-
-            $data['subscriptions'] = $subscriptions ?? [];
-
-            $data['total'] = $subscriptions->count() ?? 0;
-
-            return $this->sendResponse($message = '' , $code = '', $data);
-
-        } catch(Exception $e) {
-
-            return $this->sendError($e->getMessage(), $e->getCode());
-        
-        }
-    
-    }
-
-    /**
-     * @method subscriptions_view()
-     *
-     * @uses get the selected subscription details
-     *
-     * @created vithya R
-     *
-     * @updated Vidhya R
-     *
-     * @param integer $subscription_id
-     *
-     * @return JSON Response
-     */
-    public function subscriptions_view(Request $request) {
-
-        try {
-
-            $rules = ['subscription_id' => 'required|exists:subscriptions,id',$request->subscription_id];
-
-            Helper::custom_validator($request->all(), $rules, $custom_errors = []);
-
-            $subscription_details = Subscription::BaseResponse()->where('subscriptions.status' , APPROVED)->where('subscriptions.id', $request->subscription_id)->first();
-
-            if(!$subscription_details) {
-                throw new Exception(api_error(135), 135);   
-            }
-
-            return $this->sendResponse($message = '' , $code = '', $subscription_details);
-
-        } catch(Exception $e) {
-
-            return $this->sendError($e->getMessage(), $e->getCode());
-        
-        }
-    
-    }
-
-    /**
-     * @method subscriptions_history()
-     *
-     * @uses get the selected subscription details
-     *
-     * @created vithya R
-     *
-     * @updated Vidhya R
-     *
-     * @param integer $subscription_id
-     *
-     * @return JSON Response
-     */
-    public function subscriptions_history(Request $request) {
-
-        try {
-
-            $user_subscriptions = UserSubscription::BaseResponse()->where('user_id' , $request->id)->skip($this->skip)->take($this->take)->orderBy('user_subscriptions.id', 'desc')->get();
-
-            foreach ($user_subscriptions as $key => $value) {
-
-                $value->plan_text = formatted_plan($value->plan ?? 0);
-
-                $value->expiry_date = common_date($value->expiry_date, $this->timezone ?? '', 'd M Y');
-
-                $value->no_of_users_formatted = no_of_users_formatted($value->no_of_users);
-
-                $value->no_of_hrs_formatted = no_of_hrs_formatted($value->no_of_hrs, $value->no_of_hrs_type);
-            
-            }
-
-            return $this->sendResponse($message = '' , $code = '', $user_subscriptions);
-
-        } catch(Exception $e) {
-
-            return $this->sendError($e->getMessage(), $e->getCode());
-        
-        }
-    
-    }
-
-    /** 
-     * @method subscriptions_payment_by_card()
-     *
-     * @uses pay for subscription using paypal
-     *
-     * @created Vidhya R
-     *
-     * @updated Vidhya R
-     *
-     * @param
-     * 
-     * @return JSON response
-     *
-     */
-
-    public function subscriptions_payment_by_card(Request $request) {
-
-        try {
-
-            DB::beginTransaction();
-
-            // Validation start
-
-            $rules = [
-                    'subscription_id' => 'required|exists:subscriptions,id',
-                    ];
-
-            $custom_errors = ['subscription_id' => api_error(151)];
-
-            Helper::custom_validator($request->all(), $rules, $custom_errors);
-            
-            // Validation end
-
-           // Check the subscription is available
-
-            $subscription_details = Subscription::where('id',  $request->subscription_id)
-                                    ->Approved()
-                                    ->first();
-
-            if(!$subscription_details) {
-
-                throw new Exception(api_error(161), 161);
-                
-            }
-
-            $request->request->add(['payment_mode' => CARD]);
-
-            $total = $user_pay_amount = $subscription_details->amount ?? 0.00;
-
-
-            $request->request->add([
-                'total' => $total, 
-                'user_pay_amount' => $user_pay_amount,
-                'paid_amount' => $user_pay_amount,
-            ]);
-
-            if($user_pay_amount > 0) {
-
-                // Check the user have the cards
-
-                $card_details = \App\UserCard::where('user_id', $request->id)->where('is_default', YES)->first();
-
-                // If the user doesn't have cards means the payment will switch to COD
-
-                if(!$card_details) {
-
-                    throw new Exception(api_error(163), 163); 
-
-                }
-
-                $request->request->add(['customer_id' => $card_details->customer_id]);
-                
-                $card_payment_response = PaymentRepo::subscriptions_payment_by_stripe($request, $subscription_details)->getData();
-
-                if($card_payment_response->success == false) {
-
-                    throw new Exception($card_payment_response->error, $card_payment_response->error_code);
-                    
-                }
-
-                $card_payment_data = $card_payment_response->data;
-
-                $request->request->add(['paid_amount' => $card_payment_data->paid_amount, 'payment_id' => $card_payment_data->payment_id, 'paid_status' => $card_payment_data->paid_status]);
-
-            }
-
-            $payment_response = PaymentRepo::subscriptions_payment_save($request, $subscription_details)->getData();
-
-            if($payment_response->success) {
-                
-                DB::commit();
-
-                $code = 111;
-
-                return $this->sendResponse(api_success($code), $code, $payment_response->data);
-
-            } else {
-
-                throw new Exception($payment_response->error, $payment_response->error_code);
-                
-            }
-        
-        } catch(Exception $e) {
-
-            DB::rollback();
-
-            return $this->sendError($e->getMessage(), $e->getCode());
-        
-        }
-
-    }
-
-    /** 
-     * @method subscriptions_payment_by_paypal()
-     *
-     * @uses pay for subscription using paypal
-     *
-     * @created Vidhya R
-     *
-     * @updated Vidhya R
-     *
-     * @param
-     * 
-     * @return JSON response
-     *
-     */
-
-    public function subscriptions_payment_by_paypal(Request $request) {
-
-        try {
-
-            DB::beginTransaction();
-
-            // Validation start
-
-            $rules = [
-                    'subscription_id' => 'required|exists:subscriptions,id',
-                    'payment_id' => 'required',
-                    ];
-
-            $custom_errors = ['subscription_id' => api_error(151)];
-
-            Helper::custom_validator($request->all(), $rules, $custom_errors = []);
-            
-            // Validation end
-
-           // Check the subscription is available
-
-            $subscription_details = Subscription::where('id',  $request->subscription_id)
-                                    ->Approved()
-                                    ->first();
-
-            if(!$subscription_details) {
-
-                throw new Exception(api_error(161), 161);
-                
-            }
-
-            $request->request->add(['payment_mode' => PAYPAL]);
-
-            $total = $user_pay_amount = $subscription_details->amount ?? 0.00;
-
-            $request->request->add([
-                'total' => $total, 
-                'user_pay_amount' => $user_pay_amount,
-                'paid_amount' => $user_pay_amount,
-            ]);
-
-            $payment_response = PaymentRepo::subscriptions_payment_save($request, $subscription_details)->getData();
-
-            if($payment_response->success) {
-                
-                DB::commit();
-
-                $code = 111;
-
-                return $this->sendResponse(api_success($code), $code, $payment_response->data);
-
-            } else {
-
-                throw new Exception($payment_response->error, $payment_response->error_code);
-                
-            }
-        
-        } catch(Exception $e) {
-
-            DB::rollback();
-
-            return $this->sendError($e->getMessage(), $e->getCode());
-        
-        }
 
     }
 

@@ -4,9 +4,9 @@ namespace App\Helpers;
 
 use Mailgun\Mailgun;
 
-use Hash, Exception, Auth, Mail, File, Log, Storage, Setting, DB;
+use Hash, Exception, Auth, Mail, File, Log, Storage, Setting, DB, Validator;
 
-use App\Admin, App\User, App\Provider;
+use App\Admin, App\User, App\Setting, App\StatisPage;
 
 use Validator;
 
@@ -442,90 +442,6 @@ class Helper {
     }
 
     /**
-     *
-     * @method get_host_types()
-     *
-     * @uses get host types
-     *
-     * @created vithya R
-     *
-     * @updated vithya R
-     *
-     * @param
-     *
-     * @return 
-     */
-
-    public static function get_host_types($host_type = "") {
-
-        $host_data[0]['title'] = tr('user_host_type_entire_place_title');
-        $host_data[0]['search_key'] = HOST_ENTIRE;
-        $host_data[0]['description'] = tr('user_host_type_entire_place_description');
-
-        $host_data[1]['title'] = tr('user_host_type_private_title');
-        $host_data[1]['search_key'] = HOST_PRIVATE;
-        $host_data[1]['description'] = tr('user_host_type_private_description');
-        
-        $host_data[2]['title'] = tr('user_host_type_shared_title');
-        $host_data[2]['search_key'] = HOST_SHARED;
-        $host_data[2]['description'] = tr('user_host_type_shared_description');
-
-        return $host_data;
-    
-    }
-
-    /**
-     *
-     * @method get_host_types()
-     *
-     * @uses get host types
-     *
-     * @created vithya R
-     *
-     * @updated vithya R
-     *
-     * @param
-     *
-     * @return 
-     */
-
-    public static function get_provider_host_types($host = []) {
-
-        $host_data[0]['key'] = HOST_ENTIRE;
-        $host_data[0]['value'] = tr('user_host_type_entire_place_title');
-        $host_data[0]['description'] = tr('user_host_type_entire_place_description');
-        $host_data[0]['picture'] = "";
-
-
-        $host_data[1]['key'] = HOST_PRIVATE;
-        $host_data[1]['value'] = tr('user_host_type_private_title');
-        $host_data[1]['description'] = tr('user_host_type_private_description');
-        $host_data[1]['picture'] = "";
-
-        $host_data[2]['key'] = HOST_SHARED;
-        $host_data[2]['value'] = tr('user_host_type_shared_title');
-        $host_data[2]['description'] = tr('user_host_type_shared_description');
-        $host_data[2]['picture'] = "";
-
-        $host_data = json_decode(json_encode($host_data));
-
-        foreach ($host_data as $key => $value) {
-
-            $value->is_checked = NO;
-
-            if($host) {
-
-                $value->is_checked = $host->host_type == $value->key ? YES : NO;
-
-            }
-        }
-
-        return $host_data;
-    
-    }
-
-
-    /**
     * @method generate_referral_code()
     *
     * @uses used to genarate referral code to the owner
@@ -583,27 +499,6 @@ class Helper {
 
         return true;
 
-    }
-
-    /**
-     *
-     * @method get_bathrooms()
-     *
-     * @uses get host types
-     *
-     * @created vithya R
-     *
-     * @updated vithya R
-     *
-     * @param
-     *
-     * @return 
-     */
-
-    public static function get_bathrooms($host_type = "") {
-
-       //$data = [0 => "0 Bathrooms", ]
-    
     }
 
     public static function get_times() {
