@@ -664,3 +664,21 @@ function last_6_months_data() {
     
     return $data;  
 }
+
+function static_page_footers($section_type = 0, $is_list = NO) {
+
+    $lists = [
+                STATIC_PAGE_SECTION_1 => tr('STATIC_PAGE_SECTION_1')."(".Setting::get('site_name').")",
+                STATIC_PAGE_SECTION_2 => tr('STATIC_PAGE_SECTION_2')."(
+                Discover)",
+                STATIC_PAGE_SECTION_3 => tr('STATIC_PAGE_SECTION_3')."(Hosting)",
+                STATIC_PAGE_SECTION_4 => tr('STATIC_PAGE_SECTION_4')."(Social)",
+            ];
+
+    if($is_list == YES) {
+        return $lists;
+    }
+
+    return isset($lists[$section_type]) ? $lists[$section_type] : "Common";
+
+}

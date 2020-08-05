@@ -6,9 +6,7 @@ use Mailgun\Mailgun;
 
 use Hash, Exception, Auth, Mail, File, Log, Storage, Setting, DB, Validator;
 
-use App\Admin, App\User, App\Setting, App\StatisPage;
-
-use Validator;
+use App\Admin, App\User, App\StatisPage;
 
 class Helper {
 
@@ -520,6 +518,74 @@ class Helper {
                
         }
     }
+
+     /**
+     * @method settings_generate_json()
+     *
+     * @uses used to update settings.json file with updated details.
+     *
+     * @created vidhya
+     * 
+     * @updated vidhya
+     *
+     * @param -
+     *
+     * @return boolean
+     */
+    
+    public static function settings_generate_json() {
+
+        $basic_keys = ['site_name', 'site_logo', 'site_icon', 'currency', 'currency_code', 'google_analytics', 'header_scripts', 'body_scripts', 'facebook_link', 'linkedin_link', 'twitter_link', 'google_plus_link', 'pinterest_link', 'demo_user_email', 'demo_user_password', 'demo_provider_email', 'demo_provider_password', 'chat_socket_url', 'google_api_key', 'playstore_user', 'playstore_provider', 'appstore_user', 'appstore_provider'];
+
+        $settings = Settings::whereIn('key', $basic_keys)->get();
+
+        $sample_data = [];
+
+        foreach ($settings as $key => $setting_details) {
+
+            $sample_data[$setting_details->key] = $setting_details->value;
+        }
+
+        $footer_first_section = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->where('section_type', STATIC_PAGE_SECTION_1)->get();
+
+        $footer_second_section = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->where('section_type', STATIC_PAGE_SECTION_2)->get();
+
+        $footer_third_section = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->where('section_type', STATIC_PAGE_SECTION_3)->get();
+
+        $footer_fourth_section = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->where('section_type', STATIC_PAGE_SECTION_4)->get();
+
+        $sample_data['footer_first_section'] = $footer_first_section;
+
+        $sample_data['footer_second_section'] = $footer_second_section;
+
+        $sample_data['footer_third_section'] = $footer_third_section;
+
+        $sample_data['footer_fourth_section'] = $footer_fourth_section;
+
+        // Social logins
+
+        $social_login_keys = ['FB_CLIENT_ID', 'FB_CLIENT_SECRET', 'FB_CALL_BACK' , 'TWITTER_CLIENT_ID', 'TWITTER_CLIENT_SECRET', 'TWITTER_CALL_BACK', 'GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET', 'GOOGLE_CALL_BACK'];
+
+        $social_logins = Settings::whereIn('key', $social_login_keys)->get();
+
+        $social_login_data = [];
+
+        foreach ($social_logins as $key => $social_login_details) {
+
+            $social_login_data[$social_login_details->key] = $social_login_details->value;
+        }
+
+        $sample_data['social_logins'] = $social_login_data;
+
+        $data['data'] = $sample_data;
+
+        $data = json_encode($data);
+
+        $file_name = public_path('/default-json/settings.json');
+
+        File::put($file_name, $data);
+    }
+
 
 }
 

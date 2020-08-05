@@ -477,6 +477,357 @@ class AdminController extends Controller
     
     }
 
+     /**
+     * @method static_pages_index()
+     *
+     * @uses Used to list the static pages
+     *
+     * @created vithya
+     *
+     * @updated vithya  
+     *
+     * @param -
+     *
+     * @return List of pages   
+     */
+
+    public function static_pages_index() {
+
+        $static_pages = StaticPage::orderBy('updated_at' , 'desc')->paginate(10);
+
+        return view('admin.static_pages.index')
+                    ->with('page','static_pages')
+                    ->with('sub_page',"static_pages-view")
+                    ->with('static_pages',$static_pages);
+    
+    }
+
+    /**
+     * @method static_pages_create()
+     *
+     * @uses To create static_page details
+     *
+     * @created Akshata
+     *
+     * @updated    
+     *
+     * @param
+     *
+     * @return view page   
+     *
+     */
+    public function static_pages_create() {
+
+        $static_keys = ['about' , 'contact' , 'privacy' , 'terms' , 'help' , 'faq' , 'refund', 'cancellation'];
+
+        foreach ($static_keys as $key => $static_key) {
+
+            // Check the record exists
+
+            $check_page = StaticPage::where('type', $static_key)->first();
+
+            if($check_page) {
+                unset($static_keys[$key]);
+            }
+        }
+
+        $section_types = static_page_footers(0, $is_list = YES);
+
+        $static_keys[] = 'others';
+
+        $static_page_details = new StaticPage;
+
+        return view('admin.static_pages.create')
+                ->with('page','static_pages')
+                ->with('sub_page',"static_pages-create")
+                ->with('static_keys', $static_keys)
+                ->with('static_page_details',$static_page_details)
+                ->with('section_types',$section_types);
+   
+    }
+
+    /**
+     * @method static_pages_edit()
+     *
+     * @uses To display and update static_page details based on the static_page id
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - static_page Id
+     * 
+     * @return redirect view page 
+     *
+     */
+    public function static_pages_edit(Request $request) {
+
+        try {
+
+            $static_page_details = StaticPage::find($request->static_page_id);
+
+            if(!$static_page_details) {
+
+                throw new Exception(tr('static_page_not_found'), 101);
+            }
+
+            $static_keys = ['about' , 'contact' , 'privacy' , 'terms' , 'help' , 'faq' , 'refund', 'cancellation'];
+
+            foreach ($static_keys as $key => $static_key) {
+
+                // Check the record exists
+
+                $check_page = StaticPage::where('type', $static_key)->first();
+
+                if($check_page) {
+                    unset($static_keys[$key]);
+                }
+            }
+
+            $section_types = static_page_footers(0, $is_list = YES);
+
+            $static_keys[] = 'others';
+
+            $static_keys[] = $static_page_details->type;
+
+            return view('admin.static_pages.edit')
+                    ->with('page' , 'static_pages')
+                    ->with('sub_page','static_pages-view')
+                    ->with('static_keys' , array_unique($static_keys))
+                    ->with('static_page_details' , $static_page_details)
+                    ->with('section_types',$section_types);
+            
+        } catch(Exception $e) {
+
+            $error = $e->getMessage();
+
+            return redirect()->route('admin.static_pages.index')->with('flash_error' , $error);
+
+        }
+    }
+
+    /**
+     * @method static_pages_save()
+     *
+     * @uses Used to create/update the page details 
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param
+     *
+     * @return index page    
+     *
+     */
+    public function static_pages_save(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $rules = [
+                'title' => 'required|max:191',
+                'description' => 'required',
+                'type' => !$request->static_page_id ? 'required' : ""
+            ]; 
+            
+            Helper::custom_validator($request->all(), $rules);
+
+            if($request->static_page_id != '') {
+
+                $static_page_details = StaticPage::find($request->static_page_id);
+
+                $message = tr('static_page_updated_success');                    
+
+            } else {
+
+                $check_page = "";
+
+                // Check the staic page already exists
+
+                if($request->type != 'others') {
+
+                    $check_page = StaticPage::where('type',$request->type)->first();
+
+                    if($check_page) {
+
+                        return back()->with('flash_error',tr('static_page_already_alert'));
+                    }
+
+                }
+
+                $message = tr('static_page_created_success');
+
+                $static_page_details = new StaticPage;
+
+                $static_page_details->status = APPROVED;
+
+            }
+
+            $static_page_details->title = $request->title ?: $static_page_details->title;
+
+            $static_page_details->description = $request->description ?: $static_page_details->description;
+
+            $static_page_details->type = $request->type ?: $static_page_details->type;
+
+            $static_page_details->section_type = $request->section_type ?: $static_page_details->section_type;
+
+            if($static_page_details->save()) {
+
+                DB::commit();
+
+                Helper::settings_generate_json();
+                
+                return redirect()->route('admin.static_pages.view', ['static_page_id' => $static_page_details->id] )->with('flash_success', $message);
+
+            } 
+
+            throw new Exception(tr('static_page_save_failed'), 101);
+                      
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            $error = $e->getMessage();
+
+            return back()->withInput()->with('flash_error', $error);
+
+        }
+    
+    }
+
+    /**
+     * @method static_pages_delete()
+     *
+     * Used to view file of the create the static page 
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param -
+     *
+     * @return view page   
+     */
+
+    public function static_pages_delete(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $static_page_details = StaticPage::find($request->static_page_id);
+
+            if(!$static_page_details) {
+
+                throw new Exception(tr('static_page_not_found'), 101);
+                
+            }
+
+            if($static_page_details->delete()) {
+
+                DB::commit();
+
+                return redirect()->route('admin.static_pages.index')->with('flash_success',tr('static_page_deleted_success')); 
+
+            } 
+
+            throw new Exception(tr('static_page_error'));
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            $error = $e->getMessage();
+
+            return redirect()->route('admin.static_pages.index')->with('flash_error', $error);
+
+        }
+    
+    }
+
+    /**
+     * @method static_pages_view()
+     *
+     * @uses view the static_pages details based on static_pages id
+     *
+     * @created Akshata 
+     *
+     * @updated 
+     *
+     * @param object $request - static_page Id
+     * 
+     * @return View page
+     *
+     */
+    public function static_pages_view(Request $request) {
+
+        $static_page_details = StaticPage::find($request->static_page_id);
+
+        if(!$static_page_details) {
+           
+            return redirect()->route('admin.static_pages.index')->with('flash_error',tr('static_page_not_found'));
+
+        }
+
+        return view('admin.static_pages.view')
+                    ->with('page', 'static_pages')
+                    ->with('sub_page','static_pages-view')
+                    ->with('static_page_details' , $static_page_details);
+    }
+
+    /**
+     * @method static_pages_status_change()
+     *
+     * @uses To update static_page status as DECLINED/APPROVED based on static_page id
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param - integer static_page_id
+     *
+     * @return view page 
+     */
+
+    public function static_pages_status_change(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $static_page_details = StaticPage::find($request->static_page_id);
+
+            if(!$static_page_details) {
+
+                throw new Exception(tr('static_page_not_found'), 101);
+                
+            }
+
+            $static_page_details->status = $static_page_details->status == DECLINED ? APPROVED : DECLINED;
+
+            $static_page_details->save();
+
+            DB::commit();
+
+            $message = $static_page_details->status == DECLINED ? tr('static_page_decline_success') : tr('static_page_approve_success');
+
+            return redirect()->back()->with('flash_success', $message);
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            $error = $e->getMessage();
+
+            return redirect()->back()->with('flash_error', $error);
+
+        }
+
+    }
+
+
     /**
      * @method settings()
      *

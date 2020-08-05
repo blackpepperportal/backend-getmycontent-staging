@@ -276,38 +276,24 @@ class AccountApiController extends Controller
 
             DB::beginTransaction();
 
-            $basic_validator = Validator::make($request->all(),
+            $rules = 
                 [
-                    'device_token' => 'required',
                     'device_type' => 'required|in:'.DEVICE_ANDROID.','.DEVICE_IOS.','.DEVICE_WEB,
+                    'device_token' => 'required',
                     'login_by' => 'required|in:manual,facebook,google,apple,linkedin,instagram',
-                ]
-            );
+                ];
 
-            if($basic_validator->fails()){
-
-                $error = implode(',', $basic_validator->messages()->all());
-
-                throw new Exception($error , 101);
-
-            }
+            Helper::custom_validator($request->all(), $rules);
 
             /** Validate manual login fields */
 
-            $manual_validator = Validator::make($request->all(),
+            $rules = 
                 [
-                    'email' => 'required|email',
+                   'email' => 'required|email',
                     'password' => 'required',
-                ]
-            );
+                ];
 
-            if($manual_validator->fails()) {
-
-                $error = implode(',', $manual_validator->messages()->all());
-
-            	throw new Exception($error , 101);
-
-            }
+            Helper::custom_validator($request->all(), $rules);
 
             $user_details = User::where('email', '=', $request->email)->first();
 

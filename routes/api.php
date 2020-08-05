@@ -52,18 +52,14 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     // Cards management start
 
-    Route::group(['middleware' => 'UserApiVal'] , function() {
+    Route::post('cards_add', 'UserApi\AccountApiController@cards_add'); // 15
 
-        Route::post('cards_add', 'UserApi\AccountApiController@cards_add'); // 15
+    Route::post('cards_list', 'UserApi\AccountApiController@cards_list'); // 16
 
-        Route::post('cards_list', 'UserApi\AccountApiController@cards_list'); // 16
+    Route::post('cards_delete', 'UserApi\AccountApiController@cards_delete'); // 17
 
-        Route::post('cards_delete', 'UserApi\AccountApiController@cards_delete'); // 17
+    Route::post('cards_default', 'UserApi\AccountApiController@cards_default'); // 18
 
-        Route::post('cards_default', 'UserApi\AccountApiController@cards_default'); // 18
-
-        Route::post('payment_mode_default', 'UserApi\AccountApiController@payment_mode_default');
-
-    });
+    Route::post('payment_mode_default', 'UserApi\AccountApiController@payment_mode_default');
 
 });

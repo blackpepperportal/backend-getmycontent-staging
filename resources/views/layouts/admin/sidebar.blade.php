@@ -34,6 +34,25 @@
 
             <li class="nav-item nav-header sidebar-header">{{tr('setting_management')}}</li>
 
+            <li class="nav-item" id="static_pages">
+                <a href="{{route('admin.static_pages.index')}}">
+                    <i class="ft-user"></i>
+                    <span class="menu-title" data-i18n="">{{tr('static_pages')}}</span>
+                </a>
+                <ul class="menu-content">
+                    <li id="static_pages-create">
+                        <a class="menu-item" href="{{route('admin.static_pages.create')}}">
+                            {{tr('add_user')}}
+                        </a>
+                    </li>
+                    <li id="static_pages-view">
+                        <a class="menu-item" href="{{route('admin.static_pages.index')}}">
+                            {{tr('view_static_pages')}}
+                        </a>
+                    </li>
+                </ul>            
+            </li>
+
             <li class="nav-item" id="settings">
                 <a href="{{route('admin.settings')}}">
                     <i class="ft-globe"></i>

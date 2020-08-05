@@ -478,6 +478,12 @@ return [
 	'image_notes' => 'Please enter .png images only.',
 	'confirm_logout' => 'Confirm Logout',
 	'logout_note' => 'Do you want logout from this session?',
+	'section_type' => 'Section Type',
+
+	'STATIC_PAGE_SECTION_1' => 'Footer Sec 1',
+  	'STATIC_PAGE_SECTION_2' => 'Footer Sec 2',
+  	'STATIC_PAGE_SECTION_3' => 'Footer Sec 3',
+  	'STATIC_PAGE_SECTION_4' => 'Footer Sec 4',
 
 ]
 

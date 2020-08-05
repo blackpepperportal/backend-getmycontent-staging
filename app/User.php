@@ -14,6 +14,8 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    protected $appends = ['user_id'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -41,6 +43,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function getUserIdAttribute() {
+
+        return $this->id;
+    }
     
     /**
      * Scope a query to only include active users.

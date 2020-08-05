@@ -50,6 +50,20 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('users/verify', 'AdminController@users_verify_status')->name('users.verify');
 
+        Route::get('/static_pages' , 'AdminController@static_pages_index')->name('static_pages.index');
+
+        Route::get('/static_pages/create', 'AdminController@static_pages_create')->name('static_pages.create');
+
+        Route::get('/static_pages/edit', 'AdminController@static_pages_edit')->name('static_pages.edit');
+
+        Route::post('/static_pages/save', 'AdminController@static_pages_save')->name('static_pages.save');
+
+        Route::get('/static_pages/delete', 'AdminController@static_pages_delete')->name('static_pages.delete');
+
+        Route::get('/static_pages/view', 'AdminController@static_pages_view')->name('static_pages.view');
+
+        Route::get('/static_pages/status', 'AdminController@static_pages_status_change')->name('static_pages.status');
+
         // settings
 
         Route::get('/admin-control', 'AdminController@admin_control')->name('control');
