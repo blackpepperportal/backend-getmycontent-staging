@@ -16,6 +16,11 @@ class User extends Authenticatable
 
     protected $appends = ['user_id'];
 
+    public function getUserIdAttribute() {
+
+        return $this->id;
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -42,44 +47,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function getUserIdAttribute() {
-
-        return $this->id;
-    }
     
-    /**
-     * Scope a query to only include active users.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeCommonResponse($query) {
-
-        return $query->select(
-            'users.id as user_id',
-            'users.username',
-            'users.name',
-            'users.email',
-            'users.picture',
-            'users.mobile',
-            'users.address',
-            'users.token',
-            'users.token_expiry',
-            'users.social_unique_id',
-            'users.login_by',
-            'users.payment_mode',
-            'users.status as user_status',
-            'users.email_notification_status',
-            'users.push_notification_status',
-            'users.is_verified',
-            'users.user_type',
-            'users.registration_steps',
-            'users.created_at',
-            'users.updated_at'
-            );
-    
-    }
-
     /**
      * Scope a query to only include active users.
      *

@@ -24,7 +24,7 @@ class AccountApiController extends Controller
 
         Log::info("Request Data".print_r($request->all(), true));
         
-        $this->loginUser = User::CommonResponse()->find($request->id);
+        $this->loginUser = User::where('id',$request->id)->first();
 
         $this->skip = $request->skip ?: 0;
 
@@ -223,7 +223,7 @@ class AccountApiController extends Controller
 
                 if($user_details->is_verified == USER_EMAIL_VERIFIED) {
 
-                	$data = User::CommonResponse()->find($user_details->id);
+                	$data = User::find($user_details->id);
 
                     $response = ['success' => true, 'data' => $data];
 
@@ -355,7 +355,7 @@ class AccountApiController extends Controller
 
                 $user_details->save();
 
-                $data = User::CommonResponse()->find($user_details->id);
+                $data = User::find($user_details->id);
 				
 				DB::commit();
 
@@ -563,7 +563,7 @@ class AccountApiController extends Controller
 
         try {
 
-            $user_details = User::where('id' , $request->id)->CommonResponse()->first();
+            $user_details = User::where('id' , $request->id)->first();
 
             if(!$user_details) { 
 
@@ -645,7 +645,7 @@ class AccountApiController extends Controller
 
             if($user_details->save()) {
 
-            	$data = User::CommonResponse()->find($user_details->id);
+            	$data = User::where('id',$user_details->id)->first();
 
                 DB::commit();
 
