@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class CreateStardomsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('stardoms', function (Blueprint $table) {
+            $table->id();
             $table->string('unique_id')->default(rand());
             $table->string('name');
             $table->string('first_name')->default('');
@@ -28,14 +28,13 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('mobile');
             $table->string('address')->default('');
-            $table->integer('user_type')->default(0);
             $table->string('payment_mode')->default(CARD);
             $table->string('token');
             $table->string('token_expiry');
+            $table->string('social_unique_id')->default('');
             $table->string('device_token')->nullable();
             $table->enum('device_type', ['web', 'android', 'ios'])->default('web');
             $table->enum('login_by', ['manual','facebook','google', 'instagram', 'apple', 'linkedin'])->default('manual');
-            $table->string('social_unique_id')->default('');
             $table->tinyInteger('registration_steps')->default(0);
             $table->integer('push_notification_status')->default(YES);
             $table->integer('email_notification_status')->default(YES);
@@ -56,6 +55,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('stardoms');
     }
 }
