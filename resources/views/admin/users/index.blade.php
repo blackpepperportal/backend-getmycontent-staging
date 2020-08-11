@@ -4,7 +4,7 @@
 
 @section('content-header', tr('users')) 
 
-@section('breadcrumb_left')
+@section('breadcrumb')
 
 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
 </li>
@@ -42,7 +42,13 @@
 
                             <div class="row">
 
-                                <div class="col-6">
+                                <div class="col-3">
+                                    @if(Request::has('search_key'))
+                                        <p class="text-muted">Search results for <b>{{Request::get('search_key')}}</b></p>
+                                    @endif
+                                </div>
+
+                                <div class="col-3">
 
                                     <select class="form-control select2" name="status">
 
@@ -175,17 +181,18 @@
                                     </td>
 
                                 </tr>
+
                                 @endforeach
 
                             </tbody>
                         
                         </table>
 
+                        <div class="pull-right" id="paglink">{{ $users->appends(request()->input())->links() }}</div>
+
                     </div>
 
                 </div>
-
-                
 
             </div>
 

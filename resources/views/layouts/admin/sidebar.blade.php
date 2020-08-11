@@ -11,7 +11,9 @@
                 </a>
             </li>
 
-            <li class="nav-item nav-header sidebar-header">{{tr('account_management')}}</li>
+            <li class="navigation-header">
+                <span>{{tr('account_management')}}</span>
+            </li>
             
             <li class="nav-item" id="users">
                 <a href="{{route('admin.users.index')}}">
@@ -32,7 +34,9 @@
                 </ul>            
             </li>
 
-            <li class="nav-item nav-header sidebar-header">{{tr('setting_management')}}</li>
+            <li class="navigation-header">
+                <span>{{tr('setting_management')}}</span>
+            </li>
 
             <li class="nav-item" id="static_pages">
                 <a href="{{route('admin.static_pages.index')}}">

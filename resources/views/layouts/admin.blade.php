@@ -12,8 +12,6 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
 
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <meta name="description" content="{{Setting::get('site_name')}}">
 
     <meta name="keywords" content="{{Setting::get('site_name')}}">
@@ -50,6 +48,8 @@
 
     <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/css/style.css')}}">
 
+    <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/css/custom.css')}}">
+
     @yield('styles')
 
 
@@ -68,7 +68,7 @@
             <div class="content-header row">
                 
                 <div class="content-header-left col-md-12 col-12 mb-2">
-                    <div class="row breadcrumbs-top">
+                    <div class="row breadcrumbs-top pull-right">
                         <div class="breadcrumb-wrapper col-12">
                             <ol class="breadcrumb">
                                 @yield('breadcrumb')

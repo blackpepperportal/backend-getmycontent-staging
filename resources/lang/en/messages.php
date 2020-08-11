@@ -485,6 +485,8 @@ return [
   	'STATIC_PAGE_SECTION_3' => 'Footer Sec 3',
   	'STATIC_PAGE_SECTION_4' => 'Footer Sec 4',
 
+  	'user_details' => 'User Details',
+  	'personal_info' => 'Personal Information',
 ]
 
 ?>

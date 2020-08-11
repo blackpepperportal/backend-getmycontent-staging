@@ -4,7 +4,7 @@
 
 @section('content-header', tr('view_users'))
 
-@section('breadcrumb_left')
+@section('breadcrumb')
 
     <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a>
     </li>
@@ -40,6 +40,16 @@
                                     <h3 class="card-title">{{ $user_details->name }}</h3>
                                     <span class="text-muted">{{ $user_details->email }}</span>
                                 </div>
+                                <div class="col text-right">
+
+                                    <div class="btn-group d-none d-md-block float-right ml-2" role="group" aria-label="Basic example">
+
+                                        <a target="_blank" class="btn btn-success" href="">
+                                            {{tr('subscriptions')}}</a>
+
+                                    </div>
+
+                                </div>
 
                             </div>
 
@@ -59,135 +69,104 @@
 
                     <div class="card-header border-bottom border-gray">
 
-                          <h4 class="card-title">{{tr('user_activities')}}</h4>
+                          <h4 class="card-title">{{tr('user_details')}}</h4>
                     </div>
 
                     <div class="card-content">
 
-                        <div class="card-body">
-                            
-                            <ul class="nav nav-tabs nav-top-border no-hover-bg">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="user-profile" data-toggle="tab" aria-controls="user-profile-tab" href="#user-profile-tab" aria-expanded="true"><i class="fa fa-user"></i> {{tr('profile')}}</a>
-                                </li>
-                            </ul>
+                        <div class="table-responsive">
 
-                            <div class="tab-content px-1 pt-1">
+                            <table class="table table-xl mb-0">
+                                <tr>
+                                    <th>{{tr('username')}}</th>
+                                    <td>{{$user_details->name}}</td>
+                                </tr>
 
-                                <div role="tabpanel" class="tab-pane active" id="user-profile-tab" aria-expanded="true" aria-labelledby="user-profile">
-                                    <p>{{tr('personal_info')}}</p>
-                                    <div class="table-responsive">
-                                        <table class="table table-xl mb-0">
-                                            <tr>
-                                                <th>{{tr('username')}}</th>
-                                                <td>{{$user_details->name}}</td>
-                                            </tr>
+                                <tr>
+                                    <th>{{tr('email')}}</th>
+                                    <td>{{$user_details->email}}</td>
+                                </tr> 
 
-                                            <tr>
-                                                <th>{{tr('email')}}</th>
-                                                <td>{{$user_details->email}}</td>
-                                            </tr> 
-                                            <tr>
-                                                <th>{{tr('payment_mode')}}</th>
-                                                <td>{{$user_details->payment_mode}}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>{{tr('register_type')}}</th>
-                                                <td>{{$user_details->register_type}}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>{{tr('login_type')}}</th>
-                                                <td>{{$user_details->login_by}}</td>
-                                            </tr>
+                                <tr>
+                                    <th>{{tr('payment_mode')}}</th>
+                                    <td>{{$user_details->payment_mode}}</td>
+                                </tr>
+                                <tr>
+                                    <th>{{tr('register_type')}}</th>
+                                    <td>{{$user_details->register_type}}</td>
+                                </tr>
+                                <tr>
+                                    <th>{{tr('login_type')}}</th>
+                                    <td>{{$user_details->login_by}}</td>
+                                </tr>
 
-                                            <tr>
-                                                <th>{{tr('device_type')}}</th>
-                                                <td>{{$user_details->device_type}}</td>
-                                            </tr>
+                                <tr>
+                                    <th>{{tr('device_type')}}</th>
+                                    <td>{{$user_details->device_type}}</td>
+                                </tr>
 
-                                            <tr>
-                                                <th>{{tr('status')}}</th>
-                                                <td>
-                                                    @if($user_details->status == USER_APPROVED) 
+                                <tr>
+                                    <th>{{tr('status')}}</th>
+                                    <td>
+                                        @if($user_details->status == USER_APPROVED) 
 
-                                                        <span class="badge badge-success">{{tr('approved')}}</span>
+                                            <span class="badge badge-success">{{tr('approved')}}</span>
 
-                                                    @else
-                                                        <span class="badge badge-danger">{{tr('declined')}}</span>
+                                        @else
+                                            <span class="badge badge-danger">{{tr('declined')}}</span>
 
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                        @endif
+                                    </td>
+                                </tr>
 
-                                            <tr>
-                                                <th>{{tr('user_type')}}</th>
-                                                <td>
-                                                    @if($user_details->user_type == 1) 
+                                <tr>
+                                    <th>{{tr('email_notification')}}</th>
+                                    <td>
+                                        @if($user_details->email_notification_status == YES) 
 
-                                                        <span class="badge badge-success">{{tr('paid_user')}}</span>
+                                            <span class="badge badge-success">{{tr('yes')}}</span>
 
-                                                    @else
-                                                        <span class="badge badge-danger">{{tr('normal_user')}}</span>
+                                        @else
+                                            <span class="badge badge-danger">{{tr('no')}}</span>
 
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                        @endif
+                                    </td>
+                                </tr>
 
-                                            <tr>
-                                                <th>{{tr('email_notification')}}</th>
-                                                <td>
-                                                    @if($user_details->email_notification_status == YES) 
+                                <tr>
+                                    <th>{{tr('push_notification')}}</th>
+                                    <td>
+                                        @if($user_details->push_notification_status == YES) 
 
-                                                        <span class="badge badge-success">{{tr('yes')}}</span>
+                                            <span class="badge badge-success">{{tr('yes')}}</span>
 
-                                                    @else
-                                                        <span class="badge badge-danger">{{tr('no')}}</span>
+                                        @else
+                                            <span class="badge badge-danger">{{tr('no')}}</span>
 
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                        @endif
+                                    </td>
+                                </tr>
 
-                                            <tr>
-                                                <th>{{tr('push_notification')}}</th>
-                                                <td>
-                                                    @if($user_details->push_notification_status == YES) 
+                                <tr>
+                                    <th>{{tr('timezone')}}</th>
+                                    <td>{{$user_details->timezone}}</td>
+                                </tr>
 
-                                                        <span class="badge badge-success">{{tr('yes')}}</span>
+                                <tr>
+                                  <th>{{tr('created_at')}} </th>
+                                  <td>{{common_date($user_details->created_at , Auth::guard('admin')->user()->timezone)}}</td>
+                                </tr>
 
-                                                    @else
-                                                        <span class="badge badge-danger">{{tr('no')}}</span>
-
-                                                    @endif
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <th>{{tr('timezone')}}</th>
-                                                <td>{{$user_details->timezone}}</td>
-                                            </tr>
-
-                                            <tr>
-                                              <th>{{tr('created_at')}} </th>
-                                              <td>{{common_date($user_details->created_at , Auth::guard('admin')->user()->timezone)}}</td>
-                                            </tr>
-
-                                            <tr>
-                                              <th>{{tr('updated_at')}} </th>
-                                              <td>{{common_date($user_details->updated_at , Auth::guard('admin')->user()->timezone)}}</td>
-                                            </tr>
-                                            
-                                            <tr>
-                                                <th>{{ tr('description')}}</th>
-                                                <td>{{ $user_details->description}}</td>
-                                            </tr>       
-                                            
-                                        </table>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
+                                <tr>
+                                  <th>{{tr('updated_at')}} </th>
+                                  <td>{{common_date($user_details->updated_at , Auth::guard('admin')->user()->timezone)}}</td>
+                                </tr>
+                                <tr>
+                                    <th>{{ tr('description')}}</th>
+                                    <td>{{ $user_details->description}}</td>
+                                </tr>       
+                                
+                            </table>
 
                         </div>
 

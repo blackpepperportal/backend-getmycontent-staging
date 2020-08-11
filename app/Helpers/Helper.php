@@ -586,6 +586,44 @@ class Helper {
         File::put($file_name, $data);
     }
 
+     /**
+     * @method upload_file
+     */
+    
+    public static function storage_upload_file($input_file, $folder_path = COMMON_FILE_PATH) {
+       
+        $name = Helper::file_name();
+
+        $ext = $input_file->getClientOriginalExtension();
+
+        $file_name = $name.".".$ext;
+
+        $public_folder_path = "public/".$folder_path;
+
+        Storage::putFileAs($public_folder_path, $input_file, $file_name);
+
+        $storage_file_path = $folder_path.$file_name;
+
+        $url = asset(Storage::url($storage_file_path));
+    
+        return $url;
+
+    }
+
+    /**
+     * @method
+     * 
+     */
+    public static function storage_delete_file($url, $folder_path = COMMON_FILE_PATH) {
+
+        $file_name = basename($url);
+
+        $storage_file_path = $folder_path.$file_name;
+
+        Storage::delete($storage_file_path);
+    }
+
+
 
 }
 
