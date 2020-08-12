@@ -44,7 +44,7 @@
 
                                 <div class="col-3">
                                     @if(Request::has('search_key'))
-                                        <p class="text-muted">Search results for <b>{{Request::get('search_key')}}</b></p>
+                                        <p class="text-muted">{{tr('search_results_for')}}<b>{{Request::get('search_key')}}</b></p>
                                     @endif
                                 </div>
 

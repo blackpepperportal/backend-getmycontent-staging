@@ -294,7 +294,7 @@ class AdminController extends Controller
     /**
      * @method users_view()
      *
-     * @uses view the users details based on users id
+     * @uses Display the specified user details based on user_id
      *
      * @created Akshata 
      *
@@ -516,11 +516,11 @@ class AdminController extends Controller
                     break;
 
                 case SORT_BY_EMAIL_VERIFIED:
-                    $base_query = $base_query->where('is_verified',USER_EMAIL_VERIFIED);
+                    $base_query = $base_query->where('is_verified',STARDOM_EMAIL_VERIFIED);
                     break;
                 
                 default:
-                    $base_query = $base_query->where('is_verified',USER_EMAIL_NOT_VERIFIED);
+                    $base_query = $base_query->where('is_verified',STARDOM_EMAIL_NOT_VERIFIED);
                     break;
             }
         }
@@ -712,7 +712,7 @@ class AdminController extends Controller
     /**
      * @method stardoms_view()
      *
-     * @uses view the stardoms details based on stardoms id
+     * @uses displays the specified stardom details based on stardom id
      *
      * @created Akshata 
      *
@@ -1027,7 +1027,7 @@ class AdminController extends Controller
     /**
      * @method static_pages_save()
      *
-     * @uses Used to create/update the page details 
+     * @uses To save the page details of new/existing page object based on details
      *
      * @created Akshata
      *

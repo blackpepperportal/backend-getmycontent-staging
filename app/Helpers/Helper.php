@@ -6,7 +6,7 @@ use Mailgun\Mailgun;
 
 use Hash, Exception, Auth, Mail, File, Log, Storage, Setting, DB, Validator;
 
-use App\Admin, App\User, App\StatisPage;
+use App\Admin, App\User, App\StaticPage;
 
 class Helper {
 
@@ -35,7 +35,7 @@ class Helper {
 
         if (
             ( $entity== USER && ($row = User::where('id', '=', $id)->where('token', '=', $token)->first()) ) ||
-            ( $entity== PROVIDER && ($row = Provider::where('id', '=', $id)->where('token', '=', $token)->first()) )
+            ( $entity== STARDOM && ($row = Stardom::where('id', '=', $id)->where('token', '=', $token)->first()) )
         ) {
 
             if ($row->token_expiry > time()) {

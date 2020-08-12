@@ -96,3 +96,6 @@ if(!defined('STATIC_PAGE_SECTION_3')) define('STATIC_PAGE_SECTION_3', 3);
 
 if(!defined('STATIC_PAGE_SECTION_4')) define('STATIC_PAGE_SECTION_4', 4);
 
+if(!defined('STARDOM')) define('STARDOM', 'stardom');
+
+if(!defined('USER'))  define('USER', 'user');

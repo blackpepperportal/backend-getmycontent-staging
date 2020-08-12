@@ -48,26 +48,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     
-    /**
-     * Scope a query to only include active users.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeOtherResponse($query) {
 
-        return $query->select(
-            'users.id as user_id',
-            'users.username',
-            'users.name',
-            'users.email',
-            'users.picture',
-            'users.mobile',
-            'users.created_at',
-            'users.updated_at'
-            );
-    
-    }
-    
     public static function boot() {
 
         parent::boot();

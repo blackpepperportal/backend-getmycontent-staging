@@ -515,8 +515,8 @@ return [
 	'stardom_verify_change_failed' => 'Updating stardom email verification status failed..!!',
 
 	'stardom_email_confirmation' => 'Do you want change this stardom as email verified stardom?',
-
-  	
+	'search_results_for' => 'Search results for',
+   	
 ]
 
 ?>
