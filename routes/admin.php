@@ -50,6 +50,24 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('users/verify', 'AdminController@users_verify_status')->name('users.verify');
 
+        //stardoms CRUD Operations
+
+        Route::get('stardoms', 'AdminController@stardoms_index')->name('stardoms.index');
+
+        Route::get('stardoms/create', 'AdminController@stardoms_create')->name('stardoms.create');
+
+        Route::get('stardoms/edit', 'AdminController@stardoms_edit')->name('stardoms.edit');
+
+        Route::post('stardoms/save', 'AdminController@stardoms_save')->name('stardoms.save');
+
+        Route::get('stardoms/view', 'AdminController@stardoms_view')->name('stardoms.view');
+
+        Route::get('stardoms/delete', 'AdminController@stardoms_delete')->name('stardoms.delete');
+
+        Route::get('stardoms/status', 'AdminController@stardoms_status')->name('stardoms.status');
+
+        Route::get('stardoms/verify', 'AdminController@stardoms_verify_status')->name('stardoms.verify');
+
         Route::get('/static_pages' , 'AdminController@static_pages_index')->name('static_pages.index');
 
         Route::get('/static_pages/create', 'AdminController@static_pages_create')->name('static_pages.create');

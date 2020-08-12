@@ -4,11 +4,13 @@
 
 @section('content-header', tr('add_user'))
 
-@section('breadcrumb_left')
+@section('breadcrumb')
 
     <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a>
     </li>
-    <li class="breadcrumb-item"><a href="{{route('admin.users.index')}}">{{tr('users')}}</a>    </li>
+    
+    <li class="breadcrumb-item"><a href="{{route('admin.users.index')}}">{{tr('users')}}</a></li>
+
     <li class="breadcrumb-item active">{{tr('add_user')}}</a></li>
 
 @endsection

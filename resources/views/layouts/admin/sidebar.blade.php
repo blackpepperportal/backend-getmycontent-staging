@@ -17,7 +17,7 @@
             
             <li class="nav-item" id="users">
                 <a href="{{route('admin.users.index')}}">
-                    <i class="ft-user"></i>
+                    <i class="ft-users"></i>
                     <span class="menu-title" data-i18n="">{{tr('users')}}</span>
                 </a>
                 <ul class="menu-content">
@@ -29,6 +29,25 @@
                     <li id="users-view">
                         <a class="menu-item" href="{{route('admin.users.index')}}">
                             {{tr('view_users')}}
+                        </a>
+                    </li>
+                </ul>            
+            </li>
+
+            <li class="nav-item" id="stardoms">
+                <a href="{{route('admin.stardoms.index')}}">
+                    <i class="ft-user"></i>
+                    <span class="menu-title" data-i18n="">{{tr('stardoms')}}</span>
+                </a>
+                <ul class="menu-content">
+                    <li id="stardoms-create">
+                        <a class="menu-item" href="{{route('admin.stardoms.create')}}">
+                            {{tr('add_stardom')}}
+                        </a>
+                    </li>
+                    <li id="stardoms-view">
+                        <a class="menu-item" href="{{route('admin.stardoms.index')}}">
+                            {{tr('view_stardoms')}}
                         </a>
                     </li>
                 </ul>            

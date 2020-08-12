@@ -487,6 +487,36 @@ return [
 
   	'user_details' => 'User Details',
   	'personal_info' => 'Personal Information',
+
+  	'stardoms' => 'Stardoms',
+  	'add_stardom' => 'Add Stardom',
+  	'view_stardoms' => 'View Stardoms',
+  	'edit_stardom' => 'Edit Stardom',
+  	'stardoms_search_placeholder' => 'Search by Stardom Name, Email Id, Mobile',
+
+  	'delete_user'	=>	'Delete User',
+	
+	'stardom_created_success' => 'The stardom created successfully!!',
+	'stardom_updated_success' => 'The stardom updated successfully!!',
+	'stardom_save_failed' => 'The stardom details updating failed!!',
+	'stardom_not_found' => 'The selected stardom details not found.',
+
+	'stardom_deleted_success' => 'The stardom deleted successfully!!',
+	'stardom_delete_failed' => 'The stardom deletion failed!!',
+	'stardom_delete_confirmation' => 'Once you\'ve deleted the record , the stardom (:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.',
+
+	'stardom_approve_success' => 'The stardom approved successfully..!!',
+	'stardom_decline_success' => 'The stardom declined successfully..!!',
+	'stardom_decline_confirmation' => 'Do you want decline this stardom?',
+	'stardom_status_change_failed' => 'The stardom status updating failed..!!',
+
+	'stardom_verify_success' => 'The stardom email verification completed!',
+	'stardom_unverify_success' => 'The stardom email verification removed!',
+	'stardom_verify_change_failed' => 'Updating stardom email verification status failed..!!',
+
+	'stardom_email_confirmation' => 'Do you want change this stardom as email verified stardom?',
+
+  	
 ]
 
 ?>

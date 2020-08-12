@@ -1,22 +1,20 @@
 @extends('layouts.admin')
 
-@section('title', tr('edit_user'))
+@section('title', tr('edit_stardom'))
 
-@section('content-header', tr('edit_user'))
+@section('content-header', tr('edit_stardom'))
 
 @section('breadcrumb')
 
     <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a></li>
-
-    <li class="breadcrumb-item"><a href="{{route('admin.users.index')}}">{{tr('users')}}</a></li>
-    
-    <li class="breadcrumb-item active">{{tr('edit_user')}}</a></li>
+    <li class="breadcrumb-item"><a href="{{route('admin.stardoms.index')}}">{{tr('stardoms')}}</a></li>
+    <li class="breadcrumb-item active">{{tr('edit_stardom')}}</a></li>
 
 @endsection
 
 @section('content')
 
-    @include('admin.users._form')
+    @include('admin.stardoms._form')
 
 @endsection
 

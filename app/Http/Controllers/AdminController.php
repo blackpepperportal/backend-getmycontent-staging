@@ -8,7 +8,7 @@ use App\Helpers\Helper, App\Helpers\EnvEditorHelper;
 
 use DB, Hash, Setting, Auth, Validator, Exception, Enveditor;
 
-use App\Admin, App\User;
+use App\Admin, App\User, App\Stardom;
 
 use App\Settings, App\StaticPage;
 
@@ -245,7 +245,7 @@ class AdminController extends Controller
             $user_details->mobile = $request->mobile ?: '';
 
             $user_details->login_by = $request->login_by ?: 'manual';
-
+            
             // Upload picture
             
             if($request->hasFile('picture')) {
@@ -472,6 +472,424 @@ class AdminController extends Controller
             DB::rollback();
 
             return redirect()->route('admin.users.index')->with('flash_error', $e->getMessage());
+
+        }
+    
+    }
+
+     /**
+     * @method stardoms_index()
+     *
+     * @uses To list out stardoms details 
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function stardoms_index(Request $request) {
+
+        $base_query = Stardom::orderBy('created_at','DESC');
+       
+        if($request->search_key) {
+
+            $base_query = $base_query
+                    ->orWhere('name','LIKE','%'.$request->search_key.'%')
+                    ->orWhere('email','LIKE','%'.$request->search_key.'%')
+                    ->orWhere('mobile','LIKE','%'.$request->search_key.'%');
+        }
+
+        if($request->status) {
+
+            switch ($request->status) {
+
+                case SORT_BY_APPROVED:
+                    $base_query = $base_query->where('status',APPROVED);
+                    break;
+
+                case SORT_BY_DECLINED:
+                    $base_query = $base_query->where('status',DECLINED);
+                    break;
+
+                case SORT_BY_EMAIL_VERIFIED:
+                    $base_query = $base_query->where('is_verified',USER_EMAIL_VERIFIED);
+                    break;
+                
+                default:
+                    $base_query = $base_query->where('is_verified',USER_EMAIL_NOT_VERIFIED);
+                    break;
+            }
+        }
+
+        $stardoms = $base_query->paginate(10);
+
+        return view('admin.stardoms.index')
+                    ->with('main_page','stardoms-crud')
+                    ->with('page','stardoms')
+                    ->with('sub_page' , 'stardoms-view')
+                    ->with('stardoms' , $stardoms);
+    }
+
+    /**
+     * @method stardoms_create()
+     *
+     * @uses To create stardom details
+     *
+     * @created  Akshata
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function stardoms_create() {
+
+        $stardom_details = new Stardom;
+
+        return view('admin.stardoms.create')
+                    ->with('main_page','stardoms-crud')
+                    ->with('page' , 'stardoms')
+                    ->with('sub_page','stardoms-create')
+                    ->with('stardom_details', $stardom_details);           
+    }
+
+    /**
+     * @method stardoms_edit()
+     *
+     * @uses To display and update stardom details based on the stardom id
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - Stardom Id
+     * 
+     * @return redirect view page 
+     *
+     */
+    public function stardoms_edit(Request $request) {
+
+        try {
+
+            $stardom_details = Stardom::find($request->stardom_id);
+
+            if(!$stardom_details) { 
+
+                throw new Exception(tr('stardom_not_found'), 101);
+            }
+
+            return view('admin.stardoms.edit')
+                    ->with('main_page','stardoms-crud')
+                    ->with('page' , 'stardoms')
+                    ->with('sub_page','stardoms-view')
+                    ->with('stardom_details' , $stardom_details); 
+            
+        } catch(Exception $e) {
+
+            return redirect()->route('admin.stardoms.index')->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+    /**
+     * @method stardoms_save()
+     *
+     * @uses To save the stardoms details of new/existing stardom object based on details
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object request - Stardom Form Data
+     *
+     * @return success message
+     *
+     */
+    public function stardoms_save(Request $request) {
+        
+        try {
+
+            DB::begintransaction();
+
+            $rules = [
+                'name' => 'required|max:191',
+                'email' => $request->stardom_id ? 'required|email|max:191|unique:stardoms,email,'.$request->stardom_id.',id' : 'required|email|max:191|unique:stardoms,email,NULL,id',
+                'password' => $request->stardom_id ? "" : 'required|min:6',
+                'mobile' => $request->mobile ? 'digits_between:6,13' : '',
+                'picture' => 'mimes:jpg,png,jpeg',
+                'stardom_id' => 'exists:stardoms,id|nullable'
+            ];
+
+            Helper::custom_validator($request->all(),$rules);
+
+            $stardom_details = $request->stardom_id ? Stardom::find($request->stardom_id) : new Stardom;
+
+            $is_new_stardom = NO;
+
+            if($stardom_details->id) {
+
+                $message = tr('stardom_updated_success'); 
+
+            } else {
+
+                $is_new_stardom = YES;
+
+                $stardom_details->password = ($request->password) ? \Hash::make($request->password) : null;
+
+                $message = tr('stardom_created_success');
+
+                $stardom_details->email_verified_at = date('Y-m-d H:i:s');
+
+                $stardom_details->picture = asset('placeholder.jpeg');
+
+                $stardom_details->is_verified = STARDOM_EMAIL_VERIFIED;
+
+                $stardom_details->token = Helper::generate_token();
+
+                $stardom_details->token_expiry = Helper::generate_token_expiry();
+
+            }
+
+            $stardom_details->name = $request->name ?: $stardom_details->name;
+
+            $stardom_details->email = $request->email ?: $stardom_details->email;
+
+            $stardom_details->mobile = $request->mobile ?: '';
+
+            $stardom_details->login_by = $request->login_by ?: 'manual';
+
+            // Upload picture
+            
+            if($request->hasFile('picture')) {
+
+                if($request->stardom_id) {
+
+                    Helper::storage_delete_file($stardom_details->picture, COMMON_FILE_PATH); 
+                    // Delete the old pic
+                }
+
+                $stardom_details->picture = Helper::storage_upload_file($request->file('picture'), COMMON_FILE_PATH);
+            }
+
+            if($stardom_details->save()) {
+
+                if($is_new_stardom == YES) {
+
+                    /**
+                     * @todo Welcome mail notification
+                     */
+
+                    $stardom_details->is_verified = STARDOM_EMAIL_VERIFIED;
+
+                    $stardom_details->save();
+
+                }
+
+                DB::commit(); 
+
+                return redirect(route('admin.stardoms.view', ['stardom_id' => $stardom_details->id]))->with('flash_success', $message);
+
+            } 
+
+            throw new Exception(tr('stardom_save_failed'));
+            
+        } catch(Exception $e){ 
+
+            DB::rollback();
+
+            return redirect()->back()->withInput()->with('flash_error', $e->getMessage());
+
+        } 
+
+    }
+
+    /**
+     * @method stardoms_view()
+     *
+     * @uses view the stardoms details based on stardoms id
+     *
+     * @created Akshata 
+     *
+     * @updated 
+     *
+     * @param object $request - stardom Id
+     * 
+     * @return View page
+     *
+     */
+    public function stardoms_view(Request $request) {
+       
+        try {
+      
+            $stardom_details = Stardom::find($request->stardom_id);
+
+            if(!$stardom_details) { 
+
+                throw new Exception(tr('stardom_not_found'), 101);                
+            }
+
+            return view('admin.stardoms.view')
+                        ->with('main_page','stardoms-crud')
+                        ->with('page', 'stardoms') 
+                        ->with('sub_page','stardoms-view') 
+                        ->with('stardom_details' , $stardom_details);
+            
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+    /**
+     * @method stardoms_delete()
+     *
+     * @uses delete the stardom details based on stardom id
+     *
+     * @created Akshata 
+     *
+     * @updated  
+     *
+     * @param object $request - Stardom Id
+     * 
+     * @return response of success/failure details with view page
+     *
+     */
+    public function stardoms_delete(Request $request) {
+
+        try {
+
+            DB::begintransaction();
+
+            $stardom_details = Stardom::find($request->stardom_id);
+            
+            if(!$stardom_details) {
+
+                throw new Exception(tr('stardom_not_found'), 101);                
+            }
+
+            if($stardom_details->delete()) {
+
+                DB::commit();
+
+                return redirect()->route('admin.stardoms.index')->with('flash_success',tr('stardom_deleted_success'));   
+
+            } 
+            
+            throw new Exception(tr('stardom_delete_failed'));
+            
+        } catch(Exception $e){
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }       
+         
+    }
+
+    /**
+     * @method stardoms_status
+     *
+     * @uses To update stardom status as DECLINED/APPROVED based on stardom id
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - Stardom Id
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function stardoms_status(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $stardom_details = Stardom::find($request->stardom_id);
+
+            if(!$stardom_details) {
+
+                throw new Exception(tr('stardom_not_found'), 101);
+                
+            }
+
+            $stardom_details->status = $stardom_details->status ? DECLINED : APPROVED ;
+
+            if($stardom_details->save()) {
+
+                DB::commit();
+
+                $message = $stardom_details->status ? tr('stardom_approve_success') : tr('stardom_decline_success');
+
+                return redirect()->back()->with('flash_success', $message);
+            }
+            
+            throw new Exception(tr('stardom_status_change_failed'));
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->route('admin.stardoms.index')->with('flash_error', $e->getMessage());
+
+        }
+
+    }
+
+    /**
+     * @method stardoms_verify_status()
+     *
+     * @uses verify the stardom
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param object $request - Stardom Id
+     *
+     * @return redirect back page with status of the stardom verification
+     */
+    public function stardoms_verify_status(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $stardom_details = Stardom::find($request->stardom_id);
+
+            if(!$stardom_details) {
+
+                throw new Exception(tr('stardom_details_not_found'), 101);
+                
+            }
+
+            $stardom_details->is_verified = $stardom_details->is_verified ? STARDOM_EMAIL_NOT_VERIFIED : STARDOM_EMAIL_VERIFIED;
+
+            if($stardom_details->save()) {
+
+                DB::commit();
+
+                $message = $stardom_details->is_verified ? tr('stardom_verify_success') : tr('stardom_unverify_success');
+
+                return redirect()->route('admin.stardoms.index')->with('flash_success', $message);
+            }
+            
+            throw new Exception(tr('stardom_verify_change_failed'));
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->route('admin.stardoms.index')->with('flash_error', $e->getMessage());
 
         }
     

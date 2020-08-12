@@ -2,7 +2,7 @@
 
     <div class="alert alert-danger alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-        <strong>Oh snap! </strong> {{Session::get('flash_error')}}
+        {{Session::get('flash_error')}}
     </div>
 @endif
 
@@ -12,7 +12,7 @@
 
     	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
 
-        <strong>Well done! </strong>{{Session::get('flash_success')}}
+        {{Session::get('flash_success')}}
     </div>
     
 @endif
@@ -22,8 +22,8 @@
     <div class="alert alert-warning alert-dismissible" role="alert">
 
     	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-
-        <strong>Warning! </strong>{{Session::get('flash_warning')}}
+        {{Session::get('flash_warning')}}
+        
     </div>
     
 @endif

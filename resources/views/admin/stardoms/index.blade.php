@@ -1,15 +1,14 @@
 @extends('layouts.admin') 
 
-@section('title', tr('users')) 
+@section('title', tr('stardoms')) 
 
-@section('content-header', tr('users')) 
+@section('content-header', tr('stardoms')) 
 
 @section('breadcrumb')
 
 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
 </li>
-
-<li class="breadcrumb-item active">{{ tr('users') }}</a>
+<li class="breadcrumb-item active">{{ tr('stardoms') }}</a>
 </li>
 
 @endsection 
@@ -26,11 +25,11 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('users') }}</h4>
+                    <h4 class="card-title">{{ tr('stardoms') }}</h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
                     <div class="heading-elements">
-                        <a href="{{ route('admin.users.create') }}" class="btn btn-primary"><i class="ft-plus icon-left"></i>{{ tr('add_user') }}</a>
+                        <a href="{{ route('admin.stardoms.create') }}" class="btn btn-primary"><i class="ft-plus icon-left"></i>{{ tr('add_stardom') }}</a>
                     </div>
                     
                 </div>
@@ -39,7 +38,7 @@
 
                     <div class="card-body card-dashboard">
 
-                        <form method="GET" action="{{route('admin.users.index')}}">
+                        <form method="GET" action="{{route('admin.stardoms.index')}}">
 
                             <div class="row">
 
@@ -72,14 +71,14 @@
                                     <div class="input-group">
                                        
                                         <input type="text" class="form-control" name="search_key"
-                                        placeholder="{{tr('users_search_placeholder')}}"> <span class="input-group-btn">
+                                        placeholder="{{tr('stardoms_search_placeholder')}}"> <span class="input-group-btn">
                                         &nbsp
 
                                         <button type="submit" class="btn btn-default">
                                            <a href=""><i class="fa fa-search" aria-hidden="true"></i></a>
                                         </button>
                                         
-                                        <button class="btn btn-default"><a  href="{{route('admin.users.index')}}"><i class="fa fa-eraser" aria-hidden="true"></i></button>
+                                        <button class="btn btn-default"><a  href="{{route('admin.stardoms.index')}}"><i class="fa fa-eraser" aria-hidden="true"></i></button>
                                         </a>
                                            
                                         </span>
@@ -109,22 +108,22 @@
                            
                             <tbody>
 
-                                @foreach($users as $i => $user_details)
+                                @foreach($stardoms as $i => $stardom_details)
                                 <tr>
                                     <td>{{ $i+1 }}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.users.view' , ['user_id' => $user_details->id] )  }}">
-                                        {{ $user_details->name }}
+                                        <a href="{{  route('admin.stardoms.view' , ['stardom_id' => $stardom_details->id] )  }}">
+                                        {{ $stardom_details->name }}
                                         </a>
                                     </td>
 
-                                    <td>{{ $user_details->email }}</td>
+                                    <td>{{ $stardom_details->email }}</td>
 
-                                    <td>{{ $user_details->mobile ?: "-" }}</td>
+                                    <td>{{ $stardom_details->mobile ?: "-" }}</td>
 
                                     <td>
-                                        @if($user_details->status == USER_APPROVED)
+                                        @if($stardom_details->status == STARDOM_APPROVED)
 
                                         <span class="btn btn-success btn-sm">{{ tr('approved') }}</span> @else
 
@@ -132,9 +131,9 @@
                                     </td>
 
                                     <td>
-                                        @if($user_details->is_verified == USER_EMAIL_NOT_VERIFIED)
+                                        @if($stardom_details->is_verified == STARDOM_EMAIL_NOT_VERIFIED)
 
-                                        <a class="btn btn-outline-danger btn-sm" href="{{ route('admin.users.verify' , ['user_id' => $user_details->id]) }}">
+                                        <a class="btn btn-outline-danger btn-sm" href="{{ route('admin.stardoms.verify' , ['stardom_id' => $stardom_details->id]) }}">
                                             <i class="icon-close"></i> {{ tr('verify') }}
                                         </a>
 
@@ -151,7 +150,7 @@
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                <a class="dropdown-item" href="{{ route('admin.users.view', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('view') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.stardoms.view', ['stardom_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('view') }}</a> 
 
                                                 @if(Setting::get('is_demo_control_enabled') == YES)
 
@@ -161,20 +160,20 @@
 
                                                 @else
 
-                                                    <a class="dropdown-item" href="{{ route('admin.users.edit', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('edit') }}</a>
+                                                    <a class="dropdown-item" href="{{ route('admin.stardoms.edit', ['stardom_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('edit') }}</a>
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('user_delete_confirmation' , $user_details->name) }}&quot;);" href="{{ route('admin.users.delete', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('stardom_delete_confirmation' , $stardom_details->name) }}&quot;);" href="{{ route('admin.stardoms.delete', ['stardom_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 
-                                                @if($user_details->status == APPROVED)
+                                                @if($stardom_details->status == APPROVED)
 
-                                                    <a class="dropdown-item" href="{{  route('admin.users.status' , ['user_id' => $user_details->id] )  }}" onclick="return confirm(&quot;{{ $user_details->name }} - {{ tr('user_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
+                                                    <a class="dropdown-item" href="{{  route('admin.stardoms.status' , ['stardom_id' => $stardom_details->id] )  }}" onclick="return confirm(&quot;{{ $stardom_details->name }} - {{ tr('stardom_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
                                                 </a> 
 
                                                 @else
 
-                                                    <a class="dropdown-item" href="{{ route('admin.users.status' , ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
+                                                    <a class="dropdown-item" href="{{ route('admin.stardoms.status' , ['stardom_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
 
                                                 @endif
 
@@ -192,7 +191,7 @@
                         
                         </table>
 
-                        <div class="pull-right" id="paglink">{{ $users->appends(request()->input())->links() }}</div>
+                        <div class="pull-right" id="paglink">{{ $stardoms->appends(request()->input())->links() }}</div>
 
                     </div>
 

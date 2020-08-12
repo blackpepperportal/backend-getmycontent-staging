@@ -170,6 +170,18 @@
         
         }
 
+        $(document).ready(function(){
+       
+            setTimeout(function(){
+
+            $('#DataTables_Table_0_filter').hide();
+
+                $('#DataTables_Table_0_filter').hide();
+                
+             },100);
+            
+         });
+
     </script>
 
     <?php echo Setting::get('body_scripts'); ?>

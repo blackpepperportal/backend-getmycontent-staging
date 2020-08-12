@@ -23,3 +23,6 @@
 <script src="https://cdn.ckeditor.com/ckeditor5/21.0.0/classic/ckeditor.js"></script>
   
 <script src="{{asset('admin-assets/js/scripts/forms/form-login-register.min.js')}}" type="text/javascript"></script>
+
+<script src="{{asset('admin-assets/js/scripts/tables/datatables-extensions/datatables-sources.js')}}"
+  type="text/javascript"></script>

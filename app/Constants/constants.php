@@ -41,11 +41,24 @@ if(!defined('STRIPE_MODE_SANDBOX')) define('STRIPE_MODE_SANDBOX',  'sandbox');
 //////// USERS
 
 if(!defined('USER_PENDING')) define('USER_PENDING', 0);
+
 if(!defined('USER_APPROVED')) define('USER_APPROVED', 1);
+
 if(!defined('USER_DECLINED')) define('USER_DECLINED', 2);
 
 if(!defined('USER_EMAIL_NOT_VERIFIED')) define('USER_EMAIL_NOT_VERIFIED', 0);
+
 if(!defined('USER_EMAIL_VERIFIED')) define('USER_EMAIL_VERIFIED', 1);
+
+if(!defined('STARDOM_PENDING')) define('STARDOM_PENDING', 0);
+
+if(!defined('STARDOM_APPROVED')) define('STARDOM_APPROVED', 1);
+
+if(!defined('STARDOM_DECLINED')) define('STARDOM_DECLINED', 2);
+
+if(!defined('STARDOM_EMAIL_NOT_VERIFIED')) define('STARDOM_EMAIL_NOT_VERIFIED', 0);
+
+if(!defined('STARDOM_EMAIL_VERIFIED')) define('STARDOM_EMAIL_VERIFIED', 1);
 
 //////// USERS END
 
