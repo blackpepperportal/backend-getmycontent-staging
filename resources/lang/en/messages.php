@@ -516,6 +516,30 @@ return [
 
 	'stardom_email_confirmation' => 'Do you want change this stardom as email verified stardom?',
 	'search_results_for' => 'Search results for',
+
+	'documents' => 'Documents',
+  	'add_document' => 'Add Document',
+  	'view_documents' => 'View Documents',
+  	'edit_document' => 'Edit Document',
+
+	'document_created_success' => 'The document created successfully!!',
+	'document_updated_success' => 'The document updated successfully!!',
+	'document_save_failed' => 'The document details updating failed!!',
+	'document_not_found' => 'The selected document details not found.',
+
+	'document_deleted_success' => 'The document deleted successfully!!',
+	'document_delete_failed' => 'The document deletion failed!!',
+	'document_delete_confirmation' => 'Once you\'ve deleted the record , the document (:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.',
+
+	'document_approve_success' => 'The document approved successfully..!!',
+	'document_decline_success' => 'The document declined successfully..!!',
+	'document_decline_confirmation' => 'Do you want decline this document?',
+	'document_status_change_failed' => 'The document status updating failed..!!',
+
+	'image_type' => 'Image Type',
+	'is_required' => 'Is Required?',
+	'documentation' => 'Documentation',
+	'stardom_details' => 'Stardom Details',
    	
 ]
 

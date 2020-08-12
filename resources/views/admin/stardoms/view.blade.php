@@ -133,12 +133,7 @@
                                         @endif
                                     </td>
                                 </tr>
-
-                                <tr>
-                                    <th>{{tr('timezone')}}</th>
-                                    <td>{{$stardom_details->timezone}}</td>
-                                </tr>
-
+                                
                                 <tr>
                                   <th>{{tr('created_at')}} </th>
                                   <td>{{common_date($stardom_details->created_at , Auth::guard('admin')->user()->timezone)}}</td>
@@ -147,11 +142,7 @@
                                 <tr>
                                   <th>{{tr('updated_at')}} </th>
                                   <td>{{common_date($stardom_details->updated_at , Auth::guard('admin')->user()->timezone)}}</td>
-                                </tr>
-                                <tr>
-                                    <th>{{ tr('description')}}</th>
-                                    <td>{{ $stardom_details->description}}</td>
-                                </tr>       
+                                </tr>   
                                 
                             </table>
 

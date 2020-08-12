@@ -74,13 +74,6 @@
 
                                 @endif
 
-                                <div class="form-group">
-                                    <label for="description">{{ tr('description') }}</label>
-                                    <div id="editor">
-                                        <textarea rows="5" class="form-control" name="description" placeholder="{{ tr('description') }}">{{ $user_details->description ? $user_details->description :old('description') }}</textarea>
-                                    </div>
-                                </div>
-
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">

@@ -53,6 +53,25 @@
                 </ul>            
             </li>
 
+            <li class="nav-item" id="documents">
+                <a href="{{route('admin.documents.index')}}">
+                    <i class="ft-file"></i>
+                    <span class="menu-title" data-i18n="">{{tr('documents')}}</span>
+                </a>
+                <ul class="menu-content">
+                    <li id="documents-create">
+                        <a class="menu-item" href="{{route('admin.documents.create')}}">
+                            {{tr('add_document')}}
+                        </a>
+                    </li>
+                    <li id="documents-view">
+                        <a class="menu-item" href="{{route('admin.documents.index')}}">
+                            {{tr('view_documents')}}
+                        </a>
+                    </li>
+                </ul>            
+            </li>
+
             <li class="navigation-header">
                 <span>{{tr('setting_management')}}</span>
             </li>

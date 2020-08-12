@@ -8,7 +8,7 @@ use App\Helpers\Helper, App\Helpers\EnvEditorHelper;
 
 use DB, Hash, Setting, Auth, Validator, Exception, Enveditor;
 
-use App\Admin, App\User, App\Stardom;
+use App\Admin, App\User, App\Stardom, App\Document;
 
 use App\Settings, App\StaticPage;
 
@@ -893,6 +893,312 @@ class AdminController extends Controller
 
         }
     
+    }
+
+    /**
+     * @method documents_index()
+     *
+     * @uses To list out decoments details 
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function documents_index(Request $request) {
+
+        $documents = Document::orderBy('created_at','DESC')->paginate(10);
+
+        return view('admin.documents.index')
+                    ->with('main_page','documents-crud')
+                    ->with('page','documents')
+                    ->with('sub_page' , 'documents-view')
+                    ->with('documents' , $documents);
+    }
+
+    /**
+     * @method documents_create()
+     *
+     * @uses To create documents details
+     *
+     * @created  Akshata
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function documents_create() {
+
+        $document_details = new Document;
+
+        return view('admin.documents.create')
+                    ->with('main_page','documents-crud')
+                    ->with('page' , 'documents')
+                    ->with('sub_page','documents-create')
+                    ->with('document_details', $document_details);           
+    }
+
+    /**
+     * @method documents_edit()
+     *
+     * @uses To display and update documents details based on the document id
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - Document Id
+     * 
+     * @return redirect view page 
+     *
+     */
+    public function documents_edit(Request $request) {
+
+        try {
+
+            $document_details = Document::find($request->document_id);
+
+            if(!$document_details) { 
+
+                throw new Exception(tr('document_not_found'), 101);
+            }
+
+            return view('admin.documents.edit')
+                    ->with('main_page','documents-crud')
+                    ->with('page' , 'documents')
+                    ->with('sub_page','documents-view')
+                    ->with('document_details' , $document_details); 
+            
+        } catch(Exception $e) {
+
+            return redirect()->route('admin.documents.index')->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+    /**
+     * @method documents_save()
+     *
+     * @uses To save the document details of new/existing stardom object based on details
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object request - Document Form Data
+     *
+     * @return success message
+     *
+     */
+    public function documents_save(Request $request) {
+            
+        try {
+
+            DB::begintransaction();
+
+            $rules = [
+                'name' => 'required|max:191',
+                'picture' => 'mimes:jpg,png,jpeg',
+                'document_id' => 'exists:documents,id|nullable',
+                'description' => 'max:199',
+            ];
+
+            Helper::custom_validator($request->all(),$rules);
+
+            $document_details = $request->document_id ? Document::find($request->document_id) : new Document;
+
+            if($document_details->id) {
+
+                $message = tr('document_updated_success'); 
+
+            } else {
+
+                $message = tr('document_created_success');
+
+                $document_details->picture = asset('document.jpeg');
+
+            }
+
+            $document_details->name = $request->name ?: $document_details->name;
+
+            $document_details->description = $request->description ?: $document_details->description;
+
+            $document_details->is_required = $request->is_required == YES ? YES : NO;
+
+            // Upload picture
+            
+            if($request->hasFile('picture')) {
+
+                if($request->stardom_id) {
+
+                    Helper::storage_delete_file($document_details->picture, COMMON_FILE_PATH); 
+                    // Delete the old pic
+                }
+
+                $document_details->picture = Helper::storage_upload_file($request->file('picture'), COMMON_FILE_PATH);
+            }
+
+            if($document_details->save()) {
+
+                DB::commit(); 
+
+                return redirect(route('admin.documents.view', ['document_id' => $document_details->id]))->with('flash_success', $message);
+
+            } 
+
+            throw new Exception(tr('document_save_failed'));
+            
+        } catch(Exception $e){ 
+
+            DB::rollback();
+
+            return redirect()->back()->withInput()->with('flash_error', $e->getMessage());
+
+        } 
+
+    }
+
+    /**
+     * @method documents_view()
+     *
+     * @uses displays the specified document details based on dosument id
+     *
+     * @created Akshata 
+     *
+     * @updated 
+     *
+     * @param object $request - document Id
+     * 
+     * @return View page
+     *
+     */
+    public function documents_view(Request $request) {
+       
+        try {
+      
+            $document_details = Document::find($request->document_id);
+
+            if(!$document_details) { 
+
+                throw new Exception(tr('document_not_found'), 101);                
+            }
+
+            return view('admin.documents.view')
+                        ->with('main_page','documents-crud')
+                        ->with('page', 'documents') 
+                        ->with('sub_page','documents-view') 
+                        ->with('document_details' , $document_details);
+            
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+    /**
+     * @method documents_delete()
+     *
+     * @uses delete the document details based on document id
+     *
+     * @created Akshata 
+     *
+     * @updated  
+     *
+     * @param object $request - document Id
+     * 
+     * @return response of success/failure details with view page
+     *
+     */
+    public function documents_delete(Request $request) {
+
+        try {
+
+            DB::begintransaction();
+
+            $document_details = Document::find($request->document_id);
+            
+            if(!$document_details) {
+
+                throw new Exception(tr('document_not_found'), 101);                
+            }
+
+            if($document_details->delete()) {
+
+                DB::commit();
+
+                return redirect()->route('admin.documents.index')->with('flash_success',tr('document_deleted_success'));   
+
+            } 
+            
+            throw new Exception(tr('document_delete_failed'));
+            
+        } catch(Exception $e){
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }       
+         
+    }
+
+    /**
+     * @method documents_status
+     *
+     * @uses To update document status as DECLINED/APPROVED based on document id
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - Document Id
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function documents_status(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $document_details = Document::find($request->document_id);
+
+            if(!$document_details) {
+
+                throw new Exception(tr('document_not_found'), 101);
+                
+            }
+
+            $document_details->status = $document_details->status ? DECLINED : APPROVED ;
+
+            if($document_details->save()) {
+
+                DB::commit();
+
+                $message = $document_details->status ? tr('document_approve_success') : tr('document_decline_success');
+
+                return redirect()->back()->with('flash_success', $message);
+            }
+            
+            throw new Exception(tr('document_status_change_failed'));
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->route('admin.documents.index')->with('flash_error', $e->getMessage());
+
+        }
+
     }
 
      /**

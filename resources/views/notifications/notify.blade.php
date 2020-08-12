@@ -1,29 +1,16 @@
 @if(Session::has('flash_error'))
 
-    <div class="alert alert-danger alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+    <div class="col-sm-12 col-xs-12 col-md-12 alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert"></button>
         {{Session::get('flash_error')}}
     </div>
 @endif
 
+
 @if(Session::has('flash_success'))
-
-    <div class="alert alert-success">
-
-    	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-
+    <div class="col-sm-12 col-xs-12 col-md-12 alert alert-success" >
+        <button type="button" class="close" data-dismiss="alert"></button>
         {{Session::get('flash_success')}}
     </div>
-    
 @endif
 
-@if(Session::has('flash_warning'))
-
-    <div class="alert alert-warning alert-dismissible" role="alert">
-
-    	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-        {{Session::get('flash_warning')}}
-        
-    </div>
-    
-@endif

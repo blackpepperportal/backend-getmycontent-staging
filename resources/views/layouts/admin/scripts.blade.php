@@ -26,3 +26,5 @@
 
 <script src="{{asset('admin-assets/js/scripts/tables/datatables-extensions/datatables-sources.js')}}"
   type="text/javascript"></script>
+
+ <script src="{{asset('admin-assets/js/scripts/forms/checkbox-radio.min.js')}}" type="text/javascript"></script>

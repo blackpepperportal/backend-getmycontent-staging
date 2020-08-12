@@ -74,25 +74,26 @@
 
                                 @endif
 
-                                <div class="form-group">
-                                    <label for="description">{{ tr('description') }}</label>
-                                    <div id="editor">
-                                        <textarea rows="5" class="form-control" name="description" placeholder="{{ tr('description') }}">{{ $stardom_details->description ? $stardom_details->description :old('description') }}</textarea>
-                                    </div>
-                                </div>
-
                                 <div class="row">
+
                                     <div class="col-md-6">
+
                                         <div class="form-group">
+
                                         <label>{{ tr('select_picture') }}</label>
+
                                             <label id="user_picture" class="file center-block">
                                                 <input type="file" id="picture" name="picture" accept="image/png,image/jpeg" onchange="loadFile(this,'image_preview')">
                                                  <img id="image_preview" class="img-thumbnail img-fluid" style="width: 100px;margin: 10px;height: 100px; " src="{{ $stardom_details->picture ? $stardom_details->picture : asset('placeholder.png') }}">
                                             <span class="file-custom"></span>
+
                                             </label>                                
                                         </div>
+
                                     </div>
+
                                 </div>
+                                
                             </div>
                           
                             <div class="form-actions">
