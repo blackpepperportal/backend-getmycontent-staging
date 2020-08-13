@@ -62,6 +62,31 @@
                                     </div>
 
                                     <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="title">{{ tr('select_stardom') }} <span class="admin-required">*</span> </label>
+                                            <select class="form-control select2" id="stardom_id" name="stardom_id" required>
+                                            <option value="">{{tr('select_stardom')}}</option>
+                                            @foreach($stardoms as $stardom_details)
+                                                <option class="select-color" value="{{$stardom_details->id}}"@if($stardom_details->is_selected == YES) selected @endif >
+                                                    {{$stardom_details->name}}
+                                                </option>
+                                            @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="price">{{tr('price')}}*</label>
+                                            <input type="number" id="price" name="price" class="form-control" placeholder="{{tr('price')}}" value="{{ $stardom_product_details->price ?: old('price') }}" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
 
                                         <div class="form-group">
 

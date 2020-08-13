@@ -16,6 +16,7 @@ class CreateStardomProductsTable extends Migration
         Schema::create('stardom_products', function (Blueprint $table) {
             $table->id();
             $table->string('unique_id')->default(rand());
+            $table->integer('stardom_id');
             $table->string('name');
             $table->text('description');
             $table->string('picture')->default(asset('product-placeholder.jpg'));

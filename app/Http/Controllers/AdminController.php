@@ -1055,11 +1055,14 @@ class AdminController extends Controller
 
         $stardom_product_details = new StardomProduct;
 
+        $stardoms = Stardom::where('status',APPROVED)->get();
+
         return view('admin.stardom_products.create')
                 ->with('main_page','stardom_products-crud')
                 ->with('page' , 'stardom_products')
                 ->with('sub_page','stardom_products-create')
-                ->with('stardom_product_details', $stardom_product_details);           
+                ->with('stardom_product_details', $stardom_product_details)
+                ->with('stardoms',$stardoms);           
     }
 
     /**
@@ -1087,11 +1090,24 @@ class AdminController extends Controller
                 throw new Exception(tr('stardom_product_not_found'), 101);
             }
 
+            $stardoms = Stardom::where('status',APPROVED)->get();
+
+            foreach ($stardoms as $key => $stardom_details) {
+
+                $stardom_details->is_selected = NO;
+
+                if($meeting_details->instructor_id == $stardom_details->id){
+                    
+                    $stardom_details->is_selected = YES;
+                }
+
+            }
             return view('admin.stardom_products.edit')
                 ->with('main_page','stardom_products-crud')
                 ->with('page' , 'stardom_products')
                 ->with('sub_page','stardom_products-view')
-                ->with('stardom_product_details' , $stardom_product_details); 
+                ->with('stardom_product_details' , $stardom_product_details)
+                ->with('stardoms',$stardoms); 
             
         } catch(Exception $e) {
 
@@ -1126,6 +1142,7 @@ class AdminController extends Controller
                 'price' => 'required|max:100',
                 'picture' => 'mimes:jpg,png,jpeg',
                 'discription' => 'max:199',
+                'stardom_id' => 'required',
                 'stardom_id' => 'exists:stardoms,id|nullable'
             ];
 
@@ -1142,6 +1159,8 @@ class AdminController extends Controller
                 $message = tr('stardom_product_created_success');
 
             }
+
+            $stardom_product_details->stardom_id = $request->stardom_id ?: $stardom_product_details->stardom_id;
 
             $stardom_product_details->name = $request->name ?: $stardom_product_details->name;
 

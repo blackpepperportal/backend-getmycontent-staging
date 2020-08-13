@@ -20,4 +20,9 @@ class StardomProduct extends Model
 
         return formatted_amount($this->price);
     }
+
+    public function stardomDetails(){
+
+    	return $this->belongsTo(Stardom::class,'stardom_id');
+    }
 }

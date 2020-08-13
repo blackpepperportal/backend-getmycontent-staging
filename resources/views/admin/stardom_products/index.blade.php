@@ -48,6 +48,7 @@
                                 <tr>
                                     <th>{{ tr('s_no') }}</th>
                                     <th>{{ tr('name') }}</th>
+                                    <th>{{ tr('stardom') }}</th>
                                     <th>{{ tr('quantity') }}</th>
                                     <th>{{ tr('price') }}</th>
                                     <th>{{ tr('status') }}</th>
@@ -66,6 +67,8 @@
                                         {{ $stardom_product_details->name }}
                                         </a>
                                     </td>
+
+                                    <td>{{ $stardom_product_details->starDomdetails->name ?? "-"}}</td>
 
                                     <td>{{ $stardom_product_details->quantity }}</td>
 

@@ -72,6 +72,11 @@
                                 </tr>
 
                                 <tr>
+                                    <th>{{tr('name')}}</th>
+                                    <td>{{$stardom_product_details->stardomDetails->name ?? "-"}}</td>
+                                </tr>
+
+                                <tr>
                                     <th>{{tr('quantity')}}</th>
                                     <td>{{$stardom_product_details->quantity}}</td>
                                 </tr> 

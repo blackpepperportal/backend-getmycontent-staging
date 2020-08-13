@@ -595,6 +595,7 @@ return [
 	'price' => 'Price',
 	'stardom_product_details' => 'Stardom Product Details',
 
+	'select_stardom' => 'Select Stardom',
 
    	
 ]
