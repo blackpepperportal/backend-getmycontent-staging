@@ -68,6 +68,14 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('stardoms/verify', 'AdminController@stardoms_verify_status')->name('stardoms.verify');
 
+        //stardom documents 
+
+        Route::get('stardoms/documents', 'AdminController@stardoms_documents_index')->name('stardoms.documents.index');
+
+        Route::get('stardoms/documents/view', 'AdminController@stardoms_documents_view')->name('stardoms.documents.view');
+
+        Route::get('stardoms/documents/verify', 'AdminController@stardoms_documents_verify')->name('stardoms.documents.verify');
+
         //document CRUD Operations
 
         Route::get('documents', 'AdminController@documents_index')->name('documents.index');

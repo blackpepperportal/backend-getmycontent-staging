@@ -16,7 +16,7 @@ class CreateStardomDocumentsTable extends Migration
         Schema::create('stardom_documents', function (Blueprint $table) {
             $table->id();
             $table->string('unique_id')->default(rand());
-            $table->integer('user_id');
+            $table->integer('stardom_id');
             $table->integer('document_id');
             $table->string('document_file');
             $table->string('document_file_front')->default('');

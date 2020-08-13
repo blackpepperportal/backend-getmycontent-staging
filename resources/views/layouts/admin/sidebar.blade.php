@@ -50,6 +50,11 @@
                             {{tr('view_stardoms')}}
                         </a>
                     </li>
+                    <li id="stardoms-documents">
+                        <a class="menu-item" href="{{route('admin.stardoms.documents.index')}}">
+                            {{tr('stardom_documents')}}
+                        </a>
+                    </li>
                 </ul>            
             </li>
 

@@ -8,7 +8,7 @@ use App\Helpers\Helper, App\Helpers\EnvEditorHelper;
 
 use DB, Hash, Setting, Auth, Validator, Exception, Enveditor;
 
-use App\Admin, App\User, App\Stardom, App\Document;
+use App\Admin, App\User, App\Stardom, App\Document, App\StardomDocument;
 
 use App\Settings, App\StaticPage;
 
@@ -894,6 +894,122 @@ class AdminController extends Controller
         }
     
     }
+
+    /**
+     * @method stardoms_documents_index()
+     *
+     * @uses Lists all stradom documents 
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param object $request - Stardom document Id
+     *
+     * @return view page
+     */
+    public function stardoms_documents_index(Request $request) {
+
+
+        $base_query = StardomDocument::orderBy('created_at','DESC');
+
+        $stardom_documents = $base_query->paginate(10);
+       
+        return view('admin.stardoms.documents.index')
+                    ->with('main_page','stardoms-crud')
+                    ->with('page','stardoms')
+                    ->with('sub_page' , 'stardoms-documents')
+                    ->with('stardom_documents' , $stardom_documents);
+    
+    }
+
+    /**
+     * @method stardoms_document_view()
+     *
+     * @uses Display the specified document
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param object $request - Stardom document Id
+     *
+     * @return view page
+     */
+    public function stardoms_document_view(Request $request) {
+
+        try {
+      
+            $stardom_document_details = StardomDocument::find($request->stardom_document_id);
+
+            if(!$stardom_document_details) { 
+
+                throw new Exception(tr('stardom_document_not_found'), 101);                
+            }
+
+            return view('admin.stardoms.documents.view')
+                        ->with('main_page','stardoms-crud')
+                        ->with('page', 'stardoms') 
+                        ->with('sub_page','stardoms-documents') 
+                        ->with('stardom_document_details' , $stardom_document_details);
+            
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+     /**
+     * @method stardoms_documents_verify()
+     *
+     * @uses verify the stardom documents
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param object $request - Stardom Document Id
+     *
+     * @return redirect back page with status of the stardom verification
+     */
+    public function stardoms_documents_verify(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $stardom_document_details = StardomDocument::find($request->stardom_document_id);   
+            
+            if(!$stardom_document_details) {
+
+                throw new Exception(tr('stardom_document_details_not_found'), 101);
+                
+            }
+
+            $stardom_document_details->is_verified = $stardom_document_details->is_verified ? STARDOM_DOCUMENT_NOT_VERIFIED : STARDOM_DOCUMENT_VERIFIED;
+
+            if($stardom_document_details->save()) {
+
+                DB::commit();
+
+                $message = $stardom_document_details->is_verified ? tr('stardom_document_verify_success') : tr('stardom_document_unverify_success');
+
+                return redirect()->route('admin.stardoms.documents.index')->with('flash_success', $message);
+            }
+            
+            throw new Exception(tr('stardom_document_verify_change_failed'));
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->route('admin.stardoms.documents.index')->with('flash_error', $e->getMessage());
+
+        }
+    
+    }
+
 
     /**
      * @method documents_index()

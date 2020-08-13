@@ -99,3 +99,7 @@ if(!defined('STATIC_PAGE_SECTION_4')) define('STATIC_PAGE_SECTION_4', 4);
 if(!defined('STARDOM')) define('STARDOM', 'stardom');
 
 if(!defined('USER'))  define('USER', 'user');
+
+if(!defined('STARDOM_DOCUMENT_VERIFIED')) define('STARDOM_DOCUMENT_VERIFIED',1);
+
+if(!defined('STARDOM_DOCUMENT_NOT_VERIFIED')) define('STARDOM_DOCUMENT_NOT_VERIFIED',0);

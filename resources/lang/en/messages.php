@@ -540,6 +540,21 @@ return [
 	'is_required' => 'Is Required?',
 	'documentation' => 'Documentation',
 	'stardom_details' => 'Stardom Details',
+	'stardom_documents' => 'Stardom Documents',
+	'stardom' => 'Stardom',
+	'document' => 'Document',
+	'uploaded_by' => 'Uploaded By',
+
+	'stardom_document_approve_success' => 'The stardom document approved successfully..!!',
+	'stardom_document_decline_success' => 'The stardom document declined successfully..!!',
+	'stardom_document_decline_confirmation' => 'Do you want decline this stardom document?',
+	'stardom_document_status_change_failed' => 'The stardom document status updating failed..!!',
+	'stardom_document_verify_success' => 'The stardom document verification completed!',
+	'stardom_document_unverify_success' => 'The stardom document verification removed!',
+	'stardom_document_verify_change_failed' => 'Updating stardom document verification status failed..!!',
+	'unverified' => 'Unverified',
+	'stardom_document_not_found' => 'Stardom document not found', 
+
    	
 ]
 
