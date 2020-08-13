@@ -546,14 +546,44 @@ return [
 	'uploaded_by' => 'Uploaded By',
 
 	'stardom_document_approve_success' => 'The stardom document approved successfully..!!',
+
 	'stardom_document_decline_success' => 'The stardom document declined successfully..!!',
+
 	'stardom_document_decline_confirmation' => 'Do you want decline this stardom document?',
+
 	'stardom_document_status_change_failed' => 'The stardom document status updating failed..!!',
+
 	'stardom_document_verify_success' => 'The stardom document verification completed!',
+
 	'stardom_document_unverify_success' => 'The stardom document verification removed!',
+
 	'stardom_document_verify_change_failed' => 'Updating stardom document verification status failed..!!',
+
 	'unverified' => 'Unverified',
+
 	'stardom_document_not_found' => 'Stardom document not found', 
+
+
+	'stardom_product_created_success' => 'The stardom product created successfully!!',
+
+	'stardom_product_updated_success' => 'The stardom product updated successfully!!',
+
+	'stardom_product_save_failed' => 'The stardom product details updating failed!!',
+
+	'stardom_product_not_found' => 'The selected stardom product details not found.',
+
+	'stardom_product_deleted_success' => 'The stardom product deleted successfully!!',
+	'stardom_product_delete_failed' => 'The stardom product deletion failed!!',
+	'stardom_product_delete_confirmation' => 'Once you\'ve deleted the record , the stardom product(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.',
+
+	'stardom_product_approve_success' => 'The stardom product approved successfully..!!',
+
+	'stardom_product_decline_success' => 'The stardom product declined successfully..!!',
+
+	'stardom_product_decline_confirmation' => 'Do you want decline this stardom product?',
+	
+	'stardom_product_status_change_failed' => 'The stardom product status updating failed..!!',
+
 
    	
 ]

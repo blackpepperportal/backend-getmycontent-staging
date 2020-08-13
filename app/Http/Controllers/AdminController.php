@@ -1010,6 +1010,343 @@ class AdminController extends Controller
     
     }
 
+    /**
+     * @method stardom_products_index()
+     *
+     * @uses To list out stardom products details 
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function stardom_products_index(Request $request) {
+
+        $base_query = StardomProduct::orderBy('created_at','DESC');
+       
+        $stardom_products = $base_query->paginate(10);
+
+        return view('admin.stardom_products.index')
+                ->with('main_page','stardom_products-crud')
+                ->with('page','stardom_products')
+                ->with('sub_page' , 'stardom_products-view')
+                ->with('stardom_products' , $stardom_products);
+    }
+
+    /**
+     * @method stardom_products_create()
+     *
+     * @uses To create stardom product details
+     *
+     * @created  Akshata
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function stardom_products_create() {
+
+        $stardom_product_details = new StardomProduct;
+
+        return view('admin.stardom_products.create')
+                ->with('main_page','stardom_products-crud')
+                ->with('page' , 'stardom_products')
+                ->with('sub_page','stardom_products-create')
+                ->with('stardom_product_details', $stardom_product_details);           
+    }
+
+    /**
+     * @method stardom_products_edit()
+     *
+     * @uses To display and update stardom product details based on the stardom product id
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - Stardom Product Id
+     * 
+     * @return redirect view page 
+     *
+     */
+    public function stardom_products_edit(Request $request) {
+
+        try {
+
+            $stardom_product_details = StardomProduct::find($request->stardom_product_id);
+
+            if(!$stardom_product_details) { 
+
+                throw new Exception(tr('stardom_product_not_found'), 101);
+            }
+
+            return view('admin.stardom_products.edit')
+                ->with('main_page','stardom_products-crud')
+                ->with('page' , 'stardom_products')
+                ->with('sub_page','stardom_products-view')
+                ->with('stardom_product_details' , $stardom_product_details); 
+            
+        } catch(Exception $e) {
+
+            return redirect()->route('admin.stardoms.documents.index')->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+    /**
+     * @method stardom_products_save()
+     *
+     * @uses To save the stardom products details of new/existing stardom product object based on details
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object request - Stardom Product Form Data
+     *
+     * @return success message
+     *
+     */
+    public function stardoms_save(Request $request) {
+        
+        try {
+
+            DB::begintransaction();
+
+            $rules = [
+                'name' => 'required|max:191',
+                'email' => $request->stardom_id ? 'required|email|max:191|unique:stardoms,email,'.$request->stardom_id.',id' : 'required|email|max:191|unique:stardoms,email,NULL,id',
+                'password' => $request->stardom_id ? "" : 'required|min:6',
+                'mobile' => $request->mobile ? 'digits_between:6,13' : '',
+                'picture' => 'mimes:jpg,png,jpeg',
+                'stardom_id' => 'exists:stardoms,id|nullable'
+            ];
+
+            Helper::custom_validator($request->all(),$rules);
+
+            $stardom_details = $request->stardom_id ? Stardom::find($request->stardom_id) : new Stardom;
+
+            $is_new_stardom = NO;
+
+            if($stardom_details->id) {
+
+                $message = tr('stardom_updated_success'); 
+
+            } else {
+
+                $is_new_stardom = YES;
+
+                $stardom_details->password = ($request->password) ? \Hash::make($request->password) : null;
+
+                $message = tr('stardom_created_success');
+
+                $stardom_details->email_verified_at = date('Y-m-d H:i:s');
+
+                $stardom_details->picture = asset('placeholder.jpeg');
+
+                $stardom_details->is_verified = STARDOM_EMAIL_VERIFIED;
+
+                $stardom_details->token = Helper::generate_token();
+
+                $stardom_details->token_expiry = Helper::generate_token_expiry();
+
+            }
+
+            $stardom_details->name = $request->name ?: $stardom_details->name;
+
+            $stardom_details->email = $request->email ?: $stardom_details->email;
+
+            $stardom_details->mobile = $request->mobile ?: '';
+
+            $stardom_details->login_by = $request->login_by ?: 'manual';
+
+            // Upload picture
+            
+            if($request->hasFile('picture')) {
+
+                if($request->stardom_id) {
+
+                    Helper::storage_delete_file($stardom_details->picture, COMMON_FILE_PATH); 
+                    // Delete the old pic
+                }
+
+                $stardom_details->picture = Helper::storage_upload_file($request->file('picture'), COMMON_FILE_PATH);
+            }
+
+            if($stardom_details->save()) {
+
+                if($is_new_stardom == YES) {
+
+                    /**
+                     * @todo Welcome mail notification
+                     */
+
+                    $stardom_details->is_verified = STARDOM_EMAIL_VERIFIED;
+
+                    $stardom_details->save();
+
+                }
+
+                DB::commit(); 
+
+                return redirect(route('admin.stardoms.view', ['stardom_id' => $stardom_details->id]))->with('flash_success', $message);
+
+            } 
+
+            throw new Exception(tr('stardom_save_failed'));
+            
+        } catch(Exception $e){ 
+
+            DB::rollback();
+
+            return redirect()->back()->withInput()->with('flash_error', $e->getMessage());
+
+        } 
+
+    }
+
+    /**
+     * @method stardom_products_view()
+     *
+     * @uses displays the specified stardom product details based on stardom product id
+     *
+     * @created Akshata 
+     *
+     * @updated 
+     *
+     * @param object $request - stardom product Id
+     * 
+     * @return View page
+     *
+     */
+    public function stardom_products_view(Request $request) {
+       
+        try {
+      
+            $stardom_product_details = StardomProduct::find($request->stardom_product_id);
+
+            if(!$stardom_product_details) { 
+
+                throw new Exception(tr('stardom_product_not_found'), 101);                
+            }
+
+            return view('admin.stardom_products.view')
+                    ->with('main_page','stardom_products-crud')
+                    ->with('page', 'stardom_products') 
+                    ->with('sub_page','stardom_products-view')
+                    ->with('stardom_details' , $stardom_details);
+            
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+    /**
+     * @method stardom_products_delete()
+     *
+     * @uses delete the stardom product details based on stardom id
+     *
+     * @created Akshata 
+     *
+     * @updated  
+     *
+     * @param object $request - Stardom Id
+     * 
+     * @return response of success/failure details with view page
+     *
+     */
+    public function stardom_products_delete(Request $request) {
+
+        try {
+
+            DB::begintransaction();
+
+            $stardom_product_details = StardomProduct::find($request->stardom_document_id);
+            
+            if(!$stardom_product_details) {
+
+                throw new Exception(tr('stardom_document_not_found'), 101);                
+            }
+
+            if($stardom_product_details->delete()) {
+
+                DB::commit();
+
+                return redirect()->route('admin.stardom_products.index')->with('flash_success',tr('stardom_product_deleted_success'));   
+
+            } 
+            
+            throw new Exception(tr('stardom_product_delete_failed'));
+            
+        } catch(Exception $e){
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }       
+         
+    }
+
+    /**
+     * @method stardom_products_status
+     *
+     * @uses To update stardom product status as DECLINED/APPROVED based on stardom product id
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - Stardom Product Id
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function stardom_products_status(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $stardom_product_details = StardomProduct::find($request->stardom_product_id);
+
+            if(!$stardom_product_details) {
+
+                throw new Exception(tr('stardom_product_not_found'), 101);
+                
+            }
+
+            $stardom_product_details->status = $stardom_product_details->status ? DECLINED : APPROVED ;
+
+            if($stardom_product_details->save()) {
+
+                DB::commit();
+
+                $message = $stardom_product_details->status ? tr('stardom_product_approve_success') : tr('stardom_product_decline_success');
+
+                return redirect()->back()->with('flash_success', $message);
+            }
+            
+            throw new Exception(tr('stardom_product_status_change_failed'));
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->route('admin.stardom_products.index')->with('flash_error', $e->getMessage());
+
+        }
+
+    }
 
     /**
      * @method documents_index()

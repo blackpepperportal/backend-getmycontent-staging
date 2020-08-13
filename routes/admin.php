@@ -76,6 +76,22 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('stardoms/documents/verify', 'AdminController@stardoms_documents_verify')->name('stardoms.documents.verify');
 
+        //stardom products CRUD Operations
+
+        Route::get('stardom_products', 'AdminController@stardom_products_index')->name('stardom_products.index');
+
+        Route::get('stardom_products/create', 'AdminController@stardom_products_create')->name('stardom_products.create');
+
+        Route::get('stardom_products/edit', 'AdminController@stardom_products_edit')->name('stardom_products.edit');
+
+        Route::post('stardom_products/save', 'AdminController@stardom_products_save')->name('stardom_products.save');
+
+        Route::get('stardom_products/view', 'AdminController@stardom_products_view')->name('stardom_products.view');
+
+        Route::get('stardom_products/delete', 'AdminController@stardom_products_delete')->name('stardom_products.delete');
+
+        Route::get('stardom_products/status', 'AdminController@stardom_products_status')->name('stardom_products.status');
+
         //document CRUD Operations
 
         Route::get('documents', 'AdminController@documents_index')->name('documents.index');
