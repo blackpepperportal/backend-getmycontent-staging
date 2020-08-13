@@ -2,13 +2,13 @@
 
 @section('title', tr('view_stardom_products'))
 
-@section('content-header', tr('view_stardom_products'))
+@section('content-header', tr('stardom_products'))
 
 @section('breadcrumb')
 
     <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a>
     </li>
-    <li class="breadcrumb-item"><a href="{{route('admin.stardom_products.index')}}">{{tr('stardom_documents')}}</a>
+    <li class="breadcrumb-item"><a href="{{route('admin.stardom_products.index')}}">{{tr('stardom_products')}}</a>
     </li>
     <li class="breadcrumb-item active">{{tr('view_stardom_products')}}</a>
     </li>
@@ -38,7 +38,6 @@
                             <div class="row">
                                 <div class="col">
                                     <h3 class="card-title">{{ $stardom_product_details->name }}</h3>
-                                    <span class="text-muted">{{ $stardom_product_details->email }}</span>
                                 </div>
 
                             </div>
@@ -68,34 +67,24 @@
 
                             <table class="table table-xl mb-0">
                                 <tr>
-                                    <th>{{tr('username')}}</th>
+                                    <th>{{tr('name')}}</th>
                                     <td>{{$stardom_product_details->name}}</td>
                                 </tr>
 
                                 <tr>
-                                    <th>{{tr('email')}}</th>
-                                    <td>{{$stardom_product_details->email}}</td>
+                                    <th>{{tr('quantity')}}</th>
+                                    <td>{{$stardom_product_details->quantity}}</td>
                                 </tr> 
 
                                 <tr>
-                                    <th>{{tr('payment_mode')}}</th>
-                                    <td>{{$stardom_product_details->payment_mode}}</td>
-                                </tr>
-                            
-                                <tr>
-                                    <th>{{tr('login_type')}}</th>
-                                    <td>{{$stardom_product_details->login_by}}</td>
-                                </tr>
-
-                                <tr>
-                                    <th>{{tr('device_type')}}</th>
-                                    <td>{{$stardom_product_details->device_type}}</td>
+                                    <th>{{tr('price')}}</th>
+                                    <td>{{$stardom_product_details->stardom_product_price_formatted}}</td>
                                 </tr>
 
                                 <tr>
                                     <th>{{tr('status')}}</th>
                                     <td>
-                                        @if($stardom_product_details->status == STARDOM_APPROVED) 
+                                        @if($stardom_product_details->status == APPROVED) 
 
                                             <span class="badge badge-success">{{tr('approved')}}</span>
 
@@ -106,34 +95,6 @@
                                     </td>
                                 </tr>
 
-                                <tr>
-                                    <th>{{tr('email_notification')}}</th>
-                                    <td>
-                                        @if($stardom_product_details->email_notification_status == YES) 
-
-                                            <span class="badge badge-success">{{tr('yes')}}</span>
-
-                                        @else
-                                            <span class="badge badge-danger">{{tr('no')}}</span>
-
-                                        @endif
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <th>{{tr('push_notification')}}</th>
-                                    <td>
-                                        @if($stardom_product_details->push_notification_status == YES) 
-
-                                            <span class="badge badge-success">{{tr('yes')}}</span>
-
-                                        @else
-                                            <span class="badge badge-danger">{{tr('no')}}</span>
-
-                                        @endif
-                                    </td>
-                                </tr>
-                                
                                 <tr>
                                   <th>{{tr('created_at')}} </th>
                                   <td>{{common_date($stardom_product_details->created_at , Auth::guard('admin')->user()->timezone)}}</td>
@@ -173,13 +134,13 @@
 
                         <div class="col-4">
 
-                            <a class="btn btn-outline-secondary btn-block btn-min-width mr-1 mb-1 " href="{{route('admin.stardoms.edit', ['stardom_id'=>$stardom_product_details->id] )}}"> &nbsp;{{tr('edit')}}</a>
+                            <a class="btn btn-outline-secondary btn-block btn-min-width mr-1 mb-1 " href="{{route('admin.stardoms.edit', ['stardom_product_id'=>$stardom_product_details->id] )}}"> &nbsp;{{tr('edit')}}</a>
 
                         </div>
 
                         <div class="col-4">
 
-                            <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" onclick="return confirm(&quot;{{tr('stardom_product_delete_confirmation' , $stardom_product_details->name)}}&quot;);" href="{{route('admin.stardoms.delete', ['stardom_id'=> $stardom_product_details->id] )}}">&nbsp;{{tr('delete')}}</a>
+                            <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" onclick="return confirm(&quot;{{tr('stardom_product_delete_confirmation' , $stardom_product_details->name)}}&quot;);" href="{{route('admin.stardoms.delete', ['stardom_product_id'=> $stardom_product_details->id] )}}">&nbsp;{{tr('delete')}}</a>
 
                         </div>
 
@@ -188,10 +149,10 @@
                         <div class="col-4">
 
                             @if($stardom_product_details->status == APPROVED)
-                                 <a class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1" href="{{route('admin.stardoms.status' ,['stardom_id'=> $stardom_product_details->id] )}}" onclick="return confirm(&quot;{{$stardom_product_details->name}} - {{tr('stardom_product_decline_confirmation')}}&quot;);">&nbsp;{{tr('decline')}} </a> 
+                                 <a class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1" href="{{route('admin.stardoms.status' ,['stardom_product_id'=> $stardom_product_details->id] )}}" onclick="return confirm(&quot;{{$stardom_product_details->name}} - {{tr('stardom_product_decline_confirmation')}}&quot;);">&nbsp;{{tr('decline')}} </a> 
                             @else
 
-                                <a  class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1" href="{{route('admin.stardoms.status' , ['stardom_id'=> $stardom_product_details->id] )}}">&nbsp;{{tr('approve')}}</a> 
+                                <a  class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1" href="{{route('admin.stardoms.status' , ['stardom_product_id'=> $stardom_product_details->id] )}}">&nbsp;{{tr('approve')}}</a> 
                             @endif
                         </div>
 

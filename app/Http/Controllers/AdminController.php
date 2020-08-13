@@ -1095,7 +1095,7 @@ class AdminController extends Controller
             
         } catch(Exception $e) {
 
-            return redirect()->route('admin.stardoms.documents.index')->with('flash_error', $e->getMessage());
+            return redirect()->route('admin.stardom_products.index')->with('flash_error', $e->getMessage());
         }
     
     }

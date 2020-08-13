@@ -1,6 +1,6 @@
 @extends('layouts.admin') 
 
-@section('title', tr('stardom_products')) 
+@section('title', tr('view_stardom_products')) 
 
 @section('content-header', tr('stardom_products')) 
 
@@ -9,7 +9,10 @@
 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
 </li>
 
-<li class="breadcrumb-item active">{{ tr('stardom_products') }}
+<li class="breadcrumb-item"><a href="{{route('admin.stardom_products.index')}}">{{tr('stardom_products')}}</a>
+</li>
+
+<li class="breadcrumb-item active">{{ tr('view_stardom_products') }}
 </li>
 
 @endsection 
@@ -26,7 +29,7 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('stardom_products') }}</h4>
+                    <h4 class="card-title">{{ tr('view_stardom_products') }}</h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
                     <div class="heading-elements">

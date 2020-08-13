@@ -567,7 +567,7 @@ return [
 	'stardom_products' => 'Stardom Products',
 	'add_stardom_product' => 'Add Stardom Product',
 	'view_stardom_products' => 'View Stardom Products',
-
+	'edit_stardom_product' => 'Edit Stardom Product',
 
 	'stardom_product_created_success' => 'The stardom product created successfully!!',
 
@@ -593,6 +593,7 @@ return [
 
 	'quantity' => 'Quantity',
 	'price' => 'Price',
+	'stardom_product_details' => 'Stardom Product Details',
 
 
    	
