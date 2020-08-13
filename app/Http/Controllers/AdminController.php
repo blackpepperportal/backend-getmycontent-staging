@@ -8,7 +8,7 @@ use App\Helpers\Helper, App\Helpers\EnvEditorHelper;
 
 use DB, Hash, Setting, Auth, Validator, Exception, Enveditor;
 
-use App\Admin, App\User, App\Stardom, App\Document, App\StardomDocument;
+use App\Admin, App\User, App\Stardom, App\Document, App\StardomDocument, App\StardomProduct;
 
 use App\Settings, App\StaticPage;
 
@@ -1114,93 +1114,65 @@ class AdminController extends Controller
      * @return success message
      *
      */
-    public function stardoms_save(Request $request) {
+    public function stardom_products_save(Request $request) {
         
         try {
-
+            
             DB::begintransaction();
 
             $rules = [
                 'name' => 'required|max:191',
-                'email' => $request->stardom_id ? 'required|email|max:191|unique:stardoms,email,'.$request->stardom_id.',id' : 'required|email|max:191|unique:stardoms,email,NULL,id',
-                'password' => $request->stardom_id ? "" : 'required|min:6',
-                'mobile' => $request->mobile ? 'digits_between:6,13' : '',
+                'quantity' => 'required|max:100',
+                'price' => 'required|max:100',
                 'picture' => 'mimes:jpg,png,jpeg',
+                'discription' => 'max:199',
                 'stardom_id' => 'exists:stardoms,id|nullable'
             ];
 
             Helper::custom_validator($request->all(),$rules);
 
-            $stardom_details = $request->stardom_id ? Stardom::find($request->stardom_id) : new Stardom;
+            $stardom_product_details = $request->stardom_product_id ? StardomProduct::find($request->stardom_product_id) : new StardomProduct;
 
-            $is_new_stardom = NO;
+            if($stardom_product_details->id) {
 
-            if($stardom_details->id) {
-
-                $message = tr('stardom_updated_success'); 
+                $message = tr('stardom_product_updated_success'); 
 
             } else {
 
-                $is_new_stardom = YES;
-
-                $stardom_details->password = ($request->password) ? \Hash::make($request->password) : null;
-
-                $message = tr('stardom_created_success');
-
-                $stardom_details->email_verified_at = date('Y-m-d H:i:s');
-
-                $stardom_details->picture = asset('placeholder.jpeg');
-
-                $stardom_details->is_verified = STARDOM_EMAIL_VERIFIED;
-
-                $stardom_details->token = Helper::generate_token();
-
-                $stardom_details->token_expiry = Helper::generate_token_expiry();
+                $message = tr('stardom_product_created_success');
 
             }
 
-            $stardom_details->name = $request->name ?: $stardom_details->name;
+            $stardom_product_details->name = $request->name ?: $stardom_product_details->name;
 
-            $stardom_details->email = $request->email ?: $stardom_details->email;
+            $stardom_product_details->quantity = $request->quantity ?: $stardom_product_details->quantity;
 
-            $stardom_details->mobile = $request->mobile ?: '';
+            $stardom_product_details->price = $request->price ?: '';
 
-            $stardom_details->login_by = $request->login_by ?: 'manual';
+            $stardom_product_details->description = $request->description ?: '';
 
             // Upload picture
             
             if($request->hasFile('picture')) {
 
-                if($request->stardom_id) {
+                if($request->stardom_product_id) {
 
-                    Helper::storage_delete_file($stardom_details->picture, COMMON_FILE_PATH); 
+                    Helper::storage_delete_file($stardom_product_details->picture, COMMON_FILE_PATH); 
                     // Delete the old pic
                 }
 
-                $stardom_details->picture = Helper::storage_upload_file($request->file('picture'), COMMON_FILE_PATH);
+                $stardom_product_details->picture = Helper::storage_upload_file($request->file('picture'), COMMON_FILE_PATH);
             }
 
-            if($stardom_details->save()) {
-
-                if($is_new_stardom == YES) {
-
-                    /**
-                     * @todo Welcome mail notification
-                     */
-
-                    $stardom_details->is_verified = STARDOM_EMAIL_VERIFIED;
-
-                    $stardom_details->save();
-
-                }
+            if($stardom_product_details->save()) {
 
                 DB::commit(); 
 
-                return redirect(route('admin.stardoms.view', ['stardom_id' => $stardom_details->id]))->with('flash_success', $message);
+                return redirect(route('admin.stardom_products.view', ['stardom_product_id' => $stardom_product_details->id]))->with('flash_success', $message);
 
             } 
 
-            throw new Exception(tr('stardom_save_failed'));
+            throw new Exception(tr('stardom_product_save_failed'));
             
         } catch(Exception $e){ 
 
@@ -1241,7 +1213,7 @@ class AdminController extends Controller
                     ->with('main_page','stardom_products-crud')
                     ->with('page', 'stardom_products') 
                     ->with('sub_page','stardom_products-view')
-                    ->with('stardom_details' , $stardom_details);
+                    ->with('stardom_product_details' , $stardom_product_details);
             
         } catch (Exception $e) {
 

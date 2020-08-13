@@ -564,6 +564,11 @@ return [
 	'stardom_document_not_found' => 'Stardom document not found', 
 
 
+	'stardom_products' => 'Stardom Products',
+	'add_stardom_product' => 'Add Stardom Product',
+	'view_stardom_products' => 'View Stardom Products',
+
+
 	'stardom_product_created_success' => 'The stardom product created successfully!!',
 
 	'stardom_product_updated_success' => 'The stardom product updated successfully!!',
@@ -573,7 +578,9 @@ return [
 	'stardom_product_not_found' => 'The selected stardom product details not found.',
 
 	'stardom_product_deleted_success' => 'The stardom product deleted successfully!!',
+
 	'stardom_product_delete_failed' => 'The stardom product deletion failed!!',
+	
 	'stardom_product_delete_confirmation' => 'Once you\'ve deleted the record , the stardom product(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.',
 
 	'stardom_product_approve_success' => 'The stardom product approved successfully..!!',
@@ -581,8 +588,11 @@ return [
 	'stardom_product_decline_success' => 'The stardom product declined successfully..!!',
 
 	'stardom_product_decline_confirmation' => 'Do you want decline this stardom product?',
-	
+
 	'stardom_product_status_change_failed' => 'The stardom product status updating failed..!!',
+
+	'quantity' => 'Quantity',
+	'price' => 'Price',
 
 
    	

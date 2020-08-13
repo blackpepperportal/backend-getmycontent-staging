@@ -58,6 +58,25 @@
                 </ul>            
             </li>
 
+            <li class="nav-item" id="stardom_products">
+                <a href="{{route('admin.stardom_products.index')}}">
+                    <i class="ft-user"></i>
+                    <span class="menu-title" data-i18n="">{{tr('stardom_products')}}</span>
+                </a>
+                <ul class="menu-content">
+                    <li id="stardom_products-create">
+                        <a class="menu-item" href="{{route('admin.stardom_products.create')}}">
+                            {{tr('add_stardom_product')}}
+                        </a>
+                    </li>
+                    <li id="stardom_products-view">
+                        <a class="menu-item" href="{{route('admin.stardom_products.index')}}">
+                            {{tr('view_stardom_products')}}
+                        </a>
+                    </li>
+                </ul>            
+            </li>
+
             <li class="nav-item" id="documents">
                 <a href="{{route('admin.documents.index')}}">
                     <i class="ft-file"></i>
