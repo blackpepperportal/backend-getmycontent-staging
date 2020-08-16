@@ -535,9 +535,7 @@ class Helper {
     
     public static function settings_generate_json() {
 
-        $basic_keys = ['site_name', 'site_logo', 'site_icon', 'currency', 'currency_code', 'google_analytics', 'header_scripts', 'body_scripts', 'facebook_link', 'linkedin_link', 'twitter_link', 'google_plus_link', 'pinterest_link', 'demo_user_email', 'demo_user_password', 'demo_provider_email', 'demo_provider_password', 'chat_socket_url', 'google_api_key', 'playstore_user', 'playstore_provider', 'appstore_user', 'appstore_provider'];
-
-        $settings = \App\Settings::whereIn('key', $basic_keys)->get();
+        $settings = \App\Settings::get();
 
         $sample_data = [];
 
@@ -581,9 +579,9 @@ class Helper {
 
         $data = json_encode($data);
 
-        $file_name = public_path('/default-json/settings.json');
+        $folder_path_name = 'default-json/settings.json';
 
-        File::put($file_name, $data);
+        Storage::disk('public')->put($folder_path_name, $data);
     }
 
      /**
