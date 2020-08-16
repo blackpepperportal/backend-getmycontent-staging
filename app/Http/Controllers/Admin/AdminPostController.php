@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
@@ -8,15 +10,9 @@ use App\Helpers\Helper, App\Helpers\EnvEditorHelper;
 
 use DB, Hash, Setting, Auth, Validator, Exception, Enveditor;
 
-use App\Admin, App\User, App\Stardom, App\Document, App\StardomDocument, App\StardomProduct;
-
-use App\Settings, App\StaticPage;
-
 use App\Jobs\SendEmailJob;
 
-use Carbon\Carbon;
-
-class AdminController extends Controller
+class AdminPostController extends Controller
 {
 	/**
      * Create a new controller instance.
@@ -33,7 +29,4 @@ class AdminController extends Controller
 
     }
 
-
-    
 }
-

@@ -74,15 +74,23 @@
                 <ul class="menu-content">
                     <li id="stardom_products-create">
                         <a class="menu-item" href="{{route('admin.stardom_products.create')}}">
-                            {{tr('add_stardom_product')}}
+                            Add Post
                         </a>
                     </li>
                     <li id="stardom_products-view">
                         <a class="menu-item" href="{{route('admin.stardom_products.index')}}">
-                            {{tr('view_stardom_products')}}
+                            View Posts
                         </a>
                     </li>
                 </ul>            
+            
+            </li>
+
+            <li class="nav-item" id="inventory">
+                <a href="{{route('admin.settings')}}">
+                    <i class="fa fa-clock-o"></i>
+                    <span class="menu-title" data-i18n="">Scheduled Posts</span>
+                </a>
             
             </li>
 

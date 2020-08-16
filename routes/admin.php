@@ -24,115 +24,119 @@ Route::group(['middleware' => 'web'], function() {
          *
          */
 
-        Route::get('profile', 'AdminController@profile')->name('profile');
+        Route::get('profile', 'Admin\AdminAccountController@profile')->name('profile');
 
-        Route::post('profile/save', 'AdminController@profile_save')->name('profile.save');
+        Route::post('profile/save', 'Admin\AdminAccountController@profile_save')->name('profile.save');
 
-        Route::post('change/password', 'AdminController@change_password')->name('change.password');
+        Route::post('change/password', 'Admin\AdminAccountController@change_password')->name('change.password');
 
-        Route::get('/', 'AdminController@index')->name('dashboard');
+        Route::get('/', 'Admin\AdminRevenueController@main_dashboard')->name('dashboard');
         
         // Users CRUD Operations
 
-        Route::get('users', 'AdminController@users_index')->name('users.index');
+        Route::get('users', 'Admin\AdminUserController@users_index')->name('users.index');
 
-        Route::get('users/create', 'AdminController@users_create')->name('users.create');
+        Route::get('users/create', 'Admin\AdminUserController@users_create')->name('users.create');
 
-        Route::get('users/edit', 'AdminController@users_edit')->name('users.edit');
+        Route::get('users/edit', 'Admin\AdminUserController@users_edit')->name('users.edit');
 
-        Route::post('users/save', 'AdminController@users_save')->name('users.save');
+        Route::post('users/save', 'Admin\AdminUserController@users_save')->name('users.save');
 
-        Route::get('users/view', 'AdminController@users_view')->name('users.view');
+        Route::get('users/view', 'Admin\AdminUserController@users_view')->name('users.view');
 
-        Route::get('users/delete', 'AdminController@users_delete')->name('users.delete');
+        Route::get('users/delete', 'Admin\AdminUserController@users_delete')->name('users.delete');
 
-        Route::get('users/status', 'AdminController@users_status')->name('users.status');
+        Route::get('users/status', 'Admin\AdminUserController@users_status')->name('users.status');
 
-        Route::get('users/verify', 'AdminController@users_verify_status')->name('users.verify');
+        Route::get('users/verify', 'Admin\AdminUserController@users_verify_status')->name('users.verify');
 
         //stardoms CRUD Operations
 
-        Route::get('stardoms', 'AdminController@stardoms_index')->name('stardoms.index');
+        Route::get('stardoms', 'Admin\AdminStardomController@stardoms_index')->name('stardoms.index');
 
-        Route::get('stardoms/create', 'AdminController@stardoms_create')->name('stardoms.create');
+        Route::get('stardoms/create', 'Admin\AdminStardomController@stardoms_create')->name('stardoms.create');
 
-        Route::get('stardoms/edit', 'AdminController@stardoms_edit')->name('stardoms.edit');
+        Route::get('stardoms/edit', 'Admin\AdminStardomController@stardoms_edit')->name('stardoms.edit');
 
-        Route::post('stardoms/save', 'AdminController@stardoms_save')->name('stardoms.save');
+        Route::post('stardoms/save', 'Admin\AdminStardomController@stardoms_save')->name('stardoms.save');
 
-        Route::get('stardoms/view', 'AdminController@stardoms_view')->name('stardoms.view');
+        Route::get('stardoms/view', 'Admin\AdminStardomController@stardoms_view')->name('stardoms.view');
 
-        Route::get('stardoms/delete', 'AdminController@stardoms_delete')->name('stardoms.delete');
+        Route::get('stardoms/delete', 'Admin\AdminStardomController@stardoms_delete')->name('stardoms.delete');
 
-        Route::get('stardoms/status', 'AdminController@stardoms_status')->name('stardoms.status');
+        Route::get('stardoms/status', 'Admin\AdminStardomController@stardoms_status')->name('stardoms.status');
 
-        Route::get('stardoms/verify', 'AdminController@stardoms_verify_status')->name('stardoms.verify');
+        Route::get('stardoms/verify', 'Admin\AdminStardomController@stardoms_verify_status')->name('stardoms.verify');
 
         //stardom documents 
 
-        Route::get('stardoms/documents', 'AdminController@stardoms_documents_index')->name('stardoms.documents.index');
+        Route::get('stardoms/documents', 'Admin\AdminStardomController@stardoms_documents_index')->name('stardoms.documents.index');
 
-        Route::get('stardoms/documents/view', 'AdminController@stardoms_documents_view')->name('stardoms.documents.view');
+        Route::get('stardoms/documents/view', 'Admin\AdminStardomController@stardoms_documents_view')->name('stardoms.documents.view');
 
-        Route::get('stardoms/documents/verify', 'AdminController@stardoms_documents_verify')->name('stardoms.documents.verify');
+        Route::get('stardoms/documents/verify', 'Admin\AdminStardomController@stardoms_documents_verify')->name('stardoms.documents.verify');
 
         //stardom products CRUD Operations
 
-        Route::get('stardom_products', 'AdminController@stardom_products_index')->name('stardom_products.index');
+        Route::get('stardom_products', 'Admin\AdminStardomController@stardom_products_index')->name('stardom_products.index');
 
-        Route::get('stardom_products/create', 'AdminController@stardom_products_create')->name('stardom_products.create');
+        Route::get('stardom_products/create', 'Admin\AdminStardomController@stardom_products_create')->name('stardom_products.create');
 
-        Route::get('stardom_products/edit', 'AdminController@stardom_products_edit')->name('stardom_products.edit');
+        Route::get('stardom_products/edit', 'Admin\AdminStardomController@stardom_products_edit')->name('stardom_products.edit');
 
-        Route::post('stardom_products/save', 'AdminController@stardom_products_save')->name('stardom_products.save');
+        Route::post('stardom_products/save', 'Admin\AdminStardomController@stardom_products_save')->name('stardom_products.save');
 
-        Route::get('stardom_products/view', 'AdminController@stardom_products_view')->name('stardom_products.view');
+        Route::get('stardom_products/view', 'Admin\AdminStardomController@stardom_products_view')->name('stardom_products.view');
 
-        Route::get('stardom_products/delete', 'AdminController@stardom_products_delete')->name('stardom_products.delete');
+        Route::get('stardom_products/delete', 'Admin\AdminStardomController@stardom_products_delete')->name('stardom_products.delete');
 
-        Route::get('stardom_products/status', 'AdminController@stardom_products_status')->name('stardom_products.status');
+        Route::get('stardom_products/status', 'Admin\AdminStardomController@stardom_products_status')->name('stardom_products.status');
 
-        //document CRUD Operations
+        // Document CRUD Operations
 
-        Route::get('documents', 'AdminController@documents_index')->name('documents.index');
+        Route::get('documents', 'Admin\AdminLookupController@documents_index')->name('documents.index');
 
-        Route::get('documents/create', 'AdminController@documents_create')->name('documents.create');
+        Route::get('documents/create', 'Admin\AdminLookupController@documents_create')->name('documents.create');
 
-        Route::get('documents/edit', 'AdminController@documents_edit')->name('documents.edit');
+        Route::get('documents/edit', 'Admin\AdminLookupController@documents_edit')->name('documents.edit');
 
-        Route::post('documents/save', 'AdminController@documents_save')->name('documents.save');
+        Route::post('documents/save', 'Admin\AdminLookupController@documents_save')->name('documents.save');
 
-        Route::get('documents/view', 'AdminController@documents_view')->name('documents.view');
+        Route::get('documents/view', 'Admin\AdminLookupController@documents_view')->name('documents.view');
 
-        Route::get('documents/delete', 'AdminController@documents_delete')->name('documents.delete');
+        Route::get('documents/delete', 'Admin\AdminLookupController@documents_delete')->name('documents.delete');
 
-        Route::get('documents/status', 'AdminController@documents_status')->name('documents.status');
+        Route::get('documents/status', 'Admin\AdminLookupController@documents_status')->name('documents.status');
 
-        Route::get('/static_pages' , 'AdminController@static_pages_index')->name('static_pages.index');
+        // Documents end
 
-        Route::get('/static_pages/create', 'AdminController@static_pages_create')->name('static_pages.create');
+        // Static pages start
 
-        Route::get('/static_pages/edit', 'AdminController@static_pages_edit')->name('static_pages.edit');
+        Route::get('/static_pages' , 'Admin\AdminLookupController@static_pages_index')->name('static_pages.index');
 
-        Route::post('/static_pages/save', 'AdminController@static_pages_save')->name('static_pages.save');
+        Route::get('/static_pages/create', 'Admin\AdminLookupController@static_pages_create')->name('static_pages.create');
 
-        Route::get('/static_pages/delete', 'AdminController@static_pages_delete')->name('static_pages.delete');
+        Route::get('/static_pages/edit', 'Admin\AdminLookupController@static_pages_edit')->name('static_pages.edit');
 
-        Route::get('/static_pages/view', 'AdminController@static_pages_view')->name('static_pages.view');
+        Route::post('/static_pages/save', 'Admin\AdminLookupController@static_pages_save')->name('static_pages.save');
 
-        Route::get('/static_pages/status', 'AdminController@static_pages_status_change')->name('static_pages.status');
+        Route::get('/static_pages/delete', 'Admin\AdminLookupController@static_pages_delete')->name('static_pages.delete');
+
+        Route::get('/static_pages/view', 'Admin\AdminLookupController@static_pages_view')->name('static_pages.view');
+
+        Route::get('/static_pages/status', 'Admin\AdminLookupController@static_pages_status_change')->name('static_pages.status');
+
+        // Static pages end
 
         // settings
 
-        Route::get('/admin-control', 'AdminController@admin_control')->name('control');
+        Route::get('/admin-control', 'Admin\AdminSettingController@admin_control')->name('control');
 
-        Route::get('/ios-control', 'AdminController@ios_control')->name('ios-control'); 
+        Route::get('settings', 'Admin\AdminSettingController@settings')->name('settings'); 
 
-        Route::get('settings', 'AdminController@settings')->name('settings'); 
+        Route::post('settings/save', 'Admin\AdminSettingController@settings_save')->name('settings.save'); 
 
-        Route::post('settings/save', 'AdminController@settings_save')->name('settings.save'); 
-
-        Route::post('env_settings','AdminController@env_settings_save')->name('env-settings.save');
+        Route::post('env_settings','Admin\AdminSettingController@env_settings_save')->name('env-settings.save');
 
     });
 });
