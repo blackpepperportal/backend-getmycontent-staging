@@ -147,20 +147,20 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="fb_client_id">{{ tr('FB_CLIENT_ID') }}</label>
-                                            <input type="text" class="form-control" name="FB_CLIENT_ID" id="fb_client_id" placeholder="{{ tr('FB_CLIENT_ID') }}" value="{{ $env_values['FB_CLIENT_ID']}}">
+                                            <input type="text" class="form-control" name="FB_CLIENT_ID" id="fb_client_id" placeholder="{{ tr('FB_CLIENT_ID') }}" value="{{Setting::get('FB_CLIENT_ID')}}">
                                         </div>
                                     </div>
 
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="fb_client_secret">{{ tr('FB_CLIENT_SECRET') }}</label>
-                                            <input type="text" class="form-control" name="FB_CLIENT_SECRET" id="fb_client_secret" placeholder="{{ tr('FB_CLIENT_SECRET') }}" value="{{ $env_values['FB_CLIENT_SECRET']}}">
+                                            <input type="text" class="form-control" name="FB_CLIENT_SECRET" id="fb_client_secret" placeholder="{{ tr('FB_CLIENT_SECRET') }}" value="{{Setting::get('FB_CLIENT_SECRET')}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="fb_call_back">{{ tr('FB_CALL_BACK') }}</label>
-                                            <input type="text" class="form-control" name="FB_CALL_BACK" id="fb_call_back" placeholder="{{ tr('FB_CALL_BACK') }}" value="{{ $env_values['FB_CALL_BACK']}}">
+                                            <input type="text" class="form-control" name="FB_CALL_BACK" id="fb_call_back" placeholder="{{ tr('FB_CALL_BACK') }}" value="{{Setting::get('FB_CALL_BACK')}}">
                                         </div>
                                     </div>
 
@@ -177,21 +177,21 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="google_client_id">{{ tr('GOOGLE_CLIENT_ID') }}</label>
-                                            <input type="text" class="form-control" name="GOOGLE_CLIENT_ID" id="google_client_id" placeholder="{{ tr('GOOGLE_CLIENT_ID') }}" value="{{ $env_values['GOOGLE_CLIENT_ID']}}">
+                                            <input type="text" class="form-control" name="GOOGLE_CLIENT_ID" id="google_client_id" placeholder="{{ tr('GOOGLE_CLIENT_ID') }}" value="{{Setting::get('GOOGLE_CLIENT_ID')}}">
                                         </div>
                                     </div>
 
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="google_client_secret">{{ tr('GOOGLE_CLIENT_SECRET') }}</label>
-                                            <input type="text" class="form-control" name="GOOGLE_CLIENT_SECRET" id="google_client_secret" placeholder="{{ tr('GOOGLE_CLIENT_SECRET') }}" value="{{ $env_values['GOOGLE_CLIENT_SECRET']}}">
+                                            <input type="text" class="form-control" name="GOOGLE_CLIENT_SECRET" id="google_client_secret" placeholder="{{ tr('GOOGLE_CLIENT_SECRET') }}" value="{{Setting::get('GOOGLE_CLIENT_SECRET')}}">
                                         </div>
                                     </div>
 
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="google_call_back">{{ tr('GOOGLE_CALL_BACK') }}</label>
-                                            <input type="text" class="form-control" name="GOOGLE_CALL_BACK" id="google_call_back" placeholder="{{ tr('GOOGLE_CALL_BACK') }}" value="{{ $env_values['GOOGLE_CALL_BACK']}}">
+                                            <input type="text" class="form-control" name="GOOGLE_CALL_BACK" id="google_call_back" placeholder="{{ tr('GOOGLE_CALL_BACK') }}" value="{{Setting::get('GOOGLE_CALL_BACK')}}">
                                         </div>
                                     </div>
 
@@ -275,16 +275,16 @@
                                     <div class="col-md-6 col-sm-6">
 
                                         <div class="form-group">
-                                            <label for="MAIL_DRIVER">{{ tr('MAIL_DRIVER') }} *</label>
-                                            <p class="txt-default m-0">{{ tr('mail_driver_note') }}</p>
-                                            <input type="text" class="form-control" id="MAIL_DRIVER" name="MAIL_DRIVER" placeholder="Enter {{ tr('MAIL_DRIVER') }}" value="{{ old('MAIL_DRIVER') ? old('MAIL_DRIVER') : $env_values['MAIL_DRIVER'] }}">
+                                            <label for="MAIL_MAILER">{{ tr('MAIL_MAILER') }} *</label>
+                                            <p class="txt-default m-0">{{ tr('mail_MAILER_note') }}</p>
+                                            <input type="text" class="form-control" id="MAIL_MAILER" name="MAIL_MAILER" placeholder="Enter {{ tr('MAIL_MAILER') }}" value="{{ old('MAIL_MAILER') ?: $env_values['MAIL_MAILER'] }}">
                                         </div>
 
                                         <div class="form-group">
                                             <label for="MAIL_HOST">{{ tr('MAIL_HOST') }} *</label>
                                             <p class="txt-default m-0">{{ tr('mail_host_note') }}</p>
 
-                                            <input type="text" class="form-control" id="MAIL_HOST" name="MAIL_HOST" placeholder="Enter {{ tr('MAIL_HOST') }}" value="{{ old('MAIL_HOST') ? old('MAIL_HOST') : $env_values['MAIL_HOST']}}">
+                                            <input type="text" class="form-control" id="MAIL_HOST" name="MAIL_HOST" placeholder="Enter {{ tr('MAIL_HOST') }}" value="{{ old('MAIL_HOST') ?: $env_values['MAIL_HOST']}}">
                                         </div>
 
                                         <div class="form-group">
@@ -292,7 +292,7 @@
 
                                             <p class="txt-default m-0">{{ tr('mail_port_note') }}</p>
 
-                                            <input type="text" class="form-control" id="MAIL_PORT" name="MAIL_PORT" placeholder="Enter {{ tr('MAIL_PORT') }}" value="{{ old('MAIL_PORT') ? old('MAIL_PORT') : $env_values['MAIL_PORT']}}">
+                                            <input type="text" class="form-control" id="MAIL_PORT" name="MAIL_PORT" placeholder="Enter {{ tr('MAIL_PORT') }}" value="{{ old('MAIL_PORT') ?: $env_values['MAIL_PORT']}}">
                                         </div>
                                     
                                     </div>
@@ -304,7 +304,7 @@
                                             
                                             <p class="txt-default m-0">{{ tr('mail_username_note') }}</p>
 
-                                            <input type="text" class="form-control" id="MAIL_USERNAME" name="MAIL_USERNAME" placeholder="Enter {{ tr('MAIL_USERNAME') }}" value="{{ old('MAIL_USERNAME') ? old('MAIL_USERNAME') : $env_values['MAIL_USERNAME']}}">
+                                            <input type="text" class="form-control" id="MAIL_USERNAME" name="MAIL_USERNAME" placeholder="Enter {{ tr('MAIL_USERNAME') }}" value="{{ old('MAIL_USERNAME') ?: $env_values['MAIL_USERNAME']}}">
                                         </div>
 
                                         <div class="form-group">
@@ -321,7 +321,7 @@
                                             
                                             <p class="txt-default m-0">{{ tr('mail_encryption_note') }}</p>
 
-                                            <input type="text" class="form-control" id="MAIL_ENCRYPTION" name="MAIL_ENCRYPTION" placeholder="Enter {{ tr('MAIL_ENCRYPTION') }}" value="{{ old('MAIL_ENCRYPTION') ? old('MAIL_ENCRYPTION') : $env_values['MAIL_ENCRYPTION']}}">
+                                            <input type="text" class="form-control" id="MAIL_ENCRYPTION" name="MAIL_ENCRYPTION" placeholder="Enter {{ tr('MAIL_ENCRYPTION') }}" value="{{ old('MAIL_ENCRYPTION') ?: $env_values['MAIL_ENCRYPTION']}}">
                                         </div>
                                         
                                     </div>
@@ -379,19 +379,19 @@
 
                                             <label for="facebook_link">{{ tr('facebook_link') }} *</label>
 
-                                            <input type="text" class="form-control" id="facebook_link" name="facebook_link" placeholder="Enter {{ tr('facebook_link') }}" value="{{ old('facebook_link') ? old('facebook_link') : Setting::get('facebook_link') }}">
+                                            <input type="text" class="form-control" id="facebook_link" name="facebook_link" placeholder="Enter {{ tr('facebook_link') }}" value="{{ old('facebook_link') ?: Setting::get('facebook_link') }}">
                                         </div>
 
                                         <div class="form-group">
                                             <label for="twitter_link">{{ tr('twitter_link') }} *</label>
 
-                                            <input type="text" class="form-control" id="twitter_link" name="twitter_link" placeholder="Enter {{ tr('twitter_link') }}" value="{{ old('twitter_link') ? old('twitter_link') : Setting::get('twitter_link') }}">
+                                            <input type="text" class="form-control" id="twitter_link" name="twitter_link" placeholder="Enter {{ tr('twitter_link') }}" value="{{ old('twitter_link') ?: Setting::get('twitter_link') }}">
                                         </div>
 
                                         <div class="form-group">
                                             <label for="linkedin_link">{{ tr('linkedin_link') }} *</label>
 
-                                            <input type="text" class="form-control" id="linkedin_link" name="linkedin_link" placeholder="Enter {{ tr('linkedin_link') }}" value="{{ old('linkedin_link') ? old('linkedin_link') : Setting::get('linkedin_link') }}">
+                                            <input type="text" class="form-control" id="linkedin_link" name="linkedin_link" placeholder="Enter {{ tr('linkedin_link') }}" value="{{ old('linkedin_link') ?: Setting::get('linkedin_link') }}">
                                         </div>                                
 
                                     </div>
@@ -401,14 +401,14 @@
                                         <div class="form-group">
                                             <label for="google_plus_link">{{ tr('google_plus_link') }} *</label>
 
-                                            <input type="text" class="form-control" id="google_plus_link" name="google_plus_link" placeholder="Enter {{ tr('google_plus_link') }}" value="{{ old('google_plus_link') ? old('google_plus_link') : Setting::get('google_plus_link') }}">
+                                            <input type="text" class="form-control" id="google_plus_link" name="google_plus_link" placeholder="Enter {{ tr('google_plus_link') }}" value="{{ old('google_plus_link') ?: Setting::get('google_plus_link') }}">
                                         </div>    
 
                                         
                                         <div class="form-group">
                                             <label for="pinterest_link">{{ tr('pinterest_link') }} *</label>
                                             
-                                            <input type="text" class="form-control" id="pinterest_link" name="pinterest_link" placeholder="Enter {{ tr('pinterest_link') }}" value="{{ old('pinterest_link') ? old('pinterest_link') : Setting::get('pinterest_link') }}">
+                                            <input type="text" class="form-control" id="pinterest_link" name="pinterest_link" placeholder="Enter {{ tr('pinterest_link') }}" value="{{ old('pinterest_link') ?: Setting::get('pinterest_link') }}">
                                         </div>
                                         
                                     </div>
@@ -426,7 +426,7 @@
 
                                         <div class="form-group">
                                             <label for="playstore_user">{{ tr('playstore_user') }} *</label>
-                                            <input type="text" class="form-control" id="playstore_user" name="playstore_user" placeholder="Enter {{ tr('playstore_user') }}" value="{{ old('playstore_user') ? old('playstore_user') : Setting::get('playstore_user') }}">
+                                            <input type="text" class="form-control" id="playstore_user" name="playstore_user" placeholder="Enter {{ tr('playstore_user') }}" value="{{ old('playstore_user') ?: Setting::get('playstore_user') }}">
                                         </div>
 
                                     </div>
@@ -436,7 +436,7 @@
                                         <div class="form-group">
                                             <label for="appstore_user">{{ tr('appstore_user') }} *</label>
 
-                                            <input type="text" class="form-control" id="appstore_user" name="appstore_user" placeholder="Enter {{ tr('appstore_user') }}" value="{{ old('appstore_user') ? old('appstore_user') : Setting::get('appstore_user') }}">
+                                            <input type="text" class="form-control" id="appstore_user" name="appstore_user" placeholder="Enter {{ tr('appstore_user') }}" value="{{ old('appstore_user') ?: Setting::get('appstore_user') }}">
                                         </div>                                        
 
                                     </div>
@@ -483,21 +483,21 @@
                                     <div class="form-group">
                                         <label for="google_analytics">{{ tr('google_analytics') }} *</label>
 
-                                        <textarea class="form-control" name="google_analytics" placeholder="Enter {{ tr('google_analytics') }}">{{ old('google_analytics') ? old('google_analytics') : Setting::get('google_analytics') }}</textarea>
+                                        <textarea class="form-control" name="google_analytics" placeholder="Enter {{ tr('google_analytics') }}">{{ old('google_analytics') ?: Setting::get('google_analytics') }}</textarea>
 
                                     </div>
 
                                     <div class="form-group">
                                         <label for="header_scripts">{{ tr('header_scripts') }} *</label>
 
-                                        <textarea class="form-control" name="header_scripts" placeholder="Enter {{ tr('header_scripts') }}">{{ old('header_scripts') ? old('header_scripts') : Setting::get('header_scripts') }}</textarea>
+                                        <textarea class="form-control" name="header_scripts" placeholder="Enter {{ tr('header_scripts') }}">{{ old('header_scripts') ?: Setting::get('header_scripts') }}</textarea>
 
                                     </div>
 
                                     <div class="form-group">
                                         <label for="body_scripts">{{ tr('body_scripts') }} *</label>
 
-                                        <textarea class="form-control" name="body_scripts" placeholder="Enter {{ tr('body_scripts') }}">{{ old('body_scripts') ? old('body_scripts') : Setting::get('body_scripts') }}</textarea>
+                                        <textarea class="form-control" name="body_scripts" placeholder="Enter {{ tr('body_scripts') }}">{{ old('body_scripts') ?: Setting::get('body_scripts') }}</textarea>
 
                                     </div>
 

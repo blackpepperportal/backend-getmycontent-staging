@@ -384,7 +384,10 @@ return [
 
 
 	'account_management' => 'ACCOUNT MANAGEMENT',
+	'posts_management' => 'POSTS MANAGEMENT',
+	'products_management' => 'PRODUCTS MANAGEMENT',
 	'revenue_management' => 'REVENUE MANAGEMENT',
+	'lookups_management' => 'LOOKUPS MANAGEMENT',
 	'setting_management' => 'SETTING MANAGEMENT',
 
 	//users
@@ -561,43 +564,43 @@ return [
 
 	'unverified' => 'Unverified',
 
-	'stardom_document_not_found' => 'Stardom document not found', 
+	'stardom_document_not_found' => 'The document not found', 
 
+	'stardom_products' => 'Products',
+	'add_stardom_product' => 'Add Product',
+	'view_stardom_products' => 'View Products',
+	'edit_stardom_product' => 'Edit Product',
 
-	'stardom_products' => 'Stardom Products',
-	'add_stardom_product' => 'Add Stardom Product',
-	'view_stardom_products' => 'View Stardom Products',
-	'edit_stardom_product' => 'Edit Stardom Product',
+	'stardom_product_created_success' => 'The product created successfully!!',
 
-	'stardom_product_created_success' => 'The stardom product created successfully!!',
+	'stardom_product_updated_success' => 'The product updated successfully!!',
 
-	'stardom_product_updated_success' => 'The stardom product updated successfully!!',
+	'stardom_product_save_failed' => 'The product details updating failed!!',
 
-	'stardom_product_save_failed' => 'The stardom product details updating failed!!',
+	'stardom_product_not_found' => 'The selected product details not found.',
 
-	'stardom_product_not_found' => 'The selected stardom product details not found.',
+	'stardom_product_deleted_success' => 'The product deleted successfully!!',
 
-	'stardom_product_deleted_success' => 'The stardom product deleted successfully!!',
-
-	'stardom_product_delete_failed' => 'The stardom product deletion failed!!',
+	'stardom_product_delete_failed' => 'The product deletion failed!!',
 	
-	'stardom_product_delete_confirmation' => 'Once you\'ve deleted the record , the stardom product(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.',
+	'stardom_product_delete_confirmation' => 'Once you\'ve deleted the record , the product(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.',
 
-	'stardom_product_approve_success' => 'The stardom product approved successfully..!!',
+	'stardom_product_approve_success' => 'The product approved successfully..!!',
 
-	'stardom_product_decline_success' => 'The stardom product declined successfully..!!',
+	'stardom_product_decline_success' => 'The product declined successfully..!!',
 
-	'stardom_product_decline_confirmation' => 'Do you want decline this stardom product?',
+	'stardom_product_decline_confirmation' => 'Do you want decline this product?',
 
-	'stardom_product_status_change_failed' => 'The stardom product status updating failed..!!',
+	'stardom_product_status_change_failed' => 'The product status updating failed..!!',
 
 	'quantity' => 'Quantity',
 	'price' => 'Price',
-	'stardom_product_details' => 'Stardom Product Details',
+	'stardom_product_details' => 'Product Details',
 
 	'select_stardom' => 'Select Stardom',
 
-   	
-]
+	'inventory_management' => 'Inventory Management',
+	'inventory' => 'Inventory',
+	'posts' => 'Posts'
 
-?>
+]?>

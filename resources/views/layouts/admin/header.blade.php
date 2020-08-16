@@ -8,7 +8,6 @@
                 <li class="nav-item mobile-menu d-md-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu font-large-1"></i></a></li>
                 <li class="nav-item">
                     <a class="navbar-brand" href="{{route('admin.dashboard')}}">
-                        <img alt="{{Setting::get('site_name')}}" src="{{Setting::get('site_icon')}}" style="height: 40px; border-radius: 1em">
                         <h3 class="brand-text">{{Setting::get('site_name')}}</h3>
                     </a>
                 </li>
@@ -46,7 +45,7 @@
 
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="{{route('admin.profile')}}">
-                                <i class="ft-user"></i> {{tr('edit_profile')}}
+                                <i class="ft-user"></i> {{tr('account')}}
                             </a>
                             
                             <a class="dropdown-item"  data-toggle="modal" data-target="#logoutModel" href="{{route('admin.logout')}}"><i class="ft-power"></i>{{tr('logout')}}</a>

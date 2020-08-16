@@ -537,7 +537,7 @@ class Helper {
 
         $basic_keys = ['site_name', 'site_logo', 'site_icon', 'currency', 'currency_code', 'google_analytics', 'header_scripts', 'body_scripts', 'facebook_link', 'linkedin_link', 'twitter_link', 'google_plus_link', 'pinterest_link', 'demo_user_email', 'demo_user_password', 'demo_provider_email', 'demo_provider_password', 'chat_socket_url', 'google_api_key', 'playstore_user', 'playstore_provider', 'appstore_user', 'appstore_provider'];
 
-        $settings = Settings::whereIn('key', $basic_keys)->get();
+        $settings = \App\Settings::whereIn('key', $basic_keys)->get();
 
         $sample_data = [];
 
@@ -566,7 +566,7 @@ class Helper {
 
         $social_login_keys = ['FB_CLIENT_ID', 'FB_CLIENT_SECRET', 'FB_CALL_BACK' , 'TWITTER_CLIENT_ID', 'TWITTER_CLIENT_SECRET', 'TWITTER_CALL_BACK', 'GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET', 'GOOGLE_CALL_BACK'];
 
-        $social_logins = Settings::whereIn('key', $social_login_keys)->get();
+        $social_logins = \App\Settings::whereIn('key', $social_login_keys)->get();
 
         $social_login_data = [];
 
