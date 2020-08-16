@@ -38,10 +38,11 @@ class CreateStardomsTable extends Migration
             $table->tinyInteger('registration_steps')->default(0);
             $table->integer('push_notification_status')->default(YES);
             $table->integer('email_notification_status')->default(YES);
-            $table->integer('is_verified')->default(0);
             $table->string('verification_code')->default('');
             $table->string('verification_code_expiry')->default('');
             $table->timestamp('email_verified_at')->nullable();
+            $table->tinyInteger('is_admin_approved')->default(1);
+            $table->tinyInteger('is_verified')->default(0);
             $table->tinyInteger('status')->default(1);
             $table->rememberToken();
             $table->timestamps();

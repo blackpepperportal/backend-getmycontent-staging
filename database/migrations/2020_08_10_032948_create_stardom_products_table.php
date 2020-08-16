@@ -22,6 +22,8 @@ class CreateStardomProductsTable extends Migration
             $table->string('picture')->default(asset('product-placeholder.jpg'));
             $table->float('quantity')->default(0.00);
             $table->float('price')->default(0.00);
+            $table->float('delivery_price')->default(0.00);
+            $table->tinyInteger('is_outofstock')->default(0);
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });

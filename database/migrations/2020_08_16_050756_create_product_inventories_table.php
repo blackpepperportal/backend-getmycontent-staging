@@ -15,6 +15,12 @@ class CreateProductInventoriesTable extends Migration
     {
         Schema::create('product_inventories', function (Blueprint $table) {
             $table->id();
+            $table->string('unique_id')->default(rand());
+            $table->integer('stardom_product_id');
+            $table->float('total_quantity')->default(0.00);
+            $table->float('remaining_quantity')->default(0.00);
+            $table->float('used_quantity')->default(0.00);
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePostAlbumsTable extends Migration
+class CreatePostFilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreatePostAlbumsTable extends Migration
      */
     public function up()
     {
-        Schema::create('post_albums', function (Blueprint $table) {
+        Schema::create('post_files', function (Blueprint $table) {
             $table->id();
             $table->string('unique_id')->default(rand());
-            $table->integer('stardom_id');
-            $table->string('name');
-            $table->string('post_ids');
+            $table->integer('post_id');
+            $table->string('file');
+            $table->string('file_type');
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
@@ -31,6 +31,6 @@ class CreatePostAlbumsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('post_albums');
+        Schema::dropIfExists('post_files');
     }
 }
