@@ -66,20 +66,20 @@
                 <span>{{tr('posts_management')}}</span>
             </li>
 
-            <li class="nav-item" id="stardom_posts">
-                <a href="{{route('admin.stardom_products.index')}}">
+            <li class="nav-item" id="posts">
+                <a href="{{route('admin.posts.index')}}">
                     <i class="fa fa-image"></i>
                     <span class="menu-title" data-i18n="">{{tr('posts')}}</span>
                 </a>
                 <ul class="menu-content">
-                    <li id="stardom_products-create">
-                        <a class="menu-item" href="{{route('admin.stardom_products.create')}}">
-                            Add Post
+                    <li id="posts-create">
+                        <a class="menu-item" href="{{route('admin.posts.index')}}">
+                            {{tr('view_posts')}}
                         </a>
                     </li>
-                    <li id="stardom_products-view">
-                        <a class="menu-item" href="{{route('admin.stardom_products.index')}}">
-                            View Posts
+                    <li id="scheduled-posts">
+                        <a class="menu-item" href="{{route('admin.posts.index',['scheduled' => 'scheduled_posts'])}}">
+                            {{tr('scheduled_posts')}}
                         </a>
                     </li>
                 </ul>            

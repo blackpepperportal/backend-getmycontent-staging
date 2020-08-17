@@ -110,6 +110,25 @@ Route::group(['middleware' => 'web'], function() {
 
         // Documents end
 
+        //posts CRUD start
+
+        Route::get('/posts' , 'Admin\AdminPostController@posts_index')->name('posts.index');
+
+        Route::get('/posts/create', 'Admin\AdminPostController@posts_create')->name('posts.create');
+
+        Route::get('/posts/edit', 'Admin\AdminPostController@posts_edit')->name('posts.edit');
+
+        Route::post('/posts/save', 'Admin\AdminPostController@posts_save')->name('posts.save');
+
+        Route::get('/posts/delete', 'Admin\AdminPostController@posts_delete')->name('posts.delete');
+
+        Route::get('/posts/view', 'Admin\AdminPostController@posts_view')->name('posts.view');
+
+        Route::get('/posts/status', 'Admin\AdminPostController@posts_status_change')->name('posts.status');
+
+        //posts CRUD end
+
+
         // Static pages start
 
         Route::get('/static_pages' , 'Admin\AdminLookupController@static_pages_index')->name('static_pages.index');
