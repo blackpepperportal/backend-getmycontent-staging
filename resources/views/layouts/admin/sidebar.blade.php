@@ -72,7 +72,7 @@
                     <span class="menu-title" data-i18n="">{{tr('posts')}}</span>
                 </a>
                 <ul class="menu-content">
-                    <li id="posts-create">
+                    <li id="posts-view">
                         <a class="menu-item" href="{{route('admin.posts.index')}}">
                             {{tr('view_posts')}}
                         </a>

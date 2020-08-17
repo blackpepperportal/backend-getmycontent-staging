@@ -60,7 +60,7 @@ class AdminPostController extends Controller
         return view('admin.posts.index')
                     ->with('main_page','posts-crud')
                     ->with('page','posts')
-                    ->with('sub_page' , 'posts-view')
+                    ->with('sub_page' , $sub_page)
                     ->with('posts' , $posts);
     }
 
@@ -92,7 +92,7 @@ class AdminPostController extends Controller
             return view('admin.posts.view')
                         ->with('main_page','posts-crud')
                         ->with('page', 'posts') 
-                        ->with('sub_page','posts-view') 
+                        ->with('sub_page','posts-index') 
                         ->with('post_details' , $post_details);
             
         } catch (Exception $e) {
