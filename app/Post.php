@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-	protected $appends = ['post_amount_formatted'];
+	protected $appends = ['amount_formatted'];
 
-	public function getPostAmountFormattedAttribute() {
+	public function getAmountFormattedAttribute() {
 
 		return formatted_amount($this->amount);
 	}

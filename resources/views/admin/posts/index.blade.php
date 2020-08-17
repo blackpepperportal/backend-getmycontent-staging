@@ -64,7 +64,7 @@
                                     <td>{{ $post_details->content }}</td>
 
                                     <td>
-                                        {{ $post_details->post_amount_formatted}}
+                                        {{ $post_details->amount_formatted}}
                                     </td>
 
                                     <td>

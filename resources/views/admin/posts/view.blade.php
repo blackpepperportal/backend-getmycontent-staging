@@ -92,7 +92,7 @@
                         </li>
                         <hr>
 
-                        <li>{{tr('amount')}}- {{$post_details->post_amount_formatted}}</li>
+                        <li>{{tr('amount')}}- {{$post_details->amount_formatted}}</li>
                         <hr>
 
                     </ul>
