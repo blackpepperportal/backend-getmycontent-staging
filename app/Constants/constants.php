@@ -103,3 +103,7 @@ if(!defined('USER'))  define('USER', 'user');
 if(!defined('STARDOM_DOCUMENT_VERIFIED')) define('STARDOM_DOCUMENT_VERIFIED',1);
 
 if(!defined('STARDOM_DOCUMENT_NOT_VERIFIED')) define('STARDOM_DOCUMENT_NOT_VERIFIED',0);
+
+if(!defined('FREE')) define('FREE', 3);
+
+if(!defined('UNPAID')) define('UNPAID',0);

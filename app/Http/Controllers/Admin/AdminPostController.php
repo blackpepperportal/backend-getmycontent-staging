@@ -45,6 +45,43 @@ class AdminPostController extends Controller
     public function posts_index(Request $request) {
 
         $base_query = \App\Post::orderBy('created_at','DESC');
+
+        if($request->search_key) {
+
+            $search_key = $request->search_key;
+
+            $base_query =  $base_query
+
+                ->orWhereHas('stardomDetails', function($q) use ($search_key) {
+
+                    return $q->Where('stardoms.name','LIKE','%'.$search_key.'%');
+
+                })->orWhere('posts.content','LIKE','%'.$search_key.'%');
+                        
+        }
+
+        if($request->status) {
+
+            switch ($request->status) {
+
+                case SORT_BY_APPROVED:
+                    $base_query = $base_query->where('posts.status', APPROVED);
+                    break;
+
+                case SORT_BY_DECLINED:
+                    $base_query = $base_query->where('posts.status', DECLINED);
+                    break;
+
+                case FREE:
+                    $base_query = $base_query->where('posts.is_paid_post',UNPAID);
+                    break;
+                
+                default:
+                    $base_query = $base_query->where('posts.is_paid_post',PAID);
+                    break;
+            }
+        }
+
        
         $sub_page = 'posts-view';
 

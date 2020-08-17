@@ -623,6 +623,8 @@ return [
 	'go_to_profile' => 'Go To Profile',
 	'unique_id' => 'Unique Id',
 	'publish_time' => 'Publish Time',
+	'post_search_placeholder' => 'Search By Stardom Name,Content',
+	'free_post' => 'Free Post',
 
 
 
