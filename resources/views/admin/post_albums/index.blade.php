@@ -52,7 +52,7 @@
 
                                 @foreach($post_albums as $i => $post_album_details)
                                 <tr>
-                                    <td>{{ $i+1 }}</td>
+                                    <td>{{ $i+$post_albums->firstItem() }}</td>
 
                                     <td>{{$post_album_details->unique_id}}</td>
 

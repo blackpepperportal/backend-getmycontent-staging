@@ -106,7 +106,7 @@
 
                                 @foreach($posts as $i => $post_details)
                                 <tr>
-                                    <td>{{ $i+1 }}</td>
+                                    <td>{{ $i+$posts->firstItem() }}</td>
 
                                     <td>
                                         <a href="{{  route('admin.posts.view' , ['post_id' => $post_details->id] )  }}">

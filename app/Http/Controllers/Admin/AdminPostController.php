@@ -281,21 +281,14 @@ class AdminPostController extends Controller
       
             $post_album_details = \App\PostAlbum::find($request->post_album_id);
 
+            if(!$post_album_details) {
+
+                throw new Exception(tr('post_album_not_found'), 101);
+            }
+
             $post_ids = explode(',', $post_album_details->post_ids);
 
-            $posts = [];
-
-            foreach ($post_ids as $key => $post_id) {
-               
-                $post_details = \App\Post::where('id',$post_id)->first();
-
-                array_push($posts,$post_details);
-            }
-
-            if(!$post_album_details) { 
-
-                throw new Exception(tr('post_not_found'), 101);                
-            }
+            $posts = \App\Post::whereIn('posts.id', $post_ids)->get();
 
             return view('admin.post_albums.view')
                         ->with('main_page','post_albums')
