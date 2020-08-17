@@ -64,7 +64,7 @@
                                     <td>{{ $post_details->content }}</td>
 
                                     <td>
-                                        {{ formatted_amount($post_details->amount) }}
+                                        {{ $post_details->post_amount_formatted}}
                                     </td>
 
                                     <td>
@@ -108,7 +108,7 @@
 
                                                 @if($post_details->status == APPROVED)
 
-                                                    <a class="dropdown-item" href="{{  route('admin.posts.status' , ['post_id' => $post_details->id] )  }}" onclick="return confirm(&quot;{{ $post_details->name }} - {{ tr('stardom_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
+                                                    <a class="dropdown-item" href="{{  route('admin.posts.status' , ['post_id' => $post_details->id] )  }}" onclick="return confirm(&quot;{{ tr('post_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
                                                 </a> 
 
                                                 @else

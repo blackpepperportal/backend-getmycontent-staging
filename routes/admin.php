@@ -118,7 +118,7 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('/posts/view', 'Admin\AdminPostController@posts_view')->name('posts.view');
 
-        Route::get('/posts/status', 'Admin\AdminPostController@posts_status_change')->name('posts.status');
+        Route::get('/posts/status', 'Admin\AdminPostController@posts_status')->name('posts.status');
 
         //posts end
 

@@ -45,6 +45,27 @@
                     <a href="{{route('admin.stardoms.view',['stardom_id' => $post_details->stardom_id])}}" class="btn btn-primary">
                         {{tr('go_to_profile')}}
                     </a>
+
+                    @if(Setting::get('is_demo_control_enabled') == YES)
+
+                        <a class="btn btn-danger" href="javascript:void(0)">&nbsp;{{ tr('delete') }}</a> 
+
+                    @else
+
+                        <a class="btn btn-danger" onclick="return confirm(&quot;{{ tr('post_delete_confirmation' , $post_details->name) }}&quot;);" href="{{ route('admin.posts.delete', ['post_id' => $post_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+
+                    @endif
+
+                    @if($post_details->status == APPROVED)
+
+                        <a class="btn btn-danger" href="{{  route('admin.posts.status' , ['post_id' => $post_details->id] )  }}" onclick="return confirm(&quot;{{ tr('post_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
+                    </a> 
+
+                    @else
+
+                        <a class="btn btn-success" href="{{ route('admin.posts.status' , ['post_id' => $post_details->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
+
+                    @endif
                    
                 </div>
 
@@ -71,7 +92,7 @@
                         </li>
                         <hr>
 
-                        <li>{{tr('amount')}}- {{formatted_amount($post_details->amount)}}</li>
+                        <li>{{tr('amount')}}- {{$post_details->post_amount_formatted}}</li>
                         <hr>
 
                     </ul>
