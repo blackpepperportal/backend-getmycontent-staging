@@ -607,8 +607,7 @@ return [
 	'posts' => 'Posts',
 	'view_posts' => 'View Posts',
 	'scheduled_posts' => 'Scheduled Posts',
-	
-	'post_save_failed' => 'The post details updating failed!!',
+
 	'post_not_found' => 'The selected post details not found.',
 	'post_deleted_success' => 'The post deleted successfully!!',
 	'post_delete_failed' => 'The post deletion failed!!',
@@ -616,7 +615,7 @@ return [
 	'post_approve_success' => 'The post approved successfully..!!',
 	'post_decline_success' => 'The post declined successfully..!!',
 	'post_decline_confirmation' => 'Do you want decline this post?',
-	'post_status_change_failed' => 'The product status updating failed..!!',
+	'post_status_change_failed' => 'The post status updating failed..!!',
 	'content' => 'Content',
 	'is_paid_post' => 'Is Paid Post',
 	'post_details' => 'Post Details',
@@ -625,6 +624,19 @@ return [
 	'publish_time' => 'Publish Time',
 	'post_search_placeholder' => 'Search By Stardom Name,Content',
 	'free_post' => 'Free Post',
+	'albums' => 'Albums',
+	'view_post_albums' => 'View Post Albums',
+	'post_albums' => 'Post Albums',
+
+	'posts_content' => 'Post Content',
+	'post_album_not_found' => 'The selected post album details not found.',
+	'post_album_deleted_success' => 'The post album deleted successfully!!',
+	'post_album_delete_failed' => 'The post album deletion failed!!',
+	'post_album_delete_confirmation' => 'Once you\'ve deleted the record , the post album(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.',
+	'post_album_approve_success' => 'The post album approved successfully..!!',
+	'post_album_decline_success' => 'The post album declined successfully..!!',
+	'post_album_decline_confirmation' => 'Do you want decline this post album?',
+	'post_album_status_change_failed' => 'The post album status updating failed..!!',
 
 
 

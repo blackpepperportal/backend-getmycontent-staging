@@ -122,6 +122,18 @@ Route::group(['middleware' => 'web'], function() {
 
         //posts end
 
+        //posts albums start
+
+        Route::get('/post_albums' , 'Admin\AdminPostController@post_albums_index')->name('post_albums.index');
+
+        Route::get('/post_albums/delete', 'Admin\AdminPostController@post_albums_delete')->name('post_albums.delete');
+
+        Route::get('/post_albums/view', 'Admin\AdminPostController@post_albums_view')->name('post_albums.view');
+
+        Route::get('/post_albums/status', 'Admin\AdminPostController@post_albums_status')->name('post_albums.status');
+
+        //posts albums end
+
 
         // Static pages start
 

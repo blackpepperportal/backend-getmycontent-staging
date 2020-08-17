@@ -110,6 +110,6 @@ if(!defined('FREE_POST')) define('FREE_POST',0);
 
 if(!defined('PAID_POST')) define('PAID_POST',1);
 
-if(!defined('SORT_BY_FREE_POST')) defined('SORT_BY_FREE_POST',5);
+if(!defined('SORT_BY_FREE_POST')) define('SORT_BY_FREE_POST',5);
 
-if(!defined('SORT_BY_PAID_POST')) defined('SORT_BY_PAID_POST',6);
+if(!defined('SORT_BY_PAID_POST')) define('SORT_BY_PAID_POST',6);

@@ -52,7 +52,7 @@ class AdminPostController extends Controller
 
             $base_query =  $base_query
 
-                ->whereHas('stardomDetails', function($q) use ($search_key) {
+                ->whereHas('getStardomDetails', function($q) use ($search_key) {
 
                     return $q->Where('stardoms.name','LIKE','%'.$search_key.'%');
 
@@ -232,6 +232,178 @@ class AdminPostController extends Controller
             DB::rollback();
 
             return redirect()->route('admin.posts.index')->with('flash_error', $e->getMessage());
+
+        }
+
+    }
+
+       /**
+     * @method post_albums_index()
+     *
+     * @uses Display the total posts albums index
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param -
+     *
+     * @return view page 
+     */
+    public function post_albums_index(Request $request) {
+
+        $post_albums = \App\PostAlbum::orderBy('created_at','DESC')->paginate(10);
+
+        return view('admin.post_albums.index')
+                    ->with('main_page','post_albums')
+                    ->with('page','post_albums')
+                    ->with('sub_page' , 'post_albums-view')
+                    ->with('post_albums' , $post_albums);
+    }
+
+    /**
+     * @method post_albums_view()
+     *
+     * @uses displays the specified post album details based on post album id
+     *
+     * @created Akshata 
+     *
+     * @updated 
+     *
+     * @param object $request - Post Album Id
+     * 
+     * @return View page
+     *
+     */
+    public function post_albums_view(Request $request) {
+       
+        try {
+      
+            $post_album_details = \App\PostAlbum::find($request->post_album_id);
+
+            $post_ids = explode(',', $post_album_details->post_ids);
+
+            $posts = [];
+
+            foreach ($post_ids as $key => $post_id) {
+               
+                $post_details = \App\Post::where('id',$post_id)->first();
+
+                array_push($posts,$post_details);
+            }
+
+            if(!$post_album_details) { 
+
+                throw new Exception(tr('post_not_found'), 101);                
+            }
+
+            return view('admin.post_albums.view')
+                        ->with('main_page','post_albums')
+                        ->with('page', 'post_albums') 
+                        ->with('sub_page','post_albums-view') 
+                        ->with('post_album_details' , $post_album_details)
+                        ->with('posts',$posts);
+            
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+    /**
+     * @method post_albums_delete()
+     *
+     * @uses delete the post album details based on post album id
+     *
+     * @created Akshata 
+     *
+     * @updated  
+     *
+     * @param object $request - Post Album Id
+     * 
+     * @return response of success/failure details with view page
+     *
+     */
+    public function post_albums_delete(Request $request) {
+
+        try {
+
+            DB::begintransaction();
+
+            $post_album_details = \App\Post::find($request->post_album_id);
+            
+            if(!$post_album_details) {
+
+                throw new Exception(tr('post_album_not_found'), 101);                
+            }
+
+            if($stardom_details->delete()) {
+
+                DB::commit();
+
+                return redirect()->route('admin.post_albums.index')->with('flash_success',tr('post_album_deleted_success'));   
+
+            } 
+            
+            throw new Exception(tr('post_album_delete_failed'));
+            
+        } catch(Exception $e){
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }       
+         
+    }
+
+    /**
+     * @method post_albums_status
+     *
+     * @uses To update post album status as DECLINED/APPROVED based on posts id
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - Post Album Id
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function post_albums_status(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $post_album_details = \App\PostAlbum::find($request->post_id);
+
+            if(!$post_album_details) {
+
+                throw new Exception(tr('post_album_not_found'), 101);
+                
+            }
+
+            $post_album_details->status = $post_album_details->status ? DECLINED : APPROVED ;
+
+            if($post_album_details->save()) {
+
+                DB::commit();
+
+                $message = $post_album_details->status ? tr('post_album_approve_success') : tr('post_album_decline_success');
+
+                return redirect()->back()->with('flash_success', $message);
+            }
+            
+            throw new Exception(tr('post_album_status_change_failed'));
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->route('admin.post_albums.index')->with('flash_error', $e->getMessage());
 
         }
 

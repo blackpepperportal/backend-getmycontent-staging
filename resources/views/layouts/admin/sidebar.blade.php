@@ -94,20 +94,15 @@
             
             </li>
 
-            <li class="nav-item" id="stardom_albums">
+            <li class="nav-item" id="post_albums">
                 <a href="{{route('admin.stardom_products.index')}}">
                     <i class="fa fa-clone"></i>
-                    <span class="menu-title" data-i18n="">Albums</span>
+                    <span class="menu-title" data-i18n="">{{tr('post_albums')}}</span>
                 </a>
                 <ul class="menu-content">
-                    <li id="stardom_products-create">
-                        <a class="menu-item" href="{{route('admin.stardom_products.create')}}">
-                            {{tr('add_stardom_product')}}
-                        </a>
-                    </li>
-                    <li id="stardom_products-view">
-                        <a class="menu-item" href="{{route('admin.stardom_products.index')}}">
-                            {{tr('view_stardom_products')}}
+                    <li id="post_albums-view">
+                        <a class="menu-item" href="{{route('admin.post_albums.index')}}">
+                            {{tr('view_post_albums')}}
                         </a>
                     </li>
                 </ul>            
