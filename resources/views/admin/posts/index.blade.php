@@ -54,9 +54,9 @@
 
                                         <option  class="select-color" value="{{SORT_BY_DECLINED}}">{{tr('declined')}}</option>
 
-                                        <option  class="select-color" value="{{PAID}}">{{tr('paid')}}</option>
+                                        <option  class="select-color" value="{{SORT_BY_PAID_POST}}">{{tr('paid')}}</option>
 
-                                        <option  class="select-color" value="{{FREE}}">{{tr('free_post')}}</option>
+                                        <option  class="select-color" value="{{SORT_BY_FREE_POST}}">{{tr('free_post')}}</option>
 
                                     </select>
 

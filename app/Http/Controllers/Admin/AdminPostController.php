@@ -52,7 +52,7 @@ class AdminPostController extends Controller
 
             $base_query =  $base_query
 
-                ->orWhereHas('stardomDetails', function($q) use ($search_key) {
+                ->whereHas('stardomDetails', function($q) use ($search_key) {
 
                     return $q->Where('stardoms.name','LIKE','%'.$search_key.'%');
 
@@ -72,12 +72,12 @@ class AdminPostController extends Controller
                     $base_query = $base_query->where('posts.status', DECLINED);
                     break;
 
-                case FREE:
-                    $base_query = $base_query->where('posts.is_paid_post',UNPAID);
+                case SORT_BY_FREE_POST:
+                    $base_query = $base_query->where('posts.is_paid_post',FREE_POST);
                     break;
                 
                 default:
-                    $base_query = $base_query->where('posts.is_paid_post',PAID);
+                    $base_query = $base_query->where('posts.is_paid_post',PAID_POST);
                     break;
             }
         }

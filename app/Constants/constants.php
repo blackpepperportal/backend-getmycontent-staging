@@ -106,4 +106,10 @@ if(!defined('STARDOM_DOCUMENT_NOT_VERIFIED')) define('STARDOM_DOCUMENT_NOT_VERIF
 
 if(!defined('FREE')) define('FREE', 3);
 
-if(!defined('UNPAID')) define('UNPAID',0);
+if(!defined('FREE_POST')) define('FREE_POST',0);
+
+if(!defined('PAID_POST')) define('PAID_POST',1);
+
+if(!defined('SORT_BY_FREE_POST')) defined('SORT_BY_FREE_POST',5);
+
+if(!defined('SORT_BY_PAID_POST')) defined('SORT_BY_PAID_POST',6);
