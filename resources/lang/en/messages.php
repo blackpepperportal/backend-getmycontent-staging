@@ -650,6 +650,10 @@ return [
 	'failed_reason' => 'Failed Reason',
 	'post' => 'Post',
 	'unverified_stardoms' => 'Unverified Stardoms',
+	'stardom_delete_email'  => 'Stardom delete email',
+	'stardom_decline_email' => 'Stardom decline email',
+	'your_account_deleted_by_admin' => 'Your account has been deleted by admin',
+	'your_account_declined_by_admin' => 'Your account has been declined by admin',
 
 
 

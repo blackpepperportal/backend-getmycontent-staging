@@ -337,6 +337,14 @@ class AdminStardomController extends Controller
 
             if($stardom_details->delete()) {
 
+                $email_data['subject'] = tr('stardom_delete_email' , Setting::get('site_name'));
+
+                $email_data['email']  = $stardom_details->email;
+
+                $email_data['page'] = "emails.stardoms.stardom-delete";
+
+                $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+
                 DB::commit();
 
                 return redirect()->route('admin.stardoms.index')->with('flash_success',tr('stardom_deleted_success'));   
@@ -386,6 +394,17 @@ class AdminStardomController extends Controller
             $stardom_details->status = $stardom_details->status ? DECLINED : APPROVED ;
 
             if($stardom_details->save()) {
+
+                if($stardom_details->status == DECLINED) {
+
+                    $email_data['subject'] = tr('stardom_decline_email' , Setting::get('site_name'));
+
+                    $email_data['email']  = $stardom_details->email;
+
+                    $email_data['page'] = "emails.stardoms.stardom-decline";
+
+                    $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+                }
 
                 DB::commit();
 
