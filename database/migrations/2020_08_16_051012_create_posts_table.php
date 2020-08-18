@@ -21,6 +21,7 @@ class CreatePostsTable extends Migration
             $table->dateTime('publish_time')->nullable();
             $table->float('amount')->default(0.00);
             $table->tinyInteger('is_paid_post')->default(0);
+            $table->tinyInteger('is_published')->default(1);
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
