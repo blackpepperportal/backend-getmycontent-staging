@@ -647,6 +647,8 @@ return [
 	'payment_id' => 'Payment Id',
 	'is_failed' => 'Is Failed',
 	'post_payment_not_found' => 'Post payment not found',
+	'failed_reason' => 'Failed Reason',
+	'post' => 'Post',
 
 
 

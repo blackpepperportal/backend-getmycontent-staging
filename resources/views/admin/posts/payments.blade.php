@@ -77,7 +77,7 @@
                                     </td>
 
                                     <td>
-                                        @if($post_payment_details->is_failes)
+                                        @if($post_payment_details->is_failed)
                                             <span class="badge badge-success">{{tr('yes')}}</span>
                                         @else
                                             <span class="badge badge-danger">{{tr('no')}}</span>
@@ -85,7 +85,7 @@
                                     </td>
 
                                     <td>
-                                       <a href="" class="btn btn-primary">{{tr('view')}}</a>
+                                       <a href="{{route('admin.post.payments.view',['post_payment_id' => $post_payment_details->id])}}" class="btn btn-primary">{{tr('view')}}</a>
                                     </td>
 
                                 </tr>

@@ -122,6 +122,8 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('/post/payments','Admin\AdminRevenueController@post_payments')->name('post.payments');
 
+        Route::get('/post/payments/view','Admin\AdminRevenueController@post_payments_view')->name('post.payments.view');
+
         //posts end
 
         //posts albums start

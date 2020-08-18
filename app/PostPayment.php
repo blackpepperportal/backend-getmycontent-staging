@@ -17,4 +17,9 @@ class PostPayment extends Model
 
     	return $this->belongsTo(User::class,'user_id');
     }
+
+    public function postDetails() {
+
+    	return $this->belongsTo(Post::class,'post_id');
+    }
 }

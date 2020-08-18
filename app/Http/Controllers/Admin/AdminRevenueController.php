@@ -106,7 +106,7 @@ class AdminRevenueController extends Controller
                 
             }
            
-            return view('admin.posts.payments')
+            return view('admin.posts.payments_view')
                     ->with('page','payments')
                     ->with('sub_page','post-payments')
                     ->with('post_payment_details',$post_payment_details);
