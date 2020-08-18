@@ -638,6 +638,12 @@ return [
 	'post_album_decline_confirmation' => 'Do you want decline this post album?',
 	'post_album_status_change_failed' => 'The post album status updating failed..!!',
 
+	'total_earnings' => 'Total Earnings',
+	'today_earnings' => 'Today Earnings',
+	'current_month_earnings' => 'Month Earnings',
+	'history_of_payments' => 'History Of Payments',
+	'payments' => 'Payments',
+
 
 
 ]?>

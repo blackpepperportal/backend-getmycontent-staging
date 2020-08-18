@@ -77,17 +77,12 @@
                             {{tr('view_posts')}}
                         </a>
                     </li>
-                    <li id="scheduled-posts">
-                        <a class="menu-item" href="{{route('admin.posts.index',['scheduled' => 'scheduled_posts'])}}">
-                            {{tr('scheduled_posts')}}
-                        </a>
-                    </li>
                 </ul>            
             
             </li>
 
-            <li class="nav-item" id="inventory">
-                <a href="{{route('admin.settings')}}">
+            <li class="nav-item" id="scheduled-posts">
+                <a href="{{route('admin.posts.index',['scheduled' => 'scheduled_posts'])}}">
                     <i class="fa fa-clock-o"></i>
                     <span class="menu-title" data-i18n="">Scheduled Posts</span>
                 </a>

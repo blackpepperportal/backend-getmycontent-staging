@@ -82,14 +82,15 @@ class AdminPostController extends Controller
             }
         }
 
-       
-        $sub_page = 'posts-view';
-
         if($request->scheduled) {
 
-            $sub_page = 'scheduled-posts';
-
             $base_query = $base_query->where('publish_time','!=',NULL);
+
+            $posts = $base_query->paginate(10);
+
+            return view('admin.posts.index')
+                    ->with('page','scheduled-posts')
+                    ->with('posts' , $posts);
         }
 
         $posts = $base_query->paginate(10);
@@ -97,7 +98,7 @@ class AdminPostController extends Controller
         return view('admin.posts.index')
                     ->with('main_page','posts-crud')
                     ->with('page','posts')
-                    ->with('sub_page' , $sub_page)
+                    ->with('sub_page' , 'posts-view')
                     ->with('posts' , $posts);
     }
 
@@ -126,11 +127,21 @@ class AdminPostController extends Controller
                 throw new Exception(tr('post_not_found'), 101);                
             }
 
+            $payment_data = new \stdClass;
+
+            $payment_data->total_earnings = \App\PostPayment::where('post_id',$request->post_id)->sum('paid_amount');
+
+            $payment_data->current_month_earnings = \App\PostPayment::where('post_id',$request->post_id)->whereMonth('paid_date',date('m'))->sum('paid_amount');
+
+            $payment_data->today_earnings = \App\PostPayment::where('post_id',$request->payment_id)->whereDate('paid_date',today())->sum('paid_amount');
+           
+        
             return view('admin.posts.view')
                         ->with('main_page','posts-crud')
                         ->with('page', 'posts') 
                         ->with('sub_page','posts-index') 
-                        ->with('post_details' , $post_details);
+                        ->with('post_details' , $post_details)
+                        ->with('payment_data',$payment_data);
             
         } catch (Exception $e) {
 
