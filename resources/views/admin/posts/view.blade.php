@@ -50,7 +50,7 @@
                             {{tr('go_to_profile')}}
                         </a>
 
-                        <a href="" class="btn btn-purple">{{tr('payments')}}</a>
+                        <a href="{{route('admin.post.payments',['post_id'=>$post_details->id])}}" class="btn btn-purple">{{tr('payments')}}</a>
 
                     </div>
 

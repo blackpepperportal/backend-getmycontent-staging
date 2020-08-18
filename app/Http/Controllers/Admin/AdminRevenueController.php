@@ -72,6 +72,11 @@ class AdminRevenueController extends Controller
     public function post_payments(Request $request) {
 
         $post_payments = \App\PostPayment::paginate(10);
+
+        if($request->post_id) {
+
+            $post_payments = \App\PostPayment::where('post_id',$request->post_id)->paginate(10);
+        }
        
         return view('admin.posts.payments')
                 ->with('page','payments')
