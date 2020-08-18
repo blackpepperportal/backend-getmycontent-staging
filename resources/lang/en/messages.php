@@ -643,6 +643,10 @@ return [
 	'current_month_earnings' => 'Month Earnings',
 	'history_of_payments' => 'History Of Payments',
 	'payments' => 'Payments',
+	'post_payments' => 'Post Payments',
+	'payment_id' => 'Payment Id',
+	'is_failed' => 'Is Failed',
+	'post_payment_not_found' => 'Post payment not found',
 
 
 

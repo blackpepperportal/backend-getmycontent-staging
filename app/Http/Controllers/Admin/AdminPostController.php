@@ -84,7 +84,7 @@ class AdminPostController extends Controller
 
         if($request->scheduled) {
 
-            $base_query = $base_query->where('publish_time','!=',NULL);
+            $base_query = $base_query->where('is_published',NO);
 
             $posts = $base_query->paginate(10);
 

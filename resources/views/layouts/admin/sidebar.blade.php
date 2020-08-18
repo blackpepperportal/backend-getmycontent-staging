@@ -179,14 +179,9 @@
                     <span class="menu-title" data-i18n="">Payments</span>
                 </a>
                 <ul class="menu-content">
-                    <li id="documents-create">
-                        <a class="menu-item" href="{{route('admin.documents.create')}}">
-                            {{tr('add_document')}}
-                        </a>
-                    </li>
-                    <li id="documents-view">
-                        <a class="menu-item" href="{{route('admin.documents.index')}}">
-                            {{tr('view_documents')}}
+                    <li id="post-payments">
+                        <a class="menu-item" href="{{route('admin.post.payments')}}">
+                           {{tr('post_payments')}}
                         </a>
                     </li>
                 </ul>            

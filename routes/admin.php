@@ -120,6 +120,8 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('/posts/status', 'Admin\AdminPostController@posts_status')->name('posts.status');
 
+        Route::get('/post/payments','Admin\AdminRevenueController@post_payments')->name('post.payments');
+
         //posts end
 
         //posts albums start

@@ -55,4 +55,66 @@ class AdminRevenueController extends Controller
     
     }
 
+    /**
+     * @method post_payments()
+     *
+     * @uses Display the lists of post payments
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     */
+
+    public function post_payments(Request $request) {
+
+        $post_payments = \App\PostPayment::paginate(10);
+       
+        return view('admin.posts.payments')
+                ->with('page','payments')
+                ->with('sub_page','post-payments')
+                ->with('post_payments',$post_payments);
+    }
+
+
+    /**
+     * @method post_payments_view()
+     *
+     * @uses 
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     */
+
+    public function post_payments_view(Request $request) {
+
+        try {
+
+            $post_payment_details = \App\PostPayment::where('id',$request->post_payment_id)->first();
+
+            if(!$post_payment_details) {
+
+                throw new Exception(tr('post_payment_not_found'), 1);
+                
+            }
+           
+            return view('admin.posts.payments')
+                    ->with('page','payments')
+                    ->with('sub_page','post-payments')
+                    ->with('post_payment_details',$post_payment_details);
+
+        } catch(Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+        }
+    }
+
 }
