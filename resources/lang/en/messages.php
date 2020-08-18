@@ -654,6 +654,12 @@ return [
 	'stardom_decline_email' => 'Stardom decline email',
 	'your_account_deleted_by_admin' => 'Your account has been deleted by admin',
 	'your_account_declined_by_admin' => 'Your account has been declined by admin',
+	'orders' => 'Orders',
+	'view_orders' => 'View Orders',
+	'order_details_not_found' => 'Order details not found',
+	'delivery_address' => 'Delivary Address',
+	'total_products' => 'Total Products',
+	'total' => 'Total',
 
 
 

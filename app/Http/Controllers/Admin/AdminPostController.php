@@ -413,4 +413,68 @@ class AdminPostController extends Controller
 
     }
 
+    /**
+     * @method orders_index
+     *
+     * @uses Display list of orders
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - Order Id
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function orders_index(Request $request) {
+
+        $orders = \App\Order::paginate(10);
+
+        return view('admin.orders.index')
+                    ->with('page','orders')
+                    ->with('sub_page','orders-index')
+                    ->with('orders',$orders);
+    }
+
+
+    /**
+     * @method orders_view
+     *
+     * @uses Display the specified order details
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - Order Id
+     * 
+     * @return response success/failure message
+     *
+     **/
+
+    public function orders_view(Request $request) {
+
+        try {
+
+            $order_details = \App\Order::where('id',$request->order_id)->first();
+
+            if(!$order_details) {
+
+                throw new Exception(tr('order_details_not_found'), 1);
+                
+            }
+
+            return view('admin.orders.view')
+                    ->with('page','orders')
+                    ->with('sub_page','orders-view')
+                    ->with('order_details',$order_details);
+
+        } catch(Exception $e) {
+
+            return redirect()->back()->with('flash_error',$e->getMessage());
+        }
+    }
+    
+
 }

@@ -138,6 +138,14 @@ Route::group(['middleware' => 'web'], function() {
 
         //posts albums end
 
+        //orders start
+
+        Route::get('/orders' , 'Admin\AdminPostController@orders_index')->name('orders.index');
+
+        Route::get('/orders/view', 'Admin\AdminPostController@orders_view')->name('orders.view');
+
+        //orders end
+
 
         // Static pages start
 

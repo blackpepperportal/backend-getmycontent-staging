@@ -137,20 +137,17 @@
             
             </li>
 
-            <li class="nav-item" id="stardom_orders">
-                <a href="{{route('admin.stardom_products.index')}}">
+            <li class="nav-item" id="orders">
+
+                <a href="{{route('admin.orders.index')}}">
                     <i class="ft-book"></i>
-                    <span class="menu-title" data-i18n="">Orders</span>
+                    <span class="menu-title" data-i18n="">{{tr('orders')}}</span>
                 </a>
+
                 <ul class="menu-content">
-                    <li id="stardom_products-create">
-                        <a class="menu-item" href="{{route('admin.stardom_products.create')}}">
-                            {{tr('add_stardom_product')}}
-                        </a>
-                    </li>
-                    <li id="stardom_products-view">
-                        <a class="menu-item" href="{{route('admin.stardom_products.index')}}">
-                            {{tr('view_stardom_products')}}
+                    <li id="orders-view">
+                        <a class="menu-item" href="{{route('admin.orders.index')}}">
+                            {{tr('view_orders')}}
                         </a>
                     </li>
                 </ul>            
@@ -158,6 +155,7 @@
             </li>
 
             <li class="nav-item" id="inventory">
+
                 <a href="{{route('admin.settings')}}">
                     <i class="fa fa-shopping-bag"></i>
                     <span class="menu-title" data-i18n="">{{tr('inventory')}}</span>
@@ -214,10 +212,12 @@
             </li>
 
             <li class="nav-item" id="payments">
+
                 <a href="{{route('admin.documents.index')}}">
                     <i class="ft-file"></i>
                     <span class="menu-title" data-i18n="">Subscriptions</span>
                 </a>
+
                 <ul class="menu-content">
                     <li id="documents-create">
                         <a class="menu-item" href="{{route('admin.documents.create')}}">
