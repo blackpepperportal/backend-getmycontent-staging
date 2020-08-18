@@ -46,14 +46,6 @@ class AdminStardomController extends Controller
     public function stardoms_index(Request $request) {
 
         $base_query = \App\Stardom::orderBy('created_at','DESC');
-       
-        if($request->search_key) {
-
-            $base_query = $base_query
-                    ->where('name','LIKE','%'.$request->search_key.'%')
-                    ->orWhere('email','LIKE','%'.$request->search_key.'%')
-                    ->orWhere('mobile','LIKE','%'.$request->search_key.'%');
-        }
 
         if($request->status) {
 
@@ -77,12 +69,29 @@ class AdminStardomController extends Controller
             }
         }
 
+        $sub_page = 'stardoms-view';
+
+        if($request->unverified) {
+
+            $sub_page = 'stardoms-unverified';
+
+            $base_query = $base_query->where('is_verified',STARDOM_EMAIL_NOT_VERIFIED);
+        }
+
+        if($request->search_key) {
+
+            $base_query = $base_query
+                    ->where('name','LIKE','%'.$request->search_key.'%')
+                    ->orWhere('email','LIKE','%'.$request->search_key.'%')
+                    ->orWhere('mobile','LIKE','%'.$request->search_key.'%');
+        }
+        
         $stardoms = $base_query->paginate(10);
 
         return view('admin.stardoms.index')
                     ->with('main_page','stardoms-crud')
                     ->with('page','stardoms')
-                    ->with('sub_page' , 'stardoms-view')
+                    ->with('sub_page' , $sub_page)
                     ->with('stardoms' , $stardoms);
     }
 

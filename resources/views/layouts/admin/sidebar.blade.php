@@ -51,6 +51,11 @@
                             {{tr('view_stardoms')}}
                         </a>
                     </li>
+                    <li id="stardoms-unverified">
+                        <a class="menu-item" href="{{route('admin.stardoms.index',['unverified' => YES])}}">
+                            {{tr('unverified_stardoms')}}
+                        </a>
+                    </li>
                     <li id="stardoms-documents">
                         <a class="menu-item" href="{{route('admin.stardoms.documents.index')}}">
                             {{tr('stardom_documents')}}

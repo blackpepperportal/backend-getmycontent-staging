@@ -649,6 +649,7 @@ return [
 	'post_payment_not_found' => 'Post payment not found',
 	'failed_reason' => 'Failed Reason',
 	'post' => 'Post',
+	'unverified_stardoms' => 'Unverified Stardoms',
 
 
 
