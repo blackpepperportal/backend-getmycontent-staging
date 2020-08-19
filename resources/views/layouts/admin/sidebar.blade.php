@@ -187,6 +187,12 @@
                            {{tr('post_payments')}}
                         </a>
                     </li>
+
+                     <li id="order-payments">
+                        <a class="menu-item" href="{{route('admin.order.payments')}}">
+                           {{tr('order_payments')}}
+                        </a>
+                    </li>
                 </ul>            
             
             </li>

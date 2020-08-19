@@ -40,7 +40,7 @@
 
                             <div class="col-md-6">
 
-                                <div class="card-title">{{tr('address_details')}}
+                                <div class="card-title text-primary">{{tr('address_details')}}
 
                                 - <a href="{{ route('admin.users.view', ['user_id' => $order_details->user_id])}}">
                                 {{ $order_details->userDetails->name ?? "-"}}
@@ -90,7 +90,7 @@
 
                              <div class="col-md-6">
 
-                                <div class="card-title">{{tr('order_details')}}</div>
+                                <div class="card-title text-primary">{{tr('order_details')}}</div>
 
                                 <table class="table table-bordered table-striped tab-content">
                        
@@ -138,68 +138,14 @@
 
                 </div>
 
-                <div class="card">
-
-                    <div class="card-body"> 
-
-                        <div class="card-title">{{tr('order_payments')}}</div>
-
-                        <table class="table table-striped table-bordered">
-                                    
-                            <thead>
-                                <tr>
-                                    <th>{{ tr('s_no') }}</th>
-                                    <th>{{ tr('payment_id') }}</th>
-                                    <th>{{ tr('payment_mode') }}</th>
-                                    <th>{{ tr('delivery_price') }}</th>
-                                    <th>{{ tr('sub_total') }}</th>
-                                    <th>{{ tr('tax_price')}}</th>
-                                    <th>{{ tr('total')}}</th>
-                                </tr>
-                            </thead>
-                           
-                            <tbody>
-
-                                @foreach($order_payments as $i => $order_payment_details)
-
-                                    <tr>
-                                        <td>{{ $i + 1 }}</td>
-
-                                        <td>
-                                            {{ $order_payment_details->payment_id }}
-                                        </td>
-
-                                        <td><span class="badge bg-secondary">{{ $order_payment_details->payment_mode }}</span></td>
-
-                                        <td>
-                                            {{ $order_payment_details->delivery_price_formatted}}
-                                        </td>
-
-                                        <td>
-                                            {{$order_payment_details->tax_price_formatted}}
-                                        </td>
-
-                                        <td>{{$order_payment_details->sub_total_formatted}}</td>
-
-                                        <td>{{$order_payment_details->total_formatted}}</td>
-
-                                    </tr>
-
-                                @endforeach
-
-                            </tbody>
-                        
-                        </table>
-
-                    </div>
-
-                </div>
-
                  <div class="card">
 
                     <div class="card-body"> 
 
-                        <div class="card-title">{{tr('ordered_product_details')}}</div>
+                        <div class="card-title text-primary">{{tr('ordered_product_details')}}
+
+                            <a class="btn btn-purple pull-right" href="{{route('admin.order.payments',['order_id' =>$order_details->id])}}">{{tr('order_payment_history')}}</a>
+                        </div>
 
                         <div class="card-body">
 

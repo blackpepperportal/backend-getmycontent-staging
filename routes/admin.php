@@ -144,6 +144,10 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('/orders/view', 'Admin\AdminPostController@orders_view')->name('orders.view');
 
+        Route::get('/order/payments','Admin\AdminRevenueController@order_payments')->name('order.payments');
+
+        Route::get('/order/payments/view','Admin\AdminRevenueController@order_payments_view')->name('order.payments.view');
+
         //orders end
 
 

@@ -674,6 +674,8 @@ return [
 	'stardom_product' => 'Stardom Product',
 	'per_quantity_price' => 'Per Quantity Price',
 	'orders_search_placeholder' => 'Search by Username, Delivery Address',
+	'order_payment_not_found' => 'Order Payment details not found',
+	'order_payment_history' => 'Order Payment History',
 
 
 

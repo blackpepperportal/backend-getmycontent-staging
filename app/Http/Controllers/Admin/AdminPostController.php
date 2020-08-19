@@ -450,7 +450,7 @@ class AdminPostController extends Controller
 
         return view('admin.orders.index')
                     ->with('page','orders')
-                    ->with('sub_page','orders-index')
+                    ->with('sub_page','orders-view')
                     ->with('orders',$orders);
     }
 
