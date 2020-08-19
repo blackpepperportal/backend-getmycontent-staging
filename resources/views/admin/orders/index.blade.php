@@ -36,6 +36,37 @@
 
                     <div class="card-body card-dashboard">
 
+                         <form method="GET" action="{{route('admin.orders.index')}}">
+
+                            <div class="row">
+
+                                <div class="col-6"></div>
+
+                                <div class="col-6">
+
+                                    <div class="input-group">
+                                       
+                                        <input type="text" class="form-control" name="search_key"
+                                        placeholder="{{tr('orders_search_placeholder')}}"> <span class="input-group-btn">
+                                        &nbsp
+
+                                        <button type="submit" class="btn btn-default">
+                                           <a href=""><i class="fa fa-search" aria-hidden="true"></i></a>
+                                        </button>
+                                        
+                                        <button class="btn btn-default"><a  href="{{route('admin.orders.index')}}"><i class="fa fa-eraser" aria-hidden="true"></i></button>
+                                        </a>
+                                           
+                                        </span>
+
+                                    </div>
+                                    
+                                </div>
+
+                            </div>
+
+                        </form>
+                        
                         <table class="table table-striped table-bordered sourced-data">
                             
                             <thead>
@@ -58,12 +89,12 @@
                                     <td>{{ $i + $orders->firstItem() }}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.users.view' , ['order_id' => $order_details->id] )  }}">
+                                        <a href="{{  route('admin.users.view' , ['user_id' => $order_details->user_id] )  }}">
                                         {{ $order_details->userDetails->name ?? "-" }}
                                         </a>
                                     </td>
 
-                                    <td>{{ $order_details->delivaryAddressDetails->name ?? "-" }}</td>
+                                    <td>{{ $order_details->deliveryAddressDetails->name ?? "-" }}</td>
 
                                     <td>
                                         {{ $order_details->total_products}}

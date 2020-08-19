@@ -117,7 +117,7 @@
                                         {{ $post_payment_details->payment_mode}}
                                         </span>
                                     </td>
-                                    
+                                        
                                     <td>
                                        <a href="{{route('admin.post.payments.view',['post_payment_id' => $post_payment_details->id])}}" class="btn btn-primary">{{tr('view')}}</a>
                                     </td>

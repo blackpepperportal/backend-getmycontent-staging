@@ -673,6 +673,7 @@ return [
 	'ordered_product_details' => 'Ordered Product Details',
 	'stardom_product' => 'Stardom Product',
 	'per_quantity_price' => 'Per Quantity Price',
+	'orders_search_placeholder' => 'Search by Username, Delivery Address',
 
 
 

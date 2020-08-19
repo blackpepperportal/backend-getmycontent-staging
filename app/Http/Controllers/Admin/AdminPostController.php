@@ -429,7 +429,24 @@ class AdminPostController extends Controller
      **/
     public function orders_index(Request $request) {
 
-        $orders = \App\Order::paginate(10);
+        $base_query = \App\Order::where('status',APPROVED);
+
+        if($request->search_key) {
+
+            $search_key = $request->search_key;
+
+            $base_query = $base_query
+                        ->whereHas('userDetails',function($query) use($search_key) {
+
+                            return $query->where('users.name','LIKE','%'.$search_key.'%');
+
+                        })->orWhereHas('deliveryAddressDetails',function($query) use($search_key){
+
+                            return $query->where('delivery_addresses.name','LIKE','%'.$search_key.'%');
+                        }); 
+        }
+
+        $orders = $base_query->paginate(10);
 
         return view('admin.orders.index')
                     ->with('page','orders')
