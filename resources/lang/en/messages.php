@@ -676,6 +676,14 @@ return [
 	'orders_search_placeholder' => 'Search by Username, Delivery Address',
 	'order_payment_not_found' => 'Order Payment details not found',
 	'order_payment_history' => 'Order Payment History',
+	'order_placed' => 'Order Placed',
+	'order_shipped' => 'Order Shipped',
+	'order_deliverd' => 'Order Deliverd',
+	'order_cancelled' => 'Order Cancelled',
+	'placed' => 'Placed',
+	'shipped' => 'Shipped',
+	'deliverd' => 'Deliverd',
+	'cancelled' => 'Cancelled',
 
 
 

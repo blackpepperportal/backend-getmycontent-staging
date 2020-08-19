@@ -429,7 +429,29 @@ class AdminPostController extends Controller
      **/
     public function orders_index(Request $request) {
 
-        $base_query = \App\Order::where('status',APPROVED);
+        $base_query = \App\Order::where('unique_id','!=',NULL);
+
+        if($request->status) {
+
+            switch ($request->status) {
+
+                case SORT_BY_ORDER_PLACED:
+                    $base_query = $base_query->where('orders.status', ORDER_PLACED);
+                    break;
+
+                case SORT_BY_ORDER_SHIPPED:
+                    $base_query = $base_query->where('orders.status', ORDER_SHIPPED);
+                    break;
+
+                case SORT_BY_ORDER_DELIVERD:
+                    $base_query = $base_query->where('orders.status',ORDER_DELIVERD);
+                    break;
+                
+                default:
+                    $base_query = $base_query->where('orders.status',ORDER_CANCELLED);
+                    break;
+            }
+        }
 
         if($request->search_key) {
 

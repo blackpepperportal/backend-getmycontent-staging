@@ -113,3 +113,22 @@ if(!defined('PAID_POST')) define('PAID_POST',1);
 if(!defined('SORT_BY_FREE_POST')) define('SORT_BY_FREE_POST',5);
 
 if(!defined('SORT_BY_PAID_POST')) define('SORT_BY_PAID_POST',6);
+
+
+if(!defined('SORT_BY_ORDER_PLACED')) define('SORT_BY_ORDER_PLACED',1);
+
+if(!defined('SORT_BY_ORDER_SHIPPED')) define('SORT_BY_ORDER_SHIPPED',2);
+
+if(!defined('SORT_BY_ORDER_DELIVERD')) define('SORT_BY_ORDER_DELIVERD',3);
+
+if(!defined('SORT_BY_ORDER_CANCELLED')) define('SORT_BY_ORDER_CANCELLED',4);
+
+if(!defined('ORDER_PLACED')) define('ORDER_PLACED',1);
+
+if(!defined('ORDER_SHIPPED')) define('ORDER_SHIPPED',2);
+
+if(!defined('ORDER_DELIVERD')) define('ORDER_DELIVERD',3);
+
+if(!defined('ORDER_CACELLED')) define('ORDER_CACELLED',4);
+
+

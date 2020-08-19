@@ -40,7 +40,29 @@
 
                             <div class="row">
 
-                                <div class="col-6"></div>
+                                 <div class="col-3">
+                                    @if(Request::has('search_key'))
+                                        <p class="text-muted">Search results for <b>{{Request::get('search_key')}}</b></p>
+                                    @endif
+                                </div>
+
+                                <div class="col-3">
+
+                                    <select class="form-control select2" name="status">
+
+                                        <option  class="select-color" value="">{{tr('select_status')}}</option>
+
+                                        <option  class="select-color" value="{{SORT_BY_ORDER_PLACED}}">{{tr('order_placed')}}</option>
+
+                                        <option  class="select-color" value="{{SORT_BY_ORDER_SHIPPED}}">{{tr('order_shipped')}}</option>
+
+                                        <option  class="select-color" value="{{SORT_BY_ORDER_DELIVERD}}">{{tr('order_deliverd')}}</option>
+
+                                        <option  class="select-color" value="{{SORT_BY_ORDER_CANCELLED}}">{{tr('order_cancelled')}}</option>
+
+                                    </select>
+
+                                </div>
 
                                 <div class="col-6">
 
@@ -75,8 +97,8 @@
                                     <th>{{ tr('user') }}</th>
                                     <th>{{ tr('delivery_address') }}</th>
                                     <th>{{ tr('total_products') }}</th>
-                                    <th>{{ tr('tax_price') }}</th>
                                     <th>{{ tr('total')}}</th>
+                                    <th>{{ tr('status') }}</th>
                                     <th>{{ tr('action') }}</th>
                                 </tr>
                             </thead>
@@ -100,11 +122,26 @@
                                         {{ $order_details->total_products}}
                                     </td>
 
-                                    <td>
-                                        {{$order_details->tax_price_formatted}}
-                                    </td>
-
                                     <td>{{$order_details->total_formatted}}</td>
+
+                                    <td>
+                                        @switch($order_details->status)
+
+                                            @case(SORT_BY_ORDER_CANCELLED)
+                                                <span class="badge bg-danger">{{tr('cancelled')}}</span>
+
+                                            @case(SORT_BY_ORDER_SHIPPED)
+                                                <span class="badge bg-secondary">{{tr('shipped')}}</span>
+
+                                            @case(SORT_BY_ORDER_DELIVERD) 
+                                                <span class="badge bg-success">
+                                                    {{tr('deliverd')}}
+                                                </span>
+                                            @default
+                                                <span class="badge bg-primary">{{tr('placed')}}</span>
+
+                                        @endswitch
+                                    </td>
 
                                     <td>
                                     
