@@ -660,6 +660,20 @@ return [
 	'delivery_address' => 'Delivary Address',
 	'total_products' => 'Total Products',
 	'total' => 'Total',
+	'post__payment_search_placeholder' => 'Search By Username, Payment Id',
+	'address_details' => 'Address Details',
+	'delivery_address_name' => 'Delivery Address Name',
+	'pincode' => 'Pincode',
+	'contact_number' => 'Contact Number',
+	'state' => 'State',
+	'landmark' => 'Landmark',
+	'order_payments' => 'Order Payments',
+	'delivery_price' => 'Delivery Price',
+	'order_details' => 'Order Details',
+	'ordered_product_details' => 'Ordered Product Details',
+	'stardom_product' => 'Stardom Product',
+	'per_quantity_price' => 'Per Quantity Price',
+
 
 
 

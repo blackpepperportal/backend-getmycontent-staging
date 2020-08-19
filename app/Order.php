@@ -28,8 +28,8 @@ class Order extends Model
     	return $this->belongsTo(User::class,'user_id');
     } 
 
-    public function delivaryAddressDetails() {
+    public function deliveryAddressDetails() {
 
-    	return $this->belongsTo(DeliveryAddress::class,'delivary_address_id');
+    	return $this->belongsTo(DeliveryAddress::class,'delivery_address_id');
     }
 }

@@ -71,12 +71,25 @@ class AdminRevenueController extends Controller
 
     public function post_payments(Request $request) {
 
-        $post_payments = \App\PostPayment::paginate(10);
+        $base_query = \App\PostPayment::where('is_failed',NO);
 
         if($request->post_id) {
 
-            $post_payments = \App\PostPayment::where('post_id',$request->post_id)->paginate(10);
+            $base_query = $base_query->where('post_id',$request->post_id);
         }
+
+        if($request->search_key) {
+
+            $search_key = $request->search_key;
+
+            $base_query = $base_query
+                            ->whereHas('userDetails',function($query) use($search_key){
+
+                                return $query->where('users.name','LIKE','%'.$search_key.'%');
+                            })->orWhere('post_payments.payment_id','LIKE','%'.$search_key.'%');
+        }
+
+        $post_payments = $base_query->paginate(10);
        
         return view('admin.posts.payments')
                 ->with('page','payments')
