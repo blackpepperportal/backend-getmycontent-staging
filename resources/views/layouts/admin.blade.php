@@ -48,6 +48,19 @@
 
     <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/css/plugins/forms/checkboxes-radios.min.css')}}">
 
+
+  <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/unslider.css">
+  <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/weather-icons/climacons.min.css">
+  <link rel="stylesheet" type="text/css" href="../../../app-assets/fonts/meteocons/style.min.css">
+  <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/vendors/css/charts/morris.css')}}">
+  <!-- END VENDOR CSS-->
+
+  <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/css/pages/timeline.min.css')}}">
+  <!-- END Page Level CSS-->
+  <!-- BEGIN Custom CSS-->
+  <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/assets/css/style.css')}}">
+  <!-- END Custom CSS-->
+
     @yield('styles')
 
 

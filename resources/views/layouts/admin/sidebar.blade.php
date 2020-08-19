@@ -169,16 +169,16 @@
                 <span>{{tr('revenue_management')}}</span>
             </li>
 
-            <li class="nav-item" id="settings">
-                <a href="{{route('admin.settings')}}">
+            <li class="nav-item" id="revenue-dashboard">
+                <a href="{{route('admin.revenues.dashboard')}}">
                     <i class="ft-globe"></i>
-                    <span class="menu-title" data-i18n="">Dashboard</span>
+                    <span class="menu-title" data-i18n="">{{tr('revenue_dashboard')}}</span>
                 </a>
             </li>
 
             <li class="nav-item" id="payments">
                 <a href="{{route('admin.documents.index')}}">
-                    <i class="ft-file"></i>
+                    <i class="fa fa-money"></i>
                     <span class="menu-title" data-i18n="">Payments</span>
                 </a>
                 <ul class="menu-content">

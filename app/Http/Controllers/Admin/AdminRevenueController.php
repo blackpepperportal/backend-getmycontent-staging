@@ -215,4 +215,41 @@ class AdminRevenueController extends Controller
         }
     }
 
+    /**
+     * @method revenue_dashboard()
+     *
+     * @uses Show the revenue dashboard.
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function revenues_dashboard() {
+        
+        $data = new \stdClass;
+
+        $data->order_payments = \App\OrderPayment::sum('total');
+
+        $data->post_payments = \App\PostPayment::sum('paid_amount');
+
+        $data->total_payments =  $data->order_payments + $data->post_payments;
+
+        $order_today_payments = \App\OrderPayment::whereDate('paid_date',today())->sum('total');
+
+        $post_today_payments = \App\PostPayment::whereDate('paid_date',today())->sum('paid_amount');
+
+        $data->today_payments = $order_today_payments + $post_today_payments;
+        
+        return view('admin.revenues.dashboard')
+                    ->with('page' , 'revenue-dashboard')
+                    ->with('data', $data);
+    
+    }
+
+
 }

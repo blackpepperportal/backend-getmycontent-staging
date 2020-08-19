@@ -150,6 +150,10 @@ Route::group(['middleware' => 'web'], function() {
 
         //orders end
 
+        //revenue dashboard start
+
+        Route::get('/revenues/dashboard','Admin\AdminRevenueController@revenues_dashboard')->name('revenues.dashboard');
+
 
         // Static pages start
 

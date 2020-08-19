@@ -45,6 +45,15 @@
                                     <tbody>
 
                                         <tr>
+                                            <td>{{ tr('user')}} </td>
+                                            <td>
+                                                <a href="{{ route('admin.users.view', ['user_id' => $order_payment_details->user_id])}}">
+                                                {{ $order_payment_details->userDetails->name ?? "-"}}
+                                                </a>
+                                            </td>
+                                        </tr> 
+
+                                        <tr>
                                             <td>{{ tr('unique_id')}} </td>
                                             <td class="text-uppercase">{{ $order_payment_details->unique_id}}</td>
                                         </tr>
@@ -60,26 +69,18 @@
                                         </tr>
 
                                         <tr>
-                                            <td>{{ tr('user')}} </td>
-                                            <td>
-                                                <a href="{{ route('admin.users.view', ['user_id' => $order_payment_details->user_id])}}">
-                                                {{ $order_payment_details->userDetails->name ?? "-"}}
-                                                </a>
-                                            </td>
+                                            <td>{{ tr('total')}} </td>
+                                            <td>{{ $order_payment_details->total_formatted}}</td>
                                         </tr> 
 
                                         <tr>
-                                            <td>{{ tr('post')}} </td>
-                                            <td>
-                                                <a href="{{ route('admin.posts.view', ['post_id' => $order_payment_details->post_id])}}">
-                                                {{ $order_payment_details->postDetails->content ?? "-"}}
-                                                </a>
-                                            </td>
-                                        </tr> 
+                                            <td>{{ tr('sub_total') }}</td>
+                                            <td>{{ $order_payment_details->sub_total_formatted}}</td>
+                                        </tr>
 
-                                        <tr>
-                                            <td>{{ tr('paid_amount') }}</td>
-                                            <td>{{ $order_payment_details->paid_amount_formatted}}</td>
+                                         <tr>
+                                            <td>{{tr('delivery_price')}}</td>
+                                            <td>{{$order_payment_details->delivery_price_formatted}}</td>
                                         </tr>
                                     </tbody>
 
@@ -92,6 +93,11 @@
                                  <table class="table table-bordered table-striped tab-content">
                        
                                     <tbody>
+
+                                        <tr>
+                                            <td>{{tr('tax_price')}}</td>
+                                            <td>{{$order_payment_details->tax_price_formatted}}</td>
+                                        </tr>
 
                                         <tr>
                                             <td>{{ tr('paid_date') }}</td>

@@ -684,6 +684,13 @@ return [
 	'shipped' => 'Shipped',
 	'deliverd' => 'Deliverd',
 	'cancelled' => 'Cancelled',
+	'revenue_dashboard' => 'Revenue Dashboard',
+	'today_payments' => 'Today Payments',
+	'total_payments' => 'Total Payments',
+	'post_payments' => 'Post Payments',
+	'order_payments' => 'Order Payments',
+	 
+
 
 
 
