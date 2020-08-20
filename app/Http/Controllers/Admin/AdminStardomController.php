@@ -676,7 +676,7 @@ class AdminStardomController extends Controller
 
                 $stardom_details->is_selected = NO;
 
-                if($meeting_details->instructor_id == $stardom_details->id){
+                if($stardom_product_details->stardom_id == $stardom_details->id){
                     
                     $stardom_details->is_selected = YES;
                 }
@@ -841,11 +841,11 @@ class AdminStardomController extends Controller
 
             DB::begintransaction();
 
-            $stardom_product_details = \App\StardomProduct::find($request->stardom_document_id);
+            $stardom_product_details = \App\StardomProduct::find($request->stardom_product_id);
             
             if(!$stardom_product_details) {
 
-                throw new Exception(tr('stardom_document_not_found'), 101);                
+                throw new Exception(tr('stardom_product_not_found'), 101);                
             }
 
             if($stardom_product_details->delete()) {

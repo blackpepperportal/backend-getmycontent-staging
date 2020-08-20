@@ -79,14 +79,8 @@
 
                                 <div class="row">
 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="price">{{tr('price')}}*</label>
-                                            <input type="number" id="price" name="price" class="form-control" placeholder="{{tr('price')}}" value="{{ $stardom_product_details->price ?: old('price') }}" required>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
+                                
+                                    <div class="col-md-12">
 
                                         <div class="form-group">
 

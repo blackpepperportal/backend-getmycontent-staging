@@ -139,13 +139,13 @@
 
                         <div class="col-4">
 
-                            <a class="btn btn-outline-secondary btn-block btn-min-width mr-1 mb-1 " href="{{route('admin.stardoms.edit', ['stardom_product_id'=>$stardom_product_details->id] )}}"> &nbsp;{{tr('edit')}}</a>
+                            <a class="btn btn-outline-secondary btn-block btn-min-width mr-1 mb-1 " href="{{route('admin.stardom_products.edit', ['stardom_product_id'=>$stardom_product_details->id] )}}"> &nbsp;{{tr('edit')}}</a>
 
                         </div>
 
                         <div class="col-4">
 
-                            <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" onclick="return confirm(&quot;{{tr('stardom_product_delete_confirmation' , $stardom_product_details->name)}}&quot;);" href="{{route('admin.stardoms.delete', ['stardom_product_id'=> $stardom_product_details->id] )}}">&nbsp;{{tr('delete')}}</a>
+                            <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" onclick="return confirm(&quot;{{tr('stardom_product_delete_confirmation' , $stardom_product_details->name)}}&quot;);" href="{{route('admin.stardom_products.delete', ['stardom_product_id'=> $stardom_product_details->id] )}}">&nbsp;{{tr('delete')}}</a>
 
                         </div>
 
@@ -154,10 +154,10 @@
                         <div class="col-4">
 
                             @if($stardom_product_details->status == APPROVED)
-                                 <a class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1" href="{{route('admin.stardoms.status' ,['stardom_product_id'=> $stardom_product_details->id] )}}" onclick="return confirm(&quot;{{$stardom_product_details->name}} - {{tr('stardom_product_decline_confirmation')}}&quot;);">&nbsp;{{tr('decline')}} </a> 
+                                 <a class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1" href="{{route('admin.stardom_products.status' ,['stardom_product_id'=> $stardom_product_details->id] )}}" onclick="return confirm(&quot;{{$stardom_product_details->name}} - {{tr('stardom_product_decline_confirmation')}}&quot;);">&nbsp;{{tr('decline')}} </a> 
                             @else
 
-                                <a  class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1" href="{{route('admin.stardoms.status' , ['stardom_product_id'=> $stardom_product_details->id] )}}">&nbsp;{{tr('approve')}}</a> 
+                                <a  class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1" href="{{route('admin.stardom_products.status' , ['stardom_product_id'=> $stardom_product_details->id] )}}">&nbsp;{{tr('approve')}}</a> 
                             @endif
                         </div>
 
