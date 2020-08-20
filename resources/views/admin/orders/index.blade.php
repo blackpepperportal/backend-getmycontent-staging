@@ -36,58 +36,7 @@
 
                     <div class="card-body card-dashboard">
 
-                         <form method="GET" action="{{route('admin.orders.index')}}">
-
-                            <div class="row">
-
-                                 <div class="col-3">
-                                    @if(Request::has('search_key'))
-                                        <p class="text-muted">Search results for <b>{{Request::get('search_key')}}</b></p>
-                                    @endif
-                                </div>
-
-                                <div class="col-3">
-
-                                    <select class="form-control select2" name="status">
-
-                                        <option  class="select-color" value="">{{tr('select_status')}}</option>
-
-                                        <option  class="select-color" value="{{SORT_BY_ORDER_PLACED}}">{{tr('order_placed')}}</option>
-
-                                        <option  class="select-color" value="{{SORT_BY_ORDER_SHIPPED}}">{{tr('order_shipped')}}</option>
-
-                                        <option  class="select-color" value="{{SORT_BY_ORDER_DELIVERD}}">{{tr('order_deliverd')}}</option>
-
-                                        <option  class="select-color" value="{{SORT_BY_ORDER_CANCELLED}}">{{tr('order_cancelled')}}</option>
-
-                                    </select>
-
-                                </div>
-
-                                <div class="col-6">
-
-                                    <div class="input-group">
-                                       
-                                        <input type="text" class="form-control" name="search_key"
-                                        placeholder="{{tr('orders_search_placeholder')}}"> <span class="input-group-btn">
-                                        &nbsp
-
-                                        <button type="submit" class="btn btn-default">
-                                           <a href=""><i class="fa fa-search" aria-hidden="true"></i></a>
-                                        </button>
-                                        
-                                        <button class="btn btn-default"><a  href="{{route('admin.orders.index')}}"><i class="fa fa-eraser" aria-hidden="true"></i></button>
-                                        </a>
-                                           
-                                        </span>
-
-                                    </div>
-                                    
-                                </div>
-
-                            </div>
-
-                        </form>
+                        @include('admin.orders._search')
                         
                         <table class="table table-striped table-bordered sourced-data">
                             

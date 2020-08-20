@@ -209,7 +209,6 @@
                             @endforeach
 
                             </div>
-                            <div class="pull-right" id="paglink">{{ $order_products->appends(request()->input())->links() }}</div>
 
                         </div>
 

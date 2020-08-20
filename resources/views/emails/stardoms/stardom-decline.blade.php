@@ -187,17 +187,7 @@
                                                         <td align="center" style="font-size:0px;padding:0;word-break:break-word;">
 
                                                             <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:300;line-height:1;text-align:center;color:#575757;">
-                                                                Some Firm Ltd, 35 Avenue. City 10115, USA
-                                                            </div>
-
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td align="center" style="font-size:0px;padding:10px;word-break:break-word;">
-
-                                                            <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:300;line-height:1;text-align:center;color:#575757;">
-                                                                <a href="" style="color:#575757">Unsubscribe</a> from our emails
+                                                               {{tr('you_are_receiving_mails_from')}} {{Setting::get('site_name')}}
                                                             </div>
 
                                                         </td>

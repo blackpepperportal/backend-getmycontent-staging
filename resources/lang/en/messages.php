@@ -689,7 +689,7 @@ return [
 	'total_payments' => 'Total Payments',
 	'post_payments' => 'Post Payments',
 	'order_payments' => 'Order Payments',
-	 
+	'you_are_receiving_mails_from' => "You are receiving emails from", 
 
 
 

@@ -433,24 +433,7 @@ class AdminPostController extends Controller
 
         if($request->status) {
 
-            switch ($request->status) {
-
-                case SORT_BY_ORDER_PLACED:
-                    $base_query = $base_query->where('orders.status', ORDER_PLACED);
-                    break;
-
-                case SORT_BY_ORDER_SHIPPED:
-                    $base_query = $base_query->where('orders.status', ORDER_SHIPPED);
-                    break;
-
-                case SORT_BY_ORDER_DELIVERD:
-                    $base_query = $base_query->where('orders.status',ORDER_DELIVERD);
-                    break;
-                
-                default:
-                    $base_query = $base_query->where('orders.status',ORDER_CANCELLED);
-                    break;
-            }
+            $base_query = $base_query->where('orders.status', $request->status);
         }
 
         if($request->search_key) {
@@ -504,15 +487,12 @@ class AdminPostController extends Controller
                 
             }
 
-            $order_payments = \App\OrderPayment::where('order_id',$order_details->id)->get();
-
-            $order_products = \App\OrderProduct::where('order_id',$order_details->id)->paginate(2);
+            $order_products = \App\OrderProduct::where('order_id',$order_details->id)->get();
 
             return view('admin.orders.view')
                     ->with('page','orders')
                     ->with('sub_page','orders-view')
                     ->with('order_details',$order_details)
-                    ->with('order_payments',$order_payments)
                     ->with('order_products',$order_products);
 
         } catch(Exception $e) {

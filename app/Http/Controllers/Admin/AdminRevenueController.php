@@ -233,17 +233,19 @@ class AdminRevenueController extends Controller
         
         $data = new \stdClass;
 
-        $data->order_payments = \App\OrderPayment::sum('total');
+        $data->order_payments = \App\OrderPayment::where('status',PAID)->sum('total');
 
-        $data->post_payments = \App\PostPayment::sum('paid_amount');
+        $data->post_payments = \App\PostPayment::where('status',PAID)->sum('paid_amount');
 
         $data->total_payments =  $data->order_payments + $data->post_payments;
 
-        $order_today_payments = \App\OrderPayment::whereDate('paid_date',today())->sum('total');
+        $order_today_payments = \App\OrderPayment::where('status',PAID)->whereDate('paid_date',today())->sum('total');
 
-        $post_today_payments = \App\PostPayment::whereDate('paid_date',today())->sum('paid_amount');
+        $post_today_payments = \App\PostPayment::where('status',PAID)->whereDate('paid_date',today())->sum('paid_amount');
 
         $data->today_payments = $order_today_payments + $post_today_payments;
+
+        $data->analytics = last_x_days_revenue(6);
         
         return view('admin.revenues.dashboard')
                     ->with('page' , 'revenue-dashboard')
