@@ -158,58 +158,84 @@
 
                     <div class="card-footer">
 
-                    <div class="row">
-
-                        @if(Setting::get('is_demo_control_enabled') == YES)
-
-                        <div class="col-3">
-
-                            <a class="btn btn-outline-secondary btn-block btn-min-width mr-1 mb-1 " href="javascript:void(0)"> &nbsp;{{tr('edit')}}</a>
-
+                        <div class="card-title">
+                            {{tr('action')}}
                         </div>
 
-                        <div class="col-3">
+                        <div class="row">
 
-                            <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" href="javascript:void(0)">&nbsp;{{tr('delete')}}</a>
+                            @if(Setting::get('is_demo_control_enabled') == YES)
 
-                        </div>
+                            <div class="col-3">
+
+                                <a class="btn btn-outline-secondary btn-block btn-min-width mr-1 mb-1 " href="javascript:void(0)"> &nbsp;{{tr('edit')}}</a>
+
+                            </div>
+
+                            <div class="col-3">
+
+                                <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" href="javascript:void(0)">&nbsp;{{tr('delete')}}</a>
+
+                            </div>
 
 
-                        @else
-
-                        <div class="col-3">
-
-                            <a class="btn btn-outline-secondary btn-block btn-min-width mr-1 mb-1 " href="{{route('admin.users.edit', ['user_id'=>$user_details->id] )}}"> &nbsp;{{tr('edit')}}</a>
-
-                        </div>
-
-                        <div class="col-3">
-
-                            <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" onclick="return confirm(&quot;{{tr('admin_user_delete_confirmation' , $user_details->name)}}&quot;);" href="{{route('admin.users.delete', ['user_id'=> $user_details->id] )}}">&nbsp;{{tr('delete')}}</a>
-
-                        </div>
-
-                        @endif
-
-                        <div class="col-3">
-
-                            @if($user_details->status == APPROVED)
-                                 <a class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1" href="{{route('admin.users.status' ,['user_id'=> $user_details->id] )}}" onclick="return confirm(&quot;{{$user_details->name}} - {{tr('user_decline_confirmation')}}&quot;);">&nbsp;{{tr('decline')}} </a> 
                             @else
 
-                                <a  class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1" href="{{route('admin.users.status' , ['user_id'=> $user_details->id] )}}">&nbsp;{{tr('approve')}}</a> 
+                            <div class="col-3">
+
+                                <a class="btn btn-outline-secondary btn-block btn-min-width mr-1 mb-1 " href="{{route('admin.users.edit', ['user_id'=>$user_details->id] )}}"> &nbsp;{{tr('edit')}}</a>
+
+                            </div>
+
+                            <div class="col-3">
+
+                                <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" onclick="return confirm(&quot;{{tr('admin_user_delete_confirmation' , $user_details->name)}}&quot;);" href="{{route('admin.users.delete', ['user_id'=> $user_details->id] )}}">&nbsp;{{tr('delete')}}</a>
+
+                            </div>
+
                             @endif
+
+                            <div class="col-3">
+                                
+                                <a href="{{route('admin.orders.index',['user_id' => $user_details->id])}}" class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1">{{tr('orders')}}</a>
+
+                            </div>
+
+                            <div class="col-3">
+                                
+                                <a href="{{route('admin.delivery_address.index',['user_id' => $user_details->id])}}" class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1">{{tr('delivery_address')}}</a>
+
+                            </div>
+
                         </div>
 
-                        <div class="col-3">
-                            
-                            <a href="{{route('admin.delivery_address.index',['user_id' => $user_details->id])}}" class="btn btn-outline-warning">{{tr('delivery_address')}}</a>
+                        <div class="row">
+
+                            <div class="col-3">
+
+                                @if($user_details->status == APPROVED)
+                                     <a class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1" href="{{route('admin.users.status' ,['user_id'=> $user_details->id] )}}" onclick="return confirm(&quot;{{$user_details->name}} - {{tr('user_decline_confirmation')}}&quot;);">&nbsp;{{tr('decline')}} </a> 
+                                @else
+
+                                    <a  class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1" href="{{route('admin.users.status' , ['user_id'=> $user_details->id] )}}">&nbsp;{{tr('approve')}}</a> 
+                                @endif
+                            </div>
+
+                            <div class="col-3">
+                                
+                                <a href="{{route('admin.post.payments',['user_id' => $user_details->id])}}" class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1">{{tr('post_payments')}}</a>
+
+                            </div>
+
+                            <div class="col-3">
+                                
+                                <a href="{{route('admin.order.payments',['user_id' => $user_details->id])}}" class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1">{{tr('order_payments')}}</a>
+
+                            </div>
 
                         </div>
 
                     </div>
-
-                </div>
 
                 </div>
 

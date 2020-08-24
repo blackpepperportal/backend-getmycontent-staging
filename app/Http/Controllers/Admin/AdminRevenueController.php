@@ -89,6 +89,11 @@ class AdminRevenueController extends Controller
                             })->orWhere('post_payments.payment_id','LIKE','%'.$search_key.'%');
         }
 
+        if($request->user_id) {
+
+            $base_query  = $base_query->where('user_id',$request->user_id);
+        }
+
         $post_payments = $base_query->paginate(10);
        
         return view('admin.posts.payments')
@@ -167,6 +172,11 @@ class AdminRevenueController extends Controller
 
                                 return $query->where('users.name','LIKE','%'.$search_key.'%');
                             })->orWhere('order_payments.payment_id','LIKE','%'.$search_key.'%');
+        }
+
+         if($request->user_id) {
+
+            $base_query  = $base_query->where('user_id',$request->user_id);
         }
 
         $order_payments = $base_query->paginate(10);
