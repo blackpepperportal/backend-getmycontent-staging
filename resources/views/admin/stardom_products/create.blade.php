@@ -2,7 +2,7 @@
 
 @section('title', tr('add_stardom_product'))
 
-@section('content-header', tr('add_stardom_product'))
+@section('content-header', tr('stardom_products'))
 
 @section('breadcrumb')
 

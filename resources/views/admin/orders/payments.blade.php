@@ -1,14 +1,14 @@
 @extends('layouts.admin') 
 
-@section('title', tr('orders')) 
+@section('title', tr('payments')) 
 
-@section('content-header', tr('orders')) 
+@section('content-header', tr('payments')) 
 
 @section('breadcrumb')
 
 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
 </li>
-<li class="breadcrumb-item active"><a href="">{{ tr('orders') }}</a>
+<li class="breadcrumb-item active"><a href="">{{ tr('payments') }}</a>
 </li>
 <li class="breadcrumb-item">{{tr('order_payments')}}</li>
 

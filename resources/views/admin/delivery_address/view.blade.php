@@ -8,9 +8,7 @@
 
 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
 </li>
-<li class="breadcrumb-item"><a href="">{{ tr('delivery_address') }}</a>
-</li>
-<li class="breadcrumb-item active">{{tr('view_delivery_address')}}</li>
+<li class="breadcrumb-item active">{{tr('delivery_address')}}</li>
 
 @endsection 
 
@@ -26,7 +24,7 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('view_delivery_address') }}
+                    <h4 class="card-title">{{ tr('delivery_address') }}
                          <a class="pull-right text-danger" onclick="return confirm(&quot;{{ tr('delivery_address_delete_confirmation' , $delivery_address_details->name) }}&quot;);" href="{{ route('admin.delivery_address.delete', ['delivery_address_id' => $delivery_address_details->id] ) }}"><i class="fa fa-trash"></i></a>
                     </h4>
                     

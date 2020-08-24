@@ -8,9 +8,8 @@
 
 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
 </li>
-<li class="breadcrumb-item"><a href="">{{ tr('delivery_address') }}</a>
+<li class="breadcrumb-item">{{ tr('delivery_address') }}
 </li>
-<li class="breadcrumb-item active">{{tr('view_delivery_address')}}</li>
 
 @endsection 
 
@@ -26,7 +25,7 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('view_delivery_address') }}</h4>
+                    <h4 class="card-title">{{ tr('delivery_address') }}</h4>
 
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                     

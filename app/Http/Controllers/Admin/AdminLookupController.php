@@ -477,7 +477,7 @@ class AdminLookupController extends Controller
             DB::beginTransaction();
 
             $rules = [
-                'title' => 'required|max:191|unique:static_pages,title',
+                'title' =>  !$request->static_page_id ? 'required|max:191|unique:static_pages,title' : 'required',
                 'description' => 'required',
                 'type' => !$request->static_page_id ? 'required' : ""
             ]; 
