@@ -162,13 +162,13 @@
 
                         @if(Setting::get('is_demo_control_enabled') == YES)
 
-                        <div class="col-4">
+                        <div class="col-3">
 
                             <a class="btn btn-outline-secondary btn-block btn-min-width mr-1 mb-1 " href="javascript:void(0)"> &nbsp;{{tr('edit')}}</a>
 
                         </div>
 
-                        <div class="col-4">
+                        <div class="col-3">
 
                             <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" href="javascript:void(0)">&nbsp;{{tr('delete')}}</a>
 
@@ -177,13 +177,13 @@
 
                         @else
 
-                        <div class="col-4">
+                        <div class="col-3">
 
                             <a class="btn btn-outline-secondary btn-block btn-min-width mr-1 mb-1 " href="{{route('admin.users.edit', ['user_id'=>$user_details->id] )}}"> &nbsp;{{tr('edit')}}</a>
 
                         </div>
 
-                        <div class="col-4">
+                        <div class="col-3">
 
                             <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" onclick="return confirm(&quot;{{tr('admin_user_delete_confirmation' , $user_details->name)}}&quot;);" href="{{route('admin.users.delete', ['user_id'=> $user_details->id] )}}">&nbsp;{{tr('delete')}}</a>
 
@@ -191,7 +191,7 @@
 
                         @endif
 
-                        <div class="col-4">
+                        <div class="col-3">
 
                             @if($user_details->status == APPROVED)
                                  <a class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1" href="{{route('admin.users.status' ,['user_id'=> $user_details->id] )}}" onclick="return confirm(&quot;{{$user_details->name}} - {{tr('user_decline_confirmation')}}&quot;);">&nbsp;{{tr('decline')}} </a> 
@@ -199,6 +199,12 @@
 
                                 <a  class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1" href="{{route('admin.users.status' , ['user_id'=> $user_details->id] )}}">&nbsp;{{tr('approve')}}</a> 
                             @endif
+                        </div>
+
+                        <div class="col-3">
+                            
+                            <a href="{{route('admin.delivery_address.index',['user_id' => $user_details->id])}}" class="btn btn-outline-warning">{{tr('delivery_address')}}</a>
+
                         </div>
 
                     </div>

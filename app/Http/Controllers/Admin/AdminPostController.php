@@ -532,6 +532,11 @@ class AdminPostController extends Controller
             ->orWhere('delivery_addresses.address','LIKE','%'.$search_key.'%'); 
         }
 
+        if($request->user_id) {
+
+            $base_query = $base_query->where('user_id',$request->user_id);
+        }
+
         $delivery_addresses = $base_query->paginate(10);
 
         return view('admin.delivery_address.index')
@@ -577,5 +582,53 @@ class AdminPostController extends Controller
         }
     }
     
+
+    /**
+     * @method delivery_address_delete
+     *
+     * @uses Display list of all the delivery address
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param $object delivery_address_id
+     * 
+     * @return response success/failure message
+     *
+     **/
+
+     public function delivery_address_delete(Request $request) {
+
+        try {
+
+            DB::begintransaction();
+
+            $delivery_address_details = \App\DeliveryAddress::find($request->delivery_address_id);
+            
+            if(!$delivery_address_details) {
+
+                throw new Exception(tr('delivery_address_details_not_found'), 101);                
+            }
+
+            if($delivery_address_details->delete()) {
+
+                DB::commit();
+
+                return redirect()->route('admin.delivery_address.index')->with('flash_success',tr('delivery_address_deleted_success'));   
+
+            } 
+            
+            throw new Exception(tr('delivery_address_delete_failed'));
+            
+        } catch(Exception $e){
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }       
+         
+    }
 
 }
