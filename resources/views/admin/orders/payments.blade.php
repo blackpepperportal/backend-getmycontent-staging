@@ -10,7 +10,7 @@
 </li>
 <li class="breadcrumb-item active"><a href="">{{ tr('orders') }}</a>
 </li>
-<li class="breadcrumb-item">{{tr('view_orders')}}</li>
+<li class="breadcrumb-item">{{tr('order_payments')}}</li>
 
 @endsection 
 
@@ -26,7 +26,7 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('view_orders') }}</h4>
+                    <h4 class="card-title">{{ tr('order_payments') }}</h4>
 
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                     
@@ -36,36 +36,7 @@
 
                     <div class="card-body card-dashboard">
 
-                         <form method="GET" action="{{route('admin.orders.index')}}">
-
-                            <div class="row">
-
-                                <div class="col-6"></div>
-
-                                <div class="col-6">
-
-                                    <div class="input-group">
-                                       
-                                        <input type="text" class="form-control" name="search_key"
-                                        placeholder="{{tr('orders_search_placeholder')}}"> <span class="input-group-btn">
-                                        &nbsp
-
-                                        <button type="submit" class="btn btn-default">
-                                           <a href=""><i class="fa fa-search" aria-hidden="true"></i></a>
-                                        </button>
-                                        
-                                        <button class="btn btn-default"><a  href="{{route('admin.orders.index')}}"><i class="fa fa-eraser" aria-hidden="true"></i></button>
-                                        </a>
-                                           
-                                        </span>
-
-                                    </div>
-                                    
-                                </div>
-
-                            </div>
-
-                        </form>
+                        @include('admin.orders._payment_search')
                         
                         <table class="table table-striped table-bordered sourced-data">
                                     

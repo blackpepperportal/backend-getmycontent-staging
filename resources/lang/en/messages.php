@@ -1,4 +1,5 @@
 <?php
+
 return [
 
 	'dashboard' =>'Dashboard',
@@ -698,6 +699,7 @@ return [
 	'delivery_search_placeholder' => 'Serach By Username,name,address',
 	'delivery_address_deleted_success' => 'Delivery address deleted successfully',
 	'delivery_address_delete_failed' =>'delivery address failed to delete,Please try again',
+	'order_payment_search_placeholder' => 'Search By Username, Payment Id',
 
 
 
