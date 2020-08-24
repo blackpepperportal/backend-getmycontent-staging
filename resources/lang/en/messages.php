@@ -700,6 +700,7 @@ return [
 	'delivery_address_deleted_success' => 'Delivery address deleted successfully',
 	'delivery_address_delete_failed' =>'delivery address failed to delete,Please try again',
 	'order_payment_search_placeholder' => 'Search By Username, Payment Id',
+	'products' => 'Products',
 
 
 

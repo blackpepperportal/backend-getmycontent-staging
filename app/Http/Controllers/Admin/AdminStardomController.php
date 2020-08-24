@@ -607,6 +607,11 @@ class AdminStardomController extends Controller
     public function stardom_products_index(Request $request) {
 
         $base_query = \App\StardomProduct::orderBy('created_at','DESC');
+
+        if($request->stardom_id){
+
+            $base_query = $base_query->where('stardom_id',$request->stardom_id);
+        }
        
         $stardom_products = $base_query->paginate(10);
 

@@ -156,13 +156,13 @@
 
                         @if(Setting::get('is_demo_control_enabled') == YES)
 
-                        <div class="col-4">
+                        <div class="col-3">
 
                             <a class="btn btn-outline-secondary btn-block btn-min-width mr-1 mb-1 " href="javascript:void(0)"> &nbsp;{{tr('edit')}}</a>
 
                         </div>
 
-                        <div class="col-4">
+                        <div class="col-3">
 
                             <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" href="javascript:void(0)">&nbsp;{{tr('delete')}}</a>
 
@@ -171,13 +171,13 @@
 
                         @else
 
-                        <div class="col-4">
+                        <div class="col-3">
 
                             <a class="btn btn-outline-secondary btn-block btn-min-width mr-1 mb-1 " href="{{route('admin.stardoms.edit', ['stardom_id'=>$stardom_details->id] )}}"> &nbsp;{{tr('edit')}}</a>
 
                         </div>
 
-                        <div class="col-4">
+                        <div class="col-3">
 
                             <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" onclick="return confirm(&quot;{{tr('stardom_delete_confirmation' , $stardom_details->name)}}&quot;);" href="{{route('admin.stardoms.delete', ['stardom_id'=> $stardom_details->id] )}}">&nbsp;{{tr('delete')}}</a>
 
@@ -185,7 +185,7 @@
 
                         @endif
 
-                        <div class="col-4">
+                        <div class="col-3">
 
                             @if($stardom_details->status == APPROVED)
                                  <a class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1" href="{{route('admin.stardoms.status' ,['stardom_id'=> $stardom_details->id] )}}" onclick="return confirm(&quot;{{$stardom_details->name}} - {{tr('stardom_decline_confirmation')}}&quot;);">&nbsp;{{tr('decline')}} </a> 
@@ -193,6 +193,25 @@
 
                                 <a  class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1" href="{{route('admin.stardoms.status' , ['stardom_id'=> $stardom_details->id] )}}">&nbsp;{{tr('approve')}}</a> 
                             @endif
+                        </div>
+
+                        <div class="col-3">
+
+                            <a  class="btn btn-outline-primary btn-block btn-min-width mr-1 mb-1" href="{{route('admin.posts.index' , ['stardom_id'=> $stardom_details->id] )}}">&nbsp;{{tr('posts')}}</a> 
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-3">
+
+                            <a  class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1" href="{{route('admin.stardom_products.index' , ['stardom_id'=> $stardom_details->id] )}}">&nbsp;{{tr('products')}}</a> 
+                        </div>
+
+                        <div class="col-3">
+
+                            <a  class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1" href="#">&nbsp;{{tr('wallets')}}</a> 
                         </div>
 
                     </div>

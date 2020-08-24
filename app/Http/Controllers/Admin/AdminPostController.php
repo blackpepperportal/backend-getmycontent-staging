@@ -93,6 +93,11 @@ class AdminPostController extends Controller
                     ->with('posts' , $posts);
         }
 
+        if($request->stardom_id) {
+
+            $base_query = $base_query->where('stardom_id',$request->stardom_id);
+        }
+
         $posts = $base_query->paginate(10);
 
         return view('admin.posts.index')

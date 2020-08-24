@@ -33,7 +33,7 @@
 
                 <div class="row">
 
-                    <div class="col-1">
+                    <div class="col-2">
 
                         <img src="{{$post_details->getStardomDetails->picture ?? asset('placeholder.jpg')}}" class="height-100" alt="Card image" />
 
