@@ -451,6 +451,11 @@ class AdminPostController extends Controller
                         }); 
         }
 
+        if($request->user_id) {
+
+            $base_query  = $base_query->where('user_id',$request->user_id);
+        }
+
         $orders = $base_query->paginate(10);
 
         return view('admin.orders.index')

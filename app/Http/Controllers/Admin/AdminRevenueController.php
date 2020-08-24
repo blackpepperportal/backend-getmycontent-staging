@@ -174,11 +174,6 @@ class AdminRevenueController extends Controller
                             })->orWhere('order_payments.payment_id','LIKE','%'.$search_key.'%');
         }
 
-         if($request->user_id) {
-
-            $base_query  = $base_query->where('user_id',$request->user_id);
-        }
-
         $order_payments = $base_query->paginate(10);
        
         return view('admin.orders.payments')

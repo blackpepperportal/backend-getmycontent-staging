@@ -229,7 +229,7 @@
 
                             <div class="col-3">
                                 
-                                <a href="{{route('admin.order.payments',['user_id' => $user_details->id])}}" class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1">{{tr('order_payments')}}</a>
+                                <a href="{{route('admin.orders.index',['user_id' => $user_details->id])}}" class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1">{{tr('orders')}}</a>
 
                             </div>
 
