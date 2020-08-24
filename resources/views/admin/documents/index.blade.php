@@ -30,7 +30,7 @@
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
                     <div class="heading-elements">
-                        <a href="{{ route('admin.users.create') }}" class="btn btn-primary"><i class="ft-plus icon-left"></i>{{ tr('add_user') }}</a>
+                        <a href="{{ route('admin.documents.create') }}" class="btn btn-primary"><i class="ft-plus icon-left"></i>{{ tr('add_document') }}</a>
                     </div>
                     
                 </div>

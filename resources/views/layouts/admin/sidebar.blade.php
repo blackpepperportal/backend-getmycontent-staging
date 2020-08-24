@@ -140,7 +140,7 @@
             <li class="nav-item" id="orders">
 
                 <a href="{{route('admin.orders.index')}}">
-                    <i class="ft-book"></i>
+                    <i class="fa fa-shopping-basket" aria-hidden="true"></i>
                     <span class="menu-title" data-i18n="">{{tr('orders')}}</span>
                 </a>
 
@@ -188,7 +188,7 @@
             <li class="nav-item" id="payments">
                 <a href="{{route('admin.documents.index')}}">
                     <i class="fa fa-money"></i>
-                    <span class="menu-title" data-i18n="">Payments</span>
+                    <span class="menu-title" data-i18n="">{{tr('payments')}}</span>
                 </a>
                 <ul class="menu-content">
                     <li id="post-payments">
@@ -212,40 +212,27 @@
                 </a>
             </li>
 
-            <li class="nav-item" id="payments">
-                <a href="{{route('admin.documents.index')}}">
-                    <i class="ft-file"></i>
-                    <span class="menu-title" data-i18n="">Redeems</span>
+            <li class="nav-item" id="redeems">
+                <a href="">
+                     <i class="fa fa-shopping-bag"></i>
+                    <span class="menu-title" data-i18n="">{{tr('redeems')}}</span>
                 </a>
-                <ul class="menu-content">
-                    <li id="documents-create">
-                        <a class="menu-item" href="{{route('admin.documents.create')}}">
-                            {{tr('add_document')}}
-                        </a>
-                    </li>
-                    <li id="documents-view">
-                        <a class="menu-item" href="{{route('admin.documents.index')}}">
-                            {{tr('view_documents')}}
-                        </a>
-                    </li>
-                </ul>            
-            
             </li>
 
-            <li class="nav-item" id="payments">
+            <li class="nav-item" id="subscriptions">
 
                 <a href="{{route('admin.documents.index')}}">
-                    <i class="ft-file"></i>
+                    <i class="fa fa-diamond" aria-hidden="true"></i>
                     <span class="menu-title" data-i18n="">Subscriptions</span>
                 </a>
 
                 <ul class="menu-content">
-                    <li id="documents-create">
+                    <li id="subscriptions-create">
                         <a class="menu-item" href="{{route('admin.documents.create')}}">
                             {{tr('add_document')}}
                         </a>
                     </li>
-                    <li id="documents-view">
+                    <li id="subscriptions-view">
                         <a class="menu-item" href="{{route('admin.documents.index')}}">
                             {{tr('view_documents')}}
                         </a>
@@ -262,7 +249,7 @@
 
             <li class="nav-item" id="documents">
                 <a href="{{route('admin.documents.index')}}">
-                    <i class="ft-file"></i>
+                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
                     <span class="menu-title" data-i18n="">{{tr('documents')}}</span>
                 </a>
                 <ul class="menu-content">
@@ -282,13 +269,13 @@
 
             <li class="nav-item" id="static_pages">
                 <a href="{{route('admin.static_pages.index')}}">
-                    <i class="ft-user"></i>
+                    <i class="ft-file"></i>
                     <span class="menu-title" data-i18n="">{{tr('static_pages')}}</span>
                 </a>
                 <ul class="menu-content">
                     <li id="static_pages-create">
                         <a class="menu-item" href="{{route('admin.static_pages.create')}}">
-                            {{tr('add_user')}}
+                            {{tr('add_static_page')}}
                         </a>
                     </li>
                     <li id="static_pages-view">

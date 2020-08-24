@@ -48,7 +48,6 @@ class AdminLookupController extends Controller
         $documents = \App\Document::orderBy('created_at', 'desc')->paginate(10);
 
         return view('admin.documents.index')
-                    ->with('main_page','documents-crud')
                     ->with('page','documents')
                     ->with('sub_page' , 'documents-view')
                     ->with('documents' , $documents);
@@ -73,7 +72,6 @@ class AdminLookupController extends Controller
         $document_details = new \App\Document;
 
         return view('admin.documents.create')
-                    ->with('main_page','documents-crud')
                     ->with('page' , 'documents')
                     ->with('sub_page','documents-create')
                     ->with('document_details', $document_details);           
@@ -105,9 +103,8 @@ class AdminLookupController extends Controller
             }
 
             return view('admin.documents.edit')
-                    ->with('main_page','documents-crud')
                     ->with('page' , 'documents')
-                    ->with('sub_page','documents-view')
+                    ->with('sub_page','documents-create')
                     ->with('document_details' , $document_details); 
             
         } catch(Exception $e) {
@@ -442,8 +439,6 @@ class AdminLookupController extends Controller
                 }
             }
 
-            $section_types = static_page_footers(0, $is_list = YES);
-
             $static_keys[] = 'others';
 
             $static_keys[] = $static_page_details->type;
@@ -452,8 +447,7 @@ class AdminLookupController extends Controller
                     ->with('page' , 'static_pages')
                     ->with('sub_page', 'static_pages-view')
                     ->with('static_keys', array_unique($static_keys))
-                    ->with('static_page_details', $static_page_details)
-                    ->with('section_types', $section_types);
+                    ->with('static_page_details', $static_page_details);
             
         } catch(Exception $e) {
 
@@ -483,7 +477,7 @@ class AdminLookupController extends Controller
             DB::beginTransaction();
 
             $rules = [
-                'title' => 'required|max:191',
+                'title' => 'required|max:191|unique:static_pages,title',
                 'description' => 'required',
                 'type' => !$request->static_page_id ? 'required' : ""
             ]; 
@@ -504,7 +498,7 @@ class AdminLookupController extends Controller
 
                 if($request->type != 'others') {
 
-                    $check_page = StaticPage::where('type',$request->type)->first();
+                    $check_page = \App\StaticPage::where('type',$request->type)->first();
 
                     if($check_page) {
 
@@ -515,7 +509,7 @@ class AdminLookupController extends Controller
 
                 $message = tr('static_page_created_success');
 
-                $static_page_details = new StaticPage;
+                $static_page_details = new \App\StaticPage;
 
                 $static_page_details->status = APPROVED;
 
@@ -526,8 +520,6 @@ class AdminLookupController extends Controller
             $static_page_details->description = $request->description ?: $static_page_details->description;
 
             $static_page_details->type = $request->type ?: $static_page_details->type;
-
-            $static_page_details->section_type = $request->section_type ?: $static_page_details->section_type;
 
             if($static_page_details->save()) {
 

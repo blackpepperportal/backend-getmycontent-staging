@@ -27,7 +27,7 @@
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
                     <div class="heading-elements">
-                        <a href="{{ route('admin.users.create') }}" class="btn btn-primary"><i class="ft-plus icon-left"></i>{{ tr('add_static_page') }}</a>
+                        <a href="{{ route('admin.static_pages.create') }}" class="btn btn-primary"><i class="ft-plus icon-left"></i>{{ tr('add_static_page') }}</a>
                     </div>
                     
                 </div>
@@ -42,7 +42,6 @@
                                     <th>{{tr('s_no')}}</th>
                                     <th>{{tr('title')}}</th>
                                     <th>{{tr('static_page_type')}}</th>
-                                    <th>{{tr('section_type')}}</th>
                                     <th>{{tr('status')}}</th>
                                     <th>{{tr('action')}}</th>
                                 </tr>
@@ -62,8 +61,6 @@
 
                                         <td class="text-capitalize">{{$static_page_details->type}}</td>
 
-                                        <td>{{static_page_footers($static_page_details->section_type)}}</td>
-
                                         <td>
                                             @if($static_page_details->status == APPROVED)
 
@@ -75,12 +72,11 @@
                                             @endif
                                         </td>
 
-                                        <td>   
-                                            <div class="dropdown">
+                                        <td>  
 
-                                                <button class="btn btn-outline-primary  dropdown-toggle btn-sm" type="button" id="dropdownMenuOutlineButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    {{tr('action')}}
-                                                </button>
+                                            <div class="btn-group" role="group">
+
+                                                 <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ft-settings icon-left"></i> {{ tr('action') }}</button>
 
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton1">
 
@@ -105,9 +101,7 @@
 
                                                         <a class="dropdown-item text-muted" href="javascript:;">{{ tr('delete') }}</a>
 
-                                                    @endif                                               
-
-                                                    <div class="dropdown-divider"></div>
+                                                    @endif                  
 
                                                     <div class="dropdown-divider"></div>
 

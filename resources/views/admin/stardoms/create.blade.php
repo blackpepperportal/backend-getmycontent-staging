@@ -8,7 +8,9 @@
 
     <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a>
     </li>
+
     <li class="breadcrumb-item"><a href="{{route('admin.users.index')}}">{{tr('stardoms')}}</a></li>
+    
     <li class="breadcrumb-item active">{{tr('add_stardom')}}</a></li>
 
 @endsection

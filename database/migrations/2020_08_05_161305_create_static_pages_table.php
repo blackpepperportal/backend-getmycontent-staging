@@ -21,7 +21,6 @@ class CreateStaticPagesTable extends Migration
                 $table->string('title')->unique();
                 $table->text('description');
                 $table->enum('type',['about','privacy','terms','refund','cancellation','faq','help','contact','others'])->default('others');
-                $table->string('section_type')->nullable();
                 $table->tinyInteger('status')->default(APPROVED);
                 $table->timestamps();
             });

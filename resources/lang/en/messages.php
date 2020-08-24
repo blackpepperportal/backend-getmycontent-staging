@@ -714,6 +714,8 @@ return [
 	'product_name' => 'Product Name',
 	'product_search_placeholder' => 'Search By Product Name, Stardom Name',
 	'username_password_not_match' => 'Email or password did not match,Please try again',
+	'redeems' => 'Redeems',	
+	'select_section_type' => 'Select Section Type',
 
 
 

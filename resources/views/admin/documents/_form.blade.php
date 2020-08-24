@@ -37,26 +37,25 @@
                                     <input type="hidden" name="document_id" id="document_id" value="{{ $document_details->id}}">
 
                                     <div class="col-md-6">
+
                                         <div class="form-group">
                                             <label for="name">{{ tr('name') }}*</label>
                                             <input type="text" id="name" name="name" class="form-control" placeholder="{{ tr('name') }}" value="{{ $document_details->name ?: old('name') }}" required onkeydown="return alphaOnly(event);">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                        <label>{{ tr('select_picture') }}</label>
+                                            <input class="form-control"  type="file" id="picture" name="picture" accept="image/png,image/jpeg" >
+                                                                            
                                         </div>
                                     </div>
 
                                 </div>
 
                                 <div class="row">
-                                    
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                        <label>{{ tr('select_picture') }}</label>
-                                            <label id="user_picture" class="file center-block">
-                                                <input type="file" id="picture" name="picture" accept="image/png,image/jpeg" onchange="loadFile(this,'image_preview')">
-                                                 <img id="image_preview" class="img-thumbnail img-fluid" style="width: 100px;margin: 10px;height: 100px; " src="{{ $document_details->picture ? $document_details->picture : asset('placeholder.png') }}">
-                                            <span class="file-custom"></span>
-                                            </label>                                
-                                        </div>
-                                    </div>
 
                                     <div class="col-md-6">
 
