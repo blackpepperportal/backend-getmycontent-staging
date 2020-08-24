@@ -9,9 +9,11 @@
 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
 </li>
 
-<li class="breadcrumb-item active">{{ tr('documents') }}</a>
+<li class="breadcrumb-item active"><a href="">{{ tr('documents') }}</a>
 </li>
 
+<li class="breadcrumb-item active">{{ tr('view_documents') }}</a>
+</li>
 @endsection 
 
 @section('content')
@@ -26,7 +28,7 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('documents') }}</h4>
+                    <h4 class="card-title">{{ tr('view_documents') }}</h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
                     <div class="heading-elements">

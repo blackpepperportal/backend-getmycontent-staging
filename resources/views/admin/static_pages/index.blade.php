@@ -1,10 +1,14 @@
 @extends('layouts.admin') 
 
-@section('content-header', tr('view_static_page'))
+@section('content-header', tr('static_pages'))
 
 @section('breadcrumb')
 
+    <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a>
+    </li>
+
     <li class="breadcrumb-item"><a href="{{ route('admin.static_pages.index' )}}">{{tr('static_pages')}}</a></li>
+
     <li class="breadcrumb-item active" aria-current="page">
         <span>{{ tr('view_static_pages') }}</span>
     </li>
@@ -23,7 +27,7 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('static_pages') }}</h4>
+                    <h4 class="card-title">{{ tr('view_static_pages') }}</h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
                     <div class="heading-elements">

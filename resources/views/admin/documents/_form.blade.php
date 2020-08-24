@@ -8,12 +8,12 @@
                 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title" id="basic-layout-form">{{ tr('documents') }}</h4>
+                    <h4 class="card-title" id="basic-layout-form">{{ tr('add_document') }}</h4>
 
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
                     <div class="heading-elements">
-                        <a href="{{route('admin.documents.index') }}" class="btn btn-primary"><i class="ft-user icon-left"></i>{{ tr('view_documents') }}</a>
+                        <a href="{{route('admin.documents.index') }}" class="btn btn-primary"><i class="ft-file"></i>{{ tr('view_documents') }}</a>
                     </div>
 
                 </div>
