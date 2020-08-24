@@ -70,7 +70,7 @@ class AdminLoginController extends Controller
      
         // if unsuccessful, then redirect back to the login with the form data
      
-        return redirect()->back()->withInput($request->only('email', 'remember'))->with('error', tr('username_password_not_match'));
+        return redirect()->back()->with('flash_error', tr('username_password_not_match'));
     }
 
     public function logout() {

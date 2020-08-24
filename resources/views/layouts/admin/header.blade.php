@@ -35,7 +35,7 @@
                     <li class="dropdown dropdown-user nav-item">
                         <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
                             
-                            <span class="avatar avatar-online">
+                            <span class="avatar">
                                 <img src="{{ Auth::guard('admin')->user()->picture ? Auth::guard('admin')->user()->picture : asset('placeholder.png')}}">
                                 <i></i>
                             </span>

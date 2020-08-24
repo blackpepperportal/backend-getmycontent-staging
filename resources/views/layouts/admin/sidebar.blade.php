@@ -313,15 +313,15 @@
                 </a>
             </li>
 
-            <li class="nav-item" id="settings">
-                <a href="{{route('admin.settings')}}">
+            <li class="nav-item" id="profile">
+                <a href="{{route('admin.profile')}}">
                     <i class="fa fa-user"></i>
                     <span class="menu-title" data-i18n="">{{tr('account')}}</span>
                 </a>
             </li>
         
             <li class="nav-item">
-                <a data-toggle="modal" data-target="#logoutModel" href="{{route('admin.logout')}}">
+                <a data-toggle="modal" data-target="#logoutModel" href="{{route('admin.logout')}}" onclick="return confirm('Are You sure?')">
                     <i class="ft-power"></i>
                     <span class="menu-title" data-i18n="">{{tr('logout')}}</span>
                 </a>

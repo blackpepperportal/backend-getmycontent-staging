@@ -45,7 +45,8 @@ class AdminAccountController extends Controller
 
     public function profile() {
 
-        return view('admin.account.profile')->with('page', 'profile');
+        return view('admin.account.profile')
+                ->with('page', 'profile');
     }
 
 
