@@ -174,7 +174,7 @@ class AdminUserController extends Controller
             $rules = [
                 'name' => 'required|max:191',
                 'email' => $request->user_id ? 'required|email|max:191|unique:users,email,'.$request->user_id.',id' : 'required|email|max:191|unique:users,email,NULL,id',
-                'password' => $request->user_id ? "" : 'required|min:6',
+                'password' => $request->user_id ? "" : 'required|min:6|confirmed',
                 'mobile' => $request->mobile ? 'digits_between:6,13' : '',
                 'picture' => 'mimes:jpg,png,jpeg',
                 'user_id' => 'exists:users,id|nullable'

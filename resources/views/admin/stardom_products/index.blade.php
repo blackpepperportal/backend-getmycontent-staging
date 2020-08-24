@@ -42,12 +42,14 @@
 
                     <div class="card-body card-dashboard">
 
+                        @include('admin.stardom_products._search')
+
                         <table class="table table-striped table-bordered sourced-data">
                             
                             <thead>
                                 <tr>
                                     <th>{{ tr('s_no') }}</th>
-                                    <th>{{ tr('name') }}</th>
+                                    <th>{{ tr('product_name') }}</th>
                                     <th>{{ tr('stardom') }}</th>
                                     <th>{{ tr('quantity') }}</th>
                                     <th>{{ tr('price') }}</th>
@@ -68,7 +70,10 @@
                                         </a>
                                     </td>
 
-                                    <td>{{ $stardom_product_details->starDomdetails->name ?? "-"}}</td>
+                                    <td> 
+                                        <a href="{{  route('admin.stardoms.view' , ['stardom_id' => $stardom_product_details->stardom_id] )  }}">{{ $stardom_product_details->starDomdetails->name ?? "-"}}
+                                        </a>
+                                    </td>
 
                                     <td>{{ $stardom_product_details->quantity }}</td>
 
@@ -77,9 +82,11 @@
                                     <td>
                                         @if($stardom_product_details->status == APPROVED)
 
-                                        <span class="btn btn-success btn-sm">{{ tr('approved') }}</span> @else
+                                            <span class="btn btn-success btn-sm">{{ tr('approved') }}</span> 
+                                        @else
 
-                                        <span class="btn btn-warning btn-sm">{{ tr('declined') }}</span> @endif
+                                            <span class="btn btn-warning btn-sm">{{ tr('declined') }}</span> 
+                                        @endif
                                     </td>
 
                                     <td>

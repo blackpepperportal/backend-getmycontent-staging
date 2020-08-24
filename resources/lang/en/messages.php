@@ -711,7 +711,8 @@ return [
 	'not_paid' => 'Not Paid',
 	'payment_history' => 'Payment History',
 	'wallets' => 'Wallets',
-
+	'product_name' => 'Product Name',
+	'product_search_placeholder' => 'Search By Product Name, Stardom Name',
 
 
 

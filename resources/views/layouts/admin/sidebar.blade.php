@@ -207,19 +207,9 @@
 
             <li class="nav-item" id="stardom_wallets">
                 <a href="{{route('admin.stardom_wallets.index')}}">
-                    <i class="fa fa-shopping-bag"></i>
+                     <i class="fa fa-shopping-bag"></i>
                     <span class="menu-title" data-i18n="">{{tr('stardom_wallets')}}</span>
                 </a>
-                <ul class="menu-content">
-                    
-                    <li id="stardom_wallets-index">
-                        <a class="menu-item" href="{{route('admin.stardom_wallets.index')}}">
-                            {{tr('view_stardom_wallets')}}
-                        </a>
-                    </li>
-            
-                </ul>            
-            
             </li>
 
             <li class="nav-item" id="payments">

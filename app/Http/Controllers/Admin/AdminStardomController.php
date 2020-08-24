@@ -181,7 +181,7 @@ class AdminStardomController extends Controller
             $rules = [
                 'name' => 'required|max:191',
                 'email' => $request->stardom_id ? 'required|email|max:191|unique:stardoms,email,'.$request->stardom_id.',id' : 'required|email|max:191|unique:stardoms,email,NULL,id',
-                'password' => $request->stardom_id ? "" : 'required|min:6',
+                'password' => $request->stardom_id ? "" : 'required|min:6|confirmed',
                 'mobile' => $request->mobile ? 'digits_between:6,13' : '',
                 'picture' => 'mimes:jpg,png,jpeg',
                 'stardom_id' => 'exists:stardoms,id|nullable'
@@ -608,6 +608,17 @@ class AdminStardomController extends Controller
 
         $base_query = \App\StardomProduct::orderBy('created_at','DESC');
 
+        if($request->search_key) {
+
+            $search_key = $request->search_key;
+
+            $base_query = $base_query->whereHas('stardomDetails',function($query) use($search_key) {
+
+                return $query->where('stardoms.name','LIKE','%'.$search_key.'%');
+
+            })->orWhere('stardom_products.name','LIKE','%'.$search_key.'%');
+        }
+
         if($request->stardom_id){
 
             $base_query = $base_query->where('stardom_id',$request->stardom_id);
@@ -964,7 +975,6 @@ class AdminStardomController extends Controller
 
         return view('admin.stardom_wallets.index')
                     ->with('page','stardom_wallets')
-                    ->with('sub_page' , 'stardom_wallets-index')
                     ->with('stardom_wallets' , $stardom_wallets);
     }
 
@@ -997,7 +1007,6 @@ class AdminStardomController extends Controller
                    
             return view('admin.stardom_wallets.view')
                         ->with('page', 'stardom_wallets') 
-                        ->with('sub_page','stardom_wallets-index') 
                         ->with('stardom_wallet_details' , $stardom_wallet_details)
                         ->with('stardom_wallet_payments',$stardom_wallet_payments);
             
