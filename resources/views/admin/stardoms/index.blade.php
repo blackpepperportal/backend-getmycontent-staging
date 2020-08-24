@@ -124,6 +124,13 @@
                                                     <a class="dropdown-item" href="{{ route('admin.stardoms.status' , ['stardom_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
 
                                                 @endif
+                                                <hr>
+
+                                                <a class="dropdown-item" href="{{ route('admin.posts.index', ['stardom_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('posts') }}</a> 
+
+                                                <a class="dropdown-item" href="{{ route('admin.stardom_products.index', ['stardom_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('products') }}</a> 
+
+                                                <a class="dropdown-item" href="{{ route('admin.stardom_wallets.index', ['stardom_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('wallets') }}</a> 
 
                                             </div>
 

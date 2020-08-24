@@ -197,19 +197,9 @@
 
                             <div class="col-3">
                                 
-                                <a href="{{route('admin.orders.index',['user_id' => $user_details->id])}}" class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1">{{tr('orders')}}</a>
-
-                            </div>
-
-                            <div class="col-3">
-                                
                                 <a href="{{route('admin.delivery_address.index',['user_id' => $user_details->id])}}" class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1">{{tr('delivery_address')}}</a>
 
                             </div>
-
-                        </div>
-
-                        <div class="row">
 
                             <div class="col-3">
 
@@ -220,6 +210,10 @@
                                     <a  class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1" href="{{route('admin.users.status' , ['user_id'=> $user_details->id] )}}">&nbsp;{{tr('approve')}}</a> 
                                 @endif
                             </div>
+
+                        </div>
+
+                        <div class="row">
 
                             <div class="col-3">
                                 

@@ -701,6 +701,17 @@ return [
 	'delivery_address_delete_failed' =>'delivery address failed to delete,Please try again',
 	'order_payment_search_placeholder' => 'Search By Username, Payment Id',
 	'products' => 'Products',
+	'stardom_wallet_details_not_found' => 'Stardom wallet details not found',
+	'stardom_wallets' => 'Stardom Wallets',
+	'view_stardom_wallets' => 'View Stardom Wallets',
+	'onhold' => 'Onhold',
+	'used' => 'Used',
+	'stardom_wallet_search_placeholder' => 'Search By Stardom Name,Unique Id',
+	'requested_amount' => 'Requested Amount',
+	'not_paid' => 'Not Paid',
+	'payment_history' => 'Payment History',
+	'wallets' => 'Wallets',
+
 
 
 

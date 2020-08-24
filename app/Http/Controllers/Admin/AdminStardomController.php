@@ -924,4 +924,89 @@ class AdminStardomController extends Controller
 
     }
 
+    /**
+     * @method stardom_wallets_index()
+     *
+     * @uses Display the lists of stardom users
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param -
+     *
+     * @return view page 
+     */
+    public function stardom_wallets_index(Request $request) {
+
+        $base_query = \App\StardomWallet::orderBy('created_at','DESC');
+
+        if($request->search_key) {
+
+            $search_key = $request->search_key;
+
+            $base_query =  $base_query
+
+                ->whereHas('stardomDetails', function($q) use ($search_key) {
+
+                    return $q->Where('stardoms.name','LIKE','%'.$search_key.'%');
+
+                })->orWhere('stardom_wallets.unique_id','LIKE','%'.$search_key.'%');
+                        
+        }
+
+        if($request->stardom_id) {
+
+            $base_query = $base_query->where('stardom_id',$request->stardom_id);
+        }
+
+        $stardom_wallets = $base_query->paginate(10);
+
+        return view('admin.stardom_wallets.index')
+                    ->with('page','stardom_wallets')
+                    ->with('sub_page' , 'stardom_wallets-index')
+                    ->with('stardom_wallets' , $stardom_wallets);
+    }
+
+    /**
+     * @method stardom_wallets_view()
+     *
+     * @uses display the transaction details of the perticulor stardom
+     *
+     * @created Akshata 
+     *
+     * @updated 
+     *
+     * @param object $request - stardom_wallet_id
+     * 
+     * @return View page
+     *
+     */
+    public function stardom_wallets_view(Request $request) {
+       
+        try {
+      
+            $stardom_wallet_details = \App\StardomWallet::find($request->stardom_wallet_id);
+
+            if(!$stardom_wallet_details) { 
+
+                throw new Exception(tr('stardom_wallet_details_not_found'), 101);                
+            }
+
+            $stardom_wallet_payments = \App\StardomWalletPayment::where('stardom_id',$stardom_wallet_details->stardom_id)->paginate(10);
+                   
+            return view('admin.stardom_wallets.view')
+                        ->with('page', 'stardom_wallets') 
+                        ->with('sub_page','stardom_wallets-index') 
+                        ->with('stardom_wallet_details' , $stardom_wallet_details)
+                        ->with('stardom_wallet_payments',$stardom_wallet_payments);
+            
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+
 }

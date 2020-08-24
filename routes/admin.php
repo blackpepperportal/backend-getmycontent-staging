@@ -150,7 +150,7 @@ Route::group(['middleware' => 'web'], function() {
 
         //orders end
 
-        //delivery address routes
+        //delivery address routes start
 
         Route::get('/delivery_address' , 'Admin\AdminPostController@delivery_address_index')->name('delivery_address.index');
 
@@ -158,7 +158,15 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('/delivery_address/view', 'Admin\AdminPostController@delivery_address_view')->name('delivery_address.view');
 
-        //posts albums end
+        //delivery address routes end
+        
+        //stardom wallet route start
+
+        Route::get('/stardom_wallets' , 'Admin\AdminStardomController@stardom_wallets_index')->name('stardom_wallets.index');
+
+        Route::get('/stardom_wallets/view', 'Admin\AdminStardomController@stardom_wallets_view')->name('stardom_wallets.view');
+
+        //stardom wallet route end
 
         //revenue dashboard start
 
