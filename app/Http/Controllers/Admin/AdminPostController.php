@@ -500,6 +500,82 @@ class AdminPostController extends Controller
             return redirect()->back()->with('flash_error',$e->getMessage());
         }
     }
+
+     /**
+     * @method delivery_address_index
+     *
+     * @uses Display list of all the delivery address
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function delivery_address_index(Request $request) {
+
+        $base_query = \App\DeliveryAddress::where('status',APPROVED);
+
+        if($request->search_key) {
+
+            $search_key = $request->search_key;
+
+            $base_query = $base_query->whereHas('userDetails',function($query) use($search_key){
+
+                return $query->where('users.name','LIKE','%'.$search_key.'%');
+
+            })->orWhere('delivery_addresses.name','LIKE','%'.$search_key.'%')
+
+            ->orWhere('delivery_addresses.address','LIKE','%'.$search_key.'%'); 
+        }
+
+        $delivery_addresses = $base_query->paginate(10);
+
+        return view('admin.delivery_address.index')
+                    ->with('page','delivery-address')
+                    ->with('delivery_addresses',$delivery_addresses);
+    }
+
+
+    /**
+     * @method delivery_address_view
+     *
+     * @uses Display the specified delivery address details
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - Delivery Address Id
+     * 
+     * @return response success/failure message
+     *
+     **/
+
+    public function delivery_address_view(Request $request) {
+
+        try {
+
+            $delivery_address_details = \App\DeliveryAddress::where('id',$request->delivery_address_id)->first();
+
+            if(!$delivery_address_details) {
+
+                throw new Exception(tr('delvery_address_details_not_found'), 101);
+                
+            }
+
+            return view('admin.delivery_address.view')
+                    ->with('page','delivery-address')
+                    ->with('delivery_address_details',$delivery_address_details);
+
+        } catch(Exception $e) {
+
+            return redirect()->back()->with('flash_error',$e->getMessage());
+        }
+    }
     
 
 }

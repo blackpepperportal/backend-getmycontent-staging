@@ -689,7 +689,13 @@ return [
 	'total_payments' => 'Total Payments',
 	'post_payments' => 'Post Payments',
 	'order_payments' => 'Order Payments',
-	'you_are_receiving_mails_from' => "You are receiving emails from", 
+	'you_are_receiving_mails_from' => "You are receiving emails from",
+	'delivery_address' => 'Delivery Address',
+	'delivery_address_details_not_found' => 'Delivery address details not found',
+	'view_delivery_address' => 'View Delivery Address',
+	'delivery_address_user' => 'Delivery Address User',
+	'delivery_address_delete_confirmation' => 'Once you\'ve deleted the record , the delivery address(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.', 
+	'delivery_search_placeholder' => 'Serach By Username,name,address'
 
 
 

@@ -150,6 +150,16 @@ Route::group(['middleware' => 'web'], function() {
 
         //orders end
 
+        //delivery address routes
+
+        Route::get('/delivery_address' , 'Admin\AdminPostController@delivery_address_index')->name('delivery_address.index');
+
+        Route::get('/delivery_address/delete', 'Admin\AdminPostController@delivery_address_delete')->name('delivery_address.delete');
+
+        Route::get('/delivery_address/view', 'Admin\AdminPostController@delivery_address_view')->name('delivery_address.view');
+
+        //posts albums end
+
         //revenue dashboard start
 
         Route::get('/revenues/dashboard','Admin\AdminRevenueController@revenues_dashboard')->name('revenues.dashboard');

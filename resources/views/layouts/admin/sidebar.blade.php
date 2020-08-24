@@ -163,6 +163,15 @@
             
             </li>
 
+            <li class="nav-item" id="delivery-address">
+
+                <a href="{{route('admin.delivery_address.index')}}">
+                    <i class="fa fa-truck"></i>
+                    <span class="menu-title" data-i18n="">{{tr('delivery_address')}}</span>
+                </a>
+            
+            </li>
+
             <!--  products_management end -->
 
             <li class="navigation-header">
