@@ -180,9 +180,9 @@
 
                                                 <hr>
 
-                                                <a class="dropdown-item" href="{{ route('admin.orders.index', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('posts') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.orders.index', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('orders') }}</a> 
 
-                                                <a class="dropdown-item" href="{{ route('admin.post.payments', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('products') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.post.payments', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('post_payments') }}</a> 
 
                                                 <a class="dropdown-item" href="{{ route('admin.delivery_address.index', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('delivery_address') }}</a> 
 

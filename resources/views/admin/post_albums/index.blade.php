@@ -1,14 +1,16 @@
 @extends('layouts.admin') 
 
-@section('title', tr('albums')) 
+@section('title', tr('post_albums')) 
 
-@section('content-header', tr('albums')) 
+@section('content-header', tr('post_albums')) 
 
 @section('breadcrumb')
 
 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
 </li>
-<li class="breadcrumb-item active">{{ tr('albums') }}</a>
+<li class="breadcrumb-item active"><a href="">{{ tr('post_albums') }}</a>
+</li>
+<li class="breadcrumb-item active">{{ tr('view_post_albums') }}</a>
 </li>
 
 @endsection 
@@ -25,7 +27,7 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('albums') }}</h4>
+                    <h4 class="card-title">{{ tr('view_post_albums') }}</h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                     
                 </div>
