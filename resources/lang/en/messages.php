@@ -716,6 +716,9 @@ return [
 	'username_password_not_match' => 'Email or password did not match,Please try again',
 	'redeems' => 'Redeems',	
 	'select_section_type' => 'Select Section Type',
+	'stardom_fcm_server_key' => 'Stardom Fcm Server Key',
+	'stardom_fcm_sender_id' => 'Stardom Fcm Sender Id',
+	'appstore_stardom' => 'Appstore Stardom',
 
 
 

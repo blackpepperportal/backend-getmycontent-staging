@@ -143,6 +143,10 @@ class SettingSeeder extends Seeder
 	            'key' => "playstore_user",
 	            'value' => '',
         	],
+        	[
+        		'key' => 'playstore_stardom',
+        		'value' => '',
+        	],
 		    [
 	            'key' => 'facebook_link',
 	            'value' => '',
@@ -195,11 +199,19 @@ class SettingSeeder extends Seeder
 		        'value' => '' // mins
 		    ],
 		    [
-		        'key' => 'fcm_sender_id',
+		        'key' => 'user_fcm_sender_id',
 		        'value' => '865212328189'
 		    ],
 		    [
-		        'key' => 'fcm_server_key',
+		        'key' => 'user_fcm_server_key',
+		        'value' => ''
+		    ],
+		    [
+		        'key' => 'stardom_fcm_sender_id',
+		        'value' => '865212328189'
+		    ],
+		    [
+		        'key' => 'stardom_fcm_server_key',
 		        'value' => ''
 		    ],
 

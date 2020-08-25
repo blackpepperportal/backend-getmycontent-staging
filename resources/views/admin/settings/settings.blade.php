@@ -1,548 +1,893 @@
 @extends('layouts.admin') 
 
-@section('title', tr('settings')) 
+@section('title', tr('settings'))
 
-@section('content-header', tr('settings'))
+@section('content-header',tr('settings'))
 
-@section('breadcrumb_left')
+@section('breadcrumb')
+<li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a></li>
 
-    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
-    </li>
-    <li class="breadcrumb-item active">{{ tr('settings') }}</a>
-    </li>
+<li class="breadcrumb-item active" aria-current="page">
+{{ tr('settings') }}
+</li>
 
 @endsection 
 
+@section('styles')
+
+<style>
+    
+/*  fansclub tab */
+div.fansclub-tab-container{
+    z-index: 10;
+    background-color: #ffffff;
+    padding: 0 !important;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    border:1px solid #ddd;
+    margin-top: 20px;
+    margin-left: 50px;
+    -webkit-box-shadow: 0 6px 12px rgba(3, 169, 243, 0.5);
+    box-shadow: 0 6px 12px rgba(3, 169, 243, 0.5);
+    -moz-box-shadow: 0 6px 12px rgba(3, 169, 243, 0.5);
+    background-clip: padding-box;
+    opacity: 0.97;
+    filter: alpha(opacity=97);
+}
+div.fansclub-tab-menu{
+    padding-right: 0;
+    padding-left: 0;
+    padding-bottom: 0;
+}
+div.fansclub-tab-menu div.list-group{
+    margin-bottom: 0;
+}
+div.fansclub-tab-menu div.list-group>a{
+    margin-bottom: 0;
+}
+div.fansclub-tab-menu div.list-group>a .glyphicon,
+div.fansclub-tab-menu div.list-group>a .fa {
+    color: #fea600;
+}
+div.fansclub-tab-menu div.list-group>a:first-child{
+    border-top-right-radius: 0;
+    -moz-border-top-right-radius: 0;
+}
+div.fansclub-tab-menu div.list-group>a:last-child{
+    border-bottom-right-radius: 0;
+    -moz-border-bottom-right-radius: 0;
+}
+div.fansclub-tab-menu div.list-group>a.active,
+div.fansclub-tab-menu div.list-group>a.active .glyphicon,
+div.fansclub-tab-menu div.list-group>a.active .fa{
+    background-color: #fea600;
+    background-image: #fea600;
+    color: #ffffff;
+    border: 2px dashed;
+}
+div.fansclub-tab-menu div.list-group>a.active:after{
+    content: '';
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    margin-top: -13px;
+    border-left: 0;
+    border-bottom: 13px solid transparent;
+    border-top: 13px solid transparent;
+    border-left: 10px solid #fea600;
+}
+
+div.fansclub-tab-content{
+    background-color: #ffffff;
+    /* border: 1px solid #eeeeee; */
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
+.box-body {
+    padding: 0px;
+}
+
+div.fansclub-tab div.fansclub-tab-content:not(.active){
+  display: none;
+}
+
+.sub-title {
+    width: fit-content;
+    color: #2c648c;
+    font-size: 18px;
+    /*border-bottom: 2px dashed #285a86;*/
+    padding-bottom: 5px;
+}
+
+hr {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+</style>
+@endsection
+
 @section('content')
 
-<div class="col-xl-12 col-lg-12">
-
-    <div class="card">
+<div class="row">
+    
+     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 fansclub-tab-menu">
         
-        <div class="card-content">
+        <div class="list-group">
+            <a href="#" class="list-group-item active text-left text-uppercase">
+                {{tr('site_settings')}}
+            </a>
+        
+            <a href="#" class="list-group-item text-left text-uppercase">
+                {{tr('payment_settings')}}
+            </a>
+            <a href="#" class="list-group-item text-left text-uppercase">
+                {{tr('email_settings')}}
+            </a>
+            <a href="#" class="list-group-item text-left text-uppercase">
+                {{tr('social_settings')}}
+            </a>
+            <a href="#" class="list-group-item text-left text-uppercase">
+                {{tr('social_login')}}
+            </a>
+            <a href="#" class="list-group-item text-left text-uppercase">
+                {{tr('notification_settings')}}
+            </a>
+            <a href="#" class="list-group-item text-left text-uppercase">
+                {{tr('mobile_settings')}}
+            </a>
+            <a href="#" class="list-group-item text-left text-uppercase">
+                {{tr('other_settings')}}
+            </a>
 
-            <div class="card-body">
-                
-                <ul class="nav nav-tabs nav-linetriangle no-hover-bg nav-justified">
+        </div>
 
-                    <li class="nav-item">
-                        <a class="nav-link active" id="site_settings" data-toggle="tab" aria-controls="site_settings_tab" href="#site_settings_tab" aria-expanded="true">
-                            <i class="fa fa-setting"></i>  
-                            {{ tr('site_settings') }}
-                        </a>
-                    </li>
+    </div>
+    
+    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 fansclub-tab">
+        
+        <!-- Site section -->            
+        <div class="fansclub-tab-content active">
 
-                    <li class="nav-item">
-                        <a class="nav-link " id="social_settings" data-toggle="tab" aria-controls="social_settings_tab" href="#social_settings_tab" aria-expanded="false">
-                            {{ tr('social_settings') }}
-                        </a>
-                    </li>
+           <form id="site_settings_save" action="{{ route('admin.settings.save') }}" method="POST" enctype="multipart/form-data" role="form">
 
+                @csrf
 
-                    <li class="nav-item">
-                        <a class="nav-link" id="email_settings" data-toggle="tab" aria-controls="email_settings_tab" href="#email_settings_tab" aria-expanded="false">
-                            {{ tr('email_settings') }}
-                        <a>
-                    </li>
+                <div class="box-body">
 
-                    <li class="nav-item">
-                        <a class="nav-link" id="social_and_app_settings" data-toggle="tab" aria-controls="social_and_app_settings_tab" href="#social_and_app_settings_tab" aria-expanded="false">
-                            {{ tr('social_and_app_settings') }}
-                        </a>
-                    </li>
+                    <div class="row">
 
-                    <li class="nav-item">
-                        <a class="nav-link" id="other_settings" data-toggle="tab" aria-controls="other_settings_tab" href="#other_settings_tab" aria-expanded="false">
-                            {{ tr('other_settings') }}
-                        </a>
-                    </li>
+                        <div class="col-md-12">
 
-                </ul>
+                            <h5 class="settings-sub-header text-uppercase" style="color: #f30660;"><b>{{tr('site_settings')}}</b></h5>
+                            <hr>
 
-                <div class="tab-content px-1 pt-1">
+                        </div>
 
-                    <!-- SITE SETTINGS START -->
+                        <div class="col-md-6">
 
-                    <div role="tabpanel" class="tab-pane active" id="site_settings_tab" aria-expanded="true" aria-labelledby="site_settings">
+                            <div class="form-group">
+                                <label for="site_name">{{tr('site_name')}} *</label>
+                                <input type="text" class="form-control" id="site_name" name="site_name" placeholder="Enter {{tr('site_name')}}" value="{{Setting::get('site_name')}}">
+                            </div>
 
-                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="tag_name">{{tr('tag_name')}} *</label>
+                                <input type="text" class="form-control" id="tag_name" name="tag_name" placeholder="Enter {{tr('tag_name')}}" value="{{Setting::get('tag_name')}}">
+                            </div>
 
-                            <form class="form" action="{{ (Setting::get('is_demo_control_enabled') ==  YES ) ? '#' : route('admin.settings.save') }}" method="POST" enctype="multipart/form-data" role="form">
+                            <div class="form-group">
+                                <label for="site_logo">{{tr('site_logo')}} *</label>
+                                <p class="txt-warning">{{tr('png_image_note')}}</p>
+                                <input type="file" class="form-control" id="site_logo" name="site_logo" accept="image/png" placeholder="{{tr('site_logo')}}">
+                            </div>
+                            
+                            @if(Setting::get('site_logo'))
 
-                            @csrf
+                                <img class="img img-thumbnail m-b-20" style="width: 40%" src="{{Setting::get('site_logo')}}" alt="{{Setting::get('site_name')}}"> 
 
-                                <div class="form-body">
+                            @endif
 
-                                    <div class="form-group">
-                                        <label for="sitename">{{ tr('site_name') }}</label>
-                                        <input type="text" class="form-control" name="site_name" value="{{ Setting::get('site_name')  }}" id="sitename" placeholder="{{ tr('enter_site_name') }}">
-                                    </div>
+                        </div>
 
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label for="site_logo">{{ tr('site_logo') }}</label>
+                        <div class="col-lg-6">
 
-                                            <br> 
+                            <div class="form-group">
 
-                                            @if(Setting::get('site_logo'))
-                                            <img style="height: 50px; width:75px;margin-bottom: 15px; border-radius:2em;" src="{{ Setting::get('site_logo') }}"> 
-                                            @endif
+                                <label for="frontend_url">{{tr('frontend_url')}} *</label>
 
-                                            <input type="file" id="site_logo" name="site_logo" accept="image/png, image/jpeg">
-                                            <p class="help-block">{{ tr('image_notes') }}</p>
+                                <input type="text" class="form-control" id="frontend_url" name="frontend_url" placeholder="{{tr('frontend_url')}}" value="{{Setting::get('frontend_url')}}">
 
-                                        </div>
+                            </div>
 
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="site_icon">{{ tr('site_icon') }}</label>
-                                                <br> 
+                            <div class="form-group">
 
-                                                @if(Setting::get('site_icon'))
-                                                    <img style="height: 50px; width:75px; margin-bottom: 15px; border-radius:2em;" src="{{ Setting::get('site_icon') }}"> 
-                                                @endif
+                                <label for="site_icon">{{tr('site_icon')}} *</label>
 
-                                                <input type="file" id="site_icon" name="site_icon" accept="image/png, image/jpeg">
-                                                <p class="help-block">{{ tr('image_notes') }}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                
-                                </div>
+                                <p class="txt-warning">{{tr('png_image_note')}}</p>
 
-                                <div class="form-actions">
+                                <input type="file" class="form-control" id="site_icon" name="site_icon" accept="image/png" placeholder="{{tr('site_icon')}}">
 
-                                    <div class="pull-right">
+                            </div>
 
-                                        <button type="reset"  class="btn btn-warning mr-1 ">
-                                            <i class="ft-x "></i> {{ tr('reset') }}
-                                        </button>
-                                        
-                                        <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled  @endif ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
+                            @if(Setting::get('site_icon'))
 
-                                    </div>
+                                <img class="img img-thumbnail m-b-20" style="width: 20%" src="{{Setting::get('site_icon')}}" alt="{{Setting::get('site_name')}}"> 
 
-                                </div>
-
-                            </form>
+                            @endif
 
                         </div>
 
                     </div>
 
-                    <div class="tab-pane" id="social_settings_tab" aria-labelledby="social_settings">
+                </div>
 
-                        <form action="{{ (Setting::get('is_demo_control_enabled') ==  YES) ? '' : route('admin.env-settings.save') }}" method="POST" enctype="multipart/form-data" role="form">
+                <!-- /.box-body -->
 
-                        @csrf
-                            <div class="box-body">
+                <div class="form-actions">
 
-                                <div class="row">
+                    <div class="pull-right">
+                    
+                        <button type="reset" class="btn btn-warning mr-1">
+                            <i class="ft-x"></i> {{ tr('reset') }} 
+                        </button>
 
-                                    <div class="col-md-12">
-                                        <h3 class="settings-sub-header text-uppercase">{{ tr('fb_settings') }}</h3>
-                                        <hr>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label for="fb_client_id">{{ tr('FB_CLIENT_ID') }}</label>
-                                            <input type="text" class="form-control" name="FB_CLIENT_ID" id="fb_client_id" placeholder="{{ tr('FB_CLIENT_ID') }}" value="{{Setting::get('FB_CLIENT_ID')}}">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label for="fb_client_secret">{{ tr('FB_CLIENT_SECRET') }}</label>
-                                            <input type="text" class="form-control" name="FB_CLIENT_SECRET" id="fb_client_secret" placeholder="{{ tr('FB_CLIENT_SECRET') }}" value="{{Setting::get('FB_CLIENT_SECRET')}}">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label for="fb_call_back">{{ tr('FB_CALL_BACK') }}</label>
-                                            <input type="text" class="form-control" name="FB_CALL_BACK" id="fb_call_back" placeholder="{{ tr('FB_CALL_BACK') }}" value="{{Setting::get('FB_CALL_BACK')}}">
-                                        </div>
-                                    </div>
-
-                                    <div class="clearfix"></div>
-
-                                    
-                                    <div class="clearfix"></div>
-
-                                    <div class="col-md-12">
-                                        <h3 class="settings-sub-header text-uppercase">{{ tr('google_settings') }}</h3>
-                                        <hr>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label for="google_client_id">{{ tr('GOOGLE_CLIENT_ID') }}</label>
-                                            <input type="text" class="form-control" name="GOOGLE_CLIENT_ID" id="google_client_id" placeholder="{{ tr('GOOGLE_CLIENT_ID') }}" value="{{Setting::get('GOOGLE_CLIENT_ID')}}">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label for="google_client_secret">{{ tr('GOOGLE_CLIENT_SECRET') }}</label>
-                                            <input type="text" class="form-control" name="GOOGLE_CLIENT_SECRET" id="google_client_secret" placeholder="{{ tr('GOOGLE_CLIENT_SECRET') }}" value="{{Setting::get('GOOGLE_CLIENT_SECRET')}}">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label for="google_call_back">{{ tr('GOOGLE_CALL_BACK') }}</label>
-                                            <input type="text" class="form-control" name="GOOGLE_CALL_BACK" id="google_call_back" placeholder="{{ tr('GOOGLE_CALL_BACK') }}" value="{{Setting::get('GOOGLE_CALL_BACK')}}">
-                                        </div>
-                                    </div>
-
-                                     <div class="col-md-12">
-                                        <h3 class="settings-sub-header text-uppercase">{{ tr('fcm_settings') }}</h3>
-                                        <hr>
-                                    </div>
-                                    
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-
-                                            <label for="FCM_SERVER_KEY">{{tr('FCM_SERVER_KEY')}}</label>
-
-                                            <input type="text" class="form-control" name="FCM_SERVER_KEY" id="FCM_SERVER_KEY"
-                                            value="{{envfile('FCM_SERVER_KEY')}}" placeholder="{{tr('FCM_SERVER_KEY')}}">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-
-                                            <label for="FCM_SENDER_ID">{{tr('FCM_SENDER_ID')}}</label>
-
-                                            <input type="text" class="form-control" name="FCM_SENDER_ID" id="FCM_SENDER_ID"
-                                            value="{{envfile('FCM_SENDER_ID')}}" placeholder="{{tr('FCM_SENDER_ID')}}">
-                                        </div>
-                                    </div>
-
-
-                                    <div class='clearfix'></div>
-
-                                </div>
-
-                            </div>
-
-
-                            <div class="form-actions">
-
-                                <div class="pull-right">
-
-                                    <button type="reset"  class="btn btn-warning mr-1 ">
-                                        <i class="ft-x "></i> {{ tr('reset') }}
-                                    </button>
-
-                                    
-                                    <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled  @endif ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
-                                </div>
-
-                            </div>
-                            
-                            <div class="clearfix"></div>
-
-                        </form>
-                        <!-- <p>Sugar plum tootsica.</p> -->
+                        <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled @endif ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
                     
                     </div>
 
-                    <!-- Social SETTINGS END -->
+                    <div class="clearfix"></div>
 
+                </div>
+            
+            </form>
 
-                    <!-- Email SETTINGS START -->
+            <br>
 
-                    <div class="tab-pane" id="email_settings_tab" aria-labelledby="email_settings">
+        </div>
 
-                        <form action="{{ (Setting::get('is_demo_control_enabled') == YES) ? '#' : route('admin.env-settings.save') }}" method="POST" enctype="multipart/form-data" role="form">
+        <!-- Payment settings -->
+        <div class="fansclub-tab-content">
+            
+            <form id="site_settings_save" action="{{route('admin.settings.save')}}" method="POST" enctype="multipart/form-data" class="forms-sample">
+         
+            @csrf
 
-                            @csrf
-                            
-                            <div class="form-body">
+                <div class="box-body">
 
-                                <div class="row">
+                    <div class="row">
 
-                                    <div class="col-md-12">
+                        <div class="col-md-12">
 
-                                        <h3 class="settings-sub-header text-uppercase">{{ tr('email_settings') }}</h3>
+                            <h5 class="settings-sub-header text-uppercase"  style="color: #f30660;"><b>{{tr('payment_settings')}}</b></h5>
 
-                                        <hr>
+                            <hr>
 
-                                    </div>
+                        </div>
+                        <div class="col-md-12">
 
-                                    <div class="col-md-6 col-sm-6">
+                            <h5 class="sub-title">{{tr('stripe_settings')}}</h5>
 
-                                        <div class="form-group">
-                                            <label for="MAIL_MAILER">{{ tr('MAIL_MAILER') }} *</label>
-                                            <p class="txt-default m-0">{{ tr('mail_MAILER_note') }}</p>
-                                            <input type="text" class="form-control" id="MAIL_MAILER" name="MAIL_MAILER" placeholder="Enter {{ tr('MAIL_MAILER') }}" value="{{ old('MAIL_MAILER') ?: $env_values['MAIL_MAILER'] }}">
-                                        </div>
+                        </div>
 
-                                        <div class="form-group">
-                                            <label for="MAIL_HOST">{{ tr('MAIL_HOST') }} *</label>
-                                            <p class="txt-default m-0">{{ tr('mail_host_note') }}</p>
+                         <div class="col-lg-6">
+                             <div class="form-group">
 
-                                            <input type="text" class="form-control" id="MAIL_HOST" name="MAIL_HOST" placeholder="Enter {{ tr('MAIL_HOST') }}" value="{{ old('MAIL_HOST') ?: $env_values['MAIL_HOST']}}">
-                                        </div>
+                                <label for="stripe_publishable_key">{{tr('stripe_publishable_key')}} *</label>
 
-                                        <div class="form-group">
-                                            <label for="MAIL_PORT">{{ tr('MAIL_PORT') }} *</label>
+                                <input type="text" class="form-control" id="stripe_publishable_key" name="stripe_publishable_key" placeholder="Enter {{tr('stripe_publishable_key')}}" value="{{old('stripe_publishable_key') ?: Setting::get('stripe_publishable_key')}}">
 
-                                            <p class="txt-default m-0">{{ tr('mail_port_note') }}</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="stripe_secret_key">{{tr('stripe_secret_key')}} *</label>
 
-                                            <input type="text" class="form-control" id="MAIL_PORT" name="MAIL_PORT" placeholder="Enter {{ tr('MAIL_PORT') }}" value="{{ old('MAIL_PORT') ?: $env_values['MAIL_PORT']}}">
-                                        </div>
-                                    
-                                    </div>
+                                <input type="text" class="form-control" id="stripe_secret_key" name="stripe_secret_key" placeholder="Enter {{tr('stripe_secret_key')}}" value="{{old('stripe_secret_key') ?: Setting::get('stripe_secret_key')}}">
+                            </div>
+                        </div>
+                         <div class="col-lg-6">
+                           <label for="stripe_secret_key">{{tr('stripe_mode')}} *</label>
 
-                                    <div class="col-md-6 col-sm-6">
+                                <div class="clearfix"></div>
 
-                                        <div class="form-group">
-                                            <label for="MAIL_USERNAME">{{ tr('MAIL_USERNAME') }} *</label>
-                                            
-                                            <p class="txt-default m-0">{{ tr('mail_username_note') }}</p>
+                                <div class="radio radio-aqua" style="display: inline-block;">
 
-                                            <input type="text" class="form-control" id="MAIL_USERNAME" name="MAIL_USERNAME" placeholder="Enter {{ tr('MAIL_USERNAME') }}" value="{{ old('MAIL_USERNAME') ?: $env_values['MAIL_USERNAME']}}">
-                                        </div>
+                                    <input id="stripe_live" name="stripe_mode" type="radio" value="{{ STRIPE_MODE_LIVE }}" @if(Setting::get('stripe_mode') == STRIPE_MODE_LIVE ) checked="checked" @endif>
 
-                                        <div class="form-group">
-
-                                            <label for="MAIL_PASSWORD">{{ tr('MAIL_PASSWORD') }} *</label>
-                                            
-                                            <p class="txt-default m-0">{{ tr('mail_password_note') }}</p>
-
-                                            <input type="password" class="form-control" id="MAIL_PASSWORD" name="MAIL_PASSWORD" placeholder="Enter {{ tr('MAIL_PASSWORD') }}" >
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="MAIL_ENCRYPTION">{{ tr('MAIL_ENCRYPTION') }} *</label>
-                                            
-                                            <p class="txt-default m-0">{{ tr('mail_encryption_note') }}</p>
-
-                                            <input type="text" class="form-control" id="MAIL_ENCRYPTION" name="MAIL_ENCRYPTION" placeholder="Enter {{ tr('MAIL_ENCRYPTION') }}" value="{{ old('MAIL_ENCRYPTION') ?: $env_values['MAIL_ENCRYPTION']}}">
-                                        </div>
-                                        
-                                    </div>
+                                    <label for="stripe_live">
+                                        {{tr('live')}}
+                                    </label>
 
                                 </div>
 
-                            </div>
-
-                            <div class="form-actions">
-
-                                <div class="pull-right">
-
-                                    <button type="reset"  class="btn btn-warning mr-1 ">
-                                        <i class="ft-x "></i> {{ tr('reset') }}
-                                    </button>
-                                    
-                                    <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled  @endif ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
-
+                                <div class="radio radio-yellow" style="display: inline-block;">
+                                    <input id="stripe_sandbox" name="stripe_mode" type="radio" value="{{ STRIPE_MODE_SANDBOX }}" @if(Setting::get( 'stripe_mode') == STRIPE_MODE_SANDBOX) checked="checked" @endif>
+                                    <label for="stripe_sandbox">
+                                        {{tr('sandbox')}}
+                                    </label>
                                 </div>
+                        </div>
 
-                            </div>
-                            
-                            <div class="clearfix"></div>
-
-                        </form>
-                        <!-- <p>Sugar plum tootsica.</p> -->
-                    
                     </div>
-
-                    <!-- Email SETTINGS END -->
-
-                    <!-- social_and_app_settings SETTINGS start -->
-
-                    <div class="tab-pane" id="social_and_app_settings_tab" aria-labelledby="social_and_app_settings">
-
-                        <form action="{{ (Setting::get('is_demo_control_enabled') == YES) ? '#' : route('admin.settings.save') }}" method="POST" enctype="multipart/form-data" role="form">
-
-                        @csrf
-                            
-                            <div class="form-body">
-
-                                <div class="row">
-
-                                    <div class="col-md-12">
-
-                                        <h3 class="settings-sub-header text-uppercase">{{ tr('social_settings') }}</h3>
-
-                                        <hr>
-
-                                    </div>
-
-                                    <div class="col-md-6 col-sm-6">
-
-                                        <div class="form-group">
-
-                                            <label for="facebook_link">{{ tr('facebook_link') }} *</label>
-
-                                            <input type="text" class="form-control" id="facebook_link" name="facebook_link" placeholder="Enter {{ tr('facebook_link') }}" value="{{ old('facebook_link') ?: Setting::get('facebook_link') }}">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="twitter_link">{{ tr('twitter_link') }} *</label>
-
-                                            <input type="text" class="form-control" id="twitter_link" name="twitter_link" placeholder="Enter {{ tr('twitter_link') }}" value="{{ old('twitter_link') ?: Setting::get('twitter_link') }}">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="linkedin_link">{{ tr('linkedin_link') }} *</label>
-
-                                            <input type="text" class="form-control" id="linkedin_link" name="linkedin_link" placeholder="Enter {{ tr('linkedin_link') }}" value="{{ old('linkedin_link') ?: Setting::get('linkedin_link') }}">
-                                        </div>                                
-
-                                    </div>
-
-                                    <div class="col-md-6 col-sm-6">
-
-                                        <div class="form-group">
-                                            <label for="google_plus_link">{{ tr('google_plus_link') }} *</label>
-
-                                            <input type="text" class="form-control" id="google_plus_link" name="google_plus_link" placeholder="Enter {{ tr('google_plus_link') }}" value="{{ old('google_plus_link') ?: Setting::get('google_plus_link') }}">
-                                        </div>    
-
-                                        
-                                        <div class="form-group">
-                                            <label for="pinterest_link">{{ tr('pinterest_link') }} *</label>
-                                            
-                                            <input type="text" class="form-control" id="pinterest_link" name="pinterest_link" placeholder="Enter {{ tr('pinterest_link') }}" value="{{ old('pinterest_link') ?: Setting::get('pinterest_link') }}">
-                                        </div>
-                                        
-                                    </div>
-
-
-                                    <div class="col-md-12">
-
-                                        <h3 class="settings-sub-header text-uppercase">{{ tr('apps_settings') }}</h3>
-
-                                        <hr>
-
-                                    </div>
-
-                                    <div class="col-md-6 col-sm-6">
-
-                                        <div class="form-group">
-                                            <label for="playstore_user">{{ tr('playstore_user') }} *</label>
-                                            <input type="text" class="form-control" id="playstore_user" name="playstore_user" placeholder="Enter {{ tr('playstore_user') }}" value="{{ old('playstore_user') ?: Setting::get('playstore_user') }}">
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-md-6 col-sm-6">
-
-                                        <div class="form-group">
-                                            <label for="appstore_user">{{ tr('appstore_user') }} *</label>
-
-                                            <input type="text" class="form-control" id="appstore_user" name="appstore_user" placeholder="Enter {{ tr('appstore_user') }}" value="{{ old('appstore_user') ?: Setting::get('appstore_user') }}">
-                                        </div>                                        
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <div class="form-actions">
-
-                                <div class="pull-right">
-
-                                    <button type="reset"  class="btn btn-warning mr-1 ">
-                                        <i class="ft-x "></i> {{ tr('reset') }}
-                                    </button>
-                                   
-                                    <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled  @endif ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
-
-                                </div>
-
-                            </div>
-                                
-                            <div class="clearfix"></div>
-
-                        </form>
-                        <!-- <p>Sugar plum tootsica.</p> -->
-                    
-                    </div>
-
-                    <!-- social_and_app_settings settings End -->
-
-                    <!-- Other Settings START -->
-
-                    <div class="tab-pane" id="other_settings_tab" aria-labelledby="other_settings">
-
-                        <form action="{{ (Setting::get('is_demo_control_enabled') == YES) ? '#' : route('admin.settings.save') }}" method="POST" enctype="multipart/form-data" role="form">
-
-                        @csrf
-                            
-                            <div class="form-body">
-
-                                <div class="col-md-12 col-sm-12">
-
-                                    <div class="form-group">
-                                        <label for="google_analytics">{{ tr('google_analytics') }} *</label>
-
-                                        <textarea class="form-control" name="google_analytics" placeholder="Enter {{ tr('google_analytics') }}">{{ old('google_analytics') ?: Setting::get('google_analytics') }}</textarea>
-
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="header_scripts">{{ tr('header_scripts') }} *</label>
-
-                                        <textarea class="form-control" name="header_scripts" placeholder="Enter {{ tr('header_scripts') }}">{{ old('header_scripts') ?: Setting::get('header_scripts') }}</textarea>
-
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="body_scripts">{{ tr('body_scripts') }} *</label>
-
-                                        <textarea class="form-control" name="body_scripts" placeholder="Enter {{ tr('body_scripts') }}">{{ old('body_scripts') ?: Setting::get('body_scripts') }}</textarea>
-
-                                    </div>
-
-                                </div>
-
-
-                            </div>
-
-                            <div class="form-actions">
-
-                                <div class="pull-right">
-
-                                    <button type="reset"  class="btn btn-warning mr-1 ">
-                                        <i class="ft-x "></i> {{ tr('reset') }}
-                                    </button>
-                                   
-                                    <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled  @endif ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
-                                </div>
-
-                            </div>
-                            
-                            <div class="clearfix"></div>
-
-                        </form>
-                        <!-- <p>Sugar plum tootsica.</p> -->
-                    
-                    </div>
-
-                    <!-- Other Settings END -->
 
                 </div>
 
-            </div>
+                <div class="form-actions">
 
+                    <div class="pull-right">
+                    
+                        <button type="reset" class="btn btn-warning mr-1">
+                            <i class="ft-x"></i> {{ tr('reset') }} 
+                        </button>
+
+                        <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled @endif ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
+                    
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                </div>
+       
+            </form>
+       
+            <br>
+       
+        </div>
+
+        <!-- Email settings -->
+        <div class="fansclub-tab-content">
+            <form id="site_settings_save" action="{{route('admin.env-settings.save')}}" method="POST">
+
+            @csrf
+        
+                <div class="box-body">
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+
+                            <h5 class="settings-sub-header text-uppercase" style="color: #f30660;"><b>{{tr('email_settings')}}</b></h5>
+
+                            <hr>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                    <label for="MAIL_DRIVER">{{tr('MAIL_DRIVER')}} *</label>
+                                    <p class="text-muted">{{tr('mail_driver_note')}}</p>
+                                    <input type="text" class="form-control" id="MAIL_DRIVER" name="MAIL_DRIVER" placeholder="Enter {{tr('MAIL_DRIVER')}}" value="{{old('MAIL_DRIVER') ?: $env_values['MAIL_DRIVER'] }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="MAIL_HOST">{{tr('MAIL_HOST')}} *</label>
+                                <p class="text-muted">{{tr('mail_host_note')}}</p>
+
+                                <input type="text" class="form-control" id="MAIL_HOST" name="MAIL_HOST" placeholder="Enter {{tr('MAIL_HOST')}}" value="{{old('MAIL_HOST') ?: $env_values['MAIL_HOST']}}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="MAIL_FROM_ADDRESS">{{tr('MAIL_FROM_ADDRESS')}} *</label>
+
+                                <p class="text-muted">{{tr('MAIL_FROM_ADDRESS_note')}}</p>
+
+                                <input type="text" class="form-control" id="MAIL_FROM_ADDRESS" name="MAIL_FROM_ADDRESS" placeholder="Enter {{tr('MAIL_FROM_ADDRESS')}}" value="{{old('MAIL_FROM_ADDRESS') ?: $env_values['MAIL_FROM_ADDRESS']}}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="MAIL_PORT">{{tr('MAIL_PORT')}} *</label>
+
+                                <p class="text-muted">{{tr('mail_port_note')}}</p>
+
+                                <input type="text" class="form-control" id="MAIL_PORT" name="MAIL_PORT" placeholder="Enter {{tr('MAIL_PORT')}}" value="{{old('MAIL_PORT') ?: $env_values['MAIL_PORT']}}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                <label for="MAIL_USERNAME">{{tr('MAIL_USERNAME')}} *</label>
+
+                                <p class="text-muted">{{tr('mail_username_note')}}</p>
+
+                                <input type="text" class="form-control" id="MAIL_USERNAME" name="MAIL_USERNAME" placeholder="Enter {{tr('MAIL_USERNAME')}}" value="{{old('MAIL_USERNAME') ?: $env_values['MAIL_USERNAME']}}">
+                            </div>
+
+                            <div class="form-group">
+
+                                <label for="MAIL_PASSWORD">{{tr('MAIL_PASSWORD')}} *</label>
+
+                                <p class="text-muted" style="visibility: hidden;">{{tr('mail_username_note')}}</p>
+
+                                <input type="password" class="form-control" id="MAIL_PASSWORD" name="MAIL_PASSWORD" placeholder="Enter {{tr('MAIL_PASSWORD')}}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="MAIL_FROM_NAME">{{tr('MAIL_FROM_NAME')}} *</label>
+
+                                <p class="text-muted">{{tr('MAIL_FROM_NAME_note')}}</p>
+
+                                <input type="text" class="form-control" id="MAIL_FROM_NAME" name="MAIL_FROM_NAME" placeholder="Enter {{tr('MAIL_FROM_NAME')}}" value="{{old('MAIL_FROM_NAME') ?: $env_values['MAIL_FROM_NAME']}}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="MAIL_ENCRYPTION">{{tr('MAIL_ENCRYPTION')}} *</label>
+
+                                <p class="text-muted">{{tr('mail_encryption_note')}}</p>
+
+                                <input type="text" class="form-control" id="MAIL_ENCRYPTION" name="MAIL_ENCRYPTION" placeholder="Enter {{tr('MAIL_ENCRYPTION')}}" value="{{old('MAIL_ENCRYPTION') ?: $env_values['MAIL_ENCRYPTION']}}">
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+
+                    <div class="pull-right">
+                    
+                        <button type="reset" class="btn btn-warning mr-1">
+                            <i class="ft-x"></i> {{ tr('reset') }} 
+                        </button>
+
+                        <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled @endif ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
+                    
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                </div>
+
+            </form>
+       
+            <br>
+       
+        </div>          
+
+        <!-- Social Settings  -->
+        <div class="fansclub-tab-content">
+           
+           <form id="site_settings_save" action="{{route('admin.settings.save')}}" method="POST">
+                
+                @csrf
+
+                <div class="box-body">
+                    <div class="row">
+
+                        <div class="col-md-12">
+
+                            <h5 class="settings-sub-header text-uppercase"  style="color: #f30660;"><b>{{tr('social_settings')}}</b></h5>
+
+                            <hr>
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="facebook_link">{{tr('facebook_link')}} *</label>
+
+                                <input type="text" class="form-control" id="facebook_link" name="facebook_link" placeholder="Enter {{tr('facebook_link')}}" value="{{old('facebook_link') ?: Setting::get('facebook_link')}}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="linkedin_link">{{tr('linkedin_link')}} *</label>
+
+                                <input type="text" class="form-control" id="linkedin_link" name="linkedin_link" placeholder="Enter {{tr('linkedin_link')}}" value="{{old('linkedin_link') ?: Setting::get('linkedin_link')}}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                    <label for="twitter_link">{{tr('twitter_link')}} *</label>
+
+                                    <input type="text" class="form-control" id="twitter_link" name="twitter_link" placeholder="Enter {{tr('twitter_link')}}" value="{{old('twitter_link') ?: Setting::get('twitter_link')}}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="google_plus_link">{{tr('google_plus_link')}} *</label>
+
+                                <input type="text" class="form-control" id="google_plus_link" name="google_plus_link" placeholder="Enter {{tr('google_plus_link')}}" value="{{old('google_plus_link') ?: Setting::get('google_plus_link')}}">
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="pinterest_link">{{tr('pinterest_link')}} *</label>
+
+                                <input type="text" class="form-control" id="pinterest_link" name="pinterest_link" placeholder="Enter {{tr('pinterest_link')}}" value="{{old('pinterest_link') ?: Setting::get('pinterest_link')}}">
+                            </div>
+                        </div>
+                        
+                        <div class="clearfix"></div>
+                        
+                    </div>
+                
+                </div>
+                
+                <div class="form-actions">
+
+                    <div class="pull-right">
+                    
+                        <button type="reset" class="btn btn-warning mr-1">
+                            <i class="ft-x"></i> {{ tr('reset') }} 
+                        </button>
+
+                        <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled @endif ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
+                    
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                </div>
+        
+            </form>
+        
+            <br>
+        
+        </div>
+
+        <!--Social login-->
+        <div class="fansclub-tab-content">
+           
+           <form id="social_settings_save" action="{{route('admin.settings.save')}}" method="POST">
+                
+                @csrf
+
+                <div class="box-body">
+
+                    <div class="row">
+
+                         <div class="col-md-12">
+
+                           <h5 class="settings-sub-header text-uppercase"  style="color: #f30660;"><b>{{tr('social_login')}}</b></h5>
+
+                            <hr>
+
+                        </div>
+
+                        <div class="col-md-12">
+                            <h5 class="settings-sub-header text-uppercase text-danger"><b>{{tr('fb_settings')}}</b></h5>
+                            <hr>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="FB_CLIENT_ID">{{tr('FB_CLIENT_ID')}} *</label>
+
+                                <input type="text" class="form-control" name="FB_CLIENT_ID" id="FB_CLIENT_ID" placeholder="Enter {{tr('FB_CLIENT_ID')}}" value="{{old('FB_CLIENT_ID') ?: Setting::get('FB_CLIENT_ID') }}">
+                            </div>
+                        </div>
+                       
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="FB_CLIENT_SECRET">{{tr('FB_CLIENT_SECRET')}} *</label>
+
+                                <input type="text" class="form-control" name="FB_CLIENT_SECRET" id="FB_CLIENT_SECRET" placeholder="Enter {{tr('FB_CLIENT_SECRET')}}" value="{{old('FB_CLIENT_SECRET') ?: Setting::get('FB_CLIENT_SECRET') }}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="FB_CALL_BACK">{{tr('FB_CALL_BACK')}} *</label>
+
+                                <input type="text" class="form-control" name="FB_CALL_BACK" id="FB_CALL_BACK" placeholder="Enter {{tr('FB_CALL_BACK')}}" value="{{old('FB_CALL_BACK') ?: Setting::get('FB_CALL_BACK') }}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+
+                            <h5 class="settings-sub-header text-uppercase text-danger"><b>{{tr('google_settings')}}</b></h5>
+
+                            <hr>
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="GOOGLE_CLIENT_ID">{{tr('GOOGLE_CLIENT_ID')}} *</label>
+
+                                <input type="text" class="form-control" name="GOOGLE_CLIENT_ID" id="GOOGLE_CLIENT_ID" placeholder="Enter {{tr('GOOGLE_CLIENT_ID')}}" value="{{old('GOOGLE_CLIENT_ID') ?: Setting::get('GOOGLE_CLIENT_ID') }}">
+                            </div>
+                        </div>
+                       
+                         <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="GOOGLE_CLIENT_SECRET">{{tr('GOOGLE_CLIENT_SECRET')}} *</label>
+
+                                <input type="text" class="form-control" name="GOOGLE_CLIENT_SECRET" id="GOOGLE_CLIENT_SECRET" placeholder="Enter {{tr('GOOGLE_CLIENT_SECRET')}}" value="{{old('GOOGLE_CLIENT_SECRET') ?: Setting::get('GOOGLE_CLIENT_SECRET') }}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="GOOGLE_CALL_BACK">{{tr('GOOGLE_CALL_BACK')}} *</label>
+
+                                <input type="text" class="form-control" name="GOOGLE_CALL_BACK" id="GOOGLE_CALL_BACK" placeholder="Enter {{tr('GOOGLE_CALL_BACK')}}" value="{{old('GOOGLE_CALL_BACK') ?: Setting::get('GOOGLE_CALL_BACK') }}">
+                            </div>
+                        </div>
+
+                    </div>
+                
+                </div>
+                
+                <div class="form-actions">
+
+                    <div class="pull-right">
+                    
+                        <button type="reset" class="btn btn-warning mr-1">
+                            <i class="ft-x"></i> {{ tr('reset') }} 
+                        </button>
+
+                        <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled @endif ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
+                    
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                </div>
+        
+            </form>
+        
+            <br>
+        
+        </div>
+
+        <!--Notification settings -->
+        <div class="fansclub-tab-content">
+           
+           <form id="social_settings_save" action="{{route('admin.settings.save')}}" method="POST">
+                
+                @csrf
+                
+                <div class="box-body">
+                
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <h5 class="settings-sub-header text-uppercase" style="color: #f30660;"><b>{{tr('notification_settings')}}</b></h5>
+                            <hr>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+
+                                <label for="user_fcm_sender_id">{{ tr('user_fcm_sender_id') }}</label>
+
+                                <input type="text" class="form-control" name="user_fcm_sender_id" id="user_fcm_sender_id"
+                                value="{{ Setting::get('user_fcm_sender_id') }}" placeholder="{{ tr('user_fcm_sender_id') }}">
+                            </div>
+                        </div>  
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+
+                                <label for="user_fcm_server_key">{{ tr('user_fcm_server_key') }}</label>
+
+                                <input type="text" class="form-control" name="user_fcm_server_key" id="user_fcm_server_key"
+                                value="{{ Setting::get('user_fcm_server_key') }}" placeholder="{{ tr('user_fcm_server_key') }}">
+                            </div>
+                        </div> 
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+
+                                <label for="stardom_fcm_sender_id">{{ tr('stardom_fcm_sender_id') }}</label>
+
+                                <input type="text" class="form-control" name="stardom_fcm_sender_id" id="stardom_fcm_sender_id"
+                                value="{{ Setting::get('stardom_fcm_sender_id') }}" placeholder="{{ tr('stardom_fcm_sender_id') }}">
+                            </div>
+                        </div>  
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+
+                                <label for="stardom_fcm_server_key">{{ tr('stardom_fcm_server_key') }}</label>
+
+                                <input type="text" class="form-control" name="stardom_fcm_server_key" id="stardom_fcm_server_key"
+                                value="{{ Setting::get('stardom_fcm_server_key') }}" placeholder="{{ tr('stardom_fcm_server_key') }}">
+                            </div>
+                        </div>
+
+                    </div>  
+        
+                </div> 
+
+                <div class="form-actions">
+
+                    <div class="pull-right">
+                    
+                        <button type="reset" class="btn btn-warning mr-1">
+                            <i class="ft-x"></i> {{ tr('reset') }} 
+                        </button>
+
+                        <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled @endif ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
+                    
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                </div>
+            
+            </form>
+            <br>
+
+        </div>  
+
+        <!-- APP Url Settings -->
+        <div class="fansclub-tab-content">
+            
+            <form id="site_settings_save" action="{{route('admin.settings.save')}}" method="POST">
+                
+                @csrf
+                
+                <div class="box-body">
+                        
+                    <div class="row">
+
+                        <div class="col-md-12">
+
+                            <h5 class="settings-sub-header text-uppercase"  style="color: #f30660;"><b>{{tr('mobile_settings')}}</b></h5>
+
+                            <hr>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="playstore_user">{{tr('playstore_user')}} *</label>
+                                <input type="text" class="form-control" id="playstore_user" name="playstore_user" placeholder="Enter {{tr('playstore_user')}}" value="{{old('playstore_user') ?: Setting::get('playstore_user')}}">
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+                             <div class="form-group">
+                                <label for="appstore_user">{{tr('appstore_user')}} *</label>
+
+                                <input type="text" class="form-control" id="appstore_user" name="appstore_user" placeholder="Enter {{tr('appstore_user')}}" value="{{old('appstore_user') ?: Setting::get('appstore_user')}}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+
+                           <div class="form-group">
+                                <label for="playstore_stardom">{{tr('playstore_stardom')}} *</label>
+
+                                <input type="text" class="form-control" id="playstore_stardom" name="playstore_stardom" placeholder="Enter {{tr('playstore_stardom')}}" value="{{old('playstore_stardom') ?: Setting::get('playstore_stardom')}}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="appstore_stardom">{{tr('appstore_stardom')}} *</label>
+
+                                <input type="text" class="form-control" id="appstore_stardom" name="appstore_stardom" placeholder="Enter {{tr('appstore_stardom')}}" value="{{old('appstore_stardom') ?: Setting::get('appstore_stardom')}}">
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                </div>
+
+                <div class="box-footer">
+
+                    <button type="reset" class="btn btn-warning">{{tr('reset')}}</button>
+
+                    @if(Setting::get('admin_delete_control') == 1)
+                        <button type="submit" class="btn btn-primary pull-right" disabled>{{tr('submit')}}</button>
+                    @else
+                        <button type="submit" class="btn btn-success pull-right">{{tr('submit')}}</button>
+                    @endif
+       
+                </div>
+       
+            </form>
+       
+            <br>
+       
+        </div>
+
+        <!-- OTHER Settings -->
+
+        <div class="fansclub-tab-content">
+        
+            <form id="site_settings_save" action="{{route('admin.settings.save')}}" method="POST">
+                
+                @csrf
+                
+                <div class="box-body"> 
+                    <div class="row"> 
+
+                        <div class="col-md-12">
+
+                            <h5 class="settings-sub-header text-uppercase"  style="color: #f30660;"><b>{{tr('other_settings')}}</b></h5>
+
+                            <hr>
+
+                        </div>
+
+                        <div class="col-lg-12">
+
+                            <div class="form-group">
+                                <label for="google_analytics">{{tr('google_analytics')}}</label>
+                                <textarea class="form-control" id="google_analytics" name="google_analytics">{{Setting::get('google_analytics')}}</textarea>
+                            </div>
+
+                        </div> 
+
+                        <div class="col-lg-12">
+
+                            <div class="form-group">
+                                <label for="header_scripts">{{tr('header_scripts')}}</label>
+                                <textarea class="form-control" id="header_scripts" name="header_scripts">{{Setting::get('header_scripts')}}</textarea>
+                            </div>
+
+                        </div> 
+
+                        <div class="col-lg-12">
+
+                            <div class="form-group">
+                                <label for="body_scripts">{{tr('body_scripts')}}</label>
+                                <textarea class="form-control" id="body_scripts" name="body_scripts">{{Setting::get('body_scripts')}}</textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.box-body -->
+
+                <div class="form-actions">
+
+                    <div class="pull-right">
+                    
+                        <button type="reset" class="btn btn-warning mr-1">
+                            <i class="ft-x"></i> {{ tr('reset') }} 
+                        </button>
+
+                        <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled @endif ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
+                    
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                </div>
+
+            </form>
+        
+            <br>
+        
         </div>
 
     </div>
 
 </div>
 
-@endsection 
+
+
+@endsection
+
 
 @section('scripts')
 
 <script type="text/javascript">
+    
+    $(document).ready(function() {
+        $("div.fansclub-tab-menu>div.list-group>a").click(function(e) {
+            e.preventDefault();
+            $(this).siblings('a.active').removeClass("active");
+            $(this).addClass("active");
+            var index = $(this).index();
+            $("div.fansclub-tab>div.fansclub-tab-content").removeClass("active");
+            $("div.fansclub-tab>div.fansclub-tab-content").eq(index).addClass("active");
+        });
+    });
 </script>
-
 @endsection
