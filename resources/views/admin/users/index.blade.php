@@ -110,6 +110,7 @@
                             <tbody>
 
                                 @foreach($users as $i => $user_details)
+                                
                                 <tr>
                                     <td>{{ $i+1 }}</td>
 

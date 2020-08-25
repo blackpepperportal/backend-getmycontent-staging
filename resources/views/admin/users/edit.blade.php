@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
-@section('title', tr('edit_user'))
+@section('title', tr('users'))
 
-@section('content-header', tr('edit_user'))
+@section('content-header', tr('users'))
 
 @section('breadcrumb')
 
