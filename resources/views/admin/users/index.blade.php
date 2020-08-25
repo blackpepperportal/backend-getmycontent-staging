@@ -9,8 +9,10 @@
 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
 </li>
 
-<li class="breadcrumb-item active">{{ tr('users') }}</a>
+<li class="breadcrumb-item active"><a href="">{{ tr('users') }}</a>
 </li>
+
+<li class="breadcrumb-item">{{tr('view_users')}}</li>
 
 @endsection 
 
@@ -26,7 +28,7 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('users') }}</h4>
+                    <h4 class="card-title">{{ tr('view_users') }}</h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
                     <div class="heading-elements">
@@ -110,7 +112,7 @@
                             <tbody>
 
                                 @foreach($users as $i => $user_details)
-                                
+
                                 <tr>
                                     <td>{{ $i+1 }}</td>
 

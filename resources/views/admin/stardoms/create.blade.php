@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
-@section('title', tr('add_stardom'))
+@section('title', tr('stardoms'))
 
-@section('content-header', tr('add_stardom'))
+@section('content-header', tr('stardoms'))
 
 @section('breadcrumb')
 
