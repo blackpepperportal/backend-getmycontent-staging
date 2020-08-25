@@ -4,6 +4,12 @@
 
 @section('content-header',tr('static_pages'))
 
+@section('styles')
+
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+
+@endsection
+
 @section('breadcrumb')
 
     <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a>
@@ -25,14 +31,16 @@
 
 @section('scripts')
 
-<script src="https://cdn.ckeditor.com/ckeditor5/11.1.1/classic/ckeditor.js"></script>
+<script src="{{asset('js/jquery.min.js')}}"></script>
+
+<script src="{{asset('js/bootstrap.min.js')}}"></script>
+
+<script src="{{asset('js/summernote.min.js')}}"></script>
 
 <script>
-    ClassicEditor
-        .create( document.querySelector( '#ckeditor' ) )
-        .catch( error => {
-            console.error( error );
-        } );
-</script>
+    $(document).ready(function() {
+        $('#summernote').summernote();
+    });
+  </script>
 
 @endsection

@@ -12,8 +12,33 @@
            
 @endsection 
 
+@section('styles')
+
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+
+@endsection
+
 @section('content')
 
     @include('admin.static_pages._form')
+
+@endsection
+
+@section('scripts')
+
+<script src="{{asset('js/jquery.min.js')}}"></script>
+
+<script src="{{asset('js/bootstrap.min.js')}}"></script>
+
+<script src="{{asset('js/summernote.min.js')}}"></script>
+
+<script>
+
+    $(document).ready(function() {
+
+        $('#summernote').summernote();
+        
+    });
+  </script>
 
 @endsection
