@@ -142,9 +142,8 @@ class AdminPostController extends Controller
            
         
             return view('admin.posts.view')
-                        ->with('main_page','posts-crud')
                         ->with('page', 'posts') 
-                        ->with('sub_page','posts-index') 
+                        ->with('sub_page','posts-view') 
                         ->with('post_details' , $post_details)
                         ->with('payment_data',$payment_data);
             

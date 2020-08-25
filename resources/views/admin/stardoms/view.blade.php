@@ -22,36 +22,6 @@
     <div id="user-profile">
 
         <div class="row">
-
-            <div class="col-12">
-
-                <div class="card profile-with-cover">
-
-                    <div class="media profil-cover-details w-100">
-                        <div class="media-left pl-2 pt-2">
-                            <a  class="profile-image">
-                              <img src="{{ $stardom_details->picture}}" alt="{{ $stardom_details->name}}" class="img-thumbnail img-fluid img-border height-100"
-                              alt="Card image">
-                            </a>
-                        </div>
-                        <div class="media-body pt-3 px-2">
-                            <div class="row">
-                                <div class="col">
-                                    <h3 class="card-title">{{ $stardom_details->name }}</h3>
-                                    <span class="text-muted">{{ $stardom_details->email }}</span>
-                                </div>
-
-                            </div>
-
-                        </div>
-                        
-                    </div>
-
-                    <nav class="navbar navbar-light navbar-profile align-self-end">
-                       
-                    </nav>
-                </div>
-            </div>
   
             <div class="col-xl-12 col-lg-12">
 
@@ -59,10 +29,40 @@
 
                     <div class="card-header border-bottom border-gray">
 
-                          <h4 class="card-title">{{tr('stardom_details')}}</h4>
+                        <h4 class="card-title">{{tr('view_stardoms')}}</h4>
                     </div>
 
                     <div class="card-content">
+
+                        <div class="col-12">
+
+                            <div class="card profile-with-cover">
+
+                                <div class="media profil-cover-details w-100">
+                                    <div class="media-left pl-2 pt-2">
+                                        <a  class="profile-image">
+                                          <img src="{{ $stardom_details->picture}}" alt="{{ $stardom_details->name}}" class="img-thumbnail img-fluid img-border height-100"
+                                          alt="Card image">
+                                        </a>
+                                    </div>
+                                    <div class="media-body pt-3 px-2">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h3 class="card-title">{{ $stardom_details->name }}</h3>
+                                                <span class="text-muted">{{ $stardom_details->email }}</span>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    
+                                </div>
+
+                                <nav class="navbar navbar-light navbar-profile align-self-end">
+                                   
+                                </nav>
+                            </div>
+                        </div>
 
                         <div class="table-responsive">
 

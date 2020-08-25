@@ -1,8 +1,8 @@
 @extends('layouts.admin') 
 
-@section('title', tr('stardom_documents')) 
+@section('title', tr('stardoms')) 
 
-@section('content-header', tr('stardom_documents')) 
+@section('content-header', tr('stardoms')) 
 
 @section('breadcrumb')
 
@@ -59,7 +59,7 @@
                                     <td>{{ $i+1 }}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.stardoms.view' , ['stardom_document_id' => $stardom_document_details->stardom_document_id] )  }}">
+                                        <a href="{{  route('admin.stardoms.view' , ['stardom_id' => $stardom_document_details->stardom_id] )  }}">
                                         {{ $stardom_document_details->stardomDetails->name  ?? "-" }}
                                         </a>
                                     </td>

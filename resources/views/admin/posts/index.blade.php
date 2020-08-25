@@ -8,7 +8,7 @@
 
 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
 </li>
-<li class="breadcrumb-item active"><a href="">{{ tr('posts') }}</a>
+<li class="breadcrumb-item active"><a href="#">{{ tr('posts') }}</a>
 </li>
 
 <li class="breadcrumb-item active">{{ tr('view_posts') }}
