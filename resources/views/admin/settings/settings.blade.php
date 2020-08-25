@@ -137,6 +137,9 @@ hr {
                 {{tr('mobile_settings')}}
             </a>
             <a href="#" class="list-group-item text-left text-uppercase">
+                {{tr('contact_information')}}
+            </a>
+            <a href="#" class="list-group-item text-left text-uppercase">
                 {{tr('other_settings')}}
             </a>
 
@@ -787,6 +790,83 @@ hr {
                         <button type="submit" class="btn btn-success pull-right">{{tr('submit')}}</button>
                     @endif
        
+                </div>
+       
+            </form>
+       
+            <br>
+       
+        </div>
+
+        <!-- Contact Information -->
+        <div class="fansclub-tab-content">
+            
+            <form id="site_settings_save" action="{{route('admin.settings.save')}}" method="POST">
+                
+                @csrf
+                
+                <div class="box-body">
+                        
+                    <div class="row">
+
+                        <div class="col-md-12">
+
+                            <h5 class="settings-sub-header text-uppercase"  style="color: #f30660;"><b>{{tr('contact_information')}}</b></h5>
+
+                            <hr>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="copyright_content">{{tr('copyright_content')}} *</label>
+                                <input type="text" class="form-control" id="copyright_content" name="copyright_content" placeholder="Enter {{tr('copyright_content')}}" value="{{old('copyright_content') ?: Setting::get('copyright_content')}}">
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+                             <div class="form-group">
+                                <label for="contact_mobile">{{tr('contact_mobile')}} *</label>
+
+                                <input type="text" class="form-control" id="contact_mobile" name="contact_mobile" placeholder="Enter {{tr('contact_mobile')}}" value="{{old('contact_mobile') ?: Setting::get('contact_mobile')}}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+
+                           <div class="form-group">
+                                <label for="contact_email">{{tr('contact_email')}} *</label>
+
+                                <input type="text" class="form-control" id="contact_email" name="contact_email" placeholder="Enter {{tr('contact_email')}}" value="{{old('contact_email') ?: Setting::get('contact_email')}}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="contact_address">{{tr('contact_address')}} *</label>
+
+                                <input type="text" class="form-control" id="contact_address" name="contact_address" placeholder="Enter {{tr('contact_address')}}" value="{{old('contact_address') ?: Setting::get('contact_address')}}">
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                </div>
+
+                 <div class="form-actions">
+
+                    <div class="pull-right">
+                    
+                        <button type="reset" class="btn btn-warning mr-1">
+                            <i class="ft-x"></i> {{ tr('reset') }} 
+                        </button>
+
+                        <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled @endif ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
+                    
+                    </div>
+
+                    <div class="clearfix"></div>
+
                 </div>
        
             </form>

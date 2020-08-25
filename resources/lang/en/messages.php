@@ -719,6 +719,15 @@ return [
 	'stardom_fcm_server_key' => 'Stardom Fcm Server Key',
 	'stardom_fcm_sender_id' => 'Stardom Fcm Sender Id',
 	'appstore_stardom' => 'Appstore Stardom',
+	'user_fcm_server_key' => 'User Fcm Server Key',
+	'user_fcm_sender_id' => 'User Fcm Sender Id',
+	'playstore_stardom' => 'Playstore Stardom',	
+	'contact_information' => 'Contact Information',
+	'copyright_content' => 'Copyright Content',
+	'contact_mobile' => 'Contact Mobile',
+	'contact_email' => 'Contact Email',
+	'contact_address' => 'Contact Address',
+	
 
 
 
