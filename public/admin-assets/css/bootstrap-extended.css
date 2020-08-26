@@ -1762,7 +1762,7 @@ button, html [type='button'], [type='reset'], [type='submit'] {
           box-shadow : 0 0 10px #00B5B8;
 }
 .badge-primary[href]:hover, .badge-primary[href]:focus {
-  background-color : #008385;
+  background-color : #fea600;
 }
 
 .badge-success {

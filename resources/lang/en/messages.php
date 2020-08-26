@@ -265,7 +265,7 @@ return [
 	'site_icon' => 'Favicon',
 	'tag_name' => 'Tag Name',
 
-	'MAIL_DRIVER' => 'MAIL DRIVER',
+	'MAIL_MAILER' => 'MAIL DRIVER',
 	'MAIL_HOST' => 'MAIL HOST',
 	'MAIL_PORT' => 'MAIL PORT',
 	'MAIL_USERNAME' => 'MAIL USERNAME',
@@ -274,7 +274,7 @@ return [
 	'MAIL_FROM_ADDRESS' => 'MAIL FORM ADDRESS',
 	'MAIL_FROM_NAME' => 'MAIL FORM NAME',
 
-	'mail_driver_note' => 'Supported - "smtp", "mailgun"',
+	'MAIL_MAILER_note' => 'Supported - "smtp", "mailgun"',
 	'mail_host_note' => 'Ex- "smtp.gmail.com", "smtp.mailgun.org"',
 	'mail_port_note' => 'Ex- 587,445',
 	'mail_username_note' => 'Ex- "abcd.gmail.com"',

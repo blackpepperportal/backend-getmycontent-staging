@@ -359,9 +359,9 @@ hr {
                         <div class="col-md-6">
 
                             <div class="form-group">
-                                    <label for="MAIL_DRIVER">{{tr('MAIL_DRIVER')}} *</label>
-                                    <p class="text-muted">{{tr('mail_driver_note')}}</p>
-                                    <input type="text" class="form-control" id="MAIL_DRIVER" name="MAIL_DRIVER" placeholder="Enter {{tr('MAIL_DRIVER')}}" value="{{old('MAIL_DRIVER') ?: $env_values['MAIL_DRIVER'] }}">
+                                    <label for="MAIL_MAILER">{{tr('MAIL_MAILER')}} *</label>
+                                    <p class="text-muted">{{tr('MAIL_MAILER_note')}}</p>
+                                    <input type="text" class="form-control" id="MAIL_MAILER" name="MAIL_MAILER" placeholder="Enter {{tr('MAIL_MAILER')}}" value="{{old('MAIL_MAILER') ?: $env_values['MAIL_MAILER'] }}">
                             </div>
 
                             <div class="form-group">

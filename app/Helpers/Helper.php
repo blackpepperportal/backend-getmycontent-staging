@@ -226,7 +226,7 @@ class Helper {
 
                     $isValid = 1;
 
-                    if(envfile('MAIL_DRIVER') == 'mailgun' && Setting::get('MAILGUN_PUBLIC_KEY')) {
+                    if(envfile('MAIL_MAILER') == 'mailgun' && Setting::get('MAILGUN_PUBLIC_KEY')) {
 
                         Log::info("isValid - STRAT");
 
