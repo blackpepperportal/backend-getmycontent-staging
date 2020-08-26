@@ -80,7 +80,7 @@
                                         </td>
                                             
                                         <td>  
-                                            {{formatted_amount ($subscription_details->amount)}}           
+                                            {{$subscription_details->amount_formatted}}           
                                         </td>
 
                                         <td>     
@@ -89,9 +89,8 @@
 
                                                 <div class="dropdown">
 
-                                                    <button class="btn btn-outline-primary  dropdown-toggle" type="button" id="dropdownMenuOutlineButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        {{tr('action')}}
-                                                    </button>
+                                                   <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ft-settings icon-left"></i> {{ tr('action') }}</button>
+
 
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton1">
                                                       

@@ -221,7 +221,7 @@
 
             <li class="nav-item" id="subscriptions">
 
-                <a href="{{route('admin.documents.index')}}">
+                <a href="{{route('admin.subscriptions.index')}}">
                     <i class="fa fa-diamond" aria-hidden="true"></i>
                     <span class="menu-title" data-i18n="">{{tr('subscriptions')}}</span>
                 </a>
