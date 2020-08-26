@@ -696,9 +696,7 @@ class AdminRevenueController extends Controller
 
             DB::rollback();
 
-            $error = $e->getMessage();
-
-            return redirect()->back()->with('flash_error', $error);
+            return redirect()->back()->with('flash_error', $e->getMessage());
 
         }
     
