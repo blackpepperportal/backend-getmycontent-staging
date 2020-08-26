@@ -79,9 +79,13 @@
                                     <td>
                                         @if($stardom_document_details->status == APPROVED)
 
-                                        <span class="btn btn-success btn-sm">{{ tr('approved') }}</span> @else
+                                            <span class="btn btn-success btn-sm">{{ tr('approved') }}</span> 
 
-                                        <span class="btn btn-warning btn-sm">{{ tr('declined') }}</span> @endif
+                                        @else
+
+                                            <span class="btn btn-warning btn-sm">{{ tr('declined') }}</span> 
+                                        @endif
+                                        
                                     </td>
 
                                     <td>
@@ -96,18 +100,23 @@
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                <a class="dropdown-item" href="{{ route('admin.stardoms.view', ['stardom_document_id' => $stardom_document_details->id] ) }}"><i class="icon-eye"></i> {{ tr('view') }}</a> 
+                                                <a class="dropdown-item" href="{{$stardom_document_details->document_file}}" target="_black"> {{ tr('document_file') }}</a> 
 
+                                                <a class="dropdown-item" href="{{$stardom_document_details->document_file_front}}" target="_black"> {{ tr('document_file_front') }}</a> 
+
+                                                <a class="dropdown-item" href="{{$stardom_document_details->document_file_back}}" target="_blank"> {{ tr('document_file_back') }}</a> 
+
+                                                <div class="dropdown-divider"></div>
                                                 @if($stardom_document_details->is_verified == STARDOM_DOCUMENT_NOT_VERIFIED)
 
                                                     <a class="dropdown-item" href="{{ route('admin.stardoms.documents.verify' , ['stardom_document_id' => $stardom_document_details->id]) }}">
-                                                        <i class="icon-check"></i> {{ tr('verify') }}
+                                                        {{ tr('verify') }}
                                                     </a>
 
                                                 @else
 
                                                 <a class="dropdown-item" href="{{ route('admin.stardoms.documents.verify' , ['stardom_document_id' => $stardom_document_details->id]) }}">
-                                                    <i class="icon-close"></i> {{ tr('unverify') }}
+                                                    {{ tr('unverify') }}
                                                 </a>@endif
 
                                             </div>

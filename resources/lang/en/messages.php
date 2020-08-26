@@ -765,6 +765,9 @@ return [
 	'amount_is_greater_than_requested_amount' => 'Amount is greater than requested amount',
 	'stardom_withdrawal_cancelled' => 'Stardom withdrawal cancelled successfully!!',
 	'rejected' => 'Rejected',
+	'document_file_back' => 'Document File Back',
+	'document_file_front' => 'Document File Front',
+	'document_file' => 'Document File',
 
 
 
