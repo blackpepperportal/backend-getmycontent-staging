@@ -749,7 +749,22 @@ return [
 	'subscription_decline_confirmation' => 'Do you want decline this subscription?',
 	'subscription_status_change_failed' => 'The subscription status updating failed..!!',
 	'year' => 'Year',
-
+	'withdrawals' => 'Withdrawals',
+	'years' => 'Years',
+	'stardom_withdrawals' => 'Stardom Withdrawals',
+	'view_withdrwals' => 'View Withdrawals',
+	'view_stardom_withdrawals' => 'View Stardom Withdrawals',
+	'paynow' => 'PayNow',
+	'stardom_withdrawals_search_placeholder' => 'Search By Stardom Name,Payment Id',
+	'total_paid_amount' => 'Total Paid Amount',
+	'stardom_is' => 'Stardom Is',
+	'stardom_payment_confirmation' => 'Do you want to pay for this stardom',
+	'reject' => 'Reject',
+	'payment_success' => 'Payment completed successfully!!',
+	'stardom_withdrawal_details_not_found' => 'Stardom withdrawal details not found',
+	'amount_is_greater_than_requested_amount' => 'Amount is greater than requested amount',
+	'stardom_withdrawal_cancelled' => 'Stardom withdrawal cancelled successfully!!',
+	'rejected' => 'Rejected',
 
 
 

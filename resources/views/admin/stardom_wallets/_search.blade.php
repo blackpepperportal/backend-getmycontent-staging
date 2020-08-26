@@ -1,5 +1,4 @@
-
-<form method="GET" action="{{route('admin.posts.index')}}">
+<form method="GET" action="{{route('admin.stardom_wallets.index')}}">
 
     <div class="row">
 
@@ -21,7 +20,7 @@
                    <a href=""><i class="fa fa-search" aria-hidden="true"></i></a>
                 </button>
                 
-                <button class="btn btn-default"><a  href="{{route('admin.posts.index')}}"><i class="fa fa-eraser" aria-hidden="true"></i></button>
+                <button class="btn btn-default"><a  href="{{route('admin.stardom_wallets.index')}}"><i class="fa fa-eraser" aria-hidden="true"></i></button>
                 </a>
                    
                 </span>

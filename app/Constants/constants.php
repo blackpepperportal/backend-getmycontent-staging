@@ -131,4 +131,7 @@ if(!defined('ORDER_DELIVERD')) define('ORDER_DELIVERD',3);
 
 if(!defined('ORDER_CACELLED')) define('ORDER_CACELLED',4);
 
+if(!defined('PAYMENT_OFFLINE')) define('PAYMENT_OFFLINE','offline_payment');
+
+if(!defined('PAYMENT_REJECTED')) define('PAYMENT_REJECTED',2);
 

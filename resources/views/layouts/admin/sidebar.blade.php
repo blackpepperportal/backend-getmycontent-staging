@@ -212,10 +212,11 @@
                 </a>
             </li>
 
-            <li class="nav-item" id="redeems">
-                <a href="">
-                     <i class="fa fa-shopping-bag"></i>
-                    <span class="menu-title" data-i18n="">{{tr('redeems')}}</span>
+            <li class="nav-item" id="stardom-withdrawals">
+                <a href="{{route('admin.stardom.withdrawals')}}">
+                    <i class="fa fa-location-arrow" aria-hidden="true"></i>
+
+                    <span class="menu-title" data-i18n="">{{tr('stardom_withdrawals')}}</span>
                 </a>
             </li>
 

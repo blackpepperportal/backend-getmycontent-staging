@@ -190,6 +190,16 @@ Route::group(['middleware' => 'web'], function() {
         Route::get('subscriptions/status', 'Admin\AdminRevenueController@subscriptions_status')->name('subscriptions.status');
         //subscriptions end
 
+        //stardom withdrawals start
+
+        Route::get('stardom_withdrawals','Admin\AdminRevenueController@stardom_withdrawals')->name('stardom.withdrawals');
+
+        Route::post('stardom_withdrawals/payment','Admin\AdminRevenueController@stardom_withdrawals_payment')->name('stardom_withdrawals.payment');
+
+        Route::get('stardom_withdrawals/reject','Admin\AdminRevenueController@stardom_withdrawals_reject')->name('stardom_withdrawals.reject');
+
+        //stardom withdrawals end
+
         // Static pages start
 
         Route::get('/static_pages' , 'Admin\AdminLookupController@static_pages_index')->name('static_pages.index');

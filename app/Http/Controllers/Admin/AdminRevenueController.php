@@ -563,5 +563,159 @@ class AdminRevenueController extends Controller
 
     }
 
+    /**
+     * @method stardom_withdrawals
+     *
+     * @uses To update subscription status as DECLINED/APPROVED based on subscriptions id
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - Subscription Id
+     * 
+     * @return response success/failure message
+     *
+     **/
+
+    public function stardom_withdrawals(Request $request) {
+
+        $base_query = \App\StardomWithDrawal::where('unique_id','!=',NULL);
+
+        if($request->search_key) {
+
+            $search_key = $request->search_key;
+
+            $base_query = $base_query->whereHas('stardomDetails',function($query) use($search_key){
+
+                return $query->where('stardoms.name','LIKE','%'.$search_key.'%');
+
+            })->orWhere('stardom_with_drawals.payment_id','LIKE','%'.$search_key.'%');
+        }
+
+        if($request->status) {
+
+            $base_query = $base_query->where('stardom_with_drawals.status',$request->status);
+        }
+
+        $stardom_withdrawals = $base_query->paginate(10);
+
+        return view('admin.stardom_withdrawals.index')
+                ->with('page','stardom-withdrawls')
+                ->with('stardom_withdrawals',$stardom_withdrawals);
+
+    }
+
+     /**
+     * @method stardom_withdrawals_payment()
+     *
+     * @uses 
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param Integer $request - stardom withdrawal id
+     * 
+     * @return view page
+     *
+     **/
+    public function stardom_withdrawals_payment(Request $request) {
+
+        try {
+
+            DB::begintransaction();
+
+            $rules =  [
+                'amount' => 'required|numeric|gt:0',
+            ]; 
+            
+            Helper::custom_validator($request->all(), $rules);
+
+            $stardom_withdrawal_details = \App\StardomWithDrawal::find($request->stardom_withdrawal_id);
+
+            if(!$stardom_withdrawal_details) {
+
+                throw new Exception(tr('stardom_withdrawal_details_not_found'),101);
+                
+            }
+
+            if($stardom_withdrawal_details->requested_amount < $request->amount) {
+
+                throw new Exception(tr('amount_is_greater_than_requested_amount'),101);
+                
+            }
+
+            $stardom_withdrawal_details->paid_amount += $request->amount;
+
+            $stardom_withdrawal_details->status = PAID;
+            
+            if($stardom_withdrawal_details->save()) {
+
+                DB::commit();
+
+                return redirect()->back()->with('flash_success',tr('payment_success'));
+            }
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            $error = $e->getMessage();
+
+            return redirect()->back()->with('flash_error', $error);
+
+        }
+    
+    }
+
+    /**
+     * @method stardom_withdrawals_reject()
+     *
+     * @uses 
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param Integer $request - stardom withdrawal id
+     * 
+     * @return view page
+     *
+     **/
+    public function stardom_withdrawals_reject(Request $request) {
+
+        try {
+
+            DB::begintransaction();
+
+            $stardom_withdrawal_details = \App\StardomWithDrawal::find($request->stardom_withdrawal_id);
+
+            if(!$stardom_withdrawal_details) {
+
+                throw new Exception(tr('stardom_withdrawal_details_not_found'),101);
+                
+            }
+            
+            $stardom_withdrawal_details->status = PAYMENT_REJECTED;
+            
+            if($stardom_withdrawal_details->save()) {
+
+                DB::commit();
+
+                return redirect()->back()->with('flash_success',tr('stardom_withdrawal_cancelled'));
+            }
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            $error = $e->getMessage();
+
+            return redirect()->back()->with('flash_error', $error);
+
+        }
+    
+    }
 
 }
