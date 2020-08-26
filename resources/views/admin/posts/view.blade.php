@@ -134,7 +134,7 @@
 
                         @else
 
-                            <a class="btn btn-success" href="{{ route('admin.posts.status' , ['post_id' => $post_details->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
+                            <a class="btn-sm btn-success" href="{{ route('admin.posts.status' , ['post_id' => $post_details->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
 
                         @endif
                         <hr>

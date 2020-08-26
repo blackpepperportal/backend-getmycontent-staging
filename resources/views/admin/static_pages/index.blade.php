@@ -40,7 +40,7 @@
 
                     <div class="card-body card-dashboard">
 
-                        <table class="table table-striped table-bordered">
+                        <table class="table table-striped table-bordered sourced-data">
                             <thead>
                                 <tr>
                                     <th>{{tr('s_no')}}</th>

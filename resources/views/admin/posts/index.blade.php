@@ -11,7 +11,17 @@
 <li class="breadcrumb-item active"><a href="#">{{ tr('posts') }}</a>
 </li>
 
-<li class="breadcrumb-item active">{{ tr('view_posts') }}
+<li class="breadcrumb-item active"> 
+    
+    @if(Request::get('scheduled'))
+
+        {{tr('scheduled_posts')}}
+
+    @else
+
+        {{ tr('view_posts') }}
+
+    @endif
 </li>
 
 @endsection 
@@ -28,7 +38,18 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('view_posts') }}</h4>
+                    <h4 class="card-title">
+
+                    @if(Request::get('scheduled'))
+
+                        {{tr('scheduled_posts')}}
+
+                    @else
+
+                        {{ tr('view_posts') }}
+
+                    @endif
+                    </h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                     
                 </div>

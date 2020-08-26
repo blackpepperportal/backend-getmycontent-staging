@@ -419,7 +419,7 @@ class AdminStardomController extends Controller
 
             DB::rollback();
 
-            return redirect()->route('admin.stardoms.index')->with('flash_error', $e->getMessage());
+            return redirect()->back()->with('flash_error', $e->getMessage());
 
         }
 

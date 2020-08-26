@@ -46,7 +46,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="email">{{tr('email')}}*</label>
-                                            <input type="text" id="email" name="email" class="form-control" placeholder="{{tr('email')}}" value="{{ $stardom_details->email ?: old('email') }}" required>
+                                            <input type="email" id="email" name="email" class="form-control" placeholder="{{tr('email')}}" value="{{ $stardom_details->email ?: old('email') }}" required>
                                         </div>
                                     </div>
 
