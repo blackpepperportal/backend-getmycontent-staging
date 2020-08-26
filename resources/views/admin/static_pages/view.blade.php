@@ -69,7 +69,7 @@
                                     
                                         <h5 class="card-title">{{tr('static_page_type')}}</h5>
                                         
-                                        <p class="card-text">{{$static_page_details->page_type}}</p>
+                                        <p class="card-text">{{$static_page_details->type}}</p>
 
                                     </div>
                                     <hr>

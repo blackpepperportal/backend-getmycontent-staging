@@ -197,7 +197,7 @@
 
                             <div class="col-3">
 
-                                <a  class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1" href="{{route('admin.stardom_wallets.index',['stardom_id' => $stardom_details->id])}}">&nbsp;{{tr('wallets')}}</a> 
+                                <a  class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1" href="{{route('admin.stardom_wallets.view',['stardom_id' => $stardom_details->id])}}">&nbsp;{{tr('wallets')}}</a> 
 
                             </div>
 

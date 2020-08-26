@@ -133,7 +133,7 @@
 
                                                 <a class="dropdown-item" href="{{ route('admin.stardom_products.index', ['stardom_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('products') }}</a> 
 
-                                                <a class="dropdown-item" href="{{ route('admin.stardom_wallets.index', ['stardom_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('wallets') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.stardom_wallets.view', ['stardom_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('wallets') }}</a> 
 
                                             </div>
 

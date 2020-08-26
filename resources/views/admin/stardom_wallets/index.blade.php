@@ -9,7 +9,7 @@
 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
 </li>
 
-<li class="breadcrumb-item"><a href="">{{ tr('stardom_wallets') }}</a></a>
+<li class="breadcrumb-item"><a href="{{route('admin.stardom_wallets.index')}}">{{ tr('stardom_wallets') }}</a></a>
 </li>
 
 <li class="breadcrumb-item">{{ tr('view_stardom_wallets') }}</a>
@@ -91,7 +91,7 @@
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                <a class="dropdown-item" href="{{ route('admin.stardom_wallets.view', ['stardom_wallet_id' => $stardom_wallet_details->id] ) }}">&nbsp;{{ tr('view') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.stardom_wallets.view', ['stardom_id' => $stardom_wallet_details->stardom_id] ) }}">&nbsp;{{ tr('view') }}</a> 
 
                                             </div>
 

@@ -9,7 +9,7 @@
     <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a>
     </li>
 
-    <li class="breadcrumb-item"><a href="">{{tr('stardom_wallets')}}</a>
+    <li class="breadcrumb-item"><a href="{{route('admin.stardom_wallets.index')}}">{{tr('stardom_wallets')}}</a>
     </li>
 
     <li class="breadcrumb-item active">{{tr('view_stardom_wallets')}}</a>
@@ -27,7 +27,7 @@
 
             <div class="card-header border-bottom border-gray">
 
-                <h4 class="card-title">{{ tr('view_stardom_wallets') }}</h4>
+                <h4 class="card-title">{{ tr('view_stardom_wallets') }} - <a href="{{route('admin.stardoms.view',['stardom_id' => $stardom_wallet_details->stardom_id])}}">{{$stardom_wallet_details->stardomDetails->name ?? "-"}}</a>	</h4>
                 <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                 
             </div>

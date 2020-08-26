@@ -380,7 +380,7 @@ class AdminStardomController extends Controller
     public function stardoms_status(Request $request) {
 
         try {
-
+            
             DB::beginTransaction();
 
             $stardom_details = \App\Stardom::find($request->stardom_id);
@@ -409,8 +409,7 @@ class AdminStardomController extends Controller
                 DB::commit();
 
                 $message = $stardom_details->status ? tr('stardom_approve_success') : tr('stardom_decline_success');
-
-                return redirect()->back()->with('flash_success', $message);
+                return redirect()->route('admin.stardoms.index')->with('flash_success', $message);
             }
             
             throw new Exception(tr('stardom_status_change_failed'));
@@ -460,7 +459,7 @@ class AdminStardomController extends Controller
 
                 $message = $stardom_details->is_verified ? tr('stardom_verify_success') : tr('stardom_unverify_success');
 
-                return redirect()->route('admin.stardoms.index')->with('flash_success', $message);
+                return redirect()->back()->with('flash_success', $message);
             }
             
             throw new Exception(tr('stardom_verify_change_failed'));
@@ -995,9 +994,9 @@ class AdminStardomController extends Controller
     public function stardom_wallets_view(Request $request) {
        
         try {
-      
-            $stardom_wallet_details = \App\StardomWallet::find($request->stardom_wallet_id);
-
+            
+            $stardom_wallet_details = \App\StardomWallet::where('stardom_id',$request->stardom_id)->first();
+           
             if(!$stardom_wallet_details) { 
 
                 throw new Exception(tr('stardom_wallet_details_not_found'), 101);                
