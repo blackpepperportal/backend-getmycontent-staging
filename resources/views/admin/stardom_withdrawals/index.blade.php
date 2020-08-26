@@ -75,13 +75,13 @@
                                     </td>
 
                                     <td>
-                                        @if($stardom_withdrawal_details->status == PAID)
+                                        @if($stardom_withdrawal_details->status == WITHDRAW_PAID)
 
                                             <span class="badge badge-success">{{tr('paid')}}</span>
 
-                                        @elseif($stardom_withdrawal_details->status == UNPAID)
+                                        @elseif($stardom_withdrawal_details->status == WITHDRAW_INITIATED)
 
-                                            <span class="badge badge-warning">{{tr('not_paid')}}</span>
+                                            <span class="badge badge-warning">{{tr('initiated')}}</span>
 
                                         @else
 
@@ -97,10 +97,11 @@
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                @if($stardom_withdrawal_details->paid_amount != $stardom_withdrawal_details->requested_amount && $stardom_withdrawal_details->status == UNPAID)
+                                                @if(in_array($stardom_withdrawal_details->status,[ WITHDRAW_INITIATED,WITHDRAW_ONHOLD]))
 
-                                                    <a type="button" class="dropdown-item" data-toggle="modal" data-target="#StardomWithdrawalModel{{$i}}">{{tr('paynow')}}</a>
+                                                    <a type="button" class="dropdown-item" href="{{route('admin.stardom_withdrawals.paynow',['stardom_withdrawal_id'=>$stardom_withdrawal_details->id])}}" onclick="return confirm('Do you want to pay?')">{{tr('paynow')}}</a>
                                                     <div class="dropdown-divider"></div>
+                                                    
                                                     <a href="{{route('admin.stardom_withdrawals.reject',['stardom_withdrawal_id'=>$stardom_withdrawal_details->id])}}" class="dropdown-item">{{tr('reject')}}</a>
                                                     
                                                 @endif
@@ -132,60 +133,5 @@
     </div>
 
 </section>
-
-@foreach($stardom_withdrawals as $i => $stardom_withdrawal_details)
-
-    @if($stardom_withdrawal_details->requested_amount)
-
-        <div id="StardomWithdrawalModel{{$i}}" class="modal fade" role="dialog">
-
-            <div class="modal-dialog">
-
-                <div class="modal-content">
-            
-                    <div class="modal-header">
-                        
-                        <h4 class="modal-title pull-left"><span>{{tr('stardom_is')}} - </span>
-                            <a href="{{ route('admin.stardoms.view',['stardom_id' => $stardom_withdrawal_details->stardom_id])}}">{{$stardom_withdrawal_details->stardomDetails->name ?? '-'}}</a> 
-                        </h4>
-
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-                    </div>
-
-                    <div class="modal-body">
-                       
-                        <div class="row">
-
-                            <div class="col-sm">
-                                <b>{{tr('total_paid_amount')}}</b>
-                                <p>{{ $stardom_withdrawal_details->requested_amount - $stardom_withdrawal_details->paid_amount}}</p>
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                
-                            <form class="forms-sample" action="{{route('admin.stardom_withdrawals.payment')}}" method="POST" enctype="multipart/form-data" role="form" >
-                                @csrf
-
-                                <input type="hidden" name="stardom_withdrawal_id" id="stardom_withdrawal_id" value="{{$stardom_withdrawal_details->id}}">
-
-                                <input type="hidden" class="form-control" id="amount" name="amount" placeholder="{{ tr('amount') }}" value="{{ $stardom_withdrawal_details->requested_amount - $stardom_withdrawal_details->paid_amount}}" required>
-
-                                <button type="submit" class="btn btn-info" onclick="return confirm(&quot;{{tr('stardom_payment_confirmation')}}&quot;);" >{{tr('paynow')}}</button>
-                            </form>
-                        
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{{tr('close')}}</button>
-                    </div>
-                </div>
-
-            </div>
-        </div> 
-    @endif
-
-@endforeach 
-
 
 @endsection

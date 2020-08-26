@@ -133,5 +133,12 @@ if(!defined('ORDER_CACELLED')) define('ORDER_CACELLED',4);
 
 if(!defined('PAYMENT_OFFLINE')) define('PAYMENT_OFFLINE','offline_payment');
 
-if(!defined('PAYMENT_REJECTED')) define('PAYMENT_REJECTED',2);
+if(!defined('WITHDRAW_INITIATED')) define('WITHDRAW_INITIATED', 0);
 
+if(!defined('WITHDRAW_PAID')) define('WITHDRAW_PAID', 1);
+
+if(!defined('WITHDRAW_ONHOLD')) define('WITHDRAW_ONHOLD', 2);
+
+if(!defined('WITHDRAW_REJECTED')) define('WITHDRAW_REJECTED', 3);
+
+if(!defined('WITHDRAW_CANCELLED')) define('WITHDRAW_CANCELLED', 4);

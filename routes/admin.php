@@ -194,7 +194,7 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('stardom_withdrawals','Admin\AdminRevenueController@stardom_withdrawals')->name('stardom.withdrawals');
 
-        Route::post('stardom_withdrawals/payment','Admin\AdminRevenueController@stardom_withdrawals_payment')->name('stardom_withdrawals.payment');
+        Route::get('stardom_withdrawals/paynow','Admin\AdminRevenueController@stardom_withdrawals_paynow')->name('stardom_withdrawals.paynow');
 
         Route::get('stardom_withdrawals/reject','Admin\AdminRevenueController@stardom_withdrawals_reject')->name('stardom_withdrawals.reject');
 

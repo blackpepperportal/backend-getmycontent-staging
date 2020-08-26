@@ -14,11 +14,11 @@
 
                     <option  class="select-color" value="">{{tr('select_status')}}</option>
 
-                    <option  class="select-color" value="{{PAID}}">{{tr('paid')}}</option>
+                    <option  class="select-color" value="{{WITHDRAW_INITIATED}}">{{tr('initiated')}}</option>
 
-                    <option  class="select-color" value="{{UNPAID}}">{{tr('not_paid')}}</option>
+                    <option  class="select-color" value="{{WITHDRAW_PAID}}">{{tr('paid')}}</option>
 
-                    <option  class="select-color" value="{{PAYMENT_REJECTED}}">{{tr('rejected')}}</option>
+                    <option  class="select-color" value="{{WITHDRAW_REJECTED}}">{{tr('rejected')}}</option>
 
                 </select>
 

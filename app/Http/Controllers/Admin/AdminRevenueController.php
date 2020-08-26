@@ -566,7 +566,7 @@ class AdminRevenueController extends Controller
     /**
      * @method stardom_withdrawals
      *
-     * @uses To update subscription status as DECLINED/APPROVED based on subscriptions id
+     * @uses Display all stardom withdrawals
      *
      * @created Akshata
      *
@@ -580,7 +580,7 @@ class AdminRevenueController extends Controller
 
     public function stardom_withdrawals(Request $request) {
 
-        $base_query = \App\StardomWithDrawal::where('unique_id','!=',NULL);
+        $base_query = \App\StardomWithDrawal::orderBy('stardom_with_drawals.updated_at','DESC');
 
         if($request->search_key) {
 
@@ -599,7 +599,7 @@ class AdminRevenueController extends Controller
         }
 
         $stardom_withdrawals = $base_query->paginate(10);
-
+       
         return view('admin.stardom_withdrawals.index')
                 ->with('page','stardom-withdrawls')
                 ->with('stardom_withdrawals',$stardom_withdrawals);
@@ -607,7 +607,7 @@ class AdminRevenueController extends Controller
     }
 
      /**
-     * @method stardom_withdrawals_payment()
+     * @method stardom_withdrawals_paynow()
      *
      * @uses 
      *
@@ -620,17 +620,11 @@ class AdminRevenueController extends Controller
      * @return view page
      *
      **/
-    public function stardom_withdrawals_payment(Request $request) {
+    public function stardom_withdrawals_paynow(Request $request) {
 
         try {
 
             DB::begintransaction();
-
-            $rules =  [
-                'amount' => 'required|numeric|gt:0',
-            ]; 
-            
-            Helper::custom_validator($request->all(), $rules);
 
             $stardom_withdrawal_details = \App\StardomWithDrawal::find($request->stardom_withdrawal_id);
 
@@ -640,15 +634,9 @@ class AdminRevenueController extends Controller
                 
             }
 
-            if($stardom_withdrawal_details->requested_amount < $request->amount) {
+            $stardom_withdrawal_details->paid_amount = $stardom_withdrawal_details->requested_amount;
 
-                throw new Exception(tr('amount_is_greater_than_requested_amount'),101);
-                
-            }
-
-            $stardom_withdrawal_details->paid_amount += $request->amount;
-
-            $stardom_withdrawal_details->status = PAID;
+            $stardom_withdrawal_details->status = WITHDRAW_PAID;
             
             if($stardom_withdrawal_details->save()) {
 
@@ -661,9 +649,7 @@ class AdminRevenueController extends Controller
 
             DB::rollback();
 
-            $error = $e->getMessage();
-
-            return redirect()->back()->with('flash_error', $error);
+            return redirect()->back()->with('flash_error', $e->getMessage());
 
         }
     
@@ -697,7 +683,7 @@ class AdminRevenueController extends Controller
                 
             }
             
-            $stardom_withdrawal_details->status = PAYMENT_REJECTED;
+            $stardom_withdrawal_details->status = WITHDRAW_REJECTED;
             
             if($stardom_withdrawal_details->save()) {
 

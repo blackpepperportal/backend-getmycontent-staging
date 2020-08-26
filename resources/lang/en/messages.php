@@ -768,6 +768,7 @@ return [
 	'document_file_back' => 'Document File Back',
 	'document_file_front' => 'Document File Front',
 	'document_file' => 'Document File',
+	'initiated' => 'Initiated',
 
 
 
