@@ -409,7 +409,7 @@ class AdminStardomController extends Controller
                 DB::commit();
 
                 $message = $stardom_details->status ? tr('stardom_approve_success') : tr('stardom_decline_success');
-                return redirect()->route('admin.stardoms.index')->with('flash_success', $message);
+                return redirect()->back()->with('flash_success', $message);
             }
             
             throw new Exception(tr('stardom_status_change_failed'));
@@ -418,7 +418,7 @@ class AdminStardomController extends Controller
 
             DB::rollback();
 
-            return redirect()->back()->with('flash_error', $e->getMessage());
+            return redirect()->route('admin.stardoms.index')->with('flash_error', $e->getMessage());
 
         }
 

@@ -172,6 +172,23 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('/revenues/dashboard','Admin\AdminRevenueController@revenues_dashboard')->name('revenues.dashboard');
 
+        //revenue dashboard end
+
+        //subscriptions start
+        Route::get('subscriptions', 'Admin\AdminRevenueController@subscriptions_index')->name('subscriptions.index');
+
+        Route::get('subscriptions/create', 'Admin\AdminRevenueController@subscriptions_create')->name('subscriptions.create');
+
+        Route::get('subscriptions/edit', 'Admin\AdminRevenueController@subscriptions_edit')->name('subscriptions.edit');
+
+        Route::post('subscriptions/save', 'Admin\AdminRevenueController@subscriptions_save')->name('subscriptions.save');
+
+        Route::get('subscriptions/view', 'Admin\AdminRevenueController@subscriptions_view')->name('subscriptions.view');
+
+        Route::get('subscriptions/delete', 'Admin\AdminRevenueController@subscriptions_delete')->name('subscriptions.delete');
+
+        Route::get('subscriptions/status', 'Admin\AdminRevenueController@subscriptions_status')->name('subscriptions.status');
+        //subscriptions end
 
         // Static pages start
 

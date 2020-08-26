@@ -259,4 +259,309 @@ class AdminRevenueController extends Controller
     }
 
 
+    /**
+     * @method subscriptions_index()
+     *
+     * @uses To list out subscription details 
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function subscriptions_index() {
+       
+        $subscriptions = \App\Subscription::orderBy('updated_at','desc')->paginate(10);
+
+        return view('admin.subscriptions.index')
+                    ->with('main_page','subscriptions-crud')
+                    ->with('page','subscriptions')
+                    ->with('sub_page' , 'subscriptions-view')
+                    ->with('subscriptions' , $subscriptions);
+    }
+
+    /**
+     * @method subscriptions_create()
+     *
+     * @uses To create subscriptions details
+     *
+     * @created  Akshata
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function subscriptions_create() {
+
+        $subscription_details = new \App\Subscription;
+
+        $subscription_plan_types = [PLAN_TYPE_MONTH,PLAN_TYPE_YEAR,PLAN_TYPE_WEEK,PLAN_TYPE_DAY];
+
+        return view('admin.subscriptions.create')
+                    ->with('main_page','subscriptions-crud')
+                    ->with('page' , 'subscriptions')
+                    ->with('sub_page','subscriptions-create')
+                    ->with('subscription_details', $subscription_details)
+                    ->with('subscription_plan_types',$subscription_plan_types);           
+    }
+
+    /**
+     * @method subscriptions_edit()
+     *
+     * @uses To display and update subscriptions details based on the instructor id
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - Subscription Id
+     * 
+     * @return redirect view page 
+     *
+     */
+    public function subscriptions_edit(Request $request) {
+
+        try {
+
+            $subscription_details = \App\Subscription::find($request->subscription_id);
+
+            if(!$subscription_details) { 
+
+                throw new Exception(tr('subscrprion_not_found'), 101);
+            }
+
+            $subscription_plan_types = [PLAN_TYPE_MONTH,PLAN_TYPE_YEAR,PLAN_TYPE_WEEK,PLAN_TYPE_DAY];
+           
+            return view('admin.subscriptions.edit')
+                    ->with('main_page','subscriptions-crud')
+                    ->with('page' , 'subscriptions')
+                    ->with('sub_page','subscriptions-view')
+                    ->with('subscription_details' , $subscription_details)
+                    ->with('subscription_plan_types',$subscription_plan_types); 
+            
+        } catch(Exception $e) {
+
+            return redirect()->route('admin.subscriptions.index')->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+    /**
+     * @method subscriptions_save()
+     *
+     * @uses To save the subscriptions details of new/existing subscription object based on details
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object request - Subscrition Form Data
+     *
+     * @return success message
+     *
+     */
+    public function subscriptions_save(Request $request) {
+
+        try {
+
+            DB::begintransaction();
+
+            $rules = [
+                'title'  => 'required|max:255',
+                'description' => 'max:255',
+                'amount' => 'required|numeric|min:0|max:10000000',
+                'plan' => 'required',
+                'plan_type' => 'required',
+            
+            ];
+
+            Helper::custom_validator($request->all(),$rules);
+
+            $subscription_details = $request->subscription_id ? \App\Subscription::find($request->subscription_id) : new \App\Subscription;
+
+            if(!$subscription_details) {
+
+                throw new Exception(tr('subscription_not_found'), 101);
+            }
+
+            $subscription_details->status = APPROVED;
+
+            $subscription_details->title = $request->title;
+
+            $subscription_details->description = $request->description ?: "";
+
+            $subscription_details->plan = $request->plan;
+
+            $subscription_details->plan_type = $request->plan_type;
+
+            $subscription_details->amount = $request->amount;
+
+            $subscription_details->is_free = $request->is_free == YES ? YES :NO;
+        
+            $subscription_details->is_popular  = $request->is_popular == YES ? YES :NO;
+
+            if( $subscription_details->save() ) {
+
+                DB::commit();
+
+                $message = $request->subscription_id ? tr('subscription_update_success')  : tr('subscription_create_success');
+
+                return redirect()->route('admin.subscriptions.view', ['subscription_id' => $subscription_details->id])->with('flash_success', $message);
+            } 
+
+            throw new Exception(tr('subscription_saved_error') , 101);
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->back()->withInput()->with('flash_error', $e->getMessage());
+        } 
+
+    }
+
+    /**
+     * @method subscriptions_view()
+     *
+     * @uses view the subscriptions details based on subscriptions id
+     *
+     * @created Akshata 
+     *
+     * @updated 
+     *
+     * @param object $request - Subscription Id
+     * 
+     * @return View page
+     *
+     */
+    public function subscriptions_view(Request $request) {
+       
+        try {
+      
+            $subscription_details = \App\Subscription::find($request->subscription_id);
+            
+            if(!$subscription_details) { 
+
+                throw new Exception(tr('subscription_not_found'), 101);                
+            }
+
+            return view('admin.subscriptions.view')
+                        ->with('main_page','subscriptions-crud')
+                        ->with('page', 'subscriptions') 
+                        ->with('sub_page','subscriptions-view') 
+                        ->with('subscription_details' , $subscription_details);
+            
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+    /**
+     * @method subscriptions_delete()
+     *
+     * @uses delete the subscription details based on subscription id
+     *
+     * @created Akshata 
+     *
+     * @updated  
+     *
+     * @param object $request - Subscription Id
+     * 
+     * @return response of success/failure details with view page
+     *
+     */
+    public function subscriptions_delete(Request $request) {
+
+        try {
+
+            DB::begintransaction();
+
+            $subscription_details = \App\Subscription::find($request->subscription_id);
+            
+            if(!$subscription_details) {
+
+                throw new Exception(tr('subscription_not_found'), 101);                
+            }
+
+            if($subscription_details->delete()) {
+
+                DB::commit();
+
+                return redirect()->route('admin.subscriptions.index')->with('flash_success',tr('subscription_deleted_success'));   
+
+            } 
+            
+            throw new Exception(tr('subscription_delete_failed'));
+            
+        } catch(Exception $e){
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }       
+         
+    }
+
+    /**
+     * @method subscriptions_status
+     *
+     * @uses To update subscription status as DECLINED/APPROVED based on subscriptions id
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - Subscription Id
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function subscriptions_status(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $subscription_details = \App\Subscription::find($request->subscription_id);
+
+            if(!$subscription_details) {
+
+                throw new Exception(tr('subscription_not_found'), 101);
+                
+            }
+
+            $subscription_details->status = $subscription_details->status ? DECLINED : APPROVED ;
+
+            if($subscription_details->save()) {
+
+                DB::commit();
+
+                $message = $subscription_details->status ? tr('subscription_approve_success') : tr('subscription_decline_success');
+
+                return redirect()->back()->with('flash_success', $message);
+            }
+            
+            throw new Exception(tr('subscription_status_change_failed'));
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->route('admin.subscriptions.index')->with('flash_error', $e->getMessage());
+
+        }
+
+    }
+
+
 }

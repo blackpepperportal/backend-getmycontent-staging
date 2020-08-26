@@ -727,7 +727,28 @@ return [
 	'contact_mobile' => 'Contact Mobile',
 	'contact_email' => 'Contact Email',
 	'contact_address' => 'Contact Address',
-	
+	'subscriptions' => 'Subscriptions',
+	'subscribers' => 'Subscribers',
+	'plan' => 'Plan',
+	'plan_type' => 'Plan Type',
+	'select_plan_type' => 'Select plan type',
+
+	//subscription messages
+
+	'subscription_create_success' => 'The subscription created successfully!!',
+	'subscription_update_success' => 'The subscription updated successfully!!',
+	'subscription_save_failed' => 'The subscription details updating failed!!',
+	'subscription_not_found' => 'The selected subscription details not found.',
+
+	'subscription_deleted_success' => 'The subscription deleted successfully!!',
+	'subscription_delete_failed' => 'The subscription deletion failed!!',
+	'subscription_delete_confirmation' => 'Once you\'ve deleted the record , the subscription (:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.',
+
+	'subscription_approve_success' => 'The subscription approved successfully..!!',
+	'subscription_decline_success' => 'The subscription declined successfully..!!',
+	'subscription_decline_confirmation' => 'Do you want decline this subscription?',
+	'subscription_status_change_failed' => 'The subscription status updating failed..!!',
+	'year' => 'Year',
 
 
 

@@ -223,18 +223,18 @@
 
                 <a href="{{route('admin.documents.index')}}">
                     <i class="fa fa-diamond" aria-hidden="true"></i>
-                    <span class="menu-title" data-i18n="">Subscriptions</span>
+                    <span class="menu-title" data-i18n="">{{tr('subscriptions')}}</span>
                 </a>
 
                 <ul class="menu-content">
                     <li id="subscriptions-create">
-                        <a class="menu-item" href="{{route('admin.documents.create')}}">
-                            {{tr('add_document')}}
+                        <a class="menu-item" href="{{route('admin.subscriptions.create')}}">
+                            {{tr('add_subscription')}}
                         </a>
                     </li>
                     <li id="subscriptions-view">
-                        <a class="menu-item" href="{{route('admin.documents.index')}}">
-                            {{tr('view_documents')}}
+                        <a class="menu-item" href="{{route('admin.subscriptions.index')}}">
+                            {{tr('view_subscriptions')}}
                         </a>
                     </li>
                 </ul>            
