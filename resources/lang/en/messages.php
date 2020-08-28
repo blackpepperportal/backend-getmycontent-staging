@@ -769,6 +769,14 @@ return [
 	'document_file_front' => 'Document File Front',
 	'document_file' => 'Document File',
 	'initiated' => 'Initiated',
+	'recent_users' => 'Recent Users',
+	'recent_stardoms' => 'Recent Stardoms',
+	'revenue' => 'Revenue',
+	'total_users' => 'Total Users',
+	'total_stardoms' => 'Total Stardoms',
+	'total_posts' => 'Total Posts',
+	'total_revenue' => 'Total Revenue',
+	
 
 
 

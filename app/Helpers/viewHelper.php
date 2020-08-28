@@ -685,3 +685,53 @@ function static_page_footers($section_type = 0, $is_list = NO) {
     return isset($lists[$section_type]) ? $lists[$section_type] : "Common";
 
 }
+
+
+function last_x_months_data($months) {
+
+    $data = new \stdClass;
+
+    $data->currency = $currency = Setting::get('currency', '$');
+
+    $last_x_days_revenues = [];
+
+    $start  = new \DateTime('-6 month', new \DateTimeZone('UTC'));
+    
+    $period = new \DatePeriod($start, new \DateInterval('P1M'), $months);
+    
+    $dates = $last_x_days_revenues = [];
+
+    foreach ($period as $date) {
+
+        $current_month = $date->format('M');
+
+        $formatted_month = $date->format('Y-m');
+
+        $last_x_days_data = new \stdClass;
+
+        $last_x_days_data->month= $current_month;
+
+        $last_x_days_data->formatted_month = $formatted_month;
+
+        $month = $date->format('m');
+      
+        $last_x_days_subscription_earnings = \App\SubscriptionPayment::whereMonth('paid_date', '=', $month)->where('status' , PAID)->sum('amount');
+
+        $last_x_days_order_earnings = \App\OrderPayment::whereMonth('paid_date', '=', $month)->where('status' , PAID)->sum('total');
+
+        $last_x_days_post_earnings = \App\PostPayment::whereMonth('paid_date', '=', $month)->where('status' , PAID)->sum('paid_amount');
+        
+        $last_x_days_data->subscription_earnings = $last_x_days_subscription_earnings ?: 0.00;
+
+        $last_x_days_data->order_earnings = $last_x_days_order_earnings ?: 0.00;
+
+        $last_x_days_data->post_earnings = $last_x_days_post_earnings ?: 0.00;
+
+        array_push($last_x_days_revenues, $last_x_days_data);
+
+    }
+    
+    $data->last_x_days_revenues = $last_x_days_revenues;
+    
+    return $data;  
+}

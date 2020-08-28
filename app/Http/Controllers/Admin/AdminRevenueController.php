@@ -49,9 +49,23 @@ class AdminRevenueController extends Controller
 
         $data->total_users = \App\User::count();
 
+        $data->total_stardoms = \App\Stardom::count();
+
+        $data->total_posts = \App\Post::count();
+
+        $data->total_revenue = \App\SubscriptionPayment::where('status', PAID)->sum('subscription_payments.amount');
+
+        $recent_users= \App\User::orderBy('id' , 'desc')->skip($this->skip)->take(TAKE_COUNT)->get();
+
+        $recent_stardoms=  \App\Stardom::orderBy('id' , 'desc')->skip($this->skip)->take(TAKE_COUNT)->get(); 
+
+        $data->analytics = last_x_months_data(12);
+        
         return view('admin.dashboard')
                     ->with('page' , 'dashboard')
-                    ->with('data', $data);
+                    ->with('data', $data)
+                    ->with('recent_stardoms',$recent_stardoms)
+                    ->with('recent_users',$recent_users);
     
     }
 
