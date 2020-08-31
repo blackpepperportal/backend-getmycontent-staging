@@ -45,8 +45,11 @@ class AdminAccountController extends Controller
 
     public function profile() {
 
+        $admin_details = Auth::guard('admin')->user();
+
         return view('admin.account.profile')
-                ->with('page', 'profile');
+                ->with('page', 'profile')
+                ->with('admin_details',$admin_details);
     }
 
 
@@ -93,6 +96,8 @@ class AdminAccountController extends Controller
 
             $admin_details->email = $request->email ?: $admin_details->email;
 
+            $admin_details->about = $request->about ?: $admin_details->about;
+  
             if($request->hasFile('picture') ) {
                 
                 Helper::storage_delete_file($admin_details->picture, PROFILE_PATH_ADMIN); 

@@ -13,3 +13,17 @@
     word-wrap: break-word;
     hyphens: auto;
 }
+
+.nav.nav-tabs.nav-top-border .nav-item a {
+  color : #f4a640 !important;
+}
+.nav.nav-tabs.nav-top-border .nav-item a.nav-link.active {
+  border-top : 3px solid #f4a640;
+  border-top-left-radius : 0;
+  border-top-right-radius : 0;
+  color : #555555;
+}
+
+.img-circle {
+  border-radius: 50%;
+}

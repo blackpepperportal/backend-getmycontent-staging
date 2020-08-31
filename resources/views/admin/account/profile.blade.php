@@ -4,7 +4,7 @@
 
 @section('content-header', tr('profile')) 
 
-@section('breadcrumb_left')
+@section('breadcrumb')
 
     <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
     </li>
@@ -20,7 +20,45 @@
 
     <div class="row">
 
-        <div class="col-12">
+        <div class="col-4">
+
+            <div class="card">
+                
+                <div class="card-content">
+                    
+                    <div class="card-body">
+
+                        <div class="card-body">
+
+                            <center class="m-t-30"> <img src="{{$admin_details->picture  ?: asset('placeholder.png')}}" class="img-circle mb-2" width="150" />
+
+                                <h4 class="card-title m-t-10">{{$admin_details->name}}</h4>
+
+                                <h6 class="card-subtitle">{{$admin_details->timezone}}</h6>
+                            </center>
+
+                        </div>
+
+
+                        <ul class="list-group list-group-unbordered">
+
+                            <li class="list-group-item">
+                                <b>{{tr('email')}}</b> <a class="pull-right">{{$admin_details->email}}</a>
+                            </li>
+                            
+                            <li class="list-group-item">
+                                <b>{{tr('about')}}</b> <a class="pull-right">{{$admin_details->about}}</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-8">
 
             <div class="card">
 
@@ -50,7 +88,7 @@
                                     <input type="hidden" name="admin_id" value="{{Auth::guard('admin')->user()->id}}">
 
                                     <div class="form-group">
-                                        <label for="name" required class="col-sm-2 control-label">{{ tr('username') }}</label>
+                                        <label for="name" required class="col-sm-2 control-label">{{ tr('name') }}</label>
 
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="name" name="name" value="{{ Auth::guard('admin')->user()->name }}" placeholder="{{ tr('username') }}" required>
@@ -66,19 +104,24 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="mobile" class="col-sm-2 control-label">{{ tr('mobile') }}</label>
+                                        <label for="about" class="col-sm-2 control-label">{{ tr('about') }}</label>
 
                                         <div class="col-sm-10">
-                                            <input type="text" value="{{ Auth::guard('admin')->user()->mobile }}" name="mobile" class="form-control" id=" " placeholder="{{ tr('mobile') }}" pattern="[0-9]*" onkeypress="return isNumber(event)" minlength="6" maxlength="16">
-                                            <small style="color:brown">{{ tr('mobile_note') }}</small>
+                                            <input type="text" value="{{ Auth::guard('admin')->user()->about }}" name="about" class="form-control" id=" " placeholder="{{ tr('about') }}">
+                                           
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-10">
-                                            
-                                            <button type="submit" class="btn btn-danger" @if(Setting::get('is_demo_control_enabled') == YES) disabled  @endif >{{ tr('submit') }}</button>                                            
-                                        </div>
+                                    <div class="form-actions">
+
+                                        <button type="reset" class="btn btn-warning mr-1">
+                                            <i class="ft-x"></i> {{ tr('reset') }} 
+                                        </button>
+
+                                        <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled @endif ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
+                                        
+                                        <div class="clearfix"></div>
+
                                     </div>
 
                                 </form>
@@ -107,10 +150,16 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-10">
-                                            <button type="submit" class="btn btn-danger" @if(Setting::get('is_demo_control_enabled') == YES) disabled  @endif >{{ tr('submit') }}</button>      
-                                        </div>
+                                    <div class="form-actions">
+
+                                        <button type="reset" class="btn btn-warning mr-1">
+                                            <i class="ft-x"></i> {{ tr('reset') }} 
+                                        </button>
+
+                                        <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled @endif ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
+                                        
+                                        <div class="clearfix"></div>
+
                                     </div>
 
                                 </form>
@@ -148,10 +197,16 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-10">
-                                             <button type="submit" class="btn btn-danger" @if(Setting::get('is_demo_control_enabled') == YES) disabled  @endif >{{ tr('submit') }}</button>       
-                                        </div>
+                                    <div class="form-actions">
+
+                                        <button type="reset" class="btn btn-warning mr-1">
+                                            <i class="ft-x"></i> {{ tr('reset') }} 
+                                        </button>
+
+                                        <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled @endif ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
+                                        
+                                        <div class="clearfix"></div>
+
                                     </div>
 
                                 </form>
