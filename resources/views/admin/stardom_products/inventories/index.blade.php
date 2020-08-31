@@ -40,6 +40,8 @@
 
                     <div class="card-body card-dashboard">
 
+                        @include('admin.stardom_products.inventories._search')
+
                         <table class="table table-striped table-bordered sourced-data">
                             
                             <thead>
