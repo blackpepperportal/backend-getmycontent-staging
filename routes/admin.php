@@ -200,6 +200,14 @@ Route::group(['middleware' => 'web'], function() {
 
         //stardom withdrawals end
 
+        //inventory route start
+
+        Route::get('/product_inventories/index' , 'Admin\AdminRevenueController@product_inventories_index')->name('product_inventories.index');
+
+        Route::get('/product_inventories/view', 'Admin\AdminRevenueController@product_inventories_view')->name('product_inventories.view');
+
+        //inventory route end
+
         // Static pages start
 
         Route::get('/static_pages' , 'Admin\AdminLookupController@static_pages_index')->name('static_pages.index');

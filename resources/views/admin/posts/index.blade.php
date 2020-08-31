@@ -66,7 +66,15 @@
                                 <tr>
                                     <th>{{ tr('s_no') }}</th>
                                     <th>{{ tr('stardom') }}</th>
-                                    <th>{{ tr('content') }}</th>
+                                    @if(Request::get('scheduled'))
+
+                                        <th>{{ tr('publish_time') }}</th>
+
+                                    @else
+
+                                       <th>{{ tr('content') }}</th>
+
+                                    @endif  
                                     <th>{{ tr('amount') }}</th>
                                     <th>{{ tr('is_paid_post') }}</th>
                                     <th>{{ tr('status') }}</th>
@@ -85,8 +93,15 @@
                                         {{ $post_details->getStardomDetails->name ?? "-" }}
                                         </a>
                                     </td>
+                                    @if(Request::get('scheduled'))
 
-                                    <td>{{ $post_details->content }}</td>
+                                        <th>{{common_date($post_details->publish_time , Auth::guard('admin')->user()->timezone)}}</th>
+
+                                    @else
+
+                                        <td>{{ $post_details->content }}</td>
+
+                                    @endif
 
                                     <td>
                                         {{ $post_details->amount_formatted}}

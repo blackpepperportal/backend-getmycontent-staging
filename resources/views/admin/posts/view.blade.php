@@ -70,7 +70,7 @@
                                     </div>
                                     <div class="p-2 bg-gradient-x-success white media-body">
                                         <h5>{{tr('total_earnings')}}</h5>
-                                        <h5 class="text-bold-400 mb-0">{{$payment_data->total_earnings}}</h5>
+                                        <h5 class="text-bold-400 mb-0">{{formatted_amount($payment_data->total_earnings)}}</h5>
                                     </div>
                                 </div>
                             </div>
@@ -86,7 +86,7 @@
                                     </div>
                                     <div class="p-2 bg-gradient-x-danger white media-body">
                                         <h5>{{tr('current_month_earnings')}}</h5>
-                                        <h5 class="text-bold-400 mb-0">{{$payment_data->current_month_earnings}}</h5>
+                                        <h5 class="text-bold-400 mb-0">{{formatted_amount($payment_data->current_month_earnings)}}</h5>
                                     </div>
                                 </div>
                             </div>
@@ -102,7 +102,7 @@
                                     </div>
                                     <div class="p-2 bg-gradient-x-warning white media-body">
                                         <h5>{{tr('today_earnings')}}</h5>
-                                        <h5 class="text-bold-400 mb-0">{{$payment_data->today_earnings}}</h5>
+                                        <h5 class="text-bold-400 mb-0">{{formatted_amount($payment_data->today_earnings)}}</h5>
                                     </div>
                                 </div>
                             </div>

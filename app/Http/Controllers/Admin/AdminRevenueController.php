@@ -716,4 +716,83 @@ class AdminRevenueController extends Controller
     
     }
 
+     /**
+     * @method product_inventories_index()
+     *
+     * @uses Display the total inventory
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param -
+     *
+     * @return view page 
+     */
+    public function product_inventories_index(Request $request) {
+
+        $base_query = \App\ProductInventory::orderBy('created_at','DESC');
+
+        if($request->search_key) {
+
+            $search_key = $request->search_key;
+
+            $base_query =  $base_query
+
+                ->whereHas('stardomProductDetails', function($q) use ($search_key) {
+
+                    return $q->Where('stardom_products.name','LIKE','%'.$search_key.'%');
+
+                });
+                        
+        }
+
+        if($request->stardom_product_id) {
+
+            $base_query = $base_query->where('stardom_product_id',$request->stardom_product_id);
+        }
+
+        $product_inventories = $base_query->paginate(10);
+
+        return view('admin.stardom_products.inventories.index')
+                    ->with('page','product-inventories')
+                    ->with('product_inventories' , $product_inventories);
+    }
+
+    /**
+     * @method product_inventories_view()
+     *
+     * @uses Display the product inventories based on the product inentory id
+     *
+     * @created Akshata 
+     *
+     * @updated 
+     *
+     * @param object $request - product inventory Id
+     * 
+     * @return View page
+     *
+     */
+    public function product_inventories_view(Request $request) {
+       
+        try {
+      
+            $product_inventory_details = \App\ProductInventory::find($request->product_inventory_id);
+
+            if(!$product_inventory_details) { 
+
+                throw new Exception(tr('product_inventory_not_found'), 101);                
+            }
+        
+            return view('admin.stardom_products.inventories.view')
+                        ->with('page', 'posts') 
+                        ->with('product_inventory_details',$product_inventory_details);
+            
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
 }

@@ -778,7 +778,13 @@ return [
 	'total_revenue' => 'Total Revenue',
 	'document_image' => 'Document Image',
 	'document_details' => 'Document Details',
-	
+	'order_id' => 'Order Id',
+	'product_inventories' => 'Product Inventories',
+	'product_inventory_not_found' => 'Product inventory details not found',
+	'total_quantity' => 'Total Quatity',
+	'used_quantity' => 'Used Quatity',
+	'remaining_quatity' => 'Remaining Quatity',
+	'view_product_inventories' => 'View Product Inventories',
 	
 
 

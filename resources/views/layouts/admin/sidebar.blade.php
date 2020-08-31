@@ -154,11 +154,11 @@
             
             </li>
 
-            <li class="nav-item" id="inventory">
+            <li class="nav-item" id="product-inventories">
 
-                <a href="{{route('admin.settings')}}">
+                <a href="{{route('admin.product_inventories.index')}}">
                     <i class="fa fa-shopping-bag"></i>
-                    <span class="menu-title" data-i18n="">{{tr('inventory')}}</span>
+                    <span class="menu-title" data-i18n="">{{tr('product_inventories')}}</span>
                 </a>
             
             </li>
