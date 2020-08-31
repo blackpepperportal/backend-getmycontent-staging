@@ -121,7 +121,7 @@
                         <hr>
 
                         <p><strong>{{tr('description')}}</strong></p>
-                        <span>{{$document_details->description}}</span>
+                        <span>{{$document_details->description ?: "-"}}</span>
 
                     </div>
 

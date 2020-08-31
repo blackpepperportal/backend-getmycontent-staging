@@ -153,7 +153,7 @@ class AdminSettingController extends Controller
         try {
 
             $env_values = EnvEditorHelper::getEnvValues();
-
+           
             if($env_values) {
 
                 foreach ($env_values as $key => $data) {

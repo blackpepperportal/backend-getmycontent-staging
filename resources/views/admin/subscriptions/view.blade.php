@@ -28,38 +28,6 @@
 			       	<h4 class="text-uppercase">
 
 			       		{{tr('view_subscriptions')}} 
-			   
-				       	<div class="pull-right">
-
-					       @if(Setting::get('admin_delete_control') == YES )
-
-					      		<a href="{{ route('admin.subscriptions.edit', ['subscription_id' => $subscription_details->id] ) }}" class="btn btn-warning" title="{{tr('edit')}}"><b><i class="fa fa-edit"></i></b></a>
-
-					      		<a onclick="return confirm(&quot;{{ tr('subscription_delete_confirmation', $subscription_details->title ) }}&quot;);" href="javascript:;" class="btn btn-danger" title="{{tr('delete')}}"><b><i class="fa fa-trash"></i></b>
-					      			</a>
-
-					   		@else
-					   			<a href="{{ route('admin.subscriptions.edit' , ['subscription_id' => $subscription_details->id] ) }}" class="btn btn-warning" title="{{tr('edit')}}"><b><i class="fa fa-edit"></i></b></a>	
-					      		                			
-					      	 	<a onclick="return confirm(&quot;{{ tr('subscription_delete_confirmation', $subscription_details->title ) }}&quot;);" href="{{ route('admin.subscriptions.delete', ['subscription_id' => $subscription_details->id] ) }}" class="btn btn-danger" title="{{tr('delete')}}"><b><i class="fa fa-trash"></i></b>
-					      			</a>
-					      	@endif
-
-					      	@if($subscription_details->status == APPROVED)
-
-				                <a class="btn btn-danger" title="{{tr('decline')}}" href="{{ route('admin.subscriptions.status', ['subscription_id' => $subscription_details->id]) }}" onclick="return confirm(&quot;{{$subscription_details->title}} - {{tr('subscription_decline_confirmation')}}&quot;);" >
-				                    <b><i class="fa fa-ban"></i></b>
-				                </a>
-
-				            @else
-				                
-				                <a class="btn btn-success" title="{{tr('approve')}}" href="{{ route('admin.subscriptions.status', ['subscription_id' => $subscription_details->id]) }}">
-				                    <b><i class="fa fa-check-circle"></i></b> 
-				                </a>
-				                   
-				            @endif
-
-				      	</div>
 
 			      	</h4>
 
@@ -70,6 +38,53 @@
 				    <div class="card-body">
 
 				      	<div class="row">
+
+				        	<div class="col-6">
+				        		<div class="card-title">{{tr('action')}}</div>
+
+			        			<ul class="action-item">
+
+			        				<li>
+			        					@if($subscription_details->status == APPROVED)
+
+							                <a class="btn btn-danger btn-min-width mr-1 mb-1" title="{{tr('decline')}}" href="{{ route('admin.subscriptions.status', ['subscription_id' => $subscription_details->id]) }}" onclick="return confirm(&quot;{{$subscription_details->title}} - {{tr('subscription_decline_confirmation')}}&quot;);" >
+							                    <b>{{tr('decline')}}</b>
+							                </a>
+
+							            @else
+							                
+							                <a class="btn btn-success btn-min-width mr-1 mb-1" title="{{tr('approve')}}" href="{{ route('admin.subscriptions.status', ['subscription_id' => $subscription_details->id]) }}">
+							                    <b>{{tr('approve')}}</b> 
+							                </a>
+							                   
+							            @endif
+				            		</li>
+
+				            		<li>
+			        					@if(Setting::get('admin_delete_control') == YES )
+
+								      		<a href="{{ route('admin.subscriptions.edit', ['subscription_id' => $subscription_details->id] ) }}" class="btn btn-warning btn-min-width mr-1 mb-1" title="{{tr('edit')}}"><b>{{tr('edit')}}</b></a>
+
+								      		<a onclick="return confirm(&quot;{{ tr('subscription_delete_confirmation', $subscription_details->title ) }}&quot;);" href="javascript:;" class="btn btn-danger btn-min-width mr-1 mb-1" title="{{tr('delete')}}"><b>{{tr('delete')}}</b>
+								      			</a>
+
+								   		@else
+								   			<a href="{{ route('admin.subscriptions.edit' , ['subscription_id' => $subscription_details->id] ) }}" class="btn btn-warning btn-min-width mr-1 mb-1" title="{{tr('edit')}}"><b>{{tr('edit')}}</b></a>	
+								      		                			
+								      	 	<a onclick="return confirm(&quot;{{ tr('subscription_delete_confirmation', $subscription_details->title ) }}&quot;);" href="{{ route('admin.subscriptions.delete', ['subscription_id' => $subscription_details->id] ) }}" class="btn btn-danger btn-min-width mr-1 mb-1" title="{{tr('delete')}}"><b>{{tr('delete')}}</b>
+								      			</a>
+								      	@endif
+				            		</li>
+			        				
+			        			</ul>
+			        			<hr>
+
+			        			<div class="card-title">{{tr('description')}}</div>
+
+			        			<span> {{$subscription_details->description ?: "-"}}</span>
+			        			
+					        		
+				        	</div>
 
 				        	<div class="col-6">
 
@@ -106,13 +121,6 @@
 			        					@endif
 			        				</li>
 			        				<hr>	        							        		
-			        			</ul>
-					        		
-				        	</div>
-
-				        	<div class="col-6">
-
-			        			<ul>
 			        			
 			        				<li class="nav-item">
 			        					{{tr('is_free')}}
@@ -154,26 +162,6 @@
 					                
 				        	</div>
 				            
-				      	</div>
-
-				      	<div class="row">
-
-				      		<div class="card-body">
-
-				      			<div class="card-title">
-
-				      				<h5 class="text-uppercase">{{tr('description')}}</h5>
-
-				      			</div>
-				      			<hr>
-					      		<div class="col-12">
-					        		
-				                	<div  class="col-md-8 text-word-wrap pull-left"><a>{{$subscription_details->description}}</a></div>
-						             
-					        	</div>
-
-				        	</div>
-
 				      	</div>
 
 				    </div>

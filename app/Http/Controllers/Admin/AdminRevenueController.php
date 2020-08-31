@@ -615,7 +615,7 @@ class AdminRevenueController extends Controller
         $stardom_withdrawals = $base_query->paginate(10);
        
         return view('admin.stardom_withdrawals.index')
-                ->with('page','stardom-withdrawls')
+                ->with('page','stardom-withdrawals')
                 ->with('stardom_withdrawals',$stardom_withdrawals);
 
     }

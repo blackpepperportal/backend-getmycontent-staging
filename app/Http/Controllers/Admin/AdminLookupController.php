@@ -153,7 +153,7 @@ class AdminLookupController extends Controller
 
                 $message = tr('document_created_success');
 
-                $document_details->picture = asset('placeholder.png');
+                $document_details->picture = asset('document.jpeg');
 
             }
 

@@ -271,8 +271,8 @@ return [
 	'MAIL_USERNAME' => 'MAIL USERNAME',
 	'MAIL_PASSWORD' => 'MAIL PASSWORD',
 	'MAIL_ENCRYPTION' => 'MAIL ENCRYPTION',
-	'MAIL_FROM_ADDRESS' => 'MAIL FORM ADDRESS',
-	'MAIL_FROM_NAME' => 'MAIL FORM NAME',
+	'MAIL_FROM_ADDRESS' => 'MAIL FROM ADDRESS',
+	'MAIL_FROM_NAME' => 'MAIL FROM NAME',
 
 	'MAIL_MAILER_note' => 'Supported - "smtp", "mailgun"',
 	'mail_host_note' => 'Ex- "smtp.gmail.com", "smtp.mailgun.org"',
@@ -778,6 +778,7 @@ return [
 	'total_revenue' => 'Total Revenue',
 	'document_image' => 'Document Image',
 	'document_details' => 'Document Details',
+	
 	
 
 
