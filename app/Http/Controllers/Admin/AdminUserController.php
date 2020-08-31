@@ -239,6 +239,16 @@ class AdminUserController extends Controller
                      * @todo Welcome mail notification
                      */
 
+                    $email_data['subject'] = tr('user_welcome_email' , Setting::get('site_name'));
+
+                    $email_data['email']  = $user_details->email;
+
+                    $email_data['name'] = $user_details->name;
+
+                    $email_data['page'] = "emails.users.welcome";
+
+                    $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+
                     $user_details->is_verified = USER_EMAIL_VERIFIED;
 
                     $user_details->save();
@@ -379,6 +389,28 @@ class AdminUserController extends Controller
             $user_details->status = $user_details->status ? DECLINED : APPROVED ;
 
             if($user_details->save()) {
+
+                if($user_details->status == DECLINED) {
+
+                    $email_data['subject'] = tr('user_decline_email' , Setting::get('site_name'));
+
+                    $email_data['status'] = tr('declined');
+
+                } else {
+
+                    $email_data['subject'] = tr('user_approve_email' , Setting::get('site_name'));
+
+                    $email_data['status'] = tr('approved');
+
+                }
+
+                $email_data['email']  = $user_details->email;
+
+                $email_data['name']  = $user_details->name;
+
+                $email_data['page'] = "emails.users.status";
+
+                $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
                 DB::commit();
 

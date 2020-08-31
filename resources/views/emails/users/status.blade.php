@@ -135,8 +135,17 @@
                                         <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
 
                                             <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:22px;text-align:left;color:#555;">
-                                                <br></br>  
-                                               {{tr('your_account_declined_by_admin')}} 
+                                                <br></br>
+
+                                                <h3>{{tr('hello')}} {{$data['name']}}</h3>  
+
+                                                @if($data['status'] ==  tr('approved'))
+
+                                              	 	{{tr('your_account_has_been_approved_by_admin')}}
+                                              	@else
+                                              		{{tr('your_account_has_been_declined_by_admin')}} 
+                                              	@endif
+                                              	
                                             </div>
 
                                         </td>

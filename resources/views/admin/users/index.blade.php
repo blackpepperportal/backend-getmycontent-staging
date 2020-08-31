@@ -102,7 +102,6 @@
                                     <th>{{ tr('s_no') }}</th>
                                     <th>{{ tr('name') }}</th>
                                     <th>{{ tr('email') }}</th>
-                                    <th>{{ tr('mobile') }}</th>
                                     <th>{{ tr('status') }}</th>
                                     <th>{{ tr('verify') }}</th>
                                     <th>{{ tr('action') }}</th>
@@ -122,9 +121,9 @@
                                         </a>
                                     </td>
 
-                                    <td>{{ $user_details->email }}</td>
-
-                                    <td>{{ $user_details->mobile ?: "-" }}</td>
+                                    <td>{{ $user_details->email }}<br>
+                                        <span class="text-success">{{ $user_details->mobile ?: "-" }}</span>
+                                    </td>
 
                                     <td>
                                         @if($user_details->status == USER_APPROVED)

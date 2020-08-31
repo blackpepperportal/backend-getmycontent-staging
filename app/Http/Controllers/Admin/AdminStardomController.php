@@ -246,6 +246,16 @@ class AdminStardomController extends Controller
                      * @todo Welcome mail notification
                      */
 
+                    $email_data['subject'] = tr('stardom_welcome_email' , Setting::get('site_name'));
+
+                    $email_data['email']  = $stardom_details->email;
+
+                    $email_data['name'] = $stardom_details->name;
+
+                    $email_data['page'] = "emails.stardoms.welcome";
+
+                    $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+
                     $stardom_details->is_verified = STARDOM_EMAIL_VERIFIED;
 
                     $stardom_details->save();
@@ -399,12 +409,22 @@ class AdminStardomController extends Controller
 
                     $email_data['subject'] = tr('stardom_decline_email' , Setting::get('site_name'));
 
-                    $email_data['email']  = $stardom_details->email;
+                    $email_data['status'] = tr('declined');
 
-                    $email_data['page'] = "emails.stardoms.stardom-decline";
+                } else {
 
-                    $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+                    $email_data['subject'] = tr('stardom_approve_email' , Setting::get('site_name'));
+
+                    $email_data['status'] = tr('approved');
                 }
+
+                $email_data['email']  = $stardom_details->email;
+
+                $email_data['name']  = $stardom_details->name;
+
+                $email_data['page'] = "emails.stardoms.status";
+
+                $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
                 DB::commit();
 

@@ -788,6 +788,18 @@ return [
 	'product_inventory_search_placeholder' => 'Search By Stardom Product',
 	'product' => 'Product',
 	'new_orders' => 'New Orders',
+	'user_welcome_email' => 'Welcome Email',
+	'stardom_welcome_email' => 'Stardom Welcome Email',
+	'user_delete_email'  => 'User delete email',
+	'user_decline_email' => 'User decline email',
+	'stardom_approve_email' => 'Stardom Approve Email',
+	'user_approve_email' => 'User Approve Email',
+	'your_account_has_been_approved_by_admin' => 'This is to inform that, Your account successfully approved by admin 🙂',
+	'your_account_has_been_declined_by_admin' => 'This is to inform that, Your account is declined. Please contact admin for more Information',
+	'hello' => 'Hello',
+	'hey' => 'Hey',
+	'you_are_successfully_added_by_admin' => 'You are successfully added by admin,Please visit website 👍',
+	'visit_website' => 'Visit Website',
 	
 
 
