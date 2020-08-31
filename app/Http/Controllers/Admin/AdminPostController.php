@@ -460,11 +460,20 @@ class AdminPostController extends Controller
             $base_query  = $base_query->where('user_id',$request->user_id);
         }
 
+        $sub_page = 'orders-view';
+
+        if($request->new_orders) {
+
+            $base_query  = $base_query->latest('created_at');
+
+            $sub_page = 'orders-new';
+        }
+
         $orders = $base_query->paginate(10);
 
         return view('admin.orders.index')
                     ->with('page','orders')
-                    ->with('sub_page','orders-view')
+                    ->with('sub_page',$sub_page)
                     ->with('orders',$orders);
     }
 

@@ -146,6 +146,11 @@
                 </a>
 
                 <ul class="menu-content">
+                    <li id="orders-new">
+                        <a class="menu-item" href="{{route('admin.orders.index',['new_orders' => YES])}}">
+                            {{tr('new_orders')}}
+                        </a>
+                    </li>
                     <li id="orders-view">
                         <a class="menu-item" href="{{route('admin.orders.index')}}">
                             {{tr('view_orders')}}
