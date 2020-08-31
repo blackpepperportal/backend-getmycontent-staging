@@ -44,6 +44,7 @@
                                 <tr>
                                     <th>{{ tr('s_no') }}</th>
                                     <th>{{ tr('user') }}</th>
+                                    <th>{{ tr('order_id')}}</th>
                                     <th>{{ tr('delivery_address') }}</th>
                                     <th>{{ tr('total_products') }}</th>
                                     <th>{{ tr('total')}}</th>
@@ -64,6 +65,8 @@
                                         {{ $order_details->userDetails->name ?? "-" }}
                                         </a>
                                     </td>
+
+                                    <td>{{$order_details->id}}</td>
 
                                     <td>{{ $order_details->deliveryAddressDetails->name ?? "-" }}</td>
 

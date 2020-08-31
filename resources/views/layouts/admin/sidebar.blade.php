@@ -128,6 +128,7 @@
                             {{tr('add_stardom_product')}}
                         </a>
                     </li>
+                    
                     <li id="stardom_products-view">
                         <a class="menu-item" href="{{route('admin.stardom_products.index')}}">
                             {{tr('view_stardom_products')}}

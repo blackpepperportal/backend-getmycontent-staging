@@ -88,7 +88,7 @@
                                 
                             </div>
 
-                             <div class="col-md-6">
+                            <div class="col-md-6">
 
                                 <div class="card-title text-primary">{{tr('order_details')}}</div>
 
@@ -116,7 +116,29 @@
                                             <td>{{ $order_details->sub_total_formatted}}</td>
                                         </tr>
 
-                                         <tr>
+                                        <tr>
+                                            <td>{{tr('status')}}</td>
+                                            <td>
+                                                @switch($order_details->status)
+
+                                                    @case(SORT_BY_ORDER_CANCELLED)
+                                                        <span class="badge bg-danger">{{tr('cancelled')}}</span>
+
+                                                    @case(SORT_BY_ORDER_SHIPPED)
+                                                        <span class="badge bg-secondary">{{tr('shipped')}}</span>
+
+                                                    @case(SORT_BY_ORDER_DELIVERD) 
+                                                        <span class="badge bg-success">
+                                                            {{tr('deliverd')}}
+                                                        </span>
+                                                    @default
+                                                        <span class="badge bg-primary">{{tr('placed')}}</span>
+
+                                                @endswitch
+                                            </td>
+                                        </tr>
+
+                                        <tr>
                                             <td>{{ tr('tax_price') }}</td>
                                             <td>{{ $order_details->tax_price_formatted}}</td>
                                         </tr>
@@ -138,75 +160,131 @@
 
                 </div>
 
-                 <div class="card">
+                <div class="card">
 
                     <div class="card-body"> 
 
                         <div class="card-title text-primary">{{tr('ordered_product_details')}}
 
-                            <a class="btn btn-purple pull-right" href="{{route('admin.order.payments',['order_id' =>$order_details->id])}}">{{tr('order_payment_history')}}</a>
                         </div>
 
                         <div class="card-body">
 
                             <div class="row">
 
-                            @foreach($order_products as $i => $order_product_details)
-                            
-
-                                <div class="col-md-6">
-
-                                    <table class="table table-bordered  tab-content">
-                       
+                                <table class="table table-bordered">
+                                
+                                    <thead>
+                                        <tr>
+                                            <th>{{ tr('product') }}</th>
+                                            <th>{{ tr('quantity')}}</th>
+                                            <th>{{ tr('per_quantity_price') }}</th>
+                                            <th>{{ tr('sub_total') }}</th>
+                                            <th>{{ tr('tax_price')}}</th>
+                                            <th>{{ tr('delivery_price') }}</th>
+                                            <th>{{ tr('total') }}</th>
+                                        </tr>
+                                    </thead>
+                                   
                                     <tbody>
 
-                                        <tr>
-                                            <td>{{ tr('unique_id')}} </td>
-                                            <td class="text-uppercase">{{ $order_product_details->unique_id}}</td>
-                                        </tr>
+                                        @foreach($order_products as $i => $order_product_details)
 
                                         <tr>
-                                            <td>{{ tr('stardom_product')}} </td>
-                                            <td><a href="{{route('admin.stardom_products.view',['stardom_product_id' => $order_product_details->stardom_product_id])}}">{{ $order_product_details->stardomProductDetails->name ?? "-"}}</a></td>
-                                        </tr>
 
-                                        <tr>
-                                            <td>{{ tr('quantity')}} </td>
+                                            <td>
+                                                <a href="{{route('admin.stardom_products.view',['stardom_product_id' => $order_product_details->stardom_product_id])}}">{{ $order_product_details->stardomProductDetails->name ?? "-"}}</a>
+                                            </td>
+
                                             <td>{{ $order_product_details->quantity}}</td>
-                                        </tr>
 
-                                        <tr>
-                                            <td>{{ tr('per_quantity_price') }}</td>
                                             <td>{{ $order_product_details->per_quantity_price_formatted}}</td>
-                                        </tr>
 
-                                        <tr>
-                                            <td>{{ tr('sub_total') }}</td>
                                             <td>{{ $order_product_details->sub_total_formatted}}</td>
-                                        </tr>
 
-                                        <tr>
-                                            <td>{{ tr('tax_price') }}</td>
                                             <td>{{ $order_product_details->tax_price_formatted}}</td>
-                                        </tr>
 
-                                        <tr>
-                                            <td>{{ tr('delivery_price') }}</td>
                                             <td>{{ $order_product_details->delivery_price_formatted}}</td>
+
+                                            <td>{{$order_product_details->total_formatted}}</td>
+
                                         </tr>
 
+                                        @endforeach
+
+                                    </tbody>
+                                
+                                </table>
+
+                    
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card">
+
+                    <div class="card-body"> 
+
+                        <div class="card-title text-primary">                       
+                            {{tr('order_payment_history')}}
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="row">
+
+                                <table class="table table-bordered">
+                                
+                                      <thead>
                                         <tr>
-                                            <td>{{ tr('total') }}</td>
-                                            <td>{{$order_product_details->total_formatted}}</td>
+                                            <th>{{ tr('s_no') }}</th>
+                                            <th>{{ tr('order_id')}}</th>
+                                            <th>{{ tr('payment_id') }}</th>
+                                            <th>{{ tr('user') }}</th>
+                                            <th>{{ tr('delivery_price') }}</th>
+                                            <th>{{ tr('sub_total') }}</th>
+                                            <th>{{ tr('total') }}</th>
+                                            <th>{{ tr('action') }}</th>
                                         </tr>
+                                    </thead>
+                                   
+                                    <tbody>
+                                        @foreach($order_payment_history as $i => $order_payment_details)
+
+                                            <tr>
+                                                <td>{{ $i + 1 }}</td>
+
+                                                <td><a href="{{route('admin.orders.view',['order_id' => $order_payment_details->order_id])}}">{{$order_payment_details->order_id}}</a></td>
+
+                                                <td>
+                                                    {{ $order_payment_details->payment_id }}
+                                                </td>
+
+                                                <td><a href="{{route('admin.users.view',['user_id' => $order_payment_details->user_id])}}">{{ $order_payment_details->userDetails->name ?? "-" }}</a></span></td>
+
+                                                <td>
+                                                    {{ $order_payment_details->delivery_price_formatted}}
+                                                </td>
+
+                                                <td>{{$order_payment_details->sub_total_formatted}}</td>
+
+                                                <td>{{$order_payment_details->total_formatted}}</td>
+
+                                                <td><a class="btn btn-primary" href="{{route('admin.order.payments.view',['order_payment_id' => $order_payment_details->id])}}">{{tr('view')}}</a></td>
+
+                                            </tr>
+
+                                        @endforeach
                                         
                                     </tbody>
-
+                                
                                 </table>
-                                    
-                                </div>
-                            
-                            @endforeach
 
                             </div>
 
@@ -225,3 +303,4 @@
 </section>
 
 @endsection
+

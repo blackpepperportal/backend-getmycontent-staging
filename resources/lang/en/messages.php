@@ -786,6 +786,7 @@ return [
 	'remaining_quatity' => 'Remaining Quatity',
 	'view_product_inventories' => 'View Product Inventories',
 	'product_inventory_search_placeholder' => 'Search By Stardom Product',
+	'product' => 'Product',
 	
 
 

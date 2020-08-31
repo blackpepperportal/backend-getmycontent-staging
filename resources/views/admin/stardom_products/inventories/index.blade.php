@@ -48,8 +48,8 @@
                                 <tr>
                                     <th>{{ tr('s_no') }}</th>
                                     <th>{{ tr('stardom_product') }}</th>
-                                    <th>{{ tr('total_quatity') }}</th>
-                                    <th>{{ tr('used_quatity') }}</th>
+                                    <th>{{ tr('total_quantity') }}</th>
+                                    <th>{{ tr('used_quantity') }}</th>
                                     <th>{{ tr('remaining_quatity') }}</th>
                                     <th>{{ tr('action') }}</th>
                                 </tr>
