@@ -136,14 +136,22 @@
 
                                             <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:22px;text-align:left;color:#555;">
                                                 <br></br>
-                                                <h3>{{tr('hai')}} {{$data['name']}}</h3>  
 
-                                                <b>{{tr('document_updates')}}</b>
-
-                                                {{tr('your_documents_successfully_approved_by_admin')}}
-
+                                                <h3>{{tr('hello')}} {{$data['name']}}</h3>  
                                                 <br>
-                                                <a style="background-color: #4CAF50;border: none;color: white;padding: 15px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;margin: 4px 2px;cursor: pointer;" href="{{Setting::get('frontend_url')}}">{{tr('visit_website')}}</a>
+
+                                                <b>{{tr('post_id')}} - {{$data['post_unique_id']}}</b>
+                                                <br>
+
+                                                @if($data['status'] ==  tr('approved'))
+
+                                                    {{tr('above_post_approved_by_admin')}}!!
+
+                                                @else
+
+                                                    {{tr('above_post_declined_by_admin')}}!! 
+                                                    
+                                                @endif
                                                 
                                             </div>
 

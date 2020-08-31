@@ -800,6 +800,21 @@ return [
 	'hey' => 'Hey',
 	'you_are_successfully_added_by_admin' => 'You are successfully added by admin,Please visit website 👍',
 	'visit_website' => 'Visit Website',
+	'stardom_document_verification' => 'Stardom document verification',
+	'hai' => 'Hai',
+	'document_updates' => 'Document Updates',
+	'your_documents_successfully_approved_by_admin' => 'Your documents has been successfully approved by admin 🙂 visit our website',
+	'post_approve_email' => 'Post Approve Email',
+	'post_decline_email' => 'Post Decline Email',
+	'stardom_name' => 'Stardom Name',
+	'above_post_declined_by_admin' => 'Above post declined by admin',
+	'above_post_approved_by_admin' => 'Above post approved by admin',
+	'post_id' => 'Post Id',
+	'product_name' => 'Product name',
+	'product_approve_email' => 'Product Approve Email',
+	'product_decline_email' => 'Product Decline Email',
+	'above_product_declined_by_admin' => 'Above product declined by admin',
+	'above_product_approved_by_admin' => 'Above product approved by admin',
 	
 
 

@@ -72,8 +72,9 @@
                                 </tr>
 
                                 <tr>
-                                    <th>{{tr('name')}}</th>
-                                    <td>{{$stardom_product_details->stardomDetails->name ?? "-"}}</td>
+                                    <th>{{tr('stardom_name')}}</th>
+
+                                    <td><a href="{{route('admin.stardoms.view',['stardom_id' => $stardom_product_details->stardom_id])}}">{{$stardom_product_details->stardomDetails->name ?? "-"}}</a></td>
                                 </tr>
 
                                 <tr>

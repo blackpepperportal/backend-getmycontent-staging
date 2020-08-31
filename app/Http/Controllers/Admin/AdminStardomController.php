@@ -592,6 +592,16 @@ class AdminStardomController extends Controller
 
                 DB::commit();
 
+                $email_data['subject'] = tr('stardom_document_verification' , Setting::get('site_name'));
+
+                $email_data['email']  = $stardom_document_details->stardomDetails->email ?? "-";
+
+                $email_data['name']  = $stardom_document_details->stardomDetails->name ?? "-";
+
+                $email_data['page'] = "emails.stardoms.document-verify";
+
+                $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+
                 $message = $stardom_document_details->is_verified ? tr('stardom_document_verify_success') : tr('stardom_document_unverify_success');
 
                 return redirect()->route('admin.stardoms.documents.index')->with('flash_success', $message);
@@ -936,6 +946,29 @@ class AdminStardomController extends Controller
             if($stardom_product_details->save()) {
 
                 DB::commit();
+
+                if($stardom_product_details->status == DECLINED) {
+
+                    $email_data['subject'] = tr('product_decline_email' , Setting::get('site_name'));
+
+                    $email_data['status'] = tr('declined');
+
+                } else {
+
+                    $email_data['subject'] = tr('product_approve_email' , Setting::get('site_name'));
+
+                    $email_data['status'] = tr('approved');
+                }
+
+                $email_data['email']  = $stardom_product_details->stardomDetails->email ?? "-";
+
+                $email_data['name']  = $stardom_product_details->stardomDetails->name ?? "-";
+
+                $email_data['product_name']  = $stardom_product_details->name;
+
+                $email_data['page'] = "emails.products.status";
+
+                $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
                 $message = $stardom_product_details->status ? tr('stardom_product_approve_success') : tr('stardom_product_decline_success');
 

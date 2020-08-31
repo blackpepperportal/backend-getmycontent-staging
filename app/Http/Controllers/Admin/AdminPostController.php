@@ -235,6 +235,29 @@ class AdminPostController extends Controller
 
                 DB::commit();
 
+                if($post_details->status == DECLINED) {
+
+                    $email_data['subject'] = tr('post_decline_email' , Setting::get('site_name'));
+
+                    $email_data['status'] = tr('declined');
+
+                } else {
+
+                    $email_data['subject'] = tr('post_approve_email' , Setting::get('site_name'));
+
+                    $email_data['status'] = tr('approved');
+                }
+
+                $email_data['email']  = $post_details->getStardomDetails->email ?? "-";
+
+                $email_data['name']  = $post_details->getStardomDetails->name ?? "-";
+
+                $email_data['post_unique_id']  = $post_details->unique_id;
+
+                $email_data['page'] = "emails.posts.status";
+
+                $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+
                 $message = $post_details->status ? tr('post_approve_success') : tr('post_decline_success');
 
                 return redirect()->back()->with('flash_success', $message);

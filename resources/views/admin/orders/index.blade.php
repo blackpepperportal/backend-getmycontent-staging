@@ -66,7 +66,7 @@
                                         </a>
                                     </td>
 
-                                    <td>{{$order_details->id}}</td>
+                                    <td>{{$order_details->unique_id}}</td>
 
                                     <td>{{ $order_details->deliveryAddressDetails->name ?? "-" }}</td>
 
