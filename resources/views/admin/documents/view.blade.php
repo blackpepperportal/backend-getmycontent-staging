@@ -25,47 +25,6 @@
 
             <h4 id="basic-forms" class="card-title">{{$document_details->name}} {{tr('documentation')}}</h4>
 
-            <div class="heading-elements">
-
-                <ul class="list-inline mb-0">
-
-                    <li> 
-                        @if(Setting::get('admin_delete_control') == YES )
-
-                            <a href="{{ route('admin.documents.edit', ['document_id' => $document_details->id] ) }}" class="btn btn-warning" title="{{tr('edit')}}"><b><i class="fa fa-edit"></i></b></a>
-
-                            <a onclick="return confirm(&quot;{{ tr('document_delete_confirmation', $document_details->title ) }}&quot;);" href="javascript:;" class="btn btn-danger" title="{{tr('delete')}}"><b><i class="fa fa-trash"></i></b>
-                                </a>
-
-                        @else
-                            <a href="{{ route('admin.documents.edit' , ['document_id' => $document_details->id] ) }}" class="btn btn-warning" title="{{tr('edit')}}"><b><i class="fa fa-edit"></i></b></a>  
-                                                        
-                            <a onclick="return confirm(&quot;{{ tr('document_delete_confirmation', $document_details->name ) }}&quot;);" href="{{ route('admin.documents.delete', ['document_id' => $document_details->id] ) }}" class="btn btn-danger" title="{{tr('delete')}}"><b><i class="fa fa-trash"></i></b>
-                                </a>
-                        @endif
-                        
-                    </li>
-
-                    <li>
-                        @if($document_details->status == APPROVED)
-
-                            <a class="btn btn-danger" title="{{tr('decline')}}" href="{{ route('admin.documents.status', ['document_id' => $document_details->id]) }}" onclick="return confirm(&quot;{{$document_details->name}} - {{tr('document_decline_confirmation')}}&quot;);" >
-                                <b><i class="fa fa-ban"></i></b>
-                            </a>
-
-                        @else
-                            
-                            <a class="btn btn-success" title="{{tr('approve')}}" href="{{ route('admin.documents.status', ['document_id' => $document_details->id]) }}">
-                                <b><i class="fa fa-check-circle"></i></b> 
-                            </a>
-                               
-                        @endif
-                    </li>
-
-                </ul>
-
-            </div>
-
         </div>
         
         <hr>
@@ -76,11 +35,57 @@
 
                 <div class="row">
 
-                    <div class="col-lg-6"> 
-                        <img src="{{$document_details->picture}}" class="document-image">
+                    <div class="col-md-3">
+                        <div class="card-title">{{tr('document_image')}}</div>
+
+                        <img src="{{$document_details->picture ?: asset('placeholder.png')}}" class="document-image">
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <div class="card-title">{{tr('action')}}</div>
+
+                         @if(Setting::get('admin_delete_control') == YES )
+
+                            <a href="javascript:;" class="btn btn-warning mb-2" title="{{tr('edit')}}"><b>{{tr('edit')}}</b></a>
+
+                            <a onclick="return confirm(&quot;{{ tr('document_delete_confirmation', $document_details->title ) }}&quot;);" href="javascript:;" class="btn btn-danger" title="{{tr('delete')}}"><b>{{tr('delete')}}</b>
+                                </a>
+
+                        @else
+                            <a href="{{ route('admin.documents.edit' , ['document_id' => $document_details->id] ) }}" class="btn btn-warning btn-min-width mr-1 mb-1" title="{{tr('edit')}}"><b>{{tr('edit')}}</b></a>  
+                                                        
+                            <a onclick="return confirm(&quot;{{ tr('document_delete_confirmation', $document_details->name ) }}&quot;);" href="{{ route('admin.documents.delete', ['document_id' => $document_details->id] ) }}" class="btn btn-danger btn-min-width mr-1 mb-1" title="{{tr('delete')}}"><b>{{tr('delete')}}</i></b>
+                                </a>
+                        @endif
+
+                        @if($document_details->status == APPROVED)
+
+                            <a class="btn btn-danger btn-min-width mr-1 mb-1" title="{{tr('decline')}}" href="{{ route('admin.documents.status', ['document_id' => $document_details->id]) }}" onclick="return confirm(&quot;{{$document_details->name}} - {{tr('document_decline_confirmation')}}&quot;);" >
+                                <b>{{tr('decline')}}</b>
+                            </a>
+
+                        @else
+                            
+                            <a class="btn btn-success btn-min-width mr-1 mb-1" title="{{tr('approve')}}" href="{{ route('admin.documents.status', ['document_id' => $document_details->id]) }}">
+                                <b>{{tr('approve')}}</b> 
+                            </a>
+                               
+                        @endif
+                           
                     </div>
 
                     <div class="col-lg-6">
+
+                        <div class="card-title">{{tr('document_details')}}</div>
+
+                        <p><strong>{{tr('name')}}</strong>
+
+                            <span class="pull-right">{{$document_details->name}}
+                            </span>
+                            
+                        </p>
+                        <hr>
 
                         <p><strong>{{tr('is_required')}}</strong>
 
@@ -115,13 +120,12 @@
                         </p>
                         <hr>
 
+                        <p><strong>{{tr('description')}}</strong></p>
+                        <span>{{$document_details->description}}</span>
+
                     </div>
 
                 </div>
-
-                <p><strong>{{tr('description')}}</strong></p>
-
-                <p class="card-text">{{$document_details->description}}</p>
 
             </div>
 

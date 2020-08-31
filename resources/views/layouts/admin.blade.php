@@ -86,14 +86,16 @@
                             </ol>
                         </div>
                     </div>
-
-                    @include('notifications.notify')
                     
-                    <h3 class="content-header-title mb-0">@yield('content-header')</h3>
+                    <h3 class="content-header-title mb-0">
+
+                    @yield('content-header')</h3>
 
                 </div>
 
             </div>
+
+            @include('notifications.notify')
 
             <div class="content-body">
 

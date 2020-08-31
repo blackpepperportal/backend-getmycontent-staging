@@ -4,8 +4,8 @@
 }
 
 .document-image {
-	width:400px; 
-	height: 200px;
+	width:100%; 
+	height: auto;
 }
 
 .text-word-wrap {

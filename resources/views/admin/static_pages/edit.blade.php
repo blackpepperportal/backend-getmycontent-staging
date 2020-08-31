@@ -2,15 +2,7 @@
 
 @section('title', tr('edit_static_page'))
 
-@section('breadcrumb')
-
-    <li class="breadcrumb-item"><a href="{{ route('admin.static_pages.index') }}">{{tr('static_pages')}}</a></li>
-
-    <li class="breadcrumb-item active" aria-current="page">
-        <span>{{ tr('edit_static_page') }}</span>
-    </li>
-           
-@endsection 
+@section('content-header',tr('static_pages'))
 
 @section('styles')
 
@@ -18,8 +10,21 @@
 
 @endsection
 
-@section('content')
+@section('breadcrumb')
 
+    <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a>
+    </li>
+    <li class="breadcrumb-item">
+    	<a href="{{ route('admin.static_pages.index') }}">{{tr('static_pages')}}</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">
+    	<span>{{tr('edit_static_page')}}</span>
+    </li>
+           
+@endsection 
+
+@section('content')
+    
     @include('admin.static_pages._form')
 
 @endsection
@@ -29,11 +34,8 @@
 <script src="{{asset('js/summernote.min.js')}}"></script>
 
 <script>
-
     $(document).ready(function() {
-
         $('#summernote').summernote();
-
     });
   </script>
 

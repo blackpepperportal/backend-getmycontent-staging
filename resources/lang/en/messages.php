@@ -776,6 +776,8 @@ return [
 	'total_stardoms' => 'Total Stardoms',
 	'total_posts' => 'Total Posts',
 	'total_revenue' => 'Total Revenue',
+	'document_image' => 'Document Image',
+	'document_details' => 'Document Details',
 	
 
 
