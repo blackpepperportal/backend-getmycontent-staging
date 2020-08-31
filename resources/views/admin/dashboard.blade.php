@@ -165,11 +165,6 @@
 
                             <h4 class="card-title">{{tr('recent_users')}}</h4>
 
-                            @if($recent_users->count() > 0)
-
-                                <a href="{{route('admin.users.index')}}" class="text-uppercase btn btn-success btn-xs">{{tr('view_all')}}</a>
-
-                            @endif
                         </div>
 
                     </div>
@@ -206,6 +201,14 @@
 
                     @endforelse
 
+                    @if($recent_users->count() > 10)
+
+                        <p align="center">
+                            <a href="{{route('admin.users.index')}}" class="text-uppercase btn btn-success btn-xs wrapper">{{tr('view_all')}}</a>
+                        </p>
+
+                    @endif
+
                 </div>
 
             </div>
@@ -223,14 +226,6 @@
                         <div class="d-flex justify-content-between">
 
                             <h4 class="card-title">{{tr('recent_stardoms')}}</h4>
-
-                            @if($recent_stardoms->count() > 0)
-
-                                <a href="{{route('admin.stardoms.index')}}" class="text-uppercase btn btn-success btn-xs">
-                                    {{tr('view_all')}}
-                                </a>
-
-                            @endif
                             
                         </div>
 
@@ -270,6 +265,14 @@
                         <p class="text-muted">{{tr('no_result_found')}}</p>
 
                     @endforelse
+
+                     @if($recent_stardoms->count() > 10)
+                        <p align="center">
+                            <a href="{{route('admin.stardoms.index')}}" class="text-uppercase btn btn-success btn-xs">
+                                {{tr('view_all')}}
+                            </a>
+                        </p>
+                    @endif
                 </div>
 
             </div>
