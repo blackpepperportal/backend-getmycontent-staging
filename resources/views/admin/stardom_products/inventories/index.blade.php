@@ -67,15 +67,15 @@
                                         </a>
                                     </td>
                                     <td>
-                                        {{ $product_inventory_details->total_quantity_formatted}}
+                                        {{ $product_inventory_details->total_quantity}}
                                     </td>
 
                                      <td>
-                                        {{ $product_inventory_details->used_quantity_formatted}}
+                                        {{ $product_inventory_details->used_quantity}}
                                     </td>
 
                                      <td>
-                                        {{ $product_inventory_details->remaining_quantity_formatted}}
+                                        {{ $product_inventory_details->remaining_quantity}}
                                     </td>
 
 

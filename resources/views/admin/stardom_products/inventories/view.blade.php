@@ -51,17 +51,17 @@
 
                                     <tr>
                                         <td>{{tr('total_quantity')}}</td>
-                                        <td>{{$product_inventory_details->total_quantity_formatted ?? "-"}}</td>
+                                        <td>{{$product_inventory_details->total_quantity}}</td>
                                     </tr>
                                     
                                     <tr>
                                         <td>{{tr('used_quantity')}}</td>
-                                        <td>{{$product_inventory_details->used_quantity_formatted ?? "-"}}</td>
+                                        <td>{{$product_inventory_details->used_quantity}}</td>
                                     </tr>
 
                                     <tr>
                                         <td>{{tr('remaining_quatity')}}</td>
-                                        <td>{{$product_inventory_details->remaining_quantity_formatted ?? "-"}}</td>
+                                        <td>{{$product_inventory_details->remaining_quantity}}</td>
                                     </tr>
 
                                     <tr>
