@@ -1070,4 +1070,55 @@ class AdminStardomController extends Controller
     }
 
 
+    /**
+     * @method stardom_products_dashboard()
+     *
+     * @uses 
+     *
+     * @created Akshata 
+     *
+     * @updated 
+     *
+     * @param object $request - stardom_wallet_id
+     * 
+     * @return View page
+     *
+     */
+    public function stardom_products_dashboard(Request $request) {
+
+        try {
+
+            $stardom_product_details = \App\StardomProduct::where('id',$request->stardom_product_id)->first();
+
+            if(!$stardom_product_details) {
+
+                throw new Exception(tr('stardom_product_details_not_found'), 101);
+            }
+
+            $data = new \stdClass;
+
+            $data->total_orders = \App\OrderProduct::where('stardom_product_id',$stardom_product_details->id)->count();
+
+            $data->today_orders = \App\OrderProduct::where('stardom_product_id',$stardom_product_details->id)->whereDate('created_at',today())->count();
+
+            $order_products_ids =  \App\OrderProduct::where('stardom_product_id',$stardom_product_details->id)->pluck('order_id');
+
+            $data->total_revenue = \App\OrderPayment::where('order_id',[$order_products_ids])->sum('total');
+
+            $data->today_revenue = \App\OrderPayment::where('order_id',[$order_products_ids])->where('created_at',today())->sum('total');
+
+            $data->analytics = last_x_days_revenue(6);
+           
+            return view('admin.stardom_products.dashboard')
+                        ->with('page' , 'stardom_products-dashboard')
+                        ->with('data', $data);
+
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+
 }

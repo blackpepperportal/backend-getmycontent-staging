@@ -293,9 +293,7 @@ class AdminPostController extends Controller
         $post_albums = \App\PostAlbum::orderBy('created_at','DESC')->paginate(10);
 
         return view('admin.post_albums.index')
-                    ->with('main_page','post_albums')
                     ->with('page','post_albums')
-                    ->with('sub_page' , 'post_albums-view')
                     ->with('post_albums' , $post_albums);
     }
 
@@ -329,9 +327,7 @@ class AdminPostController extends Controller
             $posts = \App\Post::whereIn('posts.id', $post_ids)->get();
 
             return view('admin.post_albums.view')
-                        ->with('main_page','post_albums')
                         ->with('page', 'post_albums') 
-                        ->with('sub_page','post_albums-view') 
                         ->with('post_album_details' , $post_album_details)
                         ->with('posts',$posts);
             

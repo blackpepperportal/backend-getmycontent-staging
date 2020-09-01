@@ -60,7 +60,7 @@
                                     <tr>
                                         <td>{{ $i + 1 }}</td>
 
-                                        <td><a href="{{route('admin.orders.view',['order_id' => $order_payment_details->order_id])}}">{{$order_payment_details->order_id}}</a></td>
+                                        <td><a href="{{route('admin.orders.view',['order_id' => $order_payment_details->order_id])}}">{{$order_payment_details->unique_id}}</a></td>
 
                                         <td>
                                             {{ $order_payment_details->payment_id }}

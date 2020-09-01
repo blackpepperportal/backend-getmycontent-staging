@@ -815,6 +815,10 @@ return [
 	'product_decline_email' => 'Product Decline Email',
 	'above_product_declined_by_admin' => 'Above product declined by admin',
 	'above_product_approved_by_admin' => 'Above product approved by admin',
+	'scheduled_posts' => 'Scheduled Posts',
+	'total_orders' => 'Total Orders',
+	'today_orders' => 'Today Orders',
+	'today_revenue' => 'Today Revenue',
 	
 
 

@@ -124,6 +124,14 @@
 
                                                 @endif
 
+                                                <div class="dropdown-divider"></div>
+
+                                                <a  class="dropdown-item" href="{{route('admin.product_inventories.index',['stardom_product_id' => $stardom_product_details->id])}}">{{tr('inventory')}}</a>
+
+                                                <a  class="dropdown-item" href="">{{tr('orders')}}</a>
+
+                                                <a href="{{route('admin.stardom_products.dashboard',['stardom_product_id' => $stardom_product_details->id])}}" class="dropdown-item">{{tr('dashboard')}}</a>
+
                                             </div>
 
                                         </div>

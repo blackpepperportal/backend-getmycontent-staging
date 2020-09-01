@@ -89,23 +89,16 @@
             <li class="nav-item" id="scheduled-posts">
                 <a href="{{route('admin.posts.index',['scheduled' => 'scheduled_posts'])}}">
                     <i class="fa fa-clock-o"></i>
-                    <span class="menu-title" data-i18n="">Scheduled Posts</span>
+                    <span class="menu-title" data-i18n="">{{tr('scheduled_posts')}}</span>
                 </a>
             
             </li>
 
             <li class="nav-item" id="post_albums">
-                <a href="{{route('admin.stardom_products.index')}}">
+                <a href="{{route('admin.post_albums.index')}}">
                     <i class="fa fa-clone"></i>
                     <span class="menu-title" data-i18n="">{{tr('post_albums')}}</span>
                 </a>
-                <ul class="menu-content">
-                    <li id="post_albums-view">
-                        <a class="menu-item" href="{{route('admin.post_albums.index')}}">
-                            {{tr('view_post_albums')}}
-                        </a>
-                    </li>
-                </ul>            
             
             </li>
 
