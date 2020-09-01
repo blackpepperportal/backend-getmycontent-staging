@@ -683,7 +683,7 @@ function last_x_months_data($months) {
     return $data;  
 }
 
-function last_x_days_revenue($days) {
+function last_x_days_revenue($days,$order_products_ids) {
             
     $data = new \stdClass;
 
@@ -707,7 +707,7 @@ function last_x_days_revenue($days) {
 
         $last_x_days_data->date = $current_date;
       
-        $last_x_days_total_earnings = \App\OrderPayment::whereDate('paid_date', '=', $current_date)->sum('total');
+        $last_x_days_total_earnings = \App\OrderPayment::whereIn('order_id',[$order_products_ids])->whereDate('paid_date', '=', $current_date)->sum('total');
       
         $last_x_days_data->total_earnings = $last_x_days_total_earnings ?: 0.00;
 

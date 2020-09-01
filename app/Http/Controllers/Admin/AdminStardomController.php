@@ -1103,14 +1103,18 @@ class AdminStardomController extends Controller
 
             $order_products_ids =  \App\OrderProduct::where('stardom_product_id',$stardom_product_details->id)->pluck('order_id');
 
-            $data->total_revenue = \App\OrderPayment::where('order_id',[$order_products_ids])->sum('total');
+            $data->total_revenue = $order_products_ids->count() > 0 ? \App\OrderPayment::whereIn('order_id',[$order_products_ids])->sum('total') : 0;
 
-            $data->today_revenue = \App\OrderPayment::where('order_id',[$order_products_ids])->where('created_at',today())->sum('total');
+            $data->today_revenue = count($order_products_ids) > 0 ? \App\OrderPayment::whereIn('order_id',[$order_products_ids])->where('created_at',today())->sum('total') : 0;
 
-            $data->analytics = last_x_days_revenue(6);
+            $ids = count($order_products_ids)> 0 ? $order_products_ids : 0 ;
+            
+            $data->analytics = last_x_days_revenue(6,$ids);
            
             return view('admin.stardom_products.dashboard')
-                        ->with('page' , 'stardom_products-dashboard')
+                        ->with('main_page','stardom_products-crud')
+                        ->with('page','stardom_products')
+                        ->with('sub_page' , 'stardom_products-view')
                         ->with('data', $data);
 
         } catch (Exception $e) {

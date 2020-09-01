@@ -819,6 +819,7 @@ return [
 	'total_orders' => 'Total Orders',
 	'today_orders' => 'Today Orders',
 	'today_revenue' => 'Today Revenue',
+	'product_dashboard' => 'Product Dashboard',
 	
 
 

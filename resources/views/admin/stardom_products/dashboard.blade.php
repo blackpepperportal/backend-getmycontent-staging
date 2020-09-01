@@ -1,5 +1,18 @@
 @extends('layouts.admin')
 
+@section('content-header',tr('product_dashboard'))
+
+@section('breadcrumb')
+
+    <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a>
+    </li>
+    <li class="breadcrumb-item"><a href="{{route('admin.stardom_products.index')}}">{{tr('stardom_products')}}</a>
+    </li>
+    <li class="breadcrumb-item active">{{tr('product_dashboard')}}</a>
+    </li>
+
+@endsection
+
 @section('content')
 
 <div class="content-body">
