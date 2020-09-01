@@ -94,6 +94,8 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('/stardom_products/dashboard', 'Admin\AdminStardomController@stardom_products_dashboard')->name('stardom_products.dashboard');
 
+        Route::get('/stardom/order_products','Admin\AdminStardomController@order_products')->name('order.products');
+
         // Document CRUD Operations
 
         Route::get('documents', 'Admin\AdminLookupController@documents_index')->name('documents.index');

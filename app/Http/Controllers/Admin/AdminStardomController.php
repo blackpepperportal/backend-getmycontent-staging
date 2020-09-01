@@ -1124,5 +1124,49 @@ class AdminStardomController extends Controller
     
     }
 
+        /**
+     * @method order_products
+     *
+     * @uses Display all orders based the product details
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - Stardom Product Id
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function order_products(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $order_products = \App\OrderProduct::where('stardom_product_id',$request->stardom_product_id)->get();
+
+            if(!$order_products) {
+
+                throw new Exception(tr('stardom_product_not_found'), 101);
+                
+            }
+
+            return view('admin.stardom_products.order_products')
+                        ->with('main_page','stardom_products-crud')
+                        ->with('page','stardom_products')
+                        ->with('sub_page' , 'stardom_products-view')
+                        ->with('order_products', $order_products);
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->route('admin.stardom_products.index')->with('flash_error', $e->getMessage());
+
+        }
+
+    }
+
 
 }
