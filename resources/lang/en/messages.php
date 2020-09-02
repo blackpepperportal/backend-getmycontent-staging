@@ -820,6 +820,8 @@ return [
 	'today_orders' => 'Today Orders',
 	'today_revenue' => 'Today Revenue',
 	'product_dashboard' => 'Product Dashboard',
+	'MAILGUN_DOMAIN' => 'MAILGUN DOMAIN',
+	'MAILGUN_SECRET' => 'MAILGUN SECRET',
 	
 
 
