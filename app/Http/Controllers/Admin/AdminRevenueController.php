@@ -100,6 +100,7 @@ class AdminRevenueController extends Controller
                             ->whereHas('userDetails',function($query) use($search_key){
 
                                 return $query->where('users.name','LIKE','%'.$search_key.'%');
+                                
                             })->orWhere('post_payments.payment_id','LIKE','%'.$search_key.'%');
         }
 

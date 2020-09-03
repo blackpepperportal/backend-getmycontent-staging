@@ -756,4 +756,400 @@ class AccountApiController extends Controller
 
     }
 
+    /**
+     * @method notifications_status_update()
+     *
+     * @uses To enable/disable notifications of email / push notification
+     *
+     * @created Akshata
+     *
+     * @updated  
+     *
+     * @param - 
+     *
+     * @return JSON Response
+     */
+    public function notifications_status_update(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $rules = ['status' => 'required|numeric']; 
+
+            Helper::custom_validator($request->all(), $rules);
+                
+            $user_details = User::find($request->id);
+
+            $user_details->email_notification_status = $request->status;
+
+            $user_details->push_notification_status = $request->status;
+
+            $user_details->save();
+
+            $data = \App\User::where('id', $request->id)->first();
+            
+            DB::commit();
+
+            return $this->sendResponse(api_success(130), 130, $data);
+
+        } catch (Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+
+    }
+
+    /**
+     * @method cards_list()
+     *
+     * @uses get the user payment mode and cards list
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param integer id
+     * 
+     * @return
+     */
+
+    public function cards_list(Request $request) {
+
+        try {
+
+            $user_cards = \App\UserCard::where('user_id' , $request->id)->get();
+
+            $card_payment_mode = $payment_modes = [];
+
+            $card_payment_mode['name'] = "Card";
+
+            $card_payment_mode['payment_mode'] = "card";
+
+            $card_payment_mode['is_default'] = 1;
+
+            array_push($payment_modes , $card_payment_mode);
+
+            $data['payment_modes'] = $payment_modes;   
+
+            $data['cards'] = $user_cards ? $user_cards : []; 
+
+            return $this->sendResponse($message = "", $success_code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
+    }
+    
+    /**
+     * @method cards_add()
+     *
+     * @uses used to add card to the user
+     *
+     * @created Vithya R
+     *
+     * @updated Vithya R
+     *
+     * @param card_token
+     * 
+     * @return JSON Response
+     */
+    public function cards_add(Request $request) {
+
+        try {
+
+            if(Setting::get('stripe_secret_key')) {
+
+                \Stripe\Stripe::setApiKey(Setting::get('stripe_secret_key'));
+
+            } else {
+
+                throw new Exception(api_error(121), 121);
+
+            }
+
+            // Validation start
+
+            $rules = ['card_token' => 'required'];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors = []);
+
+            // Validation end
+            
+            $user_details = User::find($request->id);
+
+            if(!$user_details) {
+
+                throw new Exception(api_error(1002), 1002);
+                
+            }
+
+            DB::beginTransaction();
+
+            // Get the key from settings table
+            
+            $customer = \Stripe\Customer::create([
+                    // "card" => $request->card_token,
+                    "card" => 'tok_visa',
+                    "email" => $user_details->email,
+                    "description" => "Customer for ".Setting::get('site_name'),
+                ]);
+
+            if($customer) {
+
+                $customer_id = $customer->id;
+
+                $card_details = new \App\UserCard;
+
+                $card_details->user_id = $request->id;
+
+                $card_details->customer_id = $customer_id;
+
+                $card_details->card_token = $customer->sources->data ? $customer->sources->data[0]->id : "";
+
+                $card_details->card_type = $customer->sources->data ? $customer->sources->data[0]->brand : "";
+
+                $card_details->last_four = $customer->sources->data[0]->last4 ? $customer->sources->data[0]->last4 : "";
+
+                $card_details->card_holder_name = $request->card_holder_name ?: $this->loginUser->name;
+
+                // Check is any default is available
+
+                $check_card_details = \App\UserCard::where('user_id',$request->id)->count();
+
+                $card_details->is_default = $check_card_details ? NO : YES;
+
+                if($card_details->save()) {
+
+                    if($user_details) {
+
+                        $user_details->user_card_id = $check_card_details ? $user_details->user_card_id : $card_details->id;
+
+                        $user_details->save();
+                    }
+
+                    $data = \App\UserCard::where('id' , $card_details->id)->first();
+
+                    DB::commit();
+
+                    return $this->sendResponse(api_success(105), 105, $data);
+
+                } else {
+
+                    throw new Exception(api_error(114), 114);
+                    
+                }
+           
+            } else {
+
+                throw new Exception(api_error(121) , 121);
+                
+            }
+
+        } catch(Stripe_CardError | Stripe_InvalidRequestError | Stripe_AuthenticationError | Stripe_ApiConnectionError | Stripe_Error $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode() ?: 101);
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode() ?: 101);
+        }
+
+    }
+
+    /**
+     * @method cards_delete()
+     *
+     * @uses delete the selected card
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param integer user_card_id
+     * 
+     * @return JSON Response
+     */
+
+    public function cards_delete(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $rules = [
+                    'user_card_id' => 'required|integer|exists:user_cards,id,user_id,'.$request->id,
+                    ];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors = []);
+            
+            $user_details = User::find($request->id);
+
+            if(!$user_details) {
+
+                throw new Exception(api_error(1002), 1002);
+            }
+
+            \App\UserCard::where('id', $request->user_card_id)->delete();
+
+            if($user_details->payment_mode = CARD) {
+
+                if($check_card = \App\UserCard::where('user_id' , $request->id)->first()) {
+
+                    $check_card->is_default =  DEFAULT_TRUE;
+
+                    $user_details->user_card_id = $check_card->id;
+
+                    $check_card->save();
+
+                } else { 
+
+                    $user_details->payment_mode = COD;
+
+                    $user_details->user_card_id = DEFAULT_FALSE;
+                
+                }
+           
+            }
+
+            if($user_details->user_card_id == $request->user_card_id) {
+
+                $user_details->user_card_id = DEFAULT_FALSE;
+
+                $user_details->save();
+            }
+            
+            $user_details->save();
+                
+            DB::commit();
+
+            return $this->sendResponse(api_success(109), 109, $data = []);
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+
+    }
+
+    /**
+     * @method cards_default()
+     *
+     * @uses update the selected card as default
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param integer id
+     * 
+     * @return JSON Response
+     */
+    public function cards_default(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $rules = [
+                    'user_card_id' => 'required|integer|exists:user_cards,id,user_id,'.$request->id,
+                    ];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors = []);
+            
+            $user_details = User::find($request->id);
+
+            if(!$user_details) {
+
+                throw new Exception(api_error(1002), 1002);
+            }
+        
+            $old_default_cards = \App\UserCard::where('user_id' , $request->id)->where('is_default', YES)->update(['is_default' => NO]);
+
+            $user_cards = \App\UserCard::where('id' , $request->user_card_id)->update(['is_default' => YES]);
+
+            $user_details->user_card_id = $request->user_card_id;
+
+            $user_details->save();
+
+            DB::commit();
+
+            return $this->sendResponse(api_success(108), 108);
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+    
+    } 
+
+    /**
+     * @method payment_mode_default()
+     *
+     * @uses update the selected card as default
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param integer id
+     * 
+     * @return JSON Response
+     */
+    public function payment_mode_default(Request $request) {
+
+        Log::info("payment_mode_default");
+
+        try {
+
+            DB::beginTransaction();
+
+            $validator = Validator::make($request->all(), [
+
+                'payment_mode' => 'required',
+
+            ]);
+
+            if($validator->fails()) {
+
+                $error = implode(',',$validator->messages()->all());
+
+                throw new Exception($error, 101);
+
+            }
+
+            $user_details = User::find($request->id);
+
+            $user_details->payment_mode = $request->payment_mode ?: CARD;
+
+            $user_details->save();           
+
+            DB::commit();
+
+            return $this->sendResponse($message = "Mode updated", $code = 200, $data = ['payment_mode' => $request->payment_mode]);
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+    
+    }
+
+
 }
