@@ -190,7 +190,7 @@
 
                             <div class="col-3">
 
-                                <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" onclick="return confirm(&quot;{{tr('admin_user_delete_confirmation' , $user_details->name)}}&quot;);" href="{{route('admin.users.delete', ['user_id'=> $user_details->id] )}}">&nbsp;{{tr('delete')}}</a>
+                                <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" onclick="return confirm(&quot;{{tr('user_delete_confirmation' , $user_details->name)}}&quot;);" href="{{route('admin.users.delete', ['user_id'=> $user_details->id] )}}">&nbsp;{{tr('delete')}}</a>
 
                             </div>
 

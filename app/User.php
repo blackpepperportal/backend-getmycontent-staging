@@ -53,6 +53,21 @@ class User extends Authenticatable
         return $this->hasMany(DeliveryAddress::class,'user_id');
     }
 
+    public function orderPayments() {
+
+        return $this->hasMany(OrderPayment::class,'user_id');
+    }
+
+    public function postPayments() {
+
+        return $this->hasMany(PostPayment::class,'user_id');
+    }
+
+    public function orders() {
+
+        return $this->hasMany(Order::class,'user_id');
+    }
+
     public static function boot() {
 
         parent::boot();
@@ -114,6 +129,13 @@ class User extends Authenticatable
 
             Helper::delete_file($model->picture , PROFILE_PATH_USER);
 
+            $model->deliveryAddresses()->delete();
+
+            $model->orders()->delete();
+
+            $model->orderPayments()->delete();
+
+            $model->postPayments()->delete();
         });
 
     }

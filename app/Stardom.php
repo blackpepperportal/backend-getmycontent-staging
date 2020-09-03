@@ -26,7 +26,7 @@ class Stardom extends Model
         return $this->hasMany(Post::class,'stardom_id');
     }
 
-    public function postablums() {
+    public function postAblums() {
 
         return $this->hasMany(PostAlbum::class,'stardom_id');
     }
@@ -60,7 +60,7 @@ class Stardom extends Model
 
             $model->posts()->delete();
 
-            $model->postalbums()->delete();
+            $model->postAblums()->delete();
 
             $model->stardomWallets()->delete();
 
