@@ -239,32 +239,32 @@
                                
                                 <tr>
                                     <td>{{ tr('order_id')}} </td>
-                                    <td>{{$order_payment_details->order_id}}</td>
+                                    <td>{{$order_payment_details->order_id ?? "-"}}</td>
                                 </tr>
 
                                 <tr>
                                     <td>{{tr('payment_id')}}</td>
-                                    <td> {{ $order_payment_details->payment_id }}</td>
+                                    <td> {{ $order_payment_details->payment_id ?? "-"}}</td>
                                 </tr>
                                 
                                 <tr>
                                     <td>{{tr('user')}}</td>
-                                    <td><a href="{{route('admin.users.view',['user_id' => $order_payment_details->user_id])}}">{{ $order_payment_details->userDetails->name ?? "-" }}</a></td>
+                                    <td><a href="{{route('admin.users.view',['user_id' => $order_payment_details->user_id ?? 0])}}">{{ $order_payment_details->userDetails->name ?? "-" }}</a></td>
                                 </tr>
 
                                 <tr>
                                     <td>{{tr('delivery_price')}}</td>
-                                    <td>{{ $order_payment_details->delivery_price_formatted}}</td>
+                                    <td>{{ $order_payment_details->delivery_price_formatted ?? "-"}}</td>
                                 </tr>
 
                                 <tr>
                                     <td>{{tr('sub_total')}}</td>
-                                    <td>{{$order_payment_details->sub_total_formatted}}</td>
+                                    <td>{{$order_payment_details->sub_total_formatted ?? "-"}}</td>
                                 </tr>
 
                                 <tr>
                                     <td>{{tr('total')}}</td>
-                                    <td>{{$order_payment_details->total_formatted}}</td>
+                                    <td>{{$order_payment_details->total_formatted ?? "-"}}</td>
                                 </tr>
 
                             </tbody>

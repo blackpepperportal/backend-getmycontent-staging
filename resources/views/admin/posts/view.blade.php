@@ -37,7 +37,7 @@
 
                     <div class="col-2">
 
-                        <img src="{{$post_details->getStardomDetails->picture ?? asset('placeholder.jpg')}}" class="height-100" alt="Card image" />
+                        <img src="{{$post_details->getStardomDetails->picture ?? asset('placeholder.jpg')}}" class="post-image" alt="Card image" />
 
                     </div>
 

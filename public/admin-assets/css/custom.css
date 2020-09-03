@@ -29,5 +29,12 @@
 }
 
 ul.action-item li {
+
   display:inline;
+
+}
+
+.post-image {
+    border-radius: 10% !important;
+    width: 100% !important;
 }

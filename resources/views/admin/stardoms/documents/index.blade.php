@@ -64,7 +64,10 @@
                                         </a>
                                     </td>
 
-                                    <td>{{ $stardom_document_details->documentDetails->name ?? "-" }}</td>
+                                    <td>
+                                        <a href="{{  route('admin.documents.view' , ['document_id' => $stardom_document_details->document_id] )  }}">
+                                            {{ $stardom_document_details->documentDetails->name ?? "-" }}</a>
+                                    </td>
 
                                      <td>
                                         @if($stardom_document_details->is_verified == STARDOM_DOCUMENT_VERIFIED)

@@ -87,7 +87,7 @@
             </li>
 
             <li class="nav-item" id="scheduled-posts">
-                <a href="{{route('admin.posts.index',['scheduled' => 'scheduled_posts'])}}">
+                <a href="{{route('admin.posts.index',['scheduled' => YES])}}">
                     <i class="fa fa-clock-o"></i>
                     <span class="menu-title" data-i18n="">{{tr('scheduled_posts')}}</span>
                 </a>

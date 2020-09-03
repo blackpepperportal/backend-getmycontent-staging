@@ -4,6 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Setting, DB;
+
+use App\Helpers\Helper;
+
 class Stardom extends Model
 {
     public function stardomDocuments() {
@@ -14,12 +18,17 @@ class Stardom extends Model
 
     public function stardomProducts() {
 
-    	return $this->hasMany(stardomProduct::class,'stardom_id');
+    	return $this->hasMany(StardomProduct::class,'stardom_id');
     }
 
-    public function stardomProductPictures() {
+    public function posts() {
 
-    	return $this->hasMany(StardomProductPicture::class,'stardom_id');
+        return $this->hasMany(Post::class,'stardom_id');
+    }
+
+    public function postablums() {
+
+        return $this->hasMany(PostAlbum::class,'stardom_id');
     }
 
     public function stardomWallets() {
@@ -49,7 +58,9 @@ class Stardom extends Model
 
             $model->stardomProducts()->delete();
 
-            $model->stardomProductPictures()->delete();
+            $model->posts()->delete();
+
+            $model->postalbums()->delete();
 
             $model->stardomWallets()->delete();
 

@@ -823,6 +823,7 @@ return [
 	'MAILGUN_DOMAIN' => 'MAILGUN DOMAIN',
 	'MAILGUN_SECRET' => 'MAILGUN SECRET',
 	'no_result_found' => 'No Results Found',
+	'days' => 'Days',
 	
 
 

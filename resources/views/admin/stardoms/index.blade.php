@@ -60,7 +60,7 @@
 
                                 @foreach($stardoms as $i => $stardom_details)
                                 <tr>
-                                    <td>{{ $i+1 }}</td>
+                                    <td>{{ $i+$stardoms->firstItem() }}</td>
 
                                     <td>
                                         <a href="{{  route('admin.stardoms.view' , ['stardom_id' => $stardom_details->id] )  }}">

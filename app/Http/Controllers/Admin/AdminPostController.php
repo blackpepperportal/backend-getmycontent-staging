@@ -527,7 +527,7 @@ class AdminPostController extends Controller
             $order_products = \App\OrderProduct::where('order_id',$order_details->id)->get();
 
             $order_payment_details = \App\OrderPayment::where('order_id',$order_details->id)->first();
-
+          
             return view('admin.orders.view')
                     ->with('page','orders')
                     ->with('sub_page','orders-view')
