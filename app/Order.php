@@ -32,4 +32,23 @@ class Order extends Model
 
     	return $this->belongsTo(DeliveryAddress::class,'delivery_address_id');
     }
+
+    public function orderProducts() {
+
+        return $this->hasMany(OrderProduct::class,'order_id');
+    }
+
+    public static function boot() {
+
+        parent::boot();
+
+        static::deleting(function ($model) {
+
+            Helper::delete_file($model->picture , STARDOM_FILE_PATH);
+
+            $model->orderProducts()->delete();
+
+        });
+
+    }
 }
