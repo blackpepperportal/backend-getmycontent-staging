@@ -196,9 +196,11 @@
                         </a>
 
                     @empty
-
-                        <p class="text-muted">{{tr('no_result_found')}}</p>
-
+                        <p align="center">
+                            <a href="{{route('admin.stardoms.index')}}" class="text-uppercase btn btn-success btn-xs">
+                                {{tr('view_all')}}
+                            </a>
+                        </p>
                     @endforelse
 
                     @if($recent_users->count() > 10)
@@ -261,9 +263,12 @@
                         </a>
 
                     @empty
-
-                        <p class="text-muted">{{tr('no_result_found')}}</p>
-
+                        <div class="text-center m-5">
+                            <h2 class="text-muted">
+                                <i class="fa fa-inbox"></i>
+                            </h2>
+                            <p>{{tr('no_result_found')}}</p> 
+                        </div>
                     @endforelse
 
                      @if($recent_stardoms->count() > 10)

@@ -50,7 +50,6 @@
                                     <th>{{ tr('s_no') }}</th>
                                     <th>{{ tr('name') }}</th>
                                     <th>{{ tr('email') }}</th>
-                                    <th>{{ tr('mobile') }}</th>
                                     <th>{{ tr('status') }}</th>
                                     <th>{{ tr('verify') }}</th>
                                     <th>{{ tr('action') }}</th>
@@ -69,9 +68,10 @@
                                         </a>
                                     </td>
 
-                                    <td>{{ $stardom_details->email }}</td>
-
-                                    <td>{{ $stardom_details->mobile ?: "-" }}</td>
+                                    <td>{{ $stardom_details->email }}
+                                        <br>
+                                        <span class="text-success">{{ $stardom_details->mobile ?: "-" }}</span>
+                                    </td>
 
                                     <td>
                                         @if($stardom_details->status == STARDOM_APPROVED)

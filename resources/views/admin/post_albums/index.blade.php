@@ -61,7 +61,7 @@
                                     <td>{{$post_album_details->name}}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.stardoms.view' , ['stardom_id' => $post_album_details->id] )  }}">
+                                        <a href="{{  route('admin.stardoms.view' , ['stardom_id' => $post_album_details->stardom_id] )  }}">
                                         {{ $post_album_details->stardomDetails->name ?? "-" }}
                                         </a>
                                     </td>

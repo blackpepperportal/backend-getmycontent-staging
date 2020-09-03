@@ -98,6 +98,13 @@
                         </li>
                         <hr>
 
+                    </ul>
+                </div>
+
+                <div class="col-6">
+
+                    <ul>
+                        
                         <li>{{tr('created_at')}} - {{common_date($post_album_details->created_at , Auth::guard('admin')->user()->timezone)}}</li>
                         <hr>
 
@@ -105,23 +112,40 @@
                         <hr>
 
                     </ul>
-                </div>
 
-                <div class="col-6">
-                    <ul>
-                        <b>{{tr('posts_content')}}</b>
-
-                        @foreach($posts as $post_details)
-
-                            <li>{{$post_details->content ?? "-"}}</li>
-                            <hr>
-
-                        @endforeach
-
-                    </ul>
                 </div>
 
             </div>
+
+            <hr>
+            
+            <section id="image-gallery" class="card">
+
+                <div class="card-header">
+
+                    <h4 class="card-title">Image gallery</h4>
+                   
+                </div>
+
+                <div class="card-content">
+                    
+                    <div class="card-body my-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+                        <div class="row">
+                            @foreach($posts as $post_details)
+                            <figure class="col-lg-3 col-md-6 col-12" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                                <a href="" itemprop="contentUrl" data-size="480x360">
+                                    <img class="img-thumbnail img-fluid" src="{{$post_details->picture}}" itemprop="thumbnail" alt="Image description" />
+                                </a>
+                            </figure>
+                            @endforeach
+
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </section>
+   
 
         </div>
 

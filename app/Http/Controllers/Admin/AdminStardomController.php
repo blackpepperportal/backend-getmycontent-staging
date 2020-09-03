@@ -231,11 +231,11 @@ class AdminStardomController extends Controller
 
                 if($request->stardom_id) {
 
-                    Helper::storage_delete_file($stardom_details->picture, COMMON_FILE_PATH); 
+                    Helper::storage_delete_file($stardom_details->picture, STARDOM_FILE_PATH); 
                     // Delete the old pic
                 }
 
-                $stardom_details->picture = Helper::storage_upload_file($request->file('picture'), COMMON_FILE_PATH);
+                $stardom_details->picture = Helper::storage_upload_file($request->file('picture'), STARDOM_FILE_PATH);
             }
 
             if($stardom_details->save()) {

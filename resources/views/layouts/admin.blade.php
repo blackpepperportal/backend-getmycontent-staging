@@ -191,9 +191,20 @@
 
                 $('#DataTables_Table_0_filter').hide();
                 
+             },100),
+
+            setTimeout(function(){
+                
+            $('#DataTables_Table_0_paginate').hide();
+
+                $('#DataTables_Table_0_paginate').hide();
+                
              },100);
+
             
          });
+
+        
 
     </script>
 

@@ -113,7 +113,7 @@
                                 @foreach($users as $i => $user_details)
 
                                 <tr>
-                                    <td>{{ $i+1 }}</td>
+                                    <td>{{ $i+$users->firstItem() }}</td>
 
                                     <td>
                                         <a href="{{  route('admin.users.view' , ['user_id' => $user_details->id] )  }}">

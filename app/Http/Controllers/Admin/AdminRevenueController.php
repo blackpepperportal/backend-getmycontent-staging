@@ -264,7 +264,7 @@ class AdminRevenueController extends Controller
 
         $data->today_payments = $order_today_payments + $post_today_payments;
 
-        $data->analytics = last_x_days_revenue(6);
+        $data->analytics = revenue_graph(6);
         
         return view('admin.revenues.dashboard')
                     ->with('page' , 'revenue-dashboard')

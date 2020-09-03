@@ -720,3 +720,57 @@ function last_x_days_revenue($days,$order_products_ids) {
     return $data;   
 
 }
+
+/**
+ * @method revenue_graph()
+ *
+ * @uses to get revenue analytics 
+ *
+ * @created Akshata
+ * 
+ * @updated Akshata
+ * 
+ * @param  integer $days
+ * 
+ * @return array of revenue totals
+ */
+function revenue_graph($days) {
+            
+    $data = new \stdClass;
+
+    $data->currency = $currency = Setting::get('currency', '$');
+
+    // Last 10 days revenues
+
+    $last_x_days_revenues = [];
+
+    $start  = new \DateTime('-7 day', new \DateTimeZone('UTC'));
+    
+    $period = new \DatePeriod($start, new \DateInterval('P1D'), $days);
+   
+    $dates = $last_x_days_revenues = [];
+
+    foreach ($period as $date) {
+
+        $current_date = $date->format('Y-m-d');
+
+        $last_x_days_data = new \stdClass;
+
+        $last_x_days_data->date = $current_date;
+      
+        $last_x_days_post_total_earnings = \App\PostPayment::where('status',PAID)->whereDate('paid_date', '=', $current_date)->sum('paid_amount');
+        $last_x_days_order_total_earnings = \App\OrderPayment::where('status',PAID)->whereDate('paid_date', '=', $current_date)->sum('total');
+      
+        $last_x_days_data->total_post_earnings = $last_x_days_post_total_earnings ?: 0.00;
+
+        $last_x_days_data->total_order_earnings = $last_x_days_order_total_earnings ?: 0.00;
+
+        array_push($last_x_days_revenues, $last_x_days_data);
+
+    }
+    
+    $data->last_x_days_revenues = $last_x_days_revenues;
+    
+    return $data;   
+
+}
