@@ -1,15 +1,15 @@
 @extends('layouts.admin') 
 
-@section('title', tr('stardoms')) 
+@section('title', tr('content_creators')) 
 
-@section('content-header', tr('stardoms')) 
+@section('content-header', tr('content_creators')) 
 
 @section('breadcrumb')
 
 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
 </li>
 
-<li class="breadcrumb-item active">{{ tr('stardoms') }}</a>
+<li class="breadcrumb-item active">{{ tr('content_creators') }}</a>
 </li>
 
 <li class="breadcrumb-item">{{ tr('view_stardoms') }}</li>
@@ -63,7 +63,7 @@
                                     <td>{{ $i+$stardoms->firstItem() }}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.stardoms.view' , ['stardom_id' => $stardom_details->id] )  }}">
+                                        <a href="{{  route('admin.users.view' , ['user_id' => $stardom_details->id] )  }}">
                                         {{ $stardom_details->name }}
                                         </a>
                                     </td>
@@ -84,7 +84,7 @@
                                     <td>
                                         @if($stardom_details->is_verified == STARDOM_EMAIL_NOT_VERIFIED)
 
-                                        <a class="btn btn-outline-danger btn-sm" href="{{ route('admin.stardoms.verify' , ['stardom_id' => $stardom_details->id]) }}">
+                                        <a class="btn btn-outline-danger btn-sm" href="{{ route('admin.stardoms.verify' , ['user_id' => $stardom_details->id]) }}">
                                             <i class="icon-close"></i> {{ tr('verify') }}
                                         </a>
 
@@ -101,7 +101,7 @@
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                <a class="dropdown-item" href="{{ route('admin.stardoms.view', ['stardom_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('view') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.users.view', ['user_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('view') }}</a> 
 
                                                 @if(Setting::get('is_demo_control_enabled') == YES)
 
@@ -111,29 +111,29 @@
 
                                                 @else
 
-                                                    <a class="dropdown-item" href="{{ route('admin.stardoms.edit', ['stardom_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('edit') }}</a>
+                                                    <a class="dropdown-item" href="{{ route('admin.stardoms.edit', ['user_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('edit') }}</a>
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('stardom_delete_confirmation' , $stardom_details->name) }}&quot;);" href="{{ route('admin.stardoms.delete', ['stardom_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('content_creator_delete_confirmation' , $stardom_details->name) }}&quot;);" href="{{ route('admin.stardoms.delete', ['user_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 
                                                 @if($stardom_details->status == APPROVED)
 
-                                                    <a class="dropdown-item" href="{{  route('admin.stardoms.status' , ['stardom_id' => $stardom_details->id] )  }}" onclick="return confirm(&quot;{{ $stardom_details->name }} - {{ tr('stardom_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
+                                                    <a class="dropdown-item" href="{{  route('admin.stardoms.status' , ['user_id' => $stardom_details->id] )  }}" onclick="return confirm(&quot;{{ $stardom_details->name }} - {{ tr('content_creator_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
                                                 </a> 
 
                                                 @else
 
-                                                    <a class="dropdown-item" href="{{ route('admin.stardoms.status' , ['stardom_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
+                                                    <a class="dropdown-item" href="{{ route('admin.stardoms.status' , ['user_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
 
                                                 @endif
                                                 <hr>
 
-                                                <a class="dropdown-item" href="{{ route('admin.posts.index', ['stardom_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('posts') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.posts.index', ['user_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('posts') }}</a> 
 
-                                                <a class="dropdown-item" href="{{ route('admin.stardom_products.index', ['stardom_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('products') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.user_products.index', ['user_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('products') }}</a> 
 
-                                                <a class="dropdown-item" href="{{ route('admin.stardom_wallets.view', ['stardom_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('wallets') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.user_wallets.view', ['user_id' => $stardom_details->id] ) }}">&nbsp;{{ tr('wallets') }}</a> 
 
                                             </div>
 

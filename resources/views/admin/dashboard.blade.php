@@ -40,12 +40,12 @@
                     <div class="media align-items-stretch">
 
                         <div class="p-2 text-center bg-danger bg-darken-2">
-                            <a href="{{route('admin.stardoms.index')}}"><i class="icon-user font-large-2 white"></i></a>
+                            <a href="{{route('admin.content_creators.index')}}"><i class="icon-user font-large-2 white"></i></a>
                         </div>
 
                         <div class="p-2 bg-gradient-x-danger white media-body">
-                            <h5>{{tr('stardoms')}}</h5>
-                            <h5 class="text-bold-400 mb-0">{{$data->total_stardoms}}</h5>
+                            <h5>{{tr('content_creators')}}</h5>
+                            <h5 class="text-bold-400 mb-0">{{$data->total_content_creators}}</h5>
                         </div>
 
                     </div>
@@ -169,7 +169,7 @@
 
                     </div>
 
-                    @forelse($recent_users as $i => $user_details)
+                    @forelse($data->recent_users as $i => $user_details)
                     
                         <a href="{{ route('admin.users.view', ['user_id' => $user_details->id])}}" class="nav-link">
 
@@ -197,13 +197,13 @@
 
                     @empty
                         <p align="center">
-                            <a href="{{route('admin.stardoms.index')}}" class="text-uppercase btn btn-success btn-xs">
+                            <a href="{{route('admin.content_creators.index')}}" class="text-uppercase btn btn-success btn-xs">
                                 {{tr('view_all')}}
                             </a>
                         </p>
                     @endforelse
 
-                    @if($recent_users->count() > 10)
+                    @if($data->recent_users->count() > 10)
 
                         <p align="center">
                             <a href="{{route('admin.users.index')}}" class="text-uppercase btn btn-success btn-xs wrapper">{{tr('view_all')}}</a>
@@ -227,33 +227,33 @@
 
                         <div class="d-flex justify-content-between">
 
-                            <h4 class="card-title">{{tr('recent_stardoms')}}</h4>
+                            <h4 class="card-title">{{tr('recent_content_creators')}}</h4>
                             
                         </div>
 
                     </div>
 
-                    @forelse($recent_stardoms as $i => $stardom_details)
+                    @forelse($data->recent_content_creators as $i => $creator_details)
 
-                        <a href="{{ route('admin.stardoms.view', ['provider_id' => $stardom_details->id])}}" class="nav-link">
+                        <a href="{{ route('admin.users.view', ['provider_id' => $creator_details->id])}}" class="nav-link">
 
                             <div class="list d-flex align-items-center border-bottom py-2">
 
-                                <img class="img-sm rounded-circle" src="{{ $stardom_details->picture ?: asset('placeholder.jpg')}}" alt="">
+                                <img class="img-sm rounded-circle" src="{{ $creator_details->picture ?: asset('placeholder.jpg')}}" alt="">
 
                                 <div class="wrapper w-100 ml-3">
 
-                                    <p class="mb-0"><b>{{$stardom_details->name}} </b></p>
+                                    <p class="mb-0"><b>{{$creator_details->name}} </b></p>
 
                                     <div class="d-flex justify-content-between align-items-center">
 
                                         <div class="d-flex align-items-center">
                                             <i class="icon icon-envelope-open text-muted mr-1"></i>
 
-                                            <p class="mb-0 text-muted">{{$stardom_details->email}}</p>
+                                            <p class="mb-0 text-muted">{{$creator_details->email}}</p>
                                         </div>
 
-                                        <small class="text-muted ml-auto">{{$stardom_details->created_at->diffForHumans()}}</small>
+                                        <small class="text-muted ml-auto">{{$creator_details->created_at->diffForHumans()}}</small>
                                     </div>
                               
                                 </div>
@@ -271,9 +271,9 @@
                         </div>
                     @endforelse
 
-                     @if($recent_stardoms->count() > 10)
+                     @if($data->recent_content_creators->count() > 10)
                         <p align="center">
-                            <a href="{{route('admin.stardoms.index')}}" class="text-uppercase btn btn-success btn-xs">
+                            <a href="{{route('admin.content_creators.index')}}" class="text-uppercase btn btn-success btn-xs">
                                 {{tr('view_all')}}
                             </a>
                         </p>

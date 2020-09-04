@@ -43,6 +43,7 @@ class CreateUsersTable extends Migration
             $table->string('verification_code')->default('');
             $table->string('verification_code_expiry')->default('');
             $table->timestamp('email_verified_at')->nullable();
+            $table->tinyInteger('is_content_creator')->default(0);
             $table->tinyInteger('status')->default(1);
             $table->rememberToken();
             $table->timestamps();

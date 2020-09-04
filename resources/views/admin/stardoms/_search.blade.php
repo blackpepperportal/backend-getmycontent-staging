@@ -1,5 +1,5 @@
 @if(!Request::get('unverified'))
-    <form method="GET" action="{{route('admin.stardoms.index')}}">
+    <form method="GET" action="{{route('admin.content_creators.index')}}">
 
         <div class="row">
 
@@ -32,14 +32,14 @@
                 <div class="input-group">
                    
                     <input type="text" class="form-control" name="search_key"
-                    placeholder="{{tr('stardoms_search_placeholder')}}"> <span class="input-group-btn">
+                    placeholder="{{tr('content_creators_search_placeholder')}}"> <span class="input-group-btn">
                     &nbsp
 
                     <button type="submit" class="btn btn-default">
                        <a href=""><i class="fa fa-search" aria-hidden="true"></i></a>
                     </button>
                     
-                    <button class="btn btn-default"><a  href="{{route('admin.stardoms.index')}}"><i class="fa fa-eraser" aria-hidden="true"></i></button>
+                    <button class="btn btn-default"><a  href="{{route('admin.content_creators.index')}}"><i class="fa fa-eraser" aria-hidden="true"></i></button>
                     </a>
                        
                     </span>
@@ -54,7 +54,7 @@
     <br>
 @else
 
-    <form method="GET" action="{{route('admin.stardoms.index')}}">
+    <form method="GET" action="{{route('admin.content_creators.index')}}">
 
         <div class="row">
 
@@ -65,14 +65,14 @@
                 <div class="input-group">
                    
                     <input type="text" class="form-control" name="search_key"
-                    placeholder="{{tr('stardoms_search_placeholder')}}"> <span class="input-group-btn">
+                    placeholder="{{tr('content_creators_search_placeholder')}}"> <span class="input-group-btn">
                     &nbsp
 
                     <button type="submit" class="btn btn-default">
                        <a href=""><i class="fa fa-search" aria-hidden="true"></i></a>
                     </button>
                     
-                    <button class="btn btn-default"><a  href="{{route('admin.stardoms.index')}}"><i class="fa fa-eraser" aria-hidden="true"></i></button>
+                    <button class="btn btn-default"><a  href="{{route('admin.content_creators.index')}}"><i class="fa fa-eraser" aria-hidden="true"></i></button>
                     </a>
                        
                     </span>

@@ -29,7 +29,7 @@ if(!defined('DEFAULT_FALSE')) define('DEFAULT_FALSE', false);
 
 if(!defined('ADMIN')) define('ADMIN', 'admin');
 if(!defined('USER')) define('USER', 'user');
-if(!defined('INSTRUCTOR')) define('INSTRUCTOR', 'instructor');
+if(!defined('ContentCreator')) define('ContentCreator', 'creator');
 
 if(!defined('COD')) define('COD',   'COD');
 if(!defined('PAYPAL')) define('PAYPAL', 'PAYPAL');

@@ -193,7 +193,7 @@
                                         <tr>
 
                                             <td>
-                                                <a href="{{route('admin.stardom_products.view',['stardom_product_id' => $order_product_details->stardom_product_id])}}">{{ $order_product_details->stardomProductDetails->name ?? "-"}}</a>
+                                                <a href="{{route('admin.user_products.view',['user_product_id' => $order_product_details->user_product_id])}}">{{ $order_product_details->stardomProductDetails->name ?? "-"}}</a>
                                             </td>
 
                                             <td>{{ $order_product_details->quantity}}</td>

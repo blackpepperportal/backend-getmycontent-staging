@@ -117,7 +117,7 @@ class AdminLookupController extends Controller
     /**
      * @method documents_save()
      *
-     * @uses To save the document details of new/existing stardom object based on details
+     * @uses To save the document details of new/existing document object based on details
      *
      * @created Akshata
      *
@@ -167,7 +167,7 @@ class AdminLookupController extends Controller
             
             if($request->hasFile('picture')) {
 
-                if($request->stardom_id) {
+                if($request->user_id) {
 
                     Helper::storage_delete_file($document_details->picture, COMMON_FILE_PATH); 
                     // Delete the old pic

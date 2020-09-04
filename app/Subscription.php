@@ -15,6 +15,6 @@ class Subscription extends Model
 
     public function getPlanTypeFormattedAttribute() {
 
-    	return formatted_plan($this->plan,$this->plan_type);
+    	return formatted_plan($this->plan, $this->plan_type);
     }
 }

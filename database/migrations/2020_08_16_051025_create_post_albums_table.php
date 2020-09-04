@@ -16,7 +16,7 @@ class CreatePostAlbumsTable extends Migration
         Schema::create('post_albums', function (Blueprint $table) {
             $table->id();
             $table->string('unique_id')->default(rand());
-            $table->integer('stardom_id');
+            $table->integer('user_id');
             $table->string('name');
             $table->string('post_ids');
             $table->tinyInteger('status')->default(1);

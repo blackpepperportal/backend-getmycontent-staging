@@ -34,8 +34,8 @@ class OrderProduct extends Model
         return formatted_amount($this->per_quantity_price);
     }
 
-    public function stardomProductDetails() {
+    public function userProductDetails() {
 
-    	return $this->belongsTo(StardomProduct::class,'stardom_product_id');
+    	return $this->belongsTo(UserProduct::class,'user_product_id');
     }
 }

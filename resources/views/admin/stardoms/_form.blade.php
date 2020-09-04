@@ -13,7 +13,7 @@
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
                     <div class="heading-elements">
-                        <a href="{{route('admin.stardoms.index') }}" class="btn btn-primary"><i class="ft-eye icon-left"></i>{{ tr('view_stardoms') }}</a>
+                        <a href="{{route('admin.content_creators.index') }}" class="btn btn-primary"><i class="ft-eye icon-left"></i>{{ tr('view_stardoms') }}</a>
                     </div>
 
                 </div>
@@ -34,7 +34,7 @@
 
                                 <div class="row">
 
-                                    <input type="hidden" name="stardom_id" id="stardom_id" value="{{ $stardom_details->id}}">
+                                    <input type="hidden" name="user_id" id="user_id" value="{{ $stardom_details->id}}">
 
                                     <div class="col-md-6">
                                         <div class="form-group">

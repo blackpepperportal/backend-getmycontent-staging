@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class PostAlbum extends Model
 {
-    public function stardomDetails() {
+    public function userDetails() {
 
-    	return $this->belongsTo(Stardom::class,'stardom_id');
+    	return $this->belongsTo(User::class,'user_id');
     }
 }

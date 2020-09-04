@@ -1,18 +1,18 @@
 @extends('layouts.admin') 
 
-@section('title', tr('stardoms')) 
+@section('title', tr('content_creators')) 
 
-@section('content-header', tr('stardoms')) 
+@section('content-header', tr('content_creators')) 
 
 @section('breadcrumb')
 
 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
 </li>
 
-<li class="breadcrumb-item"><a href="{{ route('admin.stardoms.index') }}">{{ tr('stardoms') }}</a>
+<li class="breadcrumb-item"><a href="{{ route('admin.content_creators.index') }}">{{ tr('content_creators') }}</a>
 </li>
 
-<li class="breadcrumb-item active">{{ tr('stardom_documents') }}</a>
+<li class="breadcrumb-item active">{{ tr('content_creator_documents') }}</a>
 </li>
 
 @endsection 
@@ -29,7 +29,7 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('stardom_documents') }}</h4>
+                    <h4 class="card-title">{{ tr('content_creator_documents') }}</h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                     
                 </div>
@@ -43,7 +43,7 @@
                             <thead>
                                 <tr>
                                     <th>{{ tr('s_no') }}</th>
-                                    <th>{{ tr('stardom') }}</th>
+                                    <th>{{ tr('content_creator') }}</th>
                                     <th>{{ tr('document') }}</th>
                                     <th>{{ tr('is_verified') }}</th>
                                     <th>{{ tr('status') }}</th>
@@ -59,8 +59,8 @@
                                     <td>{{ $i+1 }}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.stardoms.view' , ['stardom_id' => $stardom_document_details->stardom_id] )  }}">
-                                        {{ $stardom_document_details->stardomDetails->name  ?? "-" }}
+                                        <a href="{{  route('admin.users.view' , ['user_id' => $stardom_document_details->user_id] )  }}">
+                                        {{ $stardom_document_details->userDetails->name  ?? "-" }}
                                         </a>
                                     </td>
 

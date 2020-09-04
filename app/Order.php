@@ -35,7 +35,7 @@ class Order extends Model
 
     public function orderProducts() {
 
-        return $this->hasMany(OrderProduct::class,'order_id');
+        return $this->hasMany(OrderProduct::class, 'order_id');
     }
 
     public static function boot() {
@@ -43,8 +43,6 @@ class Order extends Model
         parent::boot();
 
         static::deleting(function ($model) {
-
-            Helper::delete_file($model->picture , STARDOM_FILE_PATH);
 
             $model->orderProducts()->delete();
 

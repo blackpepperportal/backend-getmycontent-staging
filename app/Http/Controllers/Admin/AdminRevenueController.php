@@ -49,23 +49,21 @@ class AdminRevenueController extends Controller
 
         $data->total_users = \App\User::count();
 
-        $data->total_stardoms = \App\Stardom::count();
+        $data->total_content_creators = \App\User::where('is_content_creator', YES)->count();
 
         $data->total_posts = \App\Post::count();
 
         $data->total_revenue = \App\SubscriptionPayment::where('status', PAID)->sum('subscription_payments.amount');
 
-        $recent_users= \App\User::orderBy('id' , 'desc')->skip($this->skip)->take(TAKE_COUNT)->get();
+        $data->recent_users= \App\User::orderBy('id' , 'desc')->skip($this->skip)->take(TAKE_COUNT)->get();
 
-        $recent_stardoms=  \App\Stardom::orderBy('id' , 'desc')->skip($this->skip)->take(TAKE_COUNT)->get(); 
+        $data->recent_content_creators=  \App\User::where('is_content_creator', YES)->orderBy('id' , 'desc')->skip($this->skip)->take(TAKE_COUNT)->get(); 
 
         $data->analytics = last_x_months_data(12);
         
         return view('admin.dashboard')
                     ->with('page' , 'dashboard')
-                    ->with('data', $data)
-                    ->with('recent_stardoms',$recent_stardoms)
-                    ->with('recent_users',$recent_users);
+                    ->with('data', $data);
     
     }
 
@@ -579,7 +577,7 @@ class AdminRevenueController extends Controller
     }
 
     /**
-     * @method stardom_withdrawals
+     * @method user_withdrawals
      *
      * @uses Display all stardom withdrawals
      *
@@ -593,36 +591,36 @@ class AdminRevenueController extends Controller
      *
      **/
 
-    public function stardom_withdrawals(Request $request) {
+    public function user_withdrawals(Request $request) {
 
-        $base_query = \App\StardomWithDrawal::orderBy('stardom_with_drawals.updated_at','DESC');
+        $base_query = \App\UserWithdrawal::orderBy('user_withdrawals.updated_at','DESC');
 
         if($request->search_key) {
 
             $search_key = $request->search_key;
 
-            $base_query = $base_query->whereHas('stardomDetails',function($query) use($search_key){
+            $base_query = $base_query->whereHas('userDetails',function($query) use($search_key){
 
-                return $query->where('stardoms.name','LIKE','%'.$search_key.'%');
+                return $query->where('users.name','LIKE','%'.$search_key.'%');
 
-            })->orWhere('stardom_with_drawals.payment_id','LIKE','%'.$search_key.'%');
+            })->orWhere('user_withdrawals.payment_id','LIKE','%'.$search_key.'%');
         }
 
         if($request->status) {
 
-            $base_query = $base_query->where('stardom_with_drawals.status',$request->status);
+            $base_query = $base_query->where('user_withdrawals.status',$request->status);
         }
 
-        $stardom_withdrawals = $base_query->paginate(10);
+        $user_withdrawals = $base_query->paginate(10);
        
-        return view('admin.stardom_withdrawals.index')
+        return view('admin.user_withdrawals.index')
                 ->with('page','stardom-withdrawals')
-                ->with('stardom_withdrawals',$stardom_withdrawals);
+                ->with('user_withdrawals',$user_withdrawals);
 
     }
 
      /**
-     * @method stardom_withdrawals_paynow()
+     * @method user_withdrawals_paynow()
      *
      * @uses 
      *
@@ -635,25 +633,25 @@ class AdminRevenueController extends Controller
      * @return view page
      *
      **/
-    public function stardom_withdrawals_paynow(Request $request) {
+    public function user_withdrawals_paynow(Request $request) {
 
         try {
 
             DB::begintransaction();
 
-            $stardom_withdrawal_details = \App\StardomWithDrawal::find($request->stardom_withdrawal_id);
+            $user_withdrawal_details = \App\UserWithdrawal::find($request->stardom_withdrawal_id);
 
-            if(!$stardom_withdrawal_details) {
+            if(!$user_withdrawal_details) {
 
                 throw new Exception(tr('stardom_withdrawal_details_not_found'),101);
                 
             }
 
-            $stardom_withdrawal_details->paid_amount = $stardom_withdrawal_details->requested_amount;
+            $user_withdrawal_details->paid_amount = $user_withdrawal_details->requested_amount;
 
-            $stardom_withdrawal_details->status = WITHDRAW_PAID;
+            $user_withdrawal_details->status = WITHDRAW_PAID;
             
-            if($stardom_withdrawal_details->save()) {
+            if($user_withdrawal_details->save()) {
 
                 DB::commit();
 
@@ -671,7 +669,7 @@ class AdminRevenueController extends Controller
     }
 
     /**
-     * @method stardom_withdrawals_reject()
+     * @method user_withdrawals_reject()
      *
      * @uses 
      *
@@ -684,23 +682,23 @@ class AdminRevenueController extends Controller
      * @return view page
      *
      **/
-    public function stardom_withdrawals_reject(Request $request) {
+    public function user_withdrawals_reject(Request $request) {
 
         try {
 
             DB::begintransaction();
 
-            $stardom_withdrawal_details = \App\StardomWithDrawal::find($request->stardom_withdrawal_id);
+            $user_withdrawal_details = \App\UserWithdrawal::find($request->stardom_withdrawal_id);
 
-            if(!$stardom_withdrawal_details) {
+            if(!$user_withdrawal_details) {
 
                 throw new Exception(tr('stardom_withdrawal_details_not_found'),101);
                 
             }
             
-            $stardom_withdrawal_details->status = WITHDRAW_REJECTED;
+            $user_withdrawal_details->status = WITHDRAW_REJECTED;
             
-            if($stardom_withdrawal_details->save()) {
+            if($user_withdrawal_details->save()) {
 
                 DB::commit();
 
@@ -740,22 +738,22 @@ class AdminRevenueController extends Controller
 
             $base_query =  $base_query
 
-                ->whereHas('stardomProductDetails', function($q) use ($search_key) {
+                ->whereHas('userProductDetails', function($q) use ($search_key) {
 
-                    return $q->Where('stardom_products.name','LIKE','%'.$search_key.'%');
+                    return $q->Where('user_products.name','LIKE','%'.$search_key.'%');
 
                 });
                         
         }
 
-        if($request->stardom_product_id) {
+        if($request->user_product_id) {
 
-            $base_query = $base_query->where('stardom_product_id',$request->stardom_product_id);
+            $base_query = $base_query->where('user_product_id',$request->user_product_id);
         }
 
         $product_inventories = $base_query->paginate(10);
 
-        return view('admin.stardom_products.inventories.index')
+        return view('admin.user_products.inventories.index')
                     ->with('page','product-inventories')
                     ->with('product_inventories' , $product_inventories);
     }
@@ -785,7 +783,7 @@ class AdminRevenueController extends Controller
                 throw new Exception(tr('product_inventory_not_found'), 101);                
             }
         
-            return view('admin.stardom_products.inventories.view')
+            return view('admin.user_products.inventories.view')
                         ->with('page', 'posts') 
                         ->with('product_inventory_details',$product_inventory_details);
             

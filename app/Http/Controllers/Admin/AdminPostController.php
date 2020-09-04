@@ -52,9 +52,9 @@ class AdminPostController extends Controller
 
             $base_query =  $base_query
 
-                ->whereHas('getStardomDetails', function($q) use ($search_key) {
+                ->whereHas('getuserDetails', function($q) use ($search_key) {
 
-                    return $q->Where('stardoms.name','LIKE','%'.$search_key.'%');
+                    return $q->Where('users.name','LIKE','%'.$search_key.'%');
 
                 })->orWhere('posts.content','LIKE','%'.$search_key.'%');
                         
@@ -93,9 +93,9 @@ class AdminPostController extends Controller
                     ->with('posts' , $posts);
         }
 
-        if($request->stardom_id) {
+        if($request->user_id) {
 
-            $base_query = $base_query->where('stardom_id',$request->stardom_id);
+            $base_query = $base_query->where('user_id',$request->user_id);
         }
 
         $posts = $base_query->paginate(10);
@@ -181,11 +181,11 @@ class AdminPostController extends Controller
                 throw new Exception(tr('post_not_found'), 101);                
             }
 
-            if($stardom_details->delete()) {
+            if($post_details->delete()) {
 
                 DB::commit();
 
-                return redirect()->route('admin.posts.index')->with('flash_success',tr('post_deleted_success'));   
+                return redirect()->route('admin.posts.index')->with('flash_success', tr('post_deleted_success'));   
 
             } 
             
@@ -248,9 +248,9 @@ class AdminPostController extends Controller
                     $email_data['status'] = tr('approved');
                 }
 
-                $email_data['email']  = $post_details->getStardomDetails->email ?? "-";
+                $email_data['email']  = $post_details->getuserDetails->email ?? "-";
 
-                $email_data['name']  = $post_details->getStardomDetails->name ?? "-";
+                $email_data['name']  = $post_details->getuserDetails->name ?? "-";
 
                 $email_data['post_unique_id']  = $post_details->unique_id;
 
@@ -365,7 +365,7 @@ class AdminPostController extends Controller
                 throw new Exception(tr('post_album_not_found'), 101);                
             }
 
-            if($stardom_details->delete()) {
+            if($post_album_details->delete()) {
 
                 DB::commit();
 

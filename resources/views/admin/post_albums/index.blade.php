@@ -44,7 +44,7 @@
                                     <th>{{ tr('s_no') }}</th>
                                     <th>{{ tr('unique_id') }}</th>
                                     <th>{{ tr('name') }}</th>
-                                    <th>{{ tr('stardom') }}</th>
+                                    <th>{{ tr('content_creator') }}</th>
                                     <th>{{ tr('status') }}</th>
                                     <th>{{ tr('action') }}</th>
                                 </tr>
@@ -61,8 +61,8 @@
                                     <td>{{$post_album_details->name}}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.stardoms.view' , ['stardom_id' => $post_album_details->stardom_id] )  }}">
-                                        {{ $post_album_details->stardomDetails->name ?? "-" }}
+                                        <a href="{{  route('admin.users.view' , ['user_id' => $post_album_details->user_id] )  }}">
+                                        {{ $post_album_details->userDetails->name ?? "-" }}
                                         </a>
                                     </td>
 

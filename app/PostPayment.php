@@ -20,6 +20,6 @@ class PostPayment extends Model
 
     public function postDetails() {
 
-    	return $this->belongsTo(Post::class,'post_id');
+    	return $this->belongsTo(Post::class, 'post_id');
     }
 }

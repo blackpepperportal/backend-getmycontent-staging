@@ -13,8 +13,8 @@ class Post extends Model
 		return formatted_amount($this->amount);
 	}
 
-    public function getStardomDetails() {
+    public function getuserDetails() {
 
-    	return $this->belongsTo(Stardom::class,'stardom_id');
+    	return $this->belongsTo(ContentCreator::class,'user_id');
     }
 }

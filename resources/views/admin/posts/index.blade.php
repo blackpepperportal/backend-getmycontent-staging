@@ -65,7 +65,7 @@
                             <thead>
                                 <tr>
                                     <th>{{ tr('s_no') }}</th>
-                                    <th>{{ tr('stardom') }}</th>
+                                    <th>{{ tr('content_creator') }}</th>
                                     <th>{{ tr('publish_time') }}</th>
                                     <th>{{ tr('amount') }}</th>
                                     <th>{{ tr('is_paid_post') }}</th>
@@ -82,7 +82,7 @@
 
                                     <td>
                                         <a href="{{  route('admin.posts.view' , ['post_id' => $post_details->id] )  }}">
-                                        {{ $post_details->getStardomDetails->name ?? "-" }}
+                                        {{ $post_details->getuserDetails->name ?? "-" }}
                                         </a>
                                     </td>
 

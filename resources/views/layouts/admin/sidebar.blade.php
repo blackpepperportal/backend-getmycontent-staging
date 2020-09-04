@@ -35,30 +35,30 @@
             
             </li>
 
-            <li class="nav-item" id="stardoms">
-                <a href="{{route('admin.stardoms.index')}}">
+            <li class="nav-item" id="content_creators">
+                <a href="{{route('admin.content_creators.index')}}">
                     <i class="ft-star"></i>
-                    <span class="menu-title" data-i18n="">{{tr('stardoms')}}</span>
+                    <span class="menu-title" data-i18n="">{{tr('content_creators')}}</span>
                 </a>
                 <ul class="menu-content">
-                    <li id="stardoms-create">
-                        <a class="menu-item" href="{{route('admin.stardoms.create')}}">
-                            {{tr('add_stardom')}}
+                    <li id="content_creators-create">
+                        <a class="menu-item" href="{{route('admin.content_creators.create')}}">
+                            {{tr('add_content_creator')}}
                         </a>
                     </li>
-                    <li id="stardoms-view">
-                        <a class="menu-item" href="{{route('admin.stardoms.index')}}">
-                            {{tr('view_stardoms')}}
+                    <li id="content_creators-view">
+                        <a class="menu-item" href="{{route('admin.content_creators.index')}}">
+                            {{tr('view_content_creators')}}
                         </a>
                     </li>
-                    <li id="stardoms-unverified">
-                        <a class="menu-item" href="{{route('admin.stardoms.index',['unverified' => YES])}}">
-                            {{tr('unverified_stardoms')}}
+                    <li id="content_creators-unverified">
+                        <a class="menu-item" href="{{route('admin.content_creators.index',['unverified' => YES])}}">
+                            {{tr('unverified_content_creators')}}
                         </a>
                     </li>
-                    <li id="stardoms-documents">
-                        <a class="menu-item" href="{{route('admin.stardoms.documents.index')}}">
-                            {{tr('stardom_documents')}}
+                    <li id="content_creators-documents">
+                        <a class="menu-item" href="{{route('admin.content_creators.documents.index')}}">
+                            {{tr('content_creator_documents')}}
                         </a>
                     </li>
                 </ul>            
@@ -110,21 +110,21 @@
                 <span>{{tr('products_management')}}</span>
             </li>
 
-            <li class="nav-item" id="stardom_products">
-                <a href="{{route('admin.stardom_products.index')}}">
+            <li class="nav-item" id="user_products">
+                <a href="{{route('admin.user_products.index')}}">
                     <i class="ft-box"></i>
-                    <span class="menu-title" data-i18n="">{{tr('stardom_products')}}</span>
+                    <span class="menu-title" data-i18n="">{{tr('user_products')}}</span>
                 </a>
                 <ul class="menu-content">
-                    <li id="stardom_products-create">
-                        <a class="menu-item" href="{{route('admin.stardom_products.create')}}">
-                            {{tr('add_stardom_product')}}
+                    <li id="user_products-create">
+                        <a class="menu-item" href="{{route('admin.user_products.create')}}">
+                            {{tr('add_user_product')}}
                         </a>
                     </li>
                     
-                    <li id="stardom_products-view">
-                        <a class="menu-item" href="{{route('admin.stardom_products.index')}}">
-                            {{tr('view_stardom_products')}}
+                    <li id="user_products-view">
+                        <a class="menu-item" href="{{route('admin.user_products.index')}}">
+                            {{tr('view_user_products')}}
                         </a>
                     </li>
                 </ul>            
@@ -204,18 +204,18 @@
                 </ul>            
             </li>
 
-            <li class="nav-item" id="stardom_wallets">
-                <a href="{{route('admin.stardom_wallets.index')}}">
+            <li class="nav-item" id="user_wallets">
+                <a href="{{route('admin.user_wallets.index')}}">
                      <i class="fa fa-shopping-bag"></i>
-                    <span class="menu-title" data-i18n="">{{tr('stardom_wallets')}}</span>
+                    <span class="menu-title" data-i18n="">{{tr('user_wallets')}}</span>
                 </a>
             </li>
 
-            <li class="nav-item" id="stardom-withdrawals">
-                <a href="{{route('admin.stardom.withdrawals')}}">
+            <li class="nav-item" id="content_creator-withdrawals">
+                <a href="{{route('admin.user_withdrawals')}}">
                     <i class="fa fa-location-arrow" aria-hidden="true"></i>
 
-                    <span class="menu-title" data-i18n="">{{tr('stardom_withdrawals')}}</span>
+                    <span class="menu-title" data-i18n="">{{tr('user_withdrawals')}}</span>
                 </a>
             </li>
 

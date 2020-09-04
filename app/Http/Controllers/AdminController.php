@@ -8,7 +8,7 @@ use App\Helpers\Helper, App\Helpers\EnvEditorHelper;
 
 use DB, Hash, Setting, Auth, Validator, Exception, Enveditor;
 
-use App\Admin, App\User, App\Stardom, App\Document, App\StardomDocument, App\StardomProduct;
+use App\Admin, App\User, App\Stardom, App\Document, App\UserDocument, App\UserProduct;
 
 use App\Settings, App\StaticPage;
 
@@ -32,8 +32,5 @@ class AdminController extends Controller
         $this->take = $request->take ?: (Setting::get('admin_take_count') ?: TAKE_COUNT);
 
     }
-
-
-    
 }
 

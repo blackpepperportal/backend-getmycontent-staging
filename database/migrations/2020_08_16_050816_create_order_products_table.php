@@ -16,8 +16,9 @@ class CreateOrderProductsTable extends Migration
         Schema::create('order_products', function (Blueprint $table) {
             $table->id();
             $table->string('unique_id')->default(rand());
+            $table->integer('user_id');
             $table->integer('order_id');
-            $table->integer('stardom_product_id');
+            $table->integer('user_product_id');
             $table->float('quantity')->default(0.00);
             $table->float('per_quantity_price')->default(0.00);
             $table->float('sub_total')->default(0.00);

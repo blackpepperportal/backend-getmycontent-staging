@@ -8,7 +8,7 @@
 
     <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a>
     </li>
-    <li class="breadcrumb-item"><a href="{{route('admin.stardoms.index')}}">{{tr('stardoms')}}</a>
+    <li class="breadcrumb-item"><a href="{{route('admin.content_creators.index')}}">{{tr('content_creators')}}</a>
     </li>
     <li class="breadcrumb-item active">{{tr('view_stardoms')}}</a>
     </li>
@@ -173,13 +173,13 @@
 
                             <div class="col-3">
 
-                                <a class="btn btn-outline-secondary btn-block btn-min-width mr-1 mb-1 " href="{{route('admin.stardoms.edit', ['stardom_id'=>$stardom_details->id] )}}"> &nbsp;{{tr('edit')}}</a>
+                                <a class="btn btn-outline-secondary btn-block btn-min-width mr-1 mb-1 " href="{{route('admin.stardoms.edit', ['user_id'=>$stardom_details->id] )}}"> &nbsp;{{tr('edit')}}</a>
 
                             </div>
 
                             <div class="col-3">
 
-                                <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" onclick="return confirm(&quot;{{tr('stardom_delete_confirmation' , $stardom_details->name)}}&quot;);" href="{{route('admin.stardoms.delete', ['stardom_id'=> $stardom_details->id] )}}">&nbsp;{{tr('delete')}}</a>
+                                <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" onclick="return confirm(&quot;{{tr('content_creator_delete_confirmation' , $stardom_details->name)}}&quot;);" href="{{route('admin.stardoms.delete', ['user_id'=> $stardom_details->id] )}}">&nbsp;{{tr('delete')}}</a>
 
                             </div>
 
@@ -188,16 +188,16 @@
                             <div class="col-3">
 
                                 @if($stardom_details->status == APPROVED)
-                                     <a class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1" href="{{route('admin.stardoms.status' ,['stardom_id'=> $stardom_details->id] )}}" onclick="return confirm(&quot;{{$stardom_details->name}} - {{tr('stardom_decline_confirmation')}}&quot;);">&nbsp;{{tr('decline')}} </a> 
+                                     <a class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1" href="{{route('admin.stardoms.status' ,['user_id'=> $stardom_details->id] )}}" onclick="return confirm(&quot;{{$stardom_details->name}} - {{tr('content_creator_decline_confirmation')}}&quot;);">&nbsp;{{tr('decline')}} </a> 
                                 @else
 
-                                    <a  class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1" href="{{route('admin.stardoms.status' , ['stardom_id'=> $stardom_details->id] )}}">&nbsp;{{tr('approve')}}</a> 
+                                    <a  class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1" href="{{route('admin.stardoms.status' , ['user_id'=> $stardom_details->id] )}}">&nbsp;{{tr('approve')}}</a> 
                                 @endif
                             </div>
 
                             <div class="col-3">
 
-                                <a  class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1" href="{{route('admin.stardom_wallets.view',['stardom_id' => $stardom_details->id])}}">&nbsp;{{tr('wallets')}}</a> 
+                                <a  class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1" href="{{route('admin.user_wallets.view',['user_id' => $stardom_details->id])}}">&nbsp;{{tr('wallets')}}</a> 
 
                             </div>
 
@@ -207,12 +207,12 @@
 
                             <div class="col-3">
 
-                                <a  class="btn btn-outline-primary btn-block btn-min-width mr-1 mb-1" href="{{route('admin.posts.index' , ['stardom_id'=> $stardom_details->id] )}}">&nbsp;{{tr('posts')}}</a> 
+                                <a  class="btn btn-outline-primary btn-block btn-min-width mr-1 mb-1" href="{{route('admin.posts.index' , ['user_id'=> $stardom_details->id] )}}">&nbsp;{{tr('posts')}}</a> 
                             </div>
 
                             <div class="col-3">
 
-                                <a  class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1" href="{{route('admin.stardom_products.index' , ['stardom_id'=> $stardom_details->id] )}}">&nbsp;{{tr('products')}}</a>
+                                <a  class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1" href="{{route('admin.user_products.index' , ['user_id'=> $stardom_details->id] )}}">&nbsp;{{tr('products')}}</a>
                                  
                             </div>
 

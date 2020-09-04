@@ -52,49 +52,49 @@ Route::group(['middleware' => 'web'], function() {
 
         //stardoms CRUD Operations
 
-        Route::get('stardoms', 'Admin\AdminStardomController@stardoms_index')->name('stardoms.index');
+        Route::get('content_creators', 'Admin\AdminContentCreatorController@content_creators_index')->name('content_creators.index');
 
-        Route::get('stardoms/create', 'Admin\AdminStardomController@stardoms_create')->name('stardoms.create');
+        Route::get('content_creators/create', 'Admin\AdminContentCreatorController@content_creators_create')->name('content_creators.create');
 
-        Route::get('stardoms/edit', 'Admin\AdminStardomController@stardoms_edit')->name('stardoms.edit');
+        Route::get('content_creators/edit', 'Admin\AdminContentCreatorController@content_creators_edit')->name('content_creators.edit');
 
-        Route::post('stardoms/save', 'Admin\AdminStardomController@stardoms_save')->name('stardoms.save');
+        Route::post('content_creators/save', 'Admin\AdminContentCreatorController@content_creators_save')->name('content_creators.save');
 
-        Route::get('stardoms/view', 'Admin\AdminStardomController@stardoms_view')->name('stardoms.view');
+        Route::get('content_creators/view', 'Admin\AdminContentCreatorController@content_creators_view')->name('content_creators.view');
 
-        Route::get('stardoms/delete', 'Admin\AdminStardomController@stardoms_delete')->name('stardoms.delete');
+        Route::get('content_creators/delete', 'Admin\AdminContentCreatorController@content_creators_delete')->name('content_creators.delete');
 
-        Route::get('stardoms/status', 'Admin\AdminStardomController@stardoms_status')->name('stardoms.status');
+        Route::get('content_creators/status', 'Admin\AdminContentCreatorController@content_creators_status')->name('content_creators.status');
 
-        Route::get('stardoms/verify', 'Admin\AdminStardomController@stardoms_verify_status')->name('stardoms.verify');
+        Route::get('content_creators/verify', 'Admin\AdminContentCreatorController@content_creators_verify_status')->name('content_creators.verify');
 
         //stardom documents 
 
-        Route::get('stardoms/documents', 'Admin\AdminStardomController@stardoms_documents_index')->name('stardoms.documents.index');
+        Route::get('content_creators/documents', 'Admin\AdminContentCreatorController@content_creators_documents_index')->name('content_creators.documents.index');
 
-        Route::get('stardoms/documents/view', 'Admin\AdminStardomController@stardoms_documents_view')->name('stardoms.documents.view');
+        Route::get('content_creators/documents/view', 'Admin\AdminContentCreatorController@content_creators_documents_view')->name('content_creators.documents.view');
 
-        Route::get('stardoms/documents/verify', 'Admin\AdminStardomController@stardoms_documents_verify')->name('stardoms.documents.verify');
+        Route::get('content_creators/documents/verify', 'Admin\AdminContentCreatorController@content_creators_documents_verify')->name('content_creators.documents.verify');
 
         //stardom products CRUD Operations
 
-        Route::get('stardom_products', 'Admin\AdminStardomController@stardom_products_index')->name('stardom_products.index');
+        Route::get('user_products', 'Admin\AdminContentCreatorController@user_products_index')->name('user_products.index');
 
-        Route::get('stardom_products/create', 'Admin\AdminStardomController@stardom_products_create')->name('stardom_products.create');
+        Route::get('user_products/create', 'Admin\AdminContentCreatorController@user_products_create')->name('user_products.create');
 
-        Route::get('stardom_products/edit', 'Admin\AdminStardomController@stardom_products_edit')->name('stardom_products.edit');
+        Route::get('user_products/edit', 'Admin\AdminContentCreatorController@user_products_edit')->name('user_products.edit');
 
-        Route::post('stardom_products/save', 'Admin\AdminStardomController@stardom_products_save')->name('stardom_products.save');
+        Route::post('user_products/save', 'Admin\AdminContentCreatorController@user_products_save')->name('user_products.save');
 
-        Route::get('stardom_products/view', 'Admin\AdminStardomController@stardom_products_view')->name('stardom_products.view');
+        Route::get('user_products/view', 'Admin\AdminContentCreatorController@user_products_view')->name('user_products.view');
 
-        Route::get('stardom_products/delete', 'Admin\AdminStardomController@stardom_products_delete')->name('stardom_products.delete');
+        Route::get('user_products/delete', 'Admin\AdminContentCreatorController@user_products_delete')->name('user_products.delete');
 
-        Route::get('stardom_products/status', 'Admin\AdminStardomController@stardom_products_status')->name('stardom_products.status');
+        Route::get('user_products/status', 'Admin\AdminContentCreatorController@user_products_status')->name('user_products.status');
 
-        Route::get('/stardom_products/dashboard', 'Admin\AdminStardomController@stardom_products_dashboard')->name('stardom_products.dashboard');
+        Route::get('/user_products/dashboard', 'Admin\AdminContentCreatorController@user_products_dashboard')->name('user_products.dashboard');
 
-        Route::get('/stardom/order_products','Admin\AdminStardomController@order_products')->name('order.products');
+        Route::get('order_products','Admin\AdminContentCreatorController@order_products')->name('order_products');
 
         // Document CRUD Operations
 
@@ -166,9 +166,9 @@ Route::group(['middleware' => 'web'], function() {
         
         //stardom wallet route start
 
-        Route::get('/stardom_wallets' , 'Admin\AdminStardomController@stardom_wallets_index')->name('stardom_wallets.index');
+        Route::get('/user_wallets' , 'Admin\AdminContentCreatorController@user_wallets_index')->name('user_wallets.index');
 
-        Route::get('/stardom_wallets/view', 'Admin\AdminStardomController@stardom_wallets_view')->name('stardom_wallets.view');
+        Route::get('/user_wallets/view', 'Admin\AdminContentCreatorController@user_wallets_view')->name('user_wallets.view');
 
         //stardom wallet route end
 
@@ -194,15 +194,15 @@ Route::group(['middleware' => 'web'], function() {
         Route::get('subscriptions/status', 'Admin\AdminRevenueController@subscriptions_status')->name('subscriptions.status');
         //subscriptions end
 
-        //stardom withdrawals start
+        // CC withdrawals start
 
-        Route::get('stardom_withdrawals','Admin\AdminRevenueController@stardom_withdrawals')->name('stardom.withdrawals');
+        Route::get('user_withdrawals','Admin\AdminRevenueController@user_withdrawals')->name('user_withdrawals');
 
-        Route::get('stardom_withdrawals/paynow','Admin\AdminRevenueController@stardom_withdrawals_paynow')->name('stardom_withdrawals.paynow');
+        Route::get('user_withdrawals/paynow','Admin\AdminRevenueController@user_withdrawals_paynow')->name('user_withdrawals.paynow');
 
-        Route::get('stardom_withdrawals/reject','Admin\AdminRevenueController@stardom_withdrawals_reject')->name('stardom_withdrawals.reject');
+        Route::get('user_withdrawals/reject','Admin\AdminRevenueController@user_withdrawals_reject')->name('user_withdrawals.reject');
 
-        //stardom withdrawals end
+        // CC withdrawals end
 
         //inventory route start
 

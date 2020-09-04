@@ -701,20 +701,20 @@ hr {
                         <div class="col-md-6">
                             <div class="form-group">
 
-                                <label for="stardom_fcm_sender_id">{{ tr('stardom_fcm_sender_id') }}</label>
+                                <label for="stardom_fcm_sender_id">{{ tr('content_creator_fcm_sender_id') }}</label>
 
                                 <input type="text" class="form-control" name="stardom_fcm_sender_id" id="stardom_fcm_sender_id"
-                                value="{{ Setting::get('stardom_fcm_sender_id') }}" placeholder="{{ tr('stardom_fcm_sender_id') }}">
+                                value="{{ Setting::get('stardom_fcm_sender_id') }}" placeholder="{{ tr('content_creator_fcm_sender_id') }}">
                             </div>
                         </div>  
 
                         <div class="col-md-6">
                             <div class="form-group">
 
-                                <label for="stardom_fcm_server_key">{{ tr('stardom_fcm_server_key') }}</label>
+                                <label for="stardom_fcm_server_key">{{ tr('content_creator_fcm_server_key') }}</label>
 
                                 <input type="text" class="form-control" name="stardom_fcm_server_key" id="stardom_fcm_server_key"
-                                value="{{ Setting::get('stardom_fcm_server_key') }}" placeholder="{{ tr('stardom_fcm_server_key') }}">
+                                value="{{ Setting::get('stardom_fcm_server_key') }}" placeholder="{{ tr('content_creator_fcm_server_key') }}">
                             </div>
                         </div>
 

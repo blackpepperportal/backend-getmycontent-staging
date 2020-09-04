@@ -6,9 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductInventory extends Model
 {
+    public function userProductDetails() {
 
-    public function stardomProductDetails() {
-
-    	return $this->belongsTo(StardomProduct::class,'stardom_product_id');
+    	return $this->belongsTo(UserProduct::class,'user_product_id');
     }
 }

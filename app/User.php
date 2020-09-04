@@ -68,6 +68,17 @@ class User extends Authenticatable
         return $this->hasMany(Order::class,'user_id');
     }
 
+    public function userWallets() {
+
+        return $this->hasMany(UserWallet::class, 'user_id');
+    }
+
+    public function userWithdrawals() {
+
+        return $this->hasMany(UserWithdrawal::class,'user_id');
+    }
+
+
     public static function boot() {
 
         parent::boot();
@@ -136,6 +147,10 @@ class User extends Authenticatable
             $model->orderPayments()->delete();
 
             $model->postPayments()->delete();
+
+            $model->userWallets()->delete();
+            
+            $model->userWithdrawals()->delete();
         });
 
     }

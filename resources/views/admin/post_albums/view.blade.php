@@ -34,17 +34,17 @@
             <div class="text-center">
 
                 <div class="card-body">
-                    <img src="{{$post_album_details->stardomDetails->picture ?? asset('placeholder.jpg')}}" class="rounded-circle height-100" alt="Card image" />
+                    <img src="{{$post_album_details->userDetails->picture ?? asset('placeholder.jpg')}}" class="rounded-circle height-100" alt="Card image" />
                 </div>
 
                 <div class="card-body">
-                    <h4 class="card-title">{{$post_album_details->stardomDetails->name ?? "-"}}</h4>
-                    <h6 class="card-subtitle text-muted">{{$post_album_details->stardomDetails->email ?? "-"}}</h6>
+                    <h4 class="card-title">{{$post_album_details->userDetails->name ?? "-"}}</h4>
+                    <h6 class="card-subtitle text-muted">{{$post_album_details->userDetails->email ?? "-"}}</h6>
                 </div>
 
                 <div class="text-center">
 
-                    <a href="{{route('admin.stardoms.view',['stardom_id' => $post_album_details->stardom_id])}}" class="btn btn-primary">
+                    <a href="{{route('admin.users.view',['user_id' => $post_album_details->user_id])}}" class="btn btn-primary">
                         {{tr('go_to_profile')}}
                     </a>
 

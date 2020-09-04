@@ -37,18 +37,18 @@
 
                     <div class="col-2">
 
-                        <img src="{{$post_details->getStardomDetails->picture ?? asset('placeholder.jpg')}}" class="post-image" alt="Card image" />
+                        <img src="{{$post_details->getuserDetails->picture ?? asset('placeholder.jpg')}}" class="post-image" alt="Card image" />
 
                     </div>
 
                     <div class="col-4">
                         
-                        <h4 class="card-title">{{$post_details->getStardomDetails->name ?? "-"}}</h4>
+                        <h4 class="card-title">{{$post_details->getuserDetails->name ?? "-"}}</h4>
 
-                        <h6 class="card-subtitle text-muted">{{$post_details->getStardomDetails->email ?? "-"}}</h6>
+                        <h6 class="card-subtitle text-muted">{{$post_details->getuserDetails->email ?? "-"}}</h6>
                         <br>
 
-                        <a href="{{route('admin.stardoms.view',['stardom_id' => $post_details->stardom_id])}}" class="btn btn-primary">
+                        <a href="{{route('admin.users.view',['user_id' => $post_details->user_id])}}" class="btn btn-primary">
                             {{tr('go_to_profile')}}
                         </a>
 

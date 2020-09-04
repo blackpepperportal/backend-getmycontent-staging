@@ -17,6 +17,7 @@ class CreateSubscriptionPaymentsTable extends Migration
             $table->id();
             $table->string('unique_id')->default(uniqid());
             $table->integer('subscription_id');
+            $table->integer('user_id');
             $table->string('payment_id')->default("");
             $table->float('amount')->default(0.00);
             $table->string('payment_mode')->default(COD);

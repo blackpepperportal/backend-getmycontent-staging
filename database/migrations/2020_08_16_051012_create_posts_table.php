@@ -16,7 +16,7 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('unique_id')->default(rand());
-            $table->integer('stardom_id');
+            $table->integer('user_id');
             $table->text('content')->nullable();
             $table->dateTime('publish_time')->nullable();
             $table->float('amount')->default(0.00);
