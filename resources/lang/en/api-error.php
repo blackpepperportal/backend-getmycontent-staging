@@ -67,4 +67,8 @@ return [
 
     128 => 'Details update failed!!',
 
+    129 => 'The subscription record not found.',
+
+    130 => 'You already used free subscription. You can\'t use the subscription'
+
 ];

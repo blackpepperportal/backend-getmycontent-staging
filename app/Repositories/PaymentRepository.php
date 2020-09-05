@@ -6,7 +6,7 @@ use App\Helpers\Helper;
 
 use Log, Validator, Setting, Exception, DB;
 
-use App\User;
+use App\User, App\SubscriptionPayment;
 
 class PaymentRepository {
 
@@ -569,6 +569,170 @@ class PaymentRepository {
 
         }
 
+    }
+
+    /**
+     * @method subscriptions_payment_by_stripe()
+     *
+     * @uses Subscription payment - card
+     *
+     * @created Bhawya
+     * 
+     * @updated Bhawya
+     *
+     * @param object $subscription_details, object $request
+     *
+     * @return object $subscription_details
+     */
+
+    public static function subscriptions_payment_by_stripe($request, $subscription_details) {
+
+        try {
+
+            // Check stripe configuration
+        
+            $stripe_secret_key = Setting::get('stripe_secret_key');
+
+            if(!$stripe_secret_key) {
+
+                throw new Exception(api_error(107), 107);
+
+            } 
+
+            \Stripe\Stripe::setApiKey($stripe_secret_key);
+           
+            $currency_code = Setting::get('currency_code', 'USD') ?: "USD";
+
+            $total = intval(round($request->user_pay_amount * 100));
+
+            $charge_array = [
+                'amount' => $total,
+                'currency' => $currency_code,
+                'customer' => $request->customer_id,
+            ];
+
+
+            $stripe_payment_response =  \Stripe\Charge::create($charge_array);
+
+            $payment_data = [
+                'payment_id' => $stripe_payment_response->id ?? 'CARD-'.rand(),
+                'paid_amount' => $stripe_payment_response->amount/100 ?? $total,
+                'paid_status' => $stripe_payment_response->paid ?? true
+            ];
+
+            $response_array = ['success' => true, 'message' => 'done', 'data' => $payment_data];
+
+            return response()->json($response_array, 200);
+
+        } catch(Exception $e) {
+
+            $response_array = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
+
+            return response()->json($response_array, 200);
+
+        }
+
+    }
+
+    /**
+     * @method subscriptions_payment_save()
+     *
+     * @uses used to save user subscription payment details
+     *
+     * @created Bhawya
+     * 
+     * @updated Bhawya
+     *
+     * @param object $subscription_details, object $request
+     *
+     * @return object $subscription_details
+     */
+
+    public static function subscriptions_payment_save($request, $subscription_details) {
+
+        try {
+
+            $previous_payment = SubscriptionPayment::where('user_id' , $request->id)
+                ->where('status', PAID_STATUS)
+                ->orderBy('created_at', 'desc')
+                ->first();
+
+            $user_subscription_details = new SubscriptionPayment;
+
+            $user_subscription_details->expiry_date = date('Y-m-d H:i:s',strtotime("+{$subscription_details->plan} months"));
+
+            if($previous_payment) {
+
+                if (strtotime($previous_payment->expiry_date) >= strtotime(date('Y-m-d H:i:s'))) {
+                    $user_subscription_details->expiry_date = date('Y-m-d H:i:s', strtotime("+{$subscription_details->plan} months", strtotime($previous_payment->expiry_date)));
+                }
+            }
+
+            $user_subscription_details->subscription_id = $request->subscription_id;
+
+            $user_subscription_details->user_id = $request->id;
+
+            $user_subscription_details->payment_id = $request->payment_id ?? "NO-".rand();
+
+            $user_subscription_details->status = PAID_STATUS;
+
+            $user_subscription_details->amount = $request->paid_amount ?? 0.00;
+
+            $user_subscription_details->payment_mode = $request->payment_mode ?? CARD;
+
+            $user_subscription_details->cancel_reason = $request->cancel_reason ?? '';
+
+            $user_subscription_details->save();
+
+            // update the earnings
+            self::users_account_upgrade($request->id, $request->paid_amount, $subscription_details->amount, $user_subscription_details->expiry_date);
+
+            $response_array = ['success' => true, 'message' => 'paid', 'data' => ['user_type' => SUBSCRIBED_USER, 'payment_id' => $request->payment_id]];
+
+            return response()->json($response_array, 200);
+
+        } catch(Exception $e) {
+
+            $response_array = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
+
+            return response()->json($response_array, 200);
+
+        }
+    
+    }
+
+    /**
+     * @method users_account_upgrade()
+     *
+     * @uses add amount to user
+     *
+     * @created Bhawya
+     *
+     * @updated Bhawya
+     *
+     * @param integer $user_id, float $admin_amount, $user_amount
+     *
+     * @return - 
+     */
+    
+    public static function users_account_upgrade($user_id, $paid_amount = 0.00, $subscription_amount, $expiry_date) {
+
+        if($user_details = User::find($user_id)) {
+
+            $user_details->user_type = SUBSCRIBED_USER;
+
+            $user_details->one_time_subscription = $subscription_amount <= 0 ? YES : NO;
+
+            $user_details->amount_paid += $paid_amount ?? 0.00;
+
+            $user_details->expiry_date = $expiry_date;
+
+            $user_details->no_of_days = total_days($expiry_date);
+
+            $user_details->save();
+        
+        }
+    
     }
 
 }

@@ -165,3 +165,28 @@ if(!defined('WALLET_PAYMENT_TYPE_ADD')) define('WALLET_PAYMENT_TYPE_ADD', 'add')
 if(!defined('WALLET_PAYMENT_TYPE_PAID')) define('WALLET_PAYMENT_TYPE_PAID', 'paid');
 if(!defined('WALLET_PAYMENT_TYPE_CREDIT')) define('WALLET_PAYMENT_TYPE_CREDIT', 'credit');
 if(!defined('WALLET_PAYMENT_TYPE_WITHDRAWAL')) define('WALLET_PAYMENT_TYPE_WITHDRAWAL', 'withdrawal');
+
+if (!defined('PAID_STATUS')) define('PAID_STATUS', 1);
+
+
+// Subscribed user status
+
+if(!defined('SUBSCRIBED_USER')) define('SUBSCRIBED_USER', 1);
+
+if(!defined('NON_SUBSCRIBED_USER')) define('NON_SUBSCRIBED_USER', 0);
+
+if(!defined('TAKE_COUNT')) define('TAKE_COUNT', 12);
+
+if(!defined('SHOW')) define('SHOW', 1);
+
+if(!defined('HIDE')) define('HIDE', 0);
+
+if(!defined('READ')) define('READ', 1);
+
+if(!defined('UNREAD')) define('UNREAD', 0);
+
+// AUTORENEWAL STATUS
+
+if(!defined('AUTORENEWAL_ENABLED')) define('AUTORENEWAL_ENABLED',0);
+
+if(!defined('AUTORENEWAL_CANCELLED')) define('AUTORENEWAL_CANCELLED',1);

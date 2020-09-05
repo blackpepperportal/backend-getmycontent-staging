@@ -17,4 +17,14 @@ class Subscription extends Model
 
     	return formatted_plan($this->plan, $this->plan_type);
     }
+
+    /**
+     * Scope a query to basic subscription details
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeApproved($query) {
+
+        return $query->where('subscriptions.status', APPROVED);
+    }
 }

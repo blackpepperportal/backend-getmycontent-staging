@@ -33,4 +33,10 @@ return [
     116 => 'The uploaded documents are deleted',
 
     117 => 'The amount added to wallet',
+
+    118 => 'Your payment done successfully.',
+
+    119 => 'The auto renewal is enabled.',
+
+    120 => 'The auto renewal is paused.',
 ];

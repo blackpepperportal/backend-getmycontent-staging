@@ -825,3 +825,16 @@ function wallet_picture($amount_type = WALLET_AMOUNT_TYPE_ADD) {
     return $wallet_picture;
 
 }
+
+function total_days($end_date, $start_date = "") {
+
+    $start_date = $start_date ?? date('Y-m-d H:i:s');
+
+    $start_date = strtotime($start_date);
+
+    $end_date = strtotime($end_date);
+
+    $datediff = $start_date - $end_date;
+
+    return round($datediff / (60 * 60 * 24));
+}

@@ -46,6 +46,10 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->tinyInteger('is_content_creator')->default(0);
             $table->tinyInteger('status')->default(1);
+            $table->integer('one_time_subscription')->comment("0 - Not Subscribed , 1 - Subscribed")->default(0);
+            $table->float('amount_paid')->default(0);
+            $table->dateTime('expiry_date')->nullable();
+            $table->integer('no_of_days')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

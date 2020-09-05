@@ -109,19 +109,15 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('wallets_send_money','Api\WalletApiController@user_wallets_send_money');
 
-        // Withdrawls start
+        Route::post('subscriptions_index','Api\SubscriptionApiController@subscriptions_index');
 
-        Route::post('withdrawals_index','Api\WalletApiController@user_withdrawals_index');
-        
-        Route::post('withdrawals_view','Api\WalletApiController@user_withdrawals_view');
+        Route::post('subscriptions_view','Api\SubscriptionApiController@subscriptions_view');
 
-        Route::post('withdrawals_search','Api\WalletApiController@user_withdrawals_search');
+        Route::post('subscriptions_payment_by_card','Api\SubscriptionApiController@subscriptions_payment_by_card');
 
-        Route::post('withdrawals_send_request','Api\WalletApiController@user_withdrawals_send_request');
+        Route::post('subscriptions_history','Api\SubscriptionApiController@subscriptions_history');
 
-        Route::post('withdrawals_cancel_request','Api\WalletApiController@user_withdrawals_cancel_request');
-
-        Route::post('withdrawals_check','Api\WalletApiController@user_withdrawals_check');
+        Route::post('subscriptions_autorenewal_status','Api\SubscriptionApiController@subscriptions_autorenewal_status');
 
     });
 
