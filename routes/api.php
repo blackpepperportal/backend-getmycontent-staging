@@ -20,49 +20,109 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
+    Route::get('get_settings_json', function () {
+
+        if(\File::isDirectory(public_path(SETTINGS_JSON))){
+
+        } else {
+
+            \File::makeDirectory(public_path('default-json'), 0777, true, true);
+
+            \App\Helpers\Helper::settings_generate_json();
+        }
+
+        $jsonString = file_get_contents(public_path(SETTINGS_JSON));
+
+        $data = json_decode($jsonString, true);
+
+        return $data;
+    
+    });
+
 	/***
 	 *
 	 * User Account releated routs
 	 *
 	 */
 
-    Route::post('register','UserApi\AccountApiController@register');
+    Route::post('register','Api\UserAccountApiController@register');
     
-    Route::post('login','UserApi\AccountApiController@login');
+    Route::post('login','Api\UserAccountApiController@login');
 
-    Route::post('forgot_password', 'UserApi\AccountApiController@forgot_password');
+    Route::post('forgot_password', 'Api\UserAccountApiController@forgot_password');
+
+    Route::post('regenerate_email_verification_code', 'Api\UserAccountApiController@regenerate_email_verification_code');
+
+    Route::post('verify_email', 'Api\UserAccountApiController@verify_email');
 
     Route::group(['middleware' => 'UserApiVal'] , function() {
 
-        Route::post('profile','UserApi\AccountApiController@profile'); // 1
+        Route::post('profile','Api\UserAccountApiController@profile');
 
-        Route::post('update_profile', 'UserApi\AccountApiController@update_profile'); // 2
+        Route::post('update_profile', 'Api\UserAccountApiController@update_profile');
 
-        Route::post('change_password', 'UserApi\AccountApiController@change_password'); // 3
+        Route::post('change_password', 'Api\UserAccountApiController@change_password');
 
-        Route::post('delete_account', 'UserApi\AccountApiController@delete_account'); // 4
+        Route::post('delete_account', 'Api\UserAccountApiController@delete_account');
 
-        Route::post('logout', 'UserApi\AccountApiController@logout'); // 7
+        Route::post('logout', 'Api\UserAccountApiController@logout');
 
-        Route::post('push_notification_update', 'UserApi\AccountApiController@push_notification_status_change');  // 5
+        Route::post('push_notification_update', 'Api\UserAccountApiController@push_notification_status_change');
 
-        Route::post('email_notification_update', 'UserApi\AccountApiController@email_notification_status_change'); // 6
+        Route::post('email_notification_update', 'Api\UserAccountApiController@email_notification_status_change');
 
-        Route::post('notifications_status_update','UserApi\AccountApiController@notifications_status_update');
+        Route::post('notifications_status_update','Api\UserAccountApiController@notifications_status_update');
 
+        // Cards management start
+
+        Route::post('cards_add', 'Api\UserAccountApiController@cards_add');
+
+        Route::post('cards_list', 'Api\UserAccountApiController@cards_list');
+
+        Route::post('cards_delete', 'Api\UserAccountApiController@cards_delete');
+
+        Route::post('cards_default', 'Api\UserAccountApiController@cards_default');
+
+        Route::post('payment_mode_default', 'Api\UserAccountApiController@payment_mode_default');
 
     });
 
-    // Cards management start
+    Route::post('admin_account_details','Api\WalletApiController@admin_account_details');
 
-    Route::post('cards_add', 'UserApi\AccountApiController@cards_add'); // 15
+    Route::group(['middleware' => ['UserApiVal']], function() {
 
-    Route::post('cards_list', 'UserApi\AccountApiController@cards_list'); // 16
+        Route::post('wallets_index','Api\WalletApiController@user_wallets_index');
 
-    Route::post('cards_delete', 'UserApi\AccountApiController@cards_delete'); // 17
+        Route::post('wallets_add_money_by_stripe', 'Api\WalletApiController@user_wallets_add_money_by_stripe');
 
-    Route::post('cards_default', 'UserApi\AccountApiController@cards_default'); // 18
+        Route::post('wallets_add_money_by_bank_account','Api\WalletApiController@user_wallets_add_money_by_bank_account');
+       
+        Route::post('wallets_history','Api\WalletApiController@user_wallets_history');
 
-    Route::post('payment_mode_default', 'UserApi\AccountApiController@payment_mode_default');
+        Route::post('wallets_history_for_add','Api\WalletApiController@user_wallets_history_for_add');
+
+        Route::post('wallets_history_for_sent','Api\WalletApiController@user_wallets_history_for_sent');
+
+        Route::post('wallets_history_for_received','Api\WalletApiController@user_wallets_history_for_received');
+
+        Route::post('wallets_payment_view','Api\WalletApiController@user_wallets_payment_view');
+
+        Route::post('wallets_send_money','Api\WalletApiController@user_wallets_send_money');
+
+        // Withdrawls start
+
+        Route::post('withdrawals_index','Api\WalletApiController@user_withdrawals_index');
+        
+        Route::post('withdrawals_view','Api\WalletApiController@user_withdrawals_view');
+
+        Route::post('withdrawals_search','Api\WalletApiController@user_withdrawals_search');
+
+        Route::post('withdrawals_send_request','Api\WalletApiController@user_withdrawals_send_request');
+
+        Route::post('withdrawals_cancel_request','Api\WalletApiController@user_withdrawals_cancel_request');
+
+        Route::post('withdrawals_check','Api\WalletApiController@user_withdrawals_check');
+
+    });
 
 });

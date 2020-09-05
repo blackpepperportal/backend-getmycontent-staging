@@ -14,11 +14,16 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $appends = ['user_id'];
+    protected $appends = ['user_id','is_notification'];
 
     public function getUserIdAttribute() {
 
         return $this->id;
+    }
+
+    public function getIsNotificationAttribute() {
+
+        return $this->email_notification_status;
     }
 
     /**
@@ -36,7 +41,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'id',
     ];
 
     /**
@@ -78,6 +83,13 @@ class User extends Authenticatable
         return $this->hasMany(UserWithdrawal::class,'user_id');
     }
 
+    /**
+     * Get the UserCard record associated with the user.
+     */
+    public function userCards() {
+        
+        return $this->hasMany(UserCard::class, 'user_id');
+    }
 
     public static function boot() {
 
@@ -85,7 +97,7 @@ class User extends Authenticatable
 
         static::creating(function ($model) {
 
-            $model->attributes['first_name'] = $model->attributes['last_name'] = $model->attributes['name'];
+            $model->attributes['name'] = $model->attributes['first_name']." ".$model->attributes['last_name'];
 
             $model->attributes['is_verified'] = USER_EMAIL_VERIFIED;
 

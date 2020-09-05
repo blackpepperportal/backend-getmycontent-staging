@@ -232,6 +232,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Setting' => Akaunting\Setting\Facade::class,
         'Enveditor' => 'vidhyar2612\Enveditor\Facade',
+        'Helper' => App\Helpers\Helper::class,
 
     ],
 

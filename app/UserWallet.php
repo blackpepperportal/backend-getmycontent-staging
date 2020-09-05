@@ -6,30 +6,65 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserWallet extends Model
 {
-	protected $appends = ['total_formatted','onhold_formatted','used_formatted','remaining_formatted'];
+	protected $hidden = ['deleted_at', 'id', 'unique_id'];
 
-	public function getTotalFormattedAttribute() {
+    protected $fillable = ['user_id', 'total', 'used', 'remaining'];
 
-		return formatted_amount($this->total);
-	}
+	protected $appends = ['user_wallet_id','user_wallet_unique_id', 'total_formatted', 'used_formatted', 'remaining_formatted'];
 
-	public function getOnholdFormattedAttribute() {
+	public function getUserWalletIdAttribute() {
 
-		return formatted_amount($this->onhold);
-	}
+        return $this->id;
+    }
 
-	public function getUsedFormattedAttribute() {
+    public function getUserWalletUniqueIdAttribute() {
 
-		return formatted_amount($this->used);
-	}
+        return $this->unique_id;
+    }
 
-	public function getRemainingFormattedAttribute() {
+    public function getTotalFormattedAttribute() {
 
-		return formatted_amount($this->remaining);
-	}
+        return formatted_amount($this->total);
+    }
 
-    public function userDetails() {
+    public function getUsedFormattedAttribute() {
 
-    	return $this->belongsTo(User::class,'user_id');
+        return formatted_amount($this->used);
+    }
+
+    public function getRemainingFormattedAttribute() {
+
+        return formatted_amount($this->remaining);
+    }
+
+    public function user() {
+        return $this->belongsTo('App\User','user_id');
+    }
+
+    /**
+     * Scope a query to only include active users.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCommonResponse($query) {
+        return $query->join('users','users.id','=','user_wallets.user_id');
+    }
+
+    public static function boot() {
+
+        parent::boot();
+
+        static::creating(function ($model) {
+
+            $model->attributes['unique_id'] = "UW-".uniqid();
+        });
+
+        static::created(function($model) {
+
+            $model->attributes['unique_id'] = "UW-".$model->attributes['id']."-".uniqid();
+
+            $model->save();
+        
+        });
     }
 }

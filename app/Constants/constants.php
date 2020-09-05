@@ -34,6 +34,9 @@ if(!defined('ContentCreator')) define('ContentCreator', 'creator');
 if(!defined('COD')) define('COD',   'COD');
 if(!defined('PAYPAL')) define('PAYPAL', 'PAYPAL');
 if(!defined('CARD')) define('CARD',  'CARD');
+if(!defined('BANK_TRANSFER')) define('BANK_TRANSFER',  'BANK_TRANSFER');
+if(!defined('PAYMENT_OFFLINE')) define('PAYMENT_OFFLINE',  'OFFLINE');
+if(!defined('PAYMENT_MODE_WALLET')) define('PAYMENT_MODE_WALLET',  'WALLET');
 
 if(!defined('STRIPE_MODE_LIVE')) define('STRIPE_MODE_LIVE',  'live');
 if(!defined('STRIPE_MODE_SANDBOX')) define('STRIPE_MODE_SANDBOX',  'sandbox');
@@ -142,3 +145,23 @@ if(!defined('WITHDRAW_ONHOLD')) define('WITHDRAW_ONHOLD', 2);
 if(!defined('WITHDRAW_REJECTED')) define('WITHDRAW_REJECTED', 3);
 
 if(!defined('WITHDRAW_CANCELLED')) define('WITHDRAW_CANCELLED', 4);
+
+
+
+if(!defined('USER_WALLET_PAYMENT_INITIALIZE')) define('USER_WALLET_PAYMENT_INITIALIZE', 0);
+if(!defined('USER_WALLET_PAYMENT_PAID')) define('USER_WALLET_PAYMENT_PAID', 1);
+if(!defined('USER_WALLET_PAYMENT_UNPAID')) define('USER_WALLET_PAYMENT_UNPAID', 2);
+if(!defined('USER_WALLET_PAYMENT_CANCELLED')) define('USER_WALLET_PAYMENT_CANCELLED', 3);
+if(!defined('USER_WALLET_PAYMENT_DISPUTED')) define('USER_WALLET_PAYMENT_DISPUTED', 4);
+if(!defined('USER_WALLET_PAYMENT_WAITING')) define('USER_WALLET_PAYMENT_WAITING', 5);
+
+
+// amount_type - add and debitedd
+if(!defined('WALLET_AMOUNT_TYPE_ADD')) define('WALLET_AMOUNT_TYPE_ADD', 'add');
+if(!defined('WALLET_AMOUNT_TYPE_MINUS')) define('WALLET_AMOUNT_TYPE_MINUS', 'minus');
+
+// payment type - specifies the transaction usage
+if(!defined('WALLET_PAYMENT_TYPE_ADD')) define('WALLET_PAYMENT_TYPE_ADD', 'add');
+if(!defined('WALLET_PAYMENT_TYPE_PAID')) define('WALLET_PAYMENT_TYPE_PAID', 'paid');
+if(!defined('WALLET_PAYMENT_TYPE_CREDIT')) define('WALLET_PAYMENT_TYPE_CREDIT', 'credit');
+if(!defined('WALLET_PAYMENT_TYPE_WITHDRAWAL')) define('WALLET_PAYMENT_TYPE_WITHDRAWAL', 'withdrawal');

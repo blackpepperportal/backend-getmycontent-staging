@@ -39,6 +39,7 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('registration_steps')->default(0);
             $table->integer('push_notification_status')->default(YES);
             $table->integer('email_notification_status')->default(YES);
+            $table->integer('user_card_id')->default(0);
             $table->integer('is_verified')->default(0);
             $table->string('verification_code')->default('');
             $table->string('verification_code_expiry')->default('');

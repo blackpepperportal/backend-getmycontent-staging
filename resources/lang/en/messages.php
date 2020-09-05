@@ -723,7 +723,16 @@ return [
 	
 	"no_result_found" => "No Results Found",
 	
+	'WALLET_PAYMENT_TYPE_ADD_TEXT' => 'Added to wallet',
+	'WALLET_PAYMENT_TYPE_PAID_TEXT' => 'Money sent from wallet',
+	'WALLET_PAYMENT_TYPE_CREDIT_TEXT' => 'Money credited to wallet',
+	'WALLET_PAYMENT_TYPE_WITHDRAWAL_TEXT' => 'Money sent to withdrawal',
 
-
+	'USER_WALLET_PAYMENT_INITIALIZE' => 'Initialized',
+	'USER_WALLET_PAYMENT_PAID' => 'Paid',
+	'USER_WALLET_PAYMENT_UNPAID' => 'Un Paid',
+	'USER_WALLET_PAYMENT_CANCELLED' => 'Cancelled',
+	'USER_WALLET_PAYMENT_DISPUTED' => 'Disputed',
+    'USER_WALLET_PAYMENT_WAITING' => 'Waiting', 
 
 ]?>

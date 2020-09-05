@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\UserApi;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 
@@ -12,7 +12,7 @@ use DB, Log, Hash, Validator, Exception, Setting;
 
 use App\User;
 
-class AccountApiController extends Controller
+class UserAccountApiController extends Controller
 {
  	protected $loginUser;
 
@@ -39,9 +39,9 @@ class AccountApiController extends Controller
      *
      * @uses Registered user can register through manual or social login
      * 
-     * @created Akshata
+     * @created Bhawya N 
      *
-     * @updated 
+     * @updated Bhawya N
      *
      * @param Form data
      *
@@ -50,15 +50,14 @@ class AccountApiController extends Controller
     public function register(Request $request) {
 
         try {
-            
+
             DB::beginTransaction();
 
-            $rules = 
-                [
-                    'device_type' => 'required|in:'.DEVICE_ANDROID.','.DEVICE_IOS.','.DEVICE_WEB,
-                    'device_token' => 'required',
-                    'login_by' => 'required|in:manual,facebook,google,apple,linkedin,instagram',
-                ];
+            $rules = [
+                'device_type' => 'required|in:'.DEVICE_ANDROID.','.DEVICE_IOS.','.DEVICE_WEB,
+                'device_token' => 'required',
+                'login_by' => 'required|in:manual,facebook,google,apple,linkedin,instagram',
+            ];
 
             Helper::custom_validator($request->all(), $rules);
 
@@ -67,10 +66,10 @@ class AccountApiController extends Controller
             if(in_array($request->login_by, $allowed_social_logins)) {
 
                 // validate social registration fields
-
                 $rules = [
                     'social_unique_id' => 'required',
-                    'name' => 'required|max:255|min:2',
+                    'first_name' => 'required|max:255|min:2',
+                    'last_name' => 'required|max:255|min:1',
                     'email' => 'required|email|max:255',
                     'mobile' => 'digits_between:6,13',
                     'picture' => '',
@@ -82,14 +81,14 @@ class AccountApiController extends Controller
             } else {
 
                 $rules = [
-                        'name' => 'required|max:255',
+                        'first_name' => 'required|max:255|min:2',
+                        'last_name' => 'required|max:255|min:1',
                         'email' => 'required|email|max:255|min:2',
                         'password' => 'required|min:6',
                         'picture' => 'mimes:jpeg,jpg,bmp,png',
                     ];
 
                 Helper::custom_validator($request->all(), $rules);
-
                 // validate email existence
 
                 $rules = ['email' => 'unique:users,email'];
@@ -112,7 +111,7 @@ class AccountApiController extends Controller
 
                 $send_email = YES;
 
-                $user_details->picture = asset('placeholder.jpeg');
+                $user_details->picture = asset('placeholder.jpg');
 
                 $user_details->registration_steps = 1;
 
@@ -126,7 +125,9 @@ class AccountApiController extends Controller
 
             }
 
-            $user_details->name = $request->name ?? "";
+            $user_details->first_name = $request->first_name ?? "";
+
+            $user_details->last_name = $request->last_name ?? "";
 
             $user_details->email = $request->email ?? "";
 
@@ -138,7 +139,7 @@ class AccountApiController extends Controller
 
             }
 
-            $user_details->gender = $request->has('gender') ? $request->gender : "male";
+            $user_details->gender = $request->gender ?? "male";
 
             $check_device_exist = User::where('device_token', $request->device_token)->first();
 
@@ -175,37 +176,23 @@ class AccountApiController extends Controller
 
             if($user_details->save()) {
 
-                $user_details->save();
-
                 // Send welcome email to the new user:
 
                 if($send_email) {
 
                     if($user_details->login_by == 'manual') {
 
-                        $user_details->password = $request->password;
+                        $email_data['subject'] = tr('user_welcome_title').' '.Setting::get('site_name');
 
-                        $subject = tr('user_welcome_title').' '.Setting::get('site_name');
+                        $email_data['page'] = "emails.users.welcome";
 
-                        $email_data = $user_details;
+                        $email_data['data'] = $user_details;
 
-                        $page = "emails.users.welcome";
+                        $email_data['email'] = $user_details->email;
 
-                        $email = $user_details->email;
+                        $email_data['verification_code'] = $user_details->verification_code;
 
-                        $email_send_response = Helper::send_email($page,$subject,$email,$email_data);
-
-                        // No need to throw error. For forgot password we need handle the error response
-
-                        if($email_send_response->success) {
-
-                        } else {
-
-                            $error = $email_send_response->error;
-
-                            Log::info("Registered EMAIL Error".print_r($error , true));
-                            
-                        }
+                        // $this->dispatch(new SendEmailJob($email_data));
 
                     }
 
@@ -223,13 +210,19 @@ class AccountApiController extends Controller
 
                 if($user_details->is_verified == USER_EMAIL_VERIFIED) {
 
-                	$data = User::find($user_details->id);
+                    // counter(); // For site analytics. Don't remove
+                    
+                    $data = User::find($user_details->id);
 
                     $response = ['success' => true, 'data' => $data];
 
                 } else {
 
-                    $response = ['success' => false, 'error' => api_error(1001), 'error_code'=>1001];
+                    $data = User::find($user_details->id);
+
+                    $response = ['success' => true, 'message' => api_error(1001), 'code' => 1001, 'data' => $data];
+
+                    // $response = ['success' => false, 'error' => api_error(1001), 'error_code'=>1001];
 
                     DB::commit();
 
@@ -262,9 +255,9 @@ class AccountApiController extends Controller
      *
      * @uses Registered user can login using their email & password
      * 
-     * @created Akshata
+     * @created Bhawya N 
      *
-     * @updated 
+     * @updated Bhawya N
      *
      * @param object $request - User Email & Password
      *
@@ -273,25 +266,21 @@ class AccountApiController extends Controller
     public function login(Request $request) {
 
         try {
-
+            
             DB::beginTransaction();
 
-            $rules = 
-                [
-                    'device_type' => 'required|in:'.DEVICE_ANDROID.','.DEVICE_IOS.','.DEVICE_WEB,
-                    'device_token' => 'required',
-                    'login_by' => 'required|in:manual,facebook,google,apple,linkedin,instagram',
-                ];
+            $rules = [
+                'device_token' => 'required',
+                'device_type' => 'required|in:'.DEVICE_ANDROID.','.DEVICE_IOS.','.DEVICE_WEB,
+                'login_by' => 'required|in:manual,facebook,google,apple,linkedin,instagram',
+            ];
 
             Helper::custom_validator($request->all(), $rules);
 
-            /** Validate manual login fields */
-
-            $rules = 
-                [
-                   'email' => 'required|email',
-                    'password' => 'required',
-                ];
+            $rules = [
+                'email' => 'required|email',
+                'password' => 'required',
+            ];
 
             Helper::custom_validator($request->all(), $rules);
 
@@ -303,7 +292,7 @@ class AccountApiController extends Controller
 
             if(!$user_details) {
 
-            	throw new Exception(api_error(1002), 1002);
+                throw new Exception(api_error(1002), 1002);
 
             }
 
@@ -311,28 +300,25 @@ class AccountApiController extends Controller
 
             if($user_details->status != USER_APPROVED) {
 
-            	throw new Exception(api_error(1000), 1000);
+                throw new Exception(api_error(1000), 1000);
 
             }
 
-            if(Setting::get('is_account_email_verification') == YES && !$user_details->is_verified) {
+            if($user_details->is_verified != USER_EMAIL_VERIFIED) {
 
-                Helper::check_email_verification("" , $user_details->id, $error);
+                $data = User::find($user_details->id);
 
-                $is_email_verified = NO;
+                $response = ['success' => true, 'message' => api_error(1001), 'code' => 1001, 'data' => $data];
 
-            }
+                return response()->json($response, 200);
 
-            if(!$is_email_verified) {
-
-    			throw new Exception(api_error(1001), 1001);
             }
 
             if(Hash::check($request->password, $user_details->password)) {
 
                 // Generate new tokens
                 
-                $user_details->token = Helper::generate_token();
+                // $user_details->token = Helper::generate_token();
 
                 $user_details->token_expiry = Helper::generate_token_expiry();
                 
@@ -355,15 +341,18 @@ class AccountApiController extends Controller
 
                 $user_details->save();
 
+                
                 $data = User::find($user_details->id);
-				
-				DB::commit();
 
-            	return $this->sendResponse(api_success(101), 101, $data);
+                DB::commit();
+                
+                // counter(); // For site analytics. Don't remove
+
+                return $this->sendResponse(api_success(101), 101, $data);
 
             } else {
 
-				throw new Exception(api_error(102), 102);
+                throw new Exception(api_error(102), 102);
 
             }
 
@@ -382,9 +371,9 @@ class AccountApiController extends Controller
      *
      * @uses If the user forgot his/her password he can hange it over here
      *
-     * @created Akshata
+     * @created Bhawya N 
      *
-     * @updated 
+     * @updated Bhawya N
      *
      * @param object $request - Email id
      *
@@ -439,13 +428,13 @@ class AccountApiController extends Controller
 
             $user_details->password = Hash::make($new_password);
 
-            // $email_data['subject'] = tr('user_forgot_email_title' , Setting::get('site_name'));
+            $email_data['subject'] = tr('user_forgot_email_title' , Setting::get('site_name'));
 
-            // $email_data['email']  = $user_details->email;
+            $email_data['email']  = $user_details->email;
 
-            // $email_data['password'] = $new_password;
+            $email_data['password'] = $new_password;
 
-            // $email_data['page'] = "emails.users.forgot-password";
+            $email_data['page'] = "emails.users.forgot-password";
 
             // $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
@@ -473,9 +462,9 @@ class AccountApiController extends Controller
      *
      * @uses To change the password of the user
      *
-     * @created Akshata
+     * @created Bhawya N 
      *
-     * @updated 
+     * @updated Bhawya N
      *
      * @param object $request - Password & confirm Password
      *
@@ -515,11 +504,11 @@ class AccountApiController extends Controller
 
                     DB::commit();
 
-                    // $email_data['subject'] = tr('change_password_email_title' , Setting::get('site_name'));
+                    $email_data['subject'] = tr('change_password_email_title' , Setting::get('site_name'));
 
-                    // $email_data['email']  = $user_details->email;
+                    $email_data['email']  = $user_details->email;
 
-                    // $email_data['page'] = "emails.users.change-password";
+                    $email_data['page'] = "emails.users.change-password";
 
                     // $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
@@ -550,9 +539,9 @@ class AccountApiController extends Controller
      *
      * @uses To display the user details based on user  id
      *
-     * @created Akshata
+     * @created Bhawya N 
      *
-     * @updated 
+     * @updated Bhawya N
      *
      * @param object $request - User Id
      *
@@ -585,9 +574,9 @@ class AccountApiController extends Controller
      *
      * @uses To update the user details
      *
-     * @created Akshata
+     * @created Bhawya N 
      *
-     * @updated 
+     * @updated Bhawya N
      *
      * @param objecct $request : User details
      *
@@ -602,9 +591,10 @@ class AccountApiController extends Controller
             // Validation start
 
             $rules = [
-            		'name' => 'required|max:255',
+                    'first_name' => 'required|max:255',
+                    'last_name' => 'required|max:255',
                     'email' => 'email|unique:users,email,'.$request->id.'|max:255',
-                    'mobile' => 'digits_between:6,13',
+                    'mobile' => 'nullable|digits_between:6,13',
                     // 'picture' => 'mimes:jpeg,bmp,png',
                     'gender' => 'nullable|in:male,female,others',
                     'device_token' => '',
@@ -622,6 +612,10 @@ class AccountApiController extends Controller
             }
 
             $user_details->name = $request->name ?? $user_details->name;
+
+            $user_details->first_name = $request->first_name ?? $user_details->first_name;
+
+            $user_details->last_name = $request->last_name ?? $user_details->last_name;
             
             if($request->has('email')) {
 
@@ -637,15 +631,15 @@ class AccountApiController extends Controller
             // Upload picture
             if($request->hasFile('picture') != "") {
 
-                Helper::storage_delete_file($user_details->picture, COMMON_FILE_PATH); // Delete the old pic
+                Helper::storage_delete_file($user_details->picture, PROFILE_PATH_USER); // Delete the old pic
 
-                $user_details->picture = Helper::storage_upload_file($request->file('picture') , COMMON_FILE_PATH);
+                $user_details->picture = Helper::storage_upload_file($request->file('picture'), PROFILE_PATH_USER);
 
             }
 
             if($user_details->save()) {
 
-            	$data = User::where('id',$user_details->id)->first();
+                $data = User::find($user_details->id);
 
                 DB::commit();
 
@@ -653,7 +647,7 @@ class AccountApiController extends Controller
 
             } else {    
 
-        		throw new Exception(api_error(103), 103);
+                throw new Exception(api_error(103), 103);
             }
 
         } catch (Exception $e) {
@@ -671,9 +665,9 @@ class AccountApiController extends Controller
      * 
      * @uses Delete user account based on user id
      *
-     * @created Akshata
+     * @created Bhawya N 
      *
-     * @updated 
+     * @updated Bhawya N
      *
      * @param object $request - Password and user id
      *
@@ -702,7 +696,7 @@ class AccountApiController extends Controller
 
             if(!$user_details) {
 
-            	throw new Exception(api_error(1002), 1002);
+                throw new Exception(api_error(1002), 1002);
                 
             }
 
@@ -725,7 +719,7 @@ class AccountApiController extends Controller
 
             } else {
 
-            	throw new Exception(api_error(119), 119);
+                throw new Exception(api_error(119), 119);
             }
 
         } catch(Exception $e) {
@@ -735,16 +729,16 @@ class AccountApiController extends Controller
             return $this->sendError($e->getMessage(), $e->getCode());
         }
 
-	}
+    }
 
     /**
      * @method logout()
      *
      * @uses Logout the user
      *
-     * @created Akshata
+     * @created Bhawya N
      *
-     * @updated 
+     * @updated Bhawya N
      *
      * @param 
      * 
@@ -757,59 +751,13 @@ class AccountApiController extends Controller
     }
 
     /**
-     * @method notifications_status_update()
-     *
-     * @uses To enable/disable notifications of email / push notification
-     *
-     * @created Akshata
-     *
-     * @updated  
-     *
-     * @param - 
-     *
-     * @return JSON Response
-     */
-    public function notifications_status_update(Request $request) {
-
-        try {
-
-            DB::beginTransaction();
-
-            $rules = ['status' => 'required|numeric']; 
-
-            Helper::custom_validator($request->all(), $rules);
-                
-            $user_details = User::find($request->id);
-
-            $user_details->email_notification_status = $request->status;
-
-            $user_details->push_notification_status = $request->status;
-
-            $user_details->save();
-
-            $data = \App\User::where('id', $request->id)->first();
-            
-            DB::commit();
-
-            return $this->sendResponse(api_success(130), 130, $data);
-
-        } catch (Exception $e) {
-
-            DB::rollback();
-
-            return $this->sendError($e->getMessage(), $e->getCode());
-        }
-
-    }
-
-    /**
      * @method cards_list()
      *
      * @uses get the user payment mode and cards list
      *
-     * @created Akshata
+     * @created Bhawya N
      *
-     * @updated
+     * @updated Bhawya N
      *
      * @param integer id
      * 
@@ -851,9 +799,9 @@ class AccountApiController extends Controller
      *
      * @uses used to add card to the user
      *
-     * @created Vithya R
+     * @created Bhawya N
      *
-     * @updated Vithya R
+     * @updated Bhawya N
      *
      * @param card_token
      * 
@@ -928,7 +876,7 @@ class AccountApiController extends Controller
 
                     if($user_details) {
 
-                        $user_details->user_card_id = $check_card_details ? $user_details->user_card_id : $card_details->id;
+                        // $user_details->user_card_id = $check_card_details ? $user_details->user_card_id : $card_details->id;
 
                         $user_details->save();
                     }
@@ -971,9 +919,9 @@ class AccountApiController extends Controller
      *
      * @uses delete the selected card
      *
-     * @created Akshata
+     * @created Bhawya N
      *
-     * @updated 
+     * @updated Bhawya N
      *
      * @param integer user_card_id
      * 
@@ -986,12 +934,16 @@ class AccountApiController extends Controller
 
             DB::beginTransaction();
 
+            // validation start
+
             $rules = [
-                    'user_card_id' => 'required|integer|exists:user_cards,id,user_id,'.$request->id,
-                    ];
+                'user_card_id' => 'required|integer|exists:user_cards,id,user_id,'.$request->id,
+            ];
 
             Helper::custom_validator($request->all(), $rules, $custom_errors = []);
             
+            // validation end
+
             $user_details = User::find($request->id);
 
             if(!$user_details) {
@@ -1002,6 +954,8 @@ class AccountApiController extends Controller
             \App\UserCard::where('id', $request->user_card_id)->delete();
 
             if($user_details->payment_mode = CARD) {
+
+                // Check he added any other card
 
                 if($check_card = \App\UserCard::where('user_id' , $request->id)->first()) {
 
@@ -1020,6 +974,8 @@ class AccountApiController extends Controller
                 }
            
             }
+
+            // Check the deleting card and default card are same
 
             if($user_details->user_card_id == $request->user_card_id) {
 
@@ -1048,9 +1004,9 @@ class AccountApiController extends Controller
      *
      * @uses update the selected card as default
      *
-     * @created Akshata
+     * @created Bhawya N
      *
-     * @updated 
+     * @updated Bhawya N
      *
      * @param integer id
      * 
@@ -1062,12 +1018,16 @@ class AccountApiController extends Controller
 
             DB::beginTransaction();
 
+            // validation start
+
             $rules = [
-                    'user_card_id' => 'required|integer|exists:user_cards,id,user_id,'.$request->id,
-                    ];
+                'user_card_id' => 'required|integer|exists:user_cards,id,user_id,'.$request->id,
+            ];
 
             Helper::custom_validator($request->all(), $rules, $custom_errors = []);
             
+            // validation end
+
             $user_details = User::find($request->id);
 
             if(!$user_details) {
@@ -1101,9 +1061,9 @@ class AccountApiController extends Controller
      *
      * @uses update the selected card as default
      *
-     * @created Akshata
+     * @created Bhawya N
      *
-     * @updated 
+     * @updated Bhawya N
      *
      * @param integer id
      * 
@@ -1151,5 +1111,144 @@ class AccountApiController extends Controller
     
     }
 
+    /**
+     * @method regenerate_email_verification_code()
+     *
+     * @uses 
+     *
+     * @created Bhawya N
+     *
+     * @updated Bhawya N
+     *
+     * @param request id
+     *
+     * @return JSON Response
+     */
+    public function regenerate_email_verification_code(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $user_details = \App\User::find($request->id);
+
+            $user_details->verification_code = Helper::generate_email_code();
+
+            // $user_details->verification_code_expiry = \Helper::generate_email_expiry();
+
+            $user_details->save();
+
+            $email_data['subject'] = Setting::get('site_name');
+
+            $email_data['page'] = "emails.users.verification-code";
+
+            $email_data['data'] = $user_details;
+
+            $email_data['email'] = $user_details->email;
+
+            $email_data['verification_code'] = $user_details->verification_code;
+
+            // $this->dispatch(new SendEmailJob($email_data));
+
+            DB::commit();
+
+            return $this->sendResponse($message = api_success(129), $code = 128, $data = []);
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+    
+    }
+
+    /**
+     * @method verify_email()
+     *
+     * @uses 
+     *
+     * @created Bhawya N
+     *
+     * @updated Bhawya N
+     *
+     * @param request id
+     *
+     * @return JSON Response
+     */
+    public function verify_email(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $user_details = \App\User::find($request->id);
+
+            $user_details->is_verified = USER_EMAIL_VERIFIED;
+
+            $user_details->save();
+
+            DB::commit();
+
+            $data = User::find($user_details->id);
+
+            return $this->sendResponse($message = api_success(129), $code = 129, $data);
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+    
+    }
+
+    /**
+     * @method notifications_status_update()
+     *
+     * @uses To enable/disable notifications of email / push notification
+     *
+     * @created Bhawya N
+     *
+     * @updated Bhawya N
+     *
+     * @param - 
+     *
+     * @return JSON Response
+     */
+    public function notifications_status_update(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $rules = ['status' => 'required|numeric']; 
+
+            Helper::custom_validator($request->all(), $rules);
+                
+            $user_details = User::find($request->id);
+
+            $user_details->email_notification_status = $request->status;
+
+            $user_details->push_notification_status = $request->status;
+
+            $user_details->save();
+
+            $data = \App\User::where('id', $request->id)->first();
+            
+            DB::commit();
+
+            return $this->sendResponse(api_success(130), 130, $data);
+
+        } catch (Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+
+    }
 
 }

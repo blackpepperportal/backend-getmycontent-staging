@@ -32,4 +32,5 @@ return [
 
     116 => 'The uploaded documents are deleted',
 
+    117 => 'The amount added to wallet',
 ];

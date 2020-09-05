@@ -774,3 +774,54 @@ function revenue_graph($days) {
     return $data;   
 
 }
+/**
+ * @method get_wallet_message()
+ *
+ * @uses used to get the wallet message based on the types
+ * 
+ * @created vidhya R
+ *
+ * @updated vidhya R
+ * 
+ */
+
+function get_wallet_message($user_wallet_payment) {
+
+    $amount_type = $user_wallet_payment->payment_type;
+
+    $status_text = [
+        WALLET_PAYMENT_TYPE_ADD => tr('WALLET_PAYMENT_TYPE_ADD_TEXT'),WALLET_PAYMENT_TYPE_PAID => tr('WALLET_PAYMENT_TYPE_PAID_TEXT'), WALLET_PAYMENT_TYPE_CREDIT => tr('WALLET_PAYMENT_TYPE_CREDIT_TEXT'), WALLET_PAYMENT_TYPE_WITHDRAWAL => tr('WALLET_PAYMENT_TYPE_WITHDRAWAL_TEXT')];
+
+    return isset($status_text[$amount_type]) ? $status_text[$amount_type] : tr('WALLET_PAYMENT_TYPE_ADD_TEXT');
+
+}
+
+function wallet_formatted_amount($amount = 0.00, $amount_type = WALLET_AMOUNT_TYPE_ADD) {
+
+    $amount_symbol = $amount_type == WALLET_AMOUNT_TYPE_ADD ? "+" : "-";
+
+    return $amount_symbol." ".formatted_amount($amount);
+
+}
+
+function paid_status_formatted($status) {
+
+    $status_list = [
+        USER_WALLET_PAYMENT_INITIALIZE => tr('USER_WALLET_PAYMENT_INITIALIZE'), 
+        USER_WALLET_PAYMENT_PAID => tr('USER_WALLET_PAYMENT_PAID'), 
+        USER_WALLET_PAYMENT_UNPAID => tr('USER_WALLET_PAYMENT_UNPAID'), 
+        USER_WALLET_PAYMENT_CANCELLED => tr('USER_WALLET_PAYMENT_CANCELLED'),
+        USER_WALLET_PAYMENT_DISPUTED => tr('USER_WALLET_PAYMENT_DISPUTED'),
+        USER_WALLET_PAYMENT_WAITING => tr('USER_WALLET_PAYMENT_WAITING')
+    ];
+
+    return isset($status_list[$status]) ? $status_list[$status] : tr('paid');
+}
+
+function wallet_picture($amount_type = WALLET_AMOUNT_TYPE_ADD) {
+
+    $wallet_picture = $amount_type == WALLET_AMOUNT_TYPE_ADD ? asset('images/wallet_plus.svg') : asset('images/wallet_minus.svg');
+
+    return $wallet_picture;
+
+}
