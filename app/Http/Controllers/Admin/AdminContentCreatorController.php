@@ -93,6 +93,7 @@ class AdminContentCreatorController extends Controller
                     ->with('page','stardoms')
                     ->with('sub_page' , $sub_page)
                     ->with('stardoms' , $stardoms);
+    
     }
 
     /**

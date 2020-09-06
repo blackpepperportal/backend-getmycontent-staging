@@ -53,11 +53,6 @@ if(!defined('USER_EMAIL_NOT_VERIFIED')) define('USER_EMAIL_NOT_VERIFIED', 0);
 
 if(!defined('USER_EMAIL_VERIFIED')) define('USER_EMAIL_VERIFIED', 1);
 
-if(!defined('STARDOM_PENDING')) define('STARDOM_PENDING', 0);
-
-if(!defined('STARDOM_APPROVED')) define('STARDOM_APPROVED', 1);
-
-if(!defined('STARDOM_DECLINED')) define('STARDOM_DECLINED', 2);
 
 if(!defined('STARDOM_EMAIL_NOT_VERIFIED')) define('STARDOM_EMAIL_NOT_VERIFIED', 0);
 
