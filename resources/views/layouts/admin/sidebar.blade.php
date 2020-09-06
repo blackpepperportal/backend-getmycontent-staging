@@ -57,7 +57,7 @@
                         </a>
                     </li>
                     <li id="content_creators-documents">
-                        <a class="menu-item" href="{{route('admin.content_creators.documents.index')}}">
+                        <a class="menu-item" href="{{route('admin.users.documents.index')}}">
                             {{tr('content_creator_documents')}}
                         </a>
                     </li>

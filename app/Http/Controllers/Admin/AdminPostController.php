@@ -101,10 +101,9 @@ class AdminPostController extends Controller
         $posts = $base_query->paginate(10);
 
         return view('admin.posts.index')
-                    ->with('main_page','posts-crud')
-                    ->with('page','posts')
-                    ->with('sub_page' , 'posts-view')
-                    ->with('posts' , $posts);
+                    ->with('page', 'posts')
+                    ->with('sub_page', 'posts-view')
+                    ->with('posts', $posts);
     }
 
     /**

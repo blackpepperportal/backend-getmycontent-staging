@@ -291,10 +291,9 @@ class AdminRevenueController extends Controller
         $subscriptions = \App\Subscription::orderBy('updated_at','desc')->paginate(10);
 
         return view('admin.subscriptions.index')
-                    ->with('main_page','subscriptions-crud')
-                    ->with('page','subscriptions')
-                    ->with('sub_page' , 'subscriptions-view')
-                    ->with('subscriptions' , $subscriptions);
+                    ->with('page', 'subscriptions')
+                    ->with('sub_page', 'subscriptions-view')
+                    ->with('subscriptions', $subscriptions);
     }
 
     /**
@@ -318,11 +317,10 @@ class AdminRevenueController extends Controller
         $subscription_plan_types = [PLAN_TYPE_MONTH,PLAN_TYPE_YEAR,PLAN_TYPE_WEEK,PLAN_TYPE_DAY];
 
         return view('admin.subscriptions.create')
-                    ->with('main_page','subscriptions-crud')
                     ->with('page' , 'subscriptions')
-                    ->with('sub_page','subscriptions-create')
+                    ->with('sub_page', 'subscriptions-create')
                     ->with('subscription_details', $subscription_details)
-                    ->with('subscription_plan_types',$subscription_plan_types);           
+                    ->with('subscription_plan_types', $subscription_plan_types);           
     }
 
     /**
@@ -353,11 +351,10 @@ class AdminRevenueController extends Controller
             $subscription_plan_types = [PLAN_TYPE_MONTH,PLAN_TYPE_YEAR,PLAN_TYPE_WEEK,PLAN_TYPE_DAY];
            
             return view('admin.subscriptions.edit')
-                    ->with('main_page','subscriptions-crud')
-                    ->with('page' , 'subscriptions')
-                    ->with('sub_page','subscriptions-view')
-                    ->with('subscription_details' , $subscription_details)
-                    ->with('subscription_plan_types',$subscription_plan_types); 
+                    ->with('page', 'subscriptions')
+                    ->with('sub_page', 'subscriptions-view')
+                    ->with('subscription_details', $subscription_details)
+                    ->with('subscription_plan_types', $subscription_plan_types); 
             
         } catch(Exception $e) {
 
@@ -466,10 +463,9 @@ class AdminRevenueController extends Controller
             }
 
             return view('admin.subscriptions.view')
-                        ->with('main_page','subscriptions-crud')
                         ->with('page', 'subscriptions') 
-                        ->with('sub_page','subscriptions-view') 
-                        ->with('subscription_details' , $subscription_details);
+                        ->with('sub_page', 'subscriptions-view') 
+                        ->with('subscription_details', $subscription_details);
             
         } catch (Exception $e) {
 
@@ -639,7 +635,7 @@ class AdminRevenueController extends Controller
 
             DB::begintransaction();
 
-            $user_withdrawal_details = \App\UserWithdrawal::find($request->stardom_withdrawal_id);
+            $user_withdrawal_details = \App\UserWithdrawal::find($request->user_withdrawal_id);
 
             if(!$user_withdrawal_details) {
 
@@ -688,7 +684,7 @@ class AdminRevenueController extends Controller
 
             DB::begintransaction();
 
-            $user_withdrawal_details = \App\UserWithdrawal::find($request->stardom_withdrawal_id);
+            $user_withdrawal_details = \App\UserWithdrawal::find($request->user_withdrawal_id);
 
             if(!$user_withdrawal_details) {
 

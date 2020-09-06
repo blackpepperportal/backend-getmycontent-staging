@@ -21,6 +21,4 @@ if(!defined('SETTINGS_JSON')) define('SETTINGS_JSON', 'default-json/settings.jso
 
 if(!defined('DOCUMENTS_PATH')) define('DOCUMENTS_PATH', 'uploads/documents/');
 
-if(!defined('STARDOM_FILE_PATH')) define('STARDOM_FILE_PATH', 'uploads/stardoms/');
-
 if(!defined('PRODUCT_FILE_PATH')) define('PRODUCT_FILE_PATH', 'uploads/products/');

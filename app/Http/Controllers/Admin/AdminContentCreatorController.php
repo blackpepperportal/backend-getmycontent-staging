@@ -89,7 +89,7 @@ class AdminContentCreatorController extends Controller
         $stardoms = $base_query->paginate(10);
 
         return view('admin.users.index')
-                    ->with('main_page','stardoms-crud')
+                    
                     ->with('page','stardoms')
                     ->with('sub_page' , $sub_page)
                     ->with('stardoms' , $stardoms);
@@ -114,7 +114,6 @@ class AdminContentCreatorController extends Controller
         $stardom_details = new \App\Stardom;
 
         return view('admin.users.create')
-                    ->with('main_page','stardoms-crud')
                     ->with('page' , 'stardoms')
                     ->with('sub_page','stardoms-create')
                     ->with('stardom_details', $stardom_details);           
@@ -145,8 +144,7 @@ class AdminContentCreatorController extends Controller
                 throw new Exception(tr('stardom_not_found'), 101);
             }
 
-            return view('admin.users.edit')
-                    ->with('main_page','stardoms-crud')
+            return view('admin.users.edit')                    
                     ->with('page' , 'stardoms')
                     ->with('sub_page','stardoms-view')
                     ->with('stardom_details' , $stardom_details); 
@@ -231,11 +229,11 @@ class AdminContentCreatorController extends Controller
 
                 if($request->user_id) {
 
-                    Helper::storage_delete_file($stardom_details->picture, STARDOM_FILE_PATH); 
+                    Helper::storage_delete_file($stardom_details->picture, PROFILE_PATH_USER); 
                     // Delete the old pic
                 }
 
-                $stardom_details->picture = Helper::storage_upload_file($request->file('picture'), STARDOM_FILE_PATH);
+                $stardom_details->picture = Helper::storage_upload_file($request->file('picture'), PROFILE_PATH_USER);
             }
 
             if($stardom_details->save()) {
@@ -306,7 +304,7 @@ class AdminContentCreatorController extends Controller
             }
 
             return view('admin.users.view')
-                        ->with('main_page','stardoms-crud')
+                        
                         ->with('page', 'stardoms') 
                         ->with('sub_page','stardoms-view') 
                         ->with('stardom_details' , $stardom_details);
@@ -495,7 +493,7 @@ class AdminContentCreatorController extends Controller
     }
 
     /**
-     * @method content_creators_documents_index()
+     * @method user_documents_index()
      *
      * @uses Lists all stradom documents 
      *
@@ -507,7 +505,7 @@ class AdminContentCreatorController extends Controller
      *
      * @return view page
      */
-    public function content_creators_documents_index(Request $request) {
+    public function user_documents_index(Request $request) {
 
 
         $base_query = \App\UserDocument::orderBy('created_at','DESC');
@@ -515,7 +513,7 @@ class AdminContentCreatorController extends Controller
         $stardom_documents = $base_query->paginate(10);
        
         return view('admin.users.documents.index')
-                    ->with('main_page','stardoms-crud')
+                    
                     ->with('page','stardoms')
                     ->with('sub_page' , 'stardoms-documents')
                     ->with('stardom_documents' , $stardom_documents);
@@ -523,7 +521,7 @@ class AdminContentCreatorController extends Controller
     }
 
     /**
-     * @method content_creators_document_view()
+     * @method user_document_view()
      *
      * @uses Display the specified document
      *
@@ -535,7 +533,7 @@ class AdminContentCreatorController extends Controller
      *
      * @return view page
      */
-    public function content_creators_document_view(Request $request) {
+    public function user_documents_view(Request $request) {
 
         try {
       
@@ -547,7 +545,7 @@ class AdminContentCreatorController extends Controller
             }
 
             return view('admin.users.documents.view')
-                        ->with('main_page','stardoms-crud')
+                        
                         ->with('page', 'stardoms') 
                         ->with('sub_page','stardoms-documents') 
                         ->with('stardom_document_details' , $stardom_document_details);
@@ -560,7 +558,7 @@ class AdminContentCreatorController extends Controller
     }
 
      /**
-     * @method content_creators_documents_verify()
+     * @method user_documents_verify()
      *
      * @uses verify the stardom documents
      *
@@ -572,7 +570,7 @@ class AdminContentCreatorController extends Controller
      *
      * @return redirect back page with status of the stardom verification
      */
-    public function content_creators_documents_verify(Request $request) {
+    public function user_documents_verify(Request $request) {
 
         try {
 
@@ -617,374 +615,6 @@ class AdminContentCreatorController extends Controller
 
         }
     
-    }
-
-    /**
-     * @method user_products_index()
-     *
-     * @uses To list out stardom products details 
-     *
-     * @created Akshata
-     *
-     * @updated 
-     *
-     * @param 
-     * 
-     * @return return view page
-     *
-     */
-    public function user_products_index(Request $request) {
-
-        $base_query = \App\UserProduct::orderBy('created_at','DESC');
-
-        if($request->search_key) {
-
-            $search_key = $request->search_key;
-
-            $base_query = $base_query->whereHas('userDetails',function($query) use($search_key) {
-
-                return $query->where('users.name','LIKE','%'.$search_key.'%');
-
-            })->orWhere('user_products.name','LIKE','%'.$search_key.'%');
-        }
-
-        if($request->user_id){
-
-            $base_query = $base_query->where('user_id',$request->user_id);
-        }
-       
-        $user_products = $base_query->paginate(10);
-
-        return view('admin.user_products.index')
-                ->with('main_page','user_products-crud')
-                ->with('page','user_products')
-                ->with('sub_page' , 'user_products-view')
-                ->with('user_products' , $user_products);
-    }
-
-    /**
-     * @method user_products_create()
-     *
-     * @uses To create stardom product details
-     *
-     * @created  Akshata
-     *
-     * @updated 
-     *
-     * @param 
-     * 
-     * @return return view page
-     *
-     */
-    public function user_products_create() {
-
-        $user_product_details = new \App\UserProduct;
-
-        $users = \App\User::where('is_content_creator', YES)->where('status', APPROVED)->get();
-
-        return view('admin.user_products.create')
-                ->with('main_page','user_products-crud')
-                ->with('page' , 'user_products')
-                ->with('sub_page', 'user_products-create')
-                ->with('user_product_details', $user_product_details)
-                ->with('users',$users);           
-    }
-
-    /**
-     * @method user_products_edit()
-     *
-     * @uses To display and update stardom product details based on the stardom product id
-     *
-     * @created Akshata
-     *
-     * @updated 
-     *
-     * @param object $request - Stardom Product Id
-     * 
-     * @return redirect view page 
-     *
-     */
-    public function user_products_edit(Request $request) {
-
-        try {
-
-            $user_product_details = \App\UserProduct::find($request->user_product_id);
-
-            if(!$user_product_details) { 
-
-                throw new Exception(tr('user_product_not_found'), 101);
-            }
-
-            $users = \App\User::where('is_content_creator', YES)->where('status', APPROVED)->get();
-
-            foreach ($users as $key => $user_details) {
-
-                $user_details->is_selected = NO;
-
-                if($user_product_details->user_id == $user_details->id){
-                    
-                    $user_details->is_selected = YES;
-                }
-
-            }
-            return view('admin.user_products.edit')
-                ->with('main_page','user_products-crud')
-                ->with('page' , 'user_products')
-                ->with('sub_page', 'user_products-view')
-                ->with('user_product_details', $user_product_details)
-                ->with('users', $users); 
-            
-        } catch(Exception $e) {
-
-            return redirect()->route('admin.user_products.index')->with('flash_error', $e->getMessage());
-        }
-    
-    }
-
-    /**
-     * @method user_products_save()
-     *
-     * @uses To save the stardom products details of new/existing stardom product object based on details
-     *
-     * @created Akshata
-     *
-     * @updated 
-     *
-     * @param object request - Stardom Product Form Data
-     *
-     * @return success message
-     *
-     */
-    public function user_products_save(Request $request) {
-        
-        try {
-            
-            DB::begintransaction();
-
-            $rules = [
-                'name' => 'required|max:191',
-                'quantity' => 'required|max:100',
-                'price' => 'required|max:100',
-                'picture' => 'mimes:jpg,png,jpeg',
-                'discription' => 'max:199',
-                'user_id' => 'required',
-                'user_id' => 'exists:users,id|nullable'
-            ];
-
-            Helper::custom_validator($request->all(),$rules);
-
-            $user_product_details = $request->user_product_id ? \App\UserProduct::find($request->user_product_id) : new \App\UserProduct;
-
-            if($user_product_details->id) {
-
-                $message = tr('user_product_updated_success'); 
-
-            } else {
-
-                $message = tr('user_product_created_success');
-
-            }
-
-            $user_product_details->user_id = $request->user_id ?: $user_product_details->user_id;
-
-            $user_product_details->name = $request->name ?: $user_product_details->name;
-
-            $user_product_details->quantity = $request->quantity ?: $user_product_details->quantity;
-
-            $user_product_details->price = $request->price ?: '';
-
-            $user_product_details->description = $request->description ?: '';
-
-            // Upload picture
-            
-            if($request->hasFile('picture')) {
-
-                if($request->user_product_id) {
-
-                    Helper::storage_delete_file($user_product_details->picture, COMMON_FILE_PATH); 
-                    // Delete the old pic
-                }
-
-                $user_product_details->picture = Helper::storage_upload_file($request->file('picture'), COMMON_FILE_PATH);
-            }
-
-            if($user_product_details->save()) {
-
-                DB::commit(); 
-
-                return redirect(route('admin.user_products.view', ['user_product_id' => $user_product_details->id]))->with('flash_success', $message);
-
-            } 
-
-            throw new Exception(tr('user_product_save_failed'));
-            
-        } catch(Exception $e){ 
-
-            DB::rollback();
-
-            return redirect()->back()->withInput()->with('flash_error', $e->getMessage());
-
-        } 
-
-    }
-
-    /**
-     * @method user_products_view()
-     *
-     * @uses displays the specified user product details based on user product id
-     *
-     * @created Akshata 
-     *
-     * @updated 
-     *
-     * @param object $request - user product Id
-     * 
-     * @return View page
-     *
-     */
-    public function user_products_view(Request $request) {
-       
-        try {
-      
-            $user_product_details = \App\UserProduct::find($request->user_product_id);
-
-            if(!$user_product_details) { 
-
-                throw new Exception(tr('user_product_not_found'), 101);                
-            }
-
-            return view('admin.user_products.view')
-                    ->with('main_page','user_products-crud')
-                    ->with('page', 'user_products') 
-                    ->with('sub_page','user_products-view')
-                    ->with('user_product_details' , $user_product_details);
-            
-        } catch (Exception $e) {
-
-            return redirect()->back()->with('flash_error', $e->getMessage());
-        }
-    
-    }
-
-    /**
-     * @method user_products_delete()
-     *
-     * @uses delete the stardom product details based on stardom id
-     *
-     * @created Akshata 
-     *
-     * @updated  
-     *
-     * @param object $request - Stardom Id
-     * 
-     * @return response of success/failure details with view page
-     *
-     */
-    public function user_products_delete(Request $request) {
-
-        try {
-
-            DB::begintransaction();
-
-            $user_product_details = \App\UserProduct::find($request->user_product_id);
-            
-            if(!$user_product_details) {
-
-                throw new Exception(tr('user_product_not_found'), 101);                
-            }
-
-            if($user_product_details->delete()) {
-
-                DB::commit();
-
-                return redirect()->route('admin.user_products.index')->with('flash_success',tr('user_product_deleted_success'));   
-
-            } 
-            
-            throw new Exception(tr('user_product_delete_failed'));
-            
-        } catch(Exception $e){
-
-            DB::rollback();
-
-            return redirect()->back()->with('flash_error', $e->getMessage());
-
-        }       
-         
-    }
-
-    /**
-     * @method user_products_status
-     *
-     * @uses To update stardom product status as DECLINED/APPROVED based on stardom product id
-     *
-     * @created Akshata
-     *
-     * @updated 
-     *
-     * @param object $request - Stardom Product Id
-     * 
-     * @return response success/failure message
-     *
-     **/
-    public function user_products_status(Request $request) {
-
-        try {
-
-            DB::beginTransaction();
-
-            $user_product_details = \App\UserProduct::find($request->user_product_id);
-
-            if(!$user_product_details) {
-
-                throw new Exception(tr('user_product_not_found'), 101);
-                
-            }
-
-            $user_product_details->status = $user_product_details->status ? DECLINED : APPROVED ;
-
-            if($user_product_details->save()) {
-
-                DB::commit();
-
-                if($user_product_details->status == DECLINED) {
-
-                    $email_data['subject'] = tr('product_decline_email' , Setting::get('site_name'));
-
-                    $email_data['status'] = tr('declined');
-
-                } else {
-
-                    $email_data['subject'] = tr('product_approve_email' , Setting::get('site_name'));
-
-                    $email_data['status'] = tr('approved');
-                }
-
-                $email_data['email']  = $user_product_details->userDetails->email ?? "-";
-
-                $email_data['name']  = $user_product_details->userDetails->name ?? "-";
-
-                $email_data['product_name']  = $user_product_details->name;
-
-                $email_data['page'] = "emails.products.status";
-
-                $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
-
-                $message = $user_product_details->status ? tr('user_product_approve_success') : tr('user_product_decline_success');
-
-                return redirect()->back()->with('flash_success', $message);
-            }
-            
-            throw new Exception(tr('user_product_status_change_failed'));
-
-        } catch(Exception $e) {
-
-            DB::rollback();
-
-            return redirect()->route('admin.user_products.index')->with('flash_error', $e->getMessage());
-
-        }
-
     }
 
     /**
@@ -1048,19 +678,19 @@ class AdminContentCreatorController extends Controller
        
         try {
             
-            $stardom_wallet_details = \App\UserWallet::where('user_id',$request->user_id)->first();
+            $user_wallet_details = \App\UserWallet::where('user_id',$request->user_id)->first();
            
-            if(!$stardom_wallet_details) { 
+            if(!$user_wallet_details) { 
 
-                throw new Exception(tr('stardom_wallet_details_not_found'), 101);                
+                throw new Exception(tr('user_wallet_details_not_found'), 101);                
             }
 
-            $stardom_wallet_payments = \App\UserWalletPayment::where('user_id',$stardom_wallet_details->user_id)->paginate(10);
+            $user_wallet_payments = \App\UserWalletPayment::where('user_id',$user_wallet_details->user_id)->paginate(10);
                    
             return view('admin.user_wallets.view')
                         ->with('page', 'user_wallets') 
-                        ->with('stardom_wallet_details', $stardom_wallet_details)
-                        ->with('stardom_wallet_payments', $stardom_wallet_payments);
+                        ->with('user_wallet_details', $user_wallet_details)
+                        ->with('user_wallet_payments', $user_wallet_payments);
             
         } catch (Exception $e) {
 
@@ -1068,105 +698,5 @@ class AdminContentCreatorController extends Controller
         }
     
     }
-
-
-    /**
-     * @method user_products_dashboard()
-     *
-     * @uses 
-     *
-     * @created Akshata 
-     *
-     * @updated 
-     *
-     * @param object $request - stardom_wallet_id
-     * 
-     * @return View page
-     *
-     */
-    public function user_products_dashboard(Request $request) {
-
-        try {
-
-            $user_product_details = \App\UserProduct::where('id',$request->user_product_id)->first();
-
-            if(!$user_product_details) {
-
-                throw new Exception(tr('user_product_details_not_found'), 101);
-            }
-
-            $data = new \stdClass;
-
-            $data->total_orders = \App\OrderProduct::where('user_product_id',$user_product_details->id)->count();
-
-            $data->today_orders = \App\OrderProduct::where('user_product_id',$user_product_details->id)->whereDate('created_at',today())->count();
-
-            $order_products_ids =  \App\OrderProduct::where('user_product_id',$user_product_details->id)->pluck('order_id');
-
-            $data->total_revenue = $order_products_ids->count() > 0 ? \App\OrderPayment::whereIn('order_id',[$order_products_ids])->sum('total') : 0;
-
-            $data->today_revenue = count($order_products_ids) > 0 ? \App\OrderPayment::whereIn('order_id',[$order_products_ids])->where('created_at',today())->sum('total') : 0;
-
-            $ids = count($order_products_ids)> 0 ? $order_products_ids : 0 ;
-            
-            $data->analytics = last_x_days_revenue(6,$ids);
-           
-            return view('admin.user_products.dashboard')
-                        ->with('main_page','user_products-crud')
-                        ->with('page','user_products')
-                        ->with('sub_page' , 'user_products-view')
-                        ->with('data', $data);
-
-        } catch (Exception $e) {
-
-            return redirect()->back()->with('flash_error', $e->getMessage());
-        }
-    
-    }
-
-    /**
-     * @method order_products
-     *
-     * @uses Display all orders based the product details
-     *
-     * @created Akshata
-     *
-     * @updated 
-     *
-     * @param object $request - Stardom Product Id
-     * 
-     * @return response success/failure message
-     *
-     **/
-    public function order_products(Request $request) {
-
-        try {
-
-            DB::beginTransaction();
-
-            $order_products = \App\OrderProduct::where('user_product_id',$request->user_product_id)->get();
-
-            if(!$order_products) {
-
-                throw new Exception(tr('user_product_not_found'), 101);
-                
-            }
-
-            return view('admin.user_products.order_products')
-                        ->with('main_page','user_products-crud')
-                        ->with('page','user_products')
-                        ->with('sub_page' , 'user_products-view')
-                        ->with('order_products', $order_products);
-
-        } catch(Exception $e) {
-
-            DB::rollback();
-
-            return redirect()->route('admin.user_products.index')->with('flash_error', $e->getMessage());
-
-        }
-
-    }
-
 
 }

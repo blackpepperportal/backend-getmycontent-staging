@@ -50,7 +50,7 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('users/verify', 'Admin\AdminUserController@users_verify_status')->name('users.verify');
 
-        //stardoms CRUD Operations
+        //users CRUD Operations
 
         Route::get('content_creators', 'Admin\AdminContentCreatorController@content_creators_index')->name('content_creators.index');
 
@@ -68,33 +68,33 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('content_creators/verify', 'Admin\AdminContentCreatorController@content_creators_verify_status')->name('content_creators.verify');
 
-        //stardom documents 
+        //user documents 
 
-        Route::get('content_creators/documents', 'Admin\AdminContentCreatorController@content_creators_documents_index')->name('content_creators.documents.index');
+        Route::get('users/documents', 'Admin\AdminContentCreatorController@user_documents_index')->name('users.documents.index');
 
-        Route::get('content_creators/documents/view', 'Admin\AdminContentCreatorController@content_creators_documents_view')->name('content_creators.documents.view');
+        Route::get('users/documents/view', 'Admin\AdminContentCreatorController@user_documents_view')->name('users.documents.view');
 
-        Route::get('content_creators/documents/verify', 'Admin\AdminContentCreatorController@content_creators_documents_verify')->name('content_creators.documents.verify');
+        Route::get('users/documents/verify', 'Admin\AdminContentCreatorController@user_documents_verify')->name('users.documents.verify');
 
-        //stardom products CRUD Operations
+        //user products CRUD Operations
 
-        Route::get('user_products', 'Admin\AdminContentCreatorController@user_products_index')->name('user_products.index');
+        Route::get('products', 'Admin\AdminProductController@user_products_index')->name('user_products.index');
 
-        Route::get('user_products/create', 'Admin\AdminContentCreatorController@user_products_create')->name('user_products.create');
+        Route::get('products/create', 'Admin\AdminProductController@user_products_create')->name('user_products.create');
 
-        Route::get('user_products/edit', 'Admin\AdminContentCreatorController@user_products_edit')->name('user_products.edit');
+        Route::get('products/edit', 'Admin\AdminProductController@user_products_edit')->name('user_products.edit');
 
-        Route::post('user_products/save', 'Admin\AdminContentCreatorController@user_products_save')->name('user_products.save');
+        Route::post('products/save', 'Admin\AdminProductController@user_products_save')->name('user_products.save');
 
-        Route::get('user_products/view', 'Admin\AdminContentCreatorController@user_products_view')->name('user_products.view');
+        Route::get('products/view', 'Admin\AdminProductController@user_products_view')->name('user_products.view');
 
-        Route::get('user_products/delete', 'Admin\AdminContentCreatorController@user_products_delete')->name('user_products.delete');
+        Route::get('products/delete', 'Admin\AdminProductController@user_products_delete')->name('user_products.delete');
 
-        Route::get('user_products/status', 'Admin\AdminContentCreatorController@user_products_status')->name('user_products.status');
+        Route::get('products/status', 'Admin\AdminProductController@user_products_status')->name('user_products.status');
 
-        Route::get('/user_products/dashboard', 'Admin\AdminContentCreatorController@user_products_dashboard')->name('user_products.dashboard');
+        Route::get('products/dashboard', 'Admin\AdminProductController@user_products_dashboard')->name('user_products.dashboard');
 
-        Route::get('order_products','Admin\AdminContentCreatorController@order_products')->name('order_products');
+        Route::get('order_products','Admin\AdminProductController@order_products')->name('order_products');
 
         // Document CRUD Operations
 
@@ -164,13 +164,13 @@ Route::group(['middleware' => 'web'], function() {
 
         //delivery address routes end
         
-        //stardom wallet route start
+        //user wallet route start
 
         Route::get('/user_wallets' , 'Admin\AdminContentCreatorController@user_wallets_index')->name('user_wallets.index');
 
         Route::get('/user_wallets/view', 'Admin\AdminContentCreatorController@user_wallets_view')->name('user_wallets.view');
 
-        //stardom wallet route end
+        //user wallet route end
 
         //revenue dashboard start
 

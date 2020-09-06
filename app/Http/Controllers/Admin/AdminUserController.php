@@ -80,10 +80,9 @@ class AdminUserController extends Controller
         $users = $base_query->paginate(10);
 
         return view('admin.users.index')
-                    ->with('main_page','users-crud')
-                    ->with('page','users')
-                    ->with('sub_page' , 'users-view')
-                    ->with('users' , $users);
+                    ->with('page', 'users')
+                    ->with('sub_page', 'users-view')
+                    ->with('users', $users);
     
     }
 
@@ -106,8 +105,7 @@ class AdminUserController extends Controller
         $user_details = new \App\User;
 
         return view('admin.users.create')
-                    ->with('main_page','users-crud')
-                    ->with('page' , 'users')
+                    ->with('page', 'users')
                     ->with('sub_page','users-create')
                     ->with('user_details', $user_details);           
    
@@ -139,10 +137,9 @@ class AdminUserController extends Controller
             }
 
             return view('admin.users.edit')
-                    ->with('main_page','users-crud')
-                    ->with('page' , 'users')
-                    ->with('sub_page','users-view')
-                    ->with('user_details' , $user_details); 
+                    ->with('page', 'users')
+                    ->with('sub_page', 'users-view')
+                    ->with('user_details', $user_details); 
             
         } catch(Exception $e) {
 
@@ -299,7 +296,6 @@ class AdminUserController extends Controller
             }
 
             return view('admin.users.view')
-                        ->with('main_page','users-crud')
                         ->with('page', 'users') 
                         ->with('sub_page','users-view') 
                         ->with('user_details' , $user_details);

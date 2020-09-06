@@ -27,7 +27,7 @@
 
             <div class="card-header border-bottom border-gray">
 
-                <h4 class="card-title">{{ tr('view_user_wallets') }} - <a href="{{route('admin.users.view',['user_id' => $stardom_wallet_details->user_id])}}">{{$stardom_wallet_details->userDetails->name ?? "-"}}</a>	</h4>
+                <h4 class="card-title">{{ tr('view_user_wallets') }} - <a href="{{route('admin.users.view',['user_id' => $user_wallet_details->user_id])}}">{{$user_wallet_details->userDetails->name ?? "-"}}</a>	</h4>
                 <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                 
             </div>
@@ -42,7 +42,7 @@
 				                <div class="card-body">
 				                    <div class="media d-flex">
 				                        <div class="media-body white text-left">
-				                            <h3>{{$stardom_wallet_details->total_formatted}}</h3>
+				                            <h3>{{$user_wallet_details->total_formatted}}</h3>
 				                            <span>{{tr('total')}}</span>
 				                        </div>
 				                        <div class="align-self-center">
@@ -60,7 +60,7 @@
 				                <div class="card-body">
 				                    <div class="media d-flex">
 				                        <div class="media-body white text-left">
-				                            <h3>{{$stardom_wallet_details->used_formatted}}</h3>
+				                            <h3>{{$user_wallet_details->used_formatted}}</h3>
 				                            <span>{{tr('used')}}</span>
 				                        </div>
 				                        <div class="align-self-center">
@@ -78,7 +78,7 @@
 				                <div class="card-body">
 				                    <div class="media d-flex">
 				                        <div class="media-body white text-left">
-				                            <h3>{{$stardom_wallet_details->remaining_formatted}}</h3>
+				                            <h3>{{$user_wallet_details->remaining_formatted}}</h3>
 				                            <span>{{tr('remaining')}}</span>
 				                        </div>
 				                        <div class="align-self-center">
@@ -109,9 +109,9 @@
                    
                     <tbody>
 
-                        @foreach($stardom_wallet_payments as $i => $stardom_wallet_payment_details)
+                        @foreach($user_wallet_payments as $i => $stardom_wallet_payment_details)
                         <tr>
-                            <td>{{ $i+$stardom_wallet_payments->firstItem() }}</td>
+                            <td>{{ $i+$user_wallet_payments->firstItem() }}</td>
 
                             <td>{{ $stardom_wallet_payment_details->payment_id}}</td>
 
@@ -141,7 +141,7 @@
                 
                 </table>
 
-                <div class="pull-right" id="paglink">{{ $stardom_wallet_payments->appends(request()->input())->links() }}</div>
+                <div class="pull-right" id="paglink">{{ $user_wallet_payments->appends(request()->input())->links() }}</div>
 
             </div>
 

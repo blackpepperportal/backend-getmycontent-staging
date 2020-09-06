@@ -63,7 +63,7 @@
 
                                     <td>
                                         <a href="{{  route('admin.product_inventories.view' , ['user_product_id' => $product_inventory_details->id] )  }}">
-                                        {{ $product_inventory_details->stardomProductDetails->name ?? "-" }}
+                                        {{ $product_inventory_details->userProductDetails->name ?? "-" }}
                                         </a>
                                     </td>
                                     <td>

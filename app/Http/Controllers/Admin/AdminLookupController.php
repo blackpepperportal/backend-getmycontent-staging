@@ -29,7 +29,7 @@ class AdminLookupController extends Controller
 
     }
 
-/**
+    /**
      * @method documents_index()
      *
      * @uses To list out decoments details 
@@ -49,8 +49,8 @@ class AdminLookupController extends Controller
 
         return view('admin.documents.index')
                     ->with('page','documents')
-                    ->with('sub_page' , 'documents-view')
-                    ->with('documents' , $documents);
+                    ->with('sub_page', 'documents-view')
+                    ->with('documents', $documents);
     }
 
     /**
@@ -72,7 +72,7 @@ class AdminLookupController extends Controller
         $document_details = new \App\Document;
 
         return view('admin.documents.create')
-                    ->with('page' , 'documents')
+                    ->with('page', 'documents')
                     ->with('sub_page','documents-create')
                     ->with('document_details', $document_details);           
     }
@@ -103,7 +103,7 @@ class AdminLookupController extends Controller
             }
 
             return view('admin.documents.edit')
-                    ->with('page' , 'documents')
+                    ->with('page', 'documents')
                     ->with('sub_page','documents-create')
                     ->with('document_details' , $document_details); 
             
@@ -222,10 +222,9 @@ class AdminLookupController extends Controller
             }
 
             return view('admin.documents.view')
-                        ->with('main_page','documents-crud')
                         ->with('page', 'documents') 
-                        ->with('sub_page','documents-view') 
-                        ->with('document_details' , $document_details);
+                        ->with('sub_page', 'documents-view') 
+                        ->with('document_details', $document_details);
             
         } catch (Exception $e) {
 
@@ -444,7 +443,7 @@ class AdminLookupController extends Controller
             $static_keys[] = $static_page_details->type;
 
             return view('admin.static_pages.edit')
-                    ->with('page' , 'static_pages')
+                    ->with('page', 'static_pages')
                     ->with('sub_page', 'static_pages-view')
                     ->with('static_keys', array_unique($static_keys))
                     ->with('static_page_details', $static_page_details);

@@ -99,10 +99,10 @@
 
                                                 @if(in_array($user_withdrawal_details->status,[ WITHDRAW_INITIATED,WITHDRAW_ONHOLD]))
 
-                                                    <a type="button" class="dropdown-item" href="{{route('admin.user_withdrawals.paynow',['stardom_withdrawal_id'=>$user_withdrawal_details->id])}}" onclick="return confirm('Do you want to pay?')">{{tr('paynow')}}</a>
+                                                    <a type="button" class="dropdown-item" href="{{route('admin.user_withdrawals.paynow',['user_withdrawal_id'=>$user_withdrawal_details->id])}}" onclick="return confirm('Do you want to pay?')">{{tr('paynow')}}</a>
                                                     <div class="dropdown-divider"></div>
                                                     
-                                                    <a href="{{route('admin.user_withdrawals.reject',['stardom_withdrawal_id'=>$user_withdrawal_details->id])}}" class="dropdown-item">{{tr('reject')}}</a>
+                                                    <a href="{{route('admin.user_withdrawals.reject',['user_withdrawal_id'=>$user_withdrawal_details->id])}}" class="dropdown-item">{{tr('reject')}}</a>
                                                     
                                                 @endif
 

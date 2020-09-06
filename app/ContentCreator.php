@@ -38,7 +38,7 @@ class ContentCreator extends Model
 
         static::deleting(function ($model) {
 
-            Helper::delete_file($model->picture , STARDOM_FILE_PATH);
+            Helper::delete_file($model->picture , PROFILE_PATH_USER);
 
             $model->stardomDocuments()->delete();
 
