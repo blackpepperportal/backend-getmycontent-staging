@@ -19,7 +19,7 @@ class CreateSubCategoriesTable extends Migration
             $table->string('name');
             $table->integer('category_id');
             $table->text('description')->nullable();
-            $table->string('picture')->default(asset('res-placeholder.jpg'));
+            $table->string('picture')->default(asset('cat-placeholder.jpg'));
             $table->tinyInteger('status')->default(1);s
             $table->timestamps();
         });

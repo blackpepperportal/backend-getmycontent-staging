@@ -18,7 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->string('unique_id')->default(rand());
             $table->string('name');
             $table->text('description')->nullable();
-            $table->string('picture')->default(asset('res-placeholder.jpg'));
+            $table->string('picture')->default(asset('cat-placeholder.jpg'));
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
