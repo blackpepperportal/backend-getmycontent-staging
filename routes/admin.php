@@ -194,6 +194,22 @@ Route::group(['middleware' => 'web'], function() {
         Route::get('subscriptions/status', 'Admin\AdminRevenueController@subscriptions_status')->name('subscriptions.status');
         //subscriptions end
 
+        //categories start
+        Route::get('categories', 'Admin\AdminProductController@categories_index')->name('categories.index');
+
+        Route::get('categories/create', 'Admin\AdminProductController@categories_create')->name('categories.create');
+
+        Route::get('categories/edit', 'Admin\AdminProductController@categories_edit')->name('categories.edit');
+
+        Route::post('categories/save', 'Admin\AdminProductController@categories_save')->name('categories.save');
+
+        Route::get('categories/view', 'Admin\AdminProductController@categories_view')->name('categories.view');
+
+        Route::get('categories/delete', 'Admin\AdminProductController@categories_delete')->name('categories.delete');
+
+        Route::get('categories/status', 'Admin\AdminProductController@categories_status')->name('categories.status');
+        //subscriptions end
+
         // CC withdrawals start
 
         Route::get('user_withdrawals','Admin\AdminRevenueController@user_withdrawals')->name('user_withdrawals');

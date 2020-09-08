@@ -71,6 +71,28 @@
                 <span>{{tr('posts_management')}}</span>
             </li>
 
+            <li class="nav-item" id="categories">
+                <a href="{{route('admin.categories.index')}}">
+                    <i class="ft-box"></i>
+                    <span class="menu-title" data-i18n="">{{tr('categories')}}</span>
+                </a>
+                <ul class="menu-content">
+                    <li id="categories-create">
+                        <a class="menu-item" href="{{route('admin.categories.create')}}">
+                            {{tr('add_category')}}
+                        </a>
+                    </li>
+                    
+                    <li id="categories-view">
+                        <a class="menu-item" href="{{route('admin.categories.index')}}">
+                            {{tr('view_categories')}}
+                        </a>
+                    </li>
+                </ul>            
+            
+            </li>
+
+
             <li class="nav-item" id="posts">
                 <a href="{{route('admin.posts.index')}}">
                     <i class="fa fa-image"></i>

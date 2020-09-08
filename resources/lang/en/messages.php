@@ -735,4 +735,8 @@ return [
 	'USER_WALLET_PAYMENT_DISPUTED' => 'Disputed',
     'USER_WALLET_PAYMENT_WAITING' => 'Waiting', 
 
+    'categories' => 'Categories',
+    'add_category' => 'Add Category',
+    'view_categories' => 'View Categories',
+
 ]?>
