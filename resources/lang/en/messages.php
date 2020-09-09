@@ -752,4 +752,23 @@ return [
 	"category_decline_success" => "The category declined successfully..!!",
 	"category_decline_confirmation" => "Do you want decline this category?",
 	"category_status_change_failed" => "The category status updating failed..!!",
+
+	'sub_categories' => 'Sub Categories',
+    'add_sub_category' => 'Add Sub Category',
+    'view_sub_categories' => 'View Sub Categories',
+   	'edit_sub_category' => 'Edit Sub Category',
+
+   	"sub_category_created_success" => "The category created successfully!!",
+	"sub_category_updated_success" => "The category updated successfully!!",
+	"sub_category_save_failed" => "The sub category details updating failed!!",
+	"sub_category_not_found" => "The selected sub category details not found.",
+	"sub_category_deleted_success" => "The sub category deleted successfully!!",
+	"sub_category_delete_failed" => "The sub category deletion failed!!",
+	"sub_category_delete_confirmation" => "Once you\"ve deleted the record , the sub category(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.",
+	"sub_category_approve_success" => "The sub category approved successfully..!!",
+	"sub_category_decline_success" => "The sub category declined successfully..!!",
+	"sub_category_decline_confirmation" => "Do you want decline this sub category?",
+	"sub_category_status_change_failed" => "The sub category status updating failed..!!",
+
+
 ]?>

@@ -92,6 +92,26 @@
             
             </li>
 
+            <li class="nav-item" id="sub_categories">
+                <a href="{{route('admin.sub_categories.index')}}">
+                    <i class="ft-box"></i>
+                    <span class="menu-title" data-i18n="">{{tr('sub_categories')}}</span>
+                </a>
+                <ul class="menu-content">
+                    <li id="sub_categories-create">
+                        <a class="menu-item" href="{{route('admin.sub_categories.create')}}">
+                            {{tr('add_sub_category')}}
+                        </a>
+                    </li>
+                    
+                    <li id="sub_categories-view">
+                        <a class="menu-item" href="{{route('admin.sub_categories.index')}}">
+                            {{tr('view_sub_categories')}}
+                        </a>
+                    </li>
+                </ul>            
+            
+            </li>
 
             <li class="nav-item" id="posts">
                 <a href="{{route('admin.posts.index')}}">

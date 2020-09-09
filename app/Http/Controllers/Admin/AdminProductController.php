@@ -787,4 +787,304 @@ class AdminProductController extends Controller
 
     }
 
+
+
+    /**
+     * @method sub_categories_index()
+     *
+     * @uses To list out sub_categories details 
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function sub_categories_index(Request $request) {
+
+        $sub_category_details = \App\SubCategory::orderBy('created_at','DESC')->paginate(10);
+
+        return view('admin.sub_categories.index')
+                ->with('page', 'sub_categories')
+                ->with('sub_page' , 'sub_categories-view')
+                ->with('sub_category_details' , $sub_category_details);
+    }
+
+    /**
+     * @method sub_categories_create()
+     *
+     * @uses To create category details
+     *
+     * @created  Akshata
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function sub_categories_create() {
+
+        $sub_category_details = new \App\SubCategory;
+
+        $categories = \App\Category::where('status',APPROVED)->get();
+
+        return view('admin.sub_categories.create')
+                ->with('page', 'sub_categories')
+                ->with('sub_page', 'sub_categories-create')
+                ->with('sub_category_details', $sub_category_details)
+                ->with('categories',$categories);           
+    }
+
+    /**
+     * @method sub_categories_edit()
+     *
+     * @uses To display and update category details based on the sub category id
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - SubCategory Id 
+     * 
+     * @return redirect view page 
+     *
+     */
+    public function sub_categories_edit(Request $request) {
+
+        try {
+
+            $sub_category_details = \App\SubCategory::find($request->sub_category_id);
+
+            if(!$sub_category_details) { 
+
+                throw new Exception(tr('category_not_found'), 101);
+            }
+
+            return view('admin.sub_categories.edit')
+                ->with('page' , 'sub_categories')
+                ->with('sub_page', 'sub_categories-view')
+                ->with('sub_category_details', $sub_category_details); 
+            
+        } catch(Exception $e) {
+
+            return redirect()->route('admin.sub_categories.index')->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+    /**
+     * @method sub_categories_save()
+     *
+     * @uses To save the sub category details of new/existing sub category object based on details
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object request - SubCategory Form Data
+     *
+     * @return success message
+     *
+     */
+    public function sub_categories_save(Request $request) {
+        
+        try {
+            
+            DB::begintransaction();
+
+            $rules = [
+                'name' => 'required|max:191',
+                'picture' => 'mimes:jpg,png,jpeg',
+                'discription' => 'max:199',
+                'category_id' => 'required',
+            ];
+
+            Helper::custom_validator($request->all(),$rules);
+
+            $sub_category_details = $request->sub_category_id ? \App\SubCategory::find($request->sub_category_id) : new \App\SubCategory;
+
+            if($sub_category_details->id) {
+
+                $message = tr('sub_category_updated_success'); 
+
+            } else {
+
+                $message = tr('sub_category_created_success');
+
+            }
+
+            $sub_category_details->name = $request->name ?: $sub_category_details->name;
+
+            $sub_category_details->description = $request->description ?: '';
+
+            // Upload picture
+            
+            if($request->hasFile('picture')) {
+
+                if($request->sub_category_id) {
+
+                    Helper::storage_delete_file($sub_category_details->picture, CATEGORY_FILE_PATH); 
+                    // Delete the old pic
+                }
+
+                $sub_category_details->picture = Helper::storage_upload_file($request->file('picture'), CATEGORY_FILE_PATH);
+            }
+
+            if($sub_category_details->save()) {
+
+                DB::commit(); 
+
+                return redirect(route('admin.sub_categories.view', ['sub_category_id' => $sub_category_details->id]))->with('flash_success', $message);
+
+            } 
+
+            throw new Exception(tr('sub_category_save_failed'));
+            
+        } catch(Exception $e){ 
+
+            DB::rollback();
+
+            return redirect()->back()->withInput()->with('flash_error', $e->getMessage());
+
+        } 
+
+    }
+
+    /**
+     * @method sub_categories_view()
+     *
+     * @uses displays the specified category details based on category id
+     *
+     * @created Akshata 
+     *
+     * @updated 
+     *
+     * @param object $request - category Id
+     * 
+     * @return View page
+     *
+     */
+    public function sub_categories_view(Request $request) {
+       
+        try {
+      
+            $sub_category_details = \App\SubCategory::find($request->sub_category_id);
+
+            if(!$sub_category_details) { 
+
+                throw new Exception(tr('sub_category_not_found'), 101);                
+            }
+
+            return view('admin.sub_categories.view')
+                    ->with('page', 'sub_categories') 
+                    ->with('sub_page', 'sub_categories-view')
+                    ->with('sub_category_details', $sub_category_details);
+            
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+    /**
+     * @method sub_categories_delete()
+     *
+     * @uses delete the sub category details based on category id
+     *
+     * @created Akshata 
+     *
+     * @updated  
+     *
+     * @param object $request - SubCategory Id
+     * 
+     * @return response of success/failure details with view page
+     *
+     */
+    public function sub_categories_delete(Request $request) {
+
+        try {
+
+            DB::begintransaction();
+
+            $category_details = \App\SubCategory::find($request->sub_category_id);
+            
+            if(!$category_details) {
+
+                throw new Exception(tr('sub_category_not_found'), 101);                
+            }
+
+            if($category_details->delete()) {
+
+                DB::commit();
+
+                return redirect()->route('admin.sub_categories.index')->with('flash_success',tr('sub_category_deleted_success'));   
+
+            } 
+            
+            throw new Exception(tr('sub_category_delete_failed'));
+            
+        } catch(Exception $e){
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }       
+         
+    }
+
+    /**
+     * @method sub_categories_status
+     *
+     * @uses To update sub category status as DECLINED/APPROVED based on sub category id
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - SubCategory Id
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function sub_categories_status(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $sub_category_details = \App\SubCategory::find($request->sub_category_id);
+
+            if(!$sub_category_details) {
+
+                throw new Exception(tr('sub_category_not_found'), 101);
+                
+            }
+
+            $sub_category_details->status = $sub_category_details->status ? DECLINED : APPROVED ;
+
+            if($sub_category_details->save()) {
+
+                DB::commit();
+
+                return redirect()->back()->with('flash_success', $message);
+            }
+            
+            throw new Exception(tr('sub_category_status_change_failed'));
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->route('admin.sub_categories.index')->with('flash_error', $e->getMessage());
+
+        }
+
+    }
 }

@@ -10,7 +10,7 @@
 
     <li class="breadcrumb-item"><a href="{{route('admin.categories.index')}}">{{tr('categories')}}</a></li>
 
-    <li class="breadcrumb-item active">{{tr('edit_user_product')}}</a></li>
+    <li class="breadcrumb-item active">{{tr('edit_category')}}</a></li>
 
 @endsection
 

@@ -1,18 +1,18 @@
 @extends('layouts.admin') 
 
-@section('title', tr('view_categories')) 
+@section('title', tr('view_sub_categories')) 
 
-@section('content-header', tr('categories')) 
+@section('content-header', tr('sub_categories')) 
 
 @section('breadcrumb')
 
 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
 </li>
 
-<li class="breadcrumb-item"><a href="{{route('admin.categories.index')}}">{{tr('categories')}}</a>
+<li class="breadcrumb-item"><a href="{{route('admin.sub_categories.index')}}">{{tr('sub_categories')}}</a>
 </li>
 
-<li class="breadcrumb-item active">{{ tr('view_categories') }}
+<li class="breadcrumb-item active">{{ tr('view_sub_categories') }}
 </li>
 
 @endsection 
@@ -29,11 +29,11 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('view_categories') }}</h4>
+                    <h4 class="card-title">{{ tr('view_sub_categories') }}</h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
                     <div class="heading-elements">
-                        <a href="{{ route('admin.categories.create') }}" class="btn btn-primary"><i class="ft-plus icon-left"></i>{{ tr('add_category') }}</a>
+                        <a href="{{ route('admin.sub_categories.create') }}" class="btn btn-primary"><i class="ft-plus icon-left"></i>{{ tr('add_category') }}</a>
                     </div>
                     
                 </div>
@@ -56,20 +56,20 @@
                            
                             <tbody>
 
-                                @foreach($categories as $i => $category_details)
+                                @foreach($sub_categories as $i => $sub_category_details)
                                 <tr>
                                     <td>{{ $i+1 }}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.categories.view' , ['category_id' => $category_details->id] )  }}">
-                                        {{ $category_details->name }}
+                                        <a href="{{  route('admin.sub_categories.view' , ['sub_category_id' => $sub_category_details->id] )  }}">
+                                        {{ $sub_category_details->name }}
                                         </a>
                                     </td>
 
-                                    <td><img src="{{$category_details->picture}}" class="category-image"></td>4
+                                    <td><img src="{{$sub_category_details->picture}}" class="category-image"></td>4
                                     
                                     <td>
-                                        @if($category_details->status == APPROVED)
+                                        @if($sub_category_details->status == APPROVED)
 
                                             <span class="btn btn-success btn-sm">{{ tr('approved') }}</span> 
                                         @else
@@ -86,7 +86,7 @@
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                <a class="dropdown-item" href="{{ route('admin.categories.view', ['category_id' => $category_details->id] ) }}">&nbsp;{{ tr('view') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.sub_categories.view', ['sub_category_id' => $sub_category_details->id] ) }}">&nbsp;{{ tr('view') }}</a> 
 
                                                 @if(Setting::get('is_demo_control_enabled') == YES)
 
@@ -96,20 +96,20 @@
 
                                                 @else
 
-                                                    <a class="dropdown-item" href="{{ route('admin.categories.edit', ['category_id' => $category_details->id] ) }}">&nbsp;{{ tr('edit') }}</a>
+                                                    <a class="dropdown-item" href="{{ route('admin.sub_categories.edit', ['sub_category_id' => $sub_category_details->id] ) }}">&nbsp;{{ tr('edit') }}</a>
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('categroy_delete_confirmation' , $category_details->name) }}&quot;);" href="{{ route('admin.categories.delete', ['category_id' => $category_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('sub_category_delete_confirmation' , $sub_category_details->name) }}&quot;);" href="{{ route('admin.sub_categories.delete', ['sub_category_id' => $sub_category_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 
-                                                @if($category_details->status == APPROVED)
+                                                @if($sub_category_details->status == APPROVED)
 
-                                                    <a class="dropdown-item" href="{{  route('admin.categories.status' , ['category_id' => $category_details->id] )  }}" onclick="return confirm(&quot;{{ $category_details->name }} - {{ tr('category_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
+                                                    <a class="dropdown-item" href="{{  route('admin.sub_categories.status' , ['sub_category_id' => $sub_category_details->id] )  }}" onclick="return confirm(&quot;{{ $sub_category_details->name }} - {{ tr('sub_category_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
                                                 </a> 
 
                                                 @else
 
-                                                    <a class="dropdown-item" href="{{ route('admin.categories.status' , ['category_id' => $category_details->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
+                                                    <a class="dropdown-item" href="{{ route('admin.sub_categories.status' , ['sub_category_id' => $sub_category_details->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
 
                                                 @endif
 
@@ -127,7 +127,7 @@
                         
                         </table>
 
-                        <div class="pull-right" id="paglink">{{ $categories->appends(request()->input())->links() }}</div>
+                        <div class="pull-right" id="paglink">{{ $sub_categories->appends(request()->input())->links() }}</div>
 
                     </div>
 
