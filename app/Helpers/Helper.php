@@ -544,13 +544,13 @@ class Helper {
             $sample_data[$setting_details->key] = $setting_details->value;
         }
 
-        $footer_first_section = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->where('section_type', STATIC_PAGE_SECTION_1)->get();
+        $footer_first_section = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->get();
 
-        $footer_second_section = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->where('section_type', STATIC_PAGE_SECTION_2)->get();
+        $footer_second_section = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->get();
 
-        $footer_third_section = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->where('section_type', STATIC_PAGE_SECTION_3)->get();
+        $footer_third_section = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->get();
 
-        $footer_fourth_section = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->where('section_type', STATIC_PAGE_SECTION_4)->get();
+        $footer_fourth_section = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->get();
 
         $sample_data['footer_first_section'] = $footer_first_section;
 

@@ -84,16 +84,12 @@
 
                                         <div class="form-group">
 
-                                        <label>{{ tr('select_picture') }}</label>
+                                            <label>{{ tr('select_picture') }}</label>
 
-                                            <label id="user_picture" class="file center-block">
-                                                <input type="file" id="picture" name="picture" accept="image/png,image/jpeg" onchange="loadFile(this,'image_preview')">
-                                                 <img id="image_preview" class="img-thumbnail img-fluid" style="width: 100px;margin: 10px;height: 100px; " src="{{ $user_product_details->picture ? $user_product_details->picture : asset('placeholder.png') }}">
-                                            <span class="file-custom"></span>
-
-                                            </label>                                
+                                            <input type="file" class="form-control" name="picture" accept="image/png,image/jpeg" >
+                                                                      
                                         </div>
-
+                                        
                                     </div>
 
                                 </div>

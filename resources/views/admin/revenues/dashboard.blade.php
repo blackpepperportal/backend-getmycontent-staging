@@ -211,7 +211,7 @@
                             ?>],
                     datasets: [
                                {
-                                   label: "Post earnings",
+                                   label: "Post Earnings",
                                    backgroundColor: "#3e95cd",
                                    data:[<?php 
                                             foreach ($data->analytics->last_x_days_revenues as $value) {

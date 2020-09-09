@@ -862,6 +862,8 @@ class AdminProductController extends Controller
 
             $categories = \App\Category::where('status',APPROVED)->get();
 
+            $categories = selected(\App\Category::where('status',APPROVED)->get(), $sub_category_details->category_id, 'id');
+
             foreach ($categories as $key => $category_details) {
                
                $sub_category_details->is_selected = NO;

@@ -10,8 +10,11 @@
 </li>
 <li class="breadcrumb-item active"><a href="">{{ tr('orders') }}</a>
 </li>
+@if(Request::get('new_orders'))
+<li class="breadcrumb-item">{{tr('new_orders')}}</li>
+@else
 <li class="breadcrumb-item">{{tr('view_orders')}}</li>
-
+@endif
 @endsection 
 
 @section('content')
@@ -26,7 +29,15 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('view_orders') }}</h4>
+                    @if(Request::get('new_orders'))
+
+                        <h4 class="card-title">{{ tr('new_orders') }}</h4>
+
+                    @else
+
+                        <h4 class="card-title">{{ tr('view_orders') }}</h4>
+
+                    @endif
 
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                     

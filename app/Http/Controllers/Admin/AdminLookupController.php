@@ -385,8 +385,6 @@ class AdminLookupController extends Controller
             }
         }
 
-        $section_types = static_page_footers(0, $is_list = YES);
-
         $static_keys[] = 'others';
 
         $static_page_details = new \App\StaticPage;
@@ -395,8 +393,7 @@ class AdminLookupController extends Controller
                 ->with('page', 'static_pages')
                 ->with('sub_page', 'static_pages-create')
                 ->with('static_keys', $static_keys)
-                ->with('static_page_details', $static_page_details)
-                ->with('section_types', $section_types);
+                ->with('static_page_details', $static_page_details);
    
     }
 

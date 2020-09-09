@@ -76,7 +76,7 @@ class AdminUserController extends Controller
                     break;
             }
         }
-
+    
         $users = $base_query->paginate(10);
 
         return view('admin.users.index')
@@ -169,7 +169,7 @@ class AdminUserController extends Controller
             DB::begintransaction();
 
             $rules = [
-                'name' => 'required|max:191',
+                'name' => 'required|max:191|unique:users,name,',
                 'email' => $request->user_id ? 'required|email|max:191|unique:users,email,'.$request->user_id.',id' : 'required|email|max:191|unique:users,email,NULL,id',
                 'password' => $request->user_id ? "" : 'required|min:6|confirmed',
                 'mobile' => $request->mobile ? 'digits_between:6,13' : '',

@@ -154,8 +154,8 @@ return [
 	"created" => "Created",
 	"updated_on" => "Updated On",
 
-	"created_at" => "Created at",
-	"updated_at" => "Updated at",
+	"created_at" => "Created At",
+	"updated_at" => "Updated At",
 
 	"file" =>"File",
 
@@ -434,7 +434,7 @@ return [
 
   	/******** CONTENT CREATORS Management ********/
 
-  	"content_creators" => "Content creators",
+  	"content_creators" => "Content Creators",
   	"content_creator" => "User",
   	"add_content_creator" => "Add Content creator",
   	"view_content_creators" => "View Content Creator",
@@ -442,7 +442,7 @@ return [
   	"unverified_content_creators" => "Unverified Content Creator",
 	"content_creator_delete_email"  => "Content creator delete email",
 	"content_creator_decline_email" => "Content creator decline email",
-  	"Content_creator_search_placeholder" => "Search by Content creator Name, Email Id, Mobile",
+  	"Content_creator_search_placeholder" => "Search by Content Creator Name, Email Id, Mobile",
 
 	"content_creator_created_success" => "The content creator created successfully!!",
 	"content_creator_updated_success" => "The content creator updated successfully!!",
@@ -545,7 +545,7 @@ return [
 	"go_to_profile" => "Go To Profile",
 	"unique_id" => "Unique Id",
 	"publish_time" => "Publish Time",
-	"post_search_placeholder" => "Search By Content creator Name,Content",
+	"post_search_placeholder" => "Search By Content Creator Name,Content",
 	"free_post" => "Free Post",
 	"albums" => "Albums",
 	"view_post_albums" => "View Post Albums",
@@ -616,7 +616,7 @@ return [
 	"view_delivery_address" => "View Delivery Address",
 	"delivery_address_user" => "Delivery Address User",
 	"delivery_address_delete_confirmation" => "Once you\"ve deleted the record , the delivery address(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.", 
-	"delivery_search_placeholder" => "Serach By Username,name,address",
+	"delivery_search_placeholder" => "Serach By Username,Name,Address",
 	"delivery_address_deleted_success" => "Delivery address deleted successfully",
 	"delivery_address_delete_failed" =>"delivery address failed to delete,Please try again",
 	"order_payment_search_placeholder" => "Search By Username, Payment Id",
@@ -685,7 +685,7 @@ return [
 	"used_quantity" => "Used Quatity",
 	"remaining_quatity" => "Remaining Quatity",
 	"view_product_inventories" => "View Product Inventories",
-	"product_inventory_search_placeholder" => "Search By user product",
+	"product_inventory_search_placeholder" => "Search By User Product",
 	"product" => "Product",
 	"new_orders" => "New Orders",
 	"user_welcome_email" => "Welcome Email",
@@ -773,5 +773,6 @@ return [
 	'category' => 'Category',
 	'sub_category_details' => 'Sub category details',
 	'category_name' => 'Category Name',
-
+	'logout_success' => 'You have successfully logout from session!!',
+	
 ]?>

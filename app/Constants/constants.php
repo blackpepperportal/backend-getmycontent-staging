@@ -43,11 +43,11 @@ if(!defined('STRIPE_MODE_SANDBOX')) define('STRIPE_MODE_SANDBOX',  'sandbox');
 
 //////// USERS
 
-if(!defined('USER_PENDING')) define('USER_PENDING', 0);
+if(!defined('USER_PENDING')) define('USER_PENDING', 2);
 
 if(!defined('USER_APPROVED')) define('USER_APPROVED', 1);
 
-if(!defined('USER_DECLINED')) define('USER_DECLINED', 2);
+if(!defined('USER_DECLINED')) define('USER_DECLINED', 0);
 
 if(!defined('USER_EMAIL_NOT_VERIFIED')) define('USER_EMAIL_NOT_VERIFIED', 0);
 

@@ -19,27 +19,3 @@
     @include('admin.users._form')
 
 @endsection
-
-@section('scripts')
-
-<script  type="text/javascript">
-
-    $(document).ready(function() {
-
-        var id = $("#user_id").val();
-
-        if(id !=''){
-
-            $("#image_preview").show();
-
-        } else {
-
-            $("#image_preview").hide();
-        }
-
-    });
- 
-    
-</script>
-
-@endsection

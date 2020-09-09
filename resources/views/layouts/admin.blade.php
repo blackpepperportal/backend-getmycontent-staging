@@ -139,49 +139,6 @@
 
     <script type="text/javascript">
 
-        function alphaOnly(event) {
-
-            var key = event.keyCode;
-
-            return ((key >= 65 && key <= 90) || key == 8 || key == 32 || key == 9 || key == 39);
-        };
-
-         $("button[type='reset']").click(function(){
-
-            $('#image_preview').attr('src', '').hide();
-        });
-
-        function loadFile(event, id){
-
-              var ext=$("#picture").val();
-
-              var fileExtension = ['jpeg','jpg','png'];
-              
-                if ($.inArray(ext.split('.').pop().toLowerCase(), fileExtension) == -1) {
-                        
-                    alert("Only formats allowed are : "+fileExtension.join(','));
-                   
-                    document.getElementById("picture").value = null;                    
-                    
-                    return false;
-                    
-                } else {
-
-                    $("#"+id).show();
-                  
-                    var reader = new FileReader();
-
-                    reader.onload = function(){
-
-                    var output = document.getElementById(id);
-                  
-                      output.src = reader.result;
-                      
-                    };
-                    reader.readAsDataURL(event.files[0]);
-                }
-        
-        }
 
         $(document).ready(function(){
        
