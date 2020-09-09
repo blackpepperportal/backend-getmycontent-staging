@@ -70,6 +70,12 @@
                                     <th>{{tr('name')}}</th>
                                     <td>{{$sub_category_details->name}}</td>
                                 </tr>
+
+                                <tr>
+                                    <th>{{tr('category_name')}}</th>
+                                    <td><a href="{{route('admin.categories.view',['category_id' => $sub_category_details->category_id])}}">{{$sub_category_details->categoryDetails->name}}</a></td>
+                                </tr>
+
                                 <tr>
                                     <th>{{tr('status')}}</th>
                                     <td>
