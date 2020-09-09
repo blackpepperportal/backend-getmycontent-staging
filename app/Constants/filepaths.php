@@ -22,3 +22,5 @@ if(!defined('SETTINGS_JSON')) define('SETTINGS_JSON', 'default-json/settings.jso
 if(!defined('DOCUMENTS_PATH')) define('DOCUMENTS_PATH', 'uploads/documents/');
 
 if(!defined('PRODUCT_FILE_PATH')) define('PRODUCT_FILE_PATH', 'uploads/products/');
+
+if(!defined('CATEGORY_FILE_PATH')) define('CATEGORY_FILE_PATH', 'uploads/categories/');

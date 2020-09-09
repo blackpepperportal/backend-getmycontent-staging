@@ -491,4 +491,300 @@ class AdminProductController extends Controller
 
     }
 
+
+    /**
+     * @method categories_index()
+     *
+     * @uses To list out categories details 
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function categories_index(Request $request) {
+
+        $categories = \App\Category::orderBy('created_at','DESC')->paginate(10);
+
+        return view('admin.categories.index')
+                ->with('page', 'categories')
+                ->with('sub_page' , 'categories-view')
+                ->with('categories' , $categories);
+    }
+
+    /**
+     * @method categories_create()
+     *
+     * @uses To create category details
+     *
+     * @created  Akshata
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function categories_create() {
+
+        $category_details = new \App\Category;
+
+        return view('admin.categories.create')
+                ->with('page', 'categories')
+                ->with('sub_page', 'categories-create')
+                ->with('category_details', $category_details);           
+    }
+
+    /**
+     * @method categories_edit()
+     *
+     * @uses To display and update category details based on the category id
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - Category Id 
+     * 
+     * @return redirect view page 
+     *
+     */
+    public function categories_edit(Request $request) {
+
+        try {
+
+            $category_details = \App\Category::find($request->category_id);
+
+            if(!$category_details) { 
+
+                throw new Exception(tr('category_not_found'), 101);
+            }
+
+            return view('admin.categories.edit')
+                ->with('page' , 'categories')
+                ->with('sub_page', 'categories-view')
+                ->with('category_details', $category_details); 
+            
+        } catch(Exception $e) {
+
+            return redirect()->route('admin.categories.index')->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+    /**
+     * @method categories_save()
+     *
+     * @uses To save the category details of new/existing category object based on details
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object request - Category Form Data
+     *
+     * @return success message
+     *
+     */
+    public function categories_save(Request $request) {
+        
+        try {
+            
+            DB::begintransaction();
+
+            $rules = [
+                'name' => 'required|max:191',
+                'picture' => 'mimes:jpg,png,jpeg',
+                'discription' => 'max:199',
+            ];
+
+            Helper::custom_validator($request->all(),$rules);
+
+            $category_details = $request->category_id ? \App\Category::find($request->category_id) : new \App\Category;
+
+            if($category_details->id) {
+
+                $message = tr('category_updated_success'); 
+
+            } else {
+
+                $message = tr('category_created_success');
+
+            }
+
+            $category_details->name = $request->name ?: $category_details->name;
+
+            $category_details->description = $request->description ?: '';
+
+            // Upload picture
+            
+            if($request->hasFile('picture')) {
+
+                if($request->category_id) {
+
+                    Helper::storage_delete_file($category_details->picture, CATEGORY_FILE_PATH); 
+                    // Delete the old pic
+                }
+
+                $category_details->picture = Helper::storage_upload_file($request->file('picture'), CATEGORY_FILE_PATH);
+            }
+
+            if($category_details->save()) {
+
+                DB::commit(); 
+
+                return redirect(route('admin.categories.view', ['category_id' => $category_details->id]))->with('flash_success', $message);
+
+            } 
+
+            throw new Exception(tr('category_save_failed'));
+            
+        } catch(Exception $e){ 
+
+            DB::rollback();
+
+            return redirect()->back()->withInput()->with('flash_error', $e->getMessage());
+
+        } 
+
+    }
+
+    /**
+     * @method categories_view()
+     *
+     * @uses displays the specified category details based on category id
+     *
+     * @created Akshata 
+     *
+     * @updated 
+     *
+     * @param object $request - category Id
+     * 
+     * @return View page
+     *
+     */
+    public function categories_view(Request $request) {
+       
+        try {
+      
+            $category_details = \App\Category::find($request->category_id);
+
+            if(!$category_details) { 
+
+                throw new Exception(tr('category_not_found'), 101);                
+            }
+
+            return view('admin.categories.view')
+                    ->with('page', 'categories') 
+                    ->with('sub_page', 'categories-view')
+                    ->with('category_details', $category_details);
+            
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+    /**
+     * @method categories_delete()
+     *
+     * @uses delete the category details based on category id
+     *
+     * @created Akshata 
+     *
+     * @updated  
+     *
+     * @param object $request - Category Id
+     * 
+     * @return response of success/failure details with view page
+     *
+     */
+    public function categories_delete(Request $request) {
+
+        try {
+
+            DB::begintransaction();
+
+            $category_details = \App\Category::find($request->category_id);
+            
+            if(!$category_details) {
+
+                throw new Exception(tr('category_not_found'), 101);                
+            }
+
+            if($category_details->delete()) {
+
+                DB::commit();
+
+                return redirect()->route('admin.categories.index')->with('flash_success',tr('category_deleted_success'));   
+
+            } 
+            
+            throw new Exception(tr('category_delete_failed'));
+            
+        } catch(Exception $e){
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }       
+         
+    }
+
+    /**
+     * @method categories_status
+     *
+     * @uses To update category status as DECLINED/APPROVED based on category id
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - Category Id
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function categories_status(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $category_details = \App\Category::find($request->category_id);
+
+            if(!$category_details) {
+
+                throw new Exception(tr('category_not_found'), 101);
+                
+            }
+
+            $category_details->status = $category_details->status ? DECLINED : APPROVED ;
+
+            if($category_details->save()) {
+
+                DB::commit();
+
+                return redirect()->back()->with('flash_success', $message);
+            }
+            
+            throw new Exception(tr('category_status_change_failed'));
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->route('admin.categories.index')->with('flash_error', $e->getMessage());
+
+        }
+
+    }
+
 }

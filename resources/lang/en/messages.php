@@ -738,5 +738,18 @@ return [
     'categories' => 'Categories',
     'add_category' => 'Add Category',
     'view_categories' => 'View Categories',
+   	'category_details' => 'Category Details',
+   	'edit_category' => 'Edit Category',
 
+   	"category_created_success" => "The category created successfully!!",
+	"category_updated_success" => "The category updated successfully!!",
+	"category_save_failed" => "The category details updating failed!!",
+	"category_not_found" => "The selected category details not found.",
+	"category_deleted_success" => "The category deleted successfully!!",
+	"category_delete_failed" => "The category deletion failed!!",
+	"category_delete_confirmation" => "Once you\"ve deleted the record , the category(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.",
+	"category_approve_success" => "The category approved successfully..!!",
+	"category_decline_success" => "The category declined successfully..!!",
+	"category_decline_confirmation" => "Do you want decline this category?",
+	"category_status_change_failed" => "The category status updating failed..!!",
 ]?>
