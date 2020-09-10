@@ -39,4 +39,14 @@ return [
     119 => 'The auto renewal is enabled.',
 
     120 => 'The auto renewal is paused.',
+
+    121 => 'The product created successfully!!',
+
+    122 => 'The product updated successfully!!',
+
+    123 => "The product deleted successfully!!",
+
+    124 => "The product approved successfully..!!",
+    
+    125 => "The product declined successfully..!!",
 ];

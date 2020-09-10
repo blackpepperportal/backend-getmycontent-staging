@@ -121,4 +121,20 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     });
 
+    Route::group(['middleware' => ['isContentCreator']], function() {
+
+        Route::post('user_products','Api\UserProductApiController@user_products_index');
+
+        Route::post('user_products_save','Api\UserProductApiController@user_products_save');
+
+        Route::post('user_products_view','Api\UserProductApiController@user_products_view');
+
+        Route::post('user_products_delete','Api\UserProductApiController@user_products_delete');
+
+        Route::post('user_products_set_visibility','Api\UserProductApiController@user_products_set_visibility');
+
+        Route::post('user_products_update_availability','Api\UserProductApiController@user_products_update_availability');
+
+    });
+
 });

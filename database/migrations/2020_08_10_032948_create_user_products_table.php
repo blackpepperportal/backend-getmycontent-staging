@@ -23,8 +23,9 @@ class CreateUserProductsTable extends Migration
             $table->float('quantity')->default(0.00);
             $table->float('price')->default(0.00);
             $table->float('delivery_price')->default(0.00);
-            $table->tinyInteger('is_outofstock')->default(0);
-            $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('is_outofstock')->default(PRODUCT_AVAILABLE);
+            $table->tinyInteger('is_visible')->default(YES);
+            $table->tinyInteger('status')->default(APPROVED);
             $table->timestamps();
         });
     }

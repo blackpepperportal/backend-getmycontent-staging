@@ -185,3 +185,7 @@ if(!defined('UNREAD')) define('UNREAD', 0);
 if(!defined('AUTORENEWAL_ENABLED')) define('AUTORENEWAL_ENABLED',0);
 
 if(!defined('AUTORENEWAL_CANCELLED')) define('AUTORENEWAL_CANCELLED',1);
+
+if(!defined('PRODUCT_AVAILABLE')) define('PRODUCT_AVAILABLE',1);
+
+if(!defined('PRODUCT_NOT_AVAILABLE')) define('PRODUCT_NOT_AVAILABLE',0);
