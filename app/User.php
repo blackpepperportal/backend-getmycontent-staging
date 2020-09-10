@@ -91,6 +91,14 @@ class User extends Authenticatable
         return $this->hasMany(UserCard::class, 'user_id');
     }
 
+    /**
+     * Get the UserCard record associated with the user.
+     */
+    public function scopeIsContentCreator($query, $status) {
+        
+        return $query->where('is_content_creator',$status);
+    }
+
     public static function boot() {
 
         parent::boot();
