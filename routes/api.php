@@ -121,7 +121,7 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     });
 
-    Route::group(['middleware' => ['isContentCreator']], function() {
+    Route::group(['middleware' => ['IsContentCreator']], function() {
 
         Route::post('user_products','Api\UserProductApiController@user_products_index');
 

@@ -49,4 +49,8 @@ return [
     124 => "The product approved successfully..!!",
     
     125 => "The product declined successfully..!!",
+
+    126 => "The product is Available Now..!!",
+
+    127 => "The product is marked as Out Of Stock..!!",
 ];

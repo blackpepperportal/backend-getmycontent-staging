@@ -96,7 +96,7 @@ class UserProductApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $user_product_details = \App\UserProduct::find($request->user_product_id) : new \App\UserProduct;
+            $user_product_details = \App\UserProduct::find($request->user_product_id) ?? new \App\UserProduct;
 
             $success_code = $user_product_details->id ? 122 : 121;
 
@@ -129,7 +129,7 @@ class UserProductApiController extends Controller
 
                 $data = \App\UserProduct::find($user_product_details->id);
 
-                return $this->sendResponse(api_sucess($success_code), $success_code, $data);
+                return $this->sendResponse(api_success($success_code), $success_code, $data);
 
             } 
 
@@ -279,7 +279,7 @@ class UserProductApiController extends Controller
 
                 DB::commit();
 
-                $message = $user_product_details->is_outofstock ? api_success(124) : api_success(125);
+                $message = $user_product_details->is_outofstock ? api_success(126) : api_success(127);
 
             	return $this->sendResponse($message, 200);
 
