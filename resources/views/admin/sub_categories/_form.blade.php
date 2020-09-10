@@ -49,7 +49,7 @@
                                             <select class="form-control select2" id="category_id" name="category_id" required>
                                             <option value="">{{tr('select_category')}}</option>
                                             @foreach($categories as $category_details)
-                                                <option class="select-color" value="{{$category_details->id}}"@if($sub_category_details->is_selected == YES) selected @endif >
+                                                <option class="select-color" value="{{$category_details->id}}"@if($category_details->is_selected == YES) selected @endif >
                                                     {{$category_details->name}}
                                                 </option>
                                             @endforeach

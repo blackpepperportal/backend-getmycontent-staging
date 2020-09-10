@@ -860,21 +860,8 @@ class AdminProductController extends Controller
 
             $sub_category_details = \App\SubCategory::find($request->sub_category_id);
 
-            $categories = \App\Category::where('status',APPROVED)->get();
-
             $categories = selected(\App\Category::where('status',APPROVED)->get(), $sub_category_details->category_id, 'id');
 
-            foreach ($categories as $key => $category_details) {
-               
-               $sub_category_details->is_selected = NO;
-
-               if($sub_category_details->category_id == $category_details->id) {
-
-                    $sub_category_details->is_selected = YES;
-               }
-
-            }
-            
             if(!$sub_category_details) { 
 
                 throw new Exception(tr('category_not_found'), 101);
