@@ -17,6 +17,8 @@ class CreateUserProductsTable extends Migration
             $table->id();
             $table->string('unique_id')->default(rand());
             $table->integer('user_id');
+            $table->integer('category_id');
+            $table->integer('sub_category_id');
             $table->string('name');
             $table->text('description');
             $table->string('picture')->default(asset('product-placeholder.jpg'));

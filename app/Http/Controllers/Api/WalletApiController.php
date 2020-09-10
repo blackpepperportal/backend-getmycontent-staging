@@ -54,7 +54,7 @@ class WalletApiController extends Controller
 
         try {
 
-            $user_wallet = \App\UserWallet::where('user_id', $request->id)->first();
+            $user_wallet = \App\UserWallet::firstWhere('user_id', $request->id);
             
             if(!$user_wallet) {
 
@@ -150,7 +150,7 @@ class WalletApiController extends Controller
 
                 // Check the user have the cards
 
-                $card_details = \App\UserCard::where('user_id', $request->id)->where('is_default', YES)->first();
+                $card_details = \App\UserCard::where('user_id', $request->id)->firstWhere('is_default', YES);
 
                 if(!$card_details) {
 
@@ -232,7 +232,7 @@ class WalletApiController extends Controller
 
             if(!$request->user_billing_account_id) {
 
-                $user_billing_account = \App\UserBillingAccount::where('user_id', $request->id)->where('is_default', YES)->first();
+                $user_billing_account = \App\UserBillingAccount::where('user_id', $request->id)->firstWhere('is_default', YES);
 
                 $request->request->add(['user_billing_account_id' => $user_billing_account->user_billing_account_id ?? 0]);
             }
@@ -396,7 +396,7 @@ class WalletApiController extends Controller
 
         try {
 
-            $payment_details = \App\UserWalletPayment::CommonResponse()->where('user_wallet_payments.unique_id', $request->user_wallet_payment_unique_id)->first();
+            $payment_details = \App\UserWalletPayment::CommonResponse()->firstWhere('user_wallet_payments.unique_id', $request->user_wallet_payment_unique_id);
             
             if(!$payment_details) {
 
@@ -451,7 +451,7 @@ class WalletApiController extends Controller
 
             // Check the to user is valid for this transaction
 
-            $to_user_details = \App\User::where('status', USER_APPROVED)->where('is_verified', USER_EMAIL_VERIFIED)->where('id', $request->to_user_id)->first();
+            $to_user_details = \App\User::where('status', USER_APPROVED)->where('is_verified', USER_EMAIL_VERIFIED)->firstWhere('id', $request->to_user_id);
             
             if(!$to_user_details) {
 
@@ -461,7 +461,7 @@ class WalletApiController extends Controller
 
             // Check the user has enough balance 
 
-            $user_wallet_details = \App\UserWallet::where('user_id', $request->id)->first();
+            $user_wallet_details = \App\UserWallet::firstWhere('user_id', $request->id);
 
             $remaining = $user_wallet_details->remaining ?? 0;
 

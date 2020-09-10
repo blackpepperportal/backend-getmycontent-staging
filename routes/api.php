@@ -139,6 +139,10 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('user_products_update_availability','Api\UserProductApiController@user_products_update_availability');
 
+        Route::post('product_categories','Api\UserProductApiController@product_categories');
+
+        Route::post('product_sub_categories','Api\UserProductApiController@product_sub_categories');
+
     });
 
 });

@@ -52,13 +52,15 @@ class UserProductApiController extends Controller
 
     	try {
 
-	        $user_products = \App\UserProduct::where('user_id',$request->id)
-	        	->orderBy('created_at','DESC')
-	        	->skip($this->skip)
-	        	->take($this->take)
-	        	->get();
+            $base_query = $total_query = \App\UserProduct::where('user_id', $request->id);
 
-       		return $this->sendResponse($message = "", $code = "", $user_products);
+            $user_products = $base_query->skip($this->skip)->take($this->take)->orderBy('created_at', 'desc')->get();
+
+	        $data['user_products'] = $user_products ?? [];
+
+            $data['total'] = $total_query->count() ?? 0;
+
+            return $this->sendResponse($message = "", $code = "", $data);
 
         } catch(Exception $e) {
 
@@ -92,6 +94,8 @@ class UserProductApiController extends Controller
                 'price' => 'required|max:100',
                 'picture' => 'mimes:jpg,png,jpeg',
                 'description' => 'max:199',
+                'category_id' => 'required|exists:categories,id',
+                'sub_category_id' => 'required|exists:sub_categories,id',
             ];
 
             Helper::custom_validator($request->all(),$rules);
@@ -107,6 +111,10 @@ class UserProductApiController extends Controller
             $user_product_details->quantity = $request->quantity ?: $user_product_details->quantity;
 
             $user_product_details->price = $request->price ?: '';
+
+            $user_product_details->category_id = $request->category_id ?: $user_product_details->category_id;
+
+            $user_product_details->sub_category_id = $request->sub_category_id ?: $user_product_details->sub_category_id;
 
             $user_product_details->description = $request->description ?: '';
 
@@ -164,7 +172,7 @@ class UserProductApiController extends Controller
         try {
       	
       		$rules = [
-                'user_product_id' => 'required|exists:user_products,id'
+                'user_product_id' => 'required|exists:user_products,id,user_id,'.$request->id
             ];
 
             Helper::custom_validator($request->all(),$rules);
@@ -176,7 +184,9 @@ class UserProductApiController extends Controller
                 throw new Exception(api_error(133), 133);                
             }
 
-            return $this->sendResponse($message = "", $success_code = "", $user_product_details);
+            $data['user_product_details'] = $user_product_details;
+
+            return $this->sendResponse($message = "", $success_code = "", $data);
             
         } catch (Exception $e) {
 
@@ -206,10 +216,10 @@ class UserProductApiController extends Controller
             DB::begintransaction();
 
             $rules = [
-                'user_product_id' => 'required|exists:user_products,id'
+                'user_product_id' => 'required|exists:user_products,id,user_id,'.$request->id
             ];
 
-            Helper::custom_validator($request->all(),$rules);
+            Helper::custom_validator($request->all(),$rules,$custom_errors = []);
 
             $user_product_details = \App\UserProduct::find($request->user_product_id);
 
@@ -218,23 +228,19 @@ class UserProductApiController extends Controller
                 throw new Exception(api_error(133), 133);                
             }
 
-            if($user_product_details->delete()) {
+            $user_product_details = \App\UserProduct::destroy($request->user_product_id);
 
-                DB::commit();
+            DB::commit();
 
-                $response_array = ['success' => true , 'message' => api_sucess(123)];
+            $data['user_product_id'] = $request->user_product_id;
 
-                return response()->json($response_array , 200);
-
-            } 
-            
-            throw new Exception(api_error(134), 134);
+            return $this->sendResponse(api_success(123), $success_code = 123, $data);
             
         } catch(Exception $e){
 
             DB::rollback();
 
-            return redirect()->back()->with('flash_error', $e->getMessage());
+            return $this->sendError($e->getMessage(), $e->getCode());
 
         }       
          
@@ -261,7 +267,7 @@ class UserProductApiController extends Controller
             DB::beginTransaction();
 
             $rules = [
-                'user_product_id' => 'required|exists:user_products,id'
+                'user_product_id' => 'required|exists:user_products,id,user_id,'.$request->id
             ];
 
             Helper::custom_validator($request->all(),$rules);
@@ -273,15 +279,17 @@ class UserProductApiController extends Controller
                 throw new Exception(api_error(133), 133);                
             }
 
-            $user_product_details->is_outofstock = $user_product_details->is_outofstock ? PRODUCT_AVAILABLE : PRODUCT_NOT_AVAILABLE;
+            $user_product_details->is_outofstock = $user_product_details->is_outofstock ? PRODUCT_NOT_AVAILABLE : PRODUCT_AVAILABLE;
 
             if($user_product_details->save()) {
 
                 DB::commit();
 
-                $message = $user_product_details->is_outofstock ? api_success(126) : api_success(127);
+                $success_code = $user_product_details->is_outofstock ? 126 : 127;
 
-            	return $this->sendResponse($message, 200);
+                $data['user_product_details'] = $user_product_details;
+
+                return $this->sendResponse(api_success($success_code),$success_code, $data);
 
             }
             
@@ -318,7 +326,7 @@ class UserProductApiController extends Controller
             DB::beginTransaction();
 
             $rules = [
-                'user_product_id' => 'required|exists:user_products,id'
+                'user_product_id' => 'required|exists:user_products,id,user_id,'.$request->id
             ];
 
             Helper::custom_validator($request->all(),$rules);
@@ -336,9 +344,11 @@ class UserProductApiController extends Controller
 
                 DB::commit();
 
-                $message = $user_product_details->status ? api_success(124) : api_success(125);
+                $success_code = $user_product_details->is_visible ? 124 : 125;
 
-            	return $this->sendResponse($message, 200);
+                $data['user_product_details'] = $user_product_details;
+
+                return $this->sendResponse(api_success($success_code),$success_code, $data);
 
             }
             
@@ -347,6 +357,94 @@ class UserProductApiController extends Controller
         } catch(Exception $e) {
 
             DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+
+    }
+
+    /**
+     * @method product_categories
+     *
+     * @uses List Product Categories
+     *
+     * @created Bhawya
+     *
+     * @updated 
+     *
+     * @param object $request - Stardom Product Id
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function product_categories(Request $request) {
+
+        try {
+
+            $product_categories = \App\Category::where('status',APPROVED)->skip($this->skip)->take($this->take)->orderBy('created_at', 'desc')->get();
+
+            $product_categories = selected($product_categories, '', 'id');
+
+            if($request->user_product_id) {
+
+                $user_product_details = \App\UserProduct::find($request->user_product_id);
+
+                $category_id = $user_product_details->category_id;
+
+                $product_categories = selected($product_categories, $category_id, 'id');
+            }
+
+            $data['product_categories'] = $product_categories;
+
+            return $this->sendResponse($message = "", $success_code = "", $data);
+            
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+
+    }
+
+    /**
+     * @method product_sub_categories
+     *
+     * @uses List Product Sub Categories
+     *
+     * @created Bhawya
+     *
+     * @updated 
+     *
+     * @param object $request - Stardom Product Id
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function product_sub_categories(Request $request) {
+
+        try {
+
+            $product_sub_categories = \App\SubCategory::where('status',APPROVED)->skip($this->skip)->take($this->take)->orderBy('created_at', 'desc')->get();
+
+            $product_sub_categories = selected($product_sub_categories, '', 'id');
+
+            if($request->user_product_id) {
+
+                $user_product_details = \App\UserProduct::find($request->user_product_id);
+                
+                $sub_category_id = $user_product_details->sub_category_id;
+
+                $product_sub_categories = selected($product_sub_categories, $sub_category_id, 'id');
+
+            }
+
+            $data['product_sub_categories'] = $product_sub_categories;
+
+            return $this->sendResponse($message = "", $success_code = "", $data);
+
+        } catch(Exception $e) {
 
             return $this->sendError($e->getMessage(), $e->getCode());
 
