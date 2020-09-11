@@ -69,6 +69,14 @@ return [
 
     129 => 'The subscription record not found.',
 
-    130 => 'You already used free subscription. You can\'t use the subscription'
+    130 => 'You already used free subscription. You can\'t use the subscription',
+
+    131 => 'You registered as normal user.',
+
+    132 => 'The product details updating failed!!',
+
+    133 => 'The selected product details not found.',
+
+    134 => "The product deletion failed!!",
 
 ];

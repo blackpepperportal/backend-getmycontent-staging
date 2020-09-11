@@ -26,7 +26,7 @@ class SubscriptionApiController extends Controller
 
         Log::info("Request Data".print_r($request->all(), true));
         
-        $this->loginUser = User::where('id',$request->id)->first();
+        $this->loginUser = User::find($request->id);
 
         $this->skip = $request->skip ?: 0;
 
@@ -92,7 +92,7 @@ class SubscriptionApiController extends Controller
 
         try {
 
-            $subscription_details = Subscription::where('subscriptions.status' , APPROVED)->where('subscriptions.id', $request->subscription_id)->first();
+            $subscription_details = Subscription::where('subscriptions.status' , APPROVED)->firstWhere('subscriptions.id', $request->subscription_id);
 
             if(!$subscription_details) {
                 throw new Exception(api_error(129), 129);   
@@ -143,7 +143,7 @@ class SubscriptionApiController extends Controller
 
            // Check the subscription is available
 
-            $subscription_details = Subscription::where('id',  $request->subscription_id)->Approved()->first();
+            $subscription_details = Subscription::Approved()->firstWhere('id',  $request->subscription_id);
 
             if(!$subscription_details) {
 
@@ -165,7 +165,7 @@ class SubscriptionApiController extends Controller
 
             if($user_pay_amount > 0) {
 
-                $card_details = \App\UserCard::where('user_id', $request->id)->where('is_default', YES)->first();
+                $card_details = \App\UserCard::where('user_id', $request->id)->firstWhere('is_default', YES);
 
                 if(!$card_details) {
 
@@ -294,7 +294,7 @@ class SubscriptionApiController extends Controller
 
             DB::beginTransaction();
 
-            $user_subscription_details = SubscriptionPayment::where('subscription_payments.id', $request->user_subscription_id)->where('status', DEFAULT_TRUE)->where('user_id', $request->id)->first();
+            $user_subscription_details = SubscriptionPayment::where('subscription_payments.id', $request->user_subscription_id)->where('status', DEFAULT_TRUE)->firstWhere('user_id', $request->id);
 
             if(!$user_subscription_details) {
 

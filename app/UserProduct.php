@@ -33,6 +33,16 @@ class UserProduct extends Model
         return $this->hasMany(OrderProduct::class,'user_product_id');
     }
 
+    public function productCategories() {
+
+        return $this->belongsTo(Category::class,'category_id');
+    }
+
+    public function productSubCategories() {
+
+        return $this->belongsTo(SubCategory::class,'sub_category_id');
+    }
+
     public static function boot() {
 
         parent::boot();

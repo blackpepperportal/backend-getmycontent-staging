@@ -55,6 +55,10 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     Route::post('verify_email', 'Api\UserAccountApiController@verify_email');
 
+    Route::any('static_pages_web', 'ApplicationController@static_pages_web');
+
+    Route::get('pages/list', 'ApplicationController@static_pages_api');
+    
     Route::group(['middleware' => 'UserApiVal'] , function() {
 
         Route::post('profile','Api\UserAccountApiController@profile');
@@ -118,6 +122,28 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
         Route::post('subscriptions_history','Api\SubscriptionApiController@subscriptions_history');
 
         Route::post('subscriptions_autorenewal_status','Api\SubscriptionApiController@subscriptions_autorenewal_status');
+
+    });
+
+    Route::group(['middleware' => ['IsContentCreator']], function() {
+
+        Route::post('user_products','Api\UserProductApiController@user_products_index');
+
+        Route::post('user_products_save','Api\UserProductApiController@user_products_save');
+
+        Route::post('user_products_view','Api\UserProductApiController@user_products_view');
+
+        Route::post('user_products_delete','Api\UserProductApiController@user_products_delete');
+
+        Route::post('user_products_set_visibility','Api\UserProductApiController@user_products_set_visibility');
+
+        Route::post('user_products_update_availability','Api\UserProductApiController@user_products_update_availability');
+
+        Route::post('product_categories','Api\UserProductApiController@product_categories');
+
+        Route::post('product_sub_categories','Api\UserProductApiController@product_sub_categories');
+
+        Route::post('user_products_search','Api\UserProductApiController@user_products_search');
 
     });
 

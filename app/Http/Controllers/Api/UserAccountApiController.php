@@ -24,7 +24,7 @@ class UserAccountApiController extends Controller
 
         Log::info("Request Data".print_r($request->all(), true));
         
-        $this->loginUser = User::where('id',$request->id)->first();
+        $this->loginUser = User::find($request->id);
 
         $this->skip = $request->skip ?: 0;
 
@@ -97,7 +97,7 @@ class UserAccountApiController extends Controller
 
             }
 
-            $user_details = User::where('email' , $request->email)->first();
+            $user_details = User::firstWhere('email' , $request->email);
 
             $send_email = NO;
 
@@ -141,7 +141,7 @@ class UserAccountApiController extends Controller
 
             $user_details->gender = $request->gender ?? "male";
 
-            $check_device_exist = User::where('device_token', $request->device_token)->first();
+            $check_device_exist = User::firstWhere('device_token', $request->device_token);
 
             if($check_device_exist) {
 
@@ -284,7 +284,7 @@ class UserAccountApiController extends Controller
 
             Helper::custom_validator($request->all(), $rules);
 
-            $user_details = User::where('email', '=', $request->email)->first();
+            $user_details = User::firstWhere('email', '=', $request->email);
 
             $is_email_verified = YES;
 
@@ -324,7 +324,7 @@ class UserAccountApiController extends Controller
                 
                 // Save device details
 
-                $check_device_exist = User::where('device_token', $request->device_token)->first();
+                $check_device_exist = User::firstWhere('device_token', $request->device_token);
 
                 if($check_device_exist) {
 
@@ -398,7 +398,7 @@ class UserAccountApiController extends Controller
 
             Helper::custom_validator($request->all(), $rules, $custom_errors = []);
 
-            $user_details = User::where('email' , $request->email)->first();
+            $user_details = User::firstWhere('email' , $request->email);
 
             if(!$user_details) {
 
@@ -552,7 +552,7 @@ class UserAccountApiController extends Controller
 
         try {
 
-            $user_details = User::where('id' , $request->id)->first();
+            $user_details = User::firstWhere('id' , $request->id);
 
             if(!$user_details) { 
 
@@ -881,7 +881,7 @@ class UserAccountApiController extends Controller
                         $user_details->save();
                     }
 
-                    $data = \App\UserCard::where('id' , $card_details->id)->first();
+                    $data = \App\UserCard::firstWhere('id' , $card_details->id);
 
                     DB::commit();
 
@@ -957,7 +957,7 @@ class UserAccountApiController extends Controller
 
                 // Check he added any other card
 
-                if($check_card = \App\UserCard::where('user_id' , $request->id)->first()) {
+                if($check_card = \App\UserCard::firstWhere('user_id' , $request->id)) {
 
                     $check_card->is_default =  DEFAULT_TRUE;
 
@@ -1236,7 +1236,7 @@ class UserAccountApiController extends Controller
 
             $user_details->save();
 
-            $data = \App\User::where('id', $request->id)->first();
+            $data = \App\User::firstWhere('id', $request->id);
             
             DB::commit();
 
