@@ -452,4 +452,65 @@ class UserProductApiController extends Controller
 
     }
 
+    /**
+     * @method user_products_search
+     *
+     * @uses Search Products
+     *
+     * @created Bhawya
+     *
+     * @updated 
+     *
+     * @param object $request - search_key
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function user_products_search(Request $request) {
+
+        try {
+
+            $rules = [
+                'search_key' => 'required',
+            ];
+
+            Helper::custom_validator($request->all(),$rules);
+
+            $base_query = \App\UserProduct::orderBy('updated_at','desc');
+
+            $search_key = $request->search_key;
+
+            if($search_key) {
+
+                $base_query = $base_query 
+
+                    ->where(function ($query) use ($search_key) {
+
+                        return $query->Where('user_products.name','LIKE','%'.$search_key.'%');
+
+                    })->orWhereHas('productCategories', function($q) use ($search_key) {
+
+                        return $q->Where('categories.name','LIKE','%'.$search_key.'%');
+
+                    })->orWhereHas('productSubCategories', function($q) use ($search_key) {
+
+                        return $q->Where('sub_categories.name','LIKE','%'.$search_key.'%');
+
+                    });
+            }
+
+            $user_products = $base_query->skip($this->skip)->take($this->take)->get();
+
+            $data['user_products'] = $user_products;
+
+            return $this->sendResponse($message = "", $success_code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+
+    }
+
 }

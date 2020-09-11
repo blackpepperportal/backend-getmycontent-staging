@@ -143,6 +143,8 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('product_sub_categories','Api\UserProductApiController@product_sub_categories');
 
+        Route::post('user_products_search','Api\UserProductApiController@user_products_search');
+
     });
 
 });
