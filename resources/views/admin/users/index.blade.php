@@ -63,7 +63,7 @@
 
                                         <option  class="select-color" value="{{SORT_BY_EMAIL_VERIFIED}}">{{tr('verified')}}</option>
 
-                                        <option  class="select-color" value="{{SORT_BY_EMAIL_NOT_VERIFIED}}">{{tr('un_verified')}}</option>
+                                        <option  class="select-color" value="{{SORT_BY_EMAIL_NOT_VERIFIED}}">{{tr('unverified')}}</option>
 
                                     </select>
 

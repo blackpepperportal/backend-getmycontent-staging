@@ -5,8 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class SubCategory extends Model
-{
-    
+{    
 	/**
      * The attributes that should be hidden for arrays.
      *
@@ -20,5 +19,11 @@ class SubCategory extends Model
     public function getSubCategoryIdAttribute() {
 
         return $this->id;
+    }
+
+    public function categoryDetails() {
+
+        return $this->belongsTo(Category::class,'category_id');
+
     }
 }

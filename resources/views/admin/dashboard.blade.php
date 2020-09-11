@@ -20,7 +20,7 @@
 
                         <div class="p-2 bg-gradient-x-info white media-body">
                             <h5>{{tr('users')}}</h5>
-                            <h5 class="text-bold-400 mb-0">{{$data->total_users}}</h5>
+                            <h5 class="text-bold-400 mb-2">{{$data->total_users}}</h5>
                         </div>
 
                     </div>
@@ -70,7 +70,7 @@
 
                         <div class="p-2 bg-gradient-x-warning white media-body">
                             <h5>{{tr('posts')}}</h5>
-                            <h5 class="text-bold-400 mb-0">{{$data->total_posts}}</h5>
+                            <h5 class="text-bold-400 mb-2">{{$data->total_posts}}</h5>
                         </div>
 
                     </div>
@@ -95,7 +95,7 @@
 
                         <div class="p-2 bg-gradient-x-success white media-body">
                             <h5>{{tr('revenue')}}</h5>
-                            <h5 class="text-bold-400 mb-0">{{formatted_amount($data->total_revenue)}}</h5>
+                            <h5 class="text-bold-400 mb-2">{{formatted_amount($data->total_revenue)}}</h5>
                         </div>
 
                     </div>

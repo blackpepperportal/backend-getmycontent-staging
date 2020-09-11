@@ -64,7 +64,7 @@ class AdminLoginController extends Controller
             }
 
             // if successful, then redirect to their intended location
-            return redirect()->route('admin.dashboard')->with('success',tr('login_success'));
+            return redirect()->route('admin.dashboard')->with('flash_success',tr('login_success'));
 
         }
      
@@ -77,7 +77,7 @@ class AdminLoginController extends Controller
 
         Auth::guard('admin')->logout();
         
-        return redirect()->route('admin.login')->with('success',tr('logout_success'));
+        return redirect()->route('admin.login')->with('flash_success',tr('logout_success'));
     }
 
 }

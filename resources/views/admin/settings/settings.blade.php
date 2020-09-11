@@ -426,7 +426,7 @@ hr {
 
                         <div class="clearfix"></div>
 
-                        @if($env_values['MAIL_DRIVER'] == 'mailgun')
+                        @if(isset($env_values['MAIL_DRIVER']) && $env_values['MAIL_DRIVER'] == 'mailgun')
 
                             <div class="col-md-12">
 

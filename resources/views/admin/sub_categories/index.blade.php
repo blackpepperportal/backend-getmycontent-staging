@@ -33,7 +33,7 @@
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
                     <div class="heading-elements">
-                        <a href="{{ route('admin.sub_categories.create') }}" class="btn btn-primary"><i class="ft-plus icon-left"></i>{{ tr('add_category') }}</a>
+                        <a href="{{ route('admin.sub_categories.create') }}" class="btn btn-primary"><i class="ft-plus icon-left"></i>{{ tr('add_sub_category') }}</a>
                     </div>
                     
                 </div>
@@ -48,6 +48,7 @@
                                 <tr>
                                     <th>{{ tr('s_no') }}</th>
                                     <th>{{ tr('name') }}</th>
+                                    <th>{{ tr('category') }}</th>
                                     <th>{{ tr('picture') }}</th>
                                     <th>{{ tr('status') }}</th>
                                     <th>{{ tr('action') }}</th>
@@ -63,6 +64,12 @@
                                     <td>
                                         <a href="{{  route('admin.sub_categories.view' , ['sub_category_id' => $sub_category_details->id] )  }}">
                                         {{ $sub_category_details->name }}
+                                        </a>
+                                    </td>
+
+                                    <td>
+                                        <a href="{{  route('admin.categories.view' , ['category_id' => $sub_category_details->category_id] )  }}">
+                                        {{ $sub_category_details->categoryDetails->name ?? "-" }}
                                         </a>
                                     </td>
 

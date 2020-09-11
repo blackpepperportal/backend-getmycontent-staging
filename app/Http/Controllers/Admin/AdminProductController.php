@@ -805,12 +805,12 @@ class AdminProductController extends Controller
      */
     public function sub_categories_index(Request $request) {
 
-        $sub_category_details = \App\SubCategory::orderBy('created_at','DESC')->paginate(10);
+        $sub_categories = \App\SubCategory::orderBy('created_at','DESC')->paginate(10);
 
         return view('admin.sub_categories.index')
                 ->with('page', 'sub_categories')
                 ->with('sub_page' , 'sub_categories-view')
-                ->with('sub_category_details' , $sub_category_details);
+                ->with('sub_categories' , $sub_categories);
     }
 
     /**
@@ -860,6 +860,8 @@ class AdminProductController extends Controller
 
             $sub_category_details = \App\SubCategory::find($request->sub_category_id);
 
+            $categories = selected(\App\Category::where('status',APPROVED)->get(), $sub_category_details->category_id, 'id');
+
             if(!$sub_category_details) { 
 
                 throw new Exception(tr('category_not_found'), 101);
@@ -868,7 +870,8 @@ class AdminProductController extends Controller
             return view('admin.sub_categories.edit')
                 ->with('page' , 'sub_categories')
                 ->with('sub_page', 'sub_categories-view')
-                ->with('sub_category_details', $sub_category_details); 
+                ->with('sub_category_details', $sub_category_details)
+                ->with('categories',$categories); 
             
         } catch(Exception $e) {
 
@@ -919,6 +922,8 @@ class AdminProductController extends Controller
             }
 
             $sub_category_details->name = $request->name ?: $sub_category_details->name;
+
+            $sub_category_details->category_id = $request->category_id ?: $sub_category_details->category_id;
 
             $sub_category_details->description = $request->description ?: '';
 

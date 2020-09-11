@@ -48,7 +48,7 @@
                                              <label for="title">{{ tr('select_category') }} <span class="admin-required">*</span> </label>
                                             <select class="form-control select2" id="category_id" name="category_id" required>
                                             <option value="">{{tr('select_category')}}</option>
-                                            @foreach($category as $category_details)
+                                            @foreach($categories as $category_details)
                                                 <option class="select-color" value="{{$category_details->id}}"@if($category_details->is_selected == YES) selected @endif >
                                                     {{$category_details->name}}
                                                 </option>
