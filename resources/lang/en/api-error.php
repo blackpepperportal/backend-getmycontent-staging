@@ -81,10 +81,10 @@ return [
 
     135 => "The selected user details not found",
 
-    136 => 'You can\'t follow yourself.',
+    136 => "You can\'t follow yourself.",
 
-    137 => 'Already you following this user',
+    137 => "Already you following this user",
 
-    138 => 'The follow restricted for this user',
+    138 => "The follow restricted for the viewer",
 
 ];

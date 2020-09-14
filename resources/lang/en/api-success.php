@@ -54,7 +54,7 @@ return [
 
     127 => "The product is marked as Out Of Stock..!!",
 
-    128 => 'User Followed successfully',
+    128 => "You're following the :other_key now.",
     
-    129 => 'User Unfollowed successfully',
+    129 => "User Unfollowed successfully",
 ];
