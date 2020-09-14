@@ -56,7 +56,7 @@ class AdminPostController extends Controller
 
                     return $q->Where('users.name','LIKE','%'.$search_key.'%');
 
-                })->orWhere('posts.content','LIKE','%'.$search_key.'%');
+                })->orWhere('posts.amount','LIKE','%'.$search_key.'%');
                         
         }
 
@@ -568,7 +568,7 @@ class AdminPostController extends Controller
 
             })->orWhere('delivery_addresses.name','LIKE','%'.$search_key.'%')
 
-            ->orWhere('delivery_addresses.address','LIKE','%'.$search_key.'%'); 
+            ->orWhere('delivery_addresses.state','LIKE','%'.$search_key.'%'); 
         }
 
         if($request->user_id) {

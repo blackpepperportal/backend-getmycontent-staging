@@ -19,7 +19,7 @@
                         </div>
 
                         <div class="p-2 bg-gradient-x-info white media-body">
-                            <h5>{{tr('users')}}</h5>
+                            <h5>{{tr('total_users')}}</h5>
                             <h5 class="text-bold-400 mb-2">{{$data->total_users}}</h5>
                         </div>
 

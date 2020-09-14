@@ -55,6 +55,7 @@
                                 <tr>
                                     <th>{{ tr('s_no') }}</th>
                                     <th>{{ tr('user') }}</th>
+                                    <th>{{ tr('delivery_address')}}</th>
                                     <th>{{ tr('order_id')}}</th>
                                     <th>{{ tr('total_products') }}</th>
                                     <th>{{ tr('total')}}</th>
@@ -73,6 +74,12 @@
                                     <td>
                                         <a href="{{  route('admin.users.view' , ['user_id' => $order_details->user_id] )  }}">
                                         {{ $order_details->userDetails->name ?? "-" }}
+                                        </a>
+                                    </td>
+
+                                    <td>
+                                        <a href="{{  route('admin.delivery_address.view' , ['delivery_id' => $order_details->delivery_id] )  }}">
+                                        {{ $order_details->deliveryAddressDetails->name ?? "-" }}
                                         </a>
                                     </td>
 
