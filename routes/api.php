@@ -147,4 +147,9 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     });
 
+
+    Route::post('follow_users','Api\FollowersApiController@follow_users');
+
+    Route::post('unfollow_users','Api\FollowersApiController@unfollow_users');
+
 });

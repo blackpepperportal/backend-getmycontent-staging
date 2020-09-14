@@ -99,6 +99,19 @@ class User extends Authenticatable
         return $query->where('is_content_creator',$status);
     }
 
+    /**
+     * Scope a query to only include active users.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeApproved($query) {
+
+        $query->where('users.status', USER_APPROVED)->where('is_verified', USER_EMAIL_VERIFIED);
+
+        return $query;
+
+    }
+    
     public static function boot() {
 
         parent::boot();

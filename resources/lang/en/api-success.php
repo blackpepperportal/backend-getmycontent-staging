@@ -53,4 +53,8 @@ return [
     126 => "The product is Available Now..!!",
 
     127 => "The product is marked as Out Of Stock..!!",
+
+    128 => 'User Followed successfully',
+    
+    129 => 'User Unfollowed successfully',
 ];
