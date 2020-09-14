@@ -79,4 +79,12 @@ return [
 
     134 => "The product deletion failed!!",
 
+    135 => "The selected user details not found",
+
+    136 => "You can\'t follow yourself.",
+
+    137 => "Already you following this user",
+
+    138 => "The follow restricted for the viewer",
+
 ];
