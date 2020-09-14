@@ -1,7 +1,5 @@
 @extends('layouts.admin') 
 
-@section('title', tr('view_categories')) 
-
 @section('content-header', tr('categories')) 
 
 @section('breadcrumb')
@@ -41,7 +39,7 @@
                 <div class="card-content collapse show">
 
                     <div class="card-body card-dashboard">
-
+                        
                         <table class="table table-striped table-bordered sourced-data">
                             
                             <thead>
@@ -58,7 +56,7 @@
 
                                 @foreach($categories as $i => $category_details)
                                 <tr>
-                                    <td>{{ $i+1 }}</td>
+                                    <td>{{ $i+$categories->firstItem() }}</td>
 
                                     <td>
                                         <a href="{{  route('admin.categories.view' , ['category_id' => $category_details->id] )  }}">
@@ -98,7 +96,7 @@
 
                                                     <a class="dropdown-item" href="{{ route('admin.categories.edit', ['category_id' => $category_details->id] ) }}">&nbsp;{{ tr('edit') }}</a>
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('categroy_delete_confirmation' , $category_details->name) }}&quot;);" href="{{ route('admin.categories.delete', ['category_id' => $category_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('category_delete_confirmation' , $category_details->name) }}&quot;);" href="{{ route('admin.categories.delete', ['category_id' => $category_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 

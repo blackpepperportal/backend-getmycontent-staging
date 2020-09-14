@@ -226,7 +226,7 @@ return [
 
 	"user_deleted_success" => "The user deleted successfully!!",
 	"user_delete_failed" => "The user deletion failed!!",
-	"user_delete_confirmation" => "Once you\"ve deleted the record , the user (:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.",
+	"user_delete_confirmation" => "Once you\'ve deleted the record , the user (:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.",
 
 	"user_approve_success" => "The user approved successfully..!!",
 	"user_decline_success" => "The user declined successfully..!!",
@@ -374,7 +374,7 @@ return [
 	"static_page_error" => "Something went wrong, while doing the action!!.",
 
 	"static_page_decline_confirmation" => "Do you want decline this Page?",
-	"static_page_delete_confirmation" => "Once you\"ve deleted this Page, the Page (:other_key) will not available to the site or apps. This action cannot be undone.",
+	"static_page_delete_confirmation" => "Once you\'ve deleted this Page, the Page (:other_key) will not available to the site or apps. This action cannot be undone.",
 	"settings_key_not_found" => " - In this key value not found on settings table.",
 	"settings_save_error" => "Failed to save setting details",
 
@@ -419,7 +419,7 @@ return [
 
 	"subscription_deleted_success" => "The subscription deleted successfully!!",
 	"subscription_delete_failed" => "The subscription deletion failed!!",
-	"subscription_delete_confirmation" => "Once you\"ve deleted the record , the subscription (:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.",
+	"subscription_delete_confirmation" => "Once you\'ve deleted the record , the subscription (:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.",
 
 	"subscription_approve_success" => "The subscription approved successfully..!!",
 	"subscription_decline_success" => "The subscription declined successfully..!!",
@@ -451,7 +451,7 @@ return [
 
 	"content_creator_deleted_success" => "The content creator deleted successfully!!",
 	"content_creator_delete_failed" => "The content creator deletion failed!!",
-	"content_creator_delete_confirmation" => "Once you\"ve deleted the record , the content creator (:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.",
+	"content_creator_delete_confirmation" => "Once you\'ve deleted the record , the content creator (:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.",
 
 	"content_creator_approve_success" => "The content creator approved successfully..!!",
 	"content_creator_decline_success" => "The content creator declined successfully..!!",
@@ -479,7 +479,7 @@ return [
 
 	"document_deleted_success" => "The document deleted successfully!!",
 	"document_delete_failed" => "The document deletion failed!!",
-	"document_delete_confirmation" => "Once you\"ve deleted the record , the document (:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.",
+	"document_delete_confirmation" => "Once you\'ve deleted the record , the document (:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.",
 
 	"document_approve_success" => "The document approved successfully..!!",
 	"document_decline_success" => "The document declined successfully..!!",
@@ -487,8 +487,8 @@ return [
 	"document_status_change_failed" => "The document status updating failed..!!",
 
 	"documentation" => "Documentation",
-	"content_creator_details" => "Content creator Details",
-	"content_creator_documents" => "Content creator Documents",
+	"content_creator_details" => "Content Creator Details",
+	"content_creator_documents" => "Content Creator Documents",
 	"document" => "Document",
 	"uploaded_by" => "Uploaded By",
 
@@ -514,7 +514,7 @@ return [
 	"user_product_not_found" => "The selected product details not found.",
 	"user_product_deleted_success" => "The product deleted successfully!!",
 	"user_product_delete_failed" => "The product deletion failed!!",
-	"user_product_delete_confirmation" => "Once you\"ve deleted the record , the product(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.",
+	"user_product_delete_confirmation" => "Once you\'ve deleted the record , the product(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.",
 	"user_product_approve_success" => "The product approved successfully..!!",
 	"user_product_decline_success" => "The product declined successfully..!!",
 	"user_product_decline_confirmation" => "Do you want decline this product?",
@@ -522,7 +522,7 @@ return [
 	"quantity" => "Quantity",
 	"price" => "Price",
 	"user_product_details" => "Product Details",
-	"select_content_creator" => "Select Content creator",
+	"select_content_creator" => "Select Content Creator",
 	"inventory_management" => "Inventory Management",
 	"inventory" => "Inventory",
 	
@@ -534,7 +534,7 @@ return [
 	"post_not_found" => "The selected post details not found.",
 	"post_deleted_success" => "The post deleted successfully!!",
 	"post_delete_failed" => "The post deletion failed!!",
-	"post_delete_confirmation" => "Once you\"ve deleted the record , the post(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.",
+	"post_delete_confirmation" => "Once you\'ve deleted the record , the post(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.",
 	"post_approve_success" => "The post approved successfully..!!",
 	"post_decline_success" => "The post declined successfully..!!",
 	"post_decline_confirmation" => "Do you want decline this post?",
@@ -555,7 +555,7 @@ return [
 	"post_album_not_found" => "The selected post album details not found.",
 	"post_album_deleted_success" => "The post album deleted successfully!!",
 	"post_album_delete_failed" => "The post album deletion failed!!",
-	"post_album_delete_confirmation" => "Once you\"ve deleted the record , the post album(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.",
+	"post_album_delete_confirmation" => "Once you\'ve deleted the record , the post album(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.",
 	"post_album_approve_success" => "The post album approved successfully..!!",
 	"post_album_decline_success" => "The post album declined successfully..!!",
 	"post_album_decline_confirmation" => "Do you want decline this post album?",
@@ -615,7 +615,7 @@ return [
 	"delivery_address_details_not_found" => "Delivery address details not found",
 	"view_delivery_address" => "View Delivery Address",
 	"delivery_address_user" => "Delivery Address User",
-	"delivery_address_delete_confirmation" => "Once you\"ve deleted the record , the delivery address(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.", 
+	"delivery_address_delete_confirmation" => "Once you\'ve deleted the record , the delivery address(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.", 
 	"delivery_search_placeholder" => "Serach By Username,Name,State",
 	"delivery_address_deleted_success" => "Delivery address deleted successfully",
 	"delivery_address_delete_failed" =>"delivery address failed to delete,Please try again",
@@ -636,12 +636,12 @@ return [
 	"username_password_not_match" => "Email or password did not match,Please try again",
 	"redeems" => "Redeems",	
 	"select_section_type" => "Select Section Type",
-	"content_creator_fcm_server_key" => "Content creator Fcm Server Key",
-	"content_creator_fcm_sender_id" => "Content creator Fcm Sender Id",
+	"content_creator_fcm_server_key" => "Content Creator Fcm Server Key",
+	"content_creator_fcm_sender_id" => "Content Creator Fcm Sender Id",
 	"appstore_content_creator" => "Appstore Content creator",
 	"user_fcm_server_key" => "User Fcm Server Key",
 	"user_fcm_sender_id" => "User Fcm Sender Id",
-	"playstore_content_creator" => "Playstore Content creator",	
+	"playstore_content_creator" => "Playstore Content Creator",	
 	"contact_information" => "Contact Information",
 	"copyright_content" => "Copyright Content",
 	"contact_mobile" => "Contact Mobile",
@@ -710,7 +710,7 @@ return [
 	"above_post_declined_by_admin" => "Above post declined by admin",
 	"above_post_approved_by_admin" => "Above post approved by admin",
 	"post_id" => "Post Id",
-	"product_name" => "Product name",
+	"product_name" => "Product Name",
 	"product_approve_email" => "Product Approve Email",
 	"product_decline_email" => "Product Decline Email",
 	"above_product_declined_by_admin" => "Above product declined by admin",
@@ -747,7 +747,7 @@ return [
 	"category_not_found" => "The selected category details not found.",
 	"category_deleted_success" => "The category deleted successfully!!",
 	"category_delete_failed" => "The category deletion failed!!",
-	"category_delete_confirmation" => "Once you\"ve deleted the record , the category(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.",
+	"category_delete_confirmation" => "Once you\'ve deleted the record , the category(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.",
 	"category_approve_success" => "The category approved successfully..!!",
 	"category_decline_success" => "The category declined successfully..!!",
 	"category_decline_confirmation" => "Do you want decline this category?",
@@ -764,7 +764,7 @@ return [
 	"sub_category_not_found" => "The selected sub category details not found.",
 	"sub_category_deleted_success" => "The sub category deleted successfully!!",
 	"sub_category_delete_failed" => "The sub category deletion failed!!",
-	"sub_category_delete_confirmation" => "Once you\"ve deleted the record , the sub category(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.",
+	"sub_category_delete_confirmation" => "Once you\'ve deleted the record , the sub category(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.",
 	"sub_category_approve_success" => "The sub category approved successfully..!!",
 	"sub_category_decline_success" => "The sub category declined successfully..!!",
 	"sub_category_decline_confirmation" => "Do you want decline this sub category?",

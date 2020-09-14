@@ -59,7 +59,7 @@
 
                                 @foreach($sub_categories as $i => $sub_category_details)
                                 <tr>
-                                    <td>{{ $i+1 }}</td>
+                                    <td>{{ $i+$sub_categories->firstItem() }}</td>
 
                                     <td>
                                         <a href="{{  route('admin.sub_categories.view' , ['sub_category_id' => $sub_category_details->id] )  }}">
