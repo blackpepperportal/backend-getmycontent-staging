@@ -63,4 +63,6 @@ return [
     131 => "Post Updated Successfully",
 
     132 => "The product image deleted successfully!!",
+
+    133 => "The product image updated successfully!!",
 ];

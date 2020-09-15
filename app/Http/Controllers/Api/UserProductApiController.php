@@ -568,13 +568,24 @@ class UserProductApiController extends Controller
 
         try {
 
+            DB::beginTransaction();
+
             $rules = [
-                'user_product_id' => 'required|exists:user_products,id,user_id,'.$request->id
+                'user_product_id' => 'required|exists:user_products,id,user_id,'.$request->id,
+                'picture.*' => 'required|picture|mimes:jpg,jpeg,png',
             ];
 
             Helper::custom_validator($request->all(),$rules);
             
+            if($request->hasfile('picture')) {
+
+                ProductRepository::user_product_pictures_save($request->file('picture'), $request->user_product_id);
+
+                DB::commit();
+
+                return $this->sendResponse(api_success(133), $success_code = 133, $data = '');
             
+            }
 
             throw new Exception(api_error(130), 130);
             
