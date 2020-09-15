@@ -8,7 +8,7 @@
 
     <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a>
     </li>
-    <li class="breadcrumb-item"><a href="{{route('admin.users.index')}}">{{tr('documents')}}</a>
+    <li class="breadcrumb-item"><a href="{{route('admin.documents.index')}}">{{tr('documents')}}</a>
     </li>
     <li class="breadcrumb-item active">{{tr('view_documents')}}</a>
     </li>
