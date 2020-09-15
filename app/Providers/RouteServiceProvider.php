@@ -48,6 +48,8 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapAdminRoutes();
 
+        $this->mapSupportMemberRoutes();
+
         //
     }
 
@@ -92,5 +94,19 @@ class RouteServiceProvider extends ServiceProvider
         Route::namespace($this->namespace)
             ->middleware('admin')
             ->group(base_path('routes/admin.php'));
+    }
+
+    /**
+     * Define the "support_member" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapSupportMemberRoutes() {
+       
+        Route::namespace($this->namespace)
+            ->middleware('support_member')
+            ->group(base_path('routes/support_member.php'));
     }
 }
