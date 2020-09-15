@@ -80,7 +80,7 @@ class FollowersApiController extends Controller
             }
 
             // Check the user already following the selected users
-            $follow_user_details = Follower::where('status', YES)->where('follower', $request->id)->whereFirst('user_id', $request->user_id);
+            $follower_details = Follower::where('status', YES)->where('follower_id', $request->id)->where('user_id', $request->user_id)->first();
 
             if($follower_details) {
 
@@ -94,13 +94,11 @@ class FollowersApiController extends Controller
                 throw new Exception(api_error(138), 138);
             }
 
-            && $follow_user_details->is_content_creator == NO
-
             $follower = new Follower;
 
             $follower->user_id = $request->user_id;
 
-            $follower->follower = $request->id;
+            $follower->follower_id = $request->id;
 
             $follower->status = DEFAULT_TRUE;
 
@@ -112,7 +110,7 @@ class FollowersApiController extends Controller
 
             $data['is_follow'] = NO;
 
-            return $this->sendResponse(api_success(128,$follow_user_details->name ?? 'user'), $code = 128, $data);
+            return $this->sendResponse(api_success(128,$follow_user_details->username ?? 'user'), $code = 128, $data);
 
         } catch(Exception $e) {
 
@@ -161,7 +159,7 @@ class FollowersApiController extends Controller
             }
 
             // Check the user already following the selected users
-            $follower_details = Follower::where('user_id', $request->user_id)->where('follower', $request->id)->where('status', YES)->delete();
+            $follower_details = Follower::where('user_id', $request->user_id)->where('follower_id', $request->id)->where('status', YES)->delete();
 
             DB::commit();
 
@@ -174,6 +172,105 @@ class FollowersApiController extends Controller
         } catch(Exception $e) {
 
             DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+
+    }
+
+    /** 
+     * @method followers()
+     *
+     * @uses Followers List
+     *
+     * @created Bhawya
+     *
+     * @updated Bhawya
+     *
+     * @param
+     * 
+     * @return JSON response
+     *
+     */
+    public function followers(Request $request) {
+
+        try {
+
+            $followers = Follower::CommonResponse()
+                    ->where('user_id', $request->id)
+                    ->skip($this->skip)
+                    ->take($this->take)
+                    ->orderBy('followers.created_at', 'desc')
+                    ->get();
+
+            foreach ($followers as $key => $follower_details) {
+
+                $follower_details->is_owner = $request->id == $follower_details->follower_id ? YES : NO;
+
+                $is_you_following = Helper::is_you_following($request->id, $follower_details->user_id);
+
+                $follower_details->show_follow = $is_you_following ? HIDE : SHOW;
+
+                $follower_details->show_unfollow = $is_you_following ? SHOW : HIDE;
+
+            }
+
+            $data['followers'] = $followers;
+
+            return $this->sendResponse($message = "", $code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+
+    }
+
+    /** 
+     * @method followings()
+     *
+     * @uses Followings list
+     *
+     * @created Bhawya
+     *
+     * @updated Bhawya
+     *
+     * @param
+     * 
+     * @return JSON response
+     *
+     */
+
+    public function followings(Request $request) {
+
+        try {
+
+            $followers = Follower::CommonResponse()
+                    ->where('follower_id', $request->id)
+                    ->skip($this->skip)
+                    ->take($this->take)
+                    ->orderBy('followers.created_at', 'desc')
+                    ->get();
+
+            foreach ($followers as $key => $follower_details) {
+
+                $follower_details->is_owner = $request->id == $follower_details->follower_id ? YES : NO;
+
+                $is_you_following = Helper::is_you_following($request->id, $follower_details->user_id);
+
+                $follower_details->show_follow = $is_you_following ? HIDE : SHOW;
+
+                $follower_details->show_unfollow = $is_you_following ? SHOW : HIDE;
+
+            }
+
+            $data['followers'] = $followers;
+
+            return $this->sendResponse($message = "", $code = "", $data);
+
+        } catch(Exception $e) {
 
             return $this->sendError($e->getMessage(), $e->getCode());
         

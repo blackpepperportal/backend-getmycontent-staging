@@ -10,7 +10,9 @@ use App\Helpers\Helper;
 
 use DB, Log, Hash, Validator, Exception, Setting;
 
-use App\User;
+use App\User, App\UserProductPicture;
+
+use App\Repositories\ProductRepository;
 
 class UserProductApiController extends Controller
 {
@@ -511,6 +513,135 @@ class UserProductApiController extends Controller
 
         }
 
+    }
+
+    /**
+     * @method user_product_pictures()
+     *
+     * @uses To load product images
+     *
+     * @created Bhawya N
+     *
+     * @updated 
+     *
+     * @param model image object - $request
+     *
+     * @return response of succes failure 
+     */
+    public function user_product_pictures(Request $request) {
+
+        try {
+
+            $rules = [
+                'user_product_id' => 'required|exists:user_products,id,user_id,'.$request->id
+            ];
+
+            Helper::custom_validator($request->all(),$rules);
+
+            $user_product_pictures = UserProductPicture::where('user_product_id', $request->user_product_id)
+                ->skip($this->skip)->take($this->take)->orderBy('created_at', 'desc')->get();
+               
+            $data['user_product_pictures'] = $user_product_pictures;
+
+            return $this->sendResponse($message = "", $success_code = "", $data);
+                
+        } catch (Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
+    }
+
+    /**
+     * @method user_product_pictures_save()
+     *
+     * @uses To save gallery product pictures
+     *
+     * @created Bhawya N
+     *
+     * @updated 
+     *
+     * @param object $request - Model Object
+     *
+     * @return response of success / Failure
+     */
+    public function user_product_pictures_save(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $rules = [
+                'user_product_id' => 'required|exists:user_products,id,user_id,'.$request->id,
+                'picture.*' => 'required|picture|mimes:jpg,jpeg,png',
+            ];
+
+            Helper::custom_validator($request->all(),$rules);
+            
+            if($request->hasfile('picture')) {
+
+                ProductRepository::user_product_pictures_save($request->file('picture'), $request->user_product_id);
+
+                DB::commit();
+
+                return $this->sendResponse(api_success(133), $success_code = 133, $data = '');
+            
+            }
+
+            throw new Exception(api_error(130), 130);
+            
+        } catch (Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+
+    }
+
+    /**
+     * @method user_product_pictures_delete()
+     *
+     * @uses To delete Product Image
+     *
+     * @created  Bhawya N
+     *
+     * @updated  
+     *
+     * @param model image object - $request
+     *
+     * @return response of succes failure 
+     */
+    public function user_product_pictures_delete(Request $request) {
+
+        try {
+
+            $rules = [
+                'user_product_picture_id' => 'required|exists:user_product_pictures,id'
+            ];
+
+            Helper::custom_validator($request->all(),$rules);
+                
+            $user_product_pictures = \App\UserProductPicture::find($request->user_product_picture_id);
+
+            if(!$user_product_pictures) { 
+
+                throw new Exception(api_error(133), 133);                
+            }
+
+            $user_product_pictures = \App\UserProductPicture::destroy($request->user_product_picture_id);
+
+            DB::commit();
+
+            $data['user_product_picture_id'] = $request->user_product_picture_id;
+
+            return $this->sendResponse(api_success(132), $success_code = 132, $data);
+
+        } catch (Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+    
     }
 
 }

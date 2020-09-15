@@ -57,4 +57,12 @@ return [
     128 => "You're following the :other_key now.",
     
     129 => "User Unfollowed successfully",
+
+    130 => "Post Created Successfully",
+
+    131 => "Post Updated Successfully",
+
+    132 => "The product image deleted successfully!!",
+
+    133 => "The product image updated successfully!!",
 ];

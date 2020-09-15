@@ -145,6 +145,27 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('user_products_search','Api\UserProductApiController@user_products_search');
 
+        Route::post('user_product_pictures' , 'Api\UserProductApiController@user_product_pictures');
+
+        Route::post('user_product_pictures_save','Api\UserProductApiController@user_product_pictures_save');
+
+        Route::post('user_product_pictures_delete','Api\UserProductApiController@user_product_pictures_delete');
+
+        // Followers and Followings list for content creators
+        Route::post('followers', 'Api\FollowersApiController@followers');
+
+        Route::post('followings', 'Api\FollowersApiController@followings');
+
+        Route::post('posts','Api\PostsApiController@posts_index');
+
+        Route::post('posts_save','Api\PostsApiController@posts_save');
+
+        Route::post('posts_view','Api\PostsApiController@posts_view');
+
+        Route::post('posts_delete','Api\PostsApiController@posts_delete');
+
+        Route::post('posts_status','Api\PostsApiController@posts_status');
+
     });
 
 

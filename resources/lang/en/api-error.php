@@ -87,4 +87,6 @@ return [
 
     138 => "The follow restricted for the viewer",
 
+    139 => "The post record not found.",
+
 ];

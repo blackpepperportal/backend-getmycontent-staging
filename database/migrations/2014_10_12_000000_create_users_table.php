@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('first_name')->default('');
             $table->string('middle_name')->default('');
             $table->string('last_name')->default('');
-            $table->string('username')->unique()->nullable();
+            $table->string('username')->nullable();
             $table->string('email')->unique();
             $table->text('about')->nullable();
             $table->enum('gender',['male','female','others'])->default('male');
