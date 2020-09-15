@@ -22,6 +22,10 @@ return [
         'driver' => 'eloquent',
         'model' => App\Admin::class,
     ],
+    'support_members' => [
+        'driver' => 'eloquent',
+        'model' => App\SupportMember::class,
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -51,10 +55,13 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
-        
         'admin' => [
             'driver' => 'session',
             'provider' => 'admins',
+        ],
+        'support_member' => [
+            'driver' => 'session',
+            'provider' => 'support_members',
         ],
     ],
 
@@ -89,6 +96,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Admin::class,
         ],
+        'support_members' => [
+            'driver' => 'eloquent',
+            'model' => App\SupportMember::class,
+        ],
     ],
 
     /*
@@ -116,6 +127,11 @@ return [
 
         'admins' => [
             'provider' => 'admins',
+            'table' => 'password_resets',
+            'expire' => 15,
+        ],
+        'support_members' => [
+            'provider' => 'support_members',
             'table' => 'password_resets',
             'expire' => 15,
         ],

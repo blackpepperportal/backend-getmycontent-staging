@@ -215,6 +215,15 @@ class SettingSeeder extends Seeder
 		        'value' => ''
 		    ],
 
+		    	[
+		        'key' => 'demo_support_member_email',
+		        'value' => 'support_member@gmail.com'
+		    ],
+		    [
+		        'key' => 'demo_support_member_password',
+		        'value' => 123456
+		    ],
+
 		]);
 
 		if(Schema::hasTable('settings')) {

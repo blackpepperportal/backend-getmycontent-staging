@@ -309,6 +309,26 @@
             
             </li>
 
+            <li class="nav-item" id="faqs">
+                <a href="{{route('admin.faqs.index')}}">
+                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                    <span class="menu-title" data-i18n="">{{tr('faqs')}}</span>
+                </a>
+                <ul class="menu-content">
+                    <li id="faqs-create">
+                        <a class="menu-item" href="{{route('admin.faqs.create')}}">
+                            {{tr('add_faq')}}
+                        </a>
+                    </li>
+                    <li id="faqs-view">
+                        <a class="menu-item" href="{{route('admin.faqs.index')}}">
+                            {{tr('view_faqs')}}
+                        </a>
+                    </li>
+                </ul>            
+            
+            </li>
+
             <li class="nav-item" id="static_pages">
                 <a href="{{route('admin.static_pages.index')}}">
                     <i class="ft-file"></i>

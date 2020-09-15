@@ -665,4 +665,294 @@ class AdminLookupController extends Controller
 
     }
 
+    
+    
+    /**
+     * @method faqs_index()
+     *
+     * @uses To list out faq details 
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function faqs_index() {
+       
+        $faqs = \App\Faq::orderBy('created_at','desc')->paginate($this->take);
+
+        return view('admin.faqs.index')
+                    ->with('main_page','faqs-crud')
+                    ->with('page','faqs')
+                    ->with('sub_page' , 'faqs-view')
+                    ->with('faqs' , $faqs);
+    }
+
+    /**
+     * @method faqs_create()
+     *
+     * @uses To create faq details
+     *
+     * @created  Akshata
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function faqs_create() {
+
+        $faq_details = new \App\Faq;
+
+        return view('admin.faqs.create')
+                    ->with('main_page','faqs-crud')
+                    ->with('page' , 'faqs')
+                    ->with('sub_page','faqs-create')
+                    ->with('faq_details', $faq_details);
+                
+    }
+
+    /**
+     * @method faqs_edit()
+     *
+     * @uses To display and update faqs details based on the faq id
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - Faq Id
+     * 
+     * @return redirect view page 
+     *
+     */
+    public function faqs_edit(Request $request) {
+
+        try {
+
+            $faq_details = \App\Faq::find($request->faq_id);
+
+            if(!$faq_details) { 
+
+                throw new Exception(tr('faq_not_found'), 101);
+
+            }
+           
+            return view('admin.faqs.edit')
+                    ->with('main_page','faqs-crud')
+                    ->with('page' , 'faqs')
+                    ->with('sub_page','faqs-view')
+                    ->with('faq_details' , $faq_details); 
+            
+        } catch(Exception $e) {
+
+            return redirect()->route('admin.faqs.index')->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+    /**
+     * @method faqs_save()
+     *
+     * @uses To save the faqs details of new/existing Faq object based on details
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object request - Faq Form Data
+     *
+     * @return success message
+     *
+     */
+    public function faqs_save(Request $request) {
+
+        try {
+
+            DB::begintransaction();
+
+            $rules = [
+                'question' => 'required',
+                'answer' => 'required',
+            
+            ];
+
+            Helper::custom_validator($request->all(),$rules);
+
+            $faq_details = $request->faq_id ? \App\Faq::find($request->faq_id) : new \App\Faq;
+
+            if(!$faq_details) {
+
+                throw new Exception(tr('faq_not_found'), 101);
+            }
+
+            $faq_details->question = $request->question;
+
+            $faq_details->answer = $request->answer;
+
+            $faq_details->status = APPROVED;
+
+            if($faq_details->save() ) {
+
+                DB::commit();
+
+                $message = $request->faq_id ? tr('faq_update_success')  : tr('faq_create_success');
+
+                return redirect()->route('admin.faqs.view', ['faq_id' => $faq_details->id])->with('flash_success', $message);
+            } 
+
+            throw new Exception(tr('faq_saved_error') , 101);
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->back()->withInput()->with('flash_error', $e->getMessage());
+        } 
+
+    }
+
+    /**
+     * @method faqs_view()
+     *
+     * @uses view the faqs details based on faq id
+     *
+     * @created Akshata 
+     *
+     * @updated 
+     *
+     * @param object $request - Faq Id
+     * 
+     * @return View page
+     *
+     */
+    public function faqs_view(Request $request) {
+       
+        try {
+      
+            $faq_details = \App\Faq::find($request->faq_id);
+            
+            if(!$faq_details) { 
+
+                throw new Exception(tr('faq_not_found'), 101);                
+            }
+
+            return view('admin.faqs.view')
+                        ->with('main_page','faqs-crud')
+                        ->with('page', 'faqs') 
+                        ->with('sub_page','faqs-view') 
+                        ->with('faq_details' , $faq_details);
+            
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+    /**
+     * @method faqs_delete()
+     *
+     * @uses delete the faq details based on faq id
+     *
+     * @created Akshata 
+     *
+     * @updated  
+     *
+     * @param object $request - Faq Id
+     * 
+     * @return response of success/failure details with view page
+     *
+     */
+    public function faqs_delete(Request $request) {
+
+        try {
+
+            DB::begintransaction();
+
+            $faq_details = \App\Faq::find($request->faq_id);
+            
+            if(!$faq_details) {
+
+                throw new Exception(tr('faq_not_found'), 101);                
+            }
+
+            if($faq_details->delete()) {
+
+                DB::commit();
+
+                return redirect()->route('admin.subscriptions.index')->with('flash_success',tr('faq_deleted_success'));   
+
+            } 
+            
+            throw new Exception(tr('faq_delete_failed'));
+            
+        } catch(Exception $e){
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }       
+         
+    }
+
+    /**
+     * @method faqs_status
+     *
+     * @uses To update faq status as DECLINED/APPROVED based on faqs id
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - Faq Id
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function faqs_status(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $faq_details = \App\Faq::find($request->faq_id);
+
+            if(!$faq_details) {
+
+                throw new Exception(tr('faq_not_found'), 101);
+                
+            }
+
+            $faq_details->status = $faq_details->status ? DECLINED : APPROVED ;
+
+            if($faq_details->save()) {
+
+                DB::commit();
+
+                $message = $faq_details->status ? tr('faq_approve_success') : tr('faq_decline_success');
+
+                return redirect()->back()->with('flash_success', $message);
+            }
+            
+            throw new Exception(tr('faq_status_change_failed'));
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->route('admin.faqs.index')->with('flash_error', $e->getMessage());
+
+        }
+
+    }
+
+
 }
