@@ -106,11 +106,11 @@
     
     </div>
 
-    @include('layouts.admin.footer')
+    @include('layouts.support_member.footer')
 
     @include('layouts.support_member._logout_model')
 
-    @include('layouts.admin.scripts')
+    @include('layouts.support_member.scripts')
 
     @yield('scripts')
 
