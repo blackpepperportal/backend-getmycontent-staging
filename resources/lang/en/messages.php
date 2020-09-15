@@ -797,5 +797,7 @@ return [
 	'question' => 'Question',
 	'answer' => 'Answer',
 	'support_member_profile_success' => 'Your profile updated successfully',
+	'forgot_password' => 'Forgot Password',
+	'already_have_account' => 'Already have account',
 	
 ]?>

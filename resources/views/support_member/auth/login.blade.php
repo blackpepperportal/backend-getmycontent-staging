@@ -62,6 +62,13 @@
                                 @endif
                             </fieldset>
                             <button type="submit" class="btn btn-outline-primary btn-block"><i class="ft-unlock"></i> Login</button>
+
+                            <div class="register-footer mt-3 text-center">
+                                <p>
+                                    <b><a href="{{route('support_member.password.request')}}" class=" text-uppercase">{{tr('forgot_password')}}</a></b>
+                                </p>
+                            </div>
+
                         </form>
 
                     </div>

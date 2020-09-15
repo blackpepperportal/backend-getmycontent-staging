@@ -25,6 +25,10 @@ Route::group(['middleware' => 'web'], function() {
         Route::post('change/password', 'SupportMemberController@change_password')->name('change.password');
 
         Route::get('/', 'SupportMemberController@dashboard')->name('dashboard');
+
+        Route::get('/password/reset','Auth\SupportMemberForgotPasswordController@showLinkRequestForm')->name('password.request');
+        
+         Route::post('/password/email','Auth\SupportMemberForgotPasswordController@sendResetLinkEmail')->name('password.email');
     
     });
     
