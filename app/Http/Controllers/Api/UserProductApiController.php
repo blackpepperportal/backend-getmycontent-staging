@@ -12,6 +12,8 @@ use DB, Log, Hash, Validator, Exception, Setting;
 
 use App\User, App\UserProductPicture;
 
+use App\Repositories\ProductRepository;
+
 class UserProductApiController extends Controller
 {
  	protected $loginUser;

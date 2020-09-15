@@ -145,7 +145,7 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('user_products_search','Api\UserProductApiController@user_products_search');
 
-        Route::post('user_product_pictures' , 'Api\UserApiController@user_product_pictures');
+        Route::post('user_product_pictures' , 'Api\UserProductApiController@user_product_pictures');
 
         Route::post('user_product_pictures_save','Api\UserProductApiController@user_product_pictures_save');
 

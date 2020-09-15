@@ -36,7 +36,7 @@ class ProductRepository {
 
             $user_product_pictures->user_product_id = $user_product_id;
 
-            $user_product_pictures->picture = Helper::upload_file($file, FILE_PATH_HOST);
+            $user_product_pictures->picture = Helper::storage_upload_file($file, COMMON_FILE_PATH);
 
             $user_product_pictures->save();
 
@@ -59,7 +59,7 @@ class ProductRepository {
 
 	            $user_product_pictures->user_product_id = $user_product_id;
 
-	            $user_product_pictures->picture = Helper::upload_file($file, FILE_PATH_HOST);
+	            $user_product_pictures->picture = Helper::storage_upload_file($file, COMMON_FILE_PATH);
 
 	            $user_product_pictures->save();
 

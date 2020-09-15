@@ -11,7 +11,7 @@ class Follower extends Model
      */
     public function getUser()
     {
-        return $this->hasOne('App\User', 'id', 'follower');
+        return $this->hasOne('App\User', 'id', 'follower_id');
     }
 
     /**
@@ -21,15 +21,15 @@ class Follower extends Model
      */
     public function scopeCommonResponse($query) {
 
-        return $query->leftJoin('users' , 'users.id' ,'=' , 'followers.follower')
+        return $query->leftJoin('users' , 'users.id' ,'=' , 'followers.follower_id')
 			->select(
 				'users.id as user_id',
 	            'users.unique_id as user_unique_id',
-                'users.name',
+                'users.username',
 	            'users.email as email',
 	            'users.picture as picture',
 	            'users.is_content_creator',
-                'followers.follower',
+                'followers.follower_id',
                 'followers.created_at',
                 'followers.updated_at'
             );
