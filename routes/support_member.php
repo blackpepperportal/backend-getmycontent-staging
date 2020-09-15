@@ -18,13 +18,13 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('logout', 'Auth\SupportMemberLoginController@logout')->name('logout');
 
-        Route::get('profile', 'SupportMember\SupportMemberAccountController@profile')->name('profile');
+        Route::get('profile', 'SupportMemberController@profile')->name('profile');
 
-        Route::post('profile/save', 'SupportMember\SupportMemberAccountController@profile_save')->name('profile.save');
+        Route::post('profile/save', 'SupportMemberController@profile_save')->name('profile.save');
 
-        Route::post('change/password', 'SupportMember\SupportMemberAccountController@change_password')->name('change.password');
+        Route::post('change/password', 'SupportMemberController@change_password')->name('change.password');
 
-        Route::get('/', 'SupportMember\SupportMemberRevenueController@dashboard')->name('dashboard');
+        Route::get('/', 'SupportMemberController@dashboard')->name('dashboard');
     
     });
     

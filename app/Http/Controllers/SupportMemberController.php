@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\SupportMember;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 
@@ -10,7 +10,7 @@ use App\Helpers\Helper, App\Helpers\EnvEditorHelper;
 
 use DB, Hash, Setting, Auth, Validator, Exception, Enveditor;
 
-class SupportMemberAccountController extends Controller
+class SupportMemberController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -25,6 +25,12 @@ class SupportMemberAccountController extends Controller
        
         $this->take = $request->take ?: (Setting::get('admin_take_count') ?: TAKE_COUNT);
 
+    }
+
+
+    public function dashboard() {
+
+        return view('support_member.dashboard');
     }
 
     /**
@@ -43,8 +49,11 @@ class SupportMemberAccountController extends Controller
 
     public function profile() {
 
+        $support_member_details = Auth::guard('support_member')->user();
+
         return view('support_member.account.profile')
-                ->with('page', 'profile');
+                ->with('page', 'profile')
+                ->with('support_member_details',$support_member_details);
     }
 
 

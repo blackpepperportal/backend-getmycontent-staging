@@ -796,5 +796,6 @@ return [
 	'faq_not_found' => 'The selected faq details not found.',
 	'question' => 'Question',
 	'answer' => 'Answer',
+	'support_member_profile_success' => 'Your profile updated successfully',
 	
 ]?>
