@@ -246,6 +246,23 @@ Route::group(['middleware' => 'web'], function() {
 
         //inventory route end
 
+
+        //faq CRUD
+        Route::get('faqs', 'Admin\AdminLookupController@faqs_index')->name('faqs.index');
+
+        Route::get('faqs/create', 'Admin\AdminLookupController@faqs_create')->name('faqs.create');
+
+        Route::get('faqs/edit', 'Admin\AdminLookupController@faqs_edit')->name('faqs.edit');
+
+        Route::post('faqs/save', 'Admin\AdminLookupController@faqs_save')->name('faqs.save');
+
+        Route::get('faqs/view', 'Admin\AdminLookupController@faqs_view')->name('faqs.view');
+
+        Route::get('faqs/delete', 'Admin\AdminLookupController@faqs_delete')->name('faqs.delete');
+
+        Route::get('faqs/status', 'Admin\AdminLookupController@faqs_status')->name('faqs.status');
+        //faq end
+
         // Static pages start
 
         Route::get('/static_pages' , 'Admin\AdminLookupController@static_pages_index')->name('static_pages.index');

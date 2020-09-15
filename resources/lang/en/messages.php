@@ -774,5 +774,27 @@ return [
 	'sub_category_details' => 'Sub category details',
 	'category_name' => 'Category Name',
 	'logout_success' => 'You have successfully logout from session!!',
+
+	
+	'faqs' => 'Faqs',
+	'add_faq' => 'Add Faq',
+	'edit_faq' => 'Edit Faq',
+	'view_faqs' => 'View Faqs',
+	'question_placeholder' => 'Enter Question',
+	'answer_placeholder' => 'Enter Answer',
+	'faq_not_found' => 'Faq details not found',
+	'faq_deleted_success' => 'Faq deleted successfully',
+	'faq_delete_failed' => 'Failed to delete Faq,Please try again!!',
+	'faq_approve_success' => 'Faq approved successfully',
+	'faq_decline_success' => 'Faq declined successfully',
+	'faq_status_change_failed' => 'Failed to change the faq details',
+	'faq_decline_confirmation' => 'Do you want decline this faq?',
+	'faq_delete_confirmation' => 'Once you\'ve deleted the record , the faq(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.',
+	'faq_create_success' => 'The faq created successfully!!',
+	'faq_update_success' => 'The faq updated successfully!!',
+	'faq_save_failed' => 'The faq details updating failed!!',
+	'faq_not_found' => 'The selected faq details not found.',
+	'question' => 'Question',
+	'answer' => 'Answer',
 	
 ]?>
