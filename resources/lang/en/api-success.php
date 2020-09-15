@@ -65,4 +65,10 @@ return [
     132 => "The product image deleted successfully!!",
 
     133 => "The product image updated successfully!!",
+
+    134 => "Post deleted Successfully",
+
+    135 => "The post published successfully",
+
+    136 => "The post un-published successfully",
 ];

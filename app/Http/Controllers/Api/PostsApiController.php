@@ -10,6 +10,8 @@ use App\Helpers\Helper;
 
 use DB, Log, Hash, Validator, Exception, Setting;
 
+use App\User;
+
 use App\Post, App\PostAlbum;
 
 class PostsApiController extends Controller
@@ -87,7 +89,7 @@ class PostsApiController extends Controller
         try {
 
             $rules = [
-                'post_id' => 'required|exists:post_id,id,user_id,'.$request->id
+                'post_id' => 'required|exists:posts,id,user_id,'.$request->id
             ];
 
             Helper::custom_validator($request->all(),$rules);
@@ -133,7 +135,7 @@ class PostsApiController extends Controller
                 'content' => 'required|max:191',
                 'publish_time' => 'required',
                 'amount' => 'required',
-                'is_paid_cost' => 'required',
+                'is_paid_post' => 'required',
             ];
 
             Helper::custom_validator($request->all(),$rules);
@@ -146,11 +148,13 @@ class PostsApiController extends Controller
 
             $post_details->content = $request->content ?: $post_details->content;
 
-            $post_details->publish_time = $request->publish_time ?: $post_details->publish_time;
+            $strtotime_publish_time = strtotime($request->publish_time);
 
-            $post_details->amount = $request->amount ?: '';
+            $post_details->publish_time = date('Y-m-d H:i:s', $strtotime_publish_time);
 
-            $post_details->is_paid_cost = $request->is_paid_cost ?: $post_details->is_paid_cost;
+            $post_details->amount = $request->amount ?? '';
+
+            $post_details->is_paid_post = $request->is_paid_post ?? $post_details->is_paid_post;
 
             if($post_details->save()) {
 
@@ -172,6 +176,114 @@ class PostsApiController extends Controller
 
         } 
     
+    }
+
+    /**
+     * @method posts_delete()
+     *
+     * @uses To delete content creators post
+     *
+     * @created Bhawya
+     *
+     * @updated  
+     *
+     * @param
+     * 
+     * @return response of details
+     *
+     */
+    public function posts_delete(Request $request) {
+
+        try {
+
+            DB::begintransaction();
+
+            $rules = [
+                'post_id' => 'required|exists:posts,id,user_id,'.$request->id
+            ];
+
+            Helper::custom_validator($request->all(),$rules,$custom_errors = []);
+
+            $post_details = Post::find($request->post_id);
+
+            if(!$post_details) {
+                throw new Exception(api_error(139), 139);   
+            }
+
+            $post_details = \App\Post::destroy($request->post_id);
+
+            DB::commit();
+
+            $data['post_id'] = $request->post_id;
+
+            return $this->sendResponse(api_success(134), $success_code = 134, $data);
+            
+        } catch(Exception $e){
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }       
+         
+    }
+
+    /**
+     * @method posts_status
+     *
+     * @uses To update post status
+     *
+     * @created Bhawya
+     *
+     * @updated 
+     *
+     * @param object $request
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function posts_status(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $rules = [
+                'post_id' => 'required|exists:posts,id,user_id,'.$request->id
+            ];
+
+            Helper::custom_validator($request->all(),$rules,$custom_errors = []);
+
+            $post_details = Post::find($request->post_id);
+
+            if(!$post_details) {
+                throw new Exception(api_error(139), 139);   
+            }
+
+            $post_details->is_published = $post_details->is_published ? UNPUBLISHED : PUBLISHED;
+
+            if($post_details->save()) {
+
+                DB::commit();
+
+                $success_code = $post_details->is_published ? 135 : 136;
+
+                $data['post_details'] = $post_details;
+
+                return $this->sendResponse(api_success($success_code),$success_code, $data);
+
+            }
+            
+            throw new Exception(api_error(130), 130);
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+
     }
 
 }
