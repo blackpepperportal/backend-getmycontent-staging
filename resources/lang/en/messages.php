@@ -799,5 +799,13 @@ return [
 	'support_member_profile_success' => 'Your profile updated successfully',
 	'forgot_password' => 'Forgot Password',
 	'already_have_account' => 'Already have account',
+	'support_ticket_not_found' => 'Support ticket details not found',
+
+	'view_support_tickets' => 'View Support Tickets',
+	'support_tickets' => 'Support Tickets',
+	'subject' => 'Subject',
+	'message' => 'Message',
+	'user_name' => 'User Name',
+	'chat' => 'Chat',
 	
 ]?>

@@ -27,10 +27,82 @@ class SupportMemberController extends Controller
 
     }
 
-
+    /**
+     * @method dashboard()
+     *
+     * @uses  Display the analytics for the support member
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param 
+     *
+     * @return view page 
+     */
     public function dashboard() {
 
         return view('support_member.dashboard');
+    }
+
+     /**
+     * @method support_tickets_index()
+     *
+     * @uses Display the lists of support tickets
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param -
+     *
+     * @return view page 
+     */
+    public function support_tickets_index(Request $request) {
+
+        $support_tickets = \App\SupportTicket::orderBy('created_at','DESC')->paginate($this->take);
+
+        return view('support_member.support_tickets.index')
+                    ->with('page', 'support_tickets')
+                    ->with('sub_page', 'support_tickets-view')
+                    ->with('support_tickets', $support_tickets);
+    }
+
+    /**
+     * @method support_tickets_view()
+     *
+     * @uses displays the specified support tickets details based on support ticket id
+     *
+     * @created Akshata 
+     *
+     * @updated 
+     *
+     * @param object $request -  Support Ticket Id
+     * 
+     * @return View page
+     *
+     */
+    public function support_tickets_view(Request $request) {
+       
+        try {
+      
+            $support_ticket_details = \App\SupportTicket::find($request->support_ticket_id);
+
+            if(!$support_ticket_details) { 
+
+                throw new Exception(tr('support_ticket_not_found'), 101);                
+            }
+        
+            return view('support_member.support_tickets.view')
+                        ->with('page', 'support_tickets') 
+                        ->with('sub_page','support_tickets-view') 
+                        ->with('support_ticket_details' , $support_ticket_details);
+            
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+        }
+    
     }
 
     /**

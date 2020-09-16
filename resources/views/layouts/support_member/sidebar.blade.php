@@ -11,6 +11,17 @@
                 </a>
             </li>
 
+            <li class="navigation-header">
+                <span>{{tr('ticket_management')}}</span>
+            </li>
+
+            <li class="nav-item" id="dashboard">
+                <a href="{{route('support_member.support_tickets.index')}}">
+                    <i class="fa fa-ticket"></i>
+                    <span class="menu-title" data-i18n="">{{tr('support_tickets')}}</span>
+                </a>
+            </li>
+            
             <!-- lookups_management end -->
 
             <li class="navigation-header">

@@ -28,7 +28,12 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('/password/reset','Auth\SupportMemberForgotPasswordController@showLinkRequestForm')->name('password.request');
         
-         Route::post('/password/email','Auth\SupportMemberForgotPasswordController@sendResetLinkEmail')->name('password.email');
+        Route::post('/password/email','Auth\SupportMemberForgotPasswordController@sendResetLinkEmail')->name('password.email');
+
+        Route::get('/support_tickets/index','SupportMemberController@support_tickets_index')->name('support_tickets.index');
+
+        Route::get('/support_tickets/view','SupportMemberController@support_tickets_view')->name('support_tickets.view');
+
     
     });
     
