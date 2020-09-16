@@ -34,6 +34,8 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('/support_tickets/view','SupportMemberController@support_tickets_view')->name('support_tickets.view');
 
+        Route::get('/support_tickets/chat','SupportMemberController@support_tickets_chat')->name('support_tickets.chat');
+
     
     });
     

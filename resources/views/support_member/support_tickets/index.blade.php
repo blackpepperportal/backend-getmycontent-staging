@@ -81,7 +81,7 @@
 
                                                 <div class="dropdown-divider"></div>
 
-                                                <a class="dropdown-item" href="">&nbsp;{{ tr('chat') }}</a> 
+                                                <a class="dropdown-item" href="{{route('support_member.support_tickets.chat')}}">&nbsp;{{ tr('chat') }}</a> 
 
                                             </div>
                                             

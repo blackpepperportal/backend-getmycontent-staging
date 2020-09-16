@@ -1,4 +1,4 @@
-@extends('layouts.admin.focused')
+@extends('layouts.support_member.focused')
 
 @section('title', tr('login'))
 

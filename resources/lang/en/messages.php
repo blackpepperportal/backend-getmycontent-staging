@@ -807,5 +807,6 @@ return [
 	'message' => 'Message',
 	'user_name' => 'User Name',
 	'chat' => 'Chat',
+	'ticket_management' => 'Ticket Management',
 	
 ]?>

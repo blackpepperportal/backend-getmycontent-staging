@@ -263,4 +263,27 @@ class SupportMemberController extends Controller
     
     }
 
+     /**
+     * @method support_tickets_chat()
+     *
+     * @uses This page is to display the chat for the support member
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param 
+     *
+     * @return view page 
+     */
+
+    public function support_tickets_chat(){
+
+        $support_chats = \App\SupportChat::where('status',APPROVED)->get();
+
+        return view('support_member.support_tickets.chat')
+                ->with('page','support_tickets-view')
+                ->with('support_chats',$support_chats);
+    }
+
 }
