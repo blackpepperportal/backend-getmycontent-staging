@@ -279,7 +279,7 @@ class SupportMemberController extends Controller
 
     public function support_tickets_chat(){
 
-        $support_chats = \App\SupportChat::where('status',APPROVED)->get();
+        $support_chats = \App\SupportChat::where('status',APPROVED)->paginate($this->take);
 
         return view('support_member.support_tickets.chat')
                 ->with('page','support_tickets-view')
