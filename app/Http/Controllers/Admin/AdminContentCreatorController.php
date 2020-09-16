@@ -86,13 +86,12 @@ class AdminContentCreatorController extends Controller
                     ->orWhere('mobile','LIKE','%'.$request->search_key.'%');
         }
         
-        $stardoms = $base_query->paginate(10);
+        $users = $base_query->paginate(10);
 
-        return view('admin.users.index')
-                    
-                    ->with('page','stardoms')
-                    ->with('sub_page' , $sub_page)
-                    ->with('stardoms' , $stardoms);
+        return view('admin.users.index') 
+                    ->with('page','content_creators')
+                    ->with('sub_page', 'content_creators-view')
+                    ->with('users' , $users);
     
     }
 
