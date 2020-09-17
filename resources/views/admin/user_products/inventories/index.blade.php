@@ -9,7 +9,7 @@
 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
 </li>
 
-<li class="breadcrumb-item"><a href="#">{{ tr('product_inventories') }}</a>
+<li class="breadcrumb-item"><a href="{{route('admin.product_inventories.index')}}">{{ tr('product_inventories') }}</a>
 </li>
 
 <li class="breadcrumb-item active">{{ tr('view_product_inventories') }}
@@ -62,10 +62,11 @@
                                     <td>{{ $i+$product_inventories->firstItem() }}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.product_inventories.view' , ['user_product_id' => $product_inventory_details->id] )  }}">
+                                        <a href="{{  route('admin.user_products.view' , ['user_product_id' => $product_inventory_details->user_product_id] )  }}">
                                         {{ $product_inventory_details->userProductDetails->name ?? "-" }}
                                         </a>
                                     </td>
+                                    
                                     <td>
                                         {{ $product_inventory_details->total_quantity}}
                                     </td>

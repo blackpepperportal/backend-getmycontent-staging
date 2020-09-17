@@ -12,6 +12,7 @@
 @endsection 
 
 @section('content')
+
 <section id="configuration">
 
     <div class="row">
@@ -90,13 +91,13 @@
 
                                                     <a class="dropdown-item" href="{{ route('admin.faqs.edit', ['faq_id' => $faq_details->id] ) }}">&nbsp;{{ tr('edit') }}</a>
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('faq_delete_confirmation' , $faq_details->name) }}&quot;);" href="{{ route('admin.faqs.delete', ['faq_id' => $faq_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('faq_delete_confirmation' , $faq_details->question) }}&quot;);" href="{{ route('admin.faqs.delete', ['faq_id' => $faq_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 
                                                 @if($faq_details->status == APPROVED)
 
-                                                    <a class="dropdown-item" href="{{  route('admin.faqs.status' , ['faq_id' => $faq_details->id] )  }}" onclick="return confirm(&quot;{{ $faq_details->name }} - {{ tr('faq_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
+                                                    <a class="dropdown-item" href="{{  route('admin.faqs.status' , ['faq_id' => $faq_details->id] )  }}" onclick="return confirm(&quot;{{ $faq_details->question }} - {{ tr('faq_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
                                                 </a> 
 
                                                 @else
