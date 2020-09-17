@@ -30,7 +30,7 @@
 
                         @include('notifications.notify')
 
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('admin.login.post') }}" novalidate>
+                        <form class="form-horizontal" role="form" method="POST" action="{{ route('admin.login.post') }}" novalidate autocomplete="new-password">
 
                             @csrf
 
@@ -50,7 +50,7 @@
 
                             </fieldset>
                             <fieldset class="form-group position-relative has-icon-left">
-                                <input name="password" type="password" class="form-control" id="user-password" placeholder="Enter Password" required minlength="6" maxlength="64" title="Enter Minimum 6 character" value="{{old('password') ?: Setting::get('demo_admin_password')}}">
+                                <input name="password" type="password" class="form-control" id="user-password" placeholder="Enter Password" required minlength="6" maxlength="64" title="Enter Minimum 6 character" value="{{old('password') ?: Setting::get('demo_admin_password')}}" autocomplete="off">
                                 <div class="form-control-position">
                                     <i class="fa fa-key"></i>
                                 </div>

@@ -589,7 +589,17 @@ class AdminRevenueController extends Controller
 
     public function user_withdrawals(Request $request) {
 
-        $base_query = \App\UserWithdrawal::orderBy('user_withdrawals.updated_at','DESC');
+        // $new = new \App\UserWithdrawal;
+
+        // $new->user_id = 1;
+
+        // $new->requested_amount = rand(30, 999);
+
+        // $new->payment_id = rand(1000000000, 9999999999);
+
+        // $new->save();
+
+        $base_query = \App\UserWithdrawal::orderBy('user_withdrawals.id', 'desc');
 
         if($request->search_key) {
 
@@ -610,8 +620,8 @@ class AdminRevenueController extends Controller
         $user_withdrawals = $base_query->paginate(10);
        
         return view('admin.user_withdrawals.index')
-                ->with('page','stardom-withdrawals')
-                ->with('user_withdrawals',$user_withdrawals);
+                ->with('page', 'content_creator-withdrawals')
+                ->with('user_withdrawals', $user_withdrawals);
 
     }
 
@@ -639,7 +649,7 @@ class AdminRevenueController extends Controller
 
             if(!$user_withdrawal_details) {
 
-                throw new Exception(tr('stardom_withdrawal_details_not_found'),101);
+                throw new Exception(tr('user_withdrawal_details_not_found'),101);
                 
             }
 
@@ -688,7 +698,7 @@ class AdminRevenueController extends Controller
 
             if(!$user_withdrawal_details) {
 
-                throw new Exception(tr('stardom_withdrawal_details_not_found'),101);
+                throw new Exception(tr('user_withdrawal_details_not_found'),101);
                 
             }
             
@@ -698,7 +708,7 @@ class AdminRevenueController extends Controller
 
                 DB::commit();
 
-                return redirect()->back()->with('flash_success',tr('stardom_withdrawal_cancelled'));
+                return redirect()->back()->with('flash_success',tr('user_withdrawal_cancelled'));
             }
 
         } catch(Exception $e) {

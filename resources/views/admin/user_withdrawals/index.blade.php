@@ -9,10 +9,8 @@
 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
 </li>
 
-<li class="breadcrumb-item"><a href="{{route('admin.user_withdrawals')}}">{{ tr('user_withdrawals') }}</a></a>
-</li>
 
-<li class="breadcrumb-item">{{ tr('view_user_withdrawals') }}</a>
+<li class="breadcrumb-item">{{ tr('user_withdrawals') }}</a>
 </li>
 
 @endsection 
@@ -29,7 +27,7 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('view_user_withdrawals') }}</h4>
+                    <h4 class="card-title">{{ tr('user_withdrawals') }}</h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                     
                 </div>
