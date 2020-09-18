@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\SupportMember;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 
@@ -10,7 +10,7 @@ use App\Helpers\Helper, App\Helpers\EnvEditorHelper;
 
 use DB, Hash, Setting, Auth, Validator, Exception, Enveditor;
 
-class SupportMemberAccountController extends Controller
+class SupportMemberController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -25,6 +25,84 @@ class SupportMemberAccountController extends Controller
        
         $this->take = $request->take ?: (Setting::get('admin_take_count') ?: TAKE_COUNT);
 
+    }
+
+    /**
+     * @method dashboard()
+     *
+     * @uses  Display the analytics for the support member
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param 
+     *
+     * @return view page 
+     */
+    public function dashboard() {
+
+        return view('support_member.dashboard');
+    }
+
+     /**
+     * @method support_tickets_index()
+     *
+     * @uses Display the lists of support tickets
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param -
+     *
+     * @return view page 
+     */
+    public function support_tickets_index(Request $request) {
+
+        $support_tickets = \App\SupportTicket::orderBy('created_at','DESC')->paginate($this->take);
+
+        return view('support_member.support_tickets.index')
+                    ->with('page', 'support_tickets')
+                    ->with('sub_page', 'support_tickets-view')
+                    ->with('support_tickets', $support_tickets);
+    }
+
+    /**
+     * @method support_tickets_view()
+     *
+     * @uses displays the specified support tickets details based on support ticket id
+     *
+     * @created Akshata 
+     *
+     * @updated 
+     *
+     * @param object $request -  Support Ticket Id
+     * 
+     * @return View page
+     *
+     */
+    public function support_tickets_view(Request $request) {
+       
+        try {
+      
+            $support_ticket_details = \App\SupportTicket::find($request->support_ticket_id);
+
+            if(!$support_ticket_details) { 
+
+                throw new Exception(tr('support_ticket_not_found'), 101);                
+            }
+        
+            return view('support_member.support_tickets.view')
+                        ->with('page', 'support_tickets') 
+                        ->with('sub_page','support_tickets-view') 
+                        ->with('support_ticket_details' , $support_ticket_details);
+            
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+        }
+    
     }
 
     /**
@@ -43,8 +121,11 @@ class SupportMemberAccountController extends Controller
 
     public function profile() {
 
+        $support_member_details = Auth::guard('support_member')->user();
+
         return view('support_member.account.profile')
-                ->with('page', 'profile');
+                ->with('page', 'profile')
+                ->with('support_member_details',$support_member_details);
     }
 
 
@@ -180,6 +261,29 @@ class SupportMemberAccountController extends Controller
 
         }    
     
+    }
+
+     /**
+     * @method support_tickets_chat()
+     *
+     * @uses This page is to display the chat for the support member
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param 
+     *
+     * @return view page 
+     */
+
+    public function support_tickets_chat(){
+
+        $support_chats = \App\SupportChat::where('status',APPROVED)->paginate($this->take);
+
+        return view('support_member.support_tickets.chat')
+                ->with('page','support_tickets-view')
+                ->with('support_chats',$support_chats);
     }
 
 }
