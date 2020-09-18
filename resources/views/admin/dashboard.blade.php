@@ -15,13 +15,13 @@
 
 @section('content')
 
-<div class="content-body">
+<div class="content-body dashboard-sec">
 
     <div class="row">
 
         <div class="col-xl-3 col-lg-6 col-12">
 
-            <div class="card">
+            <div class="card card-top">
 
                 <div class="card-content">
 
@@ -46,7 +46,7 @@
 
         <div class="col-xl-3 col-lg-6 col-12">
 
-            <div class="card">
+            <div class="card card-top">
 
                 <div class="card-content">
 
@@ -71,7 +71,7 @@
 
         <div class="col-xl-3 col-lg-6 col-12">
 
-            <div class="card">
+            <div class="card card-top">
 
                 <div class="card-content">
 
@@ -96,7 +96,7 @@
 
         <div class="col-xl-3 col-lg-6 col-12">
 
-            <div class="card">
+            <div class="card card-top">
 
                 <div class="card-content">
 
@@ -121,7 +121,7 @@
 
     </div>
 
-    <div class="row match-height">
+    <div class="row match-height margin-top">
         
         <div class="col-xl-12 col-lg-12">
 
