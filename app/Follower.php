@@ -36,9 +36,9 @@ class Follower extends Model
     
     }
 
-    public function contentCreatorDetails() {
+    public function followerDetails() {
 
-        return $this->belongsTo(ContentCreator::class,'follower_id');
+        return $this->belongsTo(User::class,'follower_id');
     }
 
     public function userDetails() {
