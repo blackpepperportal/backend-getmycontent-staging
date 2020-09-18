@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-	protected $appends = ['amount_formatted','post_id'];
+	protected $appends = ['amount_formatted','post_id','post_unique_id'];
 
-	protected $hidden = ['id'];
+	protected $hidden = ['id','unique_id'];
 
 	public function getAmountFormattedAttribute() {
 
@@ -20,8 +20,8 @@ class Post extends Model
 		return $this->id;
 	}
 
-    public function getuserDetails() {
+	public function getPostUniqueIdAttribute() {
 
-    	return $this->belongsTo(ContentCreator::class,'user_id');
-    }
+		return $this->unique_id;
+	}
 }

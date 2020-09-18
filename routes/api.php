@@ -89,6 +89,21 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('payment_mode_default', 'Api\UserAccountApiController@payment_mode_default');
 
+        Route::post('users_accounts_list','Api\UserAccountApiController@users_accounts_list');
+
+        Route::post('users_accounts_save','Api\UserAccountApiController@users_accounts_save');
+
+        Route::post('users_accounts_delete','Api\UserAccountApiController@users_accounts_delete');
+        
+        Route::post('users_accounts_default','Api\UserAccountApiController@users_accounts_default');
+
+        // Content Creator profile for other users
+        Route::post('content_creators_profile','Api\UserAccountApiController@content_creators_profile');
+
+        Route::post('content_creators_posts','Api\UserAccountApiController@content_creators_posts');
+
+        Route::post('content_creators_post_albums','Api\UserAccountApiController@content_creators_post_albums');
+
     });
 
     Route::post('admin_account_details','Api\WalletApiController@admin_account_details');

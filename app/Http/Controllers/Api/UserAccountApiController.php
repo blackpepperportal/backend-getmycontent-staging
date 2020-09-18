@@ -1251,4 +1251,383 @@ class UserAccountApiController extends Controller
 
     }
 
+    /** 
+     * @method users_accounts_list()
+     *
+     * @uses To list user billing accounts
+     *
+     * @created Bhawya N
+     *
+     * @updated Bhawya N
+     *
+     * @param
+     *
+     * @return json response with details
+     */
+
+    public function users_accounts_list(Request $request) {
+
+        try {
+
+            $user_billing_accounts = \App\UserBillingAccount::where('user_id', $request->id)->CommonResponse()->get();
+
+            $data['billing_accounts'] = $user_billing_accounts;
+
+            $data['total'] = $user_billing_accounts->count();
+
+            return $this->sendResponse($message = "", $success_code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
+    }
+
+    /** 
+     * @method users_accounts_view()
+     *
+     * @uses Accounts Detailed view
+     *
+     * @created Bhawya N
+     *
+     * @updated Bhawya N
+     *
+     * @param
+     *
+     * @return json response with details
+     */
+
+    public function users_accounts_view(Request $request) {
+
+        try {
+
+            $user_billing_accounts = \App\UserBillingAccount::where('id', $request->user_billing_account_id)->CommonResponse()->get();
+
+            $data['billing_accounts'] = $user_billing_accounts;
+
+            return $this->sendResponse($message = "", $success_code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
+    }
+
+    /** 
+     * @method users_accounts_save()
+     *
+     * @uses To save account details
+     *
+     * @created Bhawya N
+     *
+     * @updated Bhawya N
+     *
+     * @param object $request - User Id
+     *
+     * @return json response with user details
+     */
+
+    public function users_accounts_save(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+             // Validation start
+            $rules = [
+                'user_billing_account_id' => 'nullable|exists:user_billing_accounts,id',
+                'account_holder_name' => 'required',
+                'account_number' => 'required',
+                'ifsc_code' => 'required',
+                'swift_code' => 'required',
+                'nickname' => '',
+            ];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors = []);
+
+            // Validation end
+
+            $request->request->add(['user_id' => $request->id]);
+
+            if($request->user_billing_account_id) {
+                
+                $user_billing_account = \App\UserBillingAccount::updateOrCreate(['id' => $request->user_billing_account_id,'account_number' => $request->account_number, 'user_id' => $request->id], $request->all());
+
+            } else {
+                
+                $user_billing_account = \App\UserBillingAccount::updateOrCreate(['account_number' => $request->account_number, 'user_id' => $request->id], $request->all());
+
+            }
+
+            $user_billing_account->save();
+
+            DB::commit();
+
+            return $this->sendResponse(api_success(112), $success_code = 112, $user_billing_account);
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
+    }
+
+    /** 
+     * @method users_accounts_delete()
+     *
+     * @uses To delete account details
+     *
+     * @created Bhawya N
+     *
+     * @updated Bhawya N
+     *
+     * @param object $request - User Id
+     *
+     * @return json response with user details
+     */
+
+    public function users_accounts_delete(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+             // Validation start
+
+            $rules = ['user_billing_account_id' => 'required|exists:user_billing_accounts,id,user_id,'.$request->id];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors = []);
+
+            // Validation end
+            $user_billing_account = \App\UserBillingAccount::destroy($request->user_billing_account_id);
+
+            DB::commit();
+
+            $data['user_billing_account_id'] = $request->user_billing_account_id;
+
+            return $this->sendResponse(api_success(113), $success_code = 113, $data);
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
+    }
+
+    /** 
+     * @method users_accounts_default()
+     *
+     * @uses To make account default
+     *
+     * @created Bhawya N
+     *
+     * @updated Bhawya N
+     *
+     * @param object $request - User Id
+     *
+     * @return json response with user details
+     */
+
+    public function users_accounts_default(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+             // Validation start
+
+            $rules = ['user_billing_account_id' => 'required|exists:user_billing_accounts,id,user_id,'.$request->id];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors = []);
+
+            // Validation end
+
+            $old_accounts = \App\UserBillingAccount::where('user_id' , $request->id)->where('is_default', YES)->update(['is_default' => NO]);
+
+            $user_billing_account = \App\UserBillingAccount::where('id' , $request->user_billing_account_id)->update(['is_default' => YES]);
+
+            DB::commit();
+
+            $data['user_billing_account'] = $user_billing_account;
+
+            return $this->sendResponse(api_success(137), $success_code = 137, $data);
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
+    }
+
+    /** 
+     * @method content_creators_profile()
+     *
+     * @uses Content Creators Profile view
+     *
+     * @created Bhawya N
+     *
+     * @updated Bhawya N
+     *
+     * @param object $request - User Id
+     *
+     * @return json response with user details
+     */
+
+    public function content_creators_profile(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            // Validation start
+            $rules = ['user_id' => 'required|exists:users,id'];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors = []);
+
+
+            $user_details = \App\User::find($request->user_id);
+
+            if(!$user_details) {
+                throw new Exception(api_error(1002), 1002);
+            }
+
+            $data['user_details'] = $user_details;
+
+            $data['total_followers'] = \App\Follower::where('user_id', $request->user_id)
+                    ->count();
+
+            $data['total_followings'] = \App\Follower::where('follower_id', $request->user_id)
+                    ->count();
+
+            $data['total_posts'] = \App\Post::where('user_id', $request->user_id)->count();
+
+            return $this->sendResponse($message = "", $code = "", $data);
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
+    }
+
+    /** 
+     * @method content_creators_posts()
+     *
+     * @uses Content Creators Posts
+     *
+     * @created Bhawya N
+     *
+     * @updated Bhawya N
+     *
+     * @param object $request - User Id
+     *
+     * @return json response with user details
+     */
+
+    public function content_creators_posts(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            // Validation start
+            $rules = ['user_id' => 'required|exists:users,id'];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors = []);
+
+
+            $user_details = \App\User::find($request->user_id);
+
+            if(!$user_details) {
+                throw new Exception(api_error(1002), 1002);
+            }
+
+            $base_query = $total_query = \App\Post::where('user_id', $request->user_id)->get();
+
+            $post_details = $base_query->skip($this->skip)->take($this->take)->orderBy('created_at', 'desc')->get();
+            
+            $data['post_details'] = $post_details ?? [];
+
+            $data['total'] = $total_query->count() ?? 0;
+
+            return $this->sendResponse($message = "", $code = "", $data);
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
+    }
+
+    /** 
+     * @method content_creators_post_albums()
+     *
+     * @uses Content Creators Post Albums
+     *
+     * @created Bhawya N
+     *
+     * @updated Bhawya N
+     *
+     * @param object $request - User Id
+     *
+     * @return json response with user details
+     */
+
+    public function content_creators_post_albums(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            // Validation start
+            $rules = ['user_id' => 'required|exists:users,id'];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors = []);
+
+
+            $user_details = \App\User::find($request->user_id);
+
+            if(!$user_details) {
+                throw new Exception(api_error(1002), 1002);
+            }
+
+            $base_query = $total_query = \App\PostAlbum::where('user_id', $request->user_id)->get();
+
+            $post_album_details = $base_query->skip($this->skip)->take($this->take)->orderBy('created_at', 'desc')->get();
+            
+            $data['post_album_details'] = $post_album_details ?? [];
+
+            $data['total'] = $total_query->count() ?? 0;
+
+            return $this->sendResponse($message = "", $code = "", $data);
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
+    }
+
 }
