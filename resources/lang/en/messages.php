@@ -812,6 +812,17 @@ return [
 	'followers' => 'Followers',
 	'follower' => 'Follower',
 	'instagram_link' => 'Instagram Link',
-
-	
+	'no_of_subscribers' => 'No of subscribers',
+	'subscription_payment_details_not_found' => 'Subscription payment details not found',	 
+	'view_subscription_payments' => 'View Subscription Payments',
+	'subscription_payments' => 'Subscription Payments',
+	'subscription_payment_search_placeholder' => 'Search By User Name, Payment Id',
+	'expiry_date' => 'Expiry Date',
+	'subscription' => 'Subscription',
+	'is_current_subscription' => 'Is Current Subscription?',
+	'is_cancelled' => 'Is Cancelled',
+	'cancel_reason' => 'Cancel Reason',
+	'account_holder_name' => 'Account Holder Name',
+	'ifsc_code' => 'Ifsc Code',
+	'swift_code' => 'Swift Code',
 ]?>

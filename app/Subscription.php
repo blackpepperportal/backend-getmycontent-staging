@@ -27,4 +27,8 @@ class Subscription extends Model
 
         return $query->where('subscriptions.status', APPROVED);
     }
+
+    public function subscriptionPayments() {
+        return $this->hasMany('App\SubscriptionPayment', 'subscription_id');
+    }
 }

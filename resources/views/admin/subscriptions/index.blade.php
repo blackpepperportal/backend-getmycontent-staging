@@ -46,8 +46,9 @@
                                     <th>{{tr('s_no')}}</th>
                                     <th>{{tr('title')}}</th>
                                     <th>{{tr('plan')}}</th>
-                                    <th>{{tr('status')}}</th>
+                                    <th>{{tr('no_of_subscribers')}}</th>
                                     <th>{{tr('amount')}}</th>
+                                    <th>{{tr('status')}}</th>
                                     <th>{{tr('action')}}</th>
                                 </tr>
                             </thead>
@@ -65,6 +66,8 @@
 
                                         <td>{{$subscription_details->plan_type_formatted}}</td>
                                       
+                                        <td><a href="{{route('admin.subscription_payments.index' , ['subscription_id' => $subscription_details->id])}}"> {{$subscription_details->subscriptionPayments->count() ?? 0}}</a></td>
+
                                         <td>
 
                                             @if($subscription_details->status == APPROVED)

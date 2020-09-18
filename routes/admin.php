@@ -236,6 +236,8 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('user_withdrawals/reject','Admin\AdminRevenueController@user_withdrawals_reject')->name('user_withdrawals.reject');
 
+         Route::get('user_withdrawals/view','Admin\AdminRevenueController@user_withdrawals_view')->name('user_withdrawals.view');
+
         // CC withdrawals end
 
         //inventory route start
@@ -247,9 +249,9 @@ Route::group(['middleware' => 'web'], function() {
         //inventory route end
 
         //followers
-        Route::get('followers' , 'Admin\AdminUserController@followers')->name('followers');
+        Route::get('user_followers' , 'Admin\AdminUserController@user_followers')->name('followers');
 
-        Route::get('following' , 'Admin\AdminUserController@following')->name('following');
+        Route::get('user_following' , 'Admin\AdminUserController@user_following')->name('following');
 
         //following
 
@@ -298,6 +300,14 @@ Route::group(['middleware' => 'web'], function() {
         Route::post('settings/save', 'Admin\AdminSettingController@settings_save')->name('settings.save'); 
 
         Route::post('env_settings','Admin\AdminSettingController@env_settings_save')->name('env-settings.save');
+
+        Route::get('/support_tickets/index','Admin\AdminRevenueController@support_tickets_index')->name('support_tickets.index');
+
+        Route::get('/support_tickets/view','Admin\AdminRevenueController@support_tickets_view')->name('support_tickets.view');
+
+        Route::get('/subscriptions_payments/index','Admin\AdminRevenueController@subscription_payments_index')->name('subscription_payments.index');
+
+        Route::get('/subscriptions_payments/view','Admin\AdminRevenueController@subscription_payments_view')->name('subscription_payments.view');
 
     });
 });

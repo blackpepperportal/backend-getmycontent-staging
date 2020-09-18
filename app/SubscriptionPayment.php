@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SubscriptionPayment extends Model
 {
-    protected $appends = ['subscription_amount_formatted', 'amount_formatted'];
+    protected $appends = ['subscription_amount_formatted', 'amount_formatted','plan_formatted'];
 
     public function getSubscriptionAmountFormattedAttribute() {
 
@@ -16,6 +16,11 @@ class SubscriptionPayment extends Model
     public function getAmountFormattedAttribute() {
 
         return formatted_amount($this->amount  ?? 0.00);
+    }
+
+    public function getPlanFormattedAttribute() {
+
+        return formatted_plan($this->plan,$this->plan_type);
     }
 
     public function user() {

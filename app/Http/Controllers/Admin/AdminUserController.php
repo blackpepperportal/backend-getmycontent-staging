@@ -478,7 +478,7 @@ class AdminUserController extends Controller
     }
 
      /**
-     * @method followers()
+     * @method user_followers()
      *
      * @uses This is to display the all followers of specified content creator
      *
@@ -490,18 +490,18 @@ class AdminUserController extends Controller
      *
      * @return view page
      */
-     public function followers(Request $request) {
+     public function user_followers(Request $request) {
 
-        $followers = \App\Follower::where('follower_id',$request->follower_id)->paginate($this->take);
+        $user_followers = \App\Follower::where('follower_id',$request->follower_id)->paginate($this->take);
         
         return view('admin.users.followers')
                 ->with('page','users')
                 ->with('sub_page','users-view')
-                ->with('followers',$followers);
+                ->with('user_followers',$user_followers);
      }
 
      /**
-     * @method following()
+     * @method user_following()
      *
      * @uses This is to display the all followers of specified 
      *
@@ -513,14 +513,14 @@ class AdminUserController extends Controller
      *
      * @return view page
      */
-     public function following(Request $request) {
+     public function user_following(Request $request) {
 
-        $followings = \App\Follower::where('user_id',$request->user_id)->paginate($this->take);
+        $user_followings = \App\Follower::where('user_id',$request->user_id)->paginate($this->take);
 
         return view('admin.users.following')
                 ->with('page','users')
                 ->with('sub_page','users-view')
-                ->with('followings',$followings);
+                ->with('user_followings',$user_followings);
        
      }
 }

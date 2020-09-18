@@ -238,11 +238,18 @@
                         </a>
                     </li>
 
-                     <li id="order-payments">
+                    <li id="order-payments">
                         <a class="menu-item" href="{{route('admin.order.payments')}}">
                            {{tr('order_payments')}}
                         </a>
                     </li>
+
+                    <li id="subscription-payments">
+                        <a class="menu-item" href="{{route('admin.subscription_payments.index')}}">
+                           {{tr('subscription_payments')}}
+                        </a>
+                    </li>
+
                 </ul>            
             </li>
 
@@ -283,6 +290,12 @@
             
             </li>
 
+            <li class="nav-item" id="support_tickets">
+                <a href="{{route('admin.support_tickets.index')}}">
+                    <i class="ft-globe"></i>
+                    <span class="menu-title" data-i18n="">{{tr('support_tickets')}}</span>
+                </a>
+            </li>
             <!-- lookups_management start -->
 
             <li class="navigation-header">
