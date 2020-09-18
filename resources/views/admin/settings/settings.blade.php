@@ -527,6 +527,14 @@ hr {
                                 <input type="text" class="form-control" id="pinterest_link" name="pinterest_link" placeholder="Enter {{tr('pinterest_link')}}" value="{{old('pinterest_link') ?: Setting::get('pinterest_link')}}">
                             </div>
                         </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="instagram_link">{{tr('instagram_link')}} *</label>
+
+                                <input type="text" class="form-control" id="instagram_link" name="instagram_link" placeholder="Enter {{tr('instagram_link')}}" value="{{old('instagram_link') ?: Setting::get('instagram_link')}}">
+                            </div>
+                        </div>
                         
                         <div class="clearfix"></div>
                         
@@ -701,20 +709,20 @@ hr {
                         <div class="col-md-6">
                             <div class="form-group">
 
-                                <label for="stardom_fcm_sender_id">{{ tr('content_creator_fcm_sender_id') }}</label>
+                                <label for="content_creator_fcm_sender_id">{{ tr('content_creator_fcm_sender_id') }}</label>
 
-                                <input type="text" class="form-control" name="stardom_fcm_sender_id" id="stardom_fcm_sender_id"
-                                value="{{ Setting::get('stardom_fcm_sender_id') }}" placeholder="{{ tr('content_creator_fcm_sender_id') }}">
+                                <input type="text" class="form-control" name="content_creator_fcm_sender_id" id="content_creator_fcm_sender_id"
+                                value="{{ Setting::get('content_creator_fcm_sender_id') }}" placeholder="{{ tr('content_creator_fcm_sender_id') }}">
                             </div>
                         </div>  
 
                         <div class="col-md-6">
                             <div class="form-group">
 
-                                <label for="stardom_fcm_server_key">{{ tr('content_creator_fcm_server_key') }}</label>
+                                <label for="content_creator_fcm_server_key">{{ tr('content_creator_fcm_server_key') }}</label>
 
-                                <input type="text" class="form-control" name="stardom_fcm_server_key" id="stardom_fcm_server_key"
-                                value="{{ Setting::get('stardom_fcm_server_key') }}" placeholder="{{ tr('content_creator_fcm_server_key') }}">
+                                <input type="text" class="form-control" name="content_creator_fcm_server_key" id="content_creator_fcm_server_key"
+                                value="{{ Setting::get('content_creator_fcm_server_key') }}" placeholder="{{ tr('content_creator_fcm_server_key') }}">
                             </div>
                         </div>
 
@@ -780,17 +788,17 @@ hr {
                         <div class="col-md-6">
 
                            <div class="form-group">
-                                <label for="playstore_stardom">{{tr('playstore_stardom')}} *</label>
+                                <label for="playstore_content_creator">{{tr('playstore_content_creator')}} *</label>
 
-                                <input type="text" class="form-control" id="playstore_stardom" name="playstore_stardom" placeholder="Enter {{tr('playstore_stardom')}}" value="{{old('playstore_stardom') ?: Setting::get('playstore_stardom')}}">
+                                <input type="text" class="form-control" id="playstore_content_creator" name="playstore_content_creator" placeholder="Enter {{tr('playstore_content_creator')}}" value="{{old('playstore_content_creator') ?: Setting::get('playstore_content_creator')}}">
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="appstore_stardom">{{tr('appstore_stardom')}} *</label>
+                                <label for="appstore_content_creator">{{tr('appstore_content_creator')}} *</label>
 
-                                <input type="text" class="form-control" id="appstore_stardom" name="appstore_stardom" placeholder="Enter {{tr('appstore_stardom')}}" value="{{old('appstore_stardom') ?: Setting::get('appstore_stardom')}}">
+                                <input type="text" class="form-control" id="appstore_content_creator" name="appstore_content_creator" placeholder="Enter {{tr('appstore_content_creator')}}" value="{{old('appstore_content_creator') ?: Setting::get('appstore_content_creator')}}">
                             </div>
                         </div>
                         

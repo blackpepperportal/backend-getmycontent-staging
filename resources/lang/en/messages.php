@@ -811,6 +811,7 @@ return [
 	'followings' => 'Followings',
 	'followers' => 'Followers',
 	'follower' => 'Follower',
+	'instagram_link' => 'Instagram Link',
 
 	
 ]?>

@@ -61,11 +61,11 @@
                                 <tr>
                                     <td>{{ $i+$user_wallets->firstItem() }}</td>
 
-                                    <td>{{ $user_wallet_details->unique_id}}</td>
+                                    <td> <a href="{{ route('admin.user_wallets.view', ['user_id' => $user_wallet_details->user_id] ) }}">{{ $user_wallet_details->unique_id}}</a></td>
 
                                     <td>
                                         <a href="{{  route('admin.users.view' , ['user_id' => $user_wallet_details->user_id] )  }}">
-                                        {{ $user_wallet_details->userDetails->name ?? "-" }}
+                                        {{ $user_wallet_details->user->name ?? "-" }}
                                         </a>
                                     </td>
 

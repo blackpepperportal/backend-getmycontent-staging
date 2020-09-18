@@ -4,7 +4,10 @@
 
 @section('breadcrumb')
 
-<li class="breadcrumb-item active"><a href="">{{ tr('faqs') }}</a>
+  <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a>
+    </li>
+
+<li class="breadcrumb-item active"><a href="{{route('admin.faqs.index')}}">{{ tr('faqs') }}</a>
 </li>
 
 <li class="breadcrumb-item active">{{ tr('view_faqs') }}</a>
