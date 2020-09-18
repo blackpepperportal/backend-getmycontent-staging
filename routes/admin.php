@@ -242,9 +242,16 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('/product_inventories/index' , 'Admin\AdminRevenueController@product_inventories_index')->name('product_inventories.index');
 
-        Route::get('/product_inventories/view', 'Admin\AdminRevenueController@product_inventories_view')->name('product_inventories.view');
+        Route::get('/product_inventories/view', 'Admin\AdminUserController@product_inventories_view')->name('product_inventories.view');
 
         //inventory route end
+
+        //followers
+        Route::get('followers' , 'Admin\AdminUserController@followers')->name('followers');
+
+        Route::get('following' , 'Admin\AdminUserController@following')->name('following');
+
+        //following
 
 
         //faq CRUD
@@ -262,6 +269,7 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('faqs/status', 'Admin\AdminLookupController@faqs_status')->name('faqs.status');
         //faq end
+
 
         // Static pages start
 

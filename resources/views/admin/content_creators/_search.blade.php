@@ -32,7 +32,7 @@
                 <div class="input-group">
                    
                     <input type="text" class="form-control" name="search_key"
-                    placeholder="{{tr('content_creators_search_placeholder')}}"> <span class="input-group-btn">
+                    placeholder="{{tr('content_creator_search_placeholder')}}"> <span class="input-group-btn">
                     &nbsp
 
                     <button type="submit" class="btn btn-default">
@@ -65,7 +65,7 @@
                 <div class="input-group">
                    
                     <input type="text" class="form-control" name="search_key"
-                    placeholder="{{tr('content_creators_search_placeholder')}}"> <span class="input-group-btn">
+                    placeholder="{{tr('content_creator_search_placeholder')}}"> <span class="input-group-btn">
                     &nbsp
 
                     <button type="submit" class="btn btn-default">

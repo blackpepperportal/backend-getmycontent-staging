@@ -442,7 +442,7 @@ return [
   	"unverified_content_creators" => "Unverified Content Creator",
 	"content_creator_delete_email"  => "Content creator delete email",
 	"content_creator_decline_email" => "Content creator decline email",
-  	"Content_creator_search_placeholder" => "Search by Content Creator Name, Email Id, Mobile",
+  	"content_creator_search_placeholder" => "Search by Content Creator Name, Email Id",
 
 	"content_creator_created_success" => "The content creator created successfully!!",
 	"content_creator_updated_success" => "The content creator updated successfully!!",
@@ -808,5 +808,9 @@ return [
 	'user_name' => 'User Name',
 	'chat' => 'Chat',
 	'ticket_management' => 'Ticket Management',
+	'followings' => 'Followings',
+	'followers' => 'Followers',
+	'follower' => 'Follower',
+
 	
 ]?>

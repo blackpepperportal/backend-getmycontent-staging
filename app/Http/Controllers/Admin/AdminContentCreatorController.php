@@ -32,7 +32,7 @@ class AdminContentCreatorController extends Controller
      /**
      * @method content_creators_index()
      *
-     * @uses To list out stardoms details 
+     * @uses To list out content_creators details 
      *
      * @created Akshata
      *
@@ -60,22 +60,22 @@ class AdminContentCreatorController extends Controller
                     break;
 
                 case SORT_BY_EMAIL_VERIFIED:
-                    $base_query = $base_query->where('is_verified',STARDOM_EMAIL_VERIFIED);
+                    $base_query = $base_query->where('is_verified',CONTENT_CREATOR_EMAIL_VERIFIED);
                     break;
                 
                 default:
-                    $base_query = $base_query->where('is_verified',STARDOM_EMAIL_NOT_VERIFIED);
+                    $base_query = $base_query->where('is_verified',CONTENT_CREATOR_EMAIL_NOT_VERIFIED);
                     break;
             }
         }
 
-        $sub_page = 'stardoms-view';
+        $sub_page = 'content_creators-view';
 
         if($request->unverified) {
 
-            $sub_page = 'stardoms-unverified';
+            $sub_page = 'content_creators-unverified';
 
-            $base_query = $base_query->where('is_verified',STARDOM_EMAIL_NOT_VERIFIED);
+            $base_query = $base_query->where('is_verified',CONTENT_CREATOR_EMAIL_NOT_VERIFIED);
         }
 
         if($request->search_key) {
@@ -86,12 +86,12 @@ class AdminContentCreatorController extends Controller
                     ->orWhere('mobile','LIKE','%'.$request->search_key.'%');
         }
         
-        $users = $base_query->paginate(10);
+        $content_creators = $base_query->paginate(10);
 
-        return view('admin.users.index') 
+        return view('admin.content_creators.index') 
                     ->with('page','content_creators')
                     ->with('sub_page', 'content_creators-view')
-                    ->with('users' , $users);
+                    ->with('content_creators' , $content_creators);
     
     }
 
@@ -111,24 +111,24 @@ class AdminContentCreatorController extends Controller
      */
     public function content_creators_create() {
 
-        $stardom_details = new \App\Stardom;
+        $content_creator_details = new \App\ContentCreator;
 
-        return view('admin.users.create')
-                    ->with('page' , 'stardoms')
-                    ->with('sub_page','stardoms-create')
-                    ->with('stardom_details', $stardom_details);           
+        return view('admin.content_creators.create')
+                    ->with('page' , 'content_creators')
+                    ->with('sub_page','content_creators-create')
+                    ->with('content_creator_details', $content_creator_details);           
     }
 
     /**
      * @method content_creators_edit()
      *
-     * @uses To display and update stardom details based on the stardom id
+     * @uses To display and update content creator details based on the content creator id
      *
      * @created Akshata
      *
      * @updated 
      *
-     * @param object $request - Stardom Id
+     * @param object $request - Content creator Id
      * 
      * @return redirect view page 
      *
@@ -137,21 +137,21 @@ class AdminContentCreatorController extends Controller
 
         try {
 
-            $stardom_details = \App\ContentCreator::find($request->user_id);
+            $content_creator_details = \App\ContentCreator::find($request->content_creator_id);
 
-            if(!$stardom_details) { 
+            if(!$content_creator_details) { 
 
-                throw new Exception(tr('stardom_not_found'), 101);
+                throw new Exception(tr('content_creator_not_found'), 101);
             }
 
-            return view('admin.users.edit')                    
-                    ->with('page' , 'stardoms')
-                    ->with('sub_page','stardoms-view')
-                    ->with('stardom_details' , $stardom_details); 
+            return view('admin.content_creators.edit')                    
+                    ->with('page' , 'content_creators')
+                    ->with('sub_page','content_creators-view')
+                    ->with('content_creator_details' , $content_creator_details); 
             
         } catch(Exception $e) {
 
-            return redirect()->route('admin.users.index')->with('flash_error', $e->getMessage());
+            return redirect()->route('admin.content_creators.index')->with('flash_error', $e->getMessage());
         }
     
     }
@@ -159,13 +159,13 @@ class AdminContentCreatorController extends Controller
     /**
      * @method content_creators_save()
      *
-     * @uses To save the stardoms details of new/existing stardom object based on details
+     * @uses To save the content_creators details of new/existing content creator object based on details
      *
      * @created Akshata
      *
      * @updated 
      *
-     * @param object request - Stardom Form Data
+     * @param object request - content creator Form Data
      *
      * @return success message
      *
@@ -178,50 +178,46 @@ class AdminContentCreatorController extends Controller
 
             $rules = [
                 'name' => 'required|max:191',
-                'email' => $request->user_id ? 'required|email|max:191|unique:stardoms,email,'.$request->user_id.',id' : 'required|email|max:191|unique:stardoms,email,NULL,id',
-                'password' => $request->user_id ? "" : 'required|min:6|confirmed',
+                'email' => $request->content_creator_id ? 'required|email|max:191|unique:content_creators,email,'.$request->content_creator_id.',id' : 'required|email|max:191|unique:content_creators,email,NULL,id',
+                'password' => $request->content_creator_id ? "" : 'required|min:6|confirmed',
                 'mobile' => $request->mobile ? 'digits_between:6,13' : '',
                 'picture' => 'mimes:jpg,png,jpeg',
-                'user_id' => 'exists:users,id|nullable'
+                'content_creator_id' => 'exists:content_creators,id|nullable'
             ];
 
             Helper::custom_validator($request->all(),$rules);
 
-            $stardom_details = $request->user_id ? \App\ContentCreator::find($request->user_id) : new \App\Stardom;
+            $content_creator_details = $request->content_creator_id ? \App\ContentCreator::find($request->content_creator_id) : new \App\ContentCreator;
 
-            $is_new_stardom = NO;
+            if($content_creator_details->id) {
 
-            if($stardom_details->id) {
-
-                $message = tr('stardom_updated_success'); 
+                $message = tr('content_creator_updated_success'); 
 
             } else {
 
-                $is_new_stardom = YES;
+                $content_creator_details->password = ($request->password) ? \Hash::make($request->password) : null;
 
-                $stardom_details->password = ($request->password) ? \Hash::make($request->password) : null;
+                $message = tr('content_creator_created_success');
 
-                $message = tr('stardom_created_success');
+                $content_creator_details->email_verified_at = date('Y-m-d H:i:s');
 
-                $stardom_details->email_verified_at = date('Y-m-d H:i:s');
+                $content_creator_details->picture = asset('placeholder.jpeg');
 
-                $stardom_details->picture = asset('placeholder.jpeg');
+                $content_creator_details->is_verified = CONTENT_CREATOR_EMAIL_VERIFIED;
 
-                $stardom_details->is_verified = STARDOM_EMAIL_VERIFIED;
+                $content_creator_details->token = Helper::generate_token();
 
-                $stardom_details->token = Helper::generate_token();
-
-                $stardom_details->token_expiry = Helper::generate_token_expiry();
+                $content_creator_details->token_expiry = Helper::generate_token_expiry();
 
             }
 
-            $stardom_details->name = $request->name ?: $stardom_details->name;
+            $content_creator_details->name = $request->name ?: $content_creator_details->name;
 
-            $stardom_details->email = $request->email ?: $stardom_details->email;
+            $content_creator_details->email = $request->email ?: $content_creator_details->email;
 
-            $stardom_details->mobile = $request->mobile ?: '';
+            $content_creator_details->mobile = $request->mobile ?: '';
 
-            $stardom_details->login_by = $request->login_by ?: 'manual';
+            $content_creator_details->login_by = $request->login_by ?: 'manual';
 
             // Upload picture
             
@@ -229,44 +225,22 @@ class AdminContentCreatorController extends Controller
 
                 if($request->user_id) {
 
-                    Helper::storage_delete_file($stardom_details->picture, PROFILE_PATH_USER); 
+                    Helper::storage_delete_file($content_creator_details->picture, CONTENT_CREATOR_FILE_PATH); 
                     // Delete the old pic
                 }
 
-                $stardom_details->picture = Helper::storage_upload_file($request->file('picture'), PROFILE_PATH_USER);
+                $content_creator_details->picture = Helper::storage_upload_file($request->file('picture'), CONTENT_CREATOR_FILE_PATH);
             }
 
-            if($stardom_details->save()) {
-
-                if($is_new_stardom == YES) {
-
-                    /**
-                     * @todo Welcome mail notification
-                     */
-
-                    $email_data['subject'] = tr('stardom_welcome_email' , Setting::get('site_name'));
-
-                    $email_data['email']  = $stardom_details->email;
-
-                    $email_data['name'] = $stardom_details->name;
-
-                    $email_data['page'] = "emails.users.welcome";
-
-                    $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
-
-                    $stardom_details->is_verified = STARDOM_EMAIL_VERIFIED;
-
-                    $stardom_details->save();
-
-                }
+            if($content_creator_details->save()) {
 
                 DB::commit(); 
 
-                return redirect(route('admin.users.view', ['user_id' => $stardom_details->id]))->with('flash_success', $message);
+                return redirect(route('admin.content_creators.view', ['user_id' => $content_creator_details->id]))->with('flash_success', $message);
 
             } 
 
-            throw new Exception(tr('stardom_save_failed'));
+            throw new Exception(tr('content_creator_save_failed'));
             
         } catch(Exception $e){ 
 
@@ -281,13 +255,13 @@ class AdminContentCreatorController extends Controller
     /**
      * @method content_creators_view()
      *
-     * @uses displays the specified stardom details based on stardom id
+     * @uses displays the specified content_creator details based on content creator id
      *
      * @created Akshata 
      *
      * @updated 
      *
-     * @param object $request - stardom Id
+     * @param object $request - content creator Id
      * 
      * @return View page
      *
@@ -296,18 +270,17 @@ class AdminContentCreatorController extends Controller
        
         try {
       
-            $stardom_details = \App\ContentCreator::find($request->user_id);
+            $content_creator_details = \App\ContentCreator::find($request->content_creator_id);
 
-            if(!$stardom_details) { 
+            if(!$content_creator_details) { 
 
-                throw new Exception(tr('stardom_not_found'), 101);                
+                throw new Exception(tr('content_creator_not_found'), 101);                
             }
 
-            return view('admin.users.view')
-                        
-                        ->with('page', 'stardoms') 
-                        ->with('sub_page','stardoms-view') 
-                        ->with('stardom_details' , $stardom_details);
+            return view('admin.content_creators.view')
+                        ->with('page', 'content_creators') 
+                        ->with('sub_page','content_creators-view') 
+                        ->with('content_creator_details' , $content_creator_details);
             
         } catch (Exception $e) {
 
@@ -319,13 +292,13 @@ class AdminContentCreatorController extends Controller
     /**
      * @method content_creators_delete()
      *
-     * @uses delete the stardom details based on stardom id
+     * @uses delete the content creator details based on content creator id
      *
      * @created Akshata 
      *
      * @updated  
      *
-     * @param object $request - Stardom Id
+     * @param object $request - Content Creator Id
      * 
      * @return response of success/failure details with view page
      *
@@ -340,26 +313,18 @@ class AdminContentCreatorController extends Controller
             
             if(!$stardom_details) {
 
-                throw new Exception(tr('stardom_not_found'), 101);                
+                throw new Exception(tr('content_creator_not_found'), 101);                
             }
 
             if($stardom_details->delete()) {
 
-                $email_data['subject'] = tr('stardom_delete_email' , Setting::get('site_name'));
-
-                $email_data['email']  = $stardom_details->email;
-
-                $email_data['page'] = "emails.users.stardom-delete";
-
-                $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
-
                 DB::commit();
 
-                return redirect()->route('admin.users.index')->with('flash_success',tr('stardom_deleted_success'));   
+                return redirect()->route('admin.content_creators.index')->with('flash_success',tr('content_creator_deleted_success'));   
 
             } 
             
-            throw new Exception(tr('stardom_delete_failed'));
+            throw new Exception(tr('content_creator_delete_failed'));
             
         } catch(Exception $e){
 
@@ -374,13 +339,13 @@ class AdminContentCreatorController extends Controller
     /**
      * @method content_creators_status
      *
-     * @uses To update stardom status as DECLINED/APPROVED based on stardom id
+     * @uses To update content creator status as DECLINED/APPROVED based on content creator id
      *
      * @created Akshata
      *
      * @updated 
      *
-     * @param object $request - Stardom Id
+     * @param object $request - content creator Id
      * 
      * @return response success/failure message
      *
@@ -391,52 +356,31 @@ class AdminContentCreatorController extends Controller
             
             DB::beginTransaction();
 
-            $stardom_details = \App\ContentCreator::find($request->user_id);
+            $content_creator_details = \App\ContentCreator::find($request->content_creator_id);
 
-            if(!$stardom_details) {
+            if(!$content_creator_details) {
 
-                throw new Exception(tr('stardom_not_found'), 101);
+                throw new Exception(tr('content_creator_details_not_found'), 101);
                 
             }
 
-            $stardom_details->status = $stardom_details->status ? DECLINED : APPROVED ;
+            $content_creator_details->status = $content_creator_details->status ? DECLINED : APPROVED ;
 
-            if($stardom_details->save()) {
-
-                if($stardom_details->status == DECLINED) {
-
-                    $email_data['subject'] = tr('stardom_decline_email' , Setting::get('site_name'));
-
-                    $email_data['status'] = tr('declined');
-
-                } else {
-
-                    $email_data['subject'] = tr('stardom_approve_email' , Setting::get('site_name'));
-
-                    $email_data['status'] = tr('approved');
-                }
-
-                $email_data['email']  = $stardom_details->email;
-
-                $email_data['name']  = $stardom_details->name;
-
-                $email_data['page'] = "emails.users.status";
-
-                $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+            if($content_creator_details->save()) {
 
                 DB::commit();
 
-                $message = $stardom_details->status ? tr('stardom_approve_success') : tr('stardom_decline_success');
+                $message = $content_creator_details->status ? tr('content_creator_approve_success') : tr('content_creator_decline_success');
                 return redirect()->back()->with('flash_success', $message);
             }
             
-            throw new Exception(tr('stardom_status_change_failed'));
+            throw new Exception(tr('content_creator_status_change_failed'));
 
         } catch(Exception $e) {
 
             DB::rollback();
 
-            return redirect()->route('admin.users.index')->with('flash_error', $e->getMessage());
+            return redirect()->route('admin.content_creators.index')->with('flash_error', $e->getMessage());
 
         }
 
@@ -445,15 +389,15 @@ class AdminContentCreatorController extends Controller
     /**
      * @method content_creators_verify_status()
      *
-     * @uses verify the stardom
+     * @uses verify the content creator
      *
      * @created Akshata
      *
      * @updated
      *
-     * @param object $request - Stardom Id
+     * @param object $request - Content Creator Id
      *
-     * @return redirect back page with status of the stardom verification
+     * @return redirect back page with status of the content details verification
      */
     public function content_creators_verify_status(Request $request) {
 
@@ -461,32 +405,32 @@ class AdminContentCreatorController extends Controller
 
             DB::beginTransaction();
 
-            $stardom_details = \App\ContentCreator::find($request->user_id);
+            $content_creator_details = \App\ContentCreator::find($request->content_creator_id);
 
-            if(!$stardom_details) {
+            if(!$content_creator_details) {
 
-                throw new Exception(tr('stardom_details_not_found'), 101);
+                throw new Exception(tr('content_creator_details_not_found'), 101);
                 
             }
 
-            $stardom_details->is_verified = $stardom_details->is_verified ? STARDOM_EMAIL_NOT_VERIFIED : STARDOM_EMAIL_VERIFIED;
+            $content_creator_details->is_verified = $content_creator_details->is_verified ? CONTENT_CREATOR_EMAIL_NOT_VERIFIED : CONTENT_CREATOR_EMAIL_VERIFIED;
 
-            if($stardom_details->save()) {
+            if($content_creator_details->save()) {
 
                 DB::commit();
 
-                $message = $stardom_details->is_verified ? tr('stardom_verify_success') : tr('stardom_unverify_success');
+                $message = $content_creator_details->is_verified ? tr('content_creator_verify_success') : tr('content_creator_unverify_success');
 
                 return redirect()->back()->with('flash_success', $message);
             }
             
-            throw new Exception(tr('stardom_verify_change_failed'));
+            throw new Exception(tr('content_creator_verify_change_failed'));
 
         } catch(Exception $e) {
 
             DB::rollback();
 
-            return redirect()->route('admin.users.index')->with('flash_error', $e->getMessage());
+            return redirect()->route('admin.content_creators.index')->with('flash_error', $e->getMessage());
 
         }
     
@@ -514,8 +458,8 @@ class AdminContentCreatorController extends Controller
        
         return view('admin.users.documents.index')
                     
-                    ->with('page','stardoms')
-                    ->with('sub_page' , 'stardoms-documents')
+                    ->with('page','content_creators')
+                    ->with('sub_page' , 'content_creators-documents')
                     ->with('stardom_documents' , $stardom_documents);
     
     }
@@ -546,8 +490,8 @@ class AdminContentCreatorController extends Controller
 
             return view('admin.users.documents.view')
                         
-                        ->with('page', 'stardoms') 
-                        ->with('sub_page','stardoms-documents') 
+                        ->with('page', 'content_creators') 
+                        ->with('sub_page','content_creators-documents') 
                         ->with('stardom_document_details' , $stardom_document_details);
             
         } catch (Exception $e) {

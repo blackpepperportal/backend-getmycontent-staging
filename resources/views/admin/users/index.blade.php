@@ -180,9 +180,18 @@
 
                                                 @endif
 
-                                                <hr>
+                                                <div class="dropdown-divider"></div>
 
-                                                <a class="dropdown-item" href="{{ route('admin.orders.index', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('orders') }}</a> 
+                                                @if($user_details->is_content_creator)
+
+                                                    <a class="dropdown-item" href="{{ route('admin.followers',['follower_id' => $user_details->id]) }}">&nbsp;{{ tr('followers') }}</a>
+
+                                                @else
+
+                                                    <a class="dropdown-item" href="{{ route('admin.following',['user_id' => $user_details->id]) }}">&nbsp;{{ tr('followings') }}</a> 
+                                                @endif
+
+                                                <a class="dropdown-item" href="{{ route('admin.orders.index', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('orders') }}</a>
 
                                                 <a class="dropdown-item" href="{{ route('admin.post.payments', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('post_payments') }}</a> 
 

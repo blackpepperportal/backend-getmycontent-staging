@@ -8,12 +8,12 @@
                 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title" id="basic-layout-form">{{$stardom_details->id ? tr('edit_stardom') : tr('add_stardom')}}</h4>
+                    <h4 class="card-title" id="basic-layout-form">{{$content_creator_details->id ? tr('edit_content_creator') : tr('add_content_creator')}}</h4>
 
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
                     <div class="heading-elements">
-                        <a href="{{route('admin.content_creators.index') }}" class="btn btn-primary"><i class="ft-eye icon-left"></i>{{ tr('view_stardoms') }}</a>
+                        <a href="{{route('admin.content_creators.index') }}" class="btn btn-primary"><i class="ft-eye icon-left"></i>{{ tr('view_content_creators') }}</a>
                     </div>
 
                 </div>
@@ -26,7 +26,7 @@
 
                         </div>
 
-                        <form class="form-horizontal" action="{{ (Setting::get('is_demo_control_enabled') == YES) ? '#' : route('admin.stardoms.save') }}" method="POST" enctype="multipart/form-data" role="form">
+                        <form class="form-horizontal" action="{{ (Setting::get('is_demo_control_enabled') == YES) ? '#' : route('admin.content_creators.save') }}" method="POST" enctype="multipart/form-data" role="form">
                            
                             @csrf
                           
@@ -34,25 +34,25 @@
 
                                 <div class="row">
 
-                                    <input type="hidden" name="user_id" id="user_id" value="{{ $stardom_details->id}}">
+                                    <input type="hidden" name="user_id" id="user_id" value="{{ $content_creator_details->id}}">
 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="user_name">{{ tr('name') }}*</label>
-                                            <input type="text" id="name" name="name" class="form-control" placeholder="{{ tr('name') }}" value="{{ $stardom_details->name ?: old('name') }}" required onkeydown="return alphaOnly(event);">
+                                            <input type="text" id="name" name="name" class="form-control" placeholder="{{ tr('name') }}" value="{{ $content_creator_details->name ?: old('name') }}" required onkeydown="return alphaOnly(event);">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="email">{{tr('email')}}*</label>
-                                            <input type="email" id="email" name="email" class="form-control" placeholder="{{tr('email')}}" value="{{ $stardom_details->email ?: old('email') }}" required>
+                                            <input type="email" id="email" name="email" class="form-control" placeholder="{{tr('email')}}" value="{{ $content_creator_details->email ?: old('email') }}" required>
                                         </div>
                                     </div>
 
                                 </div>
 
-                                @if(!$stardom_details->id)
+                                @if(!$content_creator_details->id)
                                 
                                 <div class="row">
 
@@ -82,12 +82,8 @@
 
                                         <label>{{ tr('select_picture') }}</label>
 
-                                            <label id="user_picture" class="file center-block">
-                                                <input type="file" id="picture" name="picture" accept="image/png,image/jpeg" onchange="loadFile(this,'image_preview')">
-                                                 <img id="image_preview" class="img-thumbnail img-fluid" style="width: 100px;margin: 10px;height: 100px; " src="{{ $stardom_details->picture ? $stardom_details->picture : asset('placeholder.png') }}">
-                                            <span class="file-custom"></span>
-
-                                            </label>                                
+                                            <input type="file" id="picture" class="form-control" name="picture" accept="image/png,image/jpeg">
+                                           
                                         </div>
 
                                     </div>
