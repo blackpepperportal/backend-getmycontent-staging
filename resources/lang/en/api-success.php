@@ -73,4 +73,9 @@ return [
     136 => "The post un-published successfully",
 
     137 => 'The default account changed',
+
+    138 => 'Sent money successfully.',
+
+    139 => 'The request is cancelled.'
+
 ];

@@ -89,4 +89,11 @@ return [
 
     139 => "The post record not found.",
 
+    140 => 'The withdraw request is not found',
+
+    141 => 'The withdraw cancel is not allowed',
+
+    142 => 'Your wallet balance is low.',
+
+    143 => 'The requested amount is less than the min balance(:other_key)',
 ];
