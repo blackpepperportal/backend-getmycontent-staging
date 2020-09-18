@@ -1,18 +1,16 @@
 @extends('layouts.admin') 
 
-@section('title', tr('user_wallets')) 
-
-@section('content-header', tr('user_wallets')) 
+@section('content-header', tr('support_tickets')) 
 
 @section('breadcrumb')
 
 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
 </li>
 
-<li class="breadcrumb-item"><a href="{{route('admin.user_wallets.index')}}">{{ tr('user_wallets') }}</a></a>
+<li class="breadcrumb-item"><a href="{{route('admin.support_tickets.index')}}">{{ tr('support_tickets') }}</a></a>
 </li>
 
-<li class="breadcrumb-item">{{ tr('view_user_wallets') }}</a>
+<li class="breadcrumb-item">{{ tr('view_support_tickets') }}</a>
 </li>
 
 @endsection 
@@ -29,7 +27,7 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('view_user_wallets') }}</h4>
+                    <h4 class="card-title">{{ tr('view_support_tickets') }}</h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                     
                 </div>
@@ -38,8 +36,6 @@
 
                     <div class="card-body card-dashboard">
 
-                        @include('admin.user_wallets._search')
-
                         <table class="table table-striped table-bordered sourced-data">
                             
                             <thead>
@@ -47,40 +43,30 @@
                                     <th>{{ tr('s_no') }}</th>
                                     <th>{{ tr('unique_id') }} </th> 
                                     <th>{{ tr('user') }}</th>
-                                    <th>{{ tr('total') }}</th>
-                                    <th>{{ tr('onhold') }}</th>
-                                    <th>{{ tr('used') }}</th>
-                                    <th>{{ tr('remaining') }}</th>
+                                    <th>{{ tr('subject') }}</th>
+                                    <th>{{ tr('message') }}</th>
                                     <th>{{ tr('action') }}</th>
                                 </tr>
                             </thead>
                            
                             <tbody>
 
-                                @foreach($user_wallets as $i => $user_wallet_details)
+                                @foreach($support_tickets as $i => $support_ticket_details)
                                 <tr>
-                                    <td>{{ $i+$user_wallets->firstItem() }}</td>
+                                    <td>{{ $i+$support_tickets->firstItem() }}</td>
 
-                                    <td> <a href="{{ route('admin.user_wallets.view', ['user_id' => $user_wallet_details->user_id] ) }}">{{ $user_wallet_details->unique_id}}</a></td>
+                                    <td><a href="{{ route('admin.support_tickets.view', ['support_ticket_id' => $support_ticket_details->id] ) }}">{{ $support_ticket_details->unique_id}}</a></td>
 
                                     <td>
-                                        <a href="{{  route('admin.users.view' , ['user_id' => $user_wallet_details->user_id] )  }}">
-                                        {{ $user_wallet_details->user->name ?? "-" }}
-                                        </a>
+                                    
+                                        {{ $support_ticket_details->userDetails->name ?? "-" }}
+                                    
                                     </td>
 
-                                    <td>{{ $user_wallet_details->total_formatted }}</td>
+                                    <td>{{ substr($support_ticket_details->subject,0,10)}}...</td>
 
                                     <td>
-                                        {{ $user_wallet_details->onhold_formatted}}
-                                    </td>
-
-                                    <td>
-                                        {{ $user_wallet_details->used_formatted}}
-                                    </td>
-
-                                    <td>
-                                        {{ $user_wallet_details->remaining_formatted}}
+                                        {{ substr($support_ticket_details->message,0,10)}}...
                                     </td>
 
                                     <td>
@@ -91,10 +77,10 @@
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                <a class="dropdown-item" href="{{ route('admin.user_wallets.view', ['user_id' => $user_wallet_details->user_id] ) }}">&nbsp;{{ tr('view') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.support_tickets.view', ['support_ticket_id' => $support_ticket_details->id] ) }}">&nbsp;{{ tr('view') }}</a> 
 
                                             </div>
-
+                                            
                                         </div>
 
                                     </td>
@@ -107,7 +93,7 @@
                         
                         </table>
 
-                        <div class="pull-right" id="paglink">{{ $user_wallets->appends(request()->input())->links() }}</div>
+                        <div class="pull-right" id="paglink">{{ $support_tickets->appends(request()->input())->links() }}</div>
 
                     </div>
 

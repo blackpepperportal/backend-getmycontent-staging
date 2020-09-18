@@ -5,6 +5,8 @@
 @section('content-header', tr('faqs'))
 
 @section('breadcrumb')
+    <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a>
+    </li>
 
     <li class="breadcrumb-item"><a href="{{route('admin.faqs.index')}}">{{tr('faqs')}}</a>
     </li>
@@ -109,7 +111,7 @@
                                             </div>                              
 
                                             <div class="col-md-4 col-lg-4">
-                                                <a onclick="return confirm(&quot;{{tr('static_page_delete_confirmation' , $faq_details->title)}}&quot;);" href="{{ route('admin.faqs.delete', ['faq_id'=> $faq_details->id] ) }}" class="btn btn-danger btn-block">
+                                                <a onclick="return confirm(&quot;{{tr('faq_delete_confirmation' , $faq_details->question)}}&quot;);" href="{{ route('admin.faqs.delete', ['faq_id'=> $faq_details->id] ) }}" class="btn btn-danger btn-block">
                                                     {{ tr('delete') }}
                                                 </a>
 
@@ -135,7 +137,7 @@
 
                                             <div class="col-md-4 col-lg-4">
                                                 
-                                                <a class="btn btn-warning btn-block" href="{{ route('admin.faqs.status', ['faq_id'=> $faq_details->id] ) }}" onclick="return confirm(&quot;{{ $faq_details->title }}-{{tr('static_page_decline_confirmation' , $faq_details->title)}}&quot;);">
+                                                <a class="btn btn-warning btn-block" href="{{ route('admin.faqs.status', ['faq_id'=> $faq_details->id] ) }}" onclick="return confirm(&quot;{{ $faq_details->question }}-{{tr('faq_decline_confirmation' , $faq_details->title)}}&quot;);">
 
                                                     {{tr('decline')}}
                                                 </a>

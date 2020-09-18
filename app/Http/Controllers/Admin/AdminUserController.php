@@ -477,4 +477,50 @@ class AdminUserController extends Controller
     
     }
 
+     /**
+     * @method user_followers()
+     *
+     * @uses This is to display the all followers of specified content creator
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param object $request - follower Id
+     *
+     * @return view page
+     */
+     public function user_followers(Request $request) {
+
+        $user_followers = \App\Follower::where('follower_id',$request->follower_id)->paginate($this->take);
+        
+        return view('admin.users.followers')
+                ->with('page','users')
+                ->with('sub_page','users-view')
+                ->with('user_followers',$user_followers);
+     }
+
+     /**
+     * @method user_following()
+     *
+     * @uses This is to display the all followers of specified 
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param object $request - follower Id
+     *
+     * @return view page
+     */
+     public function user_following(Request $request) {
+
+        $user_followings = \App\Follower::where('user_id',$request->user_id)->paginate($this->take);
+
+        return view('admin.users.following')
+                ->with('page','users')
+                ->with('sub_page','users-view')
+                ->with('user_followings',$user_followings);
+       
+     }
 }

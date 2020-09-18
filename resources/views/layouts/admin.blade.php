@@ -151,13 +151,20 @@
              },100),
 
             setTimeout(function(){
+
+            $('#DataTables_Table_0_length').hide();
+
+                $('#DataTables_Table_0_length').hide();
+                
+             },100),
+
+            setTimeout(function(){
                 
             $('#DataTables_Table_0_paginate').hide();
 
                 $('#DataTables_Table_0_paginate').hide();
                 
              },100);
-
             
          });
 

@@ -35,4 +35,14 @@ class Follower extends Model
             );
     
     }
+
+    public function followerDetails() {
+
+        return $this->belongsTo(User::class,'follower_id');
+    }
+
+    public function userDetails() {
+
+        return $this->belongsTo(User::class,'user_id');
+    }
 }

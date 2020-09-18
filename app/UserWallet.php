@@ -32,6 +32,11 @@ class UserWallet extends Model
         return formatted_amount($this->used);
     }
 
+     public function getOnHoldFormattedAttribute() {
+
+        return formatted_amount($this->on_hold);
+    }
+
     public function getRemainingFormattedAttribute() {
 
         return formatted_amount($this->remaining);

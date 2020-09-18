@@ -104,6 +104,11 @@
                                                     
                                                 @endif
 
+                                                <div class="dropdown-divider"></div>
+
+                                                
+                                                <a href="{{route('admin.user_withdrawals.view',['user_withdrawal_id'=>$user_withdrawal_details->id])}}" class="dropdown-item">{{tr('view')}}</a>                                                
+
                                             </div>
 
                                         </div>

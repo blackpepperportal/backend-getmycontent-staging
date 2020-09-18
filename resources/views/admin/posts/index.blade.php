@@ -8,7 +8,7 @@
 
 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
 </li>
-<li class="breadcrumb-item active"><a href="#">{{ tr('posts') }}</a>
+<li class="breadcrumb-item active"><a href="{{route('admin.posts.index')}}">{{ tr('posts') }}</a>
 </li>
 
 <li class="breadcrumb-item active"> 
@@ -127,7 +127,7 @@
 
                                                 @else
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('post_delete_confirmation' , $post_details->name) }}&quot;);" href="{{ route('admin.posts.delete', ['post_id' => $post_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('post_delete_confirmation' , $post_details->unique_id) }}&quot;);" href="{{ route('admin.posts.delete', ['post_id' => $post_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 

@@ -625,6 +625,49 @@ class AdminRevenueController extends Controller
 
     }
 
+
+    /**
+     * @method user_withdrawals_view
+     *
+     * @uses Display all stardom specified 
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - Subscription Id
+     * 
+     * @return response success/failure message
+     *
+     **/
+
+    public function user_withdrawals_view(Request $request) {
+
+          try {
+
+            $user_withdrawal_details = \App\UserWithdrawal::where('id',$request->user_withdrawal_id)->first();
+
+
+            if(!$user_withdrawal_details) { 
+
+                throw new Exception(tr('user_withdrawal_not_found'), 101);                
+            }  
+
+            $billing_account_details = \App\UserBillingAccount::where('user_id', $user_withdrawal_details->user_id)->first();
+       
+            return view('admin.user_withdrawals.view')
+                ->with('page', 'content_creator-withdrawals')
+                ->with('user_withdrawal_details', $user_withdrawal_details)
+                ->with('billing_account_details',$billing_account_details);
+
+        } catch(Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }
+
+    }
+
      /**
      * @method user_withdrawals_paynow()
      *
@@ -798,6 +841,148 @@ class AdminRevenueController extends Controller
             return redirect()->back()->with('flash_error', $e->getMessage());
         }
     
+    }
+
+      /**
+     * @method support_tickets_index()
+     *
+     * @uses Display the lists of support tickets
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param -
+     *
+     * @return view page 
+     */
+    public function support_tickets_index(Request $request) {
+
+        $support_tickets = \App\SupportTicket::orderBy('created_at','DESC')->paginate($this->take);
+
+        return view('admin.support_tickets.index')
+                    ->with('page', 'support_tickets')
+                    ->with('sub_page', 'support_tickets-view')
+                    ->with('support_tickets', $support_tickets);
+    }
+
+    /**
+     * @method support_tickets_view()
+     *
+     * @uses displays the specified support tickets details based on support ticket id
+     *
+     * @created Akshata 
+     *
+     * @updated 
+     *
+     * @param object $request -  Support Ticket Id
+     * 
+     * @return View page
+     *
+     */
+    public function support_tickets_view(Request $request) {
+       
+        try {
+      
+            $support_ticket_details = \App\SupportTicket::find($request->support_ticket_id);
+
+            if(!$support_ticket_details) { 
+
+                throw new Exception(tr('support_ticket_not_found'), 101);                
+            }
+        
+            return view('admin.support_tickets.view')
+                        ->with('page', 'support_tickets') 
+                        ->with('sub_page','support_tickets-view') 
+                        ->with('support_ticket_details' , $support_ticket_details);
+            
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+
+    /**
+     * @method subscription_payments_index()
+     *
+     * @uses Display the lists of subscriptions payments
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     */
+
+    public function subscription_payments_index(Request $request) {
+
+        $base_query = \App\SubscriptionPayment::orderBy('created_at','desc');
+
+        if($request->subscription_id) {
+
+            $base_query = $base_query->where('subscription_id',$request->subscription_id);
+        }
+
+        if($request->search_key) {
+
+            $search_key = $request->search_key;
+
+            $base_query = $base_query
+                            ->whereHas('userDetails',function($query) use($search_key){
+
+                                return $query->where('users.name','LIKE','%'.$search_key.'%');
+                                
+                            })->orWhere('subscription_payments.payment_id','LIKE','%'.$search_key.'%');
+        }
+
+        $subscription_payments = $base_query->paginate(10);
+       
+        return view('admin.revenues.subscription_payments.index')
+                ->with('page','revenuse')
+                ->with('sub_page','subscription-payments')
+                ->with('subscription_payments',$subscription_payments);
+    }
+
+
+    /**
+     * @method subscription_payments_view()
+     *
+     * @uses Display the subscription payment details for the users
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     */
+
+    public function subscription_payments_view(Request $request) {
+
+        try {
+
+            $subscription_payment_details = \App\SubscriptionPayment::where('id',$request->subscription_payment_id)->first();
+           
+            if(!$subscription_payment_details) {
+
+                throw new Exception(tr('subscription_payment_details_not_found'), 1);
+                
+            }
+           
+            return view('admin.revenues.subscription_payments.view')
+                    ->with('page','revenues')
+                    ->with('sub_page','subscription-payments')
+                    ->with('subscription_payment_details',$subscription_payment_details);
+
+        } catch(Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+        }
     }
 
 }
