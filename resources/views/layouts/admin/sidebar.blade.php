@@ -17,7 +17,7 @@
             
             <li class="nav-item" id="users">
                 <a href="{{route('admin.users.index')}}">
-                    <i class="ft-user"></i>
+                    <i class="fa fa-user"></i>
                     <span class="menu-title" data-i18n="">{{tr('users')}}</span>
                 </a>
                 <ul class="menu-content">
@@ -73,7 +73,7 @@
 
             <li class="nav-item" id="categories">
                 <a href="{{route('admin.categories.index')}}">
-                    <i class="ft-box"></i>
+                    <i class="fa fa-list"></i>
                     <span class="menu-title" data-i18n="">{{tr('categories')}}</span>
                 </a>
                 <ul class="menu-content">
@@ -94,7 +94,7 @@
 
             <li class="nav-item" id="sub_categories">
                 <a href="{{route('admin.sub_categories.index')}}">
-                    <i class="ft-box"></i>
+                    <i class="fa fa-list"></i>
                     <span class="menu-title" data-i18n="">{{tr('sub_categories')}}</span>
                 </a>
                 <ul class="menu-content">
@@ -221,7 +221,7 @@
 
             <li class="nav-item" id="revenue-dashboard">
                 <a href="{{route('admin.revenues.dashboard')}}">
-                    <i class="ft-globe"></i>
+                    <i class="fa fa-dashboard"></i>
                     <span class="menu-title" data-i18n="">{{tr('revenue_dashboard')}}</span>
                 </a>
             </li>
@@ -255,7 +255,7 @@
 
             <li class="nav-item" id="user_wallets">
                 <a href="{{route('admin.user_wallets.index')}}">
-                     <i class="fa fa-shopping-bag"></i>
+                     <i class="fa fa-google-wallet"></i>
                     <span class="menu-title" data-i18n="">{{tr('user_wallets')}}</span>
                 </a>
             </li>
@@ -292,7 +292,7 @@
 
             <li class="nav-item" id="support_tickets">
                 <a href="{{route('admin.support_tickets.index')}}">
-                    <i class="ft-globe"></i>
+                    <i class="fa fa-ticket"></i>
                     <span class="menu-title" data-i18n="">{{tr('support_tickets')}}</span>
                 </a>
             </li>
