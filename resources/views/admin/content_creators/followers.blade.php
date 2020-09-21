@@ -49,32 +49,32 @@
                            
                             <tbody>
 
-                                @foreach($content_creator_followers as $i => $content_creator_follower_details)
+                                @foreach($users_followers as $i => $users_follower_details)
 
                                 <tr>
-                                    <td>{{ $i+$content_creator_followers->firstItem() }}</td>
+                                    <td>{{ $i+$users_followers->firstItem() }}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.content_creators.view' , ['content_creator_id' => $content_creator_follower_details->follower_id] )  }}">
-                                        {{ $content_creator_follower_details->followerDetails->name ?? "-"}}
+                                        <a href="{{  route('admin.users.view' , ['user_id' => $users_follower_details->follower_id] )  }}">
+                                        {{ $users_follower_details->followerDetails->name ?? "-"}}
                                         </a>
                                     </td>
 
                                     <td>
-                                        <a href="{{  route('admin.content_creators.view' , ['content_creator_id' => $content_creator_follower_details->user_id] )  }}">
-                                        {{ $content_creator_follower_details->userDetails->name ?? "-" }}
+                                        <a href="{{  route('admin.users.view' , ['user_id' => $users_follower_details->user_id] )  }}">
+                                        {{ $users_follower_details->userDetails->name ?? "-" }}
                                         </a>
                                     </td>
 
                                     <td>
-                                        @if($content_creator_follower_details->status == APPROVED)
+                                        @if($users_follower_details->status == APPROVED)
 
                                         <span class="btn btn-success btn-sm">{{ tr('approved') }}</span> @else
 
                                         <span class="btn btn-warning btn-sm">{{ tr('declined') }}</span> @endif
                                     </td>
 
-                                    <td>{{common_date($content_creator_follower_details->updated_at , Auth::guard('admin')->user()->timezone)}}</td>
+                                    <td>{{common_date($users_follower_details->updated_at , Auth::guard('admin')->user()->timezone)}}</td>
 
                                 </tr>
 
@@ -84,7 +84,7 @@
                         
                         </table>
 
-                        <div class="pull-right" id="paglink">{{ $content_creator_followers->appends(request()->input())->links() }}
+                        <div class="pull-right" id="paglink">{{ $users_followers->appends(request()->input())->links() }}
                         </div>
 
                     </div>

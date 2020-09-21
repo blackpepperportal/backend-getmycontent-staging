@@ -645,7 +645,7 @@ class AdminContentCreatorController extends Controller
 
 
     /**
-     * @method content_creator_followers()
+     * @method users_followers()
      *
      * @uses This is to display the all followers of specified content creator
      *
@@ -657,18 +657,18 @@ class AdminContentCreatorController extends Controller
      *
      * @return view page
      */
-    public function content_creator_followers(Request $request) {
+    public function users_followers(Request $request) {
 
-        $content_creator_followers = \App\Follower::where('follower_id',$request->follower_id)->paginate($this->take);
+        $users_followers = \App\Follower::where('follower_id',$request->follower_id)->paginate($this->take);
         
         return view('admin.content_creators.followers')
                 ->with('page','content_creators')
                 ->with('sub_page','content_creators-view')
-                ->with('content_creator_followers',$content_creator_followers);
+                ->with('users_followers',$users_followers);
      }
 
      /**
-     * @method content_creator_following()
+     * @method users_followings()
      *
      * @uses This is to display the all followers of specified 
      *
@@ -680,14 +680,14 @@ class AdminContentCreatorController extends Controller
      *
      * @return view page
      */
-     public function content_creator_following(Request $request) {
+     public function users_followings(Request $request) {
 
-        $content_creator_followings = \App\Follower::where('user_id',$request->content_creator_id)->paginate($this->take);
+        $users_followings = \App\Follower::where('user_id',$request->user_id)->paginate($this->take);
         
         return view('admin.content_creators.followings')
                 ->with('page','content_creators')
                 ->with('sub_page','content_creators-view')
-                ->with('content_creator_followings',$content_creator_followings);
+                ->with('users_followings',$users_followings);
        
      }
 

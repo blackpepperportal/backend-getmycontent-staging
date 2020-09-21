@@ -311,9 +311,9 @@ Route::group(['middleware' => 'web'], function() {
 
 
          //followers
-         Route::get('content_creator_followers' , 'Admin\AdminContentCreatorController@content_creator_followers')->name('content_creator.followers');
+         Route::get('users_followers' , 'Admin\AdminContentCreatorController@users_followers')->name('users.followers');
 
-         Route::get('content_creator_following' , 'Admin\AdminContentCreatorController@content_creator_following')->name('content_creator.following');
+         Route::get('users_followings' , 'Admin\AdminContentCreatorController@users_followings')->name('users.following');
  
          //following
     });

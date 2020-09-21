@@ -130,9 +130,9 @@
                                                 <hr>
 
 
-                                                <a class="dropdown-item" href="{{ route('admin.content_creator.followers',['follower_id' => $content_creator_details->id]) }}">&nbsp;{{ tr('followers') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.users.followers',['follower_id' => $content_creator_details->id]) }}">&nbsp;{{ tr('followers') }}</a>
 
-                                                <a class="dropdown-item" href="{{ route('admin.content_creator.following',['content_creator_id' => $content_creator_details->id]) }}">&nbsp;{{ tr('followings') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.users.following',['user_id' => $content_creator_details->id]) }}">&nbsp;{{ tr('followings') }}</a>
 
                                                 <a class="dropdown-item" href="{{ route('admin.posts.index', ['content_creator_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('posts') }}</a>
 
