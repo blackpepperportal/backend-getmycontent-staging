@@ -236,7 +236,7 @@ class AdminContentCreatorController extends Controller
 
                 DB::commit(); 
 
-                return redirect(route('admin.content_creators.view', ['user_id' => $content_creator_details->id]))->with('flash_success', $message);
+                return redirect(route('admin.content_creators.view', ['content_creator_id' => $content_creator_details->id]))->with('flash_success', $message);
 
             } 
 
@@ -642,5 +642,53 @@ class AdminContentCreatorController extends Controller
         }
     
     }
+
+
+    /**
+     * @method content_creator_followers()
+     *
+     * @uses This is to display the all followers of specified content creator
+     *
+     * @created Ganesh
+     *
+     * @updated
+     *
+     * @param object $request - follower Id
+     *
+     * @return view page
+     */
+    public function content_creator_followers(Request $request) {
+
+        $content_creator_followers = \App\Follower::where('follower_id',$request->follower_id)->paginate($this->take);
+        
+        return view('admin.content_creators.followers')
+                ->with('page','content_creators')
+                ->with('sub_page','content_creators-view')
+                ->with('content_creator_followers',$content_creator_followers);
+     }
+
+     /**
+     * @method content_creator_following()
+     *
+     * @uses This is to display the all followers of specified 
+     *
+     * @created Ganesh
+     *
+     * @updated
+     *
+     * @param object $request - follower Id
+     *
+     * @return view page
+     */
+     public function content_creator_following(Request $request) {
+
+        $content_creator_followings = \App\Follower::where('user_id',$request->content_creator_id)->paginate($this->take);
+        
+        return view('admin.content_creators.followings')
+                ->with('page','content_creators')
+                ->with('sub_page','content_creators-view')
+                ->with('content_creator_followings',$content_creator_followings);
+       
+     }
 
 }

@@ -108,6 +108,10 @@
                                     <td>{{$billing_account_details->ifsc_code ?? "-"}}</td>
                                 </tr>
                                 <tr>
+                            		<td>{{ tr('bank_name') }}</td>
+                                    <td>{{$billing_account_details->bank_name ?? "-"}}</td>
+                            	</tr>
+                                <tr>
                                     <td>{{tr('swift_code')}}</td>
                                     <td>{{$billing_account_details->swift_code ?? "-"}}</td>
                                 </tr>

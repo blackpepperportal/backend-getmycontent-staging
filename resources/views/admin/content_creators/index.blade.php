@@ -1,8 +1,8 @@
-@extends('layouts.admin') 
+@extends('layouts.admin')
 
-@section('title', tr('content_creators')) 
+@section('title', tr('content_creators'))
 
-@section('content-header', tr('content_creators')) 
+@section('content-header', tr('content_creators'))
 
 @section('breadcrumb')
 
@@ -14,7 +14,7 @@
 
 <li class="breadcrumb-item">{{ tr('view_content_creators') }}</li>
 
-@endsection 
+@endsection
 
 @section('content')
 
@@ -34,7 +34,7 @@
                     <div class="heading-elements">
                         <a href="{{ route('admin.content_creators.create') }}" class="btn btn-primary"><i class="ft-plus icon-left"></i>{{ tr('add_content_creator') }}</a>
                     </div>
-                    
+
                 </div>
 
                 <div class="card-content collapse show">
@@ -44,7 +44,7 @@
                         @include('admin.content_creators._search')
 
                         <table class="table table-striped table-bordered sourced-data">
-                            
+
                             <thead>
                                 <tr>
                                     <th>{{ tr('s_no') }}</th>
@@ -55,7 +55,7 @@
                                     <th>{{ tr('action')}}</th>
                                 </tr>
                             </thead>
-                           
+
                             <tbody>
 
                                 @foreach($content_creators as $i => $content_creator_details)
@@ -64,7 +64,7 @@
 
                                     <td>
                                         <a href="{{  route('admin.content_creators.view' , ['content_creator_id' => $content_creator_details->id] )  }}">
-                                        {{ $content_creator_details->name }}
+                                            {{ $content_creator_details->name }}
                                         </a>
                                     </td>
 
@@ -94,46 +94,51 @@
                                     </td>
 
                                     <td>
-                                    
+
                                         <div class="btn-group" role="group">
 
                                             <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ft-settings icon-left"></i> {{ tr('action') }}</button>
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                <a class="dropdown-item" href="{{ route('admin.content_creators.view', ['content_creator_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('view') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.content_creators.view', ['content_creator_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('view') }}</a>
 
                                                 @if(Setting::get('is_demo_control_enabled') == YES)
 
-                                                    <a class="dropdown-item" href="javascript:void(0)">&nbsp;{{ tr('edit') }}</a>
+                                                <a class="dropdown-item" href="javascript:void(0)">&nbsp;{{ tr('edit') }}</a>
 
-                                                    <a class="dropdown-item" href="javascript:void(0)">&nbsp;{{ tr('delete') }}</a> 
+                                                <a class="dropdown-item" href="javascript:void(0)">&nbsp;{{ tr('delete') }}</a>
 
                                                 @else
 
-                                                    <a class="dropdown-item" href="{{ route('admin.content_creators.edit', ['content_creator_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('edit') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.content_creators.edit', ['content_creator_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('edit') }}</a>
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('content_creator_delete_confirmation' , $content_creator_details->name) }}&quot;);" href="{{ route('admin.content_creators.delete', ['content_creator_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('content_creator_delete_confirmation' , $content_creator_details->name) }}&quot;);" href="{{ route('admin.content_creators.delete', ['content_creator_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 
                                                 @if($content_creator_details->status == APPROVED)
 
-                                                    <a class="dropdown-item" href="{{  route('admin.content_creators.status' , ['content_creator_id' => $content_creator_details->id] )  }}" onclick="return confirm(&quot;{{ $content_creator_details->name }} - {{ tr('content_creator_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
-                                                </a> 
+                                                <a class="dropdown-item" href="{{  route('admin.content_creators.status' , ['content_creator_id' => $content_creator_details->id] )  }}" onclick="return confirm(&quot;{{ $content_creator_details->name }} - {{ tr('content_creator_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
+                                                </a>
 
                                                 @else
 
-                                                    <a class="dropdown-item" href="{{ route('admin.content_creators.status' , ['content_creator_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.content_creators.status' , ['content_creator_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('approve') }}</a>
 
                                                 @endif
                                                 <hr>
 
-                                                <a class="dropdown-item" href="{{ route('admin.posts.index', ['content_creator_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('posts') }}</a> 
 
-                                                <a class="dropdown-item" href="{{ route('admin.user_products.index', ['content_creator_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('products') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.content_creator.followers',['follower_id' => $content_creator_details->id]) }}">&nbsp;{{ tr('followers') }}</a>
 
-                                                <a class="dropdown-item" href="{{ route('admin.user_wallets.view', ['content_creator_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('wallets') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.content_creator.following',['content_creator_id' => $content_creator_details->id]) }}">&nbsp;{{ tr('followings') }}</a>
+
+                                                <a class="dropdown-item" href="{{ route('admin.posts.index', ['content_creator_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('posts') }}</a>
+
+                                                <a class="dropdown-item" href="{{ route('admin.user_products.index', ['content_creator_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('products') }}</a>
+
+                                                <a class="dropdown-item" href="{{ route('admin.user_wallets.view', ['content_creator_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('wallets') }}</a>
 
                                             </div>
 
@@ -146,7 +151,7 @@
                                 @endforeach
 
                             </tbody>
-                        
+
                         </table>
 
                         <div class="pull-right" id="paglink">{{ $content_creators->appends(request()->input())->links() }}</div>

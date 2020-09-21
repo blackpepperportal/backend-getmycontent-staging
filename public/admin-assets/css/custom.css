@@ -102,3 +102,19 @@ img {
 @media (max-width: 767.98px) {}
 
 @media (max-width: 575.98px) {}
+
+
+.popup-label{
+  padding-bottom: 30px;
+  padding-left: 6%;
+  padding-right: 30px;
+}
+
+.label-font{
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.popup-left{
+  margin-left: 10px;
+}

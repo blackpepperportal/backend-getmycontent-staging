@@ -823,6 +823,19 @@ return [
 	'is_cancelled' => 'Is Cancelled',
 	'cancel_reason' => 'Cancel Reason',
 	'account_holder_name' => 'Account Holder Name',
-	'ifsc_code' => 'Ifsc Code',
-	'swift_code' => 'Swift Code',
+	"ifsc_code" => "Ifsc Code",
+	"swift_code" => "Swift Code",
+	"account_holder_name"=>"Account Holder Name",
+	"account_number"=>"Account Number",
+	"ifsc_code"=>"Ifsc Code",
+	"swift_code"=>"Swift Code",
+	"bank_name"=>"Bank Name",
+	"not_available"=>"N/A",
+	"user_withdrawal_paynow_confirmation"=>"Do you want to Paynow?",
+	"user_withdrawal_reject_confirmation"=>"Do you want to Reject?",
+	"user_followings"=>"User Followings",
+	"user_followers"=>"User Followers",
+	"content_creator_followings"=>"Content Creator Followings",
+	"content_creator_followers"=>"Content Creator Followers"
+
 ]?>

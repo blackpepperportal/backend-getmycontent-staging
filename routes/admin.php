@@ -309,5 +309,12 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('/subscriptions_payments/view','Admin\AdminRevenueController@subscription_payments_view')->name('subscription_payments.view');
 
+
+         //followers
+         Route::get('content_creator_followers' , 'Admin\AdminContentCreatorController@content_creator_followers')->name('content_creator.followers');
+
+         Route::get('content_creator_following' , 'Admin\AdminContentCreatorController@content_creator_following')->name('content_creator.following');
+ 
+         //following
     });
 });
