@@ -118,3 +118,15 @@ img {
 .popup-left{
   margin-left: 10px;
 }
+
+.reset-btn{
+  color:#f4a640; 
+  text-decoration:none; 
+  background:#f4f5f9;
+}
+
+.reset-btn:hover{
+  color:#f4a640; 
+  text-decoration:none; 
+  background:none;
+}

@@ -1,8 +1,8 @@
-@extends('layouts.admin') 
+@extends('layouts.admin')
 
-@section('title', tr('users')) 
+@section('title', tr('users'))
 
-@section('content-header', tr('users')) 
+@section('content-header', tr('users'))
 
 @section('breadcrumb')
 
@@ -14,7 +14,7 @@
 
 <li class="breadcrumb-item">{{tr('view_users')}}</li>
 
-@endsection 
+@endsection
 
 @section('content')
 
@@ -34,7 +34,7 @@
                     <div class="heading-elements">
                         <a href="{{ route('admin.users.create') }}" class="btn btn-primary"><i class="ft-plus icon-left"></i>{{ tr('add_user') }}</a>
                     </div>
-                    
+
                 </div>
 
                 <div class="card-content collapse show">
@@ -47,7 +47,7 @@
 
                                 <div class="col-xs-12 col-sm-12 col-lg-3 col-md-6 resp-mrg-btm-md">
                                     @if(Request::has('search_key'))
-                                        <p class="text-muted">Search results for <b>{{Request::get('search_key')}}</b></p>
+                                    <p class="text-muted">Search results for <b>{{Request::get('search_key')}}</b></p>
                                     @endif
                                 </div>
 
@@ -55,15 +55,15 @@
 
                                     <select class="form-control select2" name="status">
 
-                                        <option  class="select-color" value="">{{tr('select_status')}}</option>
+                                        <option class="select-color" value="">{{tr('select_status')}}</option>
 
-                                        <option  class="select-color" value="{{SORT_BY_APPROVED}}">{{tr('approved')}}</option>
+                                        <option class="select-color" value="{{SORT_BY_APPROVED}}" @if(Request::get('status') == SORT_BY_APPROVED && Request::get('status')!='' ) selected @endif>{{tr('approved')}}</option>
 
-                                        <option  class="select-color" value="{{SORT_BY_DECLINED}}">{{tr('declined')}}</option>
+                                        <option class="select-color" value="{{SORT_BY_DECLINED}}" @if(Request::get('status') == SORT_BY_DECLINED && Request::get('status')!='' ) selected @endif>{{tr('declined')}}</option>
 
-                                        <option  class="select-color" value="{{SORT_BY_EMAIL_VERIFIED}}">{{tr('verified')}}</option>
+                                        <option class="select-color" value="{{SORT_BY_EMAIL_VERIFIED}}" @if(Request::get('status') == SORT_BY_EMAIL_VERIFIED && Request::get('status')!='' ) selected @endif>{{tr('verified')}}</option>
 
-                                        <option  class="select-color" value="{{SORT_BY_EMAIL_NOT_VERIFIED}}">{{tr('unverified')}}</option>
+                                        <option class="select-color" value="{{SORT_BY_EMAIL_NOT_VERIFIED}}" @if(Request::get('status') == SORT_BY_EMAIL_NOT_VERIFIED && Request::get('status')!='' ) selected @endif>{{tr('unverified')}}</option>
 
                                     </select>
 
@@ -72,22 +72,23 @@
                                 <div class="col-xs-12 col-sm-12 col-lg-6 col-md-12">
 
                                     <div class="input-group">
-                                       
-                                        <input type="text" class="form-control" name="search_key" value="{{Request::get('search_key')??''}}"
-                                        placeholder="{{tr('users_search_placeholder')}}"> <span class="input-group-btn">
-                                        &nbsp
 
-                                        <button type="submit" class="btn btn-default">
-                                           <a href=""><i class="fa fa-search" aria-hidden="true"></i></a>
-                                        </button>
-                                        
-                                        <button class="btn btn-default"><a  href="{{route('admin.users.index')}}"><i class="fa fa-eraser" aria-hidden="true"></i></button>
-                                        </a>
-                                           
+                                        <input type="text" class="form-control" name="search_key" value="{{Request::get('search_key')??''}}" placeholder="{{tr('users_search_placeholder')}}"> <span class="input-group-btn">
+                                            &nbsp
+
+                                            <button type="submit" class="btn btn-default">
+                                                <a href=""><i class="fa fa-search" aria-hidden="true"></i></a>
+                                            </button>
+
+                                            <a href="{{route('admin.users.index')}}" class="btn btn-default reset-btn">
+                                                <span class="glyphicon glyphicon-search"> <i class="fa fa-eraser" aria-hidden="true"></i>
+                                                </span>
+                                            </a>
+
                                         </span>
 
                                     </div>
-                                    
+
                                 </div>
 
                             </div>
@@ -96,7 +97,7 @@
                         <br>
 
                         <table class="table table-striped table-bordered sourced-data">
-                            
+
                             <thead>
                                 <tr>
                                     <th>{{ tr('s_no') }}</th>
@@ -107,7 +108,7 @@
                                     <th>{{ tr('action') }}</th>
                                 </tr>
                             </thead>
-                           
+
                             <tbody>
 
                                 @foreach($users as $i => $user_details)
@@ -117,7 +118,7 @@
 
                                     <td>
                                         <a href="{{  route('admin.users.view' , ['user_id' => $user_details->id] )  }}">
-                                        {{ $user_details->name }}
+                                            {{ $user_details->name }}
                                         </a>
                                     </td>
 
@@ -146,37 +147,37 @@
                                     </td>
 
                                     <td>
-                                    
+
                                         <div class="btn-group" role="group">
 
                                             <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ft-settings icon-left"></i> {{ tr('action') }}</button>
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                <a class="dropdown-item" href="{{ route('admin.users.view', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('view') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.users.view', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('view') }}</a>
 
                                                 @if(Setting::get('is_demo_control_enabled') == YES)
 
-                                                    <a class="dropdown-item" href="javascript:void(0)">&nbsp;{{ tr('edit') }}</a>
+                                                <a class="dropdown-item" href="javascript:void(0)">&nbsp;{{ tr('edit') }}</a>
 
-                                                    <a class="dropdown-item" href="javascript:void(0)">&nbsp;{{ tr('delete') }}</a> 
+                                                <a class="dropdown-item" href="javascript:void(0)">&nbsp;{{ tr('delete') }}</a>
 
                                                 @else
 
-                                                    <a class="dropdown-item" href="{{ route('admin.users.edit', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('edit') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.users.edit', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('edit') }}</a>
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('user_delete_confirmation' , $user_details->name) }}&quot;);" href="{{ route('admin.users.delete', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('user_delete_confirmation' , $user_details->name) }}&quot;);" href="{{ route('admin.users.delete', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 
                                                 @if($user_details->status == APPROVED)
 
-                                                    <a class="dropdown-item" href="{{  route('admin.users.status' , ['user_id' => $user_details->id] )  }}" onclick="return confirm(&quot;{{ $user_details->name }} - {{ tr('user_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
-                                                </a> 
+                                                <a class="dropdown-item" href="{{  route('admin.users.status' , ['user_id' => $user_details->id] )  }}" onclick="return confirm(&quot;{{ $user_details->name }} - {{ tr('user_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
+                                                </a>
 
                                                 @else
 
-                                                    <a class="dropdown-item" href="{{ route('admin.users.status' , ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.users.status' , ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('approve') }}</a>
 
                                                 @endif
 
@@ -184,18 +185,18 @@
 
                                                 @if($user_details->is_content_creator)
 
-                                                    <a class="dropdown-item" href="{{ route('admin.followers',['follower_id' => $user_details->id]) }}">&nbsp;{{ tr('followers') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.followers',['follower_id' => $user_details->id]) }}">&nbsp;{{ tr('followers') }}</a>
 
                                                 @else
 
-                                                    <a class="dropdown-item" href="{{ route('admin.following',['user_id' => $user_details->id]) }}">&nbsp;{{ tr('followings') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.following',['user_id' => $user_details->id]) }}">&nbsp;{{ tr('followings') }}</a>
                                                 @endif
 
                                                 <a class="dropdown-item" href="{{ route('admin.orders.index', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('orders') }}</a>
 
-                                                <a class="dropdown-item" href="{{ route('admin.post.payments', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('post_payments') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.post.payments', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('post_payments') }}</a>
 
-                                                <a class="dropdown-item" href="{{ route('admin.delivery_address.index', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('delivery_address') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.delivery_address.index', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('delivery_address') }}</a>
 
                                             </div>
 
@@ -208,7 +209,7 @@
                                 @endforeach
 
                             </tbody>
-                        
+
                         </table>
 
                         <div class="pull-right" id="paglink">{{ $users->appends(request()->input())->links() }}</div>
