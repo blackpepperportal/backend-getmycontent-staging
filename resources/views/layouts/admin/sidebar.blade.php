@@ -17,7 +17,7 @@
             
             <li class="nav-item" id="users">
                 <a href="{{route('admin.users.index')}}">
-                    <i class="fa fa-user"></i>
+                    <i class="fa fa-users"></i>
                     <span class="menu-title" data-i18n="">{{tr('users')}}</span>
                 </a>
                 <ul class="menu-content">
@@ -324,7 +324,7 @@
 
             <li class="nav-item" id="faqs">
                 <a href="{{route('admin.faqs.index')}}">
-                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                    <i class="fa fa-question-circle" aria-hidden="true"></i>
                     <span class="menu-title" data-i18n="">{{tr('faqs')}}</span>
                 </a>
                 <ul class="menu-content">
@@ -370,7 +370,7 @@
 
             <li class="nav-item" id="settings">
                 <a href="{{route('admin.settings')}}">
-                    <i class="ft-globe"></i>
+                    <i class="fa fa-cog"></i>
                     <span class="menu-title" data-i18n="">{{tr('settings')}}</span>
                 </a>
             </li>

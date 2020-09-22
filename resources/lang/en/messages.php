@@ -836,6 +836,7 @@ return [
 	"user_followings"=>"User Followings",
 	"user_followers"=>"User Followers",
 	"content_creator_followings"=>"Content Creator Followings",
-	"content_creator_followers"=>"Content Creator Followers"
+	"content_creator_followers"=>"Content Creator Followers",
+	"password_change_success"=>"Successfully Changed the Password!!"
 
 ]?>
