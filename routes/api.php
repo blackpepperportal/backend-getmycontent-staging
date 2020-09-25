@@ -138,7 +138,7 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('subscriptions_autorenewal_status','Api\SubscriptionApiController@subscriptions_autorenewal_status');
 
-        Route::post('subscriptions_autorenewal','ApplicationController@subscriptions_autorenewal');
+        Route::post('subscription_payments_autorenewal','ApplicationController@subscription_payments_autorenewal');
 
     });
 
