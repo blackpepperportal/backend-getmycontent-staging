@@ -109,13 +109,29 @@ class ApplicationController extends Controller
 
 
 
+/**
+     * @method subscription_payments_autorenewal()
+     *
+     * @uses to get the pages
+     *
+     * @created Arun
+     *
+     * @updated Arun
+     *
+     * @param - 
+     *
+     * @return JSON Response
+     */
+
+
 public function subscription_payments_autorenewal(Request $request){
 
         try {
             $current_timestamp = \Carbon\Carbon::now()->toDateTimeString();
             $subscription_payment_details = SubscriptionPayment::where('is_current_subscription',1)->where('expiry_date','<', $current_timestamp)->get();
 
-            if(!$subscription_payment_details) {
+
+            if(count($subscription_payment_details) == 0) {
 
                 throw new Exception(api_error(129), 129);
 
@@ -124,20 +140,9 @@ public function subscription_payments_autorenewal(Request $request){
             foreach ($subscription_payment_details as $subscription_payment_detail){
 
                 $user_details = User::where('id',  $subscription_payment_detail->user_id)->first();
+            
                 if ($user_details->one_time_subscription == 1){
                     DB::beginTransaction();
-
-                    // Validation start
-
-                    $rules = [
-                        'subscription_id' => 'required|exists:subscriptions,id',
-                    ];
-
-                    $custom_errors = ['subscription_id' => api_error(129)];
-
-                    Helper::custom_validator($subscription_payment_detail->toArray(), $rules, $custom_errors);
-
-                    // Validation end
 
                     // Check the subscription is available
 
@@ -165,10 +170,12 @@ public function subscription_payments_autorenewal(Request $request){
 
                         }
 
-                        $payment_details['total'] = $total;
-                        $payment_details['customer_id'] = $card_details->customer_id;
-                        $payment_details['user_pay_amount'] = $user_pay_amount;
-                        $payment_details['paid_amount'] = $user_pay_amount;
+                        $request->request->add([
+                    'total' => $total, 
+                    'customer_id' => $card_details->customer_id,
+                    'user_pay_amount' => $user_pay_amount,
+                    'paid_amount' => $user_pay_amount,
+                ]);
 
                      $card_payment_response = PaymentRepo::subscriptions_payment_by_stripe($request, $subscription_details)->getData();
 
@@ -180,28 +187,22 @@ public function subscription_payments_autorenewal(Request $request){
 
                         $card_payment_data = $card_payment_response->data;
 
-                        $payment_details['paid_amount'] = $card_payment_data->paid_amount;
-                        $payment_details['payment_id'] = $card_payment_data->payment_id;
-                        $payment_details['paid_status'] = $card_payment_data->paid_status;
+                        $request->request->add(['paid_amount' => $card_payment_data->paid_amount, 'payment_id' => $card_payment_data->payment_id, 'subscription_id' => $subscription_details->id, 'paid_status' => $card_payment_data->paid_status]);
 
                     }
 
-                    $payment_response = PaymentRepo::subscriptions_payment_save($payment_details, $subscription_details)->getData();
+                    $payment_response = PaymentRepo::subscriptions_payment_save($request, $subscription_details)->getData();
 
                     if($payment_response->success) {
-                        $data['subscription_id']=$subscription_details->subscription_id;
-                        $data['user_id']=$subscription_details->user_id;
-                        $data['payment_id']=$card_payment_data->payment_id;
-                        $data['is_current_subscription']=1;
-                        if ($subscription_details->plan_type == 'months')
-                            $data['expiry_date']=Carbon::now()->addMonths(1);
-                        else
-                            $data['expiry_date']=Carbon::now()->addYears(1);
-                        $data['paid_date']=$current_timestamp;
-                        $data['created_at']=$current_timestamp;
-                        $data['updated_at']=$current_timestamp;
 
-                        $renew = SubscriptionPayment::insert($data);
+                        // Change old status to expired
+
+                        SubscriptionPayment::where('id', $subscription_payment_detail->id)->update(['is_current_subscription' => 0]);
+
+                        SubscriptionPayment::where('payment_id', $payment_response->data->payment_id)->update(['is_current_subscription' => 1]);
+
+
+
                         DB::commit();
 
                         $code = 118;
