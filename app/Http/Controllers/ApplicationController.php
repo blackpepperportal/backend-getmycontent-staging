@@ -21,25 +21,7 @@ use App\Repositories\PaymentRepository as PaymentRepo;
 class ApplicationController extends Controller
 {
 
-    protected $loginUser;
 
-    protected $skip, $take;
-
-    public function __construct(Request $request) {
-
-        Log::info(url()->current());
-
-        Log::info("Request Data".print_r($request->all(), true));
-        
-        $this->loginUser = User::find($request->id);
-
-        $this->skip = $request->skip ?: 0;
-
-        $this->take = $request->take ?: (Setting::get('admin_take_count') ?: TAKE_COUNT);
-
-        $this->timezone = $this->loginUser->timezone ?? "America/New_York";
-
-    }
 
     /**
      * @method static_pages_api()
@@ -128,16 +110,15 @@ public function subscription_payments_autorenewal(Request $request){
 
         try {
             $current_timestamp = \Carbon\Carbon::now()->toDateTimeString();
-            $subscription_payment_details = SubscriptionPayment::where('is_current_subscription',1)->where('expiry_date','<', $current_timestamp)->get();
+            $subscription_payments = SubscriptionPayment::where('is_current_subscription',1)->where('expiry_date','<', $current_timestamp)->get();
 
-
-            if(count($subscription_payment_details) == 0) {
+            if($subscription_payments->isEmpty()) {
 
                 throw new Exception(api_error(129), 129);
 
             }
 
-            foreach ($subscription_payment_details as $subscription_payment_detail){
+            foreach ($subscription_payments as $subscription_payment_detail){
 
                 $user_details = User::where('id',  $subscription_payment_detail->user_id)->first();
             
