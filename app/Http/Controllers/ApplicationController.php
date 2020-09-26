@@ -109,7 +109,9 @@ class ApplicationController extends Controller
 public function subscription_payments_autorenewal(Request $request){
 
         try {
+
             $current_timestamp = \Carbon\Carbon::now()->toDateTimeString();
+
             $subscription_payments = SubscriptionPayment::where('is_current_subscription',1)->where('expiry_date','<', $current_timestamp)->get();
 
             if($subscription_payments->isEmpty()) {
@@ -117,17 +119,24 @@ public function subscription_payments_autorenewal(Request $request){
                 throw new Exception(api_error(129), 129);
 
             }
-
+            DB::beginTransaction();
             foreach ($subscription_payments as $subscription_payment_detail){
 
                 $user_details = User::where('id',  $subscription_payment_detail->user_id)->first();
-            
-                if ($user_details->one_time_subscription == 1){
-                    DB::beginTransaction();
 
+                if ($user_details){
+                    
                     // Check the subscription is available
 
                     $subscription_details = Subscription::Approved()->firstWhere('id',  $subscription_payment_detail->subscription_id);
+
+                    if(!$subscription_details) {
+
+                        throw new Exception(api_error(129), 129);
+
+                     }
+
+                    
                     $is_user_subscribed_free_plan = $this->loginUser->one_time_subscription ?? NO;
 
                     if($subscription_details->amount <= 0 && $is_user_subscribed_free_plan) {
@@ -136,22 +145,19 @@ public function subscription_payments_autorenewal(Request $request){
 
                     }
 
-                $payment_details['payment_mode'] = CARD;
+                    $payment_details['payment_mode'] = CARD;
 
+                    $total = $user_pay_amount = $subscription_details->amount;
 
-                    $total = $user_pay_amount = $subscription_details->amount ?? 0.00;
+                    $card_details = \App\UserCard::where('user_id', $subscription_details->id)->firstWhere('is_default', YES);
 
-                    if($user_pay_amount > 0) {
+                    if(!$card_details) {
 
-                        $card_details = \App\UserCard::where('user_id', $subscription_details->id)->firstWhere('is_default', YES);
+                          throw new Exception(api_error(120), 120);
 
-                        if(!$card_details) {
+                     }
 
-                            throw new Exception(api_error(120), 120);
-
-                        }
-
-                        $request->request->add([
+                    $request->request->add([
                     'total' => $total, 
                     'customer_id' => $card_details->customer_id,
                     'user_pay_amount' => $user_pay_amount,
@@ -160,17 +166,16 @@ public function subscription_payments_autorenewal(Request $request){
 
                      $card_payment_response = PaymentRepo::subscriptions_payment_by_stripe($request, $subscription_details)->getData();
 
-                        if($card_payment_response->success == false) {
+                    if($card_payment_response->success == false) {
 
-                            throw new Exception($card_payment_response->error, $card_payment_response->error_code);
+                          throw new Exception($card_payment_response->error, $card_payment_response->error_code);
 
-                        }
+                     }
 
-                        $card_payment_data = $card_payment_response->data;
+                     $card_payment_data = $card_payment_response->data;
 
-                        $request->request->add(['paid_amount' => $card_payment_data->paid_amount, 'payment_id' => $card_payment_data->payment_id, 'subscription_id' => $subscription_details->id, 'paid_status' => $card_payment_data->paid_status]);
+                     $request->request->add(['paid_amount' => $card_payment_data->paid_amount, 'payment_id' => $card_payment_data->payment_id, 'subscription_id' => $subscription_details->id, 'paid_status' => $card_payment_data->paid_status]);
 
-                    }
 
                     $payment_response = PaymentRepo::subscriptions_payment_save($request, $subscription_details)->getData();
 
@@ -180,11 +185,9 @@ public function subscription_payments_autorenewal(Request $request){
 
                         SubscriptionPayment::where('id', $subscription_payment_detail->id)->update(['is_current_subscription' => 0]);
 
+                        // Change new is_current_subscription to 1 
+
                         SubscriptionPayment::where('payment_id', $payment_response->data->payment_id)->update(['is_current_subscription' => 1]);
-
-
-
-                        DB::commit();
 
                         $code = 118;
 
@@ -195,9 +198,14 @@ public function subscription_payments_autorenewal(Request $request){
                         throw new Exception($payment_response->error, $payment_response->error_code);
 
                     }
-                }
+                }else{
+
+                throw new Exception(api_error(135), 135);
 
             }
+            }
+
+            DB::commit();
 
 
         }catch (Exception $e){
