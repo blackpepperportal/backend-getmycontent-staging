@@ -17,7 +17,7 @@ class CreateFaqsTable extends Migration
             $table->id();
             $table->string('unique_id')->default(rand());
             $table->string('question');
-            $table->string('answer');
+            $table->text('answer');
             $table->tinyInteger('status')->default(YES);            
             $table->timestamps();
         });

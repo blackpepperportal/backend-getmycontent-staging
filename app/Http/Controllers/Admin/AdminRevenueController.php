@@ -589,16 +589,6 @@ class AdminRevenueController extends Controller
 
     public function user_withdrawals(Request $request) {
 
-        // $new = new \App\UserWithdrawal;
-
-        // $new->user_id = 1;
-
-        // $new->requested_amount = rand(30, 999);
-
-        // $new->payment_id = rand(1000000000, 9999999999);
-
-        // $new->save();
-
         $base_query = \App\UserWithdrawal::orderBy('user_withdrawals.id', 'desc');
 
         if($request->search_key) {
