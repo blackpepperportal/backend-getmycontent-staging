@@ -18,7 +18,7 @@ class CreatePostFilesTable extends Migration
             $table->string('unique_id')->default(rand());
             $table->integer('post_id');
             $table->string('file');
-            $table->string('file_type');
+            $table->string('file_type')->default('image');
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });

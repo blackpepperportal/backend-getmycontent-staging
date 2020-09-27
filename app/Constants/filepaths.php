@@ -27,6 +27,4 @@ if(!defined('CATEGORY_FILE_PATH')) define('CATEGORY_FILE_PATH', 'uploads/categor
 
 if(!defined('SUPPORT_MEMBER_FILE_PATH')) define('SUPPORT_MEMBER_FILE_PATH', 'uploads/support_members/');
 
-if(!defined('CONTENT_CREATOR_FILE_PATH')) define('CONTENT_CREATOR_FILE_PATH', 'uploads/content_creators/');
-
 
