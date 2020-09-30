@@ -71,6 +71,45 @@
                 <span>{{tr('posts_management')}}</span>
             </li>
 
+            <li class="nav-item" id="posts">
+                <a href="{{route('admin.posts.index')}}">
+                    <i class="fa fa-image"></i>
+                    <span class="menu-title" data-i18n="">{{tr('posts')}}</span>
+                </a>
+                <ul class="menu-content">
+                    <li id="posts-view">
+                        <a class="menu-item" href="{{route('admin.posts.index')}}">
+                            {{tr('view_posts')}}
+                        </a>
+                    </li>
+                </ul>            
+            
+            </li>
+
+            <li class="nav-item" id="scheduled-posts">
+                <a href="{{route('admin.posts.index',['scheduled' => YES])}}">
+                    <i class="fa fa-clock-o"></i>
+                    <span class="menu-title" data-i18n="">{{tr('scheduled_posts')}}</span>
+                </a>
+            
+            </li>
+
+            <li class="nav-item" id="post_albums">
+                <a href="{{route('admin.post_albums.index')}}">
+                    <i class="fa fa-clone"></i>
+                    <span class="menu-title" data-i18n="">{{tr('post_albums')}}</span>
+                </a>
+            
+            </li>
+
+            <!-- posts_management end -->
+
+            <!-- products_management start -->
+
+            <li class="navigation-header">
+                <span>{{tr('products_management')}}</span>
+            </li>
+
             <li class="nav-item" id="categories">
                 <a href="{{route('admin.categories.index')}}">
                     <i class="fa fa-list"></i>
@@ -111,45 +150,6 @@
                     </li>
                 </ul>            
             
-            </li>
-
-            <li class="nav-item" id="posts">
-                <a href="{{route('admin.posts.index')}}">
-                    <i class="fa fa-image"></i>
-                    <span class="menu-title" data-i18n="">{{tr('posts')}}</span>
-                </a>
-                <ul class="menu-content">
-                    <li id="posts-view">
-                        <a class="menu-item" href="{{route('admin.posts.index')}}">
-                            {{tr('view_posts')}}
-                        </a>
-                    </li>
-                </ul>            
-            
-            </li>
-
-            <li class="nav-item" id="scheduled-posts">
-                <a href="{{route('admin.posts.index',['scheduled' => YES])}}">
-                    <i class="fa fa-clock-o"></i>
-                    <span class="menu-title" data-i18n="">{{tr('scheduled_posts')}}</span>
-                </a>
-            
-            </li>
-
-            <li class="nav-item" id="post_albums">
-                <a href="{{route('admin.post_albums.index')}}">
-                    <i class="fa fa-clone"></i>
-                    <span class="menu-title" data-i18n="">{{tr('post_albums')}}</span>
-                </a>
-            
-            </li>
-
-            <!-- posts_management end -->
-
-            <!-- products_management start -->
-
-            <li class="navigation-header">
-                <span>{{tr('products_management')}}</span>
             </li>
 
             <li class="nav-item" id="user_products">
@@ -204,14 +204,14 @@
             
             </li>
 
-            <li class="nav-item" id="delivery-address">
+            <!-- <li class="nav-item" id="delivery-address">
 
                 <a href="{{route('admin.delivery_address.index')}}">
                     <i class="fa fa-truck"></i>
                     <span class="menu-title" data-i18n="">{{tr('delivery_address')}}</span>
                 </a>
             
-            </li>
+            </li> -->
 
             <!--  products_management end -->
 
@@ -273,6 +273,32 @@
                 <a href="{{route('admin.subscriptions.index')}}">
                     <i class="fa fa-diamond" aria-hidden="true"></i>
                     <span class="menu-title" data-i18n="">{{tr('subscriptions')}}</span>
+                </a>
+
+                <ul class="menu-content">
+                    <li id="subscriptions-create">
+                        <a class="menu-item" href="{{route('admin.subscriptions.create')}}">
+                            {{tr('add_subscription')}}
+                        </a>
+                    </li>
+                    <li id="subscriptions-view">
+                        <a class="menu-item" href="{{route('admin.subscriptions.index')}}">
+                            {{tr('view_subscriptions')}}
+                        </a>
+                    </li>
+                </ul>            
+            
+            </li>
+
+            <li class="navigation-header">
+                <span>{{tr('support_management')}}</span>
+            </li>
+
+            <li class="nav-item" id="support_members">
+
+                <a href="{{route('admin.subscriptions.index')}}">
+                    <i class="fa fa-diamond" aria-hidden="true"></i>
+                    <span class="menu-title" data-i18n="">Support Members</span>
                 </a>
 
                 <ul class="menu-content">

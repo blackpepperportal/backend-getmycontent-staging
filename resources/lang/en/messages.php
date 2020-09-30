@@ -210,6 +210,7 @@ return [
 	"posts_management" => "POSTS MANAGEMENT",
 	"products_management" => "PRODUCTS MANAGEMENT",
 	"revenue_management" => "REVENUE MANAGEMENT",
+	"support_management" => "SUPPORT MANAGEMENT",
 	"lookups_management" => "LOOKUPS MANAGEMENT",
 	"setting_management" => "SETTING MANAGEMENT",
 

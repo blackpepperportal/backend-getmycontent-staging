@@ -45,7 +45,7 @@ class AdminContentCreatorController extends Controller
      */
     public function content_creators_index(Request $request) {
 
-        $base_query = \App\ContentCreator::orderBy('created_at','DESC');
+        $base_query = \App\User::orderBy('created_at','DESC');
 
         if($request->status) {
 
@@ -111,7 +111,7 @@ class AdminContentCreatorController extends Controller
      */
     public function content_creators_create() {
 
-        $content_creator_details = new \App\ContentCreator;
+        $content_creator_details = new \App\User;
 
         return view('admin.content_creators.create')
                     ->with('page' , 'content_creators')
@@ -137,7 +137,7 @@ class AdminContentCreatorController extends Controller
 
         try {
 
-            $content_creator_details = \App\ContentCreator::find($request->content_creator_id);
+            $content_creator_details = \App\User::find($request->user_id);
 
             if(!$content_creator_details) { 
 
@@ -178,16 +178,16 @@ class AdminContentCreatorController extends Controller
 
             $rules = [
                 'name' => 'required|max:191',
-                'email' => $request->content_creator_id ? 'required|email|max:191|unique:content_creators,email,'.$request->content_creator_id.',id' : 'required|email|max:191|unique:content_creators,email,NULL,id',
-                'password' => $request->content_creator_id ? "" : 'required|min:6|confirmed',
+                'email' => $request->user_id ? 'required|email|max:191|unique:users,email,'.$request->user_id.',id' : 'required|email|max:191|unique:users,email,NULL,id',
+                'password' => $request->user_id ? "" : 'required|min:6|confirmed',
                 'mobile' => $request->mobile ? 'digits_between:6,13' : '',
                 'picture' => 'mimes:jpg,png,jpeg',
-                'content_creator_id' => 'exists:content_creators,id|nullable'
+                'user_id' => 'exists:users,id|nullable'
             ];
 
             Helper::custom_validator($request->all(),$rules);
 
-            $content_creator_details = $request->content_creator_id ? \App\ContentCreator::find($request->content_creator_id) : new \App\ContentCreator;
+            $content_creator_details = $request->user_id ? \App\User::find($request->user_id) : new \App\User;
 
             if($content_creator_details->id) {
 
@@ -209,6 +209,10 @@ class AdminContentCreatorController extends Controller
 
                 $content_creator_details->token_expiry = Helper::generate_token_expiry();
 
+                $content_creator_details->login_by = $request->login_by ?: 'manual';
+
+                $content_creator_details->is_content_creator = YES;
+
             }
 
             $content_creator_details->name = $request->name ?: $content_creator_details->name;
@@ -217,26 +221,24 @@ class AdminContentCreatorController extends Controller
 
             $content_creator_details->mobile = $request->mobile ?: '';
 
-            $content_creator_details->login_by = $request->login_by ?: 'manual';
-
             // Upload picture
             
             if($request->hasFile('picture')) {
 
                 if($request->user_id) {
 
-                    Helper::storage_delete_file($content_creator_details->picture, CONTENT_CREATOR_FILE_PATH); 
+                    Helper::storage_delete_file($content_creator_details->picture, PROFILE_PATH_USER); 
                     // Delete the old pic
                 }
 
-                $content_creator_details->picture = Helper::storage_upload_file($request->file('picture'), CONTENT_CREATOR_FILE_PATH);
+                $content_creator_details->picture = Helper::storage_upload_file($request->file('picture'), PROFILE_PATH_USER);
             }
 
             if($content_creator_details->save()) {
 
                 DB::commit(); 
 
-                return redirect(route('admin.content_creators.view', ['content_creator_id' => $content_creator_details->id]))->with('flash_success', $message);
+                return redirect(route('admin.content_creators.view', ['user_id' => $content_creator_details->id]))->with('flash_success', $message);
 
             } 
 
@@ -270,7 +272,7 @@ class AdminContentCreatorController extends Controller
        
         try {
       
-            $content_creator_details = \App\ContentCreator::find($request->content_creator_id);
+            $content_creator_details = \App\User::find($request->user_id);
 
             if(!$content_creator_details) { 
 
@@ -309,7 +311,7 @@ class AdminContentCreatorController extends Controller
 
             DB::begintransaction();
 
-            $stardom_details = \App\ContentCreator::find($request->user_id);
+            $stardom_details = \App\User::find($request->user_id);
             
             if(!$stardom_details) {
 
@@ -356,7 +358,7 @@ class AdminContentCreatorController extends Controller
             
             DB::beginTransaction();
 
-            $content_creator_details = \App\ContentCreator::find($request->content_creator_id);
+            $content_creator_details = \App\User::find($request->user_id);
 
             if(!$content_creator_details) {
 
@@ -405,7 +407,7 @@ class AdminContentCreatorController extends Controller
 
             DB::beginTransaction();
 
-            $content_creator_details = \App\ContentCreator::find($request->content_creator_id);
+            $content_creator_details = \App\User::find($request->user_id);
 
             if(!$content_creator_details) {
 
@@ -626,7 +628,12 @@ class AdminContentCreatorController extends Controller
            
             if(!$user_wallet_details) { 
 
-                throw new Exception(tr('user_wallet_details_not_found'), 101);                
+                $user_wallet_details = new \App\UserWallet;
+
+                $user_wallet_details->user_id = $request->user_id;
+
+                $user_wallet_details->save();
+
             }
 
             $user_wallet_payments = \App\UserWalletPayment::where('user_id',$user_wallet_details->user_id)->paginate(10);
@@ -642,7 +649,6 @@ class AdminContentCreatorController extends Controller
         }
     
     }
-
 
     /**
      * @method users_followers()
@@ -665,9 +671,10 @@ class AdminContentCreatorController extends Controller
                 ->with('page','content_creators')
                 ->with('sub_page','content_creators-view')
                 ->with('users_followers',$users_followers);
-     }
+    
+    }
 
-     /**
+    /**
      * @method users_followings()
      *
      * @uses This is to display the all followers of specified 
@@ -680,7 +687,7 @@ class AdminContentCreatorController extends Controller
      *
      * @return view page
      */
-     public function users_followings(Request $request) {
+    public function users_followings(Request $request) {
 
         $users_followings = \App\Follower::where('user_id',$request->user_id)->paginate($this->take);
         
@@ -689,6 +696,6 @@ class AdminContentCreatorController extends Controller
                 ->with('sub_page','content_creators-view')
                 ->with('users_followings',$users_followings);
        
-     }
+    }
 
 }

@@ -2,7 +2,7 @@
 
 Route::group(['middleware' => 'web'], function() {
 
-    Route::group(['as' => 'support_member.', 'prefix' => 'support_member'], function(){
+    Route::group(['as' => 'support_member.', 'prefix' => 'support'], function(){
 
         Route::get('clear-cache', function() {
 

@@ -6,23 +6,23 @@
             @if(Request::has('search_key'))
                 <p class="text-muted">{{tr('search_results_for')}}<b>{{Request::get('search_key')}}</b></p>
             @endif
+        
         </div>
 
         <div class="col-xs-12 col-sm-12 col-lg-3 col-md-6 md-full-width resp-mrg-btm-md">
 
-                <select class="form-control select2" name="status">
+            <select class="form-control select2" name="status">
 
-                    <option  class="select-color" value="">{{tr('select_status')}}</option>
+                <option class="select-color" value="">{{tr('select_status')}}</option>
 
-                    <option  class="select-color" value="{{WITHDRAW_INITIATED}}">{{tr('initiated')}}</option>
+                <option class="select-color" value="{{WITHDRAW_INITIATED}}">{{tr('initiated')}}</option>
 
-                    <option  class="select-color" value="{{WITHDRAW_PAID}}">{{tr('paid')}}</option>
+                <option class="select-color" value="{{WITHDRAW_PAID}}">{{tr('paid')}}</option>
 
-                    <option  class="select-color" value="{{WITHDRAW_REJECTED}}">{{tr('rejected')}}</option>
+                <option class="select-color" value="{{WITHDRAW_REJECTED}}">{{tr('rejected')}}</option>
 
-                </select>
-
-            </div>
+            </select>
+        </div>
 
         <div class="col-xs-12 col-sm-12 col-lg-6 col-md-12">
 
