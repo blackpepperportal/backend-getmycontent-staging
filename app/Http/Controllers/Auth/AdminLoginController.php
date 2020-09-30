@@ -50,7 +50,6 @@ class AdminLoginController extends Controller
             'email'   => 'required|email',
             'password' => 'required|min:5'
          ]);
-      
         // Attempt to log the user in
         if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
            
@@ -60,7 +59,7 @@ class AdminLoginController extends Controller
                 
                 Auth::guard('admin')->logout();
 
-                return redirect()->route('admin.login');
+                return redirect()->route('admin.login')->with('flash_error', tr('username_password_not_match'));
             }
 
             // if successful, then redirect to their intended location

@@ -50,7 +50,7 @@
 
                             </fieldset>
                             <fieldset class="form-group position-relative has-icon-left">
-                                <input name="password" type="password" class="form-control" id="user-password" placeholder="Enter Password" required minlength="6" maxlength="64" title="Enter Minimum 6 character" value="{{old('password') ?: Setting::get('demo_admin_password')}}" autocomplete="off">
+                                <input name="password" type="password" class="form-control" id="user-password" placeholder="Enter Password" required  title="Enter Minimum 6 character" value="{{old('password') ?: Setting::get('demo_admin_password')}}" autocomplete="off">
                                 <div class="form-control-position">
                                     <i class="fa fa-key"></i>
                                 </div>
@@ -61,7 +61,7 @@
                                     </span>
                                 @endif
                             </fieldset>
-                            <button type="submit" class="btn btn-outline-primary btn-block"><i class="ft-unlock"></i> Login</button>
+                            <button type="submit" class="btn btn-outline-primary btn-block" id="login-submit"><i class="ft-unlock"></i> Login</button>
                         </form>
 
                     </div>
@@ -77,3 +77,5 @@
 </section>
 
 @endsection
+
+
