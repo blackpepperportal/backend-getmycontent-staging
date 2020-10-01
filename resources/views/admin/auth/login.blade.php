@@ -30,13 +30,13 @@
 
                         @include('notifications.notify')
 
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('admin.login.post') }}" novalidate autocomplete="new-password">
+                        <form class="form-horizontal" role="form" method="POST" action="{{ route('admin.login.post') }}"  autocomplete="new-password">
 
                             @csrf
 
                             <fieldset class="form-group position-relative has-icon-left">
                                 
-                                <input type="text" class="form-control" id="user-name" placeholder="Your Username" required value="{{old('email') ?: Setting::get('demo_admin_email')}}" name="email">
+                                <input type="email" class="form-control" id="user-name" required placeholder="your mail id" value="{{old('email') ?: Setting::get('demo_admin_email')}}" name="email">
                                 
                                 <div class="form-control-position">
                                     <i class="ft-user"></i>
@@ -55,14 +55,11 @@
                                     <i class="fa fa-key"></i>
                                 </div>
 
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
+                                
                             </fieldset>
                             <button type="submit" class="btn btn-outline-primary btn-block"><i class="ft-unlock"></i> Login</button>
                         </form>
+               
 
                     </div>
 

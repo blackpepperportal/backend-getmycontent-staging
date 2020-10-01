@@ -169,7 +169,10 @@ class AdminUserController extends Controller
             DB::begintransaction();
 
             $rules = [
-                'name' => $request->user_id ?'required|max:191' :'required|max:191|unique:users,name,',
+                //'name' => $request->user_id ?'required|max:191' :'required|max:191|unique:users,name,',
+                
+                'first_name' => $request->user_id ?'required|max:191' :'',
+                'last_name' => $request->user_id ?'required|max:191' :'',
                 'email' => $request->user_id ? 'required|email|max:191|unique:users,email,'.$request->user_id.',id' : 'required|email|max:191|unique:users,email,NULL,id',
                 'password' => $request->user_id ? "" : 'required|min:6|confirmed',
                 'mobile' => $request->mobile ? 'digits_between:6,13' : '',
@@ -207,7 +210,9 @@ class AdminUserController extends Controller
 
             }
 
-            $user_details->name = $request->name ?: $user_details->name;
+            $user_details->name = $request->first_name ?: $user_details->first_name;
+            $user_details->first_name = $request->first_name ?: $user_details->first_name;
+            $user_details->last_name = $request->last_name ?: $user_details->last_name;
 
             $user_details->email = $request->email ?: $user_details->email;
 
@@ -240,7 +245,7 @@ class AdminUserController extends Controller
 
                     $email_data['email']  = $user_details->email;
 
-                    $email_data['name'] = $user_details->name;
+                    $email_data['name'] = $user_details->first_name;
 
                     $email_data['page'] = "emails.users.welcome";
 
@@ -260,7 +265,8 @@ class AdminUserController extends Controller
 
             throw new Exception(tr('user_save_failed'));
             
-        } catch(Exception $e){ 
+        } 
+        catch(Exception $e){ 
 
             DB::rollback();
 

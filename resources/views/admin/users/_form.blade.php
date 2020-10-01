@@ -38,16 +38,41 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="user_name">{{ tr('name') }}*</label>
-                                            <input type="text" id="name" name="name" class="form-control" placeholder="{{ tr('name') }}" value="{{ $user_details->name ?: old('name') }}" required onkeydown="return alphaOnly(event);">
+                                            <label for="user_name">{{ tr('first_name') }}*</label>
+                                            <input type="text" id="first_name" name="first_name" class="form-control" placeholder="{{ tr('first_name') }}" value="{{ $user_details->first_name ?: old('first_name') }}" required onkeydown="return alphaOnly(event);">
                                         </div>
                                     </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="user_name">{{ tr('last_name') }}*</label>
+                                            <input type="text" id="last_name" name="last_name" class="form-control" placeholder="{{ tr('last_name') }}" value="{{ $user_details->last_name ?: old('last_name') }}" required onkeydown="return alphaOnly(event);">
+                                        </div>
+                                    </div>
+
+                                    
+
+                                </div>
+
+                                <div class="row">
 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="email">{{tr('email')}}*</label>
                                             <input type="email" id="email" name="email" class="form-control" placeholder="E-mail" value="{{ $user_details->email ?: old('email') }}" required>
                                         </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+
+                                            <label>{{ tr('select_picture') }}</label>
+
+                                            <input type="file" class="form-control" name="picture" accept="image/png,image/jpeg" >
+                                                                      
+                                        </div>
+
                                     </div>
 
                                 </div>
@@ -74,21 +99,7 @@
 
                                 @endif
 
-                                <div class="row">
-
-                                    <div class="col-md-6">
-
-                                        <div class="form-group">
-
-                                            <label>{{ tr('select_picture') }}</label>
-
-                                            <input type="file" class="form-control" name="picture" accept="image/png,image/jpeg" >
-                                                                      
-                                        </div>
-
-                                    </div>
-
-                                </div>
+                                
                                 
                             </div>
                           

@@ -29,6 +29,10 @@
 
                     <h4 class="card-title">{{ tr('view_support_tickets') }}</h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+
+                    <div class="heading-elements">
+                        <a href="{{ route('admin.users.create') }}" class="btn btn-primary"><i class="ft-plus icon-left"></i>{{ tr('add_user_ticket') }}</a>
+                    </div>
                     
                 </div>
 
