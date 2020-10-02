@@ -31,7 +31,7 @@
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
                     <div class="heading-elements">
-                        <a href="{{ route('admin.users.create') }}" class="btn btn-primary"><i class="ft-plus icon-left"></i>{{ tr('add_user_ticket') }}</a>
+                        <a href="{{ route('admin.support_tickets.create') }}" class="btn btn-primary"><i class="ft-plus icon-left"></i>{{tr('add_support_tickets')}}</a>
                     </div>
                     
                 </div>
@@ -82,6 +82,12 @@
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
                                                 <a class="dropdown-item" href="{{ route('admin.support_tickets.view', ['support_ticket_id' => $support_ticket_details->id] ) }}">&nbsp;{{ tr('view') }}</a> 
+
+                                                
+
+                                                <a class="dropdown-item" href="{{ route('admin.support_tickets.edit', ['user_id' => $support_ticket_details->id] ) }}">&nbsp;{{ tr('edit') }}</a>
+
+                                                <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('support_ticket_delete_confirmation' , $support_ticket_details->user) }}&quot;);" href="{{ route('admin.support_tickets.delete', ['user_id' => $support_ticket_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                             </div>
                                             

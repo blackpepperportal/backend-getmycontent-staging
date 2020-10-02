@@ -186,6 +186,7 @@ Route::group(['middleware' => 'web'], function() {
         Route::get('subscriptions/edit', 'Admin\AdminRevenueController@subscriptions_edit')->name('subscriptions.edit');
 
         Route::post('subscriptions/save', 'Admin\AdminRevenueController@subscriptions_save')->name('subscriptions.save');
+        
 
         Route::get('subscriptions/view', 'Admin\AdminRevenueController@subscriptions_view')->name('subscriptions.view');
 
@@ -304,6 +305,14 @@ Route::group(['middleware' => 'web'], function() {
         Route::get('/support_tickets/index','Admin\AdminRevenueController@support_tickets_index')->name('support_tickets.index');
 
         Route::get('/support_tickets/view','Admin\AdminRevenueController@support_tickets_view')->name('support_tickets.view');
+
+        Route::get('support_tickets/create', 'Admin\AdminRevenueController@support_tickets_create')->name('support_tickets.create');
+
+        Route::post('support_tickets/save', 'Admin\AdminRevenueController@support_tickets_save')->name('support_tickets.save');
+        
+        Route::get('support_tickets/edit', 'Admin\AdminRevenueController@support_tickets_edit')->name('support_tickets.edit');
+        Route::get('support_tickets/delete', 'Admin\AdminRevenueController@support_tickets_delete')->name('support_tickets.delete');
+        
 
         Route::get('/subscriptions_payments/index','Admin\AdminRevenueController@subscription_payments_index')->name('subscription_payments.index');
 

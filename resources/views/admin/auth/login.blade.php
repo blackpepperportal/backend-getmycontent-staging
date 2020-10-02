@@ -36,7 +36,7 @@
 
                             <fieldset class="form-group position-relative has-icon-left">
                                 
-                                <input type="email" class="form-control" id="user-name" required placeholder="your mail id" value="{{old('email') ?: Setting::get('demo_admin_email')}}" name="email">
+                                <input type="email" class="form-control" id="user-name" required placeholder="tr('your_mail_id')" value="{{old('email') ?: Setting::get('demo_admin_email')}}" name="email">
                                 
                                 <div class="form-control-position">
                                     <i class="ft-user"></i>

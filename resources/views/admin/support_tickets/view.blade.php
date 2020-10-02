@@ -95,6 +95,46 @@
                 </div>
 
             </div>
+             <div class="card-footer">
+
+                        <div class="card-title">
+                            {{tr('action')}}
+                        </div>
+
+                        <div class="row">
+
+                            
+
+                            
+
+
+                            
+
+                            <div class="col-3">
+
+                                <a class="btn btn-outline-secondary btn-block btn-min-width mr-1 mb-1 " href="{{route('admin.support_tickets.edit', ['user_id'=>$support_ticket_details->id] )}}"> &nbsp;{{tr('edit')}}</a>
+
+
+
+                            </div>
+
+                            <div class="col-3">
+
+                                <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" onclick="return confirm(&quot;{{tr('support_ticket_delete_confirmation' , $support_ticket_details->user)}}&quot;);" href="{{route('admin.support_tickets.delete', ['user_id'=> $support_ticket_details->id] )}}">&nbsp;{{tr('delete')}}</a>
+
+                            </div>
+
+                            
+
+                           
+
+                            
+
+                        </div>
+
+                        
+
+                    </div>
 
         </div>
 

@@ -316,12 +316,29 @@
             
             </li>
 
+            <!-- support_tickets start -->
+
             <li class="nav-item" id="support_tickets">
                 <a href="{{route('admin.support_tickets.index')}}">
-                    <i class="fa fa-ticket"></i>
+                    <i class="fa fa-ticket" aria-hidden="true"></i>
                     <span class="menu-title" data-i18n="">{{tr('support_tickets')}}</span>
                 </a>
+                <ul class="menu-content">
+                    <li id="support_tickets-create">
+                        <a class="menu-item" href="{{route('admin.support_tickets.create')}}">
+                            {{tr('add_support_tickets')}}
+                        </a>
+                    </li>
+                    <li id="support_tickets-view">
+                        <a class="menu-item" href="{{route('admin.support_tickets.index')}}">
+                            {{tr('view_support_tickets')}}
+                        </a>
+                    </li>
+                </ul>            
+            
             </li>
+
+
             <!-- lookups_management start -->
 
             <li class="navigation-header">

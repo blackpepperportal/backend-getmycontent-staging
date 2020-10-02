@@ -240,10 +240,11 @@ return [
 
 	"user_email_confirmation" => "Do you want change this user as email verified user?",
 	"users_search_placeholder" => "Search by Username,Email Id,Mobile",
+	"your_mail_id" => "your mail id"
 
 	// Settings 
 
-	"settings_update_success" => "Settings Updated successfully!!",
+	"settings_update_success" => "Settings Updated Successfully!!",
 	
 	"settings" => "Settings",
 	"site_settings" => "Site Settings",
@@ -801,9 +802,18 @@ return [
 	'forgot_password' => 'Forgot Password',
 	'already_have_account' => 'Already have account',
 	'support_ticket_not_found' => 'Support ticket details not found',
+	'support_ticket_delete_failed' => 'Support Ticket deletion failed',
 
 	'view_support_tickets' => 'View Support Tickets',
+	'add_support_tickets' => 'Add Support Tickets',
 	'support_tickets' => 'Support Tickets',
+	"support_ticket_create_success" => 'Support Ticket Create Success',
+	"support_ticket_details_update_success" => 'Support Ticket Details Update Success',
+	"edit_support_tickets" => 'Edit Support Tickets',
+	"support_ticket_delete_confirmation" => 'Support Ticket Delete Confirmation',
+	"support_tickets_not_found" => 'Support Tickets Not Found',
+	"support_ticket_deleted_success" => 'Support Ticket Deleted Successfully',
+
 	'subject' => 'Subject',
 	'message' => 'Message',
 	'user_name' => 'User Name',
