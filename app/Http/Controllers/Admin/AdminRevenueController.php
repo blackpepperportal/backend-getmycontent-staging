@@ -947,10 +947,7 @@ class AdminRevenueController extends Controller
 
             $support_ticket_details = $request->support_ticket_id ? \App\SupportTicket::find($request->support_ticket_id) : new \App\SupportTicket;
 
-            if(!$support_ticket_details) {
-
-                throw new Exception(tr('support_ticket_not_found'), 101);
-            }
+            
 
             $support_ticket_details->status = APPROVED;
 
@@ -986,13 +983,13 @@ class AdminRevenueController extends Controller
     /**
      * @method support_tickets_edit()
      *
-     * @support_ticket To display and update support_tickets details based on the user id
+     * @support_ticket To display and update support_tickets details based on the support_ticket id
      *
      * @created 
      *
      * @updated 
      *
-     * @param object $request - User Id
+     * @param object $request - Support_ticket Id
      * 
      * @return redirect view page 
      *
@@ -1001,11 +998,11 @@ class AdminRevenueController extends Controller
 
         try {
 
-            $support_ticket_details = \App\SupportTicket::find($request->user_id);
+            $support_ticket_details = \App\SupportTicket::find($request->support_ticket_id);
 
             if(!$support_ticket_details) { 
 
-                throw new Exception(tr('user_not_found'), 101);
+                throw new Exception(tr('support_ticket_not_found'), 101);
             }
 
             return view('admin.support_tickets.edit')
@@ -1023,13 +1020,13 @@ class AdminRevenueController extends Controller
     /**
      * @method support_tickets_delete()
      *
-     * @uses delete the support_tickets details based on user id
+     * @uses delete the support_tickets details based on support_ticket id
      *
      * @created  
      *
      * @updated  
      *
-     * @param object $request - User Id
+     * @param object $request - Support_ticket Id
      * 
      * @return response of success/failure details with view page
      *
@@ -1040,7 +1037,7 @@ class AdminRevenueController extends Controller
 
             DB::begintransaction();
 
-            $support_ticket_details = \App\SupportTicket::find($request->user_id);
+            $support_ticket_details = \App\SupportTicket::find($request->support_ticket_id);
             
             if(!$support_ticket_details) {
 

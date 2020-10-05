@@ -52,7 +52,12 @@ Route::group(['middleware' => 'web'], function() {
 
 Route::get('support_members/index', 'Admin\AdminSupportMemberController@support_members_index')->name('support_members.index');  
 Route::get('support_members/create', 'Admin\AdminSupportMemberController@support_members_create')->name('support_members.create');
-Route::get('support_members/view', 'Admin\AdminSupportMemberController@users_view')->name('support_members.view');
+Route::get('support_members/view', 'Admin\AdminSupportMemberController@support_members_view')->name('support_members.view');
+Route::post('support_members/save', 'Admin\AdminSupportMemberController@support_members_save')->name('support_members.save');
+Route::get('support_members/edit', 'Admin\AdminSupportMemberController@support_members_edit')->name('support_members.edit');
+Route::get('support_members/delete', 'Admin\AdminSupportMemberController@support_members_delete')->name('support_members.delete');
+Route::get('support_members/status', 'Admin\AdminSupportMemberController@support_members_status')->name('support_members.status');
+Route::get('support_members/verify', 'Admin\AdminSupportMemberController@support_members__verify_status')->name('support_members.verify');
      
 
 

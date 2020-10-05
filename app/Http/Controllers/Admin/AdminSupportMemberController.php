@@ -129,7 +129,7 @@ class AdminSupportMemberController extends Controller
 
         try {
 
-            $support_member_details = \App\support_member::find($request->support_member_id);
+            $support_member_details = \App\SupportMember::find($request->support_member_id);
 
             if(!$support_member_details) { 
 
@@ -163,6 +163,7 @@ class AdminSupportMemberController extends Controller
      *
      */
     public function support_members_save(Request $request) {
+
         
         try {
 
@@ -294,7 +295,7 @@ class AdminSupportMemberController extends Controller
        
         try {
       
-            $support_member_details = \App\support_member::find($request->support_member_id);
+            $support_member_details = \App\SupportMember::find($request->support_member_id);
 
             if(!$support_member_details) { 
 
@@ -333,7 +334,7 @@ class AdminSupportMemberController extends Controller
 
             DB::begintransaction();
 
-            $support_member_details = \App\support_member::find($request->support_member_id);
+            $support_member_details = \App\SupportMember::find($request->support_member_id);
             
             if(!$support_member_details) {
 
@@ -380,7 +381,7 @@ class AdminSupportMemberController extends Controller
 
             DB::beginTransaction();
 
-            $support_member_details = \App\support_member::find($request->support_member_id);
+            $support_member_details = \App\SupportMember::find($request->support_member_id);
 
             if(!$support_member_details) {
 
@@ -452,7 +453,7 @@ class AdminSupportMemberController extends Controller
 
             DB::beginTransaction();
 
-            $support_member_details = \App\support_member::find($request->support_member_id);
+            $support_member_details = \App\SupportMember::find($request->support_member_id);
 
             if(!$support_member_details) {
 

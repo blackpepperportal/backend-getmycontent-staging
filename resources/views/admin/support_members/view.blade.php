@@ -102,14 +102,14 @@
                                 <tr>
                                     <th>{{tr('status')}}</th>
                                     <td>
-                                        @if($support_member_details->status == support_member_APPROVED) 
+                                        @if($support_member_details->status == APPROVED)
 
                                             <span class="badge badge-success">{{tr('approved')}}</span>
-
                                         @else
+                                        
                                             <span class="badge badge-danger">{{tr('declined')}}</span>
-
                                         @endif
+                                        
                                     </td>
                                 </tr>
 
@@ -143,12 +143,12 @@
 
                                 <tr>
                                   <th>{{tr('created_at')}} </th>
-                                  <td>{{common_date($support_member_details->created_at , Auth::guard('admin')->support_member()->timezone)}}</td>
+                                  <td>{{$support_member_details->created_at}}</td>
                                 </tr>
 
                                 <tr>
                                   <th>{{tr('updated_at')}} </th>
-                                  <td>{{common_date($support_member_details->updated_at , Auth::guard('admin')->support_member()->timezone)}}</td>
+                                  <td>{{$support_member_details->updated_at}}</td>
                                 </tr>
                                 
                             </table>
