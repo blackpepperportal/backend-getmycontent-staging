@@ -8,12 +8,12 @@
                 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title" id="basic-layout-form">{{ $user_details->id ? tr('edit_user') : tr('add_user') }}</h4>
+                    <h4 class="card-title" id="basic-layout-form">{{ $support_member_details->id ? tr('edit_support_member') : tr('add_support_member') }}</h4>
 
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
                     <div class="heading-elements">
-                        <a href="{{route('admin.users.index') }}" class="btn btn-primary"><i class="ft-eye icon-left"></i>{{ tr('view_users') }}</a>
+                        <a href="{{route('admin.support_members.index') }}" class="btn btn-primary"><i class="ft-eye icon-left"></i>{{ tr('view_support_members') }}</a>
                     </div>
 
                 </div>
@@ -26,27 +26,27 @@
 
                         </div>
 
-                        <form class="form-horizontal" action="{{ (Setting::get('is_demo_control_enabled') == YES) ? '#' : route('admin.users.save') }}" method="POST" enctype="multipart/form-data" role="form">
+                        <form class="form-horizontal" action="{{ (Setting::get('is_demo_control_enabled') == YES) ? '#' : route('admin.support_members.save') }}" method="POST" enctype="multipart/form-data" role="form">
                            
                             @csrf
                           
-                            <div class="form-body">
+                            <div class="form-body"> 
 
                                 <div class="row">
 
-                                    <input type="hidden" name="user_id" id="user_id" value="{{ $user_details->id}}">
+                                    <input type="hidden" name="support_member_id" id="support_member_id" value="{{ $support_member_details->id}}">
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="user_name">{{ tr('first_name') }}*</label>
-                                            <input type="text" id="first_name" name="first_name" class="form-control" placeholder="{{ tr('first_name') }}" value="{{ $user_details->first_name ?: old('first_name') }}" required onkeydown="return alphaOnly(event);">
+                                            <label for="support_member_name">{{ tr('first_name') }}*</label>
+                                            <input type="text" id="first_name" name="first_name" class="form-control" placeholder="{{ tr('first_name') }}" value="{{ $support_member_details->first_name ?: old('first_name') }}" required onkeydown="return alphaOnly(event);">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="user_name">{{ tr('last_name') }}*</label>
-                                            <input type="text" id="last_name" name="last_name" class="form-control" placeholder="{{ tr('last_name') }}" value="{{ $user_details->last_name ?: old('last_name') }}" required onkeydown="return alphaOnly(event);">
+                                            <label for="support_member_name">{{ tr('last_name') }}*</label>
+                                            <input type="text" id="last_name" name="last_name" class="form-control" placeholder="{{ tr('last_name') }}" value="{{ $support_member_details->last_name ?: old('last_name') }}" required onkeydown="return alphaOnly(event);">
                                         </div>
                                     </div>
 
@@ -59,7 +59,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="email">{{tr('email')}}*</label>
-                                            <input type="email" id="email" name="email" class="form-control" placeholder="E-mail" value="{{ $user_details->email ?: old('email') }}" required>
+                                            <input type="email" id="email" name="email" class="form-control" placeholder="E-mail" value="{{ $support_member_details->email ?: old('email') }}" required>
                                         </div>
                                     </div>
 
@@ -77,7 +77,7 @@
 
                                 </div>
 
-                                @if(!$user_details->id)
+                                @if(!$support_member_details->id)
                                 
                                 <div class="row">
 

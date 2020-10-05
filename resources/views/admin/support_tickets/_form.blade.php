@@ -35,7 +35,7 @@
 
                                     <div class="form-group col-md-6">
 
-                                        <label for="title" class="">{{ tr('subject') }} <span class="admin-required">*</span></label>
+                                        <label for="subject" class="">{{ tr('subject') }} <span class="admin-required">*</span></label>
 
                                         <input type="text" name="subject" class="form-control" id="subject" value="{{ old('subject') ?: $support_ticket_details->subject }}" placeholder="{{ tr('subject') }}" required >
                                         

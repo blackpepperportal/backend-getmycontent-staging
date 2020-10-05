@@ -296,25 +296,26 @@
 
             <li class="nav-item" id="support_members">
 
-                <a href="{{route('admin.subscriptions.index')}}">
+                <a href="{{route('admin.support_members.index')}}">
                     <i class="fa fa-diamond" aria-hidden="true"></i>
-                    <span class="menu-title" data-i18n="">Support Members</span>
+                    <span class="menu-title" data-i18n="">{{tr('support_members')}}</span>
                 </a>
 
                 <ul class="menu-content">
-                    <li id="subscriptions-create">
-                        <a class="menu-item" href="{{route('admin.subscriptions.create')}}">
-                            {{tr('add_subscription')}}
+                    <li id="support_members-create">
+                        <a class="menu-item" href="{{route('admin.support_members.create')}}">
+                            {{tr('add_support_members')}}
                         </a>
                     </li>
-                    <li id="subscriptions-view">
-                        <a class="menu-item" href="{{route('admin.subscriptions.index')}}">
-                            {{tr('view_subscriptions')}}
+                    <li id="support_members-view">
+                        <a class="menu-item" href="{{route('admin.support_members.index')}}">
+                            {{tr('view_support_members')}}
                         </a>
                     </li>
                 </ul>            
             
             </li>
+            
 
             <!-- support_tickets start -->
 

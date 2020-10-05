@@ -240,7 +240,10 @@ return [
 
 	"user_email_confirmation" => "Do you want change this user as email verified user?",
 	"users_search_placeholder" => "Search by Username,Email Id,Mobile",
-	"your_mail_id" => "your mail id"
+	"support_member_search_placeholder" => "Search by Support member name,Email Id,Mobile",
+	"email_address" => "Enter email address",
+	"enter_password" => "Enter password",
+	
 
 	// Settings 
 
@@ -799,6 +802,20 @@ return [
 	'question' => 'Question',
 	'answer' => 'Answer',
 	'support_member_profile_success' => 'Your profile updated successfully',
+	'support_member' => 'Support Member',
+	'support_members' => 'Support Members',
+	'add_support_members' => 'Add Support Members',
+	'view_support_members' => 'View Support Members',
+	"view_support_member" => 'View Support Member',
+	"add_support_member" => 'Add Support Member',
+	"edit_support_member" => "Edit Support Member",
+	"add_support_member" => "Add Support Member",
+	
+	
+
+	
+	
+
 	'forgot_password' => 'Forgot Password',
 	'already_have_account' => 'Already have account',
 	'support_ticket_not_found' => 'Support ticket details not found',
@@ -813,6 +830,8 @@ return [
 	"support_ticket_delete_confirmation" => 'Support Ticket Delete Confirmation',
 	"support_tickets_not_found" => 'Support Tickets Not Found',
 	"support_ticket_deleted_success" => 'Support Ticket Deleted Successfully',
+	"view_support_management" => 'View Support Management',
+	
 
 	'subject' => 'Subject',
 	'message' => 'Message',

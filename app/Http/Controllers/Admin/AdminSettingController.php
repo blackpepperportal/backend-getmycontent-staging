@@ -123,7 +123,6 @@ class AdminSettingController extends Controller
 
             Helper::settings_generate_json();
 
-            //return back()->with('flash_success', tr('settings_update_success'));
             return back()->with('flash_success', tr('settings_update_success'));
             
         } catch (Exception $e) {

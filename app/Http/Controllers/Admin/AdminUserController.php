@@ -210,10 +210,10 @@ class AdminUserController extends Controller
 
             }
 
-            $user_details->name = $request->first_name ?: $user_details->first_name;
-            $user_details->first_name = $request->first_name ?: $user_details->first_name;
-            $user_details->last_name = $request->last_name ?: $user_details->last_name;
-
+            echo $user_details->name = $request->first_name ?: $user_details->first_name;
+            echo $user_details->first_name = $request->first_name ?: $user_details->first_name;
+            echo $user_details->last_name = $request->last_name ?: $user_details->last_name;
+//exit;
             $user_details->email = $request->email ?: $user_details->email;
 
             $user_details->mobile = $request->mobile ?: '';
