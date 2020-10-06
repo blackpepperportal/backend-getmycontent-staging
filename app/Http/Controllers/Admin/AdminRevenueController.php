@@ -850,6 +850,7 @@ class AdminRevenueController extends Controller
 
         $support_tickets = \App\SupportTicket::orderBy('created_at','DESC')->paginate($this->take);
 
+
         return view('admin.support_tickets.index')
                     ->with('page', 'support_tickets')
                     ->with('sub_page', 'support_tickets-view')
@@ -910,11 +911,18 @@ class AdminRevenueController extends Controller
     public function support_tickets_create() {
 
         $support_ticket_details = new \App\SupportTicket;
+        $users_details = DB::table('users')->orderBy('id', 'DESC')->get();
+                                            
+
+
 
         return view('admin.support_tickets.create')
                     ->with('page', 'support_ticket')
                     ->with('sub_page','support_ticket-create')
-                    ->with('support_ticket_details', $support_ticket_details);           
+                    ->with('support_ticket_details', $support_ticket_details)
+                    ->with('users_details', $users_details);
+                    //->with(compact('support_ticket_details','users_details'));
+                    
    
     }
 
@@ -939,20 +947,24 @@ class AdminRevenueController extends Controller
             DB::begintransaction();
 
             $rules = [
+                'user_id' => 'required',
                 'subject'  => 'required|max:255',
                 'message' => 'max:255',
+                
+
             ];
 
             Helper::custom_validator($request->all(),$rules);
 
-            $support_ticket_details = $request->support_ticket_id ? \App\SupportTicket::find($request->support_ticket_id) : new \App\SupportTicket;
 
-            
+            $support_ticket_details = \App\SupportTicket::find($request->support_ticket_id) ?? new \App\SupportTicket;
 
             $support_ticket_details->status = APPROVED;
 
-            //$support_ticket_details->user_id = $request->support_ticket_id;
-            $support_ticket_details->user_id = 1;
+            
+            $support_ticket_details->user_id = $request->user_id;
+
+            $support_ticket_details->support_member_id = $request->support_member;
 
             $support_ticket_details->subject = $request->subject;
 

@@ -56,7 +56,7 @@
                                     <select class="form-control select2" name="status">
 
                                         <option class="select-color" value="">{{tr('select_status')}}</option>
-                                        
+
                                         <option class="select-color" value="{{SORT_BY_APPROVED}}" @if(Request::get('status') == SORT_BY_APPROVED && Request::get('status')!='' ) selected @endif>{{tr('approved')}}</option>
 
                                         <option class="select-color" value="{{SORT_BY_DECLINED}}" @if(Request::get('status') == SORT_BY_DECLINED && Request::get('status')!='' ) selected @endif>{{tr('declined')}}</option>

@@ -806,12 +806,14 @@ return [
 	'support_member_decline_success' => 'Support member decline successfully',
 	'support_member_approve_success' => 'Support member approve success',
 	'support_members' => 'Support Members',
+	'support_member' => 'Support Member',
 	'add_support_members' => 'Add Support Members',
 	'view_support_members' => 'View Support Members',
 	"view_support_member" => 'View Support Member',
 	"add_support_member" => 'Add Support Member',
 	"edit_support_member" => "Edit Support Member",
 	"add_support_member" => "Add Support Member",
+	"select_support_member" => "Select support member",
 	
 	
 

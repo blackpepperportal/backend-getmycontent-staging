@@ -108,7 +108,7 @@
                                         @else
                                         
                                             <span class="badge badge-danger">{{tr('declined')}}</span>
-                                        @endif
+                                            @endif
                                         
                                     </td>
                                 </tr>
