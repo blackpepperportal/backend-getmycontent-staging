@@ -173,7 +173,7 @@ class AdminSupportMemberController extends Controller
                 
                 'first_name' => 'required|max:191',
                 'last_name' => 'required|max:191',
-                'email' => 'required|email|max:191|unique:support_members,email,'.$request->support_member_id.',id' : 'required|email|max:191|unique:support_members,email,NULL,id',
+                'email' => 'required|email|max:191|unique:support_members',
                 'password' => $request->support_member_id ? '' : 'required|min:6|confirmed',
                 
                 'mobile' =>'digits_between:6,13',

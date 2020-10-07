@@ -80,7 +80,7 @@ return [
 	"YES" => "Yes",
 	"NO" => "No",
 
-	":" => ": ",
+	
 	"user" => "User",
 	"admin" => "Admin",
 	"user_welcome_title" => "Welcome to ",
