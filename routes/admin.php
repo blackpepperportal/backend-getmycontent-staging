@@ -50,6 +50,9 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('users/verify', 'Admin\AdminUserController@users_verify_status')->name('users.verify');
 
+        Route::get('users/excel','Admin\AdminUserController@users_excel')->name('users.excel');
+        
+
 Route::get('support_members/index', 'Admin\AdminSupportMemberController@support_members_index')->name('support_members.index');  
 Route::get('support_members/create', 'Admin\AdminSupportMemberController@support_members_create')->name('support_members.create');
 Route::get('support_members/view', 'Admin\AdminSupportMemberController@support_members_view')->name('support_members.view');

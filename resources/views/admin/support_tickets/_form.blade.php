@@ -46,13 +46,12 @@
                                         <option class="select-color" value="{{ $support_ticket_details->user_id ?: '' }}">
 
                                             
-                                            {{ $support_ticket_details->user_id ?: 'Select User' }}
+                                            {{ $support_ticket_details->user_id ? $users_name: 'Select User' }}
 
                                          
 
                                         </option>
-                                        <?php $users_details = DB::table('users')->orderBy('id', 'DESC')->get();
-                                          ?>
+                                        
                                         @foreach($users_details as $users_details)
                                         <option class="select-color" value="{{$users_details->id}}">{{$users_details->name}}</option>     
                                         @endforeach
@@ -63,13 +62,13 @@
 
                                         <label for="subject" class="">{{ tr('support_member') }} <span class="admin-required">*</span></label>
 
-                                        <select class="form-control select2" name="support_member" id="support_member">
+                                        <select class="form-control select2" name="support_member_id" id="support_member_id">
 
                                         <option class="select-color" value="{{ $support_ticket_details->support_member_id ?: '' }}">
                                             
-                                            {{ $support_ticket_details->support_member_id ?: 'Select Support Member' }}</option>
-                                        <?php $support_members = DB::table('support_members')->orderBy('id', 'DESC')->get();
-                                          ?>
+                                            {{ $support_ticket_details->support_member_id ? $support_members_name : 'Select Support Member' }}
+                                        </option>
+                                       
                                         @foreach($support_members as $support_members)
                                         <option class="select-color" value="{{$support_members->id}}">{{$support_members->name}}</option>     
                                         @endforeach

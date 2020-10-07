@@ -162,6 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+
         /*
          * Package Service Providers...
          */
@@ -178,6 +179,9 @@ return [
 
         Akaunting\Setting\Provider::class,
         vidhyar2612\Enveditor\EnveditorServiceProvider::class,
+        
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+
 
     ],
 
@@ -233,6 +237,11 @@ return [
         'Setting' => Akaunting\Setting\Facade::class,
         'Enveditor' => 'vidhyar2612\Enveditor\Facade',
         'Helper' => App\Helpers\Helper::class,
+        //'Excel' => 'Maatwebsite\Excel\ExcelServiceProvider',
+        
+        //'Excel' => 'Maatwebsite\Excel\Facades\Excel',
+        //'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

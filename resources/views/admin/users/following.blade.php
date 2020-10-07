@@ -1,6 +1,6 @@
 @extends('layouts.admin') 
 
-@section('content-header', tr('users')) 
+@section('content-header',  $users_name) 
 
 @section('breadcrumb')
 

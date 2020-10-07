@@ -31,7 +31,10 @@
                     <h4 class="card-title">{{ tr('view_users') }}</h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
+
+
                     <div class="heading-elements">
+                        <a href="{{ route('admin.users.excel',['downloadexcel'=>'excel']) }}" class="btn btn-primary">Export to Excel</a>
                         <a href="{{ route('admin.users.create') }}" class="btn btn-primary"><i class="ft-plus icon-left"></i>{{ tr('add_user') }}</a>
                     </div>
 

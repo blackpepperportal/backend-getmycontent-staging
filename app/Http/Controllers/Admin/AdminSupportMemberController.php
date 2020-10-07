@@ -171,12 +171,12 @@ class AdminSupportMemberController extends Controller
 
             $rules = [
                 
-                
-                'first_name' => $request->support_member_id ?'required|max:191' :'',
-                'last_name' => $request->support_member_id ?'required|max:191' :'',
-                'email' => $request->support_member_id ? 'required|email|max:191|unique:support_members,email,'.$request->support_member_id.',id' : 'required|email|max:191|unique:support_members,email,NULL,id',
+                'first_name' => 'required|max:191',
+                'last_name' => 'required|max:191',
+                'email' => 'required|email|max:191|unique:support_members,email,'.$request->support_member_id.',id' : 'required|email|max:191|unique:support_members,email,NULL,id',
                 'password' => $request->support_member_id ? '' : 'required|min:6|confirmed',
-                'mobile' => $request->mobile ? 'digits_between:6,13' : '',
+                
+                'mobile' =>'digits_between:6,13',
                 'picture' => 'mimes:jpg,png,jpeg',
                 'support_members_id' => 'exists:support_members,id|nullable'
             ];
@@ -219,7 +219,7 @@ class AdminSupportMemberController extends Controller
 
             $support_member_details->mobile = $request->mobile ?: '';
 
-            //$support_member_details->login_by = $request->login_by ?: 'manual';
+            
             
             // Upload picture
             

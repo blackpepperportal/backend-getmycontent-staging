@@ -12,6 +12,12 @@ use DB, Hash, Setting, Auth, Validator, Exception, Enveditor;
 
 use App\Jobs\SendEmailJob;
 
+//use Maatwebsite\Excel\Facades\Excel;
+
+
+use Excel; // Excel namespace
+
+
 class AdminUserController extends Controller
 {
 	/**
@@ -104,10 +110,33 @@ class AdminUserController extends Controller
 
         $user_details = new \App\User;
 
+
         return view('admin.users.create')
                     ->with('page', 'users')
                     ->with('sub_page','users-create')
                     ->with('user_details', $user_details);           
+   
+    }
+
+    public function users_excel() {
+
+        $users = \App\User::orderBy('id', 'DESC')->get();
+
+        // if request has excel
+      //if($req->has('downloadexcel')){
+        Excel::create('users', function($excel) use ($users) {
+          $excel->sheet('Sheet 1', function($sheet) use ($users) {
+            $sheet->fromArray($users);
+          });
+        })->export('xls');
+      //}
+      // return index page
+      
+
+        return view('admin.users.index')
+                    ->with('page', 'users')
+                    ->with('sub_page', 'users-view')
+                    ->with('users', $users);           
    
     }
 
@@ -171,11 +200,12 @@ class AdminUserController extends Controller
             $rules = [
                 //'name' => $request->user_id ?'required|max:191' :'required|max:191|unique:users,name,',
                 
-                'first_name' => $request->user_id ?'required|max:191' :'',
-                'last_name' => $request->user_id ?'required|max:191' :'',
+                
+                'first_name' => 'required|max:191',
+                'last_name' => 'required|max:191',
                 'email' => $request->user_id ? 'required|email|max:191|unique:users,email,'.$request->user_id.',id' : 'required|email|max:191|unique:users,email,NULL,id',
                 'password' => $request->user_id ? "" : 'required|min:6|confirmed',
-                'mobile' => $request->mobile ? 'digits_between:6,13' : '',
+                'mobile' =>'digits_between:6,13',
                 'picture' => 'mimes:jpg,png,jpeg',
                 'user_id' => 'exists:users,id|nullable'
             ];
@@ -295,6 +325,7 @@ class AdminUserController extends Controller
         try {
       
             $user_details = \App\User::find($request->user_id);
+            $user_id = $request->user_id;
 
             if(!$user_details) { 
 
@@ -522,11 +553,13 @@ class AdminUserController extends Controller
      public function user_following(Request $request) {
 
         $user_followings = \App\Follower::where('user_id',$request->user_id)->paginate($this->take);
+        $users_name = \App\User::where('id', $request->user_id)->first()->name;
 
         return view('admin.users.following')
                 ->with('page','users')
                 ->with('sub_page','users-view')
-                ->with('user_followings',$user_followings);
+                ->with('user_followings',$user_followings)
+                ->with('users_name',$users_name);
        
      }
 }

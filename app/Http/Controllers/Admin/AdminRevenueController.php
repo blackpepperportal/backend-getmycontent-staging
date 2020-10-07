@@ -911,7 +911,10 @@ class AdminRevenueController extends Controller
     public function support_tickets_create() {
 
         $support_ticket_details = new \App\SupportTicket;
-        $users_details = DB::table('users')->orderBy('id', 'DESC')->get();
+        $users_details = \App\User::orderBy('id', 'DESC')->get();
+        $support_members = \App\SupportMember::orderBy('id', 'DESC')->get();
+        
+        //$support_ticket_details = \App\SupportTicket::find($request->support_ticket_id);
                                             
 
 
@@ -920,7 +923,8 @@ class AdminRevenueController extends Controller
                     ->with('page', 'support_ticket')
                     ->with('sub_page','support_ticket-create')
                     ->with('support_ticket_details', $support_ticket_details)
-                    ->with('users_details', $users_details);
+                    ->with('users_details', $users_details)
+                    ->with('support_members', $support_members);
                     //->with(compact('support_ticket_details','users_details'));
                     
    
@@ -964,9 +968,9 @@ class AdminRevenueController extends Controller
             
             $support_ticket_details->user_id = $request->user_id;
 
-            $support_ticket_details->support_member_id = $request->support_member;
+            $support_ticket_details->support_member_id = $request->support_member_id;
 
-            $support_ticket_details->subject = $request->subject;
+            $support_ticket_details->subject = $request->subject ?: "";
 
             $support_ticket_details->message = $request->message ?: "";
 
@@ -1011,6 +1015,13 @@ class AdminRevenueController extends Controller
         try {
 
             $support_ticket_details = \App\SupportTicket::find($request->support_ticket_id);
+            $users_details = \App\User::orderBy('id', 'DESC')->get();
+            $support_members = \App\SupportMember::orderBy('id', 'DESC')->get();
+
+            $users_name = \App\User::where('id', $support_ticket_details->user_id)->first()->name;
+
+
+            $support_members_name = \App\SupportMember::where('id', $support_ticket_details->support_member_id)->first()->name;
 
             if(!$support_ticket_details) { 
 
@@ -1020,7 +1031,11 @@ class AdminRevenueController extends Controller
             return view('admin.support_tickets.edit')
                     ->with('page', 'support_tickets')
                     ->with('sub_page', 'support_ticket-view')
-                    ->with('support_ticket_details', $support_ticket_details); 
+                    ->with('support_ticket_details', $support_ticket_details)
+                    ->with('users_details', $users_details)
+                    ->with('support_members', $support_members)
+                    ->with('users_name', $users_name)
+                    ->with('support_members_name', $support_members_name); 
             
         } catch(Exception $e) {
 
