@@ -401,8 +401,6 @@ class AdminRevenueController extends Controller
                 throw new Exception(tr('subscription_not_found'), 101);
             }
 
-            $subscription_details->status = APPROVED;
-
             $subscription_details->title = $request->title;
 
             $subscription_details->description = $request->description ?: "";

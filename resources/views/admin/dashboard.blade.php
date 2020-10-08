@@ -27,11 +27,11 @@
 
                     <div class="media align-items-stretch">
 
-                        <div class="p-2 text-center bg-info bg-darken-2">
+                        <div class="p-1 text-center bg-info bg-darken-2">
                             <a href="{{route('admin.users.index')}}"><i class="icon-user font-large-2 white"></i></a>
                         </div>
 
-                        <div class="p-2 bg-gradient-x-info white media-body">
+                        <div class="p-1 bg-gradient-x-info white media-body">
                             <h5>{{tr('total_users')}}</h5>
                             <h5 class="text-bold-400 mb-2">{{$data->total_users}}</h5>
                         </div>
@@ -46,17 +46,17 @@
 
         <div class="col-xl-3 col-lg-6 col-12">
 
-            <div class="card card-top">
+            <div class="card card-top bg-gradient-x-danger">
 
                 <div class="card-content">
 
                     <div class="media align-items-stretch">
 
-                        <div class="p-2 text-center bg-danger bg-darken-2">
+                        <div class="p-1 text-center">
                             <a href="{{route('admin.content_creators.index')}}"><i class="icon-user font-large-2 white"></i></a>
                         </div>
 
-                        <div class="p-2 bg-gradient-x-danger white media-body">
+                        <div class="p-1 white media-body">
                             <h5>{{tr('content_creators')}}</h5>
                             <h5 class="text-bold-400 mb-0">{{$data->total_content_creators}}</h5>
                         </div>
@@ -77,11 +77,11 @@
 
                     <div class="media align-items-stretch">
 
-                        <div class="p-2 text-center bg-warning bg-darken-2">
+                        <div class="p-1 text-center bg-warning bg-darken-2">
                             <a href="{{route('admin.posts.index')}}"><i class="icon-basket-loaded font-large-2 white"></i></a>
                         </div>
 
-                        <div class="p-2 bg-gradient-x-warning white media-body">
+                        <div class="p-1 bg-gradient-x-warning white media-body">
                             <h5>{{tr('posts')}}</h5>
                             <h5 class="text-bold-400 mb-2">{{$data->total_posts}}</h5>
                         </div>
@@ -102,11 +102,11 @@
 
                     <div class="media align-items-stretch">
 
-                        <div class="p-2 text-center bg-success bg-darken-2">
+                        <div class="p-1 text-center bg-success bg-darken-2">
                             <a href="{{route('admin.revenues.dashboard')}}"><i class="icon-wallet font-large-2 white"></i></a>
                         </div>
 
-                        <div class="p-2 bg-gradient-x-success white media-body">
+                        <div class="p-1 bg-gradient-x-success white media-body">
                             <h5>{{tr('revenue')}}</h5>
                             <h5 class="text-bold-400 mb-2">{{formatted_amount($data->total_revenue)}}</h5>
                         </div>
