@@ -29,7 +29,7 @@ class AdminSupportMemberController extends Controller
 
     }
 
-/**
+    /**
      * @method support_members_index()
      *
      * @uses To list out support_members details 
@@ -211,16 +211,14 @@ class AdminSupportMemberController extends Controller
 
             }
 
-            $support_member_details->name = $request->first_name ?: $support_member_details->first_name;
             $support_member_details->first_name = $request->first_name ?: $support_member_details->first_name;
+
             $support_member_details->last_name = $request->last_name ?: $support_member_details->last_name;
 
             $support_member_details->email = $request->email ?: $support_member_details->email;
 
             $support_member_details->mobile = $request->mobile ?: '';
 
-            
-            
             // Upload picture
             
             if($request->hasFile('picture')) {
@@ -484,50 +482,269 @@ class AdminSupportMemberController extends Controller
     
     }
 
-     /**
-     * @method support_member_followers()
+    /**
+     * @method support_tickets_index()
      *
-     * @uses This is to display the all followers of specified content creator
+     * @uses Display the lists of support tickets
      *
-     * @created 
-     *
-     * @updated
-     *
-     * @param object $request - follower Id
-     *
-     * @return view page
-     */
-     public function support_member_followers(Request $request) {
-
-        $support_member_followers = \App\Follower::where('follower_id',$request->follower_id)->paginate($this->take);
-        
-        return view('admin.support_members.followers')
-                ->with('page','support_members')
-                ->with('sub_page','support_members-view')
-                ->with('support_member_followers',$support_member_followers);
-     }
-
-     /**
-     * @method support_member_following()
-     *
-     * @uses This is to display the all followers of specified 
-     *
-     * @created 
+     * @created Akshata
      *
      * @updated
      *
-     * @param object $request - follower Id
+     * @param -
      *
-     * @return view page
+     * @return view page 
      */
-     public function support_member_following(Request $request) {
+    public function support_tickets_index(Request $request) {
 
-        $support_member_followings = \App\Follower::where('support_member_id',$request->support_member_id)->paginate($this->take);
+        $support_tickets = \App\SupportTicket::orderBy('created_at','DESC')->paginate($this->take);
 
-        return view('admin.support_members.following')
-                ->with('page','support_members')
-                ->with('sub_page','support_members-view')
-                ->with('support_member_followings',$support_member_followings);
+
+        return view('admin.support_tickets.index')
+                    ->with('page', 'support_tickets')
+                    ->with('sub_page', 'support_tickets-view')
+                    ->with('support_tickets', $support_tickets);
+    }
+
+    /**
+     * @method support_tickets_view()
+     *
+     * @uses displays the specified support tickets details based on support ticket id
+     *
+     * @created Akshata 
+     *
+     * @updated 
+     *
+     * @param object $request -  Support Ticket Id
+     * 
+     * @return View page
+     *
+     */
+    public function support_tickets_view(Request $request) {
        
-     }
+        try {
+      
+            $support_ticket_details = \App\SupportTicket::find($request->support_ticket_id);
+
+            if(!$support_ticket_details) { 
+
+                throw new Exception(tr('support_ticket_not_found'), 101);                
+            }
+        
+            return view('admin.support_tickets.view')
+                        ->with('page', 'support_tickets') 
+                        ->with('sub_page','support_tickets-view') 
+                        ->with('support_ticket_details' , $support_ticket_details);
+            
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+    /**
+     * @method support_tickets_create()
+     *
+     * @uses To create subscriptions details
+     *
+     * @created  
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function support_tickets_create() {
+
+        $support_ticket_details = new \App\SupportTicket;
+
+        $users = \App\User::orderby('name', 'desc')->Approved()->get();
+
+        foreach ($users as $key => $user_details) {
+
+            $user_details->is_selected = NO;
+        }
+
+        $support_members = \App\SupportMember::Approved()->orderBy('name', 'desc')->get();
+
+        foreach ($support_members as $key => $support_member) {
+            $support_member->is_selected = NO;
+        }
+
+        return view('admin.support_tickets.create')
+                    ->with('page', 'support_ticket')
+                    ->with('sub_page','support_ticket-create')
+                    ->with('support_ticket_details', $support_ticket_details)
+                    ->with('users', $users)
+                    ->with('support_members', $support_members);                    
+
+    }
+
+    /**
+     * @method support_tickets_save()
+     *
+     * @uses To save the support_tickets details of new/existing subscription object based on details
+     *
+     * @created 
+     *
+     * @updated 
+     *
+     * @param object request - Subscrition Form Data
+     *
+     * @return success message
+     *
+     */
+    public function support_tickets_save(Request $request) {
+
+        try {
+
+            DB::begintransaction();
+
+            $rules = [
+                'user_id' => 'required',
+                'subject'  => 'required|max:255',
+                'message' => 'max:255',
+                
+
+            ];
+
+            Helper::custom_validator($request->all(),$rules);
+
+
+            $support_ticket_details = \App\SupportTicket::find($request->support_ticket_id) ?? new \App\SupportTicket;
+
+            $support_ticket_details->status = APPROVED;
+            
+            $support_ticket_details->user_id = $request->user_id;
+
+            $support_ticket_details->support_member_id = $request->support_member_id;
+
+            $support_ticket_details->subject = $request->subject ?: "";
+
+            $support_ticket_details->message = $request->message ?: "";
+
+            
+
+            if( $support_ticket_details->save() ) {
+
+                DB::commit();
+
+                $message = $request->support_ticket_id ? tr('support_ticket_details_update_success')  : tr('support_ticket_create_success');
+
+                return redirect()->route('admin.support_tickets.view', ['support_ticket_id' => $support_ticket_details->id])->with('flash_success', $message);
+            } 
+
+            throw new Exception(tr('support_ticket_saved_error') , 101);
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->back()->withInput()->with('flash_error', $e->getMessage());
+        } 
+
+    }
+
+    /**
+     * @method support_tickets_edit()
+     *
+     * @support_ticket To display and update support_tickets details based on the support_ticket id
+     *
+     * @created 
+     *
+     * @updated 
+     *
+     * @param object $request - Support_ticket Id
+     * 
+     * @return redirect view page 
+     *
+     */
+    public function support_tickets_edit(Request $request) {
+
+        try {
+
+            $support_ticket_details = \App\SupportTicket::find($request->support_ticket_id);
+
+            if(!$support_ticket_details) {
+
+                throw new Exception(tr('support_ticket_not_found'), 101);
+            }
+
+            $users = \App\User::orderby('name', 'desc')->Approved()->get();
+
+            foreach ($users as $key => $user_details) {
+
+                $user_details->is_selected = $user_details->id == $support_ticket_details->user_id ? YES : NO;
+            }
+
+            $support_members = \App\SupportMember::Approved()->orderBy('name', 'desc')->get();
+
+            foreach ($support_members as $key => $support_member) {
+                $support_member->is_selected = $support_member->id == $support_ticket_details->support_member_id ? YES : NO;
+
+            }
+
+            return view('admin.support_tickets.edit')
+                    ->with('page', 'support_tickets')
+                    ->with('sub_page', 'support_ticket-view')
+                    ->with('support_ticket_details', $support_ticket_details)
+                    ->with('users', $users)
+                    ->with('support_members', $support_members);
+            
+        } catch(Exception $e) {
+
+            return redirect()->route('admin.support_tickets.index')->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+    /**
+     * @method support_tickets_delete()
+     *
+     * @uses delete the support_tickets details based on support_ticket id
+     *
+     * @created  
+     *
+     * @updated  
+     *
+     * @param object $request - Support_ticket Id
+     * 
+     * @return response of success/failure details with view page
+     *
+     */
+    public function support_tickets_delete(Request $request) {
+
+        try {
+
+            DB::begintransaction();
+
+            $support_ticket_details = \App\SupportTicket::find($request->support_ticket_id);
+            
+            if(!$support_ticket_details) {
+
+                throw new Exception(tr('support_tickets_not_found'), 101);                
+            }
+
+            if($support_ticket_details->delete()) {
+
+                DB::commit();
+
+                return redirect()->route('admin.support_tickets.index')->with('flash_success',tr('support_ticket_deleted_success'));   
+
+            } 
+            
+            throw new Exception(tr('support_ticket_delete_failed'));
+            
+        } catch(Exception $e){
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }       
+         
+    }
 }

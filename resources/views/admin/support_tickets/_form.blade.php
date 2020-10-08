@@ -41,36 +41,26 @@
 
                                        <label for="users" class="">{{ tr('user') }} <span class="admin-required">*</span></label>
 
-                                        <select class="form-control select2" name="user_id" id="user_id">
+                                        <select class="form-control select2" name="user_id" id="user_id" required>
 
-                                        <option class="select-color" value="{{ $support_ticket_details->user_id ?: '' }}">
-
-                                            
-                                            {{ $support_ticket_details->user_id ? $users_name: 'Select User' }}
-
-                                         
-
-                                        </option>
+                                        <option class="select-color" value="">{{'Select User'}}</option>
                                         
-                                        @foreach($users as $users)
-                                        <option class="select-color" value="{{$users->id}}">{{$users->name}}</option>     
+                                        @foreach($users as $user)
+                                        <option class="select-color" selected="{{$user->is_selected ? true : false}}" value="{{$user->id}}">{{$user->name}}</option>     
                                         @endforeach
                                         </select>
                                         
                                     </div>
                                     <div class="form-group col-md-6">
 
-                                        <label for="subject" class="">{{ tr('support_member') }} <span class="admin-required">*</span></label>
+                                        <label for="subject" class="">{{tr('support_member')}}</label>
 
                                         <select class="form-control select2" name="support_member_id" id="support_member_id">
 
-                                        <option class="select-color" value="{{ $support_ticket_details->support_member_id ?: '' }}">
-                                            
-                                            {{ $support_ticket_details->support_member_id ? $support_members_name : 'Select Support Member' }}
-                                        </option>
+                                        <option class="select-color" value="{{ $support_ticket_details->support_member_id ?: '' }}">Select Support Member</option>
                                        
-                                        @foreach($support_members as $support_members)
-                                        <option class="select-color" value="{{$support_members->id}}">{{$support_members->name}}</option>     
+                                        @foreach($support_members as $support_member)
+                                        <option class="select-color" value="{{$support_member->id}}" selected="{{$support_member->is_selected ? true : false}}">{{$support_member->name}}</option>     
                                         @endforeach
                                         </select>
                                        

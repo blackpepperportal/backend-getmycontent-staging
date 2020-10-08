@@ -14,7 +14,7 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $appends = ['user_id','is_notification'];
+    protected $appends = ['user_id', 'is_notification'];
 
     public function getUserIdAttribute() {
 
