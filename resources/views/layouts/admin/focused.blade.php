@@ -38,6 +38,8 @@
 
     <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/css/pages/login-register.min.css')}}">
 
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
+
 </head>
 
 <body class="vertical-layout vertical-menu 1-column bg-full-screen-image menu-expanded blank-page blank-page" data-open="click" data-menu="vertical-menu" data-col="1-column">

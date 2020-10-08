@@ -38,7 +38,7 @@
 
                         @include('admin.user_withdrawals._search')
 
-                        <table class="table table-striped table-bordered sourced-data">
+                        <table class="table table-striped table-bordered sourced-data" id="myTable">
 
                             <thead>
                                 <tr>

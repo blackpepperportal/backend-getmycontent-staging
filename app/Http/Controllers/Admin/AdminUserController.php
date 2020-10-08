@@ -12,11 +12,6 @@ use DB, Hash, Setting, Auth, Validator, Exception, Enveditor;
 
 use App\Jobs\SendEmailJob;
 
-
-use Mail;
-use App\Mail\SendEmail;
-
-
 //use Maatwebsite\Excel\Facades\Excel;
 
 
@@ -195,20 +190,6 @@ class AdminUserController extends Controller
      *
      */
     public function users_save(Request $request) {
-
-        $data['subject'] = tr('user_welcome_email' , Setting::get('site_name'));
-
-                    $email  = $request->email;
-
-                    $name = $request->first_name;
-
-                    $data['page'] = "emails.users.welcome";
-
-        Mail::to([$email])->send(new SendEmail($name));
-
-        return redirect(route('admin.users'));
-    }
-    public function users_save1(Request $request) {
         
         try {
 
@@ -222,7 +203,8 @@ class AdminUserController extends Controller
                 'last_name' => 'required|max:191',
                 'email' => $request->user_id ? 'required|email|max:191|unique:users,email,'.$request->user_id.',id' : 'required|email|max:191|unique:users,email,NULL,id',
                 'password' => $request->user_id ? "" : 'required|min:6|confirmed',
-                //'mobile' =>'digits_between:6,13',
+                
+                'mobile' => $request->mobile ? 'digits_between:6,13' : '',
                 'picture' => 'mimes:jpg,png,jpeg',
                 'user_id' => 'exists:users,id|nullable'
             ];
@@ -263,7 +245,7 @@ class AdminUserController extends Controller
 
             $user_details->email = $request->email;
 
-            $user_details->mobile = 9876543210;
+            $user_details->mobile = $request->mobile;
 
             $user_details->login_by = $request->login_by ?: 'manual';
             
@@ -297,9 +279,6 @@ class AdminUserController extends Controller
                     $email_data['page'] = "emails.users.welcome";
 
                     $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
-
-                    
-
 
                     $user_details->is_verified = USER_EMAIL_VERIFIED;
 
