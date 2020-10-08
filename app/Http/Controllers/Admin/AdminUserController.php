@@ -239,7 +239,7 @@ class AdminUserController extends Controller
 
             }
 
-            $user_details->name = $request->first_name;
+            
             $user_details->first_name = $request->first_name;
             $user_details->last_name = $request->last_name;
 

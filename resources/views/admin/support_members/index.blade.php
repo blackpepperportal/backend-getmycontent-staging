@@ -96,7 +96,7 @@
                         </form>
                         <br>
 
-                        <table class="table table-striped table-bordered sourced-data" id="myTable">
+                        <table class="table table-striped table-bordered sourced-data">
 
                             <thead>
                                 <tr>

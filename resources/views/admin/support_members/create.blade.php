@@ -1,4 +1,4 @@
-@extends('layouts.admin')	support_member
+@extends('layouts.admin')
 
 @section('title', tr('support_member'))
 

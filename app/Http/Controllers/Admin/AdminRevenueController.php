@@ -911,7 +911,7 @@ class AdminRevenueController extends Controller
     public function support_tickets_create() {
 
         $support_ticket_details = new \App\SupportTicket;
-        $users_details = \App\User::orderBy('id', 'DESC')->get();
+        $users = \App\User::orderBy('id', 'DESC')->get();
         $support_members = \App\SupportMember::orderBy('id', 'DESC')->get();
         
         //$support_ticket_details = \App\SupportTicket::find($request->support_ticket_id);
@@ -923,7 +923,7 @@ class AdminRevenueController extends Controller
                     ->with('page', 'support_ticket')
                     ->with('sub_page','support_ticket-create')
                     ->with('support_ticket_details', $support_ticket_details)
-                    ->with('users_details', $users_details)
+                    ->with('users', $users)
                     ->with('support_members', $support_members);
                     //->with(compact('support_ticket_details','users_details'));
                     

@@ -39,7 +39,7 @@
 
                                     <div class="form-group col-md-6">
 
-                                       <label for="users_details" class="">{{ tr('user') }} <span class="admin-required">*</span></label>
+                                       <label for="users" class="">{{ tr('user') }} <span class="admin-required">*</span></label>
 
                                         <select class="form-control select2" name="user_id" id="user_id">
 
@@ -52,8 +52,8 @@
 
                                         </option>
                                         
-                                        @foreach($users_details as $users_details)
-                                        <option class="select-color" value="{{$users_details->id}}">{{$users_details->name}}</option>     
+                                        @foreach($users as $users)
+                                        <option class="select-color" value="{{$users->id}}">{{$users->name}}</option>     
                                         @endforeach
                                         </select>
                                         

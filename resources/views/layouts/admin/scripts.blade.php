@@ -28,10 +28,3 @@
   type="text/javascript"></script>
 
 <script src="{{asset('admin-assets/js/scripts/forms/checkbox-radio.min.js')}}" type="text/javascript"></script>
-
-<script src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js" type="text/javascript"></script>
-<script type="text/javascript">
-				$(document).ready( function () {
-				    $('#myTable').DataTable();
-				} );
-</script>

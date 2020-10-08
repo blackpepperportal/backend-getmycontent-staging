@@ -338,19 +338,7 @@ Route::get('support_members/verify', 'Admin\AdminSupportMemberController@support
 
          Route::get('users_followings' , 'Admin\AdminContentCreatorController@users_followings')->name('users.following');
 
-
-/********************************************************************** */
-         Route::get('send-mail', function () {
-
-    $details = [
-        'title' => 'Mail from ItSolutionStuff.com',
-        'body' => 'This is for testing email using smtp'
-    ];
-
-    \Mail::to('vasanthramk@gmail.com')->send(new \App\Mail\MyTestMail($details));
-
-    dd("Email is Sent.");
-});
+   
  
          //following
     });
