@@ -173,7 +173,7 @@
 
                             <div class="col-3">
 
-                                <a class="btn btn-outline-secondary btn-block btn-min-width mr-1 mb-1 " href="{{route('admin.content_creators.edit', ['user_id'=>$content_creator_details->id] )}}"> &nbsp;{{tr('edit')}}</a>
+                                <a class="btn btn-outline-secondary btn-block btn-min-width mr-1 mb-1 " href="{{route('admin.content_creators.edit', ['user_id' => $content_creator_details->id] )}}"> &nbsp;{{tr('edit')}}</a>
 
                             </div>
 

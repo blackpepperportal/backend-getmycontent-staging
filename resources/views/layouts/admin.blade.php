@@ -82,6 +82,9 @@
                     <div class="row breadcrumbs-top pull-right">
                         <div class="breadcrumb-wrapper col-12">
                             <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="{{route('admin.dashboard')}}">{{tr('home')}}</a>
+                                </li>
                                 @yield('breadcrumb')
                             </ol>
                         </div>

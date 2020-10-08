@@ -4,13 +4,21 @@
 
 @section('breadcrumb')
 
-<li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
+@if($user->is_content_creator)
+
+<li class="breadcrumb-item active">
+    <a href="{{route('admin.content_creators.index')}}">{{ tr('content_creators') }}</a>
 </li>
 
-<li class="breadcrumb-item active"><a href="{{route('admin.content_creators.index')}}">{{ tr('content_creators') }}</a>
+@else
+
+<li class="breadcrumb-item active">
+    <a href="{{route('admin.users.index')}}">{{ tr('users') }}</a>
 </li>
 
-<li class="breadcrumb-item">{{tr('content_creator_followings')}}</li>
+@endif
+
+<li class="breadcrumb-item">{{tr('followers')}}</li>
 
 @endsection 
 
@@ -26,8 +34,13 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('content_creator_followings') }}</h4>
-                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                    <h4 class="card-title">
+                        {{ tr('followings') }} - 
+                        <a href="{{route('admin.users.view',['user_id' => $user->id])}}">{{$user->name ?? "-"}}</a> 
+                    </h4>
+                    <a class="heading-elements-toggle">
+                        <i class="fa fa-ellipsis-v font-medium-3"></i>
+                    </a>
                     
                 </div>
 
@@ -49,32 +62,32 @@
                            
                             <tbody>
 
-                                @foreach($users_followings as $i => $user_following_details)
+                                @foreach($followings as $i => $following)
 
                                 <tr>
-                                    <td>{{ $i+$users_followings->firstItem() }}</td>
+                                    <td>{{ $i+$followings->firstItem() }}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.users.view' , ['content_creator_id' => $user_following_details->user_id] )  }}">
-                                        {{ $user_following_details->userDetails->name ?? "-" }}
+                                        <a href="{{  route('admin.users.view' , ['content_creator_id' => $following->user_id] )  }}">
+                                        {{ $following->userDetails->name ?? "-" }}
                                         </a>
                                     </td>
 
                                     <td>
-                                        <a href="{{  route('admin.users.view' , ['content_creator_id' => $user_following_details->follower_id] )  }}">
-                                        {{ $user_following_details->followerDetails->name ?? "-"}}
+                                        <a href="{{  route('admin.users.view' , ['content_creator_id' => $following->follower_id] )  }}">
+                                        {{ $following->followerDetails->name ?? "-"}}
                                         </a>
                                     </td>
 
                                     <td>
-                                        @if($user_following_details->status == APPROVED)
+                                        @if($following->status == APPROVED)
 
                                         <span class="btn btn-success btn-sm">{{ tr('approved') }}</span> @else
 
                                         <span class="btn btn-warning btn-sm">{{ tr('declined') }}</span> @endif
                                     </td>
 
-                                    <td>{{common_date($user_following_details->updated_at , Auth::guard('admin')->user()->timezone)}}</td>
+                                    <td>{{common_date($following->updated_at , Auth::guard('admin')->user()->timezone)}}</td>
 
                                 </tr>
 
@@ -84,7 +97,7 @@
                         
                         </table>
 
-                        <div class="pull-right" id="paglink">{{ $users_followings->appends(request()->input())->links() }}
+                        <div class="pull-right" id="paglink">{{ $followings->appends(request()->input())->links() }}
                         </div>
 
                     </div>

@@ -6,15 +6,14 @@
 
 @section('breadcrumb')
 
-<li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
+<li class="breadcrumb-item active">
+    <a href="">{{ tr('orders') }}</a>
 </li>
-<li class="breadcrumb-item active"><a href="">{{ tr('orders') }}</a>
+
+<li class="breadcrumb-item">
+    {{Request::get('new_orders') ? tr('new_orders') : tr('view_orders')}}
 </li>
-@if(Request::get('new_orders'))
-<li class="breadcrumb-item">{{tr('new_orders')}}</li>
-@else
-<li class="breadcrumb-item">{{tr('view_orders')}}</li>
-@endif
+
 @endsection 
 
 @section('content')

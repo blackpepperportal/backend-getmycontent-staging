@@ -45,7 +45,7 @@ class AdminContentCreatorController extends Controller
      */
     public function content_creators_index(Request $request) {
 
-        $base_query = \App\User::orderBy('created_at','DESC');
+        $base_query = \App\User::where('users.is_content_creator', YES)->orderBy('created_at','DESC');
 
         if($request->status) {
 
@@ -311,14 +311,14 @@ class AdminContentCreatorController extends Controller
 
             DB::begintransaction();
 
-            $stardom_details = \App\User::find($request->user_id);
+            $user_details = \App\User::find($request->user_id);
             
-            if(!$stardom_details) {
+            if(!$user_details) {
 
                 throw new Exception(tr('content_creator_not_found'), 101);                
             }
 
-            if($stardom_details->delete()) {
+            if($user_details->delete()) {
 
                 DB::commit();
 
@@ -665,13 +665,15 @@ class AdminContentCreatorController extends Controller
      */
     public function users_followers(Request $request) {
 
-        $users_followers = \App\Follower::where('follower_id',$request->follower_id)->paginate($this->take);
+        $followers = \App\Follower::where('follower_id', $request->follower_id)->paginate($this->take);
+
+        $user = \App\User::find($request->user_id);
         
         return view('admin.content_creators.followers')
                 ->with('page','content_creators')
                 ->with('sub_page','content_creators-view')
-                ->with('users_followers',$users_followers);
-    
+                ->with('followers', $followers)
+                ->with('user', $user);    
     }
 
     /**
@@ -689,12 +691,15 @@ class AdminContentCreatorController extends Controller
      */
     public function users_followings(Request $request) {
 
-        $users_followings = \App\Follower::where('user_id',$request->user_id)->paginate($this->take);
+        $followings = \App\Follower::where('user_id',$request->user_id)->paginate($this->take);
         
+        $user = \App\User::find($request->user_id);
+
         return view('admin.content_creators.followings')
-                ->with('page','content_creators')
-                ->with('sub_page','content_creators-view')
-                ->with('users_followings',$users_followings);
+                ->with('page', 'content_creators')
+                ->with('sub_page', 'content_creators-view')
+                ->with('followings', $followings)
+                ->with('user', $user);
        
     }
 

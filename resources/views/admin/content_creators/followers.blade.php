@@ -4,13 +4,21 @@
 
 @section('breadcrumb')
 
-<li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
+@if($user->is_content_creator)
+
+<li class="breadcrumb-item active">
+    <a href="{{route('admin.content_creators.index')}}">{{ tr('content_creators') }}</a>
 </li>
 
-<li class="breadcrumb-item active"><a href="{{route('admin.content_creators.index')}}">{{ tr('users') }}</a>
+@else
+
+<li class="breadcrumb-item active">
+    <a href="{{route('admin.users.index')}}">{{ tr('users') }}</a>
 </li>
 
-<li class="breadcrumb-item">{{tr('content_creator_followers')}}</li>
+@endif
+
+<li class="breadcrumb-item">{{tr('followers')}}</li>
 
 @endsection 
 
@@ -26,8 +34,13 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('content_creator_followers') }}</h4>
-                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                    <h4 class="card-title">
+                        {{ tr('followers') }} - 
+                        <a href="{{route('admin.users.view',['user_id' => $user->id])}}">{{$user->name ?? "-"}}</a> 
+                    </h4>
+                    <a class="heading-elements-toggle">
+                        <i class="fa fa-ellipsis-v font-medium-3"></i>
+                    </a>
                     
                 </div>
 
@@ -49,32 +62,34 @@
                            
                             <tbody>
 
-                                @foreach($users_followers as $i => $users_follower_details)
+                                @foreach($followers as $i => $follwer)
 
                                 <tr>
-                                    <td>{{ $i+$users_followers->firstItem() }}</td>
+                                    <td>{{ $i+$followers->firstItem() }}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.users.view' , ['user_id' => $users_follower_details->follower_id] )  }}">
-                                        {{ $users_follower_details->followerDetails->name ?? "-"}}
+                                        <a href="{{  route('admin.users.view' , ['user_id' => $follwer->follower_id] )  }}">
+                                        {{ $follwer->followerDetails->name ?? "-"}}
                                         </a>
                                     </td>
 
                                     <td>
-                                        <a href="{{  route('admin.users.view' , ['user_id' => $users_follower_details->user_id] )  }}">
-                                        {{ $users_follower_details->userDetails->name ?? "-" }}
+                                        <a href="{{  route('admin.users.view' , ['user_id' => $follwer->user_id] )  }}">
+                                        {{ $follwer->userDetails->name ?? "-" }}
                                         </a>
                                     </td>
 
                                     <td>
-                                        @if($users_follower_details->status == APPROVED)
+                                        @if($follwer->status == APPROVED)
 
-                                        <span class="btn btn-success btn-sm">{{ tr('approved') }}</span> @else
+                                         <span class="btn btn-success btn-sm">{{ tr('approved') }}</span> 
+                                        @else
 
-                                        <span class="btn btn-warning btn-sm">{{ tr('declined') }}</span> @endif
+                                            <span class="btn btn-warning btn-sm">{{ tr('declined') }}</span> 
+                                        @endif
                                     </td>
 
-                                    <td>{{common_date($users_follower_details->updated_at , Auth::guard('admin')->user()->timezone)}}</td>
+                                    <td>{{common_date($follwer->updated_at , Auth::guard('admin')->user()->timezone)}}</td>
 
                                 </tr>
 
@@ -84,7 +99,7 @@
                         
                         </table>
 
-                        <div class="pull-right" id="paglink">{{ $users_followers->appends(request()->input())->links() }}
+                        <div class="pull-right" id="paglink">{{ $followers->appends(request()->input())->links() }}
                         </div>
 
                     </div>

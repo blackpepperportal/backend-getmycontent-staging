@@ -6,10 +6,8 @@
 
 @section('breadcrumb')
 
-<li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
-</li>
-
-<li class="breadcrumb-item active"><a href="{{route('admin.content_creators.index')}}">{{ tr('content_creators') }}</a>
+<li class="breadcrumb-item active">
+    <a href="{{route('admin.content_creators.index')}}">{{ tr('content_creators') }}</a>
 </li>
 
 <li class="breadcrumb-item">{{ tr('view_content_creators') }}</li>
@@ -63,7 +61,7 @@
                                     <td>{{ $i+$content_creators->firstItem() }}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.content_creators.view' , ['content_creator_id' => $content_creator_details->id] )  }}">
+                                        <a href="{{  route('admin.content_creators.view' , ['user_id' => $content_creator_details->id] )  }}">
                                             {{ $content_creator_details->name }}
                                         </a>
                                     </td>
@@ -84,7 +82,7 @@
                                     <td>
                                         @if($content_creator_details->is_verified == CONTENT_CREATOR_EMAIL_NOT_VERIFIED)
 
-                                        <a class="btn btn-outline-danger btn-sm" href="{{ route('admin.content_creators.verify' , ['content_creator_id' => $content_creator_details->id]) }}">
+                                        <a class="btn btn-outline-danger btn-sm" href="{{ route('admin.content_creators.verify' , ['user_id' => $content_creator_details->id]) }}">
                                             <i class="icon-close"></i> {{ tr('verify') }}
                                         </a>
 
@@ -101,7 +99,7 @@
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                <a class="dropdown-item" href="{{ route('admin.content_creators.view', ['content_creator_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('view') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.content_creators.view', ['user_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('view') }}</a>
 
                                                 @if(Setting::get('is_demo_control_enabled') == YES)
 
@@ -111,20 +109,20 @@
 
                                                 @else
 
-                                                <a class="dropdown-item" href="{{ route('admin.content_creators.edit', ['content_creator_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('edit') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.content_creators.edit', ['user_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('edit') }}</a>
 
-                                                <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('content_creator_delete_confirmation' , $content_creator_details->name) }}&quot;);" href="{{ route('admin.content_creators.delete', ['content_creator_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('content_creator_delete_confirmation' , $content_creator_details->name) }}&quot;);" href="{{ route('admin.content_creators.delete', ['user_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 
                                                 @if($content_creator_details->status == APPROVED)
 
-                                                <a class="dropdown-item" href="{{  route('admin.content_creators.status' , ['content_creator_id' => $content_creator_details->id] )  }}" onclick="return confirm(&quot;{{ $content_creator_details->name }} - {{ tr('content_creator_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
+                                                <a class="dropdown-item" href="{{  route('admin.content_creators.status' , ['user_id' => $content_creator_details->id] )  }}" onclick="return confirm(&quot;{{ $content_creator_details->name }} - {{ tr('content_creator_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
                                                 </a>
 
                                                 @else
 
-                                                <a class="dropdown-item" href="{{ route('admin.content_creators.status' , ['content_creator_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('approve') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.content_creators.status' , ['user_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('approve') }}</a>
 
                                                 @endif
                                                 <hr>
@@ -132,13 +130,13 @@
 
                                                 <a class="dropdown-item" href="{{ route('admin.users.followers',['follower_id' => $content_creator_details->id]) }}">&nbsp;{{ tr('followers') }}</a>
 
-                                                <a class="dropdown-item" href="{{ route('admin.users.following',['user_id' => $content_creator_details->id]) }}">&nbsp;{{ tr('followings') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.users.followings',['user_id' => $content_creator_details->id]) }}">&nbsp;{{ tr('followings') }}</a>
 
-                                                <a class="dropdown-item" href="{{ route('admin.posts.index', ['content_creator_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('posts') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.posts.index', ['user_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('posts') }}</a>
 
-                                                <a class="dropdown-item" href="{{ route('admin.user_products.index', ['content_creator_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('products') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.user_products.index', ['user_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('products') }}</a>
 
-                                                <a class="dropdown-item" href="{{ route('admin.user_wallets.view', ['content_creator_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('wallets') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.user_wallets.view', ['user_id' => $content_creator_details->id] ) }}">&nbsp;{{ tr('wallets') }}</a>
 
                                             </div>
 

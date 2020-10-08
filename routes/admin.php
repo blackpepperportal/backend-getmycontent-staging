@@ -30,7 +30,7 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::post('change/password', 'Admin\AdminAccountController@change_password')->name('change.password');
 
-        Route::get('/', 'Admin\AdminRevenueController@main_dashboard')->name('dashboard');
+        Route::get('', 'Admin\AdminRevenueController@main_dashboard')->name('dashboard');
         
         // Users CRUD Operations
 
@@ -51,17 +51,6 @@ Route::group(['middleware' => 'web'], function() {
         Route::get('users/verify', 'Admin\AdminUserController@users_verify_status')->name('users.verify');
 
         Route::get('users/excel','Admin\AdminUserController@users_excel')->name('users.excel');
-        
-
-Route::get('support_members/index', 'Admin\AdminSupportMemberController@support_members_index')->name('support_members.index');  
-Route::get('support_members/create', 'Admin\AdminSupportMemberController@support_members_create')->name('support_members.create');
-Route::get('support_members/view', 'Admin\AdminSupportMemberController@support_members_view')->name('support_members.view');
-Route::post('support_members/save', 'Admin\AdminSupportMemberController@support_members_save')->name('support_members.save');
-Route::get('support_members/edit', 'Admin\AdminSupportMemberController@support_members_edit')->name('support_members.edit');
-Route::get('support_members/delete', 'Admin\AdminSupportMemberController@support_members_delete')->name('support_members.delete');
-Route::get('support_members/status', 'Admin\AdminSupportMemberController@support_members_status')->name('support_members.status');
-Route::get('support_members/verify', 'Admin\AdminSupportMemberController@support_members__verify_status')->name('support_members.verify');
-     
 
 
         //users CRUD Operations
@@ -130,65 +119,65 @@ Route::get('support_members/verify', 'Admin\AdminSupportMemberController@support
 
         //posts start
 
-        Route::get('/posts' , 'Admin\AdminPostController@posts_index')->name('posts.index');
+        Route::get('posts' , 'Admin\AdminPostController@posts_index')->name('posts.index');
 
-        Route::get('/posts/delete', 'Admin\AdminPostController@posts_delete')->name('posts.delete');
+        Route::get('posts/delete', 'Admin\AdminPostController@posts_delete')->name('posts.delete');
 
-        Route::get('/posts/view', 'Admin\AdminPostController@posts_view')->name('posts.view');
+        Route::get('posts/view', 'Admin\AdminPostController@posts_view')->name('posts.view');
 
-        Route::get('/posts/status', 'Admin\AdminPostController@posts_status')->name('posts.status');
+        Route::get('posts/status', 'Admin\AdminPostController@posts_status')->name('posts.status');
 
-        Route::get('/post/payments','Admin\AdminRevenueController@post_payments')->name('post.payments');
+        Route::get('post/payments','Admin\AdminRevenueController@post_payments')->name('post.payments');
 
-        Route::get('/post/payments/view','Admin\AdminRevenueController@post_payments_view')->name('post.payments.view');
+        Route::get('post/payments/view','Admin\AdminRevenueController@post_payments_view')->name('post.payments.view');
 
         //posts end
 
         //posts albums start
 
-        Route::get('/post_albums' , 'Admin\AdminPostController@post_albums_index')->name('post_albums.index');
+        Route::get('post_albums' , 'Admin\AdminPostController@post_albums_index')->name('post_albums.index');
 
-        Route::get('/post_albums/delete', 'Admin\AdminPostController@post_albums_delete')->name('post_albums.delete');
+        Route::get('post_albums/delete', 'Admin\AdminPostController@post_albums_delete')->name('post_albums.delete');
 
-        Route::get('/post_albums/view', 'Admin\AdminPostController@post_albums_view')->name('post_albums.view');
+        Route::get('post_albums/view', 'Admin\AdminPostController@post_albums_view')->name('post_albums.view');
 
-        Route::get('/post_albums/status', 'Admin\AdminPostController@post_albums_status')->name('post_albums.status');
+        Route::get('post_albums/status', 'Admin\AdminPostController@post_albums_status')->name('post_albums.status');
 
         //posts albums end
 
         //orders start
 
-        Route::get('/orders' , 'Admin\AdminPostController@orders_index')->name('orders.index');
+        Route::get('orders' , 'Admin\AdminPostController@orders_index')->name('orders.index');
 
-        Route::get('/orders/view', 'Admin\AdminPostController@orders_view')->name('orders.view');
+        Route::get('orders/view', 'Admin\AdminPostController@orders_view')->name('orders.view');
 
-        Route::get('/order/payments','Admin\AdminRevenueController@order_payments')->name('order.payments');
+        Route::get('order/payments','Admin\AdminRevenueController@order_payments')->name('order.payments');
 
-        Route::get('/order/payments/view','Admin\AdminRevenueController@order_payments_view')->name('order.payments.view');
+        Route::get('order/payments/view','Admin\AdminRevenueController@order_payments_view')->name('order.payments.view');
 
         //orders end
 
         //delivery address routes start
 
-        Route::get('/delivery_address' , 'Admin\AdminPostController@delivery_address_index')->name('delivery_address.index');
+        Route::get('delivery_address' , 'Admin\AdminPostController@delivery_address_index')->name('delivery_address.index');
 
-        Route::get('/delivery_address/delete', 'Admin\AdminPostController@delivery_address_delete')->name('delivery_address.delete');
+        Route::get('delivery_address/delete', 'Admin\AdminPostController@delivery_address_delete')->name('delivery_address.delete');
 
-        Route::get('/delivery_address/view', 'Admin\AdminPostController@delivery_address_view')->name('delivery_address.view');
+        Route::get('delivery_address/view', 'Admin\AdminPostController@delivery_address_view')->name('delivery_address.view');
 
         //delivery address routes end
         
         //user wallet route start
 
-        Route::get('/user_wallets' , 'Admin\AdminContentCreatorController@user_wallets_index')->name('user_wallets.index');
+        Route::get('user_wallets' , 'Admin\AdminContentCreatorController@user_wallets_index')->name('user_wallets.index');
 
-        Route::get('/user_wallets/view', 'Admin\AdminContentCreatorController@user_wallets_view')->name('user_wallets.view');
+        Route::get('user_wallets/view', 'Admin\AdminContentCreatorController@user_wallets_view')->name('user_wallets.view');
 
         //user wallet route end
 
         //revenue dashboard start
 
-        Route::get('/revenues/dashboard','Admin\AdminRevenueController@revenues_dashboard')->name('revenues.dashboard');
+        Route::get('revenues/dashboard','Admin\AdminRevenueController@revenues_dashboard')->name('revenues.dashboard');
 
         //revenue dashboard end
 
@@ -207,6 +196,10 @@ Route::get('support_members/verify', 'Admin\AdminSupportMemberController@support
         Route::get('subscriptions/delete', 'Admin\AdminRevenueController@subscriptions_delete')->name('subscriptions.delete');
 
         Route::get('subscriptions/status', 'Admin\AdminRevenueController@subscriptions_status')->name('subscriptions.status');
+
+        Route::get('subscriptions_payments/index','Admin\AdminRevenueController@subscription_payments_index')->name('subscription_payments.index');
+
+        Route::get('subscriptions_payments/view','Admin\AdminRevenueController@subscription_payments_view')->name('subscription_payments.view');
         //subscriptions end
 
         //categories start
@@ -257,19 +250,11 @@ Route::get('support_members/verify', 'Admin\AdminSupportMemberController@support
 
         //inventory route start
 
-        Route::get('/product_inventories/index' , 'Admin\AdminRevenueController@product_inventories_index')->name('product_inventories.index');
+        Route::get('product_inventories/index' , 'Admin\AdminRevenueController@product_inventories_index')->name('product_inventories.index');
 
-        Route::get('/product_inventories/view', 'Admin\AdminUserController@product_inventories_view')->name('product_inventories.view');
+        Route::get('product_inventories/view', 'Admin\AdminUserController@product_inventories_view')->name('product_inventories.view');
 
         //inventory route end
-
-        //followers
-        Route::get('user_followers' , 'Admin\AdminUserController@user_followers')->name('followers');
-
-        Route::get('user_following' , 'Admin\AdminUserController@user_following')->name('following');
-
-        //following
-
 
         //faq CRUD
         Route::get('faqs', 'Admin\AdminLookupController@faqs_index')->name('faqs.index');
@@ -290,25 +275,25 @@ Route::get('support_members/verify', 'Admin\AdminSupportMemberController@support
 
         // Static pages start
 
-        Route::get('/static_pages' , 'Admin\AdminLookupController@static_pages_index')->name('static_pages.index');
+        Route::get('static_pages' , 'Admin\AdminLookupController@static_pages_index')->name('static_pages.index');
 
-        Route::get('/static_pages/create', 'Admin\AdminLookupController@static_pages_create')->name('static_pages.create');
+        Route::get('static_pages/create', 'Admin\AdminLookupController@static_pages_create')->name('static_pages.create');
 
-        Route::get('/static_pages/edit', 'Admin\AdminLookupController@static_pages_edit')->name('static_pages.edit');
+        Route::get('static_pages/edit', 'Admin\AdminLookupController@static_pages_edit')->name('static_pages.edit');
 
-        Route::post('/static_pages/save', 'Admin\AdminLookupController@static_pages_save')->name('static_pages.save');
+        Route::post('static_pages/save', 'Admin\AdminLookupController@static_pages_save')->name('static_pages.save');
 
-        Route::get('/static_pages/delete', 'Admin\AdminLookupController@static_pages_delete')->name('static_pages.delete');
+        Route::get('static_pages/delete', 'Admin\AdminLookupController@static_pages_delete')->name('static_pages.delete');
 
-        Route::get('/static_pages/view', 'Admin\AdminLookupController@static_pages_view')->name('static_pages.view');
+        Route::get('static_pages/view', 'Admin\AdminLookupController@static_pages_view')->name('static_pages.view');
 
-        Route::get('/static_pages/status', 'Admin\AdminLookupController@static_pages_status_change')->name('static_pages.status');
+        Route::get('static_pages/status', 'Admin\AdminLookupController@static_pages_status_change')->name('static_pages.status');
 
         // Static pages end
 
         // settings
 
-        Route::get('/admin-control', 'Admin\AdminSettingController@admin_control')->name('control');
+        Route::get('admin-control', 'Admin\AdminSettingController@admin_control')->name('control');
 
         Route::get('settings', 'Admin\AdminSettingController@settings')->name('settings'); 
 
@@ -316,30 +301,42 @@ Route::get('support_members/verify', 'Admin\AdminSupportMemberController@support
 
         Route::post('env_settings','Admin\AdminSettingController@env_settings_save')->name('env-settings.save');
 
-        Route::get('/support_tickets/index','Admin\AdminSupportMemberController@support_tickets_index')->name('support_tickets.index');
+        Route::get('support_tickets/index','Admin\AdminSupportMemberController@support_tickets_index')->name('support_tickets.index');
 
-        Route::get('/support_tickets/view','Admin\AdminSupportMemberController@support_tickets_view')->name('support_tickets.view');
+        Route::get('support_tickets/view','Admin\AdminSupportMemberController@support_tickets_view')->name('support_tickets.view');
 
         Route::get('support_tickets/create', 'Admin\AdminSupportMemberController@support_tickets_create')->name('support_tickets.create');
 
         Route::post('support_tickets/save', 'Admin\AdminSupportMemberController@support_tickets_save')->name('support_tickets.save');
         
         Route::get('support_tickets/edit', 'Admin\AdminSupportMemberController@support_tickets_edit')->name('support_tickets.edit');
+
         Route::get('support_tickets/delete', 'Admin\AdminSupportMemberController@support_tickets_delete')->name('support_tickets.delete');
-        
-
-        Route::get('/subscriptions_payments/index','Admin\AdminRevenueController@subscription_payments_index')->name('subscription_payments.index');
-
-        Route::get('/subscriptions_payments/view','Admin\AdminRevenueController@subscription_payments_view')->name('subscription_payments.view');
 
 
-         //followers
-         Route::get('users_followers' , 'Admin\AdminContentCreatorController@users_followers')->name('users.followers');
+        //followers
+         Route::get('followers' , 'Admin\AdminContentCreatorController@users_followers')->name('users.followers');
 
-         Route::get('users_followings' , 'Admin\AdminContentCreatorController@users_followings')->name('users.following');
+        Route::get('followings' , 'Admin\AdminContentCreatorController@users_followings')->name('users.followings');
+
+        // Support Members Operations
+
+        Route::get('support_members/index', 'Admin\AdminSupportMemberController@support_members_index')->name('support_members.index');  
+
+        Route::get('support_members/create', 'Admin\AdminSupportMemberController@support_members_create')->name('support_members.create');
+
+        Route::get('support_members/view', 'Admin\AdminSupportMemberController@support_members_view')->name('support_members.view');
+
+        Route::post('support_members/save', 'Admin\AdminSupportMemberController@support_members_save')->name('support_members.save');
+
+        Route::get('support_members/edit', 'Admin\AdminSupportMemberController@support_members_edit')->name('support_members.edit');
+
+        Route::get('support_members/delete', 'Admin\AdminSupportMemberController@support_members_delete')->name('support_members.delete');
+
+        Route::get('support_members/status', 'Admin\AdminSupportMemberController@support_members_status')->name('support_members.status');
+
+        Route::get('support_members/verify', 'Admin\AdminSupportMemberController@support_members__verify_status')->name('support_members.verify');
 
    
- 
-         //following
-    });
+     });
 });

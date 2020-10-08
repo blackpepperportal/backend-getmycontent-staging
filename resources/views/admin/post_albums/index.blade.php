@@ -6,12 +6,11 @@
 
 @section('breadcrumb')
 
-<li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
+<li class="breadcrumb-item active">
+    <a href="">{{ tr('post_albums') }}</a>
 </li>
-<li class="breadcrumb-item active"><a href="">{{ tr('post_albums') }}</a>
-</li>
-<li class="breadcrumb-item active">{{ tr('view_post_albums') }}</a>
-</li>
+
+<li class="breadcrumb-item active">{{ tr('view_post_albums') }}</li>
 
 @endsection 
 

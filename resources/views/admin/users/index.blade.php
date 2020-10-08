@@ -6,9 +6,6 @@
 
 @section('breadcrumb')
 
-<li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
-</li>
-
 <li class="breadcrumb-item active"><a href="">{{ tr('users') }}</a>
 </li>
 
@@ -30,8 +27,6 @@
 
                     <h4 class="card-title">{{ tr('view_users') }}</h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-
-
 
                     <div class="heading-elements">
                         <a href="{{ route('admin.users.excel',['downloadexcel'=>'excel']) }}" class="btn btn-primary">Export to Excel</a>
@@ -186,14 +181,7 @@
 
                                                 <div class="dropdown-divider"></div>
 
-                                                @if($user_details->is_content_creator)
-
-                                                <a class="dropdown-item" href="{{ route('admin.followers',['follower_id' => $user_details->id]) }}">&nbsp;{{ tr('followers') }}</a>
-
-                                                @else
-
-                                                <a class="dropdown-item" href="{{ route('admin.following',['user_id' => $user_details->id]) }}">&nbsp;{{ tr('followings') }}</a>
-                                                @endif
+                                                <a class="dropdown-item" href="{{ route('admin.users.followings',['user_id' => $user_details->id]) }}">&nbsp;{{ tr('followings') }}</a>
 
                                                 <a class="dropdown-item" href="{{ route('admin.orders.index', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('orders') }}</a>
 

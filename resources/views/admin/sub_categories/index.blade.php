@@ -6,14 +6,11 @@
 
 @section('breadcrumb')
 
-<li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
+<li class="breadcrumb-item">
+    <a href="{{route('admin.sub_categories.index')}}">{{tr('sub_categories')}}</a>
 </li>
 
-<li class="breadcrumb-item"><a href="{{route('admin.sub_categories.index')}}">{{tr('sub_categories')}}</a>
-</li>
-
-<li class="breadcrumb-item active">{{ tr('view_sub_categories') }}
-</li>
+<li class="breadcrumb-item active">{{tr('view_sub_categories')}}</li>
 
 @endsection 
 
