@@ -16,7 +16,7 @@
 
                 <div class="card-header border-0">
                     <div class="card-title text-center">
-                        <img src="{{Setting::get('site_icon')}}" alt="{{Setting::get('site_name')}}" style="width: 90px;height: 90px;border-radius: 1em">
+                        <img src="{{Setting::get('site_logo')}}" alt="{{Setting::get('site_name')}}" style="width: 200px;">
                     </div>
                     
                     <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2">

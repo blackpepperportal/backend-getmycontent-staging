@@ -150,3 +150,7 @@ img {
   text-decoration:none; 
   background:none;
 }
+
+img {
+  object-fit: cover;
+}
