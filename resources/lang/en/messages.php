@@ -872,6 +872,10 @@ return [
 	"user_followers"=>"User Followers",
 	"content_creator_followings"=>"Content Creator Followings",
 	"content_creator_followers"=>"Content Creator Followers",
-	"password_change_success"=>"Successfully Changed the Password!!"
+	"password_change_success"=>"Successfully Changed the Password!!",
+	"user_withdraw_paid_description" => "Your Request for the withdraw amount has been Paid",
+	"user_withdraw_decline_description" => "Your Request for the withdraw amount has been Declined",
+	"wallet_transaction_message" => 'Your Transactions for the amount <%transaction_amount%> has been <%status%>',
+	"best_regards"=>"Best Regards"
 
 ]?>
