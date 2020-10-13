@@ -37,6 +37,8 @@ class SendEmailJob implements ShouldQueue
     public function __construct($email_data)
     {
         $this->email_data = $email_data; 
+
+
     }
 
     /**

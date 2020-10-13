@@ -692,6 +692,18 @@ class AdminRevenueController extends Controller
 
                 DB::commit();
 
+                $email_data['subject'] = Setting::get('site_name');
+
+                $email_data['page'] = "emails.users.withdrawals-approve";
+    
+                $email_data['data'] = $user_withdrawal_details->userDetails;
+    
+                $email_data['email'] = $user_withdrawal_details->userDetails->email ?? '';
+
+                $email_data['message'] = tr('user_withdraw_paid_description');
+
+                dispatch(new SendEmailJob($email_data));
+
                 return redirect()->back()->with('flash_success',tr('payment_success'));
             }
 
@@ -738,6 +750,18 @@ class AdminRevenueController extends Controller
             if($user_withdrawal_details->save()) {
 
                 DB::commit();
+
+                $email_data['subject'] = Setting::get('site_name');
+
+                $email_data['page'] = "emails.users.withdrawals-decline";
+    
+                $email_data['data'] = $user_withdrawal_details->userDetails;
+    
+                $email_data['email'] = $user_withdrawal_details->userDetails->email ?? '';
+
+                $email_data['message'] = tr('user_withdraw_decline_description');
+
+                dispatch(new SendEmailJob($email_data));
 
                 return redirect()->back()->with('flash_success',tr('user_withdrawal_cancelled'));
             }

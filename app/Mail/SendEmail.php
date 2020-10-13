@@ -21,6 +21,7 @@ class SendEmail extends Mailable
     public function __construct($data)
     {
         $this->data = $data;
+
     }
 
     /**
