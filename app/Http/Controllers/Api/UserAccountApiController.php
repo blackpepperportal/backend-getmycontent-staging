@@ -133,6 +133,8 @@ class UserAccountApiController extends Controller
 
             $user->mobile = $request->mobile ?? "";
 
+            $user->is_content_creator = YES;
+
             if($request->has('password')) {
 
                 $user->password = Hash::make($request->password ?: "123456");

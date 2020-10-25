@@ -132,7 +132,7 @@ class User extends Authenticatable
 
         static::creating(function ($model) {
 
-            // $model->attributes['name'] = $model->attributes['first_name']." ".$model->attributes['last_name'];
+            $model->attributes['name'] = $model->attributes['first_name']." ".$model->attributes['last_name'];
 
             $model->attributes['is_email_verified'] = USER_EMAIL_VERIFIED;
 

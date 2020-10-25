@@ -37,7 +37,7 @@ class PostsApiController extends Controller
     }
 
     /**
-     * @method posts_index()
+     * @method posts_for_owner()
      *
      * @uses To display all the posts
      *
@@ -49,7 +49,7 @@ class PostsApiController extends Controller
      *
      * @return JSON Response
      */
-    public function posts_index(Request $request) {
+    public function posts_for_owner(Request $request) {
 
         try {
 
@@ -72,7 +72,7 @@ class PostsApiController extends Controller
     }
 
     /**
-     * @method posts_view()
+     * @method posts_view_for_owner()
      *
      * @uses get the selected post details
      *
@@ -84,7 +84,7 @@ class PostsApiController extends Controller
      *
      * @return JSON Response
      */
-    public function posts_view(Request $request) {
+    public function posts_view_for_owner(Request $request) {
 
         try {
 
@@ -100,6 +100,8 @@ class PostsApiController extends Controller
                 throw new Exception(api_error(139), 139);   
             }
 
+            $post->post_files = \App\PostFile::where('post_id', $request->post_id)->get();
+
             $data['post'] = $post;
 
             return $this->sendResponse($message = "", $success_code = "", $data);
@@ -113,7 +115,7 @@ class PostsApiController extends Controller
     }
 
     /**
-     * @method posts_save()
+     * @method posts_save_for_owner()
      *
      * @uses get the selected post details
      *
@@ -125,7 +127,7 @@ class PostsApiController extends Controller
      *
      * @return JSON Response
      */
-    public function posts_save(Request $request) {
+    public function posts_save_for_owner(Request $request) {
 
         try {
             
@@ -133,9 +135,9 @@ class PostsApiController extends Controller
 
             $rules = [
                 'content' => 'required|max:191',
-                'publish_time' => 'required',
-                'amount' => 'required',
-                'is_paid_post' => 'required',
+                'publish_time' => 'nullable',
+                'amount' => 'nullable|min:0',
+                'files' => 'nullable'
             ];
 
             Helper::custom_validator($request->all(),$rules);
@@ -148,19 +150,33 @@ class PostsApiController extends Controller
 
             $post->content = $request->content ?: $post->content;
 
-            $strtotime_publish_time = strtotime($request->publish_time);
+            $publish_time = $request->publish_time ?: date('Y-m-d H:i:s');
 
-            $post->publish_time = date('Y-m-d H:i:s', $strtotime_publish_time);
+            $post->publish_time = date('Y-m-d H:i:s', strtotime($publish_time));
 
-            $post->amount = $request->amount ?? '';
+            $amount = $request->amount ?: ($post->amount ?? 0);
 
-            $post->is_paid_post = $request->is_paid_post ?? $post->is_paid_post;
+            $post->amount = $amount;
+
+            $post->is_paid_post = $amount > 0 ? YES : NO;
 
             if($post->save()) {
 
+                if($request->post_files) {
+
+                    $files = explode(',', $request->post_files);
+
+                    foreach ($files as $key => $file) {
+
+                        $file_input = ['post_id' => $post->id, 'file' => $file];
+
+                        $post_file = \App\PostFile::create($file_input);
+                    }
+                }
+
                 DB::commit(); 
 
-                $data = Post::find($post->id);
+                $data = $post;
 
                 return $this->sendResponse(api_success($success_code), $success_code, $data);
 
@@ -179,7 +195,7 @@ class PostsApiController extends Controller
     }
 
     /**
-     * @method posts_delete()
+     * @method posts_delete_for_owner()
      *
      * @uses To delete content creators post
      *
@@ -192,7 +208,7 @@ class PostsApiController extends Controller
      * @return response of details
      *
      */
-    public function posts_delete(Request $request) {
+    public function posts_delete_for_owner(Request $request) {
 
         try {
 
@@ -229,7 +245,7 @@ class PostsApiController extends Controller
     }
 
     /**
-     * @method posts_status
+     * @method posts_status_for_owner
      *
      * @uses To update post status
      *
@@ -242,7 +258,7 @@ class PostsApiController extends Controller
      * @return response success/failure message
      *
      **/
-    public function posts_status(Request $request) {
+    public function posts_status_for_owner(Request $request) {
 
         try {
 

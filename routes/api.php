@@ -183,15 +183,13 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('followings', 'Api\FollowersApiController@followings');
 
-        Route::post('posts','Api\PostsApiController@posts_index');
+        Route::post('posts_for_owner','Api\PostsApiController@posts_for_owner');
 
-        Route::post('posts_save','Api\PostsApiController@posts_save');
+        Route::post('posts_save_for_owner','Api\PostsApiController@posts_save_for_owner');
 
-        Route::post('posts_view','Api\PostsApiController@posts_view');
+        Route::post('posts_view_for_owner','Api\PostsApiController@posts_view_for_owner');
 
-        Route::post('posts_delete','Api\PostsApiController@posts_delete');
-
-        Route::post('posts_status','Api\PostsApiController@posts_status');
+        Route::post('posts_delete_for_owner','Api\PostsApiController@posts_delete_for_owner');
 
     });
 
