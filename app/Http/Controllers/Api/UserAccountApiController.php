@@ -1230,7 +1230,7 @@ class UserAccountApiController extends Controller
                 
             $user = User::find($request->id);
 
-            $user->email_notification_status = $request->status;
+            $user->is_email_notification = $request->status;
 
             $user->is_push_notification = $request->status;
 
