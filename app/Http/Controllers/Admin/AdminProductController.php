@@ -491,7 +491,6 @@ class AdminProductController extends Controller
 
     }
 
-
     /**
      * @method categories_index()
      *
@@ -786,8 +785,6 @@ class AdminProductController extends Controller
         }
 
     }
-
-
 
     /**
      * @method sub_categories_index()

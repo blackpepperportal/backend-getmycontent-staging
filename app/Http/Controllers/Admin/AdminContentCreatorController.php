@@ -60,11 +60,11 @@ class AdminContentCreatorController extends Controller
                     break;
 
                 case SORT_BY_EMAIL_VERIFIED:
-                    $base_query = $base_query->where('is_verified',CONTENT_CREATOR_EMAIL_VERIFIED);
+                    $base_query = $base_query->where('is_email_verified',CONTENT_CREATOR_EMAIL_VERIFIED);
                     break;
                 
                 default:
-                    $base_query = $base_query->where('is_verified',CONTENT_CREATOR_EMAIL_NOT_VERIFIED);
+                    $base_query = $base_query->where('is_email_verified',CONTENT_CREATOR_EMAIL_NOT_VERIFIED);
                     break;
             }
         }
@@ -75,7 +75,7 @@ class AdminContentCreatorController extends Controller
 
             $sub_page = 'content_creators-unverified';
 
-            $base_query = $base_query->where('is_verified',CONTENT_CREATOR_EMAIL_NOT_VERIFIED);
+            $base_query = $base_query->where('is_email_verified',CONTENT_CREATOR_EMAIL_NOT_VERIFIED);
         }
 
         if($request->search_key) {
@@ -203,7 +203,7 @@ class AdminContentCreatorController extends Controller
 
                 $content_creator_details->picture = asset('placeholder.jpeg');
 
-                $content_creator_details->is_verified = CONTENT_CREATOR_EMAIL_VERIFIED;
+                $content_creator_details->is_email_verified = CONTENT_CREATOR_EMAIL_VERIFIED;
 
                 $content_creator_details->token = Helper::generate_token();
 
@@ -415,13 +415,13 @@ class AdminContentCreatorController extends Controller
                 
             }
 
-            $content_creator_details->is_verified = $content_creator_details->is_verified ? CONTENT_CREATOR_EMAIL_NOT_VERIFIED : CONTENT_CREATOR_EMAIL_VERIFIED;
+            $content_creator_details->is_email_verified = $content_creator_details->is_email_verified ? CONTENT_CREATOR_EMAIL_NOT_VERIFIED : CONTENT_CREATOR_EMAIL_VERIFIED;
 
             if($content_creator_details->save()) {
 
                 DB::commit();
 
-                $message = $content_creator_details->is_verified ? tr('content_creator_verify_success') : tr('content_creator_unverify_success');
+                $message = $content_creator_details->is_email_verified ? tr('content_creator_verify_success') : tr('content_creator_unverify_success');
 
                 return redirect()->back()->with('flash_success', $message);
             }
@@ -530,7 +530,7 @@ class AdminContentCreatorController extends Controller
                 
             }
 
-            $stardom_document_details->is_verified = $stardom_document_details->is_verified ? STARDOM_DOCUMENT_NOT_VERIFIED : STARDOM_DOCUMENT_VERIFIED;
+            $stardom_document_details->is_email_verified = $stardom_document_details->is_email_verified ? STARDOM_DOCUMENT_NOT_VERIFIED : STARDOM_DOCUMENT_VERIFIED;
 
             if($stardom_document_details->save()) {
 
@@ -546,7 +546,7 @@ class AdminContentCreatorController extends Controller
 
                 $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
-                $message = $stardom_document_details->is_verified ? tr('stardom_document_verify_success') : tr('stardom_document_unverify_success');
+                $message = $stardom_document_details->is_email_verified ? tr('stardom_document_verify_success') : tr('stardom_document_unverify_success');
 
                 return redirect()->route('admin.users.documents.index')->with('flash_success', $message);
             }

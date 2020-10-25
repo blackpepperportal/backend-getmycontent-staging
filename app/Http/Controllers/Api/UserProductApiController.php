@@ -102,23 +102,23 @@ class UserProductApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $user_product_details = \App\UserProduct::find($request->user_product_id) ?? new \App\UserProduct;
+            $user_product = \App\UserProduct::find($request->user_product_id) ?? new \App\UserProduct;
 
-            $success_code = $user_product_details->id ? 122 : 121;
+            $success_code = $user_product->id ? 122 : 121;
 
-            $user_product_details->user_id = $request->id;
+            $user_product->user_id = $request->id;
 
-            $user_product_details->name = $request->name ?: $user_product_details->name;
+            $user_product->name = $request->name ?: $user_product->name;
 
-            $user_product_details->quantity = $request->quantity ?: $user_product_details->quantity;
+            $user_product->quantity = $request->quantity ?: $user_product->quantity;
 
-            $user_product_details->price = $request->price ?: '';
+            $user_product->price = $request->price ?: '';
 
-            $user_product_details->category_id = $request->category_id ?: $user_product_details->category_id;
+            $user_product->category_id = $request->category_id ?: $user_product->category_id;
 
-            $user_product_details->sub_category_id = $request->sub_category_id ?: $user_product_details->sub_category_id;
+            $user_product->sub_category_id = $request->sub_category_id ?: $user_product->sub_category_id;
 
-            $user_product_details->description = $request->description ?: '';
+            $user_product->description = $request->description ?: '';
 
             // Upload picture
             
@@ -126,18 +126,18 @@ class UserProductApiController extends Controller
 
                 if($request->user_product_id) {
 
-                    Helper::storage_delete_file($user_product_details->picture, COMMON_FILE_PATH); 
+                    Helper::storage_delete_file($user_product->picture, COMMON_FILE_PATH); 
                     // Delete the old pic
                 }
 
-                $user_product_details->picture = Helper::storage_upload_file($request->file('picture'), COMMON_FILE_PATH);
+                $user_product->picture = Helper::storage_upload_file($request->file('picture'), COMMON_FILE_PATH);
             }
 
-            if($user_product_details->save()) {
+            if($user_product->save()) {
 
                 DB::commit(); 
 
-                $data = \App\UserProduct::find($user_product_details->id);
+                $data = \App\UserProduct::find($user_product->id);
 
                 return $this->sendResponse(api_success($success_code), $success_code, $data);
 
@@ -179,14 +179,14 @@ class UserProductApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $user_product_details = \App\UserProduct::find($request->user_product_id);
+            $user_product = \App\UserProduct::find($request->user_product_id);
 
-            if(!$user_product_details) { 
+            if(!$user_product) { 
 
                 throw new Exception(api_error(133), 133);                
             }
 
-            $data['user_product_details'] = $user_product_details;
+            $data['user_product'] = $user_product;
 
             return $this->sendResponse($message = "", $success_code = "", $data);
             
@@ -223,14 +223,14 @@ class UserProductApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules,$custom_errors = []);
 
-            $user_product_details = \App\UserProduct::find($request->user_product_id);
+            $user_product = \App\UserProduct::find($request->user_product_id);
 
-            if(!$user_product_details) { 
+            if(!$user_product) { 
 
                 throw new Exception(api_error(133), 133);                
             }
 
-            $user_product_details = \App\UserProduct::destroy($request->user_product_id);
+            $user_product = \App\UserProduct::destroy($request->user_product_id);
 
             DB::commit();
 
@@ -274,22 +274,22 @@ class UserProductApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $user_product_details = \App\UserProduct::find($request->user_product_id);
+            $user_product = \App\UserProduct::find($request->user_product_id);
 
-            if(!$user_product_details) { 
+            if(!$user_product) { 
 
                 throw new Exception(api_error(133), 133);                
             }
 
-            $user_product_details->is_outofstock = $user_product_details->is_outofstock ? PRODUCT_NOT_AVAILABLE : PRODUCT_AVAILABLE;
+            $user_product->is_outofstock = $user_product->is_outofstock ? PRODUCT_NOT_AVAILABLE : PRODUCT_AVAILABLE;
 
-            if($user_product_details->save()) {
+            if($user_product->save()) {
 
                 DB::commit();
 
-                $success_code = $user_product_details->is_outofstock ? 126 : 127;
+                $success_code = $user_product->is_outofstock ? 126 : 127;
 
-                $data['user_product_details'] = $user_product_details;
+                $data['user_product'] = $user_product;
 
                 return $this->sendResponse(api_success($success_code),$success_code, $data);
 
@@ -333,22 +333,22 @@ class UserProductApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $user_product_details = \App\UserProduct::find($request->user_product_id);
+            $user_product = \App\UserProduct::find($request->user_product_id);
 
-            if(!$user_product_details) { 
+            if(!$user_product) { 
 
                 throw new Exception(api_error(133), 133);                
             }
 
-            $user_product_details->is_visible = $user_product_details->is_visible ? NO : YES;
+            $user_product->is_visible = $user_product->is_visible ? NO : YES;
 
-            if($user_product_details->save()) {
+            if($user_product->save()) {
 
                 DB::commit();
 
-                $success_code = $user_product_details->is_visible ? 124 : 125;
+                $success_code = $user_product->is_visible ? 124 : 125;
 
-                $data['user_product_details'] = $user_product_details;
+                $data['user_product'] = $user_product;
 
                 return $this->sendResponse(api_success($success_code),$success_code, $data);
 
@@ -390,9 +390,9 @@ class UserProductApiController extends Controller
 
             if($request->user_product_id) {
 
-                $user_product_details = \App\UserProduct::find($request->user_product_id);
+                $user_product = \App\UserProduct::find($request->user_product_id);
 
-                $category_id = $user_product_details->category_id;
+                $category_id = $user_product->category_id;
 
                 $product_categories = selected($product_categories, $category_id, 'id');
             }
@@ -434,9 +434,9 @@ class UserProductApiController extends Controller
 
             if($request->user_product_id) {
 
-                $user_product_details = \App\UserProduct::find($request->user_product_id);
+                $user_product = \App\UserProduct::find($request->user_product_id);
                 
-                $sub_category_id = $user_product_details->sub_category_id;
+                $sub_category_id = $user_product->sub_category_id;
 
                 $product_sub_categories = selected($product_sub_categories, $sub_category_id, 'id');
 

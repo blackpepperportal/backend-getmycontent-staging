@@ -92,13 +92,13 @@ class SubscriptionApiController extends Controller
 
         try {
 
-            $subscription_details = Subscription::where('subscriptions.status' , APPROVED)->firstWhere('subscriptions.id', $request->subscription_id);
+            $subscription = Subscription::where('subscriptions.status' , APPROVED)->firstWhere('subscriptions.id', $request->subscription_id);
 
-            if(!$subscription_details) {
+            if(!$subscription) {
                 throw new Exception(api_error(129), 129);   
             }
 
-            return $this->sendResponse($message = '' , $code = '', $subscription_details);
+            return $this->sendResponse($message = '' , $code = '', $subscription);
 
         } catch(Exception $e) {
 
@@ -143,9 +143,9 @@ class SubscriptionApiController extends Controller
 
            // Check the subscription is available
 
-            $subscription_details = Subscription::Approved()->firstWhere('id',  $request->subscription_id);
+            $subscription = Subscription::Approved()->firstWhere('id',  $request->subscription_id);
 
-            if(!$subscription_details) {
+            if(!$subscription) {
 
                 throw new Exception(api_error(129), 129);
                 
@@ -153,7 +153,7 @@ class SubscriptionApiController extends Controller
 
             $is_user_subscribed_free_plan = $this->loginUser->one_time_subscription ?? NO;
 
-            if($subscription_details->amount <= 0 && $is_user_subscribed_free_plan) {
+            if($subscription->amount <= 0 && $is_user_subscribed_free_plan) {
 
                 throw new Exception(api_error(130), 130);
                 
@@ -161,13 +161,13 @@ class SubscriptionApiController extends Controller
 
             $request->request->add(['payment_mode' => CARD]);
 
-            $total = $user_pay_amount = $subscription_details->amount ?? 0.00;
+            $total = $user_pay_amount = $subscription->amount ?? 0.00;
 
             if($user_pay_amount > 0) {
 
-                $card_details = \App\UserCard::where('user_id', $request->id)->firstWhere('is_default', YES);
+                $user_card = \App\UserCard::where('user_id', $request->id)->firstWhere('is_default', YES);
 
-                if(!$card_details) {
+                if(!$user_card) {
 
                     throw new Exception(api_error(120), 120); 
 
@@ -175,13 +175,13 @@ class SubscriptionApiController extends Controller
                 
                 $request->request->add([
 	                'total' => $total, 
-	                'customer_id' => $card_details->customer_id,
+	                'customer_id' => $user_card->customer_id,
 	                'user_pay_amount' => $user_pay_amount,
 	                'paid_amount' => $user_pay_amount,
 	            ]);
 
 
-                $card_payment_response = PaymentRepo::subscriptions_payment_by_stripe($request, $subscription_details)->getData();
+                $card_payment_response = PaymentRepo::subscriptions_payment_by_stripe($request, $subscription)->getData();
                	
                 if($card_payment_response->success == false) {
 
@@ -195,7 +195,7 @@ class SubscriptionApiController extends Controller
 
             }
 
-            $payment_response = PaymentRepo::subscriptions_payment_save($request, $subscription_details)->getData();
+            $payment_response = PaymentRepo::subscriptions_payment_save($request, $subscription)->getData();
 
             if($payment_response->success) {
                 
@@ -294,9 +294,9 @@ class SubscriptionApiController extends Controller
 
             DB::beginTransaction();
 
-            $user_subscription_details = SubscriptionPayment::where('subscription_payments.id', $request->user_subscription_id)->where('status', DEFAULT_TRUE)->firstWhere('user_id', $request->id);
+            $user_subscription = SubscriptionPayment::where('subscription_payments.id', $request->user_subscription_id)->where('status', DEFAULT_TRUE)->firstWhere('user_id', $request->id);
 
-            if(!$user_subscription_details) {
+            if(!$user_subscription) {
 
                 throw new Exception(api_error(152), 152);   
 
@@ -304,29 +304,29 @@ class SubscriptionApiController extends Controller
 
             // Check the subscription is already cancelled
 
-            if($user_subscription_details->is_cancelled == AUTORENEWAL_CANCELLED) {
+            if($user_subscription->is_cancelled == AUTORENEWAL_CANCELLED) {
 
-                $user_subscription_details->is_cancelled = AUTORENEWAL_ENABLED;
+                $user_subscription->is_cancelled = AUTORENEWAL_ENABLED;
 
-                $user_subscription_details->cancel_reason = $request->cancel_reason ?? '';
+                $user_subscription->cancel_reason = $request->cancel_reason ?? '';
 
             } else {
 
-                $user_subscription_details->is_cancelled = AUTORENEWAL_CANCELLED;
+                $user_subscription->is_cancelled = AUTORENEWAL_CANCELLED;
 
-                $user_subscription_details->cancel_reason = $request->cancel_reason ?? '';
+                $user_subscription->cancel_reason = $request->cancel_reason ?? '';
 
             }
 
-            $user_subscription_details->save();
+            $user_subscription->save();
 
             DB::commit();
 
             $data['user_subscription_id'] = $request->user_subscription_id;
 
-            $data['is_autorenewal_status'] = $user_subscription_details->is_cancelled;
+            $data['is_autorenewal_status'] = $user_subscription->is_cancelled;
 
-            $code = $user_subscription_details->is_cancelled == AUTORENEWAL_CANCELLED ? 120 : 119;
+            $code = $user_subscription->is_cancelled == AUTORENEWAL_CANCELLED ? 120 : 119;
 
             return $this->sendResponse(api_success($code) , $code, $data);
 

@@ -97,27 +97,27 @@ class UserAccountApiController extends Controller
 
             }
 
-            $user_details = User::firstWhere('email' , $request->email);
+            $user = User::firstWhere('email' , $request->email);
 
             $send_email = NO;
 
             // Creating the user
 
-            if(!$user_details) {
+            if(!$user) {
 
-                $user_details = new User;
+                $user = new User;
 
                 register_mobile($request->device_type);
 
                 $send_email = YES;
 
-                $user_details->picture = asset('placeholder.jpg');
+                $user->picture = asset('placeholder.jpg');
 
-                $user_details->registration_steps = 1;
+                $user->registration_steps = 1;
 
             } else {
 
-                if(in_array($user_details->status, [USER_PENDING , USER_DECLINED])) {
+                if(in_array($user->status, [USER_PENDING , USER_DECLINED])) {
 
                     throw new Exception(api_error(1000), 1000);
                 
@@ -125,21 +125,21 @@ class UserAccountApiController extends Controller
 
             }
 
-            $user_details->first_name = $request->first_name ?? "";
+            $user->first_name = $request->first_name ?? "";
 
-            $user_details->last_name = $request->last_name ?? "";
+            $user->last_name = $request->last_name ?? "";
 
-            $user_details->email = $request->email ?? "";
+            $user->email = $request->email ?? "";
 
-            $user_details->mobile = $request->mobile ?? "";
+            $user->mobile = $request->mobile ?? "";
 
             if($request->has('password')) {
 
-                $user_details->password = Hash::make($request->password ?: "123456");
+                $user->password = Hash::make($request->password ?: "123456");
 
             }
 
-            $user_details->gender = $request->gender ?? "male";
+            $user->gender = $request->gender ?? "male";
 
             $check_device_exist = User::firstWhere('device_token', $request->device_token);
 
@@ -150,13 +150,13 @@ class UserAccountApiController extends Controller
                 $check_device_exist->save();
             }
 
-            $user_details->device_token = $request->device_token ?: "";
+            $user->device_token = $request->device_token ?: "";
 
-            $user_details->device_type = $request->device_type ?: DEVICE_WEB;
+            $user->device_type = $request->device_type ?: DEVICE_WEB;
 
-            $user_details->login_by = $request->login_by ?: 'manual';
+            $user->login_by = $request->login_by ?: 'manual';
 
-            $user_details->social_unique_id = $request->social_unique_id ?: '';
+            $user->social_unique_id = $request->social_unique_id ?: '';
 
             // Upload picture
 
@@ -164,33 +164,33 @@ class UserAccountApiController extends Controller
 
                 if($request->hasFile('picture')) {
 
-                    $user_details->picture = Helper::storage_upload_file($request->file('picture') , PROFILE_PATH_USER);
+                    $user->picture = Helper::storage_upload_file($request->file('picture') , PROFILE_PATH_USER);
 
                 }
 
             } else {
 
-                $user_details->picture = $request->picture ?: $user_details->picture;
+                $user->picture = $request->picture ?: $user->picture;
 
             }   
 
-            if($user_details->save()) {
+            if($user->save()) {
 
                 // Send welcome email to the new user:
 
                 if($send_email) {
 
-                    if($user_details->login_by == 'manual') {
+                    if($user->login_by == 'manual') {
 
                         $email_data['subject'] = tr('user_welcome_title').' '.Setting::get('site_name');
 
                         $email_data['page'] = "emails.users.welcome";
 
-                        $email_data['data'] = $user_details;
+                        $email_data['data'] = $user;
 
-                        $email_data['email'] = $user_details->email;
+                        $email_data['email'] = $user->email;
 
-                        $email_data['verification_code'] = $user_details->verification_code;
+                        $email_data['verification_code'] = $user->verification_code;
 
                         // $this->dispatch(new SendEmailJob($email_data));
 
@@ -198,7 +198,7 @@ class UserAccountApiController extends Controller
 
                 }
 
-                if(in_array($user_details->status , [USER_DECLINED , USER_PENDING])) {
+                if(in_array($user->status , [USER_DECLINED , USER_PENDING])) {
                 
                     $response = ['success' => false , 'error' => api_error(1000) , 'error_code' => 1000];
 
@@ -208,17 +208,17 @@ class UserAccountApiController extends Controller
                
                 }
 
-                if($user_details->is_verified == USER_EMAIL_VERIFIED) {
+                if($user->is_email_verified == USER_EMAIL_VERIFIED) {
 
                     // counter(); // For site analytics. Don't remove
                     
-                    $data = User::find($user_details->id);
+                    $data = User::find($user->id);
 
                     $response = ['success' => true, 'data' => $data];
 
                 } else {
 
-                    $data = User::find($user_details->id);
+                    $data = User::find($user->id);
 
                     $response = ['success' => true, 'message' => api_error(1001), 'code' => 1001, 'data' => $data];
 
@@ -284,13 +284,13 @@ class UserAccountApiController extends Controller
 
             Helper::custom_validator($request->all(), $rules);
 
-            $user_details = User::firstWhere('email', '=', $request->email);
+            $user = User::firstWhere('email', '=', $request->email);
 
             $is_email_verified = YES;
 
             // Check the user details 
 
-            if(!$user_details) {
+            if(!$user) {
 
                 throw new Exception(api_error(1002), 1002);
 
@@ -298,15 +298,15 @@ class UserAccountApiController extends Controller
 
             // check the user approved status
 
-            if($user_details->status != USER_APPROVED) {
+            if($user->status != USER_APPROVED) {
 
                 throw new Exception(api_error(1000), 1000);
 
             }
 
-            if($user_details->is_verified != USER_EMAIL_VERIFIED) {
+            if($user->is_email_verified != USER_EMAIL_VERIFIED) {
 
-                $data = User::find($user_details->id);
+                $data = User::find($user->id);
 
                 $response = ['success' => true, 'message' => api_error(1001), 'code' => 1001, 'data' => $data];
 
@@ -314,13 +314,13 @@ class UserAccountApiController extends Controller
 
             }
 
-            if(Hash::check($request->password, $user_details->password)) {
+            if(Hash::check($request->password, $user->password)) {
 
                 // Generate new tokens
                 
-                // $user_details->token = Helper::generate_token();
+                // $user->token = Helper::generate_token();
 
-                $user_details->token_expiry = Helper::generate_token_expiry();
+                $user->token_expiry = Helper::generate_token_expiry();
                 
                 // Save device details
 
@@ -333,16 +333,16 @@ class UserAccountApiController extends Controller
                     $check_device_exist->save();
                 }
 
-                $user_details->device_token = $request->device_token ?? $user_details->device_token;
+                $user->device_token = $request->device_token ?? $user->device_token;
 
-                $user_details->device_type = $request->device_type ?? $user_details->device_type;
+                $user->device_type = $request->device_type ?? $user->device_type;
 
-                $user_details->login_by = $request->login_by ?? $user_details->login_by;
+                $user->login_by = $request->login_by ?? $user->login_by;
 
-                $user_details->save();
+                $user->save();
 
                 
-                $data = User::find($user_details->id);
+                $data = User::find($user->id);
 
                 DB::commit();
                 
@@ -398,14 +398,14 @@ class UserAccountApiController extends Controller
 
             Helper::custom_validator($request->all(), $rules, $custom_errors = []);
 
-            $user_details = User::firstWhere('email' , $request->email);
+            $user = User::firstWhere('email' , $request->email);
 
-            if(!$user_details) {
+            if(!$user) {
 
                 throw new Exception(api_error(1002), 1002);
             }
 
-            if($user_details->login_by != 'manual') {
+            if($user->login_by != 'manual') {
 
                 throw new Exception(api_error(118), 118);
                 
@@ -413,24 +413,24 @@ class UserAccountApiController extends Controller
 
             // check email verification
 
-            if($user_details->is_verified == USER_EMAIL_NOT_VERIFIED) {
+            if($user->is_email_verified == USER_EMAIL_NOT_VERIFIED) {
 
                 throw new Exception(api_error(1001), 1001);
             }
 
             // Check the user approve status
 
-            if(in_array($user_details->status , [USER_DECLINED , USER_PENDING])) {
+            if(in_array($user->status , [USER_DECLINED , USER_PENDING])) {
                 throw new Exception(api_error(1000), 1000);
             }
 
             $new_password = Helper::generate_password();
 
-            $user_details->password = Hash::make($new_password);
+            $user->password = Hash::make($new_password);
 
             $email_data['subject'] = tr('user_forgot_email_title' , Setting::get('site_name'));
 
-            $email_data['email']  = $user_details->email;
+            $email_data['email']  = $user->email;
 
             $email_data['password'] = $new_password;
 
@@ -438,7 +438,7 @@ class UserAccountApiController extends Controller
 
             // $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
-            if(!$user_details->save()) {
+            if(!$user->save()) {
 
                 throw new Exception(api_error(103));
 
@@ -483,30 +483,30 @@ class UserAccountApiController extends Controller
 
             Helper::custom_validator($request->all(), $rules, $custom_errors =[]);
 
-            $user_details = User::find($request->id);
+            $user = User::find($request->id);
 
-            if(!$user_details) {
+            if(!$user) {
 
                 throw new Exception(api_error(1002), 1002);
             }
 
-            if($user_details->login_by != "manual") {
+            if($user->login_by != "manual") {
 
                 throw new Exception(api_error(118), 118);
                 
             }
 
-            if(Hash::check($request->old_password,$user_details->password)) {
+            if(Hash::check($request->old_password,$user->password)) {
 
-                $user_details->password = Hash::make($request->password);
+                $user->password = Hash::make($request->password);
                 
-                if($user_details->save()) {
+                if($user->save()) {
 
                     DB::commit();
 
                     $email_data['subject'] = tr('change_password_email_title' , Setting::get('site_name'));
 
-                    $email_data['email']  = $user_details->email;
+                    $email_data['email']  = $user->email;
 
                     $email_data['page'] = "emails.users.change-password";
 
@@ -552,14 +552,14 @@ class UserAccountApiController extends Controller
 
         try {
 
-            $user_details = User::firstWhere('id' , $request->id);
+            $user = User::firstWhere('id' , $request->id);
 
-            if(!$user_details) { 
+            if(!$user) { 
 
                 throw new Exception(api_error(1002) , 1002);
             }
 
-            return $this->sendResponse($message = "", $success_code = "", $user_details);
+            return $this->sendResponse($message = "", $success_code = "", $user);
 
         } catch(Exception $e) {
 
@@ -604,42 +604,42 @@ class UserAccountApiController extends Controller
 
             // Validation end
             
-            $user_details = User::find($request->id);
+            $user = User::find($request->id);
 
-            if(!$user_details) { 
+            if(!$user) { 
 
                 throw new Exception(api_error(1002) , 1002);
             }
 
-            $user_details->name = $request->name ?? $user_details->name;
+            $user->name = $request->name ?? $user->name;
 
-            $user_details->first_name = $request->first_name ?? $user_details->first_name;
+            $user->first_name = $request->first_name ?? $user->first_name;
 
-            $user_details->last_name = $request->last_name ?? $user_details->last_name;
+            $user->last_name = $request->last_name ?? $user->last_name;
             
             if($request->has('email')) {
 
-                $user_details->email = $request->email;
+                $user->email = $request->email;
             }
 
-            $user_details->mobile = $request->mobile ?: $user_details->mobile;
+            $user->mobile = $request->mobile ?: $user->mobile;
 
-            $user_details->gender = $request->gender ?: $user_details->gender;
+            $user->gender = $request->gender ?: $user->gender;
 
-            $user_details->address = $request->address ?: $user_details->address;
+            $user->address = $request->address ?: $user->address;
 
             // Upload picture
             if($request->hasFile('picture') != "") {
 
-                Helper::storage_delete_file($user_details->picture, PROFILE_PATH_USER); // Delete the old pic
+                Helper::storage_delete_file($user->picture, PROFILE_PATH_USER); // Delete the old pic
 
-                $user_details->picture = Helper::storage_upload_file($request->file('picture'), PROFILE_PATH_USER);
+                $user->picture = Helper::storage_upload_file($request->file('picture'), PROFILE_PATH_USER);
 
             }
 
-            if($user_details->save()) {
+            if($user->save()) {
 
-                $data = User::find($user_details->id);
+                $data = User::find($user->id);
 
                 DB::commit();
 
@@ -692,9 +692,9 @@ class UserAccountApiController extends Controller
 
             // Validation end
 
-            $user_details = User::find($request->id);
+            $user = User::find($request->id);
 
-            if(!$user_details) {
+            if(!$user) {
 
                 throw new Exception(api_error(1002), 1002);
                 
@@ -702,16 +702,16 @@ class UserAccountApiController extends Controller
 
             // The password is not required when the user is login from social. If manual means the password is required
 
-            if($user_details->login_by == 'manual') {
+            if($user->login_by == 'manual') {
 
-                if(!Hash::check($request->password, $user_details->password)) {
+                if(!Hash::check($request->password, $user->password)) {
          
                     throw new Exception(api_error(104), 104); 
                 }
             
             }
 
-            if($user_details->delete()) {
+            if($user->delete()) {
 
                 DB::commit();
 
@@ -829,9 +829,9 @@ class UserAccountApiController extends Controller
 
             // Validation end
             
-            $user_details = User::find($request->id);
+            $user = User::find($request->id);
 
-            if(!$user_details) {
+            if(!$user) {
 
                 throw new Exception(api_error(1002), 1002);
                 
@@ -844,7 +844,7 @@ class UserAccountApiController extends Controller
             $customer = \Stripe\Customer::create([
                     // "card" => $request->card_token,
                     "card" => 'tok_visa',
-                    "email" => $user_details->email,
+                    "email" => $user->email,
                     "description" => "Customer for ".Setting::get('site_name'),
                 ]);
 
@@ -852,36 +852,36 @@ class UserAccountApiController extends Controller
 
                 $customer_id = $customer->id;
 
-                $card_details = new \App\UserCard;
+                $card = new \App\UserCard;
 
-                $card_details->user_id = $request->id;
+                $card->user_id = $request->id;
 
-                $card_details->customer_id = $customer_id;
+                $card->customer_id = $customer_id;
 
-                $card_details->card_token = $customer->sources->data ? $customer->sources->data[0]->id : "";
+                $card->card_token = $customer->sources->data ? $customer->sources->data[0]->id : "";
 
-                $card_details->card_type = $customer->sources->data ? $customer->sources->data[0]->brand : "";
+                $card->card_type = $customer->sources->data ? $customer->sources->data[0]->brand : "";
 
-                $card_details->last_four = $customer->sources->data[0]->last4 ? $customer->sources->data[0]->last4 : "";
+                $card->last_four = $customer->sources->data[0]->last4 ? $customer->sources->data[0]->last4 : "";
 
-                $card_details->card_holder_name = $request->card_holder_name ?: $this->loginUser->name;
+                $card->card_holder_name = $request->card_holder_name ?: $this->loginUser->name;
 
                 // Check is any default is available
 
-                $check_card_details = \App\UserCard::where('user_id',$request->id)->count();
+                $check_card = \App\UserCard::where('user_id',$request->id)->count();
 
-                $card_details->is_default = $check_card_details ? NO : YES;
+                $card->is_default = $check_card ? NO : YES;
 
-                if($card_details->save()) {
+                if($card->save()) {
 
-                    if($user_details) {
+                    if($user) {
 
-                        // $user_details->user_card_id = $check_card_details ? $user_details->user_card_id : $card_details->id;
+                        // $user->user_card_id = $check_card ? $user->user_card_id : $card->id;
 
-                        $user_details->save();
+                        $user->save();
                     }
 
-                    $data = \App\UserCard::firstWhere('id' , $card_details->id);
+                    $data = \App\UserCard::firstWhere('id' , $card->id);
 
                     DB::commit();
 
@@ -944,16 +944,16 @@ class UserAccountApiController extends Controller
             
             // validation end
 
-            $user_details = User::find($request->id);
+            $user = User::find($request->id);
 
-            if(!$user_details) {
+            if(!$user) {
 
                 throw new Exception(api_error(1002), 1002);
             }
 
             \App\UserCard::where('id', $request->user_card_id)->delete();
 
-            if($user_details->payment_mode = CARD) {
+            if($user->payment_mode = CARD) {
 
                 // Check he added any other card
 
@@ -961,15 +961,15 @@ class UserAccountApiController extends Controller
 
                     $check_card->is_default =  DEFAULT_TRUE;
 
-                    $user_details->user_card_id = $check_card->id;
+                    $user->user_card_id = $check_card->id;
 
                     $check_card->save();
 
                 } else { 
 
-                    $user_details->payment_mode = COD;
+                    $user->payment_mode = COD;
 
-                    $user_details->user_card_id = DEFAULT_FALSE;
+                    $user->user_card_id = DEFAULT_FALSE;
                 
                 }
            
@@ -977,14 +977,14 @@ class UserAccountApiController extends Controller
 
             // Check the deleting card and default card are same
 
-            if($user_details->user_card_id == $request->user_card_id) {
+            if($user->user_card_id == $request->user_card_id) {
 
-                $user_details->user_card_id = DEFAULT_FALSE;
+                $user->user_card_id = DEFAULT_FALSE;
 
-                $user_details->save();
+                $user->save();
             }
             
-            $user_details->save();
+            $user->save();
                 
             DB::commit();
 
@@ -1028,9 +1028,9 @@ class UserAccountApiController extends Controller
             
             // validation end
 
-            $user_details = User::find($request->id);
+            $user = User::find($request->id);
 
-            if(!$user_details) {
+            if(!$user) {
 
                 throw new Exception(api_error(1002), 1002);
             }
@@ -1039,9 +1039,9 @@ class UserAccountApiController extends Controller
 
             $user_cards = \App\UserCard::where('id' , $request->user_card_id)->update(['is_default' => YES]);
 
-            $user_details->user_card_id = $request->user_card_id;
+            $user->user_card_id = $request->user_card_id;
 
-            $user_details->save();
+            $user->save();
 
             DB::commit();
 
@@ -1091,11 +1091,11 @@ class UserAccountApiController extends Controller
 
             }
 
-            $user_details = User::find($request->id);
+            $user = User::find($request->id);
 
-            $user_details->payment_mode = $request->payment_mode ?: CARD;
+            $user->payment_mode = $request->payment_mode ?: CARD;
 
-            $user_details->save();           
+            $user->save();           
 
             DB::commit();
 
@@ -1130,23 +1130,23 @@ class UserAccountApiController extends Controller
 
             DB::beginTransaction();
 
-            $user_details = \App\User::find($request->id);
+            $user = \App\User::find($request->id);
 
-            $user_details->verification_code = Helper::generate_email_code();
+            $user->verification_code = Helper::generate_email_code();
 
-            // $user_details->verification_code_expiry = \Helper::generate_email_expiry();
+            // $user->verification_code_expiry = \Helper::generate_email_expiry();
 
-            $user_details->save();
+            $user->save();
 
             $email_data['subject'] = Setting::get('site_name');
 
             $email_data['page'] = "emails.users.verification-code";
 
-            $email_data['data'] = $user_details;
+            $email_data['data'] = $user;
 
-            $email_data['email'] = $user_details->email;
+            $email_data['email'] = $user->email;
 
-            $email_data['verification_code'] = $user_details->verification_code;
+            $email_data['verification_code'] = $user->verification_code;
 
             // $this->dispatch(new SendEmailJob($email_data));
 
@@ -1183,15 +1183,15 @@ class UserAccountApiController extends Controller
 
             DB::beginTransaction();
 
-            $user_details = \App\User::find($request->id);
+            $user = \App\User::find($request->id);
 
-            $user_details->is_verified = USER_EMAIL_VERIFIED;
+            $user->is_email_verified = USER_EMAIL_VERIFIED;
 
-            $user_details->save();
+            $user->save();
 
             DB::commit();
 
-            $data = User::find($user_details->id);
+            $data = User::find($user->id);
 
             return $this->sendResponse($message = api_success(129), $code = 129, $data);
 
@@ -1228,13 +1228,13 @@ class UserAccountApiController extends Controller
 
             Helper::custom_validator($request->all(), $rules);
                 
-            $user_details = User::find($request->id);
+            $user = User::find($request->id);
 
-            $user_details->email_notification_status = $request->status;
+            $user->email_notification_status = $request->status;
 
-            $user_details->push_notification_status = $request->status;
+            $user->is_push_notification = $request->status;
 
-            $user_details->save();
+            $user->save();
 
             $data = \App\User::firstWhere('id', $request->id);
             
@@ -1252,7 +1252,7 @@ class UserAccountApiController extends Controller
     }
 
     /** 
-     * @method users_accounts_list()
+     * @method user_billing_accounts_list()
      *
      * @uses To list user billing accounts
      *
@@ -1265,7 +1265,7 @@ class UserAccountApiController extends Controller
      * @return json response with details
      */
 
-    public function users_accounts_list(Request $request) {
+    public function user_billing_accounts_list(Request $request) {
 
         try {
 
@@ -1286,7 +1286,7 @@ class UserAccountApiController extends Controller
     }
 
     /** 
-     * @method users_accounts_view()
+     * @method user_billing_accounts_view()
      *
      * @uses Accounts Detailed view
      *
@@ -1299,7 +1299,7 @@ class UserAccountApiController extends Controller
      * @return json response with details
      */
 
-    public function users_accounts_view(Request $request) {
+    public function user_billing_accounts_view(Request $request) {
 
         try {
 
@@ -1318,7 +1318,7 @@ class UserAccountApiController extends Controller
     }
 
     /** 
-     * @method users_accounts_save()
+     * @method user_billing_accounts_save()
      *
      * @uses To save account details
      *
@@ -1331,7 +1331,7 @@ class UserAccountApiController extends Controller
      * @return json response with user details
      */
 
-    public function users_accounts_save(Request $request) {
+    public function user_billing_accounts_save(Request $request) {
 
         try {
 
@@ -1380,7 +1380,7 @@ class UserAccountApiController extends Controller
     }
 
     /** 
-     * @method users_accounts_delete()
+     * @method user_billing_accounts_delete()
      *
      * @uses To delete account details
      *
@@ -1393,7 +1393,7 @@ class UserAccountApiController extends Controller
      * @return json response with user details
      */
 
-    public function users_accounts_delete(Request $request) {
+    public function user_billing_accounts_delete(Request $request) {
 
         try {
 
@@ -1425,7 +1425,7 @@ class UserAccountApiController extends Controller
     }
 
     /** 
-     * @method users_accounts_default()
+     * @method user_billing_accounts_default()
      *
      * @uses To make account default
      *
@@ -1438,7 +1438,7 @@ class UserAccountApiController extends Controller
      * @return json response with user details
      */
 
-    public function users_accounts_default(Request $request) {
+    public function user_billing_accounts_default(Request $request) {
 
         try {
 
@@ -1498,13 +1498,13 @@ class UserAccountApiController extends Controller
             Helper::custom_validator($request->all(), $rules, $custom_errors = []);
 
 
-            $user_details = \App\User::find($request->user_id);
+            $user = \App\User::find($request->user_id);
 
-            if(!$user_details) {
+            if(!$user) {
                 throw new Exception(api_error(1002), 1002);
             }
 
-            $data['user_details'] = $user_details;
+            $data['user'] = $user;
 
             $data['total_followers'] = \App\Follower::where('user_id', $request->user_id)
                     ->count();
@@ -1552,17 +1552,17 @@ class UserAccountApiController extends Controller
             Helper::custom_validator($request->all(), $rules, $custom_errors = []);
 
 
-            $user_details = \App\User::find($request->user_id);
+            $user = \App\User::find($request->user_id);
 
-            if(!$user_details) {
+            if(!$user) {
                 throw new Exception(api_error(1002), 1002);
             }
 
             $base_query = $total_query = \App\Post::where('user_id', $request->user_id)->get();
 
-            $post_details = $base_query->skip($this->skip)->take($this->take)->orderBy('created_at', 'desc')->get();
+            $post = $base_query->skip($this->skip)->take($this->take)->orderBy('created_at', 'desc')->get();
             
-            $data['post_details'] = $post_details ?? [];
+            $data['post'] = $post ?? [];
 
             $data['total'] = $total_query->count() ?? 0;
 

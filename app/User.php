@@ -23,7 +23,7 @@ class User extends Authenticatable
 
     public function getIsNotificationAttribute() {
 
-        return $this->email_notification_status;
+        return $this->is_email_notification ? YES : NO;
     }
 
     /**
@@ -106,10 +106,24 @@ class User extends Authenticatable
      */
     public function scopeApproved($query) {
 
-        $query->where('users.status', USER_APPROVED)->where('is_verified', USER_EMAIL_VERIFIED);
+        $query->where('users.status', USER_APPROVED)->where('is_email_verified', USER_EMAIL_VERIFIED);
 
         return $query;
 
+    }
+
+    /**
+     * Scope a query to only include active users.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCommonResponse($query) {
+
+        return $query->select(
+            'users.id as user_id',
+            'users.unique_id as user_unique_id',
+            'users.*'
+            );
     }
     
     public static function boot() {
@@ -120,7 +134,7 @@ class User extends Authenticatable
 
             // $model->attributes['name'] = $model->attributes['first_name']." ".$model->attributes['last_name'];
 
-            $model->attributes['is_verified'] = USER_EMAIL_VERIFIED;
+            $model->attributes['is_email_verified'] = USER_EMAIL_VERIFIED;
 
             if (Setting::get('is_account_email_verification') == YES && env('MAIL_USERNAME') && env('MAIL_PASSWORD')) { 
 
@@ -153,7 +167,7 @@ class User extends Authenticatable
 
         static::created(function($model) {
 
-            $model->attributes['email_notification_status'] = $model->attributes['push_notification_status'] = YES;
+            $model->attributes['is_email_notification'] = $model->attributes['is_push_notification'] = YES;
 
             $model->attributes['unique_id'] = "UID"."-".$model->attributes['id']."-".uniqid();
 
@@ -206,16 +220,16 @@ class User extends Authenticatable
 
             if($model->attributes['login_by'] != 'manual') {
 
-                $this->attributes['is_verified'] = USER_EMAIL_VERIFIED;
+                $this->attributes['is_email_verified'] = USER_EMAIL_VERIFIED;
 
             } else {
 
-                $this->attributes['is_verified'] = USER_EMAIL_NOT_VERIFIED;
+                $this->attributes['is_email_verified'] = USER_EMAIL_NOT_VERIFIED;
             }
 
         } else { 
 
-            $this->attributes['is_verified'] = USER_EMAIL_VERIFIED;
+            $this->attributes['is_email_verified'] = USER_EMAIL_VERIFIED;
         }
 
         return true;

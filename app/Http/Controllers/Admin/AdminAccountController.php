@@ -50,8 +50,8 @@ class AdminAccountController extends Controller
         return view('admin.account.profile')
                 ->with('page', 'profile')
                 ->with('admin_details',$admin_details);
+    
     }
-
 
     /**
      * @method profile_save()

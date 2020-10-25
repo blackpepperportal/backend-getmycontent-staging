@@ -14,7 +14,7 @@ return [
 
 	"settings" =>"Settings",
 	"profile" => "Profile",
-	"is_verified" => "Is Verified",
+	"is_email_verified" => "Is Verified",
 	/*********** FORM FIELDS ************/
 
 	"submit" => "Submit",

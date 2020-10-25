@@ -191,4 +191,12 @@ if(!defined('PRODUCT_AVAILABLE')) define('PRODUCT_AVAILABLE',1);
 if(!defined('PRODUCT_NOT_AVAILABLE')) define('PRODUCT_NOT_AVAILABLE',0);
 
 if(!defined('PUBLISHED')) define('PUBLISHED',1);
+
 if(!defined('UNPUBLISHED')) define('UNPUBLISHED', 0);
+
+
+if(!defined('USER_DOCUMENT_NONE')) define('USER_DOCUMENT_NONE', 0);
+if(!defined('USER_DOCUMENT_PENDING')) define('USER_DOCUMENT_PENDING', 1);
+if(!defined('USER_DOCUMENT_APPROVED')) define('USER_DOCUMENT_APPROVED', 2);
+if(!defined('USER_DOCUMENT_DECLINED')) define('USER_DOCUMENT_DECLINED', 3);
+

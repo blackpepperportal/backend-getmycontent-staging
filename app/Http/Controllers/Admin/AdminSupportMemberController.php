@@ -68,11 +68,11 @@ class AdminSupportMemberController extends Controller
                     break;
 
                 case SORT_BY_EMAIL_VERIFIED:
-                    $base_query = $base_query->where('support_members.is_verified',SUPPORT_MEMBER_EMAIL_VERIFIED);
+                    $base_query = $base_query->where('support_members.is_email_verified',SUPPORT_MEMBER_EMAIL_VERIFIED);
                     break;
                 
                 default:
-                    $base_query = $base_query->where('support_members.is_verified',SUPPORT_MEMBER_EMAIL_NOT_VERIFIED);
+                    $base_query = $base_query->where('support_members.is_email_verified',SUPPORT_MEMBER_EMAIL_NOT_VERIFIED);
                     break;
             }
         }
@@ -203,7 +203,7 @@ class AdminSupportMemberController extends Controller
 
                 $support_member_details->picture = asset('placeholder.jpeg');
 
-                //$support_member_details->is_verified = EMAIL_VERIFIED;
+                //$support_member_details->is_email_verified = EMAIL_VERIFIED;
 
                 $support_member_details->token = Helper::generate_token();
 
@@ -250,7 +250,7 @@ class AdminSupportMemberController extends Controller
 
                     $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
-                    //$support_member_details->is_verified = SUPPORT_MEMBER_EMAIL_VERIFIED;
+                    //$support_member_details->is_email_verified = SUPPORT_MEMBER_EMAIL_VERIFIED;
 
                     $support_member_details->save();
 
@@ -459,13 +459,13 @@ class AdminSupportMemberController extends Controller
                 
             }
 
-            $support_member_details->is_verified = $support_member_details->is_verified ? support_member_EMAIL_NOT_VERIFIED : support_member_EMAIL_VERIFIED;
+            $support_member_details->is_email_verified = $support_member_details->is_email_verified ? support_member_EMAIL_NOT_VERIFIED : support_member_EMAIL_VERIFIED;
 
             if($support_member_details->save()) {
 
                 DB::commit();
 
-                $message = $support_member_details->is_verified ? tr('support_member_verify_success') : tr('support_member_unverify_success');
+                $message = $support_member_details->is_email_verified ? tr('support_member_verify_success') : tr('support_member_unverify_success');
 
                 return redirect()->route('admin.support_members.index')->with('flash_success', $message);
             }

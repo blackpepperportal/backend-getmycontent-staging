@@ -109,7 +109,7 @@
                                 <tr>
                                     <th>{{tr('email_notification')}}</th>
                                     <td>
-                                        @if($content_creator_details->email_notification_status == YES) 
+                                        @if($content_creator_details->is_email_notification == YES) 
 
                                             <span class="badge badge-success">{{tr('yes')}}</span>
 
@@ -123,7 +123,7 @@
                                 <tr>
                                     <th>{{tr('push_notification')}}</th>
                                     <td>
-                                        @if($content_creator_details->push_notification_status == YES) 
+                                        @if($content_creator_details->is_push_notification == YES) 
 
                                             <span class="badge badge-success">{{tr('yes')}}</span>
 

@@ -34,7 +34,6 @@ class FollowersApiController extends Controller
 
     }
 
-
     /** 
      * @method follow_users()
      *
@@ -72,17 +71,17 @@ class FollowersApiController extends Controller
 
             }
 
-            $follow_user_details = User::Approved()->whereFirst('id', $request->user_id);
+            $follow_user = User::Approved()->whereFirst('id', $request->user_id);
 
-            if(!$follow_user_details) {
+            if(!$follow_user) {
 
                 throw new Exception(api_error(135), 135);
             }
 
             // Check the user already following the selected users
-            $follower_details = Follower::where('status', YES)->where('follower_id', $request->id)->where('user_id', $request->user_id)->first();
+            $follower = Follower::where('status', YES)->where('follower_id', $request->id)->where('user_id', $request->user_id)->first();
 
-            if($follower_details) {
+            if($follower) {
 
                 throw new Exception(api_error(137), 137);
 
@@ -110,7 +109,7 @@ class FollowersApiController extends Controller
 
             $data['is_follow'] = NO;
 
-            return $this->sendResponse(api_success(128,$follow_user_details->username ?? 'user'), $code = 128, $data);
+            return $this->sendResponse(api_success(128,$follow_user->username ?? 'user'), $code = 128, $data);
 
         } catch(Exception $e) {
 
@@ -159,7 +158,7 @@ class FollowersApiController extends Controller
             }
 
             // Check the user already following the selected users
-            $follower_details = Follower::where('user_id', $request->user_id)->where('follower_id', $request->id)->where('status', YES)->delete();
+            $follower = Follower::where('user_id', $request->user_id)->where('follower_id', $request->id)->where('status', YES)->delete();
 
             DB::commit();
 
@@ -199,20 +198,19 @@ class FollowersApiController extends Controller
 
             $followers = Follower::CommonResponse()
                     ->where('user_id', $request->id)
-                    ->skip($this->skip)
-                    ->take($this->take)
+                    ->skip($this->skip)->take($this->take)
                     ->orderBy('followers.created_at', 'desc')
                     ->get();
 
-            foreach ($followers as $key => $follower_details) {
+            foreach ($followers as $key => $follower) {
 
-                $follower_details->is_owner = $request->id == $follower_details->follower_id ? YES : NO;
+                $follower->is_owner = $request->id == $follower->follower_id ? YES : NO;
 
-                $is_you_following = Helper::is_you_following($request->id, $follower_details->user_id);
+                $is_you_following = Helper::is_you_following($request->id, $follower->user_id);
 
-                $follower_details->show_follow = $is_you_following ? HIDE : SHOW;
+                $follower->show_follow = $is_you_following ? HIDE : SHOW;
 
-                $follower_details->show_unfollow = $is_you_following ? SHOW : HIDE;
+                $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
 
             }
 
@@ -249,20 +247,19 @@ class FollowersApiController extends Controller
 
             $followers = Follower::CommonResponse()
                     ->where('follower_id', $request->id)
-                    ->skip($this->skip)
-                    ->take($this->take)
+                    ->skip($this->skip)->take($this->take)
                     ->orderBy('followers.created_at', 'desc')
                     ->get();
 
-            foreach ($followers as $key => $follower_details) {
+            foreach ($followers as $key => $follower) {
 
-                $follower_details->is_owner = $request->id == $follower_details->follower_id ? YES : NO;
+                $follower->is_owner = $request->id == $follower->follower_id ? YES : NO;
 
-                $is_you_following = Helper::is_you_following($request->id, $follower_details->user_id);
+                $is_you_following = Helper::is_you_following($request->id, $follower->user_id);
 
-                $follower_details->show_follow = $is_you_following ? HIDE : SHOW;
+                $follower->show_follow = $is_you_following ? HIDE : SHOW;
 
-                $follower_details->show_unfollow = $is_you_following ? SHOW : HIDE;
+                $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
 
             }
 

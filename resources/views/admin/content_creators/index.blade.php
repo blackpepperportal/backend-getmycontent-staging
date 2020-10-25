@@ -80,7 +80,7 @@
                                     </td>
 
                                     <td>
-                                        @if($content_creator_details->is_verified == CONTENT_CREATOR_EMAIL_NOT_VERIFIED)
+                                        @if($content_creator_details->is_email_verified == CONTENT_CREATOR_EMAIL_NOT_VERIFIED)
 
                                         <a class="btn btn-outline-danger btn-sm" href="{{ route('admin.content_creators.verify' , ['user_id' => $content_creator_details->id]) }}">
                                             <i class="icon-close"></i> {{ tr('verify') }}

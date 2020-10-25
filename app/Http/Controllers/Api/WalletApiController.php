@@ -150,15 +150,15 @@ class WalletApiController extends Controller
 
                 // Check the user have the cards
 
-                $card_details = \App\UserCard::where('user_id', $request->id)->firstWhere('is_default', YES);
+                $user_card = \App\UserCard::where('user_id', $request->id)->firstWhere('is_default', YES);
 
-                if(!$card_details) {
+                if(!$user_card) {
 
                     throw new Exception(api_error(120), 120); 
 
                 }
 
-                $request->request->add(['customer_id' => $card_details->customer_id]);
+                $request->request->add(['customer_id' => $user_card->customer_id]);
                 
                 $card_payment_response = PaymentRepo::user_wallets_payment_by_stripe($request)->getData();
 
@@ -396,15 +396,15 @@ class WalletApiController extends Controller
 
         try {
 
-            $payment_details = \App\UserWalletPayment::CommonResponse()->firstWhere('user_wallet_payments.unique_id', $request->user_wallet_payment_unique_id);
+            $wallet_payment = \App\UserWalletPayment::CommonResponse()->firstWhere('user_wallet_payments.unique_id', $request->user_wallet_payment_unique_id);
             
-            if(!$payment_details) {
+            if(!$wallet_payment) {
 
                 throw new Exception(api_error(144), 144);
                 
             }
 
-            $data['wallets_payment'] = $payment_details;
+            $data['wallet_payment'] = $wallet_payment;
 
             return $this->sendResponse($message = "", $code = "", $data);
 
@@ -451,9 +451,9 @@ class WalletApiController extends Controller
 
             // Check the to user is valid for this transaction
 
-            $to_user_details = \App\User::where('status', USER_APPROVED)->where('is_verified', USER_EMAIL_VERIFIED)->firstWhere('id', $request->to_user_id);
+            $to_user = \App\User::Approved()->firstWhere('id', $request->to_user_id);
             
-            if(!$to_user_details) {
+            if(!$to_user) {
 
                 throw new Exception(api_error(130), 130);
                 
@@ -461,9 +461,9 @@ class WalletApiController extends Controller
 
             // Check the user has enough balance 
 
-            $user_wallet_details = \App\UserWallet::firstWhere('user_id', $request->id);
+            $user_wallet = \App\UserWallet::firstWhere('user_id', $request->id);
 
-            $remaining = $user_wallet_details->remaining ?? 0;
+            $remaining = $user_wallet->remaining ?? 0;
 
             if($remaining < $request->amount) {
                 throw new Exception(api_error(131), 131);    
@@ -509,19 +509,19 @@ class WalletApiController extends Controller
 
                     $wallet_message = str_replace("<%request_amount%>", formatted_amount($request->amount?? '0.00'),$wallet_message);
     
-                    $wallet_message = str_replace("<%user_name%>", $user_wallet_details->user->name??'',$wallet_message);
+                    $wallet_message = str_replace("<%user_name%>", $user_wallet->user->name??'',$wallet_message);
 
                     $email_data['subject'] = Setting::get('site_name');
     
                     $email_data['page'] = "emails.users.wallet_send_money";
     
-                    $email_data['data'] = $user_wallet_details;
+                    $email_data['data'] = $user_wallet;
 
                     $email_data['amount'] = formatted_amount($request->amount ?? '0.00');
 
-                    $email_data['email'] = $to_user_details->email ?? '';
+                    $email_data['email'] = $to_user->email ?? '';
 
-                    $email_data['name'] = $to_user_details->name ?? '';
+                    $email_data['name'] = $to_user->name ?? '';
     
                     $email_data['message'] = $wallet_message;
                    
@@ -634,15 +634,15 @@ class WalletApiController extends Controller
 
         try {
 
-            $user_withdrawal_details = \App\UserWithdrawal::find($request->user_withdrawal_id);
+            $user_withdrawal = \App\UserWithdrawal::find($request->user_withdrawal_id);
             
-            if(!$user_withdrawal_details) {
+            if(!$user_withdrawal) {
 
                 throw new Exception(api_error(140), 140);
                 
             }
 
-            $data['user_withdrawal'] = $user_withdrawal_details;
+            $data['user_withdrawal'] = $user_withdrawal;
 
             return $this->sendResponse($message = "", $code = "", $data);
 
@@ -739,9 +739,9 @@ class WalletApiController extends Controller
 
             // Check the user has enough balance 
 
-            $user_wallet_details = \App\UserWallet::where('user_id', $request->id)->first();
+            $user_wallet = \App\UserWallet::where('user_id', $request->id)->first();
 
-            $remaining = $user_wallet_details->remaining ?? 0;
+            $remaining = $user_wallet->remaining ?? 0;
 
             if($remaining <= 0) {
 
@@ -749,7 +749,7 @@ class WalletApiController extends Controller
                 
             }
 
-            $requested_amount = $request->requested_amount ?: $user_wallet_details->remaining; 
+            $requested_amount = $request->requested_amount ?: $user_wallet->remaining; 
 
             $user_withdrawals_min_amount = Setting::get('user_withdrawals_min_amount', 10);
 
@@ -762,23 +762,23 @@ class WalletApiController extends Controller
 
             // Create withdraw requests
 
-            $user_withdrawal_details = new \App\UserWithdrawal;
+            $user_withdrawal = new \App\UserWithdrawal;
 
-            $user_withdrawal_details->user_id = $request->id;
+            $user_withdrawal->user_id = $request->id;
 
-            $user_withdrawal_details->payment_id = "NO";
+            $user_withdrawal->payment_id = "NO";
 
-            $user_withdrawal_details->user_billing_account_id = $request->user_billing_account_id;
+            $user_withdrawal->user_billing_account_id = $request->user_billing_account_id;
 
-            $user_withdrawal_details->payment_mode = PAYMENT_OFFLINE;
+            $user_withdrawal->payment_mode = PAYMENT_OFFLINE;
 
-            $user_withdrawal_details->requested_amount = $request->requested_amount ?: 0.00;
+            $user_withdrawal->requested_amount = $request->requested_amount ?: 0.00;
 
-            $user_withdrawal_details->status = USER_WALLET_PAYMENT_INITIALIZE;
+            $user_withdrawal->status = USER_WALLET_PAYMENT_INITIALIZE;
 
-            $user_withdrawal_details->user_wallet_payment_id = 0;
+            $user_withdrawal->user_wallet_payment_id = 0;
 
-            $user_withdrawal_details->save();
+            $user_withdrawal->save();
 
             // Update the wallet amount
 
@@ -806,13 +806,13 @@ class WalletApiController extends Controller
 
                 $user_wallet_payment = $withdraw_request_response->data;
 
-                $user_withdrawal_details->user_wallet_payment_id = $user_wallet_payment->user_wallet_payment_id;
+                $user_withdrawal->user_wallet_payment_id = $user_wallet_payment->user_wallet_payment_id;
 
-                $user_withdrawal_details->save();
+                $user_withdrawal->save();
 
                 DB::commit();
 
-                return $this->sendResponse(api_success(138), 138, $user_withdrawal_details);
+                return $this->sendResponse(api_success(138), 138, $user_withdrawal);
 
             } else {
                 
@@ -861,32 +861,32 @@ class WalletApiController extends Controller
 
             // Check the user has enough balance 
 
-            $user_withdrawal_details = \App\UserWithdrawal::where('user_id', $request->id)->where('user_withdrawals.id', $request->user_withdrawal_id)->first();
+            $user_withdrawal = \App\UserWithdrawal::where('user_id', $request->id)->where('user_withdrawals.id', $request->user_withdrawal_id)->first();
 
-            if(!$user_withdrawal_details) {
+            if(!$user_withdrawal) {
                 throw new Exception(api_error(140), 140);
             }
 
 
             // Check the cancel eligibility
 
-            if(in_array($user_withdrawal_details->status, [WITHDRAW_PAID, WITHDRAW_DECLINED, WITHDRAW_CANCELLED])) {
+            if(in_array($user_withdrawal->status, [WITHDRAW_PAID, WITHDRAW_DECLINED, WITHDRAW_CANCELLED])) {
                 throw new Exception(api_error(141), 141);
             }
 
-            $user_withdrawal_details->status = WITHDRAW_CANCELLED;
+            $user_withdrawal->status = WITHDRAW_CANCELLED;
 
-            $user_withdrawal_details->cancel_reason = $request->cancel_reason ?: "";
+            $user_withdrawal->cancel_reason = $request->cancel_reason ?: "";
 
-            $user_withdrawal_details->save();
+            $user_withdrawal->save();
 
             // Update the wallet amount
 
-            PaymentRepo::user_wallet_update_withdraw_cancel($user_withdrawal_details->requested_amount, $request->id);
+            PaymentRepo::user_wallet_update_withdraw_cancel($user_withdrawal->requested_amount, $request->id);
 
             // Update the wallet history
 
-            $user_wallet_payment = \App\UserWalletPayment::where('id', $user_withdrawal_details->user_wallet_payment_id)->first();
+            $user_wallet_payment = \App\UserWalletPayment::where('id', $user_withdrawal->user_wallet_payment_id)->first();
 
             if($user_wallet_payment) {
 

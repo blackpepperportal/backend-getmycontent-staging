@@ -70,7 +70,7 @@ class UserApiValidation {
                
                 }
 
-                if($user_details->is_verified == USER_EMAIL_NOT_VERIFIED) {
+                if($user_details->is_email_verified == USER_EMAIL_NOT_VERIFIED) {
 
                     if(Setting::get('is_account_email_verification') && !in_array($user_details->login_by, ['facebook' , 'google', 'apple', 'linkedin', 'instagram'])) {
 

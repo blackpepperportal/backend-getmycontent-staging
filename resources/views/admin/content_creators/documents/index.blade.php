@@ -42,7 +42,7 @@
                                     <th>{{ tr('s_no') }}</th>
                                     <th>{{ tr('content_creator') }}</th>
                                     <th>{{ tr('document') }}</th>
-                                    <th>{{ tr('is_verified') }}</th>
+                                    <th>{{ tr('is_email_verified') }}</th>
                                     <th>{{ tr('status') }}</th>
                                     <th>{{ tr('uploaded_by') }}</th>
                                     <th>{{ tr('action') }}</th>
@@ -51,23 +51,23 @@
                            
                             <tbody>
 
-                                @foreach($stardom_documents as $i => $stardom_document_details)
+                                @foreach($stardom_documents as $i => $user_document)
                                 <tr>
                                     <td>{{ $i+1 }}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.users.view' , ['user_id' => $stardom_document_details->user_id] )  }}">
-                                        {{ $stardom_document_details->userDetails->name  ?? "-" }}
+                                        <a href="{{  route('admin.users.view' , ['user_id' => $user_document->user_id] )  }}">
+                                        {{ $user_document->userDetails->name  ?? "-" }}
                                         </a>
                                     </td>
 
                                     <td>
-                                        <a href="{{  route('admin.documents.view' , ['document_id' => $stardom_document_details->document_id] )  }}">
-                                            {{ $stardom_document_details->documentDetails->name ?? "-" }}</a>
+                                        <a href="{{  route('admin.documents.view' , ['document_id' => $user_document->document_id] )  }}">
+                                            {{ $user_document->document->name ?? "-" }}</a>
                                     </td>
 
                                      <td>
-                                        @if($stardom_document_details->is_verified == STARDOM_DOCUMENT_VERIFIED)
+                                        @if($user_document->is_email_verified == STARDOM_DOCUMENT_VERIFIED)
 
                                             <span class="btn btn-success btn-sm">{{ tr('verified') }}</span> 
                                         @else
@@ -77,7 +77,7 @@
                                     </td>
 
                                     <td>
-                                        @if($stardom_document_details->status == APPROVED)
+                                        @if($user_document->status == APPROVED)
 
                                             <span class="btn btn-success btn-sm">{{ tr('approved') }}</span> 
 
@@ -89,7 +89,7 @@
                                     </td>
 
                                     <td>
-                                        <span class="badge badge-secondary">{{ $stardom_document_details->uploaded_by ?: "-" }}</span>
+                                        <span class="badge badge-secondary">{{ $user_document->uploaded_by ?: "-" }}</span>
                                     </td>
 
                                     <td>
@@ -100,22 +100,22 @@
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                <a class="dropdown-item" href="{{$stardom_document_details->document_file}}" target="_black"> {{ tr('document_file') }}</a> 
+                                                <a class="dropdown-item" href="{{$user_document->document_file}}" target="_black"> {{ tr('document_file') }}</a> 
 
-                                                <a class="dropdown-item" href="{{$stardom_document_details->document_file_front}}" target="_black"> {{ tr('document_file_front') }}</a> 
+                                                <a class="dropdown-item" href="{{$user_document->document_file_front}}" target="_black"> {{ tr('document_file_front') }}</a> 
 
-                                                <a class="dropdown-item" href="{{$stardom_document_details->document_file_back}}" target="_blank"> {{ tr('document_file_back') }}</a> 
+                                                <a class="dropdown-item" href="{{$user_document->document_file_back}}" target="_blank"> {{ tr('document_file_back') }}</a> 
 
                                                 <div class="dropdown-divider"></div>
-                                                @if($stardom_document_details->is_verified == STARDOM_DOCUMENT_NOT_VERIFIED)
+                                                @if($user_document->is_email_verified == STARDOM_DOCUMENT_NOT_VERIFIED)
 
-                                                    <a class="dropdown-item" href="{{ route('admin.stardoms.documents.verify' , ['stardom_document_id' => $stardom_document_details->id]) }}">
+                                                    <a class="dropdown-item" href="{{ route('admin.stardoms.documents.verify' , ['stardom_document_id' => $user_document->id]) }}">
                                                         {{ tr('verify') }}
                                                     </a>
 
                                                 @else
 
-                                                <a class="dropdown-item" href="{{ route('admin.stardoms.documents.verify' , ['stardom_document_id' => $stardom_document_details->id]) }}">
+                                                <a class="dropdown-item" href="{{ route('admin.stardoms.documents.verify' , ['stardom_document_id' => $user_document->id]) }}">
                                                     {{ tr('unverify') }}
                                                 </a>@endif
 

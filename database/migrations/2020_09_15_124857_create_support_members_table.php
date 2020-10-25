@@ -31,7 +31,7 @@ class CreateSupportMembersTable extends Migration
             $table->string('token_expiry');
             $table->string('device_token')->nullable();
             $table->enum('device_type', ['web', 'android', 'ios'])->default('web');
-            $table->integer('is_verified')->default(YES);
+            $table->integer('is_email_verified')->default(YES);
             $table->tinyInteger('status')->default(YES);
             $table->timestamps();
         });

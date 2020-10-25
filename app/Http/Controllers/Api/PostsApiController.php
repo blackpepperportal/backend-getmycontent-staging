@@ -94,13 +94,13 @@ class PostsApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $post_details = Post::find($request->post_id);
+            $post = Post::find($request->post_id);
 
-            if(!$post_details) {
+            if(!$post) {
                 throw new Exception(api_error(139), 139);   
             }
 
-            $data['post_details'] = $post_details;
+            $data['post'] = $post;
 
             return $this->sendResponse($message = "", $success_code = "", $data);
 
@@ -140,27 +140,27 @@ class PostsApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $post_details = Post::find($request->post_id) ?? new Post;
+            $post = Post::find($request->post_id) ?? new Post;
 
-            $success_code = $post_details->id ? 131 : 130;
+            $success_code = $post->id ? 131 : 130;
 
-            $post_details->user_id = $request->id;
+            $post->user_id = $request->id;
 
-            $post_details->content = $request->content ?: $post_details->content;
+            $post->content = $request->content ?: $post->content;
 
             $strtotime_publish_time = strtotime($request->publish_time);
 
-            $post_details->publish_time = date('Y-m-d H:i:s', $strtotime_publish_time);
+            $post->publish_time = date('Y-m-d H:i:s', $strtotime_publish_time);
 
-            $post_details->amount = $request->amount ?? '';
+            $post->amount = $request->amount ?? '';
 
-            $post_details->is_paid_post = $request->is_paid_post ?? $post_details->is_paid_post;
+            $post->is_paid_post = $request->is_paid_post ?? $post->is_paid_post;
 
-            if($post_details->save()) {
+            if($post->save()) {
 
                 DB::commit(); 
 
-                $data = Post::find($post_details->id);
+                $data = Post::find($post->id);
 
                 return $this->sendResponse(api_success($success_code), $success_code, $data);
 
@@ -204,13 +204,13 @@ class PostsApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules,$custom_errors = []);
 
-            $post_details = Post::find($request->post_id);
+            $post = Post::find($request->post_id);
 
-            if(!$post_details) {
+            if(!$post) {
                 throw new Exception(api_error(139), 139);   
             }
 
-            $post_details = \App\Post::destroy($request->post_id);
+            $post = \App\Post::destroy($request->post_id);
 
             DB::commit();
 
@@ -254,21 +254,21 @@ class PostsApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules,$custom_errors = []);
 
-            $post_details = Post::find($request->post_id);
+            $post = Post::find($request->post_id);
 
-            if(!$post_details) {
+            if(!$post) {
                 throw new Exception(api_error(139), 139);   
             }
 
-            $post_details->is_published = $post_details->is_published ? UNPUBLISHED : PUBLISHED;
+            $post->is_published = $post->is_published ? UNPUBLISHED : PUBLISHED;
 
-            if($post_details->save()) {
+            if($post->save()) {
 
                 DB::commit();
 
-                $success_code = $post_details->is_published ? 135 : 136;
+                $success_code = $post->is_published ? 135 : 136;
 
-                $data['post_details'] = $post_details;
+                $data['post'] = $post;
 
                 return $this->sendResponse(api_success($success_code),$success_code, $data);
 

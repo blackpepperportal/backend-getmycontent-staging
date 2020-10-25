@@ -588,6 +588,12 @@ class Helper {
      */
     
     public static function storage_upload_file($input_file, $folder_path = COMMON_FILE_PATH) {
+
+        if(!$input_file) {
+
+            return "";
+
+        }
        
         $name = Helper::file_name();
 

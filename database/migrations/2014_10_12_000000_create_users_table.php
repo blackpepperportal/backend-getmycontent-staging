@@ -37,14 +37,15 @@ class CreateUsersTable extends Migration
             $table->enum('login_by', ['manual','facebook','google', 'instagram', 'apple', 'linkedin'])->default('manual');
             $table->string('social_unique_id')->default('');
             $table->tinyInteger('registration_steps')->default(0);
-            $table->integer('push_notification_status')->default(YES);
-            $table->integer('email_notification_status')->default(YES);
+            $table->integer('is_push_notification')->default(YES);
+            $table->integer('is_email_notification')->default(YES);
             $table->integer('user_card_id')->default(0);
-            $table->integer('is_verified')->default(0);
+            $table->integer('is_email_verified')->default(0);
             $table->string('verification_code')->default('');
             $table->string('verification_code_expiry')->default('');
             $table->timestamp('email_verified_at')->nullable();
             $table->tinyInteger('is_content_creator')->default(0);
+            $table->tinyInteger('is_document_verified')->default(0);
             $table->tinyInteger('status')->default(1);
             $table->integer('one_time_subscription')->comment("0 - Not Subscribed , 1 - Subscribed")->default(0);
             $table->float('amount_paid')->default(0);

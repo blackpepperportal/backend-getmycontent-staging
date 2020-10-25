@@ -133,7 +133,7 @@
                                     </td>
 
                                     <td>
-                                        @if($user_details->is_verified == USER_EMAIL_NOT_VERIFIED)
+                                        @if($user_details->is_email_verified == USER_EMAIL_NOT_VERIFIED)
 
                                         <a class="btn btn-outline-danger btn-sm" href="{{ route('admin.users.verify' , ['user_id' => $user_details->id]) }}">
                                             <i class="icon-close"></i> {{ tr('verify') }}

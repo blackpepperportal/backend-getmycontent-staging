@@ -74,11 +74,11 @@ class AdminUserController extends Controller
                     break;
 
                 case SORT_BY_EMAIL_VERIFIED:
-                    $base_query = $base_query->where('users.is_verified',USER_EMAIL_VERIFIED);
+                    $base_query = $base_query->where('users.is_email_verified',USER_EMAIL_VERIFIED);
                     break;
                 
                 default:
-                    $base_query = $base_query->where('users.is_verified',USER_EMAIL_NOT_VERIFIED);
+                    $base_query = $base_query->where('users.is_email_verified',USER_EMAIL_NOT_VERIFIED);
                     break;
             }
         }
@@ -231,7 +231,7 @@ class AdminUserController extends Controller
 
                 $user_details->picture = asset('placeholder.jpeg');
 
-                $user_details->is_verified = USER_EMAIL_VERIFIED;
+                $user_details->is_email_verified = USER_EMAIL_VERIFIED;
 
                 $user_details->token = Helper::generate_token();
 
@@ -280,7 +280,7 @@ class AdminUserController extends Controller
 
                     $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
-                    $user_details->is_verified = USER_EMAIL_VERIFIED;
+                    $user_details->is_email_verified = USER_EMAIL_VERIFIED;
 
                     $user_details->save();
 
@@ -490,13 +490,13 @@ class AdminUserController extends Controller
                 
             }
 
-            $user_details->is_verified = $user_details->is_verified ? USER_EMAIL_NOT_VERIFIED : USER_EMAIL_VERIFIED;
+            $user_details->is_email_verified = $user_details->is_email_verified ? USER_EMAIL_NOT_VERIFIED : USER_EMAIL_VERIFIED;
 
             if($user_details->save()) {
 
                 DB::commit();
 
-                $message = $user_details->is_verified ? tr('user_verify_success') : tr('user_unverify_success');
+                $message = $user_details->is_email_verified ? tr('user_verify_success') : tr('user_unverify_success');
 
                 return redirect()->route('admin.users.index')->with('flash_success', $message);
             }

@@ -71,9 +71,9 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('logout', 'Api\UserAccountApiController@logout');
 
-        Route::post('push_notification_update', 'Api\UserAccountApiController@push_notification_status_change');
+        Route::post('push_notification_update', 'Api\UserAccountApiController@is_push_notification_change');
 
-        Route::post('email_notification_update', 'Api\UserAccountApiController@email_notification_status_change');
+        Route::post('email_notification_update', 'Api\UserAccountApiController@is_email_notification_change');
 
         Route::post('notifications_status_update','Api\UserAccountApiController@notifications_status_update');
 
@@ -89,13 +89,23 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('payment_mode_default', 'Api\UserAccountApiController@payment_mode_default');
 
-        Route::post('users_accounts_list','Api\UserAccountApiController@users_accounts_list');
+        Route::post('documents_list', 'Api\VerificationApiController@documents_list');
 
-        Route::post('users_accounts_save','Api\UserAccountApiController@users_accounts_save');
+        Route::post('documents_save','Api\VerificationApiController@documents_save');
 
-        Route::post('users_accounts_delete','Api\UserAccountApiController@users_accounts_delete');
+        Route::post('documents_delete','Api\VerificationApiController@documents_delete');
+
+        Route::post('documents_delete_all','Api\VerificationApiController@documents_delete_all');
+
+        Route::post('user_documents_status','Api\VerificationApiController@user_documents_status');
+
+        Route::post('billing_accounts_list','Api\UserAccountApiController@user_billing_accounts_list');
+
+        Route::post('billing_accounts_save','Api\UserAccountApiController@user_billing_accounts_save');
+
+        Route::post('billing_accounts_delete','Api\UserAccountApiController@user_billing_accounts_delete');
         
-        Route::post('users_accounts_default','Api\UserAccountApiController@users_accounts_default');
+        Route::post('billing_accounts_default','Api\UserAccountApiController@user_billing_accounts_default');
 
         // Content Creator profile for other users
         Route::post('content_creators_profile','Api\UserAccountApiController@content_creators_profile');
