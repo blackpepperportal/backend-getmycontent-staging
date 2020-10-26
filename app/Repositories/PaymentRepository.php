@@ -735,4 +735,116 @@ class PaymentRepository {
     
     }
 
+    /**
+     * @method posts_payment_by_stripe()
+     *
+     * @uses post payment - card
+     *
+     * @created Bhawya
+     * 
+     * @updated Bhawya
+     *
+     * @param object $post, object $request
+     *
+     * @return object $post_paym
+     */
+
+    public static function posts_payment_by_stripe($request, $post) {
+
+        try {
+
+            // Check stripe configuration
+        
+            $stripe_secret_key = Setting::get('stripe_secret_key');
+
+            if(!$stripe_secret_key) {
+
+                throw new Exception(api_error(107), 107);
+
+            } 
+
+            \Stripe\Stripe::setApiKey($stripe_secret_key);
+           
+            $currency_code = Setting::get('currency_code', 'USD') ?: "USD";
+
+            $total = intval(round($request->user_pay_amount * 100));
+
+            $charge_array = [
+                'amount' => $total,
+                'currency' => $currency_code,
+                'customer' => $request->customer_id,
+            ];
+
+
+            $stripe_payment_response =  \Stripe\Charge::create($charge_array);
+
+            $payment_data = [
+                'payment_id' => $stripe_payment_response->id ?? 'CARD-'.rand(),
+                'paid_amount' => $stripe_payment_response->amount/100 ?? $total,
+                'paid_status' => $stripe_payment_response->paid ?? true
+            ];
+
+            $response_array = ['success' => true, 'message' => 'done', 'data' => $payment_data];
+
+            return response()->json($response_array, 200);
+
+        } catch(Exception $e) {
+
+            $response_array = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
+
+            return response()->json($response_array, 200);
+
+        }
+
+    }
+
+    /**
+     * @method posts_payment_save()
+     *
+     * @uses used to save post payment details
+     *
+     * @created Bhawya
+     * 
+     * @updated Vithya
+     *
+     * @param object $post, object $request
+     *
+     * @return object $post_payment
+     */
+
+    public static function posts_payment_save($request, $post) {
+
+        try {
+
+            $post_payment = new \App\PostPayment;
+
+            $post_payment->post_id = $request->post_id;
+
+            $post_payment->user_id = $request->id;
+
+            $post_payment->payment_id = $request->payment_id ?? "NO-".rand();
+
+            $post_payment->payment_mode = $request->payment_mode ?? CARD;
+
+            $post_payment->paid_amount = $request->paid_amount ?? 0.00;
+
+            $post_payment->status = PAID;
+
+            $post_payment->save();
+
+            $response = ['success' => true, 'message' => 'paid', 'data' => [ 'payment_id' => $request->payment_id]];
+
+            return response()->json($response, 200);
+
+        } catch(Exception $e) {
+
+            $response = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
+
+            return response()->json($response, 200);
+
+        }
+    
+    }
+
+
 }

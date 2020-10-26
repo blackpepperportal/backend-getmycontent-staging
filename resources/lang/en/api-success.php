@@ -2,7 +2,7 @@
 
 return [
 
-    101 => 'Successfully loggedin!!',
+    101 => 'successfully loggedin!!',
 
     102 => 'Mail sent successfully',
 
@@ -40,42 +40,54 @@ return [
 
     120 => 'The auto renewal is paused.',
 
-    121 => 'The product created successfully!!',
+    121 => 'The product created.',
 
-    122 => 'The product updated successfully!!',
+    122 => 'The product updated.',
 
-    123 => "The product deleted successfully!!",
+    123 => "The product deleted.",
 
-    124 => "The product approved successfully..!!",
+    124 => "The product approved.",
     
-    125 => "The product declined successfully..!!",
+    125 => "The product declined.",
 
-    126 => "The product is Available Now..!!",
+    126 => "The product is available now..!!",
 
-    127 => "The product is marked as Out Of Stock..!!",
+    127 => "The product is marked as out of stock..!!",
 
     128 => "You're following the :other_key now.",
     
-    129 => "User Unfollowed successfully",
+    129 => "Unfollowed.",
 
-    130 => "Post Created Successfully",
+    130 => "The post created.",
 
-    131 => "Post Updated Successfully",
+    131 => "The post updated.",
 
-    132 => "The product image deleted successfully!!",
+    132 => "The product image deleted.",
 
-    133 => "The product image updated successfully!!",
+    133 => "The product image updated.",
 
-    134 => "Post deleted Successfully",
+    134 => "The post deleted.",
 
-    135 => "The post published successfully",
+    135 => "The post published.",
 
-    136 => "The post un-published successfully",
+    136 => "The post un-published.",
 
     137 => 'The default account changed',
 
     138 => 'Sent money successfully.',
 
-    139 => 'The request is cancelled.'
+    139 => 'The request is cancelled.',
+
+    140 => "Payment done.",
+
+    141 => 'Added comment',
+
+    142 => 'Comment Removed',
+
+    143 => 'Added to Bookmark',
+
+    144 => 'Added to favourite list',
+
+    145 => 'Removed from favourite list'
 
 ];

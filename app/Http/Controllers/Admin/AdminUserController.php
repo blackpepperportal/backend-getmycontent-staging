@@ -12,11 +12,7 @@ use DB, Hash, Setting, Auth, Validator, Exception, Enveditor;
 
 use App\Jobs\SendEmailJob;
 
-//use Maatwebsite\Excel\Facades\Excel;
-
-
 use Excel; // Excel namespace
-
 
 class AdminUserController extends Controller
 {
@@ -35,7 +31,7 @@ class AdminUserController extends Controller
 
     }
 
-/**
+    /**
      * @method users_index()
      *
      * @uses To list out users details 

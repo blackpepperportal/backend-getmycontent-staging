@@ -18,6 +18,7 @@ class CreatePostPaymentsTable extends Migration
             $table->string('unique_id')->default(rand());
             $table->integer('user_id');
             $table->integer('post_id');
+            $table->integer('user_card_id')->default(0);
             $table->string('payment_id');
             $table->string('payment_mode')->default(CARD);
             $table->string('currency')->default('$');

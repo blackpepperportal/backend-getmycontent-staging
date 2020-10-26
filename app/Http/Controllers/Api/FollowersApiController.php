@@ -35,6 +35,40 @@ class FollowersApiController extends Controller
     }
 
     /** 
+     * @method user_suggestions()
+     *
+     * @uses Follow users & content creators
+     *
+     * @created Bhawya
+     *
+     * @updated Bhawya
+     *
+     * @param
+     * 
+     * @return JSON response
+     *
+     */
+    public function user_suggestions(Request $request) {
+
+        try {
+
+            $following_user_ids = Follower::where('follower_id', $request->id)->pluck('user_id');
+
+            $users = User::Approved()->whereNotIn('usrs.id', $following_user_ids);
+
+            $data['users'] = $users;
+
+            return $this->sendResponse($message = "", $code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+
+    }
+
+    /** 
      * @method follow_users()
      *
      * @uses Follow users & content creators

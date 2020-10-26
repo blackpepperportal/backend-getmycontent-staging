@@ -198,4 +198,29 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     Route::post('unfollow_users','Api\FollowersApiController@unfollow_users');
 
+
+    Route::post('home','Api\PostsApiController@home');
+
+    Route::post('posts_search','Api\PostsApiController@posts_search');
+
+    Route::post('posts_view_for_others','Api\PostsApiController@posts_view_for_others');
+
+    Route::post('user_suggestions','Api\FollowersApiController@user_suggestions');
+
+    Route::post('posts_payment_by_wallet','Api\PostsApiController@posts_payment_by_wallet');
+
+    Route::post('posts_payment_by_stripe','Api\PostsApiController@posts_payment_by_stripe');
+
+    Route::post('post_comments','Api\PostsApiController@post_comments');
+
+    Route::post('post_comments_save','Api\PostsApiController@post_comments_save');
+    
+    Route::post('post_comments_delete','Api\PostsApiController@post_comments_delete');
+
+    Route::post('fav_posts','Api\PostsApiController@fav_posts');
+
+    Route::post('fav_posts_save','Api\PostsApiController@fav_posts_save');
+    
+    Route::post('fav_posts_delete','Api\PostsApiController@post_comments_delete');
+
 });

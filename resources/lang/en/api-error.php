@@ -96,4 +96,22 @@ return [
     142 => 'Your wallet balance is low.',
 
     143 => 'The requested amount is less than the min balance(:other_key)',
+
+    145 => 'Already paid',
+
+    146 => 'The post is unavailable',
+
+    147 => 'Your wallet balance is low.',
+
+    148 => 'The withdraw request is not found',
+
+    149 => 'The withdraw cancel is not allowed',
+
+    150 => 'The wallet payment record not exits',
+
+    151 => 'The comment is not found',
+
+    152 => 'The bookmark is not found',
+
+    153 => 'The fav post is not found'
 ];

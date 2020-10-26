@@ -4,20 +4,20 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PostComment extends Model
+class PostBookmark extends Model
 {
-    protected $fillable = ['post_id', 'user_id', 'comment'];
+    protected $fillable = ['post_id', 'user_id'];
 
-    protected $hidden = ['id','unique_id'];
+    protected $hidden = ['id', 'unique_id'];
 
-	protected $appends = ['post_comment_id','post_comment_unique_id', 'username', 'user_picture'];
+	protected $appends = ['post_bookmark_id', 'post_bookmark_unique_id', 'username', 'user_picture'];
 	
-	public function getPostCommentIdAttribute() {
+	public function getPostBookmarkIdAttribute() {
 
 		return $this->id;
 	}
 
-	public function getPostCommentUniqueIdAttribute() {
+	public function getPostBookmarkUniqueIdAttribute() {
 
 		return $this->unique_id;
 	}
@@ -42,14 +42,14 @@ class PostComment extends Model
 	   return $this->belongsTo(Post::class, 'post_id');
 	}
 
-		/**
+	/**
      * Scope a query to only include active users.
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeApproved($query) {
 
-        $query->where('post_comments.status', APPROVED);
+        $query->where('post_bookmarks.status', APPROVED);
 
         return $query;
 
@@ -60,16 +60,15 @@ class PostComment extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->attributes['unique_id'] = "PC"."-".uniqid();
+            $model->attributes['unique_id'] = "PBM-".uniqid();
         });
 
         static::created(function($model) {
 
-            $model->attributes['unique_id'] = "PC"."-".$model->attributes['id']."-".uniqid();
+            $model->attributes['unique_id'] = "PBM-".$model->attributes['id']."-".uniqid();
 
             $model->save();
         
         });
-
     }
 }

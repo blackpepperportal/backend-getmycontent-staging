@@ -200,3 +200,13 @@ if(!defined('USER_DOCUMENT_PENDING')) define('USER_DOCUMENT_PENDING', 1);
 if(!defined('USER_DOCUMENT_APPROVED')) define('USER_DOCUMENT_APPROVED', 2);
 if(!defined('USER_DOCUMENT_DECLINED')) define('USER_DOCUMENT_DECLINED', 3);
 
+
+if(!defined('USER_FREE_ACCOUNT')) define('USER_FREE_ACCOUNT', 0);
+if(!defined('USER_PREMIUM_ACCOUNT')) define('USER_PREMIUM_ACCOUNT', 1);
+
+if(!defined('BOOKMARK_TYPE_ALL')) define('BOOKMARK_TYPE_ALL', 'all');
+if(!defined('BOOKMARK_TYPE_PHOTOS')) define('BOOKMARK_TYPE_PHOTOS', 'photos');
+if(!defined('BOOKMARK_TYPE_VIDEOS')) define('BOOKMARK_TYPE_VIDEOS', 'videos');
+if(!defined('BOOKMARK_TYPE_AUDIOS')) define('BOOKMARK_TYPE_AUDIOS', 'audios');
+if(!defined('BOOKMARK_TYPE_LOCKED')) define('BOOKMARK_TYPE_LOCKED', 'locked');
+if(!defined('BOOKMARK_TYPE_OTHERS')) define('BOOKMARK_TYPE_OTHERS', 'others');
