@@ -204,6 +204,9 @@ if(!defined('USER_DOCUMENT_DECLINED')) define('USER_DOCUMENT_DECLINED', 3);
 if(!defined('USER_FREE_ACCOUNT')) define('USER_FREE_ACCOUNT', 0);
 if(!defined('USER_PREMIUM_ACCOUNT')) define('USER_PREMIUM_ACCOUNT', 1);
 
+if(!defined('USER_SUBSCRIPTION_MONTHLY')) define('USER_SUBSCRIPTION_MONTHLY', 'monthly');
+if(!defined('USER_SUBSCRIPTION_YEARLY')) define('USER_SUBSCRIPTION_YEARLY', 'yearly');
+
 if(!defined('BOOKMARK_TYPE_ALL')) define('BOOKMARK_TYPE_ALL', 'all');
 if(!defined('BOOKMARK_TYPE_PHOTOS')) define('BOOKMARK_TYPE_PHOTOS', 'photos');
 if(!defined('BOOKMARK_TYPE_VIDEOS')) define('BOOKMARK_TYPE_VIDEOS', 'videos');

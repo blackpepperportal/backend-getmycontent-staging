@@ -8,7 +8,7 @@ class Post extends Model
 {
 	protected $hidden = ['id','unique_id'];
 
-	protected $appends = ['amount_formatted','post_id','post_unique_id', 'username', 'user_picture'];
+	protected $appends = ['amount_formatted','post_id','post_unique_id', 'username', 'user_picture', 'user_unique_id'];
 
 	public function getAmountFormattedAttribute() {
 
@@ -23,6 +23,11 @@ class Post extends Model
 	public function getPostUniqueIdAttribute() {
 
 		return $this->unique_id;
+	}
+
+	public function getUserUniqueIdAttribute() {
+
+		return $this->user->unique_id ?? "";
 	}
 
 	public function getUsernameAttribute() {

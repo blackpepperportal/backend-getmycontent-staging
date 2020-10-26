@@ -115,5 +115,7 @@ return [
 
     153 => 'The fav post is not found',
 
-    154 => 'You can\'t send tips to yourself'
+    154 => 'You can\'t send tips to yourself',
+
+    155 => 'The subscription is unavailable',
 ];

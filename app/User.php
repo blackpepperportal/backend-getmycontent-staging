@@ -94,6 +94,14 @@ class User extends Authenticatable
     /**
      * Get the UserCard record associated with the user.
      */
+    public function userSubscription() {
+        
+        return $this->hasOne(UserSubscription::class, 'user_id');
+    }
+
+    /**
+     * Get the UserCard record associated with the user.
+     */
     public function scopeIsContentCreator($query, $status) {
         
         return $query->where('is_content_creator',$status);

@@ -1497,7 +1497,7 @@ class UserAccountApiController extends Controller
 
             Helper::custom_validator($request->all(), $rules, $custom_errors = []);
 
-            $user = \App\User::where('users.unique_id', $request->user_unique_id)->frist();
+            $user = \App\User::where('users.unique_id', $request->user_unique_id)->first();
 
             if(!$user) {
                 throw new Exception(api_error(1002), 1002);
@@ -1544,7 +1544,7 @@ class UserAccountApiController extends Controller
 
             Helper::custom_validator($request->all(), $rules, $custom_errors = []);
 
-            $user = \App\User::where('users.unique_id', $request->user_unique_id)->frist();
+            $user = \App\User::where('users.unique_id', $request->user_unique_id)->first();
 
             if(!$user) {
                 throw new Exception(api_error(1002), 1002);
@@ -1591,7 +1591,7 @@ class UserAccountApiController extends Controller
 
             Helper::custom_validator($request->all(), $rules, $custom_errors = []);
 
-            $user = \App\User::where('users.unique_id', $request->user_unique_id)->frist();
+            $user = \App\User::where('users.unique_id', $request->user_unique_id)->first();
 
             if(!$user) {
                 throw new Exception(api_error(1002), 1002);
@@ -1610,5 +1610,327 @@ class UserAccountApiController extends Controller
         }
     
     }
+
+    /** 
+     * @method user_subscriptions_history()
+     *
+     * @uses get subscriptions list for selected user
+     *
+     * @created Vithya R
+     *
+     * @updated Vithya R
+     *
+     * @param object $request - User Id
+     *
+     * @return json response with user details
+     */
+
+    public function user_subscriptions_history(Request $request) {
+
+        try {
+
+            // Validation start
+            $rules = ['user_unique_id' => 'required|exists:users,unique_id'];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors = []);
+
+            $user = \App\User::where('users.unique_id', $request->user_unique_id)->first();
+
+            if(!$user) {
+                throw new Exception(api_error(1002), 1002);
+            }
+
+            $user_subscription = \App\UserSubscription::where('user_id', $request->id)->first();
+
+            $data['user_subscription'] = $user_subscription ?? [];
+
+            return $this->sendResponse($message = "", $code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
+    }
+
+    /** 
+     * @method user_subscriptions_autorenewal()
+     *
+     * @uses get subscriptions list for selected user
+     *
+     * @created Vithya R
+     *
+     * @updated Vithya R
+     *
+     * @param object $request - User Id
+     *
+     * @return json response with user details
+     */
+
+    public function user_subscriptions_autorenewal(Request $request) {
+
+        try {
+
+            // Validation start
+            $rules = ['user_unique_id' => 'required|exists:users,unique_id'];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors = []);
+
+            $user = \App\User::where('users.unique_id', $request->user_unique_id)->first();
+
+            if(!$user) {
+                throw new Exception(api_error(1002), 1002);
+            }
+
+            $user_subscription = \App\UserSubscription::where('user_id', $request->id)->first();
+
+            $data['user_subscription'] = $user_subscription ?? [];
+
+            return $this->sendResponse($message = "", $code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
+    }
+
+    /** 
+     * @method user_subscriptions_payment_by_stripe()
+     *
+     * @uses pay for subscription using paypal
+     *
+     * @created Vithya R
+     *
+     * @updated Vithya R
+     *
+     * @param
+     * 
+     * @return JSON response
+     *
+     */
+
+    public function user_subscriptions_payment_by_stripe(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $rules = [
+                'user_unique_id' => 'required|exists:users,unique_id',
+                'subscription_type' => 'required',
+            ];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors = []);
+
+            $user = \App\User::where('users.unique_id', $request->user_unique_id)->first();
+
+            if(!$user) {
+                throw new Exception(api_error(135), 135);
+            }
+
+            $user_subscription = $user->userSubscription;
+
+            if(!$user_subscription) {
+                throw new Exception(api_error(155), 155);   
+            }
+
+            $check_user_payment = \App\UserSubscriptionPayment::UserPaid($request->id, $user->id)->first();
+
+            if($check_user_payment) {
+
+                throw new Exception(api_error(145), 145);
+                
+            }
+
+            $subscription_amount = $request->subscription_type == USER_SUBSCRIPTION_YEARLY ? $user_subscription->yearly_amount : $user_subscription->monthly_amount;
+
+            $request->request->add(['payment_mode' => CARD]);
+
+            $total = $user_pay_amount = $subscription_amount ?: 0.00;
+
+            if($user_pay_amount > 0) {
+
+                $user_card = \App\UserCard::where('user_id', $request->id)->firstWhere('is_default', YES);
+
+                if(!$user_card) {
+
+                    throw new Exception(api_error(120), 120); 
+
+                }
+                
+                $request->request->add([
+                    'total' => $total, 
+                    'customer_id' => $user_card->customer_id,
+                    'user_pay_amount' => $user_pay_amount,
+                    'paid_amount' => $user_pay_amount,
+                ]);
+
+
+                $card_payment_response = PaymentRepo::posts_payment_by_stripe($request, $post)->getData();
+                
+                if($card_payment_response->success == false) {
+
+                    throw new Exception($card_payment_response->error, $card_payment_response->error_code);
+                    
+                }
+
+                $card_payment_data = $card_payment_response->data;
+
+                $request->request->add(['paid_amount' => $card_payment_data->paid_amount, 'payment_id' => $card_payment_data->payment_id, 'paid_status' => $card_payment_data->paid_status]);
+
+            }
+
+            $payment_response = PaymentRepo::user_subscriptions_payment_save($request, $post)->getData();
+
+            if($payment_response->success) {
+                
+                DB::commit();
+
+                return $this->sendResponse(api_success(140), 140, $payment_response->data);
+
+            } else {
+
+                throw new Exception($payment_response->error, $payment_response->error_code);
+                
+            }
+        
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+
+    }
+
+    /**
+     * @method user_subscriptions_payment_by_wallet()
+     * 
+     * @uses send money to other user
+     *
+     * @created Vithya R 
+     *
+     * @updated Vithya R
+     *
+     * @param object $request
+     *
+     * @return json with boolean output
+     */
+
+    public function user_subscriptions_payment_by_wallet(Request $request) {
+
+        try {
+            
+            DB::beginTransaction();
+
+            $rules = [
+                'user_unique_id' => 'required|exists:users,unique_id',
+                'subscription_type' => 'required',
+            ];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors = []);
+
+            $user = \App\User::where('users.unique_id', $request->user_unique_id)->first();
+
+            if(!$user) {
+                throw new Exception(api_error(135), 135);
+            }
+
+            $user_subscription = $user->userSubscription;
+
+            if(!$user_subscription) {
+                throw new Exception(api_error(155), 155);   
+            }
+
+            $check_user_payment = \App\UserSubscriptionPayment::UserPaid($request->id, $user->id)->first();
+
+            if($check_user_payment) {
+
+                throw new Exception(api_error(145), 145);
+                
+            }
+
+            $subscription_amount = $request->subscription_type == USER_SUBSCRIPTION_YEARLY ? $user_subscription->yearly_amount : $user_subscription->monthly_amount;
+
+            // Check the user has enough balance 
+
+            $user_wallet = \App\UserWallet::where('user_id', $request->id)->first();
+
+            $remaining = $user_wallet->remaining ?? 0;
+
+            if($remaining < $subscription_amount) {
+                throw new Exception(api_error(147), 147);    
+            }
+            
+            $request->request->add([
+                'payment_mode' => PAYMENT_MODE_WALLET,
+                'total' => $subscription_amount, 
+                'user_pay_amount' => $subscription_amount,
+                'paid_amount' => $subscription_amount,
+                'payment_type' => WALLET_PAYMENT_TYPE_PAID,
+                'amount_type' => WALLET_AMOUNT_TYPE_MINUS,
+                'payment_id' => 'WPP-'.rand()
+            ]);
+
+            $wallet_payment_response = PaymentRepo::user_wallets_payment_save($request)->getData();
+
+            if($wallet_payment_response->success) {
+
+                $payment_response = PaymentRepo::user_subscriptions_payment_save($request)->getData();
+
+                if(!$payment_response->success) {
+
+                    throw new Exception($payment_response->error, $payment_response->error_code);
+                }
+
+                // Update the to user
+
+                $to_user_inputs = [
+                    'id' => $user_subscription->user_id,
+                    'received_from_user_id' => $request->id,
+                    'total' => $subscription_amount, 
+                    'user_pay_amount' => $subscription_amount,
+                    'paid_amount' => $subscription_amount,
+                    'payment_type' => WALLET_PAYMENT_TYPE_CREDIT,
+                    'amount_type' => WALLET_AMOUNT_TYPE_ADD,
+                    'payment_id' => 'CD-'.rand()
+                ];
+
+                $to_user_request = new \Illuminate\Http\Request();
+
+                $to_user_request->replace($to_user_inputs);
+
+                $to_user_payment_response = PaymentRepo::user_wallets_payment_save($to_user_request)->getData();
+
+                if($to_user_payment_response->success) {
+
+                    DB::commit();
+
+                    return $this->sendResponse(api_success(140), 140, $payment_response->data ?? []);
+
+                } else {
+
+                    throw new Exception($to_user_payment_response->error, $to_user_payment_response->error_code);
+                }
+
+            } else {
+
+                throw new Exception($wallet_payment_response->error, $wallet_payment_response->error_code);
+                
+            }
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+
+    }
+
 
 }
