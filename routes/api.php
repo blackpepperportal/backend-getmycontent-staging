@@ -199,6 +199,21 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
     Route::post('unfollow_users','Api\FollowersApiController@unfollow_users');
 
 
+    Route::post('other_profile','Api\UserAccountApiController@other_profile');
+
+    Route::post('other_profile_posts','Api\UserAccountApiController@other_profile_posts');
+
+    Route::post('user_subscriptions','Api\UserAccountApiController@user_subscriptions');
+
+    Route::post('user_subscriptions_payment_by_stripe','Api\UserAccountApiController@user_subscriptions_payment_by_stripe');
+
+    Route::post('user_subscriptions_payment_by_wallet','Api\UserAccountApiController@user_subscriptions_payment_by_wallet');
+
+    Route::post('user_subscriptions_history','Api\UserAccountApiController@user_subscriptions_history');
+
+    Route::post('user_subscriptions_autorenewal','Api\UserAccountApiController@user_subscriptions_autorenewal');
+
+
     Route::post('home','Api\PostsApiController@home');
 
     Route::post('posts_search','Api\PostsApiController@posts_search');

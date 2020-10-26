@@ -1110,7 +1110,7 @@ class PostsApiController extends Controller
                 
             }
 
-            $request->request->add(['payment_mode' => CARD]);
+            $request->request->add(['payment_mode' => CARD, 'from_user_id' => $request->id, 'to_user_id' => $request->user_id]);
 
             $total = $user_pay_amount = $request->amount ?: 1;
 
@@ -1137,7 +1137,6 @@ class PostsApiController extends Controller
                 if($card_payment_response->success == false) {
 
                     throw new Exception($card_payment_response->error, $card_payment_response->error_code);
-                    
                 }
 
                 $card_payment_data = $card_payment_response->data;
@@ -1234,7 +1233,8 @@ class PostsApiController extends Controller
                 'paid_amount' => $request->amount,
                 'payment_type' => WALLET_PAYMENT_TYPE_PAID,
                 'amount_type' => WALLET_AMOUNT_TYPE_MINUS,
-                'payment_id' => 'WPP-'.rand()
+                'payment_id' => 'WPP-'.rand(),
+                ''
             ]);
 
             $wallet_payment_response = PaymentRepo::user_wallets_payment_save($request)->getData();

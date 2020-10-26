@@ -1475,7 +1475,7 @@ class UserAccountApiController extends Controller
     }
 
     /** 
-     * @method content_creators_profile()
+     * @method other_profile()
      *
      * @uses Content Creators Profile view
      *
@@ -1488,19 +1488,16 @@ class UserAccountApiController extends Controller
      * @return json response with user details
      */
 
-    public function content_creators_profile(Request $request) {
+    public function other_profile(Request $request) {
 
         try {
 
-            DB::beginTransaction();
-
             // Validation start
-            $rules = ['user_id' => 'required|exists:users,id'];
+            $rules = ['user_unique_id' => 'required|exists:users,unique_id'];
 
             Helper::custom_validator($request->all(), $rules, $custom_errors = []);
 
-
-            $user = \App\User::find($request->user_id);
+            $user = \App\User::where('users.unique_id', $request->user_unique_id)->frist();
 
             if(!$user) {
                 throw new Exception(api_error(1002), 1002);
@@ -1508,19 +1505,15 @@ class UserAccountApiController extends Controller
 
             $data['user'] = $user;
 
-            $data['total_followers'] = \App\Follower::where('user_id', $request->user_id)
-                    ->count();
+            $data['total_followers'] = \App\Follower::where('user_id', $request->user_id)->count();
 
-            $data['total_followings'] = \App\Follower::where('follower_id', $request->user_id)
-                    ->count();
+            $data['total_followings'] = \App\Follower::where('follower_id', $request->user_id)->count();
 
             $data['total_posts'] = \App\Post::where('user_id', $request->user_id)->count();
 
             return $this->sendResponse($message = "", $code = "", $data);
 
         } catch(Exception $e) {
-
-            DB::rollback();
 
             return $this->sendError($e->getMessage(), $e->getCode());
 
@@ -1529,42 +1522,39 @@ class UserAccountApiController extends Controller
     }
 
     /** 
-     * @method content_creators_posts()
+     * @method other_profile_posts()
      *
      * @uses Content Creators Posts
      *
      * @created Bhawya N
      *
-     * @updated Bhawya N
+     * @updated Vithya R
      *
      * @param object $request - User Id
      *
      * @return json response with user details
      */
 
-    public function content_creators_posts(Request $request) {
+    public function other_profile_posts(Request $request) {
 
         try {
 
-            DB::beginTransaction();
-
             // Validation start
-            $rules = ['user_id' => 'required|exists:users,id'];
+            $rules = ['user_unique_id' => 'required|exists:users,unique_id'];
 
             Helper::custom_validator($request->all(), $rules, $custom_errors = []);
 
-
-            $user = \App\User::find($request->user_id);
+            $user = \App\User::where('users.unique_id', $request->user_unique_id)->frist();
 
             if(!$user) {
                 throw new Exception(api_error(1002), 1002);
             }
 
-            $base_query = $total_query = \App\Post::where('user_id', $request->user_id)->get();
+            $base_query = $total_query = \App\Post::with('postFiles')->where('user_id', $user->id);
 
-            $post = $base_query->skip($this->skip)->take($this->take)->orderBy('created_at', 'desc')->get();
+            $posts = $base_query->skip($this->skip)->take($this->take)->orderBy('created_at', 'desc')->get();
             
-            $data['post'] = $post ?? [];
+            $data['posts'] = $posts ?? [];
 
             $data['total'] = $total_query->count() ?? 0;
 
@@ -1572,7 +1562,48 @@ class UserAccountApiController extends Controller
 
         } catch(Exception $e) {
 
-            DB::rollback();
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
+    }
+
+    /** 
+     * @method user_subscriptions()
+     *
+     * @uses get subscriptions list for selected user
+     *
+     * @created Vithya R
+     *
+     * @updated Vithya R
+     *
+     * @param object $request - User Id
+     *
+     * @return json response with user details
+     */
+
+    public function user_subscriptions(Request $request) {
+
+        try {
+
+            // Validation start
+            $rules = ['user_unique_id' => 'required|exists:users,unique_id'];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors = []);
+
+            $user = \App\User::where('users.unique_id', $request->user_unique_id)->frist();
+
+            if(!$user) {
+                throw new Exception(api_error(1002), 1002);
+            }
+
+            $user_subscription = \App\UserSubscription::where('user_id', $request->id)->first();
+
+            $data['user_subscription'] = $user_subscription ?? [];
+
+            return $this->sendResponse($message = "", $code = "", $data);
+
+        } catch(Exception $e) {
 
             return $this->sendError($e->getMessage(), $e->getCode());
 
