@@ -41,9 +41,9 @@ class PostsApiController extends Controller
      *
      * @uses To display all the posts
      *
-     * @created Bhawya N
+     * @created Vithya R
      *
-     * @updated Bhawya N
+     * @updated Vithya R
      *
      * @param request id
      *
@@ -82,9 +82,9 @@ class PostsApiController extends Controller
      *
      * @uses To display all the posts
      *
-     * @created Bhawya N
+     * @created Vithya R
      *
-     * @updated Bhawya N
+     * @updated Vithya R
      *
      * @param request id
      *
@@ -134,9 +134,9 @@ class PostsApiController extends Controller
      *
      * @uses get the selected post details
      *
-     * @created Bhawya N
+     * @created Vithya R
      *
-     * @updated Bhawya N
+     * @updated Vithya R
      *
      * @param integer $subscription_id
      *
@@ -173,9 +173,9 @@ class PostsApiController extends Controller
      *
      * @uses To display all the posts
      *
-     * @created Bhawya N
+     * @created Vithya R
      *
-     * @updated Bhawya N
+     * @updated Vithya R
      *
      * @param request id
      *
@@ -208,9 +208,9 @@ class PostsApiController extends Controller
      *
      * @uses get the selected post details
      *
-     * @created Bhawya N
+     * @created Vithya R
      *
-     * @updated Bhawya N
+     * @updated Vithya R
      *
      * @param integer $subscription_id
      *
@@ -251,9 +251,9 @@ class PostsApiController extends Controller
      *
      * @uses get the selected post details
      *
-     * @created Bhawya N
+     * @created Vithya R
      *
-     * @updated Bhawya N
+     * @updated Vithya R
      *
      * @param integer $subscription_id
      *
@@ -439,9 +439,9 @@ class PostsApiController extends Controller
      *
      * @uses pay for subscription using paypal
      *
-     * @created Bhawya N
+     * @created Vithya R
      *
-     * @updated Bhawya N
+     * @updated Vithya R
      *
      * @param
      * 
@@ -1061,5 +1061,237 @@ class PostsApiController extends Controller
         } 
     
     }
+
+    /** 
+     * @method tips_payment_by_stripe()
+     *
+     * @uses send tips to the user
+     *
+     * @created Vithya R
+     *
+     * @updated Vithya R
+     *
+     * @param
+     * 
+     * @return JSON response
+     *
+     */
+
+    public function tips_payment_by_stripe(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            // Validation start
+
+            $rules = [
+                    'post_id' => 'nullable|exists:posts,id'
+                    'user_id' => 'required|exists:users,id',
+                    'amount' => 'required|min:0'
+                ];
+
+            $custom_errors = ['post_id' => api_error(139), 'user_id' => api_error(135)];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors);
+            
+            // Validation end
+
+            if($request->id == $request->user_id) {
+                throw new Exception(api_error(154), 154);
+                
+            }
+
+            $user = \App\User::Approved()->firstWhere('users.id',  $request->user_id);
+
+            if(!$user) {
+
+                throw new Exception(api_error(135), 135);
+                
+            }
+
+            $request->request->add(['payment_mode' => CARD]);
+
+            $total = $user_pay_amount = $request->amount ?: 1;
+
+            if($user_pay_amount > 0) {
+
+                $user_card = \App\UserCard::where('user_id', $request->id)->firstWhere('is_default', YES);
+
+                if(!$user_card) {
+
+                    throw new Exception(api_error(120), 120); 
+
+                }
+                
+                $request->request->add([
+                    'total' => $total, 
+                    'customer_id' => $user_card->customer_id,
+                    'user_card_id' => $user_card->id,
+                    'user_pay_amount' => $user_pay_amount,
+                    'paid_amount' => $user_pay_amount,
+                ]);
+
+                $card_payment_response = PaymentRepo::tips_payment_by_stripe($request, $post)->getData();
+                
+                if($card_payment_response->success == false) {
+
+                    throw new Exception($card_payment_response->error, $card_payment_response->error_code);
+                    
+                }
+
+                $card_payment_data = $card_payment_response->data;
+
+                $request->request->add(['paid_amount' => $card_payment_data->paid_amount, 'payment_id' => $card_payment_data->payment_id, 'paid_status' => $card_payment_data->paid_status]);
+
+            }
+
+            $payment_response = PaymentRepo::tips_payment_save($request)->getData();
+
+            if($payment_response->success) {
+                
+                DB::commit();
+
+                return $this->sendResponse(api_success(146), 146, $payment_response->data);
+
+            } else {
+
+                throw new Exception($payment_response->error, $payment_response->error_code);
+                
+            }
+        
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+
+    }
+
+    /**
+     * @method tips_payment_by_wallet()
+     * 
+     * @uses send tips to the user
+     *
+     * @created Vithya R 
+     *
+     * @updated Vithya R
+     *
+     * @param object $request
+     *
+     * @return json with boolean output
+     */
+
+    public function tips_payment_by_wallet(Request $request) {
+
+        try {
+            
+            DB::beginTransaction();
+
+            // Validation start
+
+            $rules = [
+                    'post_id' => 'nullable|exists:posts,id'
+                    'user_id' => 'required|exists:users,id',
+                    'amount' => 'required|min:0'
+                ];
+
+            $custom_errors = ['post_id' => api_error(139), 'user_id' => api_error(135)];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors);
+            
+            // Validation end
+
+            if($request->id == $request->user_id) {
+                throw new Exception(api_error(154), 154);
+                
+            }
+
+            $user = \App\User::Approved()->firstWhere('users.id',  $request->user_id);
+
+            if(!$user) {
+
+                throw new Exception(api_error(135), 135);
+                
+            }
+
+            // Check the user has enough balance 
+
+            $user_wallet = \App\UserWallet::where('user_id', $request->id)->first();
+
+            $remaining = $user_wallet->remaining ?? 0;
+
+            if($remaining < $request->amount) {
+                throw new Exception(api_error(147), 147);    
+            }
+            
+            $request->request->add([
+                'payment_mode' => PAYMENT_MODE_WALLET,
+                'total' => $request->amount, 
+                'user_pay_amount' => $request->amount,
+                'paid_amount' => $request->amount,
+                'payment_type' => WALLET_PAYMENT_TYPE_PAID,
+                'amount_type' => WALLET_AMOUNT_TYPE_MINUS,
+                'payment_id' => 'WPP-'.rand()
+            ]);
+
+            $wallet_payment_response = PaymentRepo::user_wallets_payment_save($request)->getData();
+
+            if($wallet_payment_response->success) {
+
+                $payment_response = PaymentRepo::tips_payment_save($request)->getData();
+
+                if(!$payment_response->success) {
+
+                    throw new Exception($payment_response->error, $payment_response->error_code);
+                }
+
+                // Update the to user
+
+                $to_user_inputs = [
+                    'id' => $request->user_id,
+                    'received_from_user_id' => $request->id,
+                    'total' => $request->amount, 
+                    'user_pay_amount' => $request->amount,
+                    'paid_amount' => $request->amount,
+                    'payment_type' => WALLET_PAYMENT_TYPE_CREDIT,
+                    'amount_type' => WALLET_AMOUNT_TYPE_ADD,
+                    'payment_id' => 'CD-'.rand()
+                ];
+
+                $to_user_request = new \Illuminate\Http\Request();
+
+                $to_user_request->replace($to_user_inputs);
+
+                $to_user_payment_response = PaymentRepo::user_wallets_payment_save($to_user_request)->getData();
+
+                if($to_user_payment_response->success) {
+
+                    DB::commit();
+
+                    return $this->sendResponse(api_success(140), 140, $payment_response->data ?? []);
+
+                } else {
+
+                    throw new Exception($to_user_payment_response->error, $to_user_payment_response->error_code);
+                }
+
+            } else {
+
+                throw new Exception($wallet_payment_response->error, $wallet_payment_response->error_code);
+                
+            }
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+
+    }
+
 
 }

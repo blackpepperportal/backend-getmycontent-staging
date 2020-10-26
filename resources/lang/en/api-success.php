@@ -88,6 +88,8 @@ return [
 
     144 => 'Added to favourite list',
 
-    145 => 'Removed from favourite list'
+    145 => 'Removed from favourite list',
+
+    146 => 'Thanks for the tips'
 
 ];

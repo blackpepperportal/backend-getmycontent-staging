@@ -846,5 +846,122 @@ class PaymentRepository {
     
     }
 
+    /**
+     * @method tips_payment_by_stripe()
+     *
+     * @uses tips payment - card
+     *
+     * @created Bhawya
+     * 
+     * @updated Bhawya
+     *
+     * @param object $post, object $request
+     *
+     * @return object $post_paym
+     */
+
+    public static function tips_payment_by_stripe($request, $post) {
+
+        try {
+
+            // Check stripe configuration
+        
+            $stripe_secret_key = Setting::get('stripe_secret_key');
+
+            if(!$stripe_secret_key) {
+
+                throw new Exception(api_error(107), 107);
+
+            } 
+
+            \Stripe\Stripe::setApiKey($stripe_secret_key);
+           
+            $currency_code = Setting::get('currency_code', 'USD') ?: "USD";
+
+            $total = intval(round($request->user_pay_amount * 100));
+
+            $charge_array = [
+                'amount' => $total,
+                'currency' => $currency_code,
+                'customer' => $request->customer_id,
+            ];
+
+
+            $stripe_payment_response =  \Stripe\Charge::create($charge_array);
+
+            $payment_data = [
+                'payment_id' => $stripe_payment_response->id ?? 'CARD-'.rand(),
+                'paid_amount' => $stripe_payment_response->amount/100 ?? $total,
+                'paid_status' => $stripe_payment_response->paid ?? true
+            ];
+
+            $response_array = ['success' => true, 'message' => 'done', 'data' => $payment_data];
+
+            return response()->json($response_array, 200);
+
+        } catch(Exception $e) {
+
+            $response_array = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
+
+            return response()->json($response_array, 200);
+
+        }
+
+    }
+
+    /**
+     * @method tips_payment_save()
+     *
+     * @uses used to save tips payment details
+     *
+     * @created Bhawya
+     * 
+     * @updated Vithya
+     *
+     * @param object $post, object $request
+     *
+     * @return object $post_payment
+     */
+
+    public static function tips_payment_save($request) {
+
+        try {
+
+            $user_tip = new \App\UserTip;
+
+            $user_tip->post_id = $request->post_id;
+
+            $user_tip->user_id = $request->id;
+
+            $user_tip->to_user_id = $request->to_user_id;
+
+            $user_tip->user_card_id = $request->user_card_id ?: 0;
+
+            $user_tip->payment_id = $request->payment_id ?? "NO-".rand();
+
+            $user_tip->payment_mode = $request->payment_mode ?? CARD;
+
+            $user_tip->amount = $request->paid_amount ?? 0.00;
+
+            $user_tip->paid_date = date('Y-m-d H:i:s');
+
+            $user_tip->status = PAID;
+
+            $user_tip->save();
+
+            $response = ['success' => true, 'message' => 'paid', 'data' => [ 'payment_id' => $request->payment_id]];
+
+            return response()->json($response, 200);
+
+        } catch(Exception $e) {
+
+            $response = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
+
+            return response()->json($response, 200);
+
+        }
+    
+    }
+
 
 }

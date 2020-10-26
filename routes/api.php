@@ -222,5 +222,9 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
     Route::post('fav_posts_save','Api\PostsApiController@fav_posts_save');
     
     Route::post('fav_posts_delete','Api\PostsApiController@post_comments_delete');
+    
 
+    Route::post('tips_payment_by_stripe','Api\PostsApiController@tips_payment_by_stripe');
+
+    Route::post('tips_payment_by_wallet','Api\PostsApiController@tips_payment_by_wallet');
 });

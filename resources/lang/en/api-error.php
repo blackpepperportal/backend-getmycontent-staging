@@ -79,7 +79,7 @@ return [
 
     134 => "The product deletion failed!!",
 
-    135 => "The selected user details not found",
+    135 => "The user is not found",
 
     136 => "You can\'t follow yourself.",
 
@@ -113,5 +113,7 @@ return [
 
     152 => 'The bookmark is not found',
 
-    153 => 'The fav post is not found'
+    153 => 'The fav post is not found',
+
+    154 => 'You can\'t send tips to yourself'
 ];
