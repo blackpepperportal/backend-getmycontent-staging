@@ -736,10 +736,10 @@ class PostsApiController extends Controller
 
             $rules = [
                 'comment' => 'required',
-                'post_id' => 'required|exists:posts,id',
+                'post_id' => 'required|exists:posts,id'
             ];
 
-            $custom_errors ['post_id.required' => api_error(146)];
+            $custom_errors = ['post_id.required' => api_error(146)];
 
             Helper::custom_validator($request->all(),$rules, $custom_errors);
 
@@ -784,7 +784,7 @@ class PostsApiController extends Controller
 
             $rules = ['post_comment_id' => 'required|exists:post_comments,id'];
 
-            $custom_errors ['post_comment_id.required' => api_error(151)];
+            $custom_errors = ['post_comment_id.required' => api_error(151)];
 
             Helper::custom_validator($request->all(),$rules, $custom_errors);
 
@@ -864,7 +864,7 @@ class PostsApiController extends Controller
 
             $rules = ['post_id' => 'nullable|exists:posts,id'];
 
-            $custom_errors ['post_id.required' => api_error(146)];
+            $custom_errors = ['post_id.required' => api_error(146)];
 
             Helper::custom_validator($request->all(),$rules, $custom_errors);
 
@@ -909,7 +909,7 @@ class PostsApiController extends Controller
 
             $rules = ['post_bookmark_id' => 'required|exists:post_bookmarks,id'];
 
-            $custom_errors ['post_bookmark_id.required' => api_error(152)];
+            $custom_errors = ['post_bookmark_id.required' => api_error(152)];
 
             Helper::custom_validator($request->all(),$rules, $custom_errors);
 
@@ -989,7 +989,7 @@ class PostsApiController extends Controller
 
             $rules = ['post_id' => 'nullable|exists:posts,id'];
 
-            $custom_errors ['post_id.required' => api_error(146)];
+            $custom_errors = ['post_id.required' => api_error(146)];
 
             Helper::custom_validator($request->all(),$rules, $custom_errors);
 
@@ -1040,7 +1040,7 @@ class PostsApiController extends Controller
 
             $rules = ['fav_post_id' => 'required|exists:fav_posts,id'];
 
-            $custom_errors ['fav_post_id.required' => api_error(153)];
+            $custom_errors = ['fav_post_id.required' => api_error(153)];
 
             Helper::custom_validator($request->all(),$rules, $custom_errors);
 
@@ -1086,7 +1086,7 @@ class PostsApiController extends Controller
             // Validation start
 
             $rules = [
-                    'post_id' => 'nullable|exists:posts,id'
+                    'post_id' => 'nullable|exists:posts,id',
                     'user_id' => 'required|exists:users,id',
                     'amount' => 'required|min:0'
                 ];
@@ -1192,7 +1192,7 @@ class PostsApiController extends Controller
             // Validation start
 
             $rules = [
-                    'post_id' => 'nullable|exists:posts,id'
+                    'post_id' => 'nullable|exists:posts,id',
                     'user_id' => 'required|exists:users,id',
                     'amount' => 'required|min:0'
                 ];
