@@ -133,8 +133,6 @@ class UserAccountApiController extends Controller
 
             $user->mobile = $request->mobile ?? "";
 
-            $user->is_content_creator = YES;
-
             if($request->has('password')) {
 
                 $user->password = Hash::make($request->password ?: "123456");
@@ -212,19 +210,17 @@ class UserAccountApiController extends Controller
 
                 if($user->is_email_verified == USER_EMAIL_VERIFIED) {
 
-                    // counter(); // For site analytics. Don't remove
+                    counter(); // For site analytics. Don't remove
                     
                     $data = User::find($user->id);
 
-                    $response = ['success' => true, 'data' => $data];
+                    $response = ['success' => true, 'message' => api_success(101), 'data' => $data];
 
                 } else {
 
                     $data = User::find($user->id);
 
                     $response = ['success' => true, 'message' => api_error(1001), 'code' => 1001, 'data' => $data];
-
-                    // $response = ['success' => false, 'error' => api_error(1001), 'error_code'=>1001];
 
                     DB::commit();
 
@@ -272,7 +268,7 @@ class UserAccountApiController extends Controller
             DB::beginTransaction();
 
             $rules = [
-                'device_token' => 'required',
+                'device_token' => 'nullable',
                 'device_type' => 'required|in:'.DEVICE_ANDROID.','.DEVICE_IOS.','.DEVICE_WEB,
                 'login_by' => 'required|in:manual,facebook,google,apple,linkedin,instagram',
             ];
@@ -343,12 +339,11 @@ class UserAccountApiController extends Controller
 
                 $user->save();
 
-                
                 $data = User::find($user->id);
 
                 DB::commit();
                 
-                // counter(); // For site analytics. Don't remove
+                counter(); // For site analytics. Don't remove
 
                 return $this->sendResponse(api_success(101), 101, $data);
 
@@ -593,11 +588,11 @@ class UserAccountApiController extends Controller
             // Validation start
 
             $rules = [
-                    'first_name' => 'required|max:255',
-                    'last_name' => 'required|max:255',
+                    'first_name' => 'nullable|max:255',
+                    'last_name' => 'nullable|max:255',
                     'email' => 'email|unique:users,email,'.$request->id.'|max:255',
                     'mobile' => 'nullable|digits_between:6,13',
-                    // 'picture' => 'mimes:jpeg,bmp,png',
+                    'picture' => 'nullable|mimes:jpeg,bmp,png',
                     'gender' => 'nullable|in:male,female,others',
                     'device_token' => '',
             ];
@@ -613,11 +608,11 @@ class UserAccountApiController extends Controller
                 throw new Exception(api_error(1002) , 1002);
             }
 
-            $user->name = $request->name ?? $user->name;
+            $user->name = $request->name ?: $user->name;
 
-            $user->first_name = $request->first_name ?? $user->first_name;
+            $user->first_name = $request->first_name ?: $user->first_name;
 
-            $user->last_name = $request->last_name ?? $user->last_name;
+            $user->last_name = $request->last_name ?: $user->last_name;
             
             if($request->has('email')) {
 
@@ -636,8 +631,9 @@ class UserAccountApiController extends Controller
                 Helper::storage_delete_file($user->picture, PROFILE_PATH_USER); // Delete the old pic
 
                 $user->picture = Helper::storage_upload_file($request->file('picture'), PROFILE_PATH_USER);
-
+            
             }
+
 
             if($user->save()) {
 
@@ -645,11 +641,37 @@ class UserAccountApiController extends Controller
 
                 DB::commit();
 
+                if($request->monthly_amount || $request->yearly_amount) {
+
+                    // Check the user is eligibility
+
+                    $account_response = \App\Repositories\CommonRepository::user_premium_account_check($user)->getData();
+
+                    if(!$account_response->success) {
+
+                        throw new Exception($account_response->error, $account_response->error_code);
+                    }
+
+                    $user_subscription = \App\UserSubscription::where('user_id', $request->id)->first() ?? new \App\UserSubscription;
+
+                    $user_subscription->user_id = $request->id;
+
+                    $user_subscription->monthly_amount = $request->monthly_amount ?: ($user_subscription->monthly_amount ?: 0.00);
+
+                    $user_subscription->yearly_amount = $request->yearly_amount ?: ($user_subscription->yearly_amount ?: 0.00);
+
+                    $user_subscription->save();
+
+                    DB::commit();
+
+                }
+
                 return $this->sendResponse($message = api_success(111), $success_code = 111, $data);
 
             } else {    
 
                 throw new Exception(api_error(103), 103);
+            
             }
 
         } catch (Exception $e) {
@@ -1073,8 +1095,6 @@ class UserAccountApiController extends Controller
      */
     public function payment_mode_default(Request $request) {
 
-        Log::info("payment_mode_default");
-
         try {
 
             DB::beginTransaction();
@@ -1114,6 +1134,42 @@ class UserAccountApiController extends Controller
     }
 
     /**
+     * @method user_premium_account_check()
+     *
+     * @uses check the user is eligiable for the premium acounts
+     *
+     * @created vithya R
+     *
+     * @updated vithya R
+     *
+     * @param integer id
+     * 
+     * @return JSON Response
+     */
+    public function user_premium_account_check(Request $request) {
+
+        try {
+
+            $user = User::find($request->id);
+
+            $account_response = \App\Repositories\CommonRepository::user_premium_account_check($user)->getData();
+
+            if(!$account_response->success) {
+
+                throw new Exception($account_response->error, $account_response->error_code);
+            }           
+
+            return $this->sendResponse($message = $account_response->message, $code = 200, $data = $user);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+    
+    }
+
+    /**
      * @method regenerate_email_verification_code()
      *
      * @uses 
@@ -1136,7 +1192,7 @@ class UserAccountApiController extends Controller
 
             $user->verification_code = Helper::generate_email_code();
 
-            // $user->verification_code_expiry = \Helper::generate_email_expiry();
+            $user->verification_code_expiry = \Helper::generate_email_expiry();
 
             $user->save();
 
@@ -1154,7 +1210,7 @@ class UserAccountApiController extends Controller
 
             DB::commit();
 
-            return $this->sendResponse($message = api_success(129), $code = 128, $data = []);
+            return $this->sendResponse($message = api_success(147), $code = 147, $data = []);
 
         } catch(Exception $e) {
 
@@ -1184,18 +1240,28 @@ class UserAccountApiController extends Controller
         try {
 
             DB::beginTransaction();
+            
+            $rules = ['verification_code' => 'required|min:6|max:6'];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors = []);
 
             $user = \App\User::find($request->id);
 
-            $user->is_email_verified = USER_EMAIL_VERIFIED;
+            if($user->verification_code != $request->verification_code) {
+
+                throw new Exception(api_error(146), 146);
+
+            }
+
+            $user->is_verified = USER_EMAIL_VERIFIED;
 
             $user->save();
 
             DB::commit();
 
-            $data = User::find($user->id);
+            $data = User::CommonResponse()->find($user->id);
 
-            return $this->sendResponse($message = api_success(129), $code = 129, $data);
+            return $this->sendResponse($message = api_success(148), $code = 148, $data);
 
         } catch(Exception $e) {
 
@@ -1232,9 +1298,7 @@ class UserAccountApiController extends Controller
                 
             $user = User::find($request->id);
 
-            $user->is_email_notification = $request->status;
-
-            $user->is_push_notification = $request->status;
+            $user->is_email_notification = $user->is_push_notification = $request->status;
 
             $user->save();
 

@@ -697,7 +697,7 @@ class PostsApiController extends Controller
 
            // Check the subscription is available
 
-            $base_query = $total_query = \App\PostComment::Approved()->where('posts.id',  $request->post_id)->orderBy('post_comments.created_at', 'desc');
+            $base_query = $total_query = \App\PostComment::Approved()->where('post_comments.id',  $request->post_id)->orderBy('post_comments.created_at', 'desc');
 
 
             $post_comments = $base_query->skip($this->skip)->take($this->take)->get();
@@ -743,9 +743,11 @@ class PostsApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules, $custom_errors);
 
-            $request->request->add(['user_id' => $request->id]);
+            $custom_request = new Request();
 
-            $post_comment = \App\PostComment::updateOrCreate($request->all());
+            $custom_request->request->add(['user_id' => $request->id, 'post_id' => $request->post_id, 'comment' => $request->comment]);
+
+            $post_comment = \App\PostComment::updateOrCreate($custom_request->request->all());
 
             DB::commit(); 
 
@@ -868,9 +870,11 @@ class PostsApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules, $custom_errors);
 
-            $request->request->add(['user_id' => $request->id]);
+            $custom_request = new Request();
 
-            $post_bookmark = \App\PostBookmark::updateOrCreate($request->all());
+            $custom_request->request->add(['user_id' => $request->id, 'post_id' => $request->post_id]);
+
+            $post_bookmark = \App\PostBookmark::updateOrCreate($custom_request->request->all());
 
             DB::commit(); 
 
@@ -999,9 +1003,11 @@ class PostsApiController extends Controller
                 throw new Exception(api_error(139), 139);   
             }
 
-            $request->request->add(['user_id' => $request->id, 'post_user_id' => $post->user_id]);
+            $custom_request = new Request();
 
-            $fav_post = \App\FavPost::updateOrCreate($request->all());
+            $custom_request->request->add(['user_id' => $request->id, 'post_id' => $request->post_id, 'post_user_id' => $post->user_id]);
+
+            $fav_post = \App\FavPost::updateOrCreate($custom_request->request->all());
 
             DB::commit(); 
 

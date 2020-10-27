@@ -213,3 +213,4 @@ if(!defined('BOOKMARK_TYPE_VIDEOS')) define('BOOKMARK_TYPE_VIDEOS', 'videos');
 if(!defined('BOOKMARK_TYPE_AUDIOS')) define('BOOKMARK_TYPE_AUDIOS', 'audios');
 if(!defined('BOOKMARK_TYPE_LOCKED')) define('BOOKMARK_TYPE_LOCKED', 'locked');
 if(!defined('BOOKMARK_TYPE_OTHERS')) define('BOOKMARK_TYPE_OTHERS', 'others');
+

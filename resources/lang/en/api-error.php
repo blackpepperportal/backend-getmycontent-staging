@@ -118,4 +118,16 @@ return [
     154 => 'You can\'t send tips to yourself',
 
     155 => 'The subscription is unavailable',
+
+    156 => 'Your account is not yet verified.',
+
+    157 => 'Please verify your email and continue',
+
+    158 => 'Your documents are waiting for admin approval',
+
+    159 => 'Your document verification declined. Please check and reupload',
+
+    160 => 'Upload the documents for verification',
+
+    161 => 'Add bank account details',
 ];

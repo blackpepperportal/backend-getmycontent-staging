@@ -53,6 +53,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function userBillingAccounts() {
+
+        return $this->hasMany(UserBillingAccount::class, 'user_id');
+    }
+
+    public function userDocuments() {
+
+        return $this->hasMany(UserDocument::class, 'user_id');
+    }
+
     public function deliveryAddresses() {
 
         return $this->hasMany(DeliveryAddress::class,'user_id');
@@ -175,6 +185,10 @@ class User extends Authenticatable
 
         static::created(function($model) {
 
+            $model->attributes['user_account_type'] = USER_FREE_ACCOUNT;
+            
+            $model->attributes['user_account_type'] = USER_FREE_ACCOUNT;
+
             $model->attributes['is_email_notification'] = $model->attributes['is_push_notification'] = YES;
 
             $model->attributes['unique_id'] = "UID"."-".$model->attributes['id']."-".uniqid();
@@ -206,6 +220,10 @@ class User extends Authenticatable
             $model->userWallets()->delete();
             
             $model->userWithdrawals()->delete();
+            
+            $model->userDocuments()->delete();
+            
+            $model->userBillingAccounts()->delete();
         });
 
     }

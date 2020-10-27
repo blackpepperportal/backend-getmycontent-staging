@@ -64,6 +64,8 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
         Route::post('profile','Api\UserAccountApiController@profile');
 
         Route::post('update_profile', 'Api\UserAccountApiController@update_profile');
+        
+        Route::post('user_premium_account_check', 'Api\UserAccountApiController@user_premium_account_check');
 
         Route::post('change_password', 'Api\UserAccountApiController@change_password');
 
@@ -232,11 +234,19 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
     
     Route::post('post_comments_delete','Api\PostsApiController@post_comments_delete');
 
+
+    Route::post('post_bookmarks','Api\PostsApiController@post_bookmarks');
+
+    Route::post('post_bookmarks_save','Api\PostsApiController@post_bookmarks_save');
+    
+    Route::post('post_bookmarks_delete','Api\PostsApiController@post_bookmarks_delete');
+
+
     Route::post('fav_posts','Api\PostsApiController@fav_posts');
 
     Route::post('fav_posts_save','Api\PostsApiController@fav_posts_save');
     
-    Route::post('fav_posts_delete','Api\PostsApiController@post_comments_delete');
+    Route::post('fav_posts_delete','Api\PostsApiController@fav_posts_delete');
     
 
     Route::post('tips_payment_by_stripe','Api\PostsApiController@tips_payment_by_stripe');
