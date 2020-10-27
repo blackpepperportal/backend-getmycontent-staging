@@ -5,8 +5,7 @@
 @section('content-header', tr('payments')) 
 
 @section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a>
-    </li>
+
 <li class="breadcrumb-item active">
     <a href="">{{ tr('payments') }}</a>
 </li>
