@@ -167,7 +167,7 @@ Route::group(['middleware' => 'web'], function() {
 
         //delivery address routes end
 
-     //bookmarks routes start
+         //bookmarks routes start
 
         Route::get('bookmarks' , 'Admin\AdminPostController@post_bookmarks_index')->name('bookmarks.index');
 
@@ -175,6 +175,14 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('bookmarks/view', 'Admin\AdminPostController@post_bookmarks_view')->name('bookmarks.view');
          //bookmarks routes start
+
+
+        // fav users route start
+        Route::get('fav_users','Admin\AdminPostController@fav_users')->name('fav_users.index');
+
+        Route::get('fav_users/delete','Admin\AdminPostController@fav_users_delete')->name('fav_users.delete');
+
+        // end of fav user route end
 
 
         

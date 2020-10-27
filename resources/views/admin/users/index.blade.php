@@ -192,6 +192,8 @@
 
                                                <a class="dropdown-item" href="{{ route('admin.bookmarks.index', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('bookmarks') }}</a>
 
+                                               <a class="dropdown-item" href="{{ route('admin.fav_users.index', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('favorite_users') }}</a>
+
                                                 
                                             </div>
 

@@ -800,6 +800,93 @@ class AdminPostController extends Controller
             return redirect()->back()->with('flash_error',$e->getMessage());
         }
 
-}
+}       
 
+
+    /**
+    * @method fav_users
+    *
+    * @uses List of fav users
+    *
+    * @created Sakthi
+    *
+    * @updated 
+    *
+    * @param 
+    * 
+    * @return response success/failure message
+    *
+    **/
+    public function fav_users(Request $request) {
+
+            $base_query = \App\FavUser::where('user_id', $request->user_id)->Approved()->orderBy('fav_users.created_at', 'desc');
+            
+            if($request->search_key) {
+                $search_key = $request->search_key;
+
+                $base_query = $base_query->whereHas('favUser',function($query) use($search_key){
+
+                    return $query->where('users.name','LIKE','%'.$search_key.'%');
+
+                });
+
+            }
+
+            $fav_users = $base_query->paginate(10);
+
+            return view('admin.fav_users.index')
+            ->with('page','fav_users')
+            ->with('fav_users',$fav_users);
+    }
+
+
+
+
+    /**
+    * @method fav_users_delete
+    *
+    * @uses List of fav users
+    *
+    * @created Sakthi
+    *
+    * @updated 
+    *
+    * @param 
+    * 
+    * @return response success/failure message
+    *
+    **/
+    public function fav_users_delete(Request $request) {
+
+    try {
+
+        DB::begintransaction();
+
+        $fav_user_detail = \App\FavUser::find($request->user_id);
+
+        if(!$fav_user_detail) {
+
+            throw new Exception(tr('fav_user_not_found'), 101);                
+        }
+
+        $fav_user_detail->where('fav_user_id',$request->fav_user_id);
+
+        if($fav_user_detail->delete()) {
+
+            DB::commit();
+
+            return redirect()->back()->with('flash_success',tr('fav_user_deleted_success'));   
+
+        } 
+
+        throw new Exception(tr('fav_user_delete_failed'));
+
+    } catch(Exception $e){
+
+        DB::rollback();
+
+        return redirect()->back()->with('flash_error', $e->getMessage());
+
+    }   
+    }
 }

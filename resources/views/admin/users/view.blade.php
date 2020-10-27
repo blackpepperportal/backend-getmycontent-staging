@@ -234,6 +234,12 @@
 
                             </div>
 
+                            <div class="col-3">
+                                
+                                <a href="{{ route('admin.fav_users.index', ['user_id' => $user_details->id] ) }}" class="btn btn-outline-info btn-block btn-min-width mr-1 mb-1">{{tr('favorite_users')}}</a>
+
+                            </div>
+
                         </div>
 
                     </div>

@@ -825,11 +825,13 @@ return [
 	"edit_support_member" => "Edit Support Member",
 	"add_support_member" => "Add Support Member",
 	"select_support_member" => "Select support member",
-	
-	
-
-	
-	
+	"favorite_users_list" => "Favorite Users List",
+	"favorite_users" => "Favorite Users",
+	"fav_user_delete_confirmation" => 'Once you\'ve deleted the record , the favorite user(:other_key) will no longer in to the favorite list. This action cannot be undo.',
+     "fav_user_not_found" => "Favorite user details not found",
+     "fav_user_deleted_success" => "Favorite user removed successfully",
+	 "fav_user_delete_failed" => "Favorite user deletion failed",
+	'fav_user_search_placeholder' => 'Search By UserName',
 
 	'forgot_password' => 'Forgot Password',
 	'already_have_account' => 'Already have account',
