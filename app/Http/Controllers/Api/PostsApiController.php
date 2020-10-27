@@ -743,9 +743,11 @@ class PostsApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules, $custom_errors);
 
-            $request->request->add(['user_id' => $request->id]);
+            $custom_request = new Request();
 
-            $post_comment = \App\PostComment::updateOrCreate($request->all());
+            $custom_request->request->add(['user_id' => $request->id, 'post_id' => $request->post_id, 'comment' => $request->comment]);
+
+            $post_comment = \App\PostComment::updateOrCreate($custom_request->request->all());
 
             DB::commit(); 
 
