@@ -6,8 +6,7 @@
 
 @section('breadcrumb')
 
-    <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a>
-    </li>
+    
 
     <li class="breadcrumb-item"><a href="{{route('admin.user_withdrawals')}}">{{tr('user_withdrawals')}}</a>
     </li>

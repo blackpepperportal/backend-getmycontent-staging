@@ -12,7 +12,9 @@ use DB, Hash, Setting, Auth, Validator, Exception, Enveditor;
 
 use App\Jobs\SendEmailJob;
 
-use Excel; // Excel namespace
+use Excel;
+
+use App\Exports\UsersExport;
 
 class AdminUserController extends Controller
 {
@@ -116,22 +118,20 @@ class AdminUserController extends Controller
 
     public function users_excel() {
 
-        $users = \App\User::orderBy('id', 'DESC')->get();
+        try{
+            $file_format = '.xlsx';
 
-        
-        Excel::create('users', function($excel) use ($users) {
-          $excel->sheet('Sheet 1', function($sheet) use ($users) {
-            $sheet->fromArray($users);
-          });
-        })->export('xls');
-      
-      
+            $filename = routefreestring(Setting::get('site_name'))."-".date('Y-m-d-h-i-s')."-".uniqid().$file_format;
 
-        return view('admin.users.index')
-                    ->with('page', 'users')
-                    ->with('sub_page', 'users-view')
-                    ->with('users', $users);           
-   
+
+            return Excel::download(new UsersExport, $filename);
+
+        } catch(\Exception $e) {
+
+            return redirect()->route('admin.users.index')->with('flash_error' , $e->getMessage());
+
+        }
+
     }
 
     /**

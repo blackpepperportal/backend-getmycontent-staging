@@ -5,8 +5,8 @@
 @section('content-header', tr('users'))
 
 @section('breadcrumb')
-
-<li class="breadcrumb-item active"><a href="">{{ tr('users') }}</a>
+ 
+<li class="breadcrumb-item active"><a href="{{route('admin.users.index')}}">{{ tr('users') }}</a>
 </li>
 
 <li class="breadcrumb-item">{{tr('view_users')}}</li>
@@ -61,7 +61,7 @@
 
                                         <option class="select-color" value="{{SORT_BY_EMAIL_VERIFIED}}" @if(Request::get('status') == SORT_BY_EMAIL_VERIFIED && Request::get('status')!='' ) selected @endif>{{tr('verified')}}</option>
 
-                                        <option class="select-color" value="{{SORT_BY_EMAIL_NOT_VERIFIED}}" @if(Request::get('status') == SORT_BY_EMAIL_NOT_VERIFIED && Request::get('status')!='' ) selected @endif>{{tr('unverified')}}</option>
+                                      <!--   <option class="select-color" value="{{SORT_BY_EMAIL_NOT_VERIFIED}}" @if(Request::get('status') == SORT_BY_EMAIL_NOT_VERIFIED && Request::get('status')!='' ) selected @endif>{{tr('unverified')}}</option> -->
 
                                     </select>
 

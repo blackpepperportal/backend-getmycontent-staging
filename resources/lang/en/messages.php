@@ -218,6 +218,7 @@ return [
 	"users" => "Users",
 	"add_user" => "Add User",
 	"view_users" => "View Users",
+	"view_user" => "View User",
 	"edit_user" => "Edit User",
 	"delete_user"	=>	"Delete User",
 
@@ -244,6 +245,7 @@ return [
 	"support_member_search_placeholder" => "Search by Support member name,Email Id,Mobile",
 	"email_address" => "Enter email address",
 	"enter_password" => "Enter password",
+	"support_member_created_success" => "Support member created successfully",
 	
 
 	// Settings 
@@ -836,6 +838,7 @@ return [
 	"support_tickets_not_found" => 'Support Tickets Not Found',
 	"support_ticket_deleted_success" => 'Support Ticket Deleted Successfully',
 	"view_support_management" => 'View Support Management',
+	"support_membername" => 'Support Member Name',
 	
 
 	'subject' => 'Subject',

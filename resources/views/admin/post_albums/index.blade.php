@@ -6,6 +6,8 @@
 
 @section('breadcrumb')
 
+
+    
 <li class="breadcrumb-item active">
     <a href="">{{ tr('post_albums') }}</a>
 </li>

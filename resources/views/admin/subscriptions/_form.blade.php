@@ -68,7 +68,7 @@
 
                                             @foreach($subscription_plan_types as $subscription_plan_type)
                                                 <option value="{{$subscription_plan_type}}"@if($subscription_details->plan_type == $subscription_plan_type) selected @endif>
-                                                    {{$subscription_plan_type}}
+                                                    {{ucfirst($subscription_plan_type)}}
                                                 </option>
                                             @endforeach
 

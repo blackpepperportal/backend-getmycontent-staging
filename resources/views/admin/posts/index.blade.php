@@ -6,6 +6,8 @@
 
 @section('breadcrumb')
 
+
+
 <li class="breadcrumb-item active">
     <a href="{{route('admin.posts.index')}}">{{ tr('posts') }}</a>
 </li>

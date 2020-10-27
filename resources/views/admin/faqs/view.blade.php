@@ -5,8 +5,7 @@
 @section('content-header', tr('faqs'))
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a>
-    </li>
+    
 
     <li class="breadcrumb-item"><a href="{{route('admin.faqs.index')}}">{{tr('faqs')}}</a>
     </li>

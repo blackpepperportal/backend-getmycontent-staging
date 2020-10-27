@@ -6,6 +6,8 @@
 
 @section('breadcrumb')
 
+
+    
 <li class="breadcrumb-item active"><a href="">{{ tr('support_member') }}</a></li>
 
 <li class="breadcrumb-item">{{tr('view_support_member')}}</li>
@@ -123,23 +125,24 @@
                                     </td>
 
                                     <td>
-                                        
-
+                                        @if($support_member_details->status == APPROVED)
                                         <span class="btn btn-success btn-sm">{{ tr('approved') }}</span> 
-
+                                        @else
                                         <span class="btn btn-warning btn-sm">{{ tr('declined') }}</span> 
+                                        @endif
                                     </td>
 
                                     <td>
                                         
-
+                                        @if($support_member_details->is_email_verified)
                                         <a class="btn btn-outline-danger btn-sm" href="{{ route('admin.support_members.verify' , ['support_member_id' => $support_member_details->id]) }}">
                                             <i class="icon-close"></i> {{ tr('verify') }}
                                         </a>
 
-                                        
+                                        @else         
 
                                         <span class="btn btn-success btn-sm">{{ tr('verified') }}</span> 
+                                        @endif
                                     </td>
 
                                     <td>
@@ -181,11 +184,11 @@
 
                                                 @if($support_member_details->is_content_creator)
 
-                                                <a class="dropdown-item" href="{{ route('admin.followers',['follower_id' => $support_member_details->id]) }}">&nbsp;{{ tr('followers') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.users.followers',['follower_id' => $support_member_details->id]) }}">&nbsp;{{ tr('followers') }}</a>
 
                                                 @else
 
-                                                <a class="dropdown-item" href="{{ route('admin.following',['support_member_id' => $support_member_details->id]) }}">&nbsp;{{ tr('followings') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.users.followings',['support_member_id' => $support_member_details->id]) }}">&nbsp;{{ tr('followings') }}</a>
                                                 @endif
 
                                                 <a class="dropdown-item" href="{{ route('admin.orders.index', ['support_member_id' => $support_member_details->id] ) }}">&nbsp;{{ tr('orders') }}</a>

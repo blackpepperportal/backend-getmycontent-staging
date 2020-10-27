@@ -5,6 +5,7 @@
 @section('content-header', tr('subscription_payments')) 
 
 @section('breadcrumb')
+
 <li class="breadcrumb-item active">
     <a href="{{route('admin.subscription_payments.index')}}">{{ tr('subscription_payments') }}</a>
 </li>
