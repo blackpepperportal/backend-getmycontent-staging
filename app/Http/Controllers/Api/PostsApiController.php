@@ -872,7 +872,7 @@ class PostsApiController extends Controller
 
             $custom_request->request->add(['user_id' => $request->id, 'post_id' => $request->post_id]);
 
-            $post_bookmark = \App\PostBookmark::updateOrCreate($custom_request->all());
+            $post_bookmark = \App\PostBookmark::updateOrCreate($custom_request->request->all());
 
             DB::commit(); 
 
