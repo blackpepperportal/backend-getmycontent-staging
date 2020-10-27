@@ -697,7 +697,7 @@ class PostsApiController extends Controller
 
            // Check the subscription is available
 
-            $base_query = $total_query = \App\PostComment::Approved()->where('posts.id',  $request->post_id)->orderBy('post_comments.created_at', 'desc');
+            $base_query = $total_query = \App\PostComment::Approved()->where('post_comments.id',  $request->post_id)->orderBy('post_comments.created_at', 'desc');
 
 
             $post_comments = $base_query->skip($this->skip)->take($this->take)->get();
