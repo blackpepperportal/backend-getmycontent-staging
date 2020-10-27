@@ -9,6 +9,8 @@
     
     <li class="breadcrumb-item"><a href="{{route('admin.users.index')}}">{{tr('users')}}</a>
     </li>
+    <li class="breadcrumb-item"><a href="{{route('admin.bookmarks.index', ['user_id' => $post_bookmarks->user_id])}}">{{tr('bookmarks')}}</a></li>
+
     <li class="breadcrumb-item active">{{tr('view_bookmarks')}}</a>
     </li>
 
@@ -39,26 +41,17 @@
                             <table class="table table-xl mb-0">
                                 <tr>
                                     <th>{{tr('username')}}</th>
-                                    <td>{{$bookmarks_details->user->name ?? "-"}}</td>
+                                    <td>{{$post_bookmarks->username ?? "-"}}</td>
                                 </tr>
 
                                 <tr>
                                     <th>{{tr('post_details')}}</th>
-                                    <td>{{$bookmarks_details->post->content}}</td>
+                                    <td>{{$post_bookmarks->post->content}}</td>
                                 </tr> 
-
-                                <tr>
-                                    <th>{{tr('status')}}</th>
-                                    @if($bookmarks_details->status == APPROVED)
-                                    <td>{{ tr('approved') }}</td>
-                                    @else
-                                    <td>{{ tr('declined') }}</td>
-                                    @endif
-                                </tr>
                                 
                                 <tr>
                                     <th>{{tr('created_at')}}</th>
-                                    <td>{{ common_date($bookmarks_details->created_at,Auth::guard('admin')->user()->timezone) }}</td>
+                                    <td>{{ common_date($post_bookmarks->created_at,Auth::guard('admin')->user()->timezone) }}</td>
                                 </tr>
 
                            

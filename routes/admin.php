@@ -169,11 +169,11 @@ Route::group(['middleware' => 'web'], function() {
 
      //bookmarks routes start
 
-        Route::get('bookmarks' , 'Admin\AdminPostController@bookmarks_index')->name('bookmarks.index');
+        Route::get('bookmarks' , 'Admin\AdminPostController@post_bookmarks_index')->name('bookmarks.index');
 
-        Route::get('bookmarks/delete', 'Admin\AdminPostController@bookmarks_delete')->name('bookmarks.delete');
+        Route::get('bookmarks/delete', 'Admin\AdminPostController@post_bookmarks_delete')->name('bookmarks.delete');
 
-        Route::get('bookmarks/view', 'Admin\AdminPostController@bookmarks_view')->name('bookmarks.view');
+        Route::get('bookmarks/view', 'Admin\AdminPostController@post_bookmarks_view')->name('bookmarks.view');
          //bookmarks routes start
 
 

@@ -44,48 +44,38 @@
                                     <th>{{ tr('s_no') }}</th>
                                     <th>{{ tr('username') }}</th>
                                     <th>{{ tr('post') }}</th>
-                                    <th>{{ tr('status') }}</th>
                                     <th>{{ tr('action') }}</th>
                                 </tr>
                             </thead>
                            
                             <tbody>
 
-                                @foreach($bookmarks as $i => $bookmark)
+                                @foreach($post_bookmarks as $i => $post_bookmark)
 
                                 <tr>
-                                    <td>{{ $i + $bookmarks->firstItem() }}</td>
+                                    <td>{{ $i + $post_bookmarks->firstItem() }}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.users.view' , ['user_id' => $bookmark->user_id] )  }}">
-                                        {{ $bookmark->user->name ?? "-" }}
+                                        <a href="{{  route('admin.users.view' , ['user_id' => $post_bookmark->user_id] )  }}">
+                                        {{ $post_bookmark->username ?? "-" }}
                                         </a>
                                     </td>
 
                                     <td>
-                                        <a href="{{  route('admin.posts.view' , ['post_id' => $bookmark->post_id] )  }}">
-                                        {{ $bookmark->post->content ?? "-" }}
+                                        <a href="{{  route('admin.posts.view' , ['post_id' => $post_bookmark->post_id] )  }}">
+                                        {{ $post_bookmark->post->content ?? "-" }}
                                         </a>
-                                    </td>
-
-
-                                    <td>
-                                        @if($bookmark->status == APPROVED)
-
-                                        <span class="btn btn-success btn-sm">{{ tr('approved') }}</span> @else
-
-                                        <span class="btn btn-warning btn-sm">{{ tr('declined') }}</span> @endif
                                     </td>
 
                                     <td>
                                     
                                         <div class="btn-group" role="group">
 
-                                            <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ft-settings icon-left"></i> {{ tr('action') }}</button>
+                                            <button class="btn btn-outline-success dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ft-settings icon-left"></i> {{ tr('action') }}</button>
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                                 
-                                                  <a class="dropdown-item" href="{{ route('admin.bookmarks.view', ['bookmark_id' => $bookmark->id,'user_id' => $bookmark->user_id] ) }}">&nbsp;{{ tr('view') }}</a>
+                                                  <a class="dropdown-item" href="{{ route('admin.bookmarks.view', ['bookmark_id' => $post_bookmark->id,'user_id' => $post_bookmark->user_id] ) }}">&nbsp;{{ tr('view') }}</a>
 
 
                                                 @if(Setting::get('is_demo_control_enabled') == YES)
@@ -95,7 +85,7 @@
 
                                                 @else
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('bookmark_delete_confirmation' , $bookmark->post->content) }}&quot;);" href="{{ route('admin.bookmarks.delete', ['bookmark_id' => $bookmark->id,'user_id' => $bookmark->user_id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('bookmark_delete_confirmation' , $post_bookmark->post->content) }}&quot;);" href="{{ route('admin.bookmarks.delete', ['bookmark_id' => $post_bookmark->id,'user_id' => $post_bookmark->user_id] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 
@@ -114,7 +104,7 @@
                         
                         </table>
 
-                        <div class="pull-right" id="paglink">{{ $bookmarks->appends(request()->input())->links() }}</div>
+                        <div class="pull-right" id="paglink">{{ $post_bookmarks->appends(request()->input())->links() }}</div>
 
                     </div>
 

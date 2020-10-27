@@ -685,7 +685,7 @@ class AdminPostController extends Controller
      * @return response success/failure message
      *
      **/
-    public function bookmarks_index(Request $request) {
+    public function post_bookmarks_index(Request $request) {
 
         $base_query = \App\PostBookmark::Approved()->orderBy('post_bookmarks.created_at', 'desc');
 
@@ -710,8 +710,8 @@ class AdminPostController extends Controller
         $bookmarks = $base_query->paginate(10);
 
         return view('admin.bookmarks.index')
-                    ->with('page','bookmarks')
-                    ->with('bookmarks',$bookmarks);
+                    ->with('page','post_bookmarks')
+                    ->with('post_bookmarks',$bookmarks);
     }
 
     /**
@@ -728,7 +728,7 @@ class AdminPostController extends Controller
     * @return response success/failure message
     *
     **/
-    public function bookmarks_delete(Request $request) {
+    public function post_bookmarks_delete(Request $request) {
 
     try {
 
@@ -738,7 +738,7 @@ class AdminPostController extends Controller
 
         if(!$bookmark_details) {
 
-            throw new Exception(tr('bookmark_details_not_found'), 101);                
+            throw new Exception(tr('post_bookmark_not_found'), 101);                
         }
 
         $bookmark_details->where('user_id',$request->user_id);
@@ -747,7 +747,7 @@ class AdminPostController extends Controller
 
             DB::commit();
 
-            return redirect()->back()->with('flash_success',tr('bookmarks_deleted_success'));   
+            return redirect()->back()->with('flash_success',tr('bookmark_deleted_success'));   
 
         } 
 
@@ -778,7 +778,7 @@ class AdminPostController extends Controller
     * @return response success/failure message
     *
     **/
-    public function bookmarks_view(Request $request) {
+    public function post_bookmarks_view(Request $request) {
 
      try {
 
@@ -793,7 +793,7 @@ class AdminPostController extends Controller
 
             return view('admin.bookmarks.view')
                     ->with('page','bookmarks')
-                    ->with('bookmarks_details',$bookmarks_details);
+                    ->with('post_bookmarks',$bookmarks_details);
 
         } catch(Exception $e) {
 

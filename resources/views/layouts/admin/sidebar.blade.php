@@ -94,18 +94,18 @@
             
             </li>
 
-            <li class="nav-item" id="post_albums">
+           <!--  <li class="nav-item" id="post_albums">
                 <a href="{{route('admin.post_albums.index')}}">
                     <i class="fa fa-clone"></i>
                     <span class="menu-title" data-i18n="">{{tr('post_albums')}}</span>
                 </a>
             
-            </li>
+            </li> -->
 
             <!-- posts_management end -->
 
             <!-- products_management start -->
-
+<!-- 
             <li class="navigation-header">
                 <span>{{tr('products_management')}}</span>
             </li>
@@ -202,7 +202,7 @@
                     <span class="menu-title" data-i18n="">{{tr('product_inventories')}}</span>
                 </a>
             
-            </li>
+            </li> -->
 
             <!-- <li class="nav-item" id="delivery-address">
 
