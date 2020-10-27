@@ -90,6 +90,10 @@ return [
 
     145 => 'Removed from favourite list',
 
-    146 => 'Thanks for the tips'
+    146 => 'Thanks for the tips',
+
+    147 => 'The verification sent to your email address',
+
+    148 => 'Thanks for the email verification.',
 
 ];

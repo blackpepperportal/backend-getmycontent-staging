@@ -17,11 +17,11 @@ class IsContentCreator
      */
     public function handle($request, Closure $next)
     {
-        $user_details = User::find($request->id);
+        $user = User::find($request->id);
         
-        if($user_details->is_content_creator == NO) {
+        if($user->is_document_verified == NO || $user->is_email_verified == NO) {
 
-            $response = ['success' => false, 'error' => api_error(131), 'error_code' => 131];
+            $response = ['success' => false, 'error' => api_error(156), 'error_code' => 156];
 
             return response()->json($response, 200);
         }

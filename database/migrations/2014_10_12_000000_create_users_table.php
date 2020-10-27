@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
             $table->string('address')->default('');
             $table->tinyInteger('user_type')->default(0);
             $table->tinyInteger('user_account_type')->default(USER_FREE_ACCOUNT);
+            $table->tinyInteger('is_document_verified')->default(0);
             $table->string('payment_mode')->default(CARD);
             $table->string('token');
             $table->string('token_expiry');
@@ -45,8 +46,6 @@ class CreateUsersTable extends Migration
             $table->string('verification_code')->default('');
             $table->string('verification_code_expiry')->default('');
             $table->timestamp('email_verified_at')->nullable();
-            $table->tinyInteger('is_content_creator')->default(0);
-            $table->tinyInteger('is_document_verified')->default(0);
             $table->tinyInteger('status')->default(1);
             $table->tinyInteger('one_time_subscription')->comment("0 - Not Subscribed , 1 - Subscribed")->default(0);
             $table->float('amount_paid')->default(0);
