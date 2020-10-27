@@ -1001,9 +1001,11 @@ class PostsApiController extends Controller
                 throw new Exception(api_error(139), 139);   
             }
 
-            $request->request->add(['user_id' => $request->id, 'post_user_id' => $post->user_id]);
+            $custom_request = new Request();
 
-            $fav_post = \App\FavPost::updateOrCreate($request->all());
+            $custom_request->request->add(['user_id' => $request->id, 'post_id' => $request->post_id, 'post_user_id' => $post->user_id]);
+
+            $fav_post = \App\FavPost::updateOrCreate($custom_request->request->all());
 
             DB::commit(); 
 
