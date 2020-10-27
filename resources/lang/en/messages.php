@@ -567,6 +567,9 @@ return [
 	"post_comment_deleted" => "Comment deleted successfully",
 	"post_comment_delete_failed"=> "Comment deletion failed",
 	"comment_search_placeholder" => "Search By UserName",
+	"publish" => "Publish",
+	"posts_publish_success" => "Post published successfully",
+	"post_publish_failed" => "Unable to publish the post",
 
 	"posts_content" => "Post Content",
 	"post_album_not_found" => "The selected post album details not found.",

@@ -274,6 +274,56 @@ public function posts_status(Request $request) {
 
 }
 
+
+/**
+* @method posts_publish
+*
+* @uses To publish the scheduled post
+*
+* @created sakthi
+*
+* @updated 
+*
+* @param object $request - Post Id
+* 
+* @return response success/failure message
+*
+**/
+public function posts_publish(Request $request) {
+
+    try {
+
+        DB::beginTransaction();
+
+        $post_details = \App\Post::find($request->post_id);
+
+        if(!$post_details) {
+
+            throw new Exception(tr('post_not_found'), 101);
+
+        }
+
+        $post_details->is_published = YES ;
+
+        if($post_details->save()) {
+
+            DB::commit();
+
+            return redirect()->back()->with('flash_success', tr('posts_publish_success'));
+        }
+
+        throw new Exception(tr('post_publish_failed'));
+
+    } catch(Exception $e) {
+
+        DB::rollback();
+
+        return redirect()->route('admin.posts.index')->with('flash_error', $e->getMessage());
+
+    }
+
+}
+
 /**
 * @method post_albums_index()
 *

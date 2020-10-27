@@ -133,8 +133,13 @@
                                                     <a class="dropdown-item" href="{{ route('admin.posts.status' , ['post_id' => $post_details->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
 
                                                 @endif
-
+        
                                                   <a class="dropdown-item" href="{{ route('admin.posts.comments' , ['post_id' => $post_details->id] ) }}">&nbsp;{{ tr('comments') }}</a> 
+                                                @if($post_details->is_published == NO)
+                                                  
+                                                    <a class="dropdown-item" href="{{ route('admin.posts.publish' , ['post_id' => $post_details->id] ) }}">&nbsp;{{ tr('publish') }}</a> 
+
+                                                @endif
 
                                             </div>
 

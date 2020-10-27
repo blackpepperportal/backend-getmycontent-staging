@@ -127,6 +127,8 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('posts/status', 'Admin\AdminPostController@posts_status')->name('posts.status');
 
+        Route::get('posts/publish', 'Admin\AdminPostController@posts_publish')->name('posts.publish');
+
         Route::get('post/payments','Admin\AdminRevenueController@post_payments')->name('post.payments');
 
         Route::get('post/payments/view','Admin\AdminRevenueController@post_payments_view')->name('post.payments.view');
