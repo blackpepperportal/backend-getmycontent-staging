@@ -134,6 +134,8 @@
 
                                                 @endif
 
+                                                  <a class="dropdown-item" href="{{ route('admin.posts.comments' , ['post_id' => $post_details->id] ) }}">&nbsp;{{ tr('comments') }}</a> 
+
                                             </div>
 
                                         </div>

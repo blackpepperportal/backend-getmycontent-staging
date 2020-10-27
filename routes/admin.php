@@ -131,6 +131,12 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('post/payments/view','Admin\AdminRevenueController@post_payments_view')->name('post.payments.view');
 
+       Route::get('post_comments','Admin\AdminPostController@post_comments')->name('posts.comments');
+
+       Route::get('post_comments/delete','Admin\AdminPostController@post_comment_delete')->name('post_comment.delete');
+
+
+
         //posts end
 
         //posts albums start

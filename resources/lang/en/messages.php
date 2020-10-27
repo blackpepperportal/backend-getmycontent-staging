@@ -70,6 +70,8 @@ return [
 	"all_right_reserved" => "All right reserved",
 	"analytics" => "Analytics",
 	"core" => "Core",
+	"comments" => "Comments",
+    "comments_list" => "Comments List",
 
 	"approve"	=>	"Approve",
 	"decline"	=>	"Decline",
@@ -545,6 +547,7 @@ return [
 	"post_deleted_success" => "The post deleted successfully!!",
 	"post_delete_failed" => "The post deletion failed!!",
 	"post_delete_confirmation" => "Once you\'ve deleted the record , the post(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.",
+	"post_comment_delete_confirmation"=>"Once you\'ve deleted the comment , will no longer be able to log in to the site or apps. This action cannot be undo.",
 	"post_approve_success" => "The post approved successfully..!!",
 	"post_decline_success" => "The post declined successfully..!!",
 	"post_decline_confirmation" => "Do you want decline this post?",
@@ -560,6 +563,10 @@ return [
 	"albums" => "Albums",
 	"view_post_albums" => "View Post Albums",
 	"post_albums" => "Post Albums",
+	"post_comment_not_found"=> "Comment not found",
+	"post_comment_deleted" => "Comment deleted successfully",
+	"post_comment_delete_failed"=> "Comment deletion failed",
+	"comment_search_placeholder" => "Search By UserName",
 
 	"posts_content" => "Post Content",
 	"post_album_not_found" => "The selected post album details not found.",
@@ -829,7 +836,7 @@ return [
 	"favorite_users" => "Favorite Users",
 	"fav_user_delete_confirmation" => 'Once you\'ve deleted the record , the favorite user(:other_key) will no longer in to the favorite list. This action cannot be undo.',
      "fav_user_not_found" => "Favorite user details not found",
-     "fav_user_deleted_success" => "Favorite user removed successfully",
+     "fav_user_deleted" => "Favorite user removed successfully",
 	 "fav_user_delete_failed" => "Favorite user deletion failed",
 	'fav_user_search_placeholder' => 'Search By UserName',
 
