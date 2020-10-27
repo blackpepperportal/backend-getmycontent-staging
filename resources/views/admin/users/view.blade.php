@@ -227,6 +227,13 @@
 
                             </div>
 
+
+                              <div class="col-3">
+                                
+                                <a href="{{ route('admin.bookmarks.index', ['user_id' => $user_details->id] ) }}" class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1">{{tr('bookmarks')}}</a>
+
+                            </div>
+
                         </div>
 
                     </div>

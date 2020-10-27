@@ -315,6 +315,8 @@ return [
 	"twitter_link" => "Twitter Link",
 	"google_plus_link" => "Google Plus Link",
 	"pinterest_link" => "Pinterest Link",
+	"bookmarks" => "Bookmarks",
+
 
 	"google_analytics" => "Google Analytics",
 	"body_scripts" => "Body Scripts" ,
@@ -625,8 +627,14 @@ return [
 	"delivery_address_user" => "Delivery Address User",
 	"delivery_address_delete_confirmation" => "Once you\'ve deleted the record , the delivery address(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.", 
 	"delivery_search_placeholder" => "Serach By Username,Name,State",
+	"bookmark_search_placeholder" => "Search By Post Name",
+	"view_bookmarks" => "View Bookmark",
 	"delivery_address_deleted_success" => "Delivery address deleted successfully",
 	"delivery_address_delete_failed" =>"delivery address failed to delete,Please try again",
+	"bookmark_delete_confirmation" => "Once you\'ve deleted the bookmarks , the post(:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.",
+	"bookmark_details_not_found" => "The bookmark details not found",
+	"bookmarks_deleted_success" => "The bookmark deleted successfully",
+	"bookmark_delete_failed" =>"Bookmark failed to delete,Please try again",
 	"order_payment_search_placeholder" => "Search By Username, Payment Id",
 	"products" => "Products",
 	"user_wallet_details_not_found" => "The wallet details not found",

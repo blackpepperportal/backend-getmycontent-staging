@@ -166,6 +166,17 @@ Route::group(['middleware' => 'web'], function() {
         Route::get('delivery_address/view', 'Admin\AdminPostController@delivery_address_view')->name('delivery_address.view');
 
         //delivery address routes end
+
+     //bookmarks routes start
+
+        Route::get('bookmarks' , 'Admin\AdminPostController@bookmarks_index')->name('bookmarks.index');
+
+        Route::get('bookmarks/delete', 'Admin\AdminPostController@bookmarks_delete')->name('bookmarks.delete');
+
+        Route::get('bookmarks/view', 'Admin\AdminPostController@bookmarks_view')->name('bookmarks.view');
+         //bookmarks routes start
+
+
         
         //user wallet route start
 

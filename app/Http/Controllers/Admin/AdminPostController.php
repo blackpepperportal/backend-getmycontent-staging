@@ -584,6 +584,7 @@ class AdminPostController extends Controller
     }
 
 
+
     /**
      * @method delivery_address_view
      *
@@ -669,5 +670,136 @@ class AdminPostController extends Controller
         }       
          
     }
+
+         /**
+     * @method Bookmarks_index
+     *
+     * @uses Display list of all the bookmarks
+     *
+     * @created Sakthi
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function bookmarks_index(Request $request) {
+
+        $base_query = \App\PostBookmark::Approved()->orderBy('post_bookmarks.created_at', 'desc');
+
+
+        if($request->search_key) {
+            $search_key = $request->search_key;
+          
+            $base_query = $base_query->whereHas('post',function($query) use($search_key){
+
+                return $query->where('posts.content','LIKE','%'.$search_key.'%');
+
+            });
+
+        }
+
+
+        if($request->user_id) {
+
+            $base_query = $base_query->where('user_id',$request->user_id);
+        }
+
+        $bookmarks = $base_query->paginate(10);
+
+        return view('admin.bookmarks.index')
+                    ->with('page','bookmarks')
+                    ->with('bookmarks',$bookmarks);
+    }
+
+    /**
+    * @method bookmarks_delete
+    *
+    * @uses Display list of all the bookmarks
+    *
+    * @created Sakthi
+    *
+    * @updated 
+    *
+    * @param 
+    * 
+    * @return response success/failure message
+    *
+    **/
+    public function bookmarks_delete(Request $request) {
+
+    try {
+
+        DB::begintransaction();
+
+        $bookmark_details = \App\PostBookmark::find($request->bookmark_id);
+
+        if(!$bookmark_details) {
+
+            throw new Exception(tr('bookmark_details_not_found'), 101);                
+        }
+
+        $bookmark_details->where('user_id',$request->user_id);
+
+        if($bookmark_details->delete()) {
+
+            DB::commit();
+
+            return redirect()->back()->with('flash_success',tr('bookmarks_deleted_success'));   
+
+        } 
+
+        throw new Exception(tr('bookmark_delete_failed'));
+
+    } catch(Exception $e){
+
+        DB::rollback();
+
+        return redirect()->back()->with('flash_error', $e->getMessage());
+
+    }       
+
+}
+
+
+    /**
+    * @method bookmarks_view
+    *
+    * @uses view the bookmark
+    *
+    * @created Sakthi
+    *
+    * @updated 
+    *
+    * @param 
+    * 
+    * @return response success/failure message
+    *
+    **/
+    public function bookmarks_view(Request $request) {
+
+     try {
+
+            $bookmarks_details = \App\PostBookmark::where('id',$request->bookmark_id)->where('user_id',$request->user_id)->first();
+
+
+            if(!$bookmarks_details) {
+
+                throw new Exception(tr('bookmark_details_not_found'), 101);
+                
+            }
+
+            return view('admin.bookmarks.view')
+                    ->with('page','bookmarks')
+                    ->with('bookmarks_details',$bookmarks_details);
+
+        } catch(Exception $e) {
+
+            return redirect()->back()->with('flash_error',$e->getMessage());
+        }
+
+}
 
 }

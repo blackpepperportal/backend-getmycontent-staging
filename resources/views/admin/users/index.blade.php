@@ -189,6 +189,10 @@
 
                                                 <a class="dropdown-item" href="{{ route('admin.delivery_address.index', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('delivery_address') }}</a>
 
+
+                                               <a class="dropdown-item" href="{{ route('admin.bookmarks.index', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('bookmarks') }}</a>
+
+                                                
                                             </div>
 
                                         </div>
