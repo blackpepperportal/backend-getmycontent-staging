@@ -3,7 +3,8 @@
 @section('content-header', tr('support_tickets')) 
 
 @section('breadcrumb')
-
+<li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a>
+    </li>
 <li class="breadcrumb-item">
     <a href="{{route('admin.support_tickets.index')}}">{{ tr('support_tickets') }}</a>
 </li>

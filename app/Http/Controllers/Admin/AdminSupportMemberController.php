@@ -459,7 +459,7 @@ class AdminSupportMemberController extends Controller
                 
             }
 
-            $support_member_details->is_email_verified = $support_member_details->is_email_verified ? support_member_EMAIL_NOT_VERIFIED : support_member_EMAIL_VERIFIED;
+            $support_member_details->is_email_verified = $support_member_details->is_email_verified ? SUPPORT_MEMBER_EMAIL_NOT_VERIFIED : SUPPORT_MEMBER_EMAIL_VERIFIED;
 
             if($support_member_details->save()) {
 

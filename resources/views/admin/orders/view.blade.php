@@ -5,6 +5,8 @@
 @section('content-header', tr('orders')) 
 
 @section('breadcrumb')
+<li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a>
+    </li>
 <li class="breadcrumb-item">
     <a href="{{route('admin.orders.index')}}">{{ tr('orders') }}</a>
 </li>

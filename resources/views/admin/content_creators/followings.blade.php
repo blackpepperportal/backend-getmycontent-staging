@@ -6,6 +6,9 @@
 
 @if($user->is_content_creator)
 
+<li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a>
+    </li>
+
 <li class="breadcrumb-item active">
     <a href="{{route('admin.content_creators.index')}}">{{ tr('content_creators') }}</a>
 </li>

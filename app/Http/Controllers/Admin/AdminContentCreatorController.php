@@ -458,7 +458,7 @@ class AdminContentCreatorController extends Controller
 
         $stardom_documents = $base_query->paginate(10);
        
-        return view('admin.users.documents.index')
+        return view('admin.content_creators.documents.index')
                     
                     ->with('page','content_creators')
                     ->with('sub_page' , 'content_creators-documents')

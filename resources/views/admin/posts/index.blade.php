@@ -6,12 +6,15 @@
 
 @section('breadcrumb')
 
+<li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a>
+    </li>
+
 <li class="breadcrumb-item active">
     <a href="{{route('admin.posts.index')}}">{{ tr('posts') }}</a>
 </li>
 
 <li class="breadcrumb-item active">
-    {{Request::get('scheduled') ? tr('scheduled_posts') ? tr('view_posts')}}
+    {{Request::get('scheduled') ? tr('scheduled_posts') : tr('view_posts')}}
 </li>
 
 @endsection 

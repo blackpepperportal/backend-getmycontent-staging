@@ -5,7 +5,8 @@
 @section('content-header', tr('user_withdrawals'))
 
 @section('breadcrumb')
-
+<li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a>
+    </li>
 <li class="breadcrumb-item">{{ tr('user_withdrawals') }}</a></li>
 
 @endsection

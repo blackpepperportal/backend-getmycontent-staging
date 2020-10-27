@@ -65,7 +65,7 @@
 
                                                 @foreach($static_keys as $value)
 
-                                                    <option value="{{$value}}" @if($value == $static_page_details->type) selected="true" @endif>{{ $value }}</option>
+                                                    <option value="{{$value}}" @if($value == $static_page_details->type) selected="true" @endif>{{ ucfirst($value) }}</option>
 
                                                 @endforeach 
                                             </select>

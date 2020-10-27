@@ -5,7 +5,8 @@
 @section('content-header', tr('product_inventories')) 
 
 @section('breadcrumb')
-
+<li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a>
+    </li>
 <li class="breadcrumb-item">
     <a href="{{route('admin.product_inventories.index')}}">{{ tr('product_inventories') }}</a>
 </li>

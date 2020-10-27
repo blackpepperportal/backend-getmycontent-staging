@@ -335,7 +335,7 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('support_members/status', 'Admin\AdminSupportMemberController@support_members_status')->name('support_members.status');
 
-        Route::get('support_members/verify', 'Admin\AdminSupportMemberController@support_members__verify_status')->name('support_members.verify');
+        Route::get('support_members/verify', 'Admin\AdminSupportMemberController@support_members_verify_status')->name('support_members.verify');
 
 
      });
