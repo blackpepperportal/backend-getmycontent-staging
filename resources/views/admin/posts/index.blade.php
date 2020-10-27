@@ -11,7 +11,7 @@
 </li>
 
 <li class="breadcrumb-item active">
-    {{Request::get('scheduled') ? tr('scheduled_posts') ? tr('view_posts')}}
+    {{Request::get('scheduled') ? tr('scheduled_posts') : tr('view_posts')}}
 </li>
 
 @endsection 
