@@ -61,7 +61,7 @@
 
                                         <option class="select-color" value="{{SORT_BY_EMAIL_VERIFIED}}" @if(Request::get('status') == SORT_BY_EMAIL_VERIFIED && Request::get('status')!='' ) selected @endif>{{tr('verified')}}</option>
 
-                                        <option class="select-color" value="{{SORT_BY_EMAIL_NOT_VERIFIED}}" @if(Request::get('status') == SORT_BY_EMAIL_NOT_VERIFIED && Request::get('status')!='' ) selected @endif>{{tr('unverified')}}</option>
+                                      <!--   <option class="select-color" value="{{SORT_BY_EMAIL_NOT_VERIFIED}}" @if(Request::get('status') == SORT_BY_EMAIL_NOT_VERIFIED && Request::get('status')!='' ) selected @endif>{{tr('unverified')}}</option> -->
 
                                     </select>
 
