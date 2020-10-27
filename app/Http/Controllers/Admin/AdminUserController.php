@@ -12,7 +12,7 @@ use DB, Hash, Setting, Auth, Validator, Exception, Enveditor;
 
 use App\Jobs\SendEmailJob;
 
-use Maatwebsite\Excel\Facades\Excel;
+use Excel;
 
 use App\Exports\UsersExport;
 
