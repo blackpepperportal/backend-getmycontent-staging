@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFavPostsTable extends Migration
+class CreatePostLikesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateFavPostsTable extends Migration
      */
     public function up()
     {
-        Schema::create('fav_posts', function (Blueprint $table) {
+        Schema::create('post_likes', function (Blueprint $table) {
             $table->id();
             $table->string('unique_id')->default(rand());
             $table->integer('user_id');
@@ -31,6 +31,6 @@ class CreateFavPostsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fav_posts');
+        Schema::dropIfExists('post_likes');
     }
 }

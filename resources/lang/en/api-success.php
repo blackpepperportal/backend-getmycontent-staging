@@ -96,4 +96,8 @@ return [
 
     148 => 'Thanks for the email verification.',
 
+    149 => 'Liked',
+
+    150 => 'Like removed',
+
 ];

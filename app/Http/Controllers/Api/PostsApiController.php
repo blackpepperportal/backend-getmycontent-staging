@@ -699,7 +699,6 @@ class PostsApiController extends Controller
 
             $base_query = $total_query = \App\PostComment::Approved()->where('post_comments.id',  $request->post_id)->orderBy('post_comments.created_at', 'desc');
 
-
             $post_comments = $base_query->skip($this->skip)->take($this->take)->get();
 
             $data['post_comments'] = $post_comments ?? [];
@@ -828,7 +827,7 @@ class PostsApiController extends Controller
 
            // Check the subscription is available
 
-            $base_query = $total_query = \App\PostBookmark::Approved()->orderBy('post_bookmarks.created_at', 'desc');
+            $base_query = $total_query = \App\PostBookmark::where('user_id', $request->id)->Approved()->orderBy('post_bookmarks.created_at', 'desc');
 
             $post_bookmarks = $base_query->skip($this->skip)->take($this->take)->get();
 
@@ -936,9 +935,9 @@ class PostsApiController extends Controller
     }
 
     /**
-     * @method fav_posts()
+     * @method post_likes()
      * 
-     * @uses list of fav posts
+     * @uses list of post likes
      *
      * @created Vithya R 
      *
@@ -949,17 +948,17 @@ class PostsApiController extends Controller
      * @return json with boolean output
      */
 
-    public function fav_posts(Request $request) {
+    public function post_likes(Request $request) {
 
         try {
 
            // Check the subscription is available
 
-            $base_query = $total_query = \App\FavPost::Approved()->orderBy('fav_posts.created_at', 'desc');
+            $base_query = $total_query = \App\PostLike::where('user_id', $request->id)->Approved()->orderBy('post_likes.created_at', 'desc');
 
-            $fav_posts = $base_query->skip($this->skip)->take($this->take)->get();
+            $post_likes = $base_query->skip($this->skip)->take($this->take)->get();
 
-            $data['fav_posts'] = $fav_posts ?? [];
+            $data['post_likes'] = $post_likes ?? [];
 
             $data['total'] = $total_query->count() ?? 0;
 
@@ -973,7 +972,7 @@ class PostsApiController extends Controller
     }
 
     /**
-     * @method fav_posts_save()
+     * @method post_likes_save()
      *
      * @uses Add posts to fav list
      *
@@ -985,7 +984,7 @@ class PostsApiController extends Controller
      *
      * @return JSON Response
      */
-    public function fav_posts_save(Request $request) {
+    public function post_likes_save(Request $request) {
 
         try {
             
@@ -993,25 +992,171 @@ class PostsApiController extends Controller
 
             $rules = ['post_id' => 'nullable|exists:posts,id'];
 
-            $custom_errors = ['post_id.required' => api_error(146)];
+            $custom_errors = ['post_id.required' => api_error(139)];
 
             Helper::custom_validator($request->all(),$rules, $custom_errors);
 
-            $post = Post::find($request->post_id);
+            $post = \App\Post::Approved()->find($request->post_id);
 
             if(!$post) {
                 throw new Exception(api_error(139), 139);   
             }
 
-            $custom_request = new Request();
+            $post_like = \App\PostLike::where('user_id', $request->id)->where('post_id', $request->post_id)->first();
 
-            $custom_request->request->add(['user_id' => $request->id, 'post_id' => $request->post_id, 'post_user_id' => $post->user_id]);
+            $code = 149;
 
-            $fav_post = \App\FavPost::updateOrCreate($custom_request->request->all());
+            if(!$post_like) {
+
+                $custom_request = new Request();
+
+                $custom_request->request->add(['user_id' => $request->id, 'post_id' => $request->post_id, 'post_user_id' => $post->user_id]);
+
+                $post_like = \App\PostLike::create($custom_request->request->all());
+
+            } else{
+
+                $post_like->delete();
+
+                $code = 150;
+            }
 
             DB::commit(); 
 
-            $data = $fav_post;
+            $data = $post_like;
+
+            return $this->sendResponse(api_success($code), $code, $data);
+            
+        } catch(Exception $e){ 
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        } 
+    
+    }
+
+    /**
+     * @method post_likes_delete()
+     *
+     * @uses delete the fav posts
+     *
+     * @created vithya
+     *
+     * @updated vithya
+     *
+     * @param object $request
+     *
+     * @return JSON Response
+     */
+    public function post_likes_delete(Request $request) {
+
+        try {
+            
+            DB::begintransaction();
+
+            $rules = ['post_like_id' => 'required|exists:post_likes,id'];
+
+            $custom_errors = ['post_like_id.required' => api_error(153)];
+
+            Helper::custom_validator($request->all(),$rules, $custom_errors);
+
+            $post_like = \App\FavUser::destroy($request->post_like_id);
+
+            DB::commit(); 
+
+            $data = $post_like;
+
+            return $this->sendResponse(api_success(145), 145, $data);
+            
+        } catch(Exception $e){ 
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        } 
+    
+    }
+
+    /**
+     * @method fav_users()
+     * 
+     * @uses list of fav posts
+     *
+     * @created Vithya R 
+     *
+     * @updated Vithya R
+     *
+     * @param object $request
+     *
+     * @return json with boolean output
+     */
+
+    public function fav_users(Request $request) {
+
+        try {
+
+           // Check the subscription is available
+
+            $base_query = $total_query = \App\FavUser::where('user_id', $request->id)->Approved()->orderBy('fav_users.created_at', 'desc');
+
+            $fav_users = $base_query->skip($this->skip)->take($this->take)->get();
+
+            $data['fav_users'] = $fav_users ?? [];
+
+            $data['total'] = $total_query->count() ?? 0;
+
+            return $this->sendResponse($message = '' , $code = '', $data);
+        
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+
+    }
+
+    /**
+     * @method fav_users_save()
+     *
+     * @uses Add posts to fav list
+     *
+     * @created vithya
+     *
+     * @updated vithya
+     *
+     * @param object $request
+     *
+     * @return JSON Response
+     */
+    public function fav_users_save(Request $request) {
+
+        try {
+            
+            DB::begintransaction();
+
+            $rules = ['user_id' => 'nullable|exists:posts,id'];
+
+            $custom_errors = ['user_id.required' => api_error(146)];
+
+            Helper::custom_validator($request->all(),$rules, $custom_errors);
+
+            $to_user = \App\User::Approved()->find($request->user_id);
+
+            if(!$to_user) {
+                throw new Exception(api_error(135), 135);
+            }
+
+            $custom_request = new Request();
+
+            $custom_request->request->add(['user_id' => $request->id, 'fav_user_id' => $request->user_id]);
+
+            $fav_user = \App\FavUser::updateOrCreate($custom_request->request->all());
+
+            DB::commit(); 
+
+            $data = $fav_user;
 
             return $this->sendResponse(api_success(144), 144, $data);
             
@@ -1026,7 +1171,7 @@ class PostsApiController extends Controller
     }
 
     /**
-     * @method fav_posts_delete()
+     * @method fav_users_delete()
      *
      * @uses delete the fav posts
      *
@@ -1038,23 +1183,23 @@ class PostsApiController extends Controller
      *
      * @return JSON Response
      */
-    public function fav_posts_delete(Request $request) {
+    public function fav_users_delete(Request $request) {
 
         try {
             
             DB::begintransaction();
 
-            $rules = ['fav_post_id' => 'required|exists:fav_posts,id'];
+            $rules = ['fav_user_id' => 'required|exists:fav_users,id'];
 
-            $custom_errors = ['fav_post_id.required' => api_error(153)];
+            $custom_errors = ['fav_user_id.required' => api_error(153)];
 
             Helper::custom_validator($request->all(),$rules, $custom_errors);
 
-            $fav_post = \App\FavPost::destroy($request->fav_post_id);
+            $fav_user = \App\FavUser::destroy($request->fav_user_id);
 
             DB::commit(); 
 
-            $data = $fav_post;
+            $data = $fav_user;
 
             return $this->sendResponse(api_success(145), 145, $data);
             

@@ -242,11 +242,23 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
     Route::post('post_bookmarks_delete','Api\PostsApiController@post_bookmarks_delete');
 
 
-    Route::post('fav_posts','Api\PostsApiController@fav_posts');
+    Route::post('post_likes','Api\PostsApiController@post_likes');
 
-    Route::post('fav_posts_save','Api\PostsApiController@fav_posts_save');
+    Route::post('post_likes_save','Api\PostsApiController@post_likes_save');
     
-    Route::post('fav_posts_delete','Api\PostsApiController@fav_posts_delete');
+    Route::post('post_likes_delete','Api\PostsApiController@post_likes_delete');
+
+    Route::post('fav_users','Api\PostsApiController@fav_users');
+
+    Route::post('fav_users_save','Api\PostsApiController@fav_users_save');
+    
+    Route::post('fav_users_delete','Api\PostsApiController@fav_users_delete');
+
+    Route::post('post_likes','Api\PostsApiController@post_likes');
+
+    Route::post('post_likes_save','Api\PostsApiController@post_likes_save');
+    
+    Route::post('post_likes_delete','Api\PostsApiController@post_likes_delete');
     
 
     Route::post('tips_payment_by_stripe','Api\PostsApiController@tips_payment_by_stripe');

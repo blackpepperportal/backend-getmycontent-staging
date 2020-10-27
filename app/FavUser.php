@@ -4,42 +4,52 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FavPost extends Model
+class FavUser extends Model
 {
-    protected $fillable = ['post_id', 'user_id', 'post_user_id'];
+    protected $fillable = ['user_id', 'fav_user_id'];
 
     protected $hidden = ['id', 'unique_id'];
 
-	protected $appends = ['fav_posts_id', 'fav_posts_unique_id', 'username', 'user_picture'];
+	protected $appends = ['fav_user_id', 'fav_user_unique_id', 'username', 'user_picture', 'fav_username', 'fav_user_picture'];
 	
-	public function getFavPostIdAttribute() {
+	public function getFavUserIdAttribute() {
 
 		return $this->id;
 	}
 
-	public function getFavPostUniqueIdAttribute() {
+	public function getFavUserUniqueIdAttribute() {
 
 		return $this->unique_id;
 	}
 
 	public function getUsernameAttribute() {
 
-		return $this->postUser->name ?? "";
+		return $this->user->name ?? "";
 	}
 
 	public function getUserPictureAttribute() {
 
-		return $this->postUser->picture ?? "";
+		return $this->user->picture ?? "";
 	}
 
-	public function postUser() {
+	public function getFavUsernameAttribute() {
 
-	   return $this->belongsTo(User::class, 'post_user_id');
+		return $this->favUser->name ?? "";
 	}
 
-	public function post() {
+	public function getFavUserPictureAttribute() {
 
-	   return $this->belongsTo(Post::class, 'post_id');
+		return $this->favUser->picture ?? "";
+	}
+
+	public function favUser() {
+
+	   return $this->belongsTo(User::class, 'fav_user_id');
+	}
+
+	public function user() {
+
+	   return $this->belongsTo(User::class, 'user_id');
 	}
 
 	/**
@@ -49,7 +59,7 @@ class FavPost extends Model
      */
     public function scopeApproved($query) {
 
-        $query->where('fav_posts.status', APPROVED);
+        $query->where('fav_users.status', APPROVED);
 
         return $query;
 

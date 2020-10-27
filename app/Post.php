@@ -57,7 +57,20 @@ class Post extends Model
      */
     public function scopePaidApproved($query) {
 
-        $query->where('posts.is_paid_post', YES)->where('posts.amount', '>', 0);
+        $query->where('posts.is_published', YES)->where('posts.status', YES)->where('posts.is_paid_post', YES)->where('posts.amount', '>', 0);
+
+        return $query;
+
+    }
+
+    /**
+     * Scope a query to only include active users.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeApproved($query) {
+
+        $query->where('posts.is_published', YES)->where('posts.status', YES);
 
         return $query;
 
