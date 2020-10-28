@@ -127,9 +127,17 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('posts/status', 'Admin\AdminPostController@posts_status')->name('posts.status');
 
+        Route::get('posts/publish', 'Admin\AdminPostController@posts_publish')->name('posts.publish');
+
         Route::get('post/payments','Admin\AdminRevenueController@post_payments')->name('post.payments');
 
         Route::get('post/payments/view','Admin\AdminRevenueController@post_payments_view')->name('post.payments.view');
+
+       Route::get('post_comments','Admin\AdminPostController@post_comments')->name('posts.comments');
+
+       Route::get('post_comments/delete','Admin\AdminPostController@post_comment_delete')->name('post_comment.delete');
+
+
 
         //posts end
 
@@ -167,7 +175,7 @@ Route::group(['middleware' => 'web'], function() {
 
         //delivery address routes end
 
-     //bookmarks routes start
+         //bookmarks routes start
 
         Route::get('bookmarks' , 'Admin\AdminPostController@post_bookmarks_index')->name('bookmarks.index');
 
@@ -175,6 +183,22 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('bookmarks/view', 'Admin\AdminPostController@post_bookmarks_view')->name('bookmarks.view');
          //bookmarks routes start
+
+
+        // fav users route start
+        Route::get('fav_users','Admin\AdminPostController@fav_users')->name('fav_users.index');
+
+        Route::get('fav_users/delete','Admin\AdminPostController@fav_users_delete')->name('fav_users.delete');
+
+        // end of fav user route end
+
+
+      // liked posts route start
+        Route::get('post_likes','Admin\AdminPostController@post_likes')->name('post_likes.index');
+
+        Route::get('post_likes/delete','Admin\AdminPostController@post_likes_delete')->name('post_likes.delete');
+
+        // end of liked posts
 
 
         

@@ -36,22 +36,22 @@
 
                     <div class="col-2">
 
-                        <img src="{{$post_details->getuserDetails->picture ?? asset('placeholder.jpg')}}" class="post-image" alt="Card image" />
+                        <img src="{{$post->user_picture ?? asset('placeholder.jpg')}}" class="post-image" alt="Card image" />
 
                     </div>
 
                     <div class="col-4">
                         
-                        <h4 class="card-title">{{$post_details->getuserDetails->name ?? "-"}}</h4>
+                        <h4 class="card-title">{{$post->user->name ?? "-"}}</h4>
 
-                        <h6 class="card-subtitle text-muted">{{$post_details->getuserDetails->email ?? "-"}}</h6>
+                        <h6 class="card-subtitle text-muted">{{$post->user->email ?? "-"}}</h6>
                         <br>
 
-                        <a href="{{route('admin.users.view',['user_id' => $post_details->user_id])}}" class="btn btn-primary">
+                        <a href="{{route('admin.users.view',['user_id' => $post->user_id])}}" class="btn btn-primary">
                             {{tr('go_to_profile')}}
                         </a>
 
-                        <a href="{{route('admin.post.payments',['post_id'=>$post_details->id])}}" class="btn btn-purple">{{tr('payments')}}</a>
+                        <a href="{{route('admin.post.payments',['post_id'=>$post->id])}}" class="btn btn-purple">{{tr('payments')}}</a>
 
                     </div>
 
@@ -114,7 +114,7 @@
 
                     <div class="col-12">
 
-                        <h3 class="text-uppercase">{{tr('post_details')}}</h3>
+                        <h3 class="text-uppercase">{{tr('post')}}</h3>
 
                         @if(Setting::get('is_demo_control_enabled') == YES)
 
@@ -122,18 +122,18 @@
 
                         @else
 
-                            <a class="btn-sm btn-danger" onclick="return confirm(&quot;{{ tr('post_delete_confirmation' , $post_details->unique_id) }}&quot;);" href="{{ route('admin.posts.delete', ['post_id' => $post_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                            <a class="btn-sm btn-danger" onclick="return confirm(&quot;{{ tr('post_delete_confirmation' , $post->unique_id) }}&quot;);" href="{{ route('admin.posts.delete', ['post_id' => $post->id] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                         @endif
 
-                        @if($post_details->status == APPROVED)
+                        @if($post->status == APPROVED)
 
-                            <a class="btn-sm btn-secondary" href="{{  route('admin.posts.status' , ['post_id' => $post_details->id] )  }}" onclick="return confirm(&quot;{{ tr('post_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
+                            <a class="btn-sm btn-secondary" href="{{  route('admin.posts.status' , ['post_id' => $post->id] )  }}" onclick="return confirm(&quot;{{ tr('post_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
                             </a> 
 
                         @else
 
-                            <a class="btn-sm btn-success" href="{{ route('admin.posts.status' , ['post_id' => $post_details->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
+                            <a class="btn-sm btn-success" href="{{ route('admin.posts.status' , ['post_id' => $post->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
 
                         @endif
                         <hr>
@@ -142,13 +142,13 @@
                     <div class="col-6">
                         
                         <ul>
-                            <li class="text-uppercase">{{tr('unique_id')}} - {{$post_details->unique_id}}</li>
+                            <li class="text-uppercase">{{tr('unique_id')}} - {{$post->unique_id}}</li>
                             <hr>
 
-                            <li>{{tr('publish_time')}} - {{common_date($post_details->publish_time , Auth::guard('admin')->user()->timezone)}}</li>
+                            <li>{{tr('publish_time')}} - {{common_date($post->publish_time , Auth::guard('admin')->user()->timezone)}}</li>
                             <hr>
 
-                            <li>{{tr('is_paid_post')}} -                    @if($post_details->is_paid_post)
+                            <li>{{tr('is_paid_post')}} -                    @if($post->is_paid_post)
                                 <span class="badge badge-success">{{tr('yes')}}</span>
                             @else
                                 <span class="badge badge-danger">{{tr('no')}}</span>
@@ -156,7 +156,7 @@
                             </li>
                             <hr>
 
-                            <li>{{tr('amount')}}- {{$post_details->amount_formatted}}</li>
+                            <li>{{tr('amount')}}- {{$post->amount_formatted}}</li>
                             <hr>
 
                         </ul>
@@ -165,12 +165,12 @@
                     <div class="col-6">
 
                         <ul>
-                            <li>{{tr('content')}}-{{$post_details->content}}</li>
+                            <li>{{tr('content')}}-{{$post->content}}</li>
                             <hr>
 
                             <li>{{tr('status')}} - 
 
-                                @if($post_details->status == APPROVED)
+                                @if($post->status == APPROVED)
 
                                     <span class="btn btn-success btn-sm">{{ tr('approved') }}</span> 
                                 @else
@@ -180,10 +180,10 @@
                             </li>
                             <hr>
 
-                            <li>{{tr('created_at')}} - {{common_date($post_details->created_at , Auth::guard('admin')->user()->timezone)}}</li>
+                            <li>{{tr('created_at')}} - {{common_date($post->created_at , Auth::guard('admin')->user()->timezone)}}</li>
                             <hr>
 
-                            <li>{{tr('updated_at')}} - {{common_date($post_details->updated_at , Auth::guard('admin')->user()->timezone)}}</li>
+                            <li>{{tr('updated_at')}} - {{common_date($post->updated_at , Auth::guard('admin')->user()->timezone)}}</li>
                             <hr>
                         </ul>
                     </div>

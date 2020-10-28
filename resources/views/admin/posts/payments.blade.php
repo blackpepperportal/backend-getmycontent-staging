@@ -53,36 +53,36 @@
                            
                             <tbody>
 
-                                @foreach($post_payments as $i => $post_payment_details)
+                                @foreach($post_payments as $i => $post_payment)
                                 <tr>
                                     <td>{{ $i+$post_payments->firstItem() }}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.users.view' , ['user_id' => $post_payment_details->user_id] )  }}">
-                                        {{ $post_payment_details->userDetails->name ?? "-" }}
+                                        <a href="{{  route('admin.users.view' , ['user_id' => $post_payment->user_id] )  }}">
+                                        {{ $post_payment->userDetails->name ?? "-" }}
                                         </a>
                                     </td>
 
                                     <td>
-                                        <a href="{{  route('admin.posts.view' , ['post_id' => $post_payment_details->post_id] )  }}">
-                                        {{$post_payment_details->postDetails->unique_id ?? "-" }}
+                                        <a href="{{  route('admin.posts.view' , ['post_id' => $post_payment->post_id] )  }}">
+                                        {{$post_payment->postDetails->unique_id ?? "-" }}
                                         </a>
                                     </td>
 
-                                    <td>{{ $post_payment_details->payment_id }}</td>
+                                    <td>{{ $post_payment->payment_id }}</td>
 
                                     <td>
-                                        {{ $post_payment_details->paid_amount_formatted}}
+                                        {{ $post_payment->paid_amount_formatted}}
                                     </td>
 
                                     <td>
                                         <span class="badge badge-secondary">
-                                        {{ $post_payment_details->payment_mode}}
+                                        {{ $post_payment->payment_mode}}
                                         </span>
                                     </td>
                                         
                                     <td>
-                                       <a href="{{route('admin.post.payments.view',['post_payment_id' => $post_payment_details->id])}}" class="btn btn-primary">{{tr('view')}}</a>
+                                       <a href="{{route('admin.post.payments.view',['post_payment_id' => $post_payment->id])}}" class="btn btn-primary">{{tr('view')}}</a>
                                     </td>
 
                                 </tr>

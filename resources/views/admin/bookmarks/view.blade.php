@@ -5,13 +5,17 @@
 @section('content-header', tr('bookmarks'))
 
 @section('breadcrumb')
-
     
-    <li class="breadcrumb-item"><a href="{{route('admin.users.index')}}">{{tr('users')}}</a>
+    <li class="breadcrumb-item">
+        <a href="{{route('admin.users.index')}}">{{tr('users')}}</a>
     </li>
-    <li class="breadcrumb-item"><a href="{{route('admin.bookmarks.index', ['user_id' => $post_bookmarks->user_id])}}">{{tr('bookmarks')}}</a></li>
 
-    <li class="breadcrumb-item active">{{tr('view_bookmarks')}}</a>
+    <li class="breadcrumb-item">
+        <a href="{{route('admin.bookmarks.index', ['user_id' => $post_bookmark->user_id])}}">{{tr('bookmarks')}}</a>
+    </li>
+
+    <li class="breadcrumb-item active">
+        {{tr('view_bookmarks')}}
     </li>
 
 @endsection
@@ -41,17 +45,22 @@
                             <table class="table table-xl mb-0">
                                 <tr>
                                     <th>{{tr('username')}}</th>
-                                    <td>{{$post_bookmarks->username ?? "-"}}</td>
+                                    <td>{{$post_bookmark->username ?? "-"}}</td>
                                 </tr>
 
                                 <tr>
                                     <th>{{tr('post_details')}}</th>
-                                    <td>{{$post_bookmarks->post->content}}</td>
+                                    <td>{{$post_bookmark->post->content ?? tr('n_a')}}</td>
                                 </tr> 
                                 
                                 <tr>
                                     <th>{{tr('created_at')}}</th>
-                                    <td>{{ common_date($post_bookmarks->created_at,Auth::guard('admin')->user()->timezone) }}</td>
+                                    <td>{{ common_date($post_bookmark->created_at,Auth::guard('admin')->user()->timezone) }}</td>
+                                </tr>
+
+                                <tr>
+                                    <th>{{tr('updated_at')}}</th>
+                                    <td>{{ common_date($post_bookmark->updated_at,Auth::guard('admin')->user()->timezone) }}</td>
                                 </tr>
 
                            
