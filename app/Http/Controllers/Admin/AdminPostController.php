@@ -14,1233 +14,1232 @@ use App\Jobs\SendEmailJob;
 
 class AdminPostController extends Controller
 {
-/**
-* Create a new controller instance.
-*
-* @return void
-*/
-public function __construct(Request $request) {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct(Request $request) {
 
-    $this->middleware('auth:admin');
+        $this->middleware('auth:admin');
 
-    $this->skip = $request->skip ?: 0;
+        $this->skip = $request->skip ?: 0;
 
-    $this->take = $request->take ?: (Setting::get('admin_take_count') ?: TAKE_COUNT);
-
-}
-
-/**
-* @method posts_index()
-*
-* @uses Display the total posts
-*
-* @created Akshata
-*
-* @updated
-*
-* @param -
-*
-* @return view page 
-*/
-public function posts_index(Request $request) {
-
-    $base_query = \App\Post::orderBy('created_at','DESC');
-
-    if($request->search_key) {
-
-        $search_key = $request->search_key;
-
-        $base_query =  $base_query
-
-        ->whereHas('getuserDetails', function($q) use ($search_key) {
-
-            return $q->Where('users.name','LIKE','%'.$search_key.'%');
-
-        })->orWhere('posts.amount','LIKE','%'.$search_key.'%');
+        $this->take = $request->take ?: (Setting::get('admin_take_count') ?: TAKE_COUNT);
 
     }
 
-    if($request->status) {
+    /**
+     * @method posts_index()
+     *
+     * @uses Display the total posts
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param -
+     *
+     * @return view page 
+     */
+    public function posts_index(Request $request) {
 
-        switch ($request->status) {
+        $base_query = \App\Post::orderBy('created_at','DESC');
 
-            case SORT_BY_APPROVED:
-            $base_query = $base_query->where('posts.status', APPROVED);
-            break;
+        if($request->search_key) {
 
-            case SORT_BY_DECLINED:
-            $base_query = $base_query->where('posts.status', DECLINED);
-            break;
+            $search_key = $request->search_key;
 
-            case SORT_BY_FREE_POST:
-            $base_query = $base_query->where('posts.is_paid_post',FREE_POST);
-            break;
+            $base_query =  $base_query
 
-            default:
-            $base_query = $base_query->where('posts.is_paid_post',PAID_POST);
-            break;
+            ->whereHas('getuserDetails', function($q) use ($search_key) {
+
+                return $q->Where('users.name','LIKE','%'.$search_key.'%');
+
+            })->orWhere('posts.amount','LIKE','%'.$search_key.'%');
+
         }
-    }
 
-    if($request->scheduled) {
+        if($request->status) {
 
-        $base_query = $base_query->where('is_published',NO);
+            switch ($request->status) {
+
+                case SORT_BY_APPROVED:
+                    $base_query = $base_query->where('posts.status', APPROVED);
+                    break;
+
+                case SORT_BY_DECLINED:
+                    $base_query = $base_query->where('posts.status', DECLINED);
+                    break;
+
+                case SORT_BY_FREE_POST:
+                    $base_query = $base_query->where('posts.is_paid_post',FREE_POST);
+                    break;
+
+                default:
+                    $base_query = $base_query->where('posts.is_paid_post',PAID_POST);
+                    break;
+            }
+        }
+
+        if($request->scheduled) {
+
+            $base_query = $base_query->where('is_published',NO);
+
+            $posts = $base_query->paginate(10);
+
+            return view('admin.posts.index')
+                        ->with('page','scheduled-posts')
+                        ->with('posts', $posts);
+        }
+
+        if($request->user_id) {
+
+            $base_query = $base_query->where('user_id',$request->user_id);
+        }
 
         $posts = $base_query->paginate(10);
 
         return view('admin.posts.index')
-        ->with('page','scheduled-posts')
-        ->with('posts', $posts);
+                ->with('page', 'posts')
+                ->with('sub_page', 'posts-view')
+                ->with('posts', $posts);
     }
 
-    if($request->user_id) {
+    /**
+    * @method posts_create()
+    *
+    * @uses create new post
+    *
+    * @created sakthi 
+    *
+    * @updated 
+    *
+    * 
+    * @return View page
+    *
+    */
+    public function posts_create() {
 
-        $base_query = $base_query->where('user_id',$request->user_id);
+        $post_details = new \App\Post;
+
+        return view('admin.posts.create')
+            ->with('page', 'posts')
+            ->with('post_details', $post_details);  
+
     }
 
-    $posts = $base_query->paginate(10);
 
-    return view('admin.posts.index')
-    ->with('page', 'posts')
-    ->with('sub_page', 'posts-view')
-    ->with('posts', $posts);
-}
+    /**
+    * @method posts_save()
+    *
+    * @uses save new post
+    *
+    * @created sakthi 
+    *
+    * @updated 
+    *
+    * 
+    * @return View page
+    *
+    */
+    public function posts_save(Request $request) {
 
+        try {
 
-/**
-* @method posts_create()
-*
-* @uses create new post
-*
-* @created sakthi 
-*
-* @updated 
-*
-* 
-* @return View page
-*
-*/
-public function posts_create() {
+            DB::begintransaction();
 
-    $post_details = new \App\Post;
+            $rules = [
+                'content' => 'required|max:191',
+                'amount' => 'nullable|min:0',
+                'publish_type'=>'required',
+            ];
 
-    return view('admin.posts.create')
-    ->with('page', 'posts')
-    ->with('post_details', $post_details);  
+            Helper::custom_validator($request->all(),$rules);
 
-}
+            $post = \App\Post::find($request->post_id) ?? new \App\Post;
 
+            $post->user_id = Auth::user()->id;
 
-/**
-* @method posts_save()
-*
-* @uses save new post
-*
-* @created sakthi 
-*
-* @updated 
-*
-* 
-* @return View page
-*
-*/
-public function posts_save(Request $request) {
-    try {
+            $post->content = $request->content;
 
-        DB::begintransaction();
+            $post->is_published = $request->publish_type;
 
-        $rules = [
-            'content' => 'required|max:191',
-            'amount' => 'nullable|min:0',
-            'publish_type'=>'required',
-        ];
+            $post->publish_time = $post->is_published ? now() : NULL;
 
-        Helper::custom_validator($request->all(),$rules);
+            $post->amount = $request->amount?? 0;
 
-        $post = \App\Post::find($request->post_id) ?? new \App\Post;
+            $post->is_paid_post = $request->amount > 0 ? YES : NO;
 
-        $post->user_id = Auth::user()->id;
+            if($post->save()) {
 
-        $post->content = $request->content;
+                DB::commit(); 
 
-        $post->is_published = $request->publish_type;
+                return redirect(route('admin.posts.index'))->with('flash_success', 'posts_create_succes');
 
-        $post->publish_time = $post->is_published ? now() : NULL;
+            } 
 
-        $post->amount = $request->amount?? 0;
+            throw new Exception(tr('post_save_failed'));
 
-        $post->is_paid_post = $request->amount > 0 ? YES : NO;
+        } catch(Exception $e){ 
 
-        if($post->save()) {
+            DB::rollback();
 
-            DB::commit(); 
-
-            return redirect(route('admin.posts.index'))->with('flash_success', 'posts_create_succes');
+            return redirect()->back()->withInput()->with('flash_error', $e->getMessage());
 
         } 
 
-        throw new Exception(tr('post_save_failed'));
-
-    } catch(Exception $e){ 
-
-        DB::rollback();
-
-        return redirect()->back()->withInput()->with('flash_error', $e->getMessage());
-
-    } 
-
-}
-
-
-
-/**
-* @method posts_edit()
-*
-* @uses To display and update user details based on the user id
-*
-* @created sakthi
-*
-* @updated 
-*
-* @param object $request - User Id
-* 
-* @return redirect view page 
-*
-*/
-public function posts_edit(Request $request) {
-
-
-    try {
-
-        $post = \App\Post::find($request->post_id);
-
-        if(!$post) { 
-
-            throw new Exception(tr('post_not_found'), 101);
-        }
-
-        return view('admin.posts.edit')
-        ->with('page', 'post')
-        ->with('sub_page', 'post-view')
-        ->with('post_details', $post); 
-
-    } catch(Exception $e) {
-
-        return redirect()->route('admin.posts.index')->with('flash_error', $e->getMessage());
     }
 
-}
 
-/**
-* @method posts_view()
-*
-* @uses displays the specified posts details based on post id
-*
-* @created Akshata 
-*
-* @updated 
-*
-* @param object $request - post Id
-* 
-* @return View page
-*
-*/
-public function posts_view(Request $request) {
+    /**
+    * @method posts_edit()
+    *
+    * @uses To display and update user details based on the user id
+    *
+    * @created sakthi
+    *
+    * @updated 
+    *
+    * @param object $request - User Id
+    * 
+    * @return redirect view page 
+    *
+    */
+    public function posts_edit(Request $request) {
 
-    try {
 
-        $post = \App\Post::find($request->post_id);
+        try {
 
-        if(!$post) { 
+            $post = \App\Post::find($request->post_id);
 
-            throw new Exception(tr('post_not_found'), 101);                
-        }
+            if(!$post) { 
 
-        $payment_data = new \stdClass;
-
-        $payment_data->total_earnings = \App\PostPayment::where('post_id',$request->post_id)->sum('paid_amount');
-
-        $payment_data->current_month_earnings = \App\PostPayment::where('post_id',$request->post_id)->whereMonth('paid_date',date('m'))->sum('paid_amount');
-
-        $payment_data->today_earnings = \App\PostPayment::where('post_id',$request->payment_id)->whereDate('paid_date',today())->sum('paid_amount');
-
-        return view('admin.posts.view')
-        ->with('page', 'posts') 
-        ->with('sub_page','posts-view') 
-        ->with('post', $post)
-        ->with('payment_data',$payment_data);
-
-    } catch (Exception $e) {
-
-        return redirect()->back()->with('flash_error', $e->getMessage());
-    }
-
-}
-
-/**
-* @method posts_delete()
-*
-* @uses delete the post details based on post id
-*
-* @created Akshata 
-*
-* @updated  
-*
-* @param object $request - Post Id
-* 
-* @return response of success/failure details with view page
-*
-*/
-public function posts_delete(Request $request) {
-
-    try {
-
-        DB::begintransaction();
-
-        $post = \App\Post::find($request->post_id);
-
-        if(!$post) {
-
-            throw new Exception(tr('post_not_found'), 101);                
-        }
-
-        if($post->delete()) {
-
-            DB::commit();
-
-            return redirect()->route('admin.posts.index')->with('flash_success', tr('post_deleted_success'));   
-
-        } 
-
-        throw new Exception(tr('post_delete_failed'));
-
-    } catch(Exception $e){
-
-        DB::rollback();
-
-        return redirect()->back()->with('flash_error', $e->getMessage());
-
-    }       
-
-}
-
-/**
-* @method posts_status
-*
-* @uses To update post status as DECLINED/APPROVED based on posts id
-*
-* @created Akshata
-*
-* @updated 
-*
-* @param object $request - Post Id
-* 
-* @return response success/failure message
-*
-**/
-public function posts_status(Request $request) {
-
-    try {
-
-        DB::beginTransaction();
-
-        $post = \App\Post::find($request->post_id);
-
-        if(!$post) {
-
-            throw new Exception(tr('post_not_found'), 101);
-
-        }
-
-        $post->status = $post->status ? DECLINED : APPROVED ;
-
-        if($post->save()) {
-
-            DB::commit();
-
-            if($post->status == DECLINED) {
-
-                $email_data['subject'] = tr('post_decline_email' , Setting::get('site_name'));
-
-                $email_data['status'] = tr('declined');
-
-            } else {
-
-                $email_data['subject'] = tr('post_approve_email' , Setting::get('site_name'));
-
-                $email_data['status'] = tr('approved');
+                throw new Exception(tr('post_not_found'), 101);
             }
 
-            $email_data['email']  = $post->user->email ?? "-";
+            return view('admin.posts.edit')
+                ->with('page', 'post')
+                ->with('sub_page', 'post-view')
+                ->with('post_details', $post); 
 
-            $email_data['name']  = $post->user->name ?? "-";
+        } catch(Exception $e) {
 
-            $email_data['post_unique_id']  = $post->unique_id;
-
-            $email_data['page'] = "emails.posts.status";
-
-            $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
-
-            $message = $post->status ? tr('post_approve_success') : tr('post_decline_success');
-
-            return redirect()->back()->with('flash_success', $message);
+            return redirect()->route('admin.posts.index')->with('flash_error', $e->getMessage());
         }
-
-        throw new Exception(tr('post_status_change_failed'));
-
-    } catch(Exception $e) {
-
-        DB::rollback();
-
-        return redirect()->route('admin.posts.index')->with('flash_error', $e->getMessage());
 
     }
 
-}
+    /**
+     * @method posts_view()
+     *
+     * @uses displays the specified posts details based on post id
+     *
+     * @created Akshata 
+     *
+     * @updated 
+     *
+     * @param object $request - post Id
+     * 
+     * @return View page
+     *
+     */
+    public function posts_view(Request $request) {
 
+        try {
 
-/**
-* @method posts_publish
-*
-* @uses To publish the scheduled post
-*
-* @created sakthi
-*
-* @updated 
-*
-* @param object $request - Post Id
-* 
-* @return response success/failure message
-*
-**/
-public function posts_publish(Request $request) {
+            $post = \App\Post::find($request->post_id);
 
-    try {
+            if(!$post) { 
 
-        DB::beginTransaction();
+                throw new Exception(tr('post_not_found'), 101);                
+            }
 
-        $post = \App\Post::find($request->post_id);
+            $payment_data = new \stdClass;
 
-        if(!$post) {
+            $payment_data->total_earnings = \App\PostPayment::where('post_id',$request->post_id)->sum('paid_amount');
 
-            throw new Exception(tr('post_not_found'), 101);
+            $payment_data->current_month_earnings = \App\PostPayment::where('post_id',$request->post_id)->whereMonth('paid_date',date('m'))->sum('paid_amount');
 
+            $payment_data->today_earnings = \App\PostPayment::where('post_id',$request->payment_id)->whereDate('paid_date',today())->sum('paid_amount');
+
+            return view('admin.posts.view')
+                    ->with('page', 'posts') 
+                    ->with('sub_page','posts-view') 
+                    ->with('post', $post)
+                    ->with('payment_data',$payment_data);
+
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
         }
-
-        $post->is_published = YES ;
-
-        $post->publish_time = date('Y-m-d H:i:s');
-
-        if($post->save()) {
-
-            DB::commit();
-
-            return redirect()->back()->with('flash_success', tr('posts_publish_success'));
-        }
-
-        throw new Exception(tr('post_publish_failed'));
-
-    } catch(Exception $e) {
-
-        DB::rollback();
-
-        return redirect()->route('admin.posts.index')->with('flash_error', $e->getMessage());
 
     }
 
-}
+    /**
+     * @method posts_delete()
+     *
+     * @uses delete the post details based on post id
+     *
+     * @created Akshata 
+     *
+     * @updated  
+     *
+     * @param object $request - Post Id
+     * 
+     * @return response of success/failure details with view page
+     *
+     */
+    public function posts_delete(Request $request) {
 
-/**
-* @method post_albums_index()
-*
-* @uses Display the total posts albums index
-*
-* @created Akshata
-*
-* @updated
-*
-* @param -
-*
-* @return view page 
-*/
-public function post_albums_index(Request $request) {
+        try {
 
-    $post_albums = \App\PostAlbum::orderBy('created_at','DESC')->paginate(10);
+            DB::begintransaction();
 
-    return view('admin.post_albums.index')
-    ->with('page','post_albums')
-    ->with('post_albums', $post_albums);
-}
+            $post = \App\Post::find($request->post_id);
 
-/**
-* @method post_albums_view()
-*
-* @uses displays the specified post album details based on post album id
-*
-* @created Akshata 
-*
-* @updated 
-*
-* @param object $request - Post Album Id
-* 
-* @return View page
-*
-*/
-public function post_albums_view(Request $request) {
+            if(!$post) {
 
-    try {
+                throw new Exception(tr('post_not_found'), 101);                
+            }
 
-        $post_album = \App\PostAlbum::find($request->post_album_id);
+            if($post->delete()) {
 
-        if(!$post_album) {
+                DB::commit();
 
-            throw new Exception(tr('post_album_not_found'), 101);
-        }
+                return redirect()->route('admin.posts.index')->with('flash_success', tr('post_deleted_success'));   
 
-        $post_ids = explode(',', $post_album->post_ids);
+            } 
 
-        $posts = \App\Post::whereIn('posts.id', $post_ids)->get();
+            throw new Exception(tr('post_delete_failed'));
 
-        return view('admin.post_albums.view')
-        ->with('page', 'post_albums') 
-        ->with('post_album' , $post_album)
-        ->with('posts',$posts);
+        } catch(Exception $e){
 
-    } catch (Exception $e) {
+            DB::rollback();
 
-        return redirect()->back()->with('flash_error', $e->getMessage());
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }       
+
     }
 
-}
+    /**
+     * @method posts_status
+     *
+     * @uses To update post status as DECLINED/APPROVED based on posts id
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - Post Id
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function posts_status(Request $request) {
 
-/**
-* @method post_albums_delete()
-*
-* @uses delete the post album details based on post album id
-*
-* @created Akshata 
-*
-* @updated  
-*
-* @param object $request - Post Album Id
-* 
-* @return response of success/failure details with view page
-*
-*/
-public function post_albums_delete(Request $request) {
+        try {
 
-    try {
+            DB::beginTransaction();
 
-        DB::begintransaction();
+            $post = \App\Post::find($request->post_id);
 
-        $post_album = \App\Post::find($request->post_album_id);
+            if(!$post) {
 
-        if(!$post_album) {
+                throw new Exception(tr('post_not_found'), 101);
 
-            throw new Exception(tr('post_album_not_found'), 101);                
+            }
+
+            $post->status = $post->status ? DECLINED : APPROVED ;
+
+            if($post->save()) {
+
+                DB::commit();
+
+                if($post->status == DECLINED) {
+
+                    $email_data['subject'] = tr('post_decline_email' , Setting::get('site_name'));
+
+                    $email_data['status'] = tr('declined');
+
+                } else {
+
+                    $email_data['subject'] = tr('post_approve_email' , Setting::get('site_name'));
+
+                    $email_data['status'] = tr('approved');
+                }
+
+                $email_data['email']  = $post->user->email ?? "-";
+
+                $email_data['name']  = $post->user->name ?? "-";
+
+                $email_data['post_unique_id']  = $post->unique_id;
+
+                $email_data['page'] = "emails.posts.status";
+
+                $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+
+                $message = $post->status ? tr('post_approve_success') : tr('post_decline_success');
+
+                return redirect()->back()->with('flash_success', $message);
+            }
+
+            throw new Exception(tr('post_status_change_failed'));
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->route('admin.posts.index')->with('flash_error', $e->getMessage());
+
         }
 
-        if($post_album->delete()) {
+    }
 
-            DB::commit();
 
-            return redirect()->route('admin.post_albums.index')->with('flash_success',tr('post_album_deleted_success'));   
+    /**
+     * @method posts_publish
+     *
+     * @uses To publish the scheduled post
+     *
+     * @created sakthi
+     *
+     * @updated 
+     *
+     * @param object $request - Post Id
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function posts_publish(Request $request) {
 
-        } 
+        try {
 
-        throw new Exception(tr('post_album_delete_failed'));
+            DB::beginTransaction();
 
-    } catch(Exception $e){
+            $post = \App\Post::find($request->post_id);
 
-        DB::rollback();
+            if(!$post) {
 
-        return redirect()->back()->with('flash_error', $e->getMessage());
+                throw new Exception(tr('post_not_found'), 101);
+
+            }
+
+            $post->is_published = YES ;
+            
+            $post->publish_time = date('Y-m-d H:i:s');
+
+            if($post->save()) {
+
+                DB::commit();
+
+                return redirect()->back()->with('flash_success', tr('posts_publish_success'));
+            }
+
+            throw new Exception(tr('post_publish_failed'));
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->route('admin.posts.index')->with('flash_error', $e->getMessage());
+
+        }
+
+    }
+
+    /**
+     * @method post_albums_index()
+     *
+     * @uses Display the total posts albums index
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param -
+     *
+     * @return view page 
+     */
+    public function post_albums_index(Request $request) {
+
+        $post_albums = \App\PostAlbum::orderBy('created_at','DESC')->paginate(10);
+
+        return view('admin.post_albums.index')
+                    ->with('page','post_albums')
+                    ->with('post_albums', $post_albums);
+    }
+
+    /**
+     * @method post_albums_view()
+     *
+     * @uses displays the specified post album details based on post album id
+     *
+     * @created Akshata 
+     *
+     * @updated 
+     *
+     * @param object $request - Post Album Id
+     * 
+     * @return View page
+     *
+     */
+    public function post_albums_view(Request $request) {
+
+        try {
+
+            $post_album = \App\PostAlbum::find($request->post_album_id);
+
+            if(!$post_album) {
+
+                throw new Exception(tr('post_album_not_found'), 101);
+            }
+
+            $post_ids = explode(',', $post_album->post_ids);
+
+            $posts = \App\Post::whereIn('posts.id', $post_ids)->get();
+
+            return view('admin.post_albums.view')
+                        ->with('page', 'post_albums') 
+                        ->with('post_album' , $post_album)
+                        ->with('posts',$posts);
+
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+        }
+
+    }
+
+    /**
+     * @method post_albums_delete()
+     *
+     * @uses delete the post album details based on post album id
+     *
+     * @created Akshata 
+     *
+     * @updated  
+     *
+     * @param object $request - Post Album Id
+     * 
+     * @return response of success/failure details with view page
+     *
+     */
+    public function post_albums_delete(Request $request) {
+
+        try {
+
+            DB::begintransaction();
+
+            $post_album = \App\Post::find($request->post_album_id);
+
+            if(!$post_album) {
+
+                throw new Exception(tr('post_album_not_found'), 101);                
+            }
+
+            if($post_album->delete()) {
+
+                DB::commit();
+
+                return redirect()->route('admin.post_albums.index')->with('flash_success',tr('post_album_deleted_success'));   
+
+            } 
+
+            throw new Exception(tr('post_album_delete_failed'));
+
+        } catch(Exception $e){
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }       
+
+    }
+
+    /**
+     * @method post_albums_status
+     *
+     * @uses To update post album status as DECLINED/APPROVED based on posts id
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - Post Album Id
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function post_albums_status(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $post_album = \App\PostAlbum::find($request->post_album_id);
+
+            if(!$post_album) {
+
+                throw new Exception(tr('post_album_not_found'), 101);
+
+            }
+
+            $post_album->status = $post_album->status ? DECLINED : APPROVED ;
+
+            if($post_album->save()) {
+
+                DB::commit();
+
+                $message = $post_album->status ? tr('post_album_approve_success') : tr('post_album_decline_success');
+
+                return redirect()->back()->with('flash_success', $message);
+            }
+
+            throw new Exception(tr('post_album_status_change_failed'));
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->route('admin.post_albums.index')->with('flash_error', $e->getMessage());
+
+        }
+
+    }
+
+    /**
+     * @method orders_index
+     *
+     * @uses Display list of orders
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - Order Id
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function orders_index(Request $request) {
+
+        $base_query = \App\Order::where('unique_id','!=',NULL);
+
+        if($request->status) {
+
+            $base_query = $base_query->where('orders.status', $request->status);
+        }
+
+        if($request->search_key) {
+
+            $search_key = $request->search_key;
+
+            $base_query = $base_query
+                            ->whereHas('userDetails',function($query) use($search_key) {
+
+                                return $query->where('users.name','LIKE','%'.$search_key.'%');
+
+                            })->orWhereHas('deliveryAddressDetails',function($query) use($search_key){
+
+                                return $query->where('delivery_addresses.name','LIKE','%'.$search_key.'%');
+                            }); 
+        }
+
+        if($request->user_id) {
+
+            $base_query  = $base_query->where('user_id',$request->user_id);
+        }
+
+        $sub_page = 'orders-view';
+
+        if($request->new_orders) {
+
+            $base_query  = $base_query->latest('created_at');
+
+            $sub_page = 'orders-new';
+        }
+
+        $orders = $base_query->paginate(10);
+
+        return view('admin.orders.index')
+                    ->with('page','orders')
+                    ->with('sub_page',$sub_page)
+                    ->with('orders',$orders);
+    }
+
+
+    /**
+     * @method orders_view
+     *
+     * @uses Display the specified order details
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - Order Id
+     * 
+     * @return response success/failure message
+     *
+     **/
+
+    public function orders_view(Request $request) {
+
+        try {
+
+            $order = \App\Order::where('id',$request->order_id)->first();
+
+            if(!$order) {
+
+                throw new Exception(tr('order_not_found'), 1);
+
+            }
+
+            $order_products = \App\OrderProduct::where('order_id',$order->id)->get();
+
+            $order_payment = \App\OrderPayment::where('order_id',$order->id)->first();
+
+            return view('admin.orders.view')
+                        ->with('page','orders')
+                        ->with('sub_page','orders-view')
+                        ->with('order', $order)
+                        ->with('order_products', $order_products)
+                        ->with('order_payment', $order_payment);
+
+        } catch(Exception $e) {
+
+            return redirect()->back()->with('flash_error',$e->getMessage());
+        }
+    }
+
+    /**
+     * @method delivery_address_index
+     *
+     * @uses Display list of all the delivery address
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function delivery_address_index(Request $request) {
+
+        $base_query = \App\DeliveryAddress::where('status',APPROVED);
+
+        if($request->search_key) {
+
+            $search_key = $request->search_key;
+
+            $base_query = $base_query->whereHas('userDetails',function($query) use($search_key){
+
+                return $query->where('users.name','LIKE','%'.$search_key.'%');
+
+            })->orWhere('delivery_addresses.name','LIKE','%'.$search_key.'%')
+
+            ->orWhere('delivery_addresses.state','LIKE','%'.$search_key.'%'); 
+        }
+
+        if($request->user_id) {
+
+            $base_query = $base_query->where('user_id',$request->user_id);
+        }
+
+        $delivery_addresses = $base_query->paginate(10);
+
+        return view('admin.delivery_address.index')
+                    ->with('page','delivery-address')
+                    ->with('delivery_addresses',$delivery_addresses);
+    }
+
+    /**
+     * @method delivery_address_view
+     *
+     * @uses Display the specified delivery address details
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object $request - Delivery Address Id
+     * 
+     * @return response success/failure message
+     *
+     **/
+
+    public function delivery_address_view(Request $request) {
+
+        try {
+
+            $delivery_address = \App\DeliveryAddress::where('id',$request->delivery_address_id)->first();
+
+            if(!$delivery_address) {
+
+                throw new Exception(tr('delvery_address_details_not_found'), 101);
+
+            }
+
+            return view('admin.delivery_address.view')
+                    ->with('page','delivery-address')
+                    ->with('delivery_address_details',$delivery_address);
+
+        } catch(Exception $e) {
+
+            return redirect()->back()->with('flash_error',$e->getMessage());
+        }
+    }
+
+
+    /**
+     * @method delivery_address_delete
+     *
+     * @uses Display list of all the delivery address
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param $object delivery_address_id
+     * 
+     * @return response success/failure message
+     *
+     **/
+
+    public function delivery_address_delete(Request $request) {
+
+        try {
+
+            DB::begintransaction();
+
+            $delivery_address = \App\DeliveryAddress::find($request->delivery_address_id);
+
+            if(!$delivery_address) {
+
+                throw new Exception(tr('delivery_address_details_not_found'), 101);                
+            }
+
+            if($delivery_address->delete()) {
+
+                DB::commit();
+
+                return redirect()->route('admin.delivery_address.index')->with('flash_success',tr('delivery_address_deleted_success'));   
+
+            } 
+
+            throw new Exception(tr('delivery_address_delete_failed'));
+
+        } catch(Exception $e){
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }       
+
+    }
+
+    /**
+     * @method Bookmarks_index
+     *
+     * @uses Display list of all the bookmarks
+     *
+     * @created Sakthi
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function post_bookmarks_index(Request $request) {
+
+        $base_query = \App\PostBookmark::Approved()->orderBy('post_bookmarks.created_at', 'desc');
+
+
+        if($request->search_key) {
+            $search_key = $request->search_key;
+
+            $base_query = $base_query->whereHas('post',function($query) use($search_key){
+
+                return $query->where('posts.content','LIKE','%'.$search_key.'%');
+
+            });
+
+        }
+
+        if($request->user_id) {
+
+            $base_query = $base_query->where('user_id',$request->user_id);
+        }
+
+        $post_bookmarks = $base_query->paginate(10);
+
+        return view('admin.bookmarks.index')
+                    ->with('page','post_bookmarks')
+                    ->with('post_bookmarks',$post_bookmarks);
+    }
+
+    /**
+     * @method bookmarks_delete
+     *
+     * @uses Display list of all the bookmarks
+     *
+     * @created Sakthi
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function post_bookmarks_delete(Request $request) {
+
+        try {
+
+            DB::begintransaction();
+
+            $post_bookmark = \App\PostBookmark::find($request->post_bookmark_id);
+
+            if(!$post_bookmark) {
+
+                throw new Exception(tr('post_bookmark_not_found'), 101);                
+            }
+
+            $post_bookmark->where('user_id',$request->user_id);
+
+            if($post_bookmark->delete()) {
+
+                DB::commit();
+
+                return redirect()->back()->with('flash_success',tr('bookmark_deleted_success'));   
+
+            } 
+
+            throw new Exception(tr('bookmark_delete_failed'));
+
+        } catch(Exception $e){
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }       
+
+    }
+
+    /**
+     * @method bookmarks_view
+     *
+     * @uses view the bookmark
+     *
+     * @created Sakthi
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function post_bookmarks_view(Request $request) {
+
+        try {
+
+            $post_bookmark = \App\PostBookmark::where('id', $request->post_bookmark_id)->where('user_id',$request->user_id)->first();
+
+            if(!$post_bookmark) {
+
+                throw new Exception(tr('bookmark_details_not_found'), 101);
+
+            }
+
+            return view('admin.bookmarks.view')
+                    ->with('page','bookmarks')
+                    ->with('post_bookmark', $post_bookmark);
+
+        } catch(Exception $e) {
+
+            return redirect()->back()->with('flash_error',$e->getMessage());
+        }
 
     }       
 
-}
-
-/**
-* @method post_albums_status
-*
-* @uses To update post album status as DECLINED/APPROVED based on posts id
-*
-* @created Akshata
-*
-* @updated 
-*
-* @param object $request - Post Album Id
-* 
-* @return response success/failure message
-*
-**/
-public function post_albums_status(Request $request) {
-
-    try {
-
-        DB::beginTransaction();
-
-        $post_album = \App\PostAlbum::find($request->post_album_id);
-
-        if(!$post_album) {
-
-            throw new Exception(tr('post_album_not_found'), 101);
-
-        }
-
-        $post_album->status = $post_album->status ? DECLINED : APPROVED ;
-
-        if($post_album->save()) {
-
-            DB::commit();
-
-            $message = $post_album->status ? tr('post_album_approve_success') : tr('post_album_decline_success');
-
-            return redirect()->back()->with('flash_success', $message);
-        }
-
-        throw new Exception(tr('post_album_status_change_failed'));
-
-    } catch(Exception $e) {
-
-        DB::rollback();
-
-        return redirect()->route('admin.post_albums.index')->with('flash_error', $e->getMessage());
-
-    }
-
-}
-
-/**
-* @method orders_index
-*
-* @uses Display list of orders
-*
-* @created Akshata
-*
-* @updated 
-*
-* @param object $request - Order Id
-* 
-* @return response success/failure message
-*
-**/
-public function orders_index(Request $request) {
-
-    $base_query = \App\Order::where('unique_id','!=',NULL);
-
-    if($request->status) {
-
-        $base_query = $base_query->where('orders.status', $request->status);
-    }
-
-    if($request->search_key) {
-
-        $search_key = $request->search_key;
-
-        $base_query = $base_query
-        ->whereHas('userDetails',function($query) use($search_key) {
-
-            return $query->where('users.name','LIKE','%'.$search_key.'%');
-
-        })->orWhereHas('deliveryAddressDetails',function($query) use($search_key){
-
-            return $query->where('delivery_addresses.name','LIKE','%'.$search_key.'%');
-        }); 
-    }
-
-    if($request->user_id) {
-
-        $base_query  = $base_query->where('user_id',$request->user_id);
-    }
-
-    $sub_page = 'orders-view';
-
-    if($request->new_orders) {
-
-        $base_query  = $base_query->latest('created_at');
-
-        $sub_page = 'orders-new';
-    }
-
-    $orders = $base_query->paginate(10);
-
-    return view('admin.orders.index')
-    ->with('page','orders')
-    ->with('sub_page',$sub_page)
-    ->with('orders',$orders);
-}
 
 
-/**
-* @method orders_view
-*
-* @uses Display the specified order details
-*
-* @created Akshata
-*
-* @updated 
-*
-* @param object $request - Order Id
-* 
-* @return response success/failure message
-*
-**/
+    /**
+     * @method post_comments
+     *
+     * @uses List of comments for particular post
+     *
+     * @created Sakthi
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function post_comments(Request $request) {
 
-public function orders_view(Request $request) {
+        $base_query = \App\PostComment::Approved()->orderBy('post_comments.created_at', 'desc');
 
-    try {
+        if($request->search_key) {
 
-        $order = \App\Order::where('id',$request->order_id)->first();
+            $search_key = $request->search_key;
 
-        if(!$order) {
+            $base_query = $base_query->whereHas('user',function($query) use($search_key){
 
-            throw new Exception(tr('order_not_found'), 1);
+                return $query->where('users.name','LIKE','%'.$search_key.'%');
+
+            });
 
         }
-
-        $order_products = \App\OrderProduct::where('order_id',$order->id)->get();
-
-        $order_payment = \App\OrderPayment::where('order_id',$order->id)->first();
-
-        return view('admin.orders.view')
-        ->with('page','orders')
-        ->with('sub_page','orders-view')
-        ->with('order', $order)
-        ->with('order_products', $order_products)
-        ->with('order_payment', $order_payment);
-
-    } catch(Exception $e) {
-
-        return redirect()->back()->with('flash_error',$e->getMessage());
-    }
-}
-
-/**
-* @method delivery_address_index
-*
-* @uses Display list of all the delivery address
-*
-* @created Akshata
-*
-* @updated 
-*
-* @param 
-* 
-* @return response success/failure message
-*
-**/
-public function delivery_address_index(Request $request) {
-
-    $base_query = \App\DeliveryAddress::where('status',APPROVED);
-
-    if($request->search_key) {
-
-        $search_key = $request->search_key;
-
-        $base_query = $base_query->whereHas('userDetails',function($query) use($search_key){
-
-            return $query->where('users.name','LIKE','%'.$search_key.'%');
-
-        })->orWhere('delivery_addresses.name','LIKE','%'.$search_key.'%')
-
-        ->orWhere('delivery_addresses.state','LIKE','%'.$search_key.'%'); 
-    }
-
-    if($request->user_id) {
-
-        $base_query = $base_query->where('user_id',$request->user_id);
-    }
-
-    $delivery_addresses = $base_query->paginate(10);
-
-    return view('admin.delivery_address.index')
-    ->with('page','delivery-address')
-    ->with('delivery_addresses',$delivery_addresses);
-}
-
-/**
-* @method delivery_address_view
-*
-* @uses Display the specified delivery address details
-*
-* @created Akshata
-*
-* @updated 
-*
-* @param object $request - Delivery Address Id
-* 
-* @return response success/failure message
-*
-**/
-
-public function delivery_address_view(Request $request) {
-
-    try {
-
-        $delivery_address = \App\DeliveryAddress::where('id',$request->delivery_address_id)->first();
-
-        if(!$delivery_address) {
-
-            throw new Exception(tr('delvery_address_details_not_found'), 101);
-
+        if($request->post_id){
+            $base_query->where('post_comments.post_id',  $request->post_id);
         }
 
-        return view('admin.delivery_address.view')
-        ->with('page','delivery-address')
-        ->with('delivery_address_details',$delivery_address);
+        $post_comments = $base_query->paginate(10);
 
-    } catch(Exception $e) {
+        return view('admin.posts.comments')
+                ->with('page','post_comments')
+                ->with('post_id', $request->post_id)
+                ->with('post_comments', $post_comments);
 
-        return redirect()->back()->with('flash_error',$e->getMessage());
-    }
-}
-
-
-/**
-* @method delivery_address_delete
-*
-* @uses Display list of all the delivery address
-*
-* @created Akshata
-*
-* @updated 
-*
-* @param $object delivery_address_id
-* 
-* @return response success/failure message
-*
-**/
-
-public function delivery_address_delete(Request $request) {
-
-    try {
-
-        DB::begintransaction();
-
-        $delivery_address = \App\DeliveryAddress::find($request->delivery_address_id);
-
-        if(!$delivery_address) {
-
-            throw new Exception(tr('delivery_address_details_not_found'), 101);                
-        }
-
-        if($delivery_address->delete()) {
-
-            DB::commit();
-
-            return redirect()->route('admin.delivery_address.index')->with('flash_success',tr('delivery_address_deleted_success'));   
-
-        } 
-
-        throw new Exception(tr('delivery_address_delete_failed'));
-
-    } catch(Exception $e){
-
-        DB::rollback();
-
-        return redirect()->back()->with('flash_error', $e->getMessage());
-
-    }       
-
-}
-
-/**
-* @method Bookmarks_index
-*
-* @uses Display list of all the bookmarks
-*
-* @created Sakthi
-*
-* @updated 
-*
-* @param 
-* 
-* @return response success/failure message
-*
-**/
-public function post_bookmarks_index(Request $request) {
-
-    $base_query = \App\PostBookmark::Approved()->orderBy('post_bookmarks.created_at', 'desc');
-
-
-    if($request->search_key) {
-        $search_key = $request->search_key;
-
-        $base_query = $base_query->whereHas('post',function($query) use($search_key){
-
-            return $query->where('posts.content','LIKE','%'.$search_key.'%');
-
-        });
-
+      
     }
 
-    if($request->user_id) {
+    /**
+     * @method post_comment_delete
+     *
+     * @uses delete particular comment
+     *
+     * @created Sakthi
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function post_comment_delete(Request $request) {
 
-        $base_query = $base_query->where('user_id',$request->user_id);
+        try {
+
+            DB::begintransaction();
+
+            $post_comment = \App\PostComment::find($request->comment_id);
+
+            if(!$post_comment) {
+
+                throw new Exception(tr('post_comment_not_found'), 101);                
+            }
+
+            $post_comment->where('post_id',$request->post_id);
+
+            if($post_comment->delete()) {
+
+                DB::commit();
+
+                return redirect()->back()->with('flash_success',tr('post_comment_deleted'));   
+
+            } 
+
+            throw new Exception(tr('post_comment_delete_failed'));
+
+        } catch(Exception $e){
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }   
     }
 
-    $post_bookmarks = $base_query->paginate(10);
+    /**
+     * @method fav_users
+     *
+     * @uses List of fav users
+     *
+     * @created Sakthi
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function fav_users(Request $request) {
 
-    return view('admin.bookmarks.index')
-    ->with('page','post_bookmarks')
-    ->with('post_bookmarks',$post_bookmarks);
-}
+        $base_query = \App\FavUser::Approved()->orderBy('fav_users.created_at', 'desc');
 
-/**
-* @method bookmarks_delete
-*
-* @uses Display list of all the bookmarks
-*
-* @created Sakthi
-*
-* @updated 
-*
-* @param 
-* 
-* @return response success/failure message
-*
-**/
-public function post_bookmarks_delete(Request $request) {
+        if($request->search_key) {
+            $search_key = $request->search_key;
 
-    try {
+            $base_query = $base_query->whereHas('user',function($query) use($search_key){
 
-        DB::begintransaction();
+                return $query->where('users.name','LIKE','%'.$search_key.'%');
 
-        $post_bookmark = \App\PostBookmark::find($request->post_bookmark_id);
-
-        if(!$post_bookmark) {
-
-            throw new Exception(tr('post_bookmark_not_found'), 101);                
-        }
-
-        $post_bookmark->where('user_id',$request->user_id);
-
-        if($post_bookmark->delete()) {
-
-            DB::commit();
-
-            return redirect()->back()->with('flash_success',tr('bookmark_deleted_success'));   
-
-        } 
-
-        throw new Exception(tr('bookmark_delete_failed'));
-
-    } catch(Exception $e){
-
-        DB::rollback();
-
-        return redirect()->back()->with('flash_error', $e->getMessage());
-
-    }       
-
-}
-
-/**
-* @method bookmarks_view
-*
-* @uses view the bookmark
-*
-* @created Sakthi
-*
-* @updated 
-*
-* @param 
-* 
-* @return response success/failure message
-*
-**/
-public function post_bookmarks_view(Request $request) {
-
-    try {
-
-        $post_bookmark = \App\PostBookmark::where('id', $request->post_bookmark_id)->where('user_id',$request->user_id)->first();
-
-        if(!$post_bookmark) {
-
-            throw new Exception(tr('bookmark_details_not_found'), 101);
+            });
 
         }
-
-        return view('admin.bookmarks.view')
-        ->with('page','bookmarks')
-        ->with('post_bookmark', $post_bookmark);
-
-    } catch(Exception $e) {
-
-        return redirect()->back()->with('flash_error',$e->getMessage());
-    }
-
-}       
-
-
-
-/**
-* @method post_comments
-*
-* @uses List of comments for particular post
-*
-* @created Sakthi
-*
-* @updated 
-*
-* @param 
-* 
-* @return response success/failure message
-*
-**/
-public function post_comments(Request $request) {
-
-    $base_query = \App\PostComment::Approved()->orderBy('post_comments.created_at', 'desc');
-
-    if($request->search_key) {
-
-        $search_key = $request->search_key;
-
-        $base_query = $base_query->whereHas('user',function($query) use($search_key){
-
-            return $query->where('users.name','LIKE','%'.$search_key.'%');
-
-        });
-
-    }
-    if($request->post_id){
-        $base_query->where('post_comments.post_id',  $request->post_id);
-    }
-
-    $post_comments = $base_query->paginate(10);
-
-    return view('admin.posts.comments')
-    ->with('page','post_comments')
-    ->with('post_id', $request->post_id)
-    ->with('post_comments', $post_comments);
-
-
-}
-
-/**
-* @method post_comment_delete
-*
-* @uses delete particular comment
-*
-* @created Sakthi
-*
-* @updated 
-*
-* @param 
-* 
-* @return response success/failure message
-*
-**/
-public function post_comment_delete(Request $request) {
-
-    try {
-
-        DB::begintransaction();
-
-        $post_comment = \App\PostComment::find($request->comment_id);
-
-        if(!$post_comment) {
-
-            throw new Exception(tr('post_comment_not_found'), 101);                
+        if($request->user_id){
+            $base_query->where('user_id', $request->user_id);
         }
 
-        $post_comment->where('post_id',$request->post_id);
+        $fav_users = $base_query->paginate(10);
 
-        if($post_comment->delete()) {
-
-            DB::commit();
-
-            return redirect()->back()->with('flash_success',tr('post_comment_deleted'));   
-
-        } 
-
-        throw new Exception(tr('post_comment_delete_failed'));
-
-    } catch(Exception $e){
-
-        DB::rollback();
-
-        return redirect()->back()->with('flash_error', $e->getMessage());
-
-    }   
-}
-
-/**
-* @method fav_users
-*
-* @uses List of fav users
-*
-* @created Sakthi
-*
-* @updated 
-*
-* @param 
-* 
-* @return response success/failure message
-*
-**/
-public function fav_users(Request $request) {
-
-    $base_query = \App\FavUser::Approved()->orderBy('fav_users.created_at', 'desc');
-
-    if($request->search_key) {
-        $search_key = $request->search_key;
-
-        $base_query = $base_query->whereHas('user',function($query) use($search_key){
-
-            return $query->where('users.name','LIKE','%'.$search_key.'%');
-
-        });
-
-    }
-    if($request->user_id){
-        $base_query->where('user_id', $request->user_id);
+        return view('admin.fav_users.index')
+                    ->with('page','fav_users')
+                    ->with('fav_users',$fav_users);
     }
 
-    $fav_users = $base_query->paginate(10);
+    /**
+     * @method fav_users_delete
+     *
+     * @uses List of fav users
+     *
+     * @created Sakthi
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function fav_users_delete(Request $request) {
 
-    return view('admin.fav_users.index')
-    ->with('page','fav_users')
-    ->with('fav_users',$fav_users);
-}
+        try {
 
-/**
-* @method fav_users_delete
-*
-* @uses List of fav users
-*
-* @created Sakthi
-*
-* @updated 
-*
-* @param 
-* 
-* @return response success/failure message
-*
-**/
-public function fav_users_delete(Request $request) {
+            DB::begintransaction();
 
-    try {
+            $fav_user = \App\FavUser::find($request->fav_user_id);
 
-        DB::begintransaction();
+            if(!$fav_user) {
 
-        $fav_user = \App\FavUser::find($request->fav_user_id);
+                throw new Exception(tr('fav_user_not_found'), 101);                
+            }
 
-        if(!$fav_user) {
+            $fav_user->where('fav_user_id',$request->user_id);
 
-            throw new Exception(tr('fav_user_not_found'), 101);                
+            if($fav_user->delete()) {
+
+                DB::commit();
+
+                return redirect()->back()->with('flash_success',tr('fav_user_deleted'));   
+
+            } 
+
+            throw new Exception(tr('fav_user_delete_failed'));
+
+        } catch(Exception $e){
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }   
+    }
+
+    /**
+     * @method post_likes
+     *
+     * @uses List of liked post for users
+     *
+     * @created Sakthi
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function post_likes(Request $request) {
+
+        $base_query = \App\PostLike::Approved()->orderBy('post_likes.created_at', 'desc');
+
+        if($request->search_key) {
+            $search_key = $request->search_key;
+
+            $base_query = $base_query->whereHas('postUser',function($query) use($search_key){
+
+                return $query->where('users.name','LIKE','%'.$search_key.'%');
+
+            });
         }
 
-        $fav_user->where('fav_user_id',$request->user_id);
-
-        if($fav_user->delete()) {
-
-            DB::commit();
-
-            return redirect()->back()->with('flash_success',tr('fav_user_deleted'));   
-
-        } 
-
-        throw new Exception(tr('fav_user_delete_failed'));
-
-    } catch(Exception $e){
-
-        DB::rollback();
-
-        return redirect()->back()->with('flash_error', $e->getMessage());
-
-    }   
-}
-
-/**
-* @method post_likes
-*
-* @uses List of liked post for users
-*
-* @created Sakthi
-*
-* @updated 
-*
-* @param 
-* 
-* @return response success/failure message
-*
-**/
-public function post_likes(Request $request) {
-
-    $base_query = \App\PostLike::Approved()->orderBy('post_likes.created_at', 'desc');
-
-    if($request->search_key) {
-        $search_key = $request->search_key;
-
-        $base_query = $base_query->whereHas('postUser',function($query) use($search_key){
-
-            return $query->where('users.name','LIKE','%'.$search_key.'%');
-
-        });
-    }
-
-    if($request->user_id){
-        $base_query->where('user_id', $request->user_id);
-    }
-
-    $post_likes = $base_query->paginate(10);
-
-    return view('admin.post_likes.index')
-    ->with('page','post_likes')
-    ->with('user_id',$request->user_id)
-    ->with('post_likes',$post_likes); 
-}
-
-
-/**
-* @method post_likes_delete
-*
-* @uses remove liked post
-*
-* @created Sakthi
-*
-* @updated 
-*
-* @param 
-* 
-* @return response success/failure message
-*
-**/
-public function post_likes_delete(Request $request) {
-
-    try {
-
-        DB::begintransaction();
-
-        $post_likes = \App\PostLike::find($request->post_like_id);
-
-        if(!$post_likes) {
-
-            throw new Exception(tr('post_not_found'), 101);                
+        if($request->user_id){
+            $base_query->where('user_id', $request->user_id);
         }
 
-        $post_likes->where('user_id',$request->user_id);
+        $post_likes = $base_query->paginate(10);
 
-        if($post_likes->delete()) {
+        return view('admin.post_likes.index')
+                    ->with('page','post_likes')
+                    ->with('user_id',$request->user_id)
+                    ->with('post_likes',$post_likes); 
+     }
 
-            DB::commit();
 
-            return redirect()->back()->with('flash_success',tr('like_post_deleted'));   
+    /**
+     * @method post_likes_delete
+     *
+     * @uses remove liked post
+     *
+     * @created Sakthi
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function post_likes_delete(Request $request) {
 
-        } 
+        try {
 
-        throw new Exception(tr('like_post_delete_failed'));
+            DB::begintransaction();
 
-    } catch(Exception $e){
+            $post_likes = \App\PostLike::find($request->post_like_id);
 
-        DB::rollback();
+            if(!$post_likes) {
 
-        return redirect()->back()->with('flash_error', $e->getMessage());
+                throw new Exception(tr('post_not_found'), 101);                
+            }
 
-    }   
-}
+            $post_likes->where('user_id',$request->user_id);
+
+            if($post_likes->delete()) {
+
+                DB::commit();
+
+                return redirect()->back()->with('flash_success',tr('like_post_deleted'));   
+
+            } 
+
+            throw new Exception(tr('like_post_delete_failed'));
+
+        } catch(Exception $e){
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }   
+    }
 
 
 }
