@@ -671,14 +671,14 @@ class AdminPostController extends Controller
          
     }
 
-         /**
-     * @method Bookmarks_index
+    /**
+     * @method post_bookmarks_index
      *
      * @uses Display list of all the bookmarks
      *
      * @created Sakthi
      *
-     * @updated 
+     * @updated Vithya R
      *
      * @param 
      * 
@@ -689,8 +689,8 @@ class AdminPostController extends Controller
 
         $base_query = \App\PostBookmark::Approved()->orderBy('post_bookmarks.created_at', 'desc');
 
-
         if($request->search_key) {
+
             $search_key = $request->search_key;
           
             $base_query = $base_query->whereHas('post',function($query) use($search_key){
@@ -701,105 +701,102 @@ class AdminPostController extends Controller
 
         }
 
-
         if($request->user_id) {
 
             $base_query = $base_query->where('user_id',$request->user_id);
         }
 
-        $bookmarks = $base_query->paginate(10);
+        $post_bookmarks = $base_query->paginate(10);
 
         return view('admin.bookmarks.index')
                     ->with('page','post_bookmarks')
-                    ->with('post_bookmarks',$bookmarks);
+                    ->with('post_bookmarks', $post_bookmarks);
     }
 
     /**
-    * @method bookmarks_delete
-    *
-    * @uses Display list of all the bookmarks
-    *
-    * @created Sakthi
-    *
-    * @updated 
-    *
-    * @param 
-    * 
-    * @return response success/failure message
-    *
-    **/
+     * @method post_bookmarks_delete
+     *
+     * @uses Display list of all the bookmarks
+     *
+     * @created Sakthi
+     *
+     * @updated Vithya R
+     *
+     * @param 
+     * 
+     * @return response success/failure message
+     *
+     **/
     public function post_bookmarks_delete(Request $request) {
 
-    try {
+        try {
 
-        DB::begintransaction();
+                DB::begintransaction();
 
-        $bookmark_details = \App\PostBookmark::find($request->bookmark_id);
+                $bookmark = \App\PostBookmark::find($request->bookmark_id);
 
-        if(!$bookmark_details) {
+                if(!$bookmark) {
 
-            throw new Exception(tr('post_bookmark_not_found'), 101);                
-        }
+                    throw new Exception(tr('post_bookmark_not_found'), 101);                
+                }
 
-        $bookmark_details->where('user_id',$request->user_id);
+                $bookmark->where('user_id',$request->user_id);
 
-        if($bookmark_details->delete()) {
+                if($bookmark->delete()) {
 
-            DB::commit();
+                    DB::commit();
 
-            return redirect()->back()->with('flash_success',tr('bookmark_deleted_success'));   
+                    return redirect()->back()->with('flash_success',tr('bookmark_deleted_success'));   
 
-        } 
+                } 
 
-        throw new Exception(tr('bookmark_delete_failed'));
+                throw new Exception(tr('bookmark_delete_failed'));
 
-    } catch(Exception $e){
+        } catch(Exception $e){
 
-        DB::rollback();
+            DB::rollback();
 
-        return redirect()->back()->with('flash_error', $e->getMessage());
+            return redirect()->back()->with('flash_error', $e->getMessage());
 
-    }       
+        }       
 
-}
-
+    }
 
     /**
-    * @method bookmarks_view
-    *
-    * @uses view the bookmark
-    *
-    * @created Sakthi
-    *
-    * @updated 
-    *
-    * @param 
-    * 
-    * @return response success/failure message
-    *
-    **/
+     * @method post_bookmarks_view
+     *
+     * @uses view the bookmark
+     *
+     * @created Sakthi
+     *
+     * @updated Vithya R
+     *
+     * @param 
+     * 
+     * @return response success/failure message
+     *
+     **/
     public function post_bookmarks_view(Request $request) {
 
      try {
 
-            $bookmarks_details = \App\PostBookmark::where('id',$request->bookmark_id)->where('user_id',$request->user_id)->first();
+            $post_bookmark = \App\PostBookmark::where('id', $request->post_bookmark_id)->where('user_id',$request->user_id)->first();
 
+            if(!$post_bookmark) {
 
-            if(!$bookmarks_details) {
-
-                throw new Exception(tr('bookmark_details_not_found'), 101);
+                throw new Exception(tr('bookmark_not_found'), 101);
                 
             }
 
             return view('admin.bookmarks.view')
                     ->with('page','bookmarks')
-                    ->with('post_bookmarks',$bookmarks_details);
+                    ->with('post_bookmark', $post_bookmark);
 
         } catch(Exception $e) {
 
             return redirect()->back()->with('flash_error',$e->getMessage());
         }
 
-}
+    }
 
 }
