@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->text('about')->nullable();
             $table->enum('gender',['male','female','others'])->default('male');
+            $table->string('cover')->default(asset('cover.jpg'));
             $table->string('picture')->default(asset('placeholder.jpg'));
             $table->string('password');
             $table->string('mobile');
