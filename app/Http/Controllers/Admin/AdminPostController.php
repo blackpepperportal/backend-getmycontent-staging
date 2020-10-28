@@ -249,9 +249,9 @@ public function posts_view(Request $request) {
 
     try {
 
-        $post_details = \App\Post::find($request->post_id);
+        $post = \App\Post::find($request->post_id);
 
-        if(!$post_details) { 
+        if(!$post) { 
 
             throw new Exception(tr('post_not_found'), 101);                
         }
