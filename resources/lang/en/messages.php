@@ -540,10 +540,12 @@ return [
 	
 	//Posts messages
 	"posts" => "Posts",
+	"create_post" => "Create Post",
 	"view_posts" => "View Posts",
 	"scheduled_posts" => "Scheduled Posts",
 
 	"post_not_found" => "The selected post details not found.",
+	"edit_post" => "Edit Post",
 	"post_deleted_success" => "The post deleted successfully!!",
 	"post_delete_failed" => "The post deletion failed!!",
 	"post_delete_confirmation" => "Once you\'ve deleted the record , the post will no longer present in to the list. This action cannot be undo.",
@@ -555,6 +557,8 @@ return [
 	"like_post_deleted" => "Liked post removed successfully",
 	"like_post_delete_failed" => "The liked post deletion failed!!",
 	"post_likes_search_placeholder" => "Search By Post User Name",
+	"post_save_failed" => "The post updating failed!!",
+	"posts_create_succes" => "The post created successfully",
 	"content" => "Content",
 	"is_paid_post" => "Is Paid Post",
 	"post_details" => "Post Details",
@@ -903,6 +907,9 @@ return [
 	"password_change_success"=>"Successfully Changed the Password!!",
 	"user_withdraw_paid_description" => "Your Request for the withdraw amount has been Paid",
 	"user_withdraw_decline_description" => "Your Request for the withdraw amount has been Declined",
-	"best_regards"=>"Best Regards"
+	"best_regards"=>"Best Regards",
+	"now"=>"Now",
+	"schedule"=>"Schedule",
+	"select_publish_type"=>"Select Publish Type",
 
 ]?>

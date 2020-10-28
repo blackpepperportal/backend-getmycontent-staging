@@ -106,6 +106,130 @@ public function posts_index(Request $request) {
     ->with('posts', $posts);
 }
 
+
+/**
+* @method posts_create()
+*
+* @uses create new post
+*
+* @created sakthi 
+*
+* @updated 
+*
+* 
+* @return View page
+*
+*/
+public function posts_create() {
+
+    $post_details = new \App\Post;
+
+    return view('admin.posts.create')
+    ->with('page', 'posts')
+    ->with('post_details', $post_details);  
+
+}
+
+
+/**
+* @method posts_save()
+*
+* @uses save new post
+*
+* @created sakthi 
+*
+* @updated 
+*
+* 
+* @return View page
+*
+*/
+public function posts_save(Request $request) {
+     try {
+            
+            DB::begintransaction();
+
+            $rules = [
+                'content' => 'required|max:191',
+                'amount' => 'nullable|min:0',
+                'publish_type'=>'required',
+            ];
+
+            Helper::custom_validator($request->all(),$rules);
+
+            $post = \App\Post::find($request->post_id) ?? new \App\Post;
+
+            $post->user_id = Auth::user()->id;
+
+            $post->content = $request->content;
+
+            $post->is_published = $request->publish_type;
+
+            $post->publish_time = $post->is_published ? now() : NULL;
+
+            $post->amount = $request->amount?? 0;
+
+            $post->is_paid_post = $request->amount > 0 ? YES : NO;
+
+            if($post->save()) {
+                
+                DB::commit(); 
+
+                return redirect(route('admin.posts.index'))->with('flash_success', 'posts_create_succes');
+
+            } 
+
+            throw new Exception(tr('post_save_failed'));
+            
+        } catch(Exception $e){ 
+
+            DB::rollback();
+
+            return redirect()->back()->withInput()->with('flash_error', $e->getMessage());
+
+        } 
+
+}
+
+
+
+    /**
+     * @method posts_edit()
+     *
+     * @uses To display and update user details based on the user id
+     *
+     * @created sakthi
+     *
+     * @updated 
+     *
+     * @param object $request - User Id
+     * 
+     * @return redirect view page 
+     *
+     */
+    public function posts_edit(Request $request) {
+
+        try {
+
+            $post = \App\Post::find($request->post_id);
+
+            if(!$post) { 
+
+                throw new Exception(tr('post_not_found'), 101);
+            }
+
+            return view('admin.posts.edit')
+                    ->with('page', 'post')
+                    ->with('sub_page', 'post-view')
+                    ->with('post_details', $post); 
+            
+        } catch(Exception $e) {
+
+            return redirect()->route('admin.posts.index')->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
 /**
 * @method posts_view()
 *

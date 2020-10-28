@@ -78,7 +78,7 @@
                                         </a>
                                     </td>
 
-                                    <td>{{common_date($post_details->publish_time , Auth::guard('admin')->user()->timezone)}}</td>
+                                    <td>{{($post_details->publish_time) ? common_date($post_details->publish_time , Auth::guard('admin')->user()->timezone) : '-'}}</td>
 
                                     <td>
                                         {{ $post_details->amount_formatted}}
@@ -110,6 +110,8 @@
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
                                                 <a class="dropdown-item" href="{{ route('admin.posts.view', ['post_id' => $post_details->id] ) }}">&nbsp;{{ tr('view') }}</a> 
+
+                                                 <a class="dropdown-item" href="{{ route('admin.posts.edit', ['post_id' => $post_details->id] ) }}">&nbsp;{{ tr('edit') }}</a> 
 
                                                 @if(Setting::get('is_demo_control_enabled') == YES)
 

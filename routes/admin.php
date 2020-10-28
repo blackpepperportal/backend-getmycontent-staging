@@ -123,7 +123,13 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('posts/delete', 'Admin\AdminPostController@posts_delete')->name('posts.delete');
 
+        Route::get('posts/create', 'Admin\AdminPostController@posts_create')->name('posts.create');
+
         Route::get('posts/view', 'Admin\AdminPostController@posts_view')->name('posts.view');
+
+        Route::post('posts/save', 'Admin\AdminPostController@posts_save')->name('posts.save');
+
+        Route::get('posts/edit', 'Admin\AdminPostController@posts_edit')->name('posts.edit');
 
         Route::get('posts/status', 'Admin\AdminPostController@posts_status')->name('posts.status');
 
