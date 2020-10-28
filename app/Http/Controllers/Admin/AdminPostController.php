@@ -295,17 +295,19 @@ public function posts_publish(Request $request) {
 
         DB::beginTransaction();
 
-        $post_details = \App\Post::find($request->post_id);
+        $post = \App\Post::find($request->post_id);
 
-        if(!$post_details) {
+        if(!$post) {
 
             throw new Exception(tr('post_not_found'), 101);
 
         }
 
-        $post_details->is_published = YES ;
+        $post->is_published = YES ;
+        
+        $post->publish_time = now() ;
 
-        if($post_details->save()) {
+        if($post->save()) {
 
             DB::commit();
 
@@ -870,7 +872,6 @@ public function post_bookmarks_view(Request $request) {
 **/
 public function post_comments(Request $request) {
 
-    try {
 
         $base_query = \App\PostComment::Approved()->orderBy('post_comments.created_at', 'desc');
 
@@ -895,14 +896,7 @@ public function post_comments(Request $request) {
         ->with('post_id',$request->post_id)
         ->with('post_comments',$post_comments);
 
-
-    } catch(Exception $e){
-
-        DB::rollback();
-
-        return redirect()->back()->with('flash_error', $e->getMessage());
-
-    }   
+  
 }
 
 
