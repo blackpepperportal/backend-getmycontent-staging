@@ -152,6 +152,8 @@ class User extends Authenticatable
 
             $model->attributes['name'] = $model->attributes['first_name']." ".$model->attributes['last_name'];
 
+            $model->attributes['unique_id'] = $model->attributes['username'] = routefreestring(strtolower($model->attributes['name']));
+
             $model->attributes['is_email_verified'] = USER_EMAIL_VERIFIED;
 
             if (Setting::get('is_account_email_verification') == YES && env('MAIL_USERNAME') && env('MAIL_PASSWORD')) { 
@@ -165,10 +167,6 @@ class User extends Authenticatable
             }
 
             $model->attributes['payment_mode'] = COD;
-
-            $model->attributes['username'] = routefreestring($model->attributes['name']);
-
-            $model->attributes['unique_id'] = uniqid();
 
             $model->attributes['token'] = Helper::generate_token();
 
@@ -198,8 +196,6 @@ class User extends Authenticatable
         });
 
         static::updating(function($model) {
-
-            $model->attributes['username'] = routefreestring($model->attributes['name']);
 
             $model->attributes['first_name'] = $model->attributes['last_name'] = $model->attributes['name'];
 

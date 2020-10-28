@@ -8,7 +8,7 @@ class Post extends Model
 {
 	protected $hidden = ['id','unique_id'];
 
-	protected $appends = ['amount_formatted','post_id','post_unique_id', 'username', 'user_picture', 'user_unique_id'];
+	protected $appends = ['amount_formatted','post_id','post_unique_id', 'username', 'user_displayname','user_picture', 'user_unique_id', 'total_likes', 'total_comments'];
 
 	public function getAmountFormattedAttribute() {
 
@@ -32,12 +32,29 @@ class Post extends Model
 
 	public function getUsernameAttribute() {
 
+		return $this->user->username ?? "";
+	}
+
+	public function getUserDisplaynameAttribute() {
+
 		return $this->user->name ?? "";
 	}
 
 	public function getUserPictureAttribute() {
 
 		return $this->user->picture ?? "";
+	}
+
+	public function getTotalLikesAttribute() {
+		
+	    return $this->hasMany(PostLike::class, 'post_id')->count();
+
+	}
+
+	public function getTotalCommentsAttribute() {
+		
+	    return $this->postComments->count();
+
 	}
 
 	public function user() {
@@ -48,6 +65,21 @@ class Post extends Model
 	public function postFiles() {
 
 	   return $this->hasMany(PostFile::class,'post_id');
+	}
+
+	public function postLikes() {
+
+	   return $this->hasMany(PostLike::class, 'post_id');
+	}
+
+	public function postComments() {
+
+	   return $this->hasMany(PostComment::class, 'post_id');
+	}
+
+	public function postBookmarks() {
+
+	   return $this->hasMany(PostBookmark::class, 'post_id');
 	}
 
 	/**

@@ -29,6 +29,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('mobile');
             $table->string('address')->default('');
+            $table->string('website')->default('');
+            $table->string('amazon_wishlist')->default('');
             $table->tinyInteger('user_type')->default(0);
             $table->tinyInteger('user_account_type')->default(USER_FREE_ACCOUNT);
             $table->tinyInteger('is_document_verified')->default(0);

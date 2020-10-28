@@ -11,9 +11,9 @@ use App\User;
 class PostRepository {
 
     /**
-     * @method post_fil()
+     * @method posts_list_response()
      *
-     * @uses pay for live videos using stripe
+     * @uses Format the post response
      *
      * @created vithya R
      * 
@@ -24,34 +24,62 @@ class PostRepository {
      * @return object $payment_details
      */
 
-    public static function post_fil($payments, $request) {
+    public static function posts_list_response($posts, $request) {
+        
+        $posts = $posts->map(function ($post, $key) use ($request) {
 
-        $payments = $payments->map(function ($value, $key) use ($request) {
+                        $post->is_user_needs_pay = $post->is_paid_post;
 
-                        if($value->payment_type == WALLET_PAYMENT_TYPE_CREDIT) {
+                        $post->is_user_subscribed = NO;
 
-                            if($request->id == $value->user_id) {
+                        $post->is_ppv = NO;
 
-                                $value->username = $value->ReceivedFromUser->name ?? "-";
+                        $post->is_user_liked = $post->postLikes->where('user_id', $request->id)->count() ? YES : NO;
 
-                                unset($value->ReceivedFromUser);
+                        $post->is_user_bookmarked = $post->postBookmarks->where('user_id', $request->id)->count() ? YES : NO;
 
-                            }
-                        } else {
-                            $value->username = $value->toUser->name ?? "You";
+                        $post->share_link = Setting::get('frontend_url')."/post/".$post->post_unique_id;
 
-                            unset($value->toUser);
-                        }
+                        $post->unsetRelation('postLikes')->unsetRelation('postBookmarks')->unsetRelation('user');
 
-                        $value->dispute_btn_status = in_array($value->status, [USER_WALLET_PAYMENT_PAID]) ? YES : NO;
-
-                        $value->paid_date = common_date($value->paid_date, $request->timezone, 'd M Y');
-
-                        return $value;
+                        return $post;
                     });
 
 
-        return $payments;
+        return $posts;
 
+    }
+    
+    /**
+     * @method posts_single_response()
+     *
+     * @uses Format the post response
+     *
+     * @created vithya R
+     * 
+     * @updated vithya R
+     *
+     * @param object $request
+     *
+     * @return object $payment_details
+     */
+
+    public static function posts_single_response($post, $request) {
+        
+        $post->is_user_needs_pay = $post->is_paid_post;
+
+        $post->is_user_subscribed = NO;
+
+        $post->is_ppv = NO;
+
+        $post->is_user_liked = $post->postLikes->where('user_id', $request->id)->count() ? YES : NO;
+
+        $post->is_user_bookmarked = $post->postBookmarks->where('user_id', $request->id)->count() ? YES : NO;
+
+        $post->share_link = Setting::get('frontend_url')."/post/".$post->post_unique_id;
+
+        $post->unsetRelation('postLikes')->unsetRelation('postBookmarks')->unsetRelation('user');
+
+        return $post;
     }
 }
