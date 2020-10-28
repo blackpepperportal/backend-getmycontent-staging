@@ -24,10 +24,13 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->text('about')->nullable();
             $table->enum('gender',['male','female','others'])->default('male');
+            $table->string('cover')->default(asset('cover.jpg'));
             $table->string('picture')->default(asset('placeholder.jpg'));
             $table->string('password');
             $table->string('mobile');
             $table->string('address')->default('');
+            $table->string('website')->default('');
+            $table->string('amazon_wishlist')->default('');
             $table->tinyInteger('user_type')->default(0);
             $table->tinyInteger('user_account_type')->default(USER_FREE_ACCOUNT);
             $table->tinyInteger('is_document_verified')->default(0);

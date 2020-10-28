@@ -191,15 +191,13 @@ class AdminUserController extends Controller
 
             DB::begintransaction();
 
-            $rules = [
-                //'name' => $request->user_id ?'required|max:191' :'required|max:191|unique:users,name,',
-                
-                
+            $rules = [                
                 'first_name' => 'required|max:191',
                 'last_name' => 'required|max:191',
+                // 'email' => 'email|unique:users,email,'.$request->id.'|max:255',
+                'username' => 'nullable|unique:users,username,'.$request->user_id.'|max:255',
                 'email' => $request->user_id ? 'required|email|max:191|unique:users,email,'.$request->user_id.',id' : 'required|email|max:191|unique:users,email,NULL,id',
                 'password' => $request->user_id ? "" : 'required|min:6|confirmed',
-                
                 'mobile' => $request->mobile ? 'digits_between:6,13' : '',
                 'picture' => 'mimes:jpg,png,jpeg',
                 'user_id' => 'exists:users,id|nullable'
@@ -207,11 +205,11 @@ class AdminUserController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $user_details = $request->user_id ? \App\User::find($request->user_id) : new \App\User;
+            $user = $request->user_id ? \App\User::find($request->user_id) : new \App\User;
 
             $is_new_user = NO;
 
-            if($user_details->id) {
+            if($user->id) {
 
                 $message = tr('user_updated_success'); 
 
@@ -219,31 +217,42 @@ class AdminUserController extends Controller
 
                 $is_new_user = YES;
 
-                $user_details->password = ($request->password) ? \Hash::make($request->password) : null;
+                $user->password = ($request->password) ? \Hash::make($request->password) : null;
 
                 $message = tr('user_created_success');
 
-                $user_details->email_verified_at = date('Y-m-d H:i:s');
+                $user->email_verified_at = date('Y-m-d H:i:s');
 
-                $user_details->picture = asset('placeholder.jpeg');
+                $user->picture = asset('placeholder.jpeg');
 
-                $user_details->is_email_verified = USER_EMAIL_VERIFIED;
+                $user->is_email_verified = USER_EMAIL_VERIFIED;
 
-                $user_details->token = Helper::generate_token();
+                $user->token = Helper::generate_token();
 
-                $user_details->token_expiry = Helper::generate_token_expiry();
+                $user->token_expiry = Helper::generate_token_expiry();
 
             }
 
             
-            $user_details->first_name = $request->first_name;
-            $user_details->last_name = $request->last_name;
+            $user->first_name = $request->first_name;
 
-            $user_details->email = $request->email;
+            $user->last_name = $request->last_name;
 
-            $user_details->mobile = $request->mobile;
+            $user->email = $request->email;
 
-            $user_details->login_by = $request->login_by ?: 'manual';
+            $user->mobile = $request->mobile ?: "";
+
+            $user->gender = $request->gender ?: "male";
+
+            $user->website = $request->website ?: "";
+
+            $user->amazon_wishlist = $request->amazon_wishlist ?: "";
+
+            $user->login_by = $request->login_by ?: 'manual';
+
+            $username = $request->username ?: $user->username;
+
+            $user->unique_id = $user->username = routefreestring(strtolower($username));
             
             // Upload picture
             
@@ -251,14 +260,14 @@ class AdminUserController extends Controller
 
                 if($request->user_id) {
 
-                    Helper::storage_delete_file($user_details->picture, COMMON_FILE_PATH); 
+                    Helper::storage_delete_file($user->picture, COMMON_FILE_PATH); 
                     // Delete the old pic
                 }
 
-                $user_details->picture = Helper::storage_upload_file($request->file('picture'), COMMON_FILE_PATH);
+                $user->picture = Helper::storage_upload_file($request->file('picture'), COMMON_FILE_PATH);
             }
 
-            if($user_details->save()) {
+            if($user->save()) {
 
                 if($is_new_user == YES) {
 
@@ -268,23 +277,23 @@ class AdminUserController extends Controller
 
                     $email_data['subject'] = tr('user_welcome_email' , Setting::get('site_name'));
 
-                    $email_data['email']  = $user_details->email;
+                    $email_data['email']  = $user->email;
 
-                    $email_data['name'] = $user_details->first_name;
+                    $email_data['name'] = $user->first_name;
 
                     $email_data['page'] = "emails.users.welcome";
 
                     $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
-                    $user_details->is_email_verified = USER_EMAIL_VERIFIED;
+                    $user->is_email_verified = USER_EMAIL_VERIFIED;
 
-                    $user_details->save();
+                    $user->save();
 
                 }
 
                 DB::commit(); 
 
-                return redirect(route('admin.users.view', ['user_id' => $user_details->id]))->with('flash_success', $message);
+                return redirect(route('admin.users.view', ['user_id' => $user->id]))->with('flash_success', $message);
 
             } 
 

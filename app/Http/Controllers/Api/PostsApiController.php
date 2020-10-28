@@ -57,11 +57,7 @@ class PostsApiController extends Controller
 
             $posts = $base_query->skip($this->skip)->take($this->take)->get();
 
-            foreach ($posts as $key => $post) {
-
-                $post->is_user_needs_pay = $post->is_paid_post;
-
-            }
+            $posts = \App\Repositories\PostRepository::posts_list_response($posts, $request);
 
             $data['posts'] = $posts ?? [];
 
@@ -109,11 +105,7 @@ class PostsApiController extends Controller
 
             $posts = $base_query->skip($this->skip)->take($this->take)->get();
 
-            foreach ($posts as $key => $post) {
-
-                $post->is_user_needs_pay = $post->is_paid_post;
-
-            }
+            $posts = \App\Repositories\PostRepository::posts_list_response($posts, $request);
 
             $data['posts'] = $posts ?? [];
 
@@ -146,15 +138,17 @@ class PostsApiController extends Controller
 
         try {
 
-            $rules = ['post_id' => 'required|exists:posts,id'];
+            $rules = ['post_unique_id' => 'required|exists:posts,unique_id'];
 
             Helper::custom_validator($request->all(),$rules);
 
-            $post = Post::with('postFiles')->find($request->post_id);
+            $post = Post::with('postFiles')->where('posts.unique_id', $request->post_unique_id)->first();
 
             if(!$post) {
                 throw new Exception(api_error(139), 139);   
             }
+
+            $post = \App\Repositories\PostRepository::posts_single_response($post, $request);
 
             $data['post'] = $post;
 
@@ -829,9 +823,18 @@ class PostsApiController extends Controller
 
             $base_query = $total_query = \App\PostBookmark::where('user_id', $request->id)->Approved()->orderBy('post_bookmarks.created_at', 'desc');
 
-            $post_bookmarks = $base_query->skip($this->skip)->take($this->take)->get();
+            $post_ids = $base_query->skip($this->skip)->take($this->take)->pluck('post_id');
 
-            $data['post_bookmarks'] = $post_bookmarks ?? [];
+            $post_ids = $post_ids ? $post_ids->toArray() : [];
+
+            if($post_ids) {
+
+                $posts = \App\Post::whereIn('posts.id', $post_ids)->get();
+
+                $posts = \App\Repositories\PostRepository::posts_list_response($posts, $request);
+            }
+
+            $data['post_bookmarks'] = $posts ?? [];
 
             $data['total'] = $total_query->count() ?? 0;
 

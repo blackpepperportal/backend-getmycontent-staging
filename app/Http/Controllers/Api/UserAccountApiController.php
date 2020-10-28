@@ -591,8 +591,10 @@ class UserAccountApiController extends Controller
                     'first_name' => 'nullable|max:255',
                     'last_name' => 'nullable|max:255',
                     'email' => 'email|unique:users,email,'.$request->id.'|max:255',
+                    'username' => 'nullable|unique:users,username,'.$request->id.'|max:255',
                     'mobile' => 'nullable|digits_between:6,13',
                     'picture' => 'nullable|mimes:jpeg,bmp,png',
+                    'cover' => 'nullable|mimes:jpeg,bmp,png',
                     'gender' => 'nullable|in:male,female,others',
                     'device_token' => '',
             ];
@@ -610,6 +612,10 @@ class UserAccountApiController extends Controller
 
             $user->name = $request->name ?: $user->name;
 
+            $username = $request->username ?: $user->username;
+
+            $user->unique_id = $user->username = routefreestring(strtolower($username));
+
             $user->first_name = $request->first_name ?: $user->first_name;
 
             $user->last_name = $request->last_name ?: $user->last_name;
@@ -625,6 +631,10 @@ class UserAccountApiController extends Controller
 
             $user->address = $request->address ?: $user->address;
 
+            $user->website = $request->website ?: $user->website;
+
+            $user->amazon_wishlist = $request->amazon_wishlist ?: $user->amazon_wishlist;
+
             // Upload picture
             if($request->hasFile('picture') != "") {
 
@@ -634,6 +644,13 @@ class UserAccountApiController extends Controller
             
             }
 
+            if($request->hasFile('cover') != "") {
+
+                Helper::storage_delete_file($user->cover, PROFILE_PATH_USER); // Delete the old pic
+
+                $user->cover = Helper::storage_upload_file($request->file('cover'), PROFILE_PATH_USER);
+            
+            }
 
             if($user->save()) {
 
@@ -1618,6 +1635,8 @@ class UserAccountApiController extends Controller
 
             $posts = $base_query->skip($this->skip)->take($this->take)->orderBy('created_at', 'desc')->get();
             
+            $posts = \App\Repositories\PostRepository::posts_list_response($posts, $request);
+
             $data['posts'] = $posts ?? [];
 
             $data['total'] = $total_query->count() ?? 0;

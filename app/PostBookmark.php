@@ -24,12 +24,20 @@ class PostBookmark extends Model
 
 	public function getUsernameAttribute() {
 
-		return $this->user->name ?? "";
+		$username = $this->user->name ?? "";
+
+		unset($this->user);
+
+		return $username;
 	}
 
 	public function getUserPictureAttribute() {
 
-		return $this->user->picture ?? "";
+		$user_picture = $this->user->picture ?? "";
+
+		unset($this->user);
+
+		return $user_picture;
 	}
 
 	public function user() {
