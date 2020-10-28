@@ -32,7 +32,7 @@ class Post extends Model
 
 	public function getUsernameAttribute() {
 
-		return $this->user->name ?? "";
+		return $this->user->username ?? "";
 	}
 
 	public function getUserDisplaynameAttribute() {
