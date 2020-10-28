@@ -75,17 +75,16 @@
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                                 
-                                                  <a class="dropdown-item" href="{{ route('admin.bookmarks.view', ['bookmark_id' => $post_bookmark->id,'user_id' => $post_bookmark->user_id] ) }}">&nbsp;{{ tr('view') }}</a>
+                                                  <a class="dropdown-item" href="{{ route('admin.bookmarks.view', ['post_bookmark_id' => $post_bookmark->id, 'user_id' => $post_bookmark->user_id] ) }}">&nbsp;{{ tr('view') }}</a>
 
 
                                                 @if(Setting::get('is_demo_control_enabled') == YES)
 
-                                        
                                                     <a class="dropdown-item" href="javascript:void(0)">&nbsp;{{ tr('delete') }}</a> 
 
                                                 @else
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('bookmark_delete_confirmation' , $post_bookmark->post->content) }}&quot;);" href="{{ route('admin.bookmarks.delete', ['bookmark_id' => $post_bookmark->id,'user_id' => $post_bookmark->user_id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('bookmark_delete_confirmation' , $post_bookmark->post->content) }}&quot;);" href="{{ route('admin.bookmarks.delete', ['post_bookmark_id' => $post_bookmark->id, 'user_id' => $post_bookmark->user_id] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 

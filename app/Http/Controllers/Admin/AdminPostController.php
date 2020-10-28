@@ -90,7 +90,7 @@ public function posts_index(Request $request) {
 
         return view('admin.posts.index')
         ->with('page','scheduled-posts')
-        ->with('posts' , $posts);
+        ->with('posts', $posts);
     }
 
     if($request->user_id) {
@@ -145,90 +145,91 @@ public function posts_create() {
 *
 */
 public function posts_save(Request $request) {
-     try {
-            
-            DB::begintransaction();
+    try {
 
-            $rules = [
-                'content' => 'required|max:191',
-                'amount' => 'nullable|min:0',
-                'publish_type'=>'required',
-            ];
+        DB::begintransaction();
 
-            Helper::custom_validator($request->all(),$rules);
+        $rules = [
+            'content' => 'required|max:191',
+            'amount' => 'nullable|min:0',
+            'publish_type'=>'required',
+        ];
 
-            $post = \App\Post::find($request->post_id) ?? new \App\Post;
+        Helper::custom_validator($request->all(),$rules);
 
-            $post->user_id = Auth::user()->id;
+        $post = \App\Post::find($request->post_id) ?? new \App\Post;
 
-            $post->content = $request->content;
+        $post->user_id = Auth::user()->id;
 
-            $post->is_published = $request->publish_type;
+        $post->content = $request->content;
 
-            $post->publish_time = $post->is_published ? now() : NULL;
+        $post->is_published = $request->publish_type;
 
-            $post->amount = $request->amount?? 0;
+        $post->publish_time = $post->is_published ? now() : NULL;
 
-            $post->is_paid_post = $request->amount > 0 ? YES : NO;
+        $post->amount = $request->amount?? 0;
 
-            if($post->save()) {
-                
-                DB::commit(); 
+        $post->is_paid_post = $request->amount > 0 ? YES : NO;
 
-                return redirect(route('admin.posts.index'))->with('flash_success', 'posts_create_succes');
+        if($post->save()) {
 
-            } 
+            DB::commit(); 
 
-            throw new Exception(tr('post_save_failed'));
-            
-        } catch(Exception $e){ 
-
-            DB::rollback();
-
-            return redirect()->back()->withInput()->with('flash_error', $e->getMessage());
+            return redirect(route('admin.posts.index'))->with('flash_success', 'posts_create_succes');
 
         } 
+
+        throw new Exception(tr('post_save_failed'));
+
+    } catch(Exception $e){ 
+
+        DB::rollback();
+
+        return redirect()->back()->withInput()->with('flash_error', $e->getMessage());
+
+    } 
 
 }
 
 
 
-    /**
-     * @method posts_edit()
-     *
-     * @uses To display and update user details based on the user id
-     *
-     * @created sakthi
-     *
-     * @updated 
-     *
-     * @param object $request - User Id
-     * 
-     * @return redirect view page 
-     *
-     */
-    public function posts_edit(Request $request) {
+/**
+* @method posts_edit()
+*
+* @uses To display and update user details based on the user id
+*
+* @created sakthi
+*
+* @updated 
+*
+* @param object $request - User Id
+* 
+* @return redirect view page 
+*
+*/
+public function posts_edit(Request $request) {
 
-        try {
 
-            $post = \App\Post::find($request->post_id);
+    try {
 
-            if(!$post) { 
+        $post = \App\Post::find($request->post_id);
 
-                throw new Exception(tr('post_not_found'), 101);
-            }
+        if(!$post) { 
 
-            return view('admin.posts.edit')
-                    ->with('page', 'post')
-                    ->with('sub_page', 'post-view')
-                    ->with('post_details', $post); 
-            
-        } catch(Exception $e) {
-
-            return redirect()->route('admin.posts.index')->with('flash_error', $e->getMessage());
+            throw new Exception(tr('post_not_found'), 101);
         }
-    
+
+        return view('admin.posts.edit')
+        ->with('page', 'post')
+        ->with('sub_page', 'post-view')
+        ->with('post_details', $post); 
+
+    } catch(Exception $e) {
+
+        return redirect()->route('admin.posts.index')->with('flash_error', $e->getMessage());
     }
+
+}
 
 /**
 * @method posts_view()
@@ -263,11 +264,10 @@ public function posts_view(Request $request) {
 
         $payment_data->today_earnings = \App\PostPayment::where('post_id',$request->payment_id)->whereDate('paid_date',today())->sum('paid_amount');
 
-
         return view('admin.posts.view')
         ->with('page', 'posts') 
         ->with('sub_page','posts-view') 
-        ->with('post_details' , $post_details)
+        ->with('post', $post)
         ->with('payment_data',$payment_data);
 
     } catch (Exception $e) {
@@ -297,14 +297,14 @@ public function posts_delete(Request $request) {
 
         DB::begintransaction();
 
-        $post_details = \App\Post::find($request->post_id);
+        $post = \App\Post::find($request->post_id);
 
-        if(!$post_details) {
+        if(!$post) {
 
             throw new Exception(tr('post_not_found'), 101);                
         }
 
-        if($post_details->delete()) {
+        if($post->delete()) {
 
             DB::commit();
 
@@ -344,21 +344,21 @@ public function posts_status(Request $request) {
 
         DB::beginTransaction();
 
-        $post_details = \App\Post::find($request->post_id);
+        $post = \App\Post::find($request->post_id);
 
-        if(!$post_details) {
+        if(!$post) {
 
             throw new Exception(tr('post_not_found'), 101);
 
         }
 
-        $post_details->status = $post_details->status ? DECLINED : APPROVED ;
+        $post->status = $post->status ? DECLINED : APPROVED ;
 
-        if($post_details->save()) {
+        if($post->save()) {
 
             DB::commit();
 
-            if($post_details->status == DECLINED) {
+            if($post->status == DECLINED) {
 
                 $email_data['subject'] = tr('post_decline_email' , Setting::get('site_name'));
 
@@ -371,17 +371,17 @@ public function posts_status(Request $request) {
                 $email_data['status'] = tr('approved');
             }
 
-            $email_data['email']  = $post_details->getuserDetails->email ?? "-";
+            $email_data['email']  = $post->user->email ?? "-";
 
-            $email_data['name']  = $post_details->getuserDetails->name ?? "-";
+            $email_data['name']  = $post->user->name ?? "-";
 
-            $email_data['post_unique_id']  = $post_details->unique_id;
+            $email_data['post_unique_id']  = $post->unique_id;
 
             $email_data['page'] = "emails.posts.status";
 
             $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
-            $message = $post_details->status ? tr('post_approve_success') : tr('post_decline_success');
+            $message = $post->status ? tr('post_approve_success') : tr('post_decline_success');
 
             return redirect()->back()->with('flash_success', $message);
         }
@@ -428,8 +428,8 @@ public function posts_publish(Request $request) {
         }
 
         $post->is_published = YES ;
-        
-        $post->publish_time = now() ;
+
+        $post->publish_time = date('Y-m-d H:i:s');
 
         if($post->save()) {
 
@@ -469,7 +469,7 @@ public function post_albums_index(Request $request) {
 
     return view('admin.post_albums.index')
     ->with('page','post_albums')
-    ->with('post_albums' , $post_albums);
+    ->with('post_albums', $post_albums);
 }
 
 /**
@@ -490,20 +490,20 @@ public function post_albums_view(Request $request) {
 
     try {
 
-        $post_album_details = \App\PostAlbum::find($request->post_album_id);
+        $post_album = \App\PostAlbum::find($request->post_album_id);
 
-        if(!$post_album_details) {
+        if(!$post_album) {
 
             throw new Exception(tr('post_album_not_found'), 101);
         }
 
-        $post_ids = explode(',', $post_album_details->post_ids);
+        $post_ids = explode(',', $post_album->post_ids);
 
         $posts = \App\Post::whereIn('posts.id', $post_ids)->get();
 
         return view('admin.post_albums.view')
         ->with('page', 'post_albums') 
-        ->with('post_album_details' , $post_album_details)
+        ->with('post_album' , $post_album)
         ->with('posts',$posts);
 
     } catch (Exception $e) {
@@ -533,14 +533,14 @@ public function post_albums_delete(Request $request) {
 
         DB::begintransaction();
 
-        $post_album_details = \App\Post::find($request->post_album_id);
+        $post_album = \App\Post::find($request->post_album_id);
 
-        if(!$post_album_details) {
+        if(!$post_album) {
 
             throw new Exception(tr('post_album_not_found'), 101);                
         }
 
-        if($post_album_details->delete()) {
+        if($post_album->delete()) {
 
             DB::commit();
 
@@ -580,21 +580,21 @@ public function post_albums_status(Request $request) {
 
         DB::beginTransaction();
 
-        $post_album_details = \App\PostAlbum::find($request->post_id);
+        $post_album = \App\PostAlbum::find($request->post_album_id);
 
-        if(!$post_album_details) {
+        if(!$post_album) {
 
             throw new Exception(tr('post_album_not_found'), 101);
 
         }
 
-        $post_album_details->status = $post_album_details->status ? DECLINED : APPROVED ;
+        $post_album->status = $post_album->status ? DECLINED : APPROVED ;
 
-        if($post_album_details->save()) {
+        if($post_album->save()) {
 
             DB::commit();
 
-            $message = $post_album_details->status ? tr('post_album_approve_success') : tr('post_album_decline_success');
+            $message = $post_album->status ? tr('post_album_approve_success') : tr('post_album_decline_success');
 
             return redirect()->back()->with('flash_success', $message);
         }
@@ -691,24 +691,24 @@ public function orders_view(Request $request) {
 
     try {
 
-        $order_details = \App\Order::where('id',$request->order_id)->first();
+        $order = \App\Order::where('id',$request->order_id)->first();
 
-        if(!$order_details) {
+        if(!$order) {
 
-            throw new Exception(tr('order_details_not_found'), 1);
+            throw new Exception(tr('order_not_found'), 1);
 
         }
 
-        $order_products = \App\OrderProduct::where('order_id',$order_details->id)->get();
+        $order_products = \App\OrderProduct::where('order_id',$order->id)->get();
 
-        $order_payment_details = \App\OrderPayment::where('order_id',$order_details->id)->first();
+        $order_payment = \App\OrderPayment::where('order_id',$order->id)->first();
 
         return view('admin.orders.view')
         ->with('page','orders')
         ->with('sub_page','orders-view')
-        ->with('order_details',$order_details)
-        ->with('order_products',$order_products)
-        ->with('order_payment_details',$order_payment_details);
+        ->with('order', $order)
+        ->with('order_products', $order_products)
+        ->with('order_payment', $order_payment);
 
     } catch(Exception $e) {
 
@@ -759,8 +759,6 @@ public function delivery_address_index(Request $request) {
     ->with('delivery_addresses',$delivery_addresses);
 }
 
-
-
 /**
 * @method delivery_address_view
 *
@@ -780,9 +778,9 @@ public function delivery_address_view(Request $request) {
 
     try {
 
-        $delivery_address_details = \App\DeliveryAddress::where('id',$request->delivery_address_id)->first();
+        $delivery_address = \App\DeliveryAddress::where('id',$request->delivery_address_id)->first();
 
-        if(!$delivery_address_details) {
+        if(!$delivery_address) {
 
             throw new Exception(tr('delvery_address_details_not_found'), 101);
 
@@ -790,7 +788,7 @@ public function delivery_address_view(Request $request) {
 
         return view('admin.delivery_address.view')
         ->with('page','delivery-address')
-        ->with('delivery_address_details',$delivery_address_details);
+        ->with('delivery_address_details',$delivery_address);
 
     } catch(Exception $e) {
 
@@ -820,14 +818,14 @@ public function delivery_address_delete(Request $request) {
 
         DB::begintransaction();
 
-        $delivery_address_details = \App\DeliveryAddress::find($request->delivery_address_id);
+        $delivery_address = \App\DeliveryAddress::find($request->delivery_address_id);
 
-        if(!$delivery_address_details) {
+        if(!$delivery_address) {
 
             throw new Exception(tr('delivery_address_details_not_found'), 101);                
         }
 
-        if($delivery_address_details->delete()) {
+        if($delivery_address->delete()) {
 
             DB::commit();
 
@@ -877,17 +875,16 @@ public function post_bookmarks_index(Request $request) {
 
     }
 
-
     if($request->user_id) {
 
         $base_query = $base_query->where('user_id',$request->user_id);
     }
 
-    $bookmarks = $base_query->paginate(10);
+    $post_bookmarks = $base_query->paginate(10);
 
     return view('admin.bookmarks.index')
     ->with('page','post_bookmarks')
-    ->with('post_bookmarks',$bookmarks);
+    ->with('post_bookmarks',$post_bookmarks);
 }
 
 /**
@@ -910,16 +907,16 @@ public function post_bookmarks_delete(Request $request) {
 
         DB::begintransaction();
 
-        $bookmark_details = \App\PostBookmark::find($request->bookmark_id);
+        $post_bookmark = \App\PostBookmark::find($request->post_bookmark_id);
 
-        if(!$bookmark_details) {
+        if(!$post_bookmark) {
 
             throw new Exception(tr('post_bookmark_not_found'), 101);                
         }
 
-        $bookmark_details->where('user_id',$request->user_id);
+        $post_bookmark->where('user_id',$request->user_id);
 
-        if($bookmark_details->delete()) {
+        if($post_bookmark->delete()) {
 
             DB::commit();
 
@@ -939,7 +936,6 @@ public function post_bookmarks_delete(Request $request) {
 
 }
 
-
 /**
 * @method bookmarks_view
 *
@@ -958,10 +954,9 @@ public function post_bookmarks_view(Request $request) {
 
     try {
 
-        $bookmarks_details = \App\PostBookmark::where('id',$request->bookmark_id)->where('user_id',$request->user_id)->first();
+        $post_bookmark = \App\PostBookmark::where('id', $request->post_bookmark_id)->where('user_id',$request->user_id)->first();
 
-
-        if(!$bookmarks_details) {
+        if(!$post_bookmark) {
 
             throw new Exception(tr('bookmark_details_not_found'), 101);
 
@@ -969,7 +964,7 @@ public function post_bookmarks_view(Request $request) {
 
         return view('admin.bookmarks.view')
         ->with('page','bookmarks')
-        ->with('post_bookmarks',$bookmarks_details);
+        ->with('post_bookmark', $post_bookmark);
 
     } catch(Exception $e) {
 
@@ -996,35 +991,32 @@ public function post_bookmarks_view(Request $request) {
 **/
 public function post_comments(Request $request) {
 
+    $base_query = \App\PostComment::Approved()->orderBy('post_comments.created_at', 'desc');
 
-        $base_query = \App\PostComment::Approved()->orderBy('post_comments.created_at', 'desc');
+    if($request->search_key) {
 
-        if($request->search_key) {
-            $search_key = $request->search_key;
+        $search_key = $request->search_key;
 
-            $base_query = $base_query->whereHas('user',function($query) use($search_key){
+        $base_query = $base_query->whereHas('user',function($query) use($search_key){
 
-                return $query->where('users.name','LIKE','%'.$search_key.'%');
+            return $query->where('users.name','LIKE','%'.$search_key.'%');
 
-            });
+        });
 
-        }
-        if($request->post_id){
-            $base_query->where('post_comments.post_id',  $request->post_id);
-        }
+    }
+    if($request->post_id){
+        $base_query->where('post_comments.post_id',  $request->post_id);
+    }
 
-        $post_comments = $base_query->paginate(10);
+    $post_comments = $base_query->paginate(10);
 
-        return view('admin.posts.comments')
-        ->with('page','post_comments')
-        ->with('post_id',$request->post_id)
-        ->with('post_comments',$post_comments);
+    return view('admin.posts.comments')
+    ->with('page','post_comments')
+    ->with('post_id', $request->post_id)
+    ->with('post_comments', $post_comments);
 
-  
+
 }
-
-
-
 
 /**
 * @method post_comment_delete
@@ -1113,9 +1105,6 @@ public function fav_users(Request $request) {
     ->with('fav_users',$fav_users);
 }
 
-
-
-
 /**
 * @method fav_users_delete
 *
@@ -1164,8 +1153,6 @@ public function fav_users_delete(Request $request) {
     }   
 }
 
-
-
 /**
 * @method post_likes
 *
@@ -1204,7 +1191,7 @@ public function post_likes(Request $request) {
     ->with('page','post_likes')
     ->with('user_id',$request->user_id)
     ->with('post_likes',$post_likes); 
- }
+}
 
 
 /**
@@ -1227,7 +1214,7 @@ public function post_likes_delete(Request $request) {
 
         DB::begintransaction();
 
-        $post_likes = \App\PostLike::find($request->post_id);
+        $post_likes = \App\PostLike::find($request->post_like_id);
 
         if(!$post_likes) {
 

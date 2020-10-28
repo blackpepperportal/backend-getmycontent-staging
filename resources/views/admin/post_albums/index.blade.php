@@ -53,22 +53,22 @@
                            
                             <tbody>
 
-                                @foreach($post_albums as $i => $post_album_details)
+                                @foreach($post_albums as $i => $post_album)
                                 <tr>
                                     <td>{{ $i+$post_albums->firstItem() }}</td>
 
-                                    <td>{{$post_album_details->unique_id}}</td>
+                                    <td>{{$post_album->unique_id}}</td>
 
-                                    <td>{{$post_album_details->name}}</td>
+                                    <td>{{$post_album->name}}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.users.view' , ['user_id' => $post_album_details->user_id] )  }}">
-                                        {{ $post_album_details->userDetails->name ?? "-" }}
+                                        <a href="{{  route('admin.users.view' , ['user_id' => $post_album->user_id] )  }}">
+                                        {{ $post_album->userDetails->name ?? "-" }}
                                         </a>
                                     </td>
 
                                     <td>
-                                        @if($post_album_details->status == APPROVED)
+                                        @if($post_album->status == APPROVED)
 
                                         <span class="btn btn-success btn-sm">{{ tr('approved') }}</span> @else
 
@@ -84,7 +84,7 @@
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                <a class="dropdown-item" href="{{ route('admin.post_albums.view', ['post_album_id' => $post_album_details->id] ) }}">&nbsp;{{ tr('view') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.post_albums.view', ['post_album_id' => $post_album->id] ) }}">&nbsp;{{ tr('view') }}</a> 
 
                                                 @if(Setting::get('is_demo_control_enabled') == YES)
 
@@ -94,18 +94,18 @@
 
                                                 @else
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('post_album_delete_confirmation' , $post_album_details->name) }}&quot;);" href="{{ route('admin.post_albums.delete', ['post_album_id' => $post_album_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('post_album_delete_confirmation' , $post_album->name) }}&quot;);" href="{{ route('admin.post_albums.delete', ['post_album_id' => $post_album->id] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 
-                                                @if($post_album_details->status == APPROVED)
+                                                @if($post_album->status == APPROVED)
 
-                                                    <a class="dropdown-item" href="{{  route('admin.post_albums.status' , ['post_album_id' => $post_album_details->id] )  }}" onclick="return confirm(&quot;{{ tr('post_album_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
+                                                    <a class="dropdown-item" href="{{  route('admin.post_albums.status' , ['post_album_id' => $post_album->id] )  }}" onclick="return confirm(&quot;{{ tr('post_album_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
                                                 </a> 
 
                                                 @else
 
-                                                    <a class="dropdown-item" href="{{ route('admin.post_albums.status' , ['post_album_id' => $post_album_details->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
+                                                    <a class="dropdown-item" href="{{ route('admin.post_albums.status' , ['post_album_id' => $post_album->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
 
                                                 @endif
 

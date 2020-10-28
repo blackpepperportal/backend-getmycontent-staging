@@ -47,24 +47,24 @@
 
                                         <tr>
                                             <td>{{ tr('unique_id')}} </td>
-                                            <td class="text-uppercase">{{ $post_payment_details->unique_id}}</td>
+                                            <td class="text-uppercase">{{ $post_payment->unique_id}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('payment_id')}} </td>
-                                            <td>{{ $post_payment_details->payment_id}}</td>
+                                            <td>{{ $post_payment->payment_id}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('payment_mode')}} </td>
-                                            <td>{{ $post_payment_details->payment_mode}}</td>
+                                            <td>{{ $post_payment->payment_mode}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('user')}} </td>
                                             <td>
-                                                <a href="{{ route('admin.users.view', ['user_id' => $post_payment_details->user_id])}}">
-                                                {{ $post_payment_details->userDetails->name ?? "-"}}
+                                                <a href="{{ route('admin.users.view', ['user_id' => $post_payment->user_id])}}">
+                                                {{ $post_payment->userDetails->name ?? "-"}}
                                                 </a>
                                             </td>
                                         </tr> 
@@ -72,15 +72,15 @@
                                         <tr>
                                             <td>{{ tr('post')}} </td>
                                             <td>
-                                                <a href="{{ route('admin.posts.view', ['post_id' => $post_payment_details->post_id])}}">
-                                                {{ $post_payment_details->postDetails->content ?? "-"}}
+                                                <a href="{{ route('admin.posts.view', ['post_id' => $post_payment->post_id])}}">
+                                                {{ $post_payment->postDetails->content ?? "-"}}
                                                 </a>
                                             </td>
                                         </tr> 
 
                                         <tr>
                                             <td>{{ tr('paid_amount') }}</td>
-                                            <td>{{ $post_payment_details->paid_amount_formatted}}</td>
+                                            <td>{{ $post_payment->paid_amount_formatted}}</td>
                                         </tr>
                                     </tbody>
 
@@ -96,13 +96,13 @@
 
                                         <tr>
                                             <td>{{ tr('paid_date') }}</td>
-                                            <td>{{common_date($post_payment_details->paid_date , Auth::guard('admin')->user()->timezone)}}</td>
+                                            <td>{{common_date($post_payment->paid_date , Auth::guard('admin')->user()->timezone)}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('status') }}</td>
                                             <td>
-                                                @if($post_payment_details->status ==YES)
+                                                @if($post_payment->status ==YES)
 
                                                     <span class="badge bg-success">{{tr('yes')}}</span>
 
@@ -116,7 +116,7 @@
                                         <tr>
                                             <td>{{ tr('is_failed') }}</td>
                                             <td>
-                                                @if($post_payment_details->is_failed ==YES)
+                                                @if($post_payment->is_failed ==YES)
 
                                                     <span class="badge bg-success">{{tr('yes')}}</span>
 
@@ -129,17 +129,17 @@
 
                                         <tr>
                                             <td>{{ tr('failed_reason') }}</td>
-                                            <td>{{ $post_payment_details->failed_reason}}</td>
+                                            <td>{{ $post_payment->failed_reason}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('created_at') }}</td>
-                                            <td>{{common_date($post_payment_details->created_at , Auth::guard('admin')->user()->timezone)}}</td>
+                                            <td>{{common_date($post_payment->created_at , Auth::guard('admin')->user()->timezone)}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('updated_at') }}</td>
-                                            <td>{{common_date($post_payment_details->updated_at , Auth::guard('admin')->user()->timezone)}}</td>
+                                            <td>{{common_date($post_payment->updated_at , Auth::guard('admin')->user()->timezone)}}</td>
                                         </tr>
 
                                     </tbody>

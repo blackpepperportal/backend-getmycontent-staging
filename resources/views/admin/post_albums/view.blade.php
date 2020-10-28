@@ -6,8 +6,6 @@
 
 @section('breadcrumb')
 
-    
-
     <li class="breadcrumb-item active"><a href="{{route('admin.post_albums.index')}}">{{tr('post_albums')}}</a>
     </li>
 
@@ -33,17 +31,17 @@
             <div class="text-center">
 
                 <div class="card-body">
-                    <img src="{{$post_album_details->userDetails->picture ?? asset('placeholder.jpg')}}" class="rounded-circle height-100" alt="Card image" />
+                    <img src="{{$post_album->userDetails->picture ?? asset('placeholder.jpg')}}" class="rounded-circle height-100" alt="Card image" />
                 </div>
 
                 <div class="card-body">
-                    <h4 class="card-title">{{$post_album_details->userDetails->name ?? "-"}}</h4>
-                    <h6 class="card-subtitle text-muted">{{$post_album_details->userDetails->email ?? "-"}}</h6>
+                    <h4 class="card-title">{{$post_album->userDetails->name ?? "-"}}</h4>
+                    <h6 class="card-subtitle text-muted">{{$post_album->userDetails->email ?? "-"}}</h6>
                 </div>
 
                 <div class="text-center">
 
-                    <a href="{{route('admin.users.view',['user_id' => $post_album_details->user_id])}}" class="btn btn-primary">
+                    <a href="{{route('admin.users.view',['user_id' => $post_album->user_id])}}" class="btn btn-primary">
                         {{tr('go_to_profile')}}
                     </a>
 
@@ -53,18 +51,18 @@
 
                     @else
 
-                        <a class="btn btn-danger" onclick="return confirm(&quot;{{ tr('post_album_delete_confirmation' , $post_album_details->name) }}&quot;);" href="{{ route('admin.post_albums.delete', ['post_album_id' => $post_album_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                        <a class="btn btn-danger" onclick="return confirm(&quot;{{ tr('post_album_delete_confirmation' , $post_album->name) }}&quot;);" href="{{ route('admin.post_albums.delete', ['post_album_id' => $post_album->id] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                     @endif
 
-                    @if($post_album_details->status == APPROVED)
+                    @if($post_album->status == APPROVED)
 
-                        <a class="btn btn-danger" href="{{  route('admin.post_albums.status' , ['post_album_id' => $post_album_details->id] )  }}" onclick="return confirm(&quot;{{ tr('post_album_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
+                        <a class="btn btn-danger" href="{{  route('admin.post_albums.status' , ['post_album_id' => $post_album->id] )  }}" onclick="return confirm(&quot;{{ tr('post_album_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
                     </a> 
 
                     @else
 
-                        <a class="btn btn-success" href="{{ route('admin.post_albums.status' , ['post_album_id' => $post_album_details->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
+                        <a class="btn btn-success" href="{{ route('admin.post_albums.status' , ['post_album_id' => $post_album->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
 
                     @endif
                    
@@ -79,15 +77,15 @@
                 <div class="col-6">
                     
                     <ul>
-                        <li class="text-uppercase">{{tr('unique_id')}} - {{$post_album_details->unique_id}}</li>
+                        <li class="text-uppercase">{{tr('unique_id')}} - {{$post_album->unique_id}}</li>
                         <hr>
 
-                        <li>{{tr('name')}} - {{$post_album_details->name}}</li>
+                        <li>{{tr('name')}} - {{$post_album->name}}</li>
                         <hr>
 
                         <li>{{tr('status')}} - 
 
-                            @if($post_album_details->status == APPROVED)
+                            @if($post_album->status == APPROVED)
 
                                 <span class="btn btn-success btn-sm">{{ tr('approved') }}</span> 
                             @else
@@ -104,10 +102,10 @@
 
                     <ul>
                         
-                        <li>{{tr('created_at')}} - {{common_date($post_album_details->created_at , Auth::guard('admin')->user()->timezone)}}</li>
+                        <li>{{tr('created_at')}} - {{common_date($post_album->created_at , Auth::guard('admin')->user()->timezone)}}</li>
                         <hr>
 
-                        <li>{{tr('updated_at')}} - {{common_date($post_album_details->updated_at , Auth::guard('admin')->user()->timezone)}}</li>
+                        <li>{{tr('updated_at')}} - {{common_date($post_album->updated_at , Auth::guard('admin')->user()->timezone)}}</li>
                         <hr>
 
                     </ul>
