@@ -80,12 +80,22 @@ class AdminUserController extends Controller
                     break;
             }
         }
-    
+
+        $page = 'users'; $sub_page = 'users-view';
+
+        if($request->has('account_type')) {
+
+            $page = $request->account_type == USER_FREE_ACCOUNT ? 'users-free' : 'users-premium'; $sub_page = '';
+
+            $base_query = $base_query->where('users.user_account_type', $request->account_type);
+
+        } 
+
         $users = $base_query->paginate(10);
 
         return view('admin.users.index')
-                    ->with('page', 'users')
-                    ->with('sub_page', 'users-view')
+                    ->with('page', $page)
+                    ->with('sub_page', $sub_page)
                     ->with('users', $users);
     
     }

@@ -912,4 +912,9 @@ return [
 	"schedule"=>"Schedule",
 	"select_publish_type"=>"Select Publish Type",
 
+	"unverified_users" => "Unverified Users",
+	"verification_documents" => "Verification Documents",
+	"free_users" => "Free Accounts",
+	"premium_users" => "Premium Accounts",
+
 ]?>

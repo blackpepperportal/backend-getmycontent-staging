@@ -35,34 +35,28 @@
             
             </li>
 
-            <li class="nav-item" id="content_creators">
-                <a href="{{route('admin.content_creators.index')}}">
-                    <i class="ft-star"></i>
-                    <span class="menu-title" data-i18n="">{{tr('content_creators')}}</span>
+            <li class="nav-item" id="users-documents">
+                <a class="menu-item" href="{{route('admin.users.documents.index')}}">
+                    <i class="ft-shield"></i>
+                    <span class="menu-title" data-i18n="">
+                    {{tr('verification_documents')}}
                 </a>
-                <ul class="menu-content">
-                    <li id="content_creators-create">
-                        <a class="menu-item" href="{{route('admin.content_creators.create')}}">
-                            {{tr('add_content_creator')}}
-                        </a>
-                    </li>
-                    <li id="content_creators-view">
-                        <a class="menu-item" href="{{route('admin.content_creators.index')}}">
-                            {{tr('view_content_creators')}}
-                        </a>
-                    </li>
-                    <li id="content_creators-unverified">
-                        <a class="menu-item" href="{{route('admin.content_creators.index',['unverified' => YES])}}">
-                            {{tr('unverified_content_creators')}}
-                        </a>
-                    </li>
-                    <li id="content_creators-documents">
-                        <a class="menu-item" href="{{route('admin.users.documents.index')}}">
-                            {{tr('content_creator_documents')}}
-                        </a>
-                    </li>
-                </ul>            
-           
+            </li>
+
+            <li class="nav-item" id="users-free">
+                <a class="menu-item" href="{{route('admin.users.index', ['account_type' => USER_FREE_ACCOUNT])}}">
+                    <i class="ft-star"></i>
+                    <span class="menu-title" data-i18n="">
+                    {{tr('free_users')}}
+                </a>
+            </li>
+
+            <li class="nav-item" id="users-premium">
+                <a class="menu-item" href="{{route('admin.users.index', ['account_type' => USER_PREMIUM_ACCOUNT])}}">
+                    <i class="ft-star"></i>
+                    <span class="menu-title" data-i18n="">
+                    {{tr('premium_users')}}
+                </a>
             </li>
 
             <!-- posts_management start -->
@@ -245,17 +239,17 @@
                         </a>
                     </li>
 
-                    <li id="order-payments">
+                   <!--  <li id="order-payments">
                         <a class="menu-item" href="{{route('admin.order.payments')}}">
                            {{tr('order_payments')}}
                         </a>
-                    </li>
+                    </li> -->
 
-                    <li id="subscription-payments">
+                   <!--  <li id="subscription-payments">
                         <a class="menu-item" href="{{route('admin.subscription_payments.index')}}">
                            {{tr('subscription_payments')}}
                         </a>
-                    </li>
+                    </li> -->
 
                 </ul>            
             </li>
@@ -275,7 +269,7 @@
                 </a>
             </li>
 
-            <li class="nav-item" id="subscriptions">
+            <!-- <li class="nav-item" id="subscriptions">
 
                 <a href="{{route('admin.subscriptions.index')}}">
                     <i class="fa fa-diamond" aria-hidden="true"></i>
@@ -295,13 +289,13 @@
                     </li>
                 </ul>            
             
-            </li>
+            </li> -->
 
-            <li class="navigation-header">
+            <li class="navigation-header" style="display: none;">
                 <span>{{tr('support_management')}}</span>
             </li>
 
-            <li class="nav-item" id="support_members">
+            <li class="nav-item" id="support_members" style="display: none;">
 
                 <a href="{{route('admin.support_members.index')}}">
                     <i class="fa fa-diamond" aria-hidden="true"></i>
@@ -323,10 +317,9 @@
             
             </li>
             
-
             <!-- support_tickets start -->
 
-            <li class="nav-item" id="support_tickets">
+            <li class="nav-item" id="support_tickets" style="display: none;">
                 <a href="{{route('admin.support_tickets.index')}}">
                     <i class="fa fa-ticket" aria-hidden="true"></i>
                     <span class="menu-title" data-i18n="">{{tr('support_tickets')}}</span>

@@ -6,9 +6,6 @@
 
 @section('breadcrumb')
 
-    <li class="breadcrumb-item"><a href="{{route('support_member.dashboard')}}">{{tr('home')}}</a>
-    </li>
-
     <li class="breadcrumb-item"><a href="{{route('support_member.support_tickets.index')}}">{{tr('support_tickets')}}</a>
     </li>
 

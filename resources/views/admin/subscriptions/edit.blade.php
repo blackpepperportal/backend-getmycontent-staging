@@ -4,8 +4,6 @@
 
 @section('breadcrumb')
 
-	<li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{tr('home')}}</a></li>
-
     <li class="breadcrumb-item"><a href="{{ route('admin.subscriptions.index') }}">{{tr('subscriptions')}}</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">
