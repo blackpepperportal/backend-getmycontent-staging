@@ -165,7 +165,7 @@
                     <div class="col-6">
 
                         <ul>
-                            <li>{{tr('content')}}-{{$post->content}}</li>
+                            <li>{{tr('content')}}-{{strip_tags($post->content)}}</li>
                             <hr>
 
                             <li>{{tr('status')}} - 

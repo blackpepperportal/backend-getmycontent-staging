@@ -131,6 +131,8 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('posts/edit', 'Admin\AdminPostController@posts_edit')->name('posts.edit');
 
+        Route::get('posts/dashboard', 'Admin\AdminPostController@posts_dashboard')->name('posts.dashboard');
+
         Route::get('posts/status', 'Admin\AdminPostController@posts_status')->name('posts.status');
 
         Route::get('posts/publish', 'Admin\AdminPostController@posts_publish')->name('posts.publish');
@@ -139,9 +141,9 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('post/payments/view','Admin\AdminRevenueController@post_payments_view')->name('post.payments.view');
 
-       Route::get('post_comments','Admin\AdminPostController@post_comments')->name('posts.comments');
+        Route::get('post_comments','Admin\AdminPostController@post_comments')->name('posts.comments');
 
-       Route::get('post_comments/delete','Admin\AdminPostController@post_comment_delete')->name('post_comment.delete');
+        Route::get('post_comments/delete','Admin\AdminPostController@post_comment_delete')->name('post_comment.delete');
 
 
 

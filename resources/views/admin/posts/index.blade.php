@@ -109,6 +109,9 @@
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
+                                                 <a class="dropdown-item" href="{{ route('admin.posts.dashboard', ['post_id' => $post_details->id] ) }}">&nbsp;{{ tr('dashboard') }}</a> 
+
+
                                                 <a class="dropdown-item" href="{{ route('admin.posts.view', ['post_id' => $post_details->id] ) }}">&nbsp;{{ tr('view') }}</a> 
 
                                                  <a class="dropdown-item" href="{{ route('admin.posts.edit', ['post_id' => $post_details->id] ) }}">&nbsp;{{ tr('edit') }}</a> 

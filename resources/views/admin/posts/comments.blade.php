@@ -104,7 +104,7 @@
                                     </td>
                                     <td>
                                         <a href="{{  route('admin.posts.view' , ['post_id' => $post_comment->post_id] )  }}">
-                                            {{ $post_comment->post->content ?? "-" }}
+                                            {{ strip_tags($post_comment->post->content) ?? "-" }}
                                         </a></td>
 
                                         <td>

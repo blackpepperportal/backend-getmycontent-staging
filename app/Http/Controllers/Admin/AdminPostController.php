@@ -124,8 +124,9 @@ class AdminPostController extends Controller
         $post_details = new \App\Post;
 
         return view('admin.posts.create')
-            ->with('page', 'posts')
-            ->with('post_details', $post_details);  
+                ->with('page', 'posts')
+                ->with('sub_page', 'posts-create')
+                ->with('post_details', $post_details);  
 
     }
 
@@ -320,6 +321,63 @@ class AdminPostController extends Controller
             return redirect()->back()->with('flash_error', $e->getMessage());
 
         }       
+
+    }
+
+
+
+    /**
+     * @method posts_dashboard()
+     *
+     * @uses displays the specified posts dashboard based on post id
+     *
+     * @created Sakthi 
+     *
+     * @updated 
+     *
+     * @param object $request - post Id
+     * 
+     * @return View page
+     *
+     */
+    public function posts_dashboard(Request $request) {
+
+        try {
+
+            $post = \App\Post::find($request->post_id);
+
+            if(!$post) { 
+
+                throw new Exception(tr('post_not_found'), 101);                
+            }
+
+            $payment_data = new \stdClass;
+
+            $data = new \stdClass;
+
+            $payment_data->total_earnings = \App\PostPayment::where('post_id',$request->post_id)->sum('paid_amount');
+
+            $payment_data->today_earnings = \App\PostPayment::where('post_id',$request->post_id)->whereDate('paid_date',today())->sum('paid_amount');
+
+            $number_of_likes = \App\PostLike::Approved()->where('post_id',$request->post_id)->count();
+
+            $number_of_tips = \App\UserTip::where('post_id',$request->post_id)->count();
+
+            $data->recent_comments = \App\PostComment::where('post_id',$request->post_id)->orderBy('post_comments.created_at', 'desc')->get();
+
+            return view('admin.posts.dashboard')
+                        ->with('page', 'posts') 
+                        ->with('sub_page','posts-view') 
+                        ->with('post', $post)
+                        ->with('number_of_likes', $number_of_likes)
+                        ->with('number_of_tips', $number_of_tips)
+                        ->with('data',$data)
+                        ->with('payment_data',$payment_data);
+
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+        }
 
     }
 
