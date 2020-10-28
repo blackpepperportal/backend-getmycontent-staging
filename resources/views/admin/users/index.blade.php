@@ -194,6 +194,9 @@
 
                                                <a class="dropdown-item" href="{{ route('admin.fav_users.index', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('favorite_users') }}</a>
 
+
+                                                <a class="dropdown-item" href="{{ route('admin.post_likes.index', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('liked_posts') }}</a>
+
                                                 
                                             </div>
 

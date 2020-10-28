@@ -193,6 +193,14 @@ Route::group(['middleware' => 'web'], function() {
         // end of fav user route end
 
 
+      // liked posts route start
+        Route::get('post_likes','Admin\AdminPostController@post_likes')->name('post_likes.index');
+
+        Route::get('post_likes/delete','Admin\AdminPostController@post_likes_delete')->name('post_likes.delete');
+
+        // end of liked posts
+
+
         
         //user wallet route start
 

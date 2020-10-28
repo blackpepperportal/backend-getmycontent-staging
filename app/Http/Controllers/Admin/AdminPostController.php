@@ -1045,4 +1045,97 @@ public function fav_users_delete(Request $request) {
 
     }   
 }
+
+
+
+/**
+* @method post_likes
+*
+* @uses List of liked post for users
+*
+* @created Sakthi
+*
+* @updated 
+*
+* @param 
+* 
+* @return response success/failure message
+*
+**/
+public function post_likes(Request $request) {
+
+    $base_query = \App\PostLike::Approved()->orderBy('post_likes.created_at', 'desc');
+
+    if($request->search_key) {
+        $search_key = $request->search_key;
+
+        $base_query = $base_query->whereHas('postUser',function($query) use($search_key){
+
+            return $query->where('users.name','LIKE','%'.$search_key.'%');
+
+        });
+    }
+
+    if($request->user_id){
+        $base_query->where('user_id', $request->user_id);
+    }
+
+    $post_likes = $base_query->paginate(10);
+
+    return view('admin.post_likes.index')
+    ->with('page','post_likes')
+    ->with('user_id',$request->user_id)
+    ->with('post_likes',$post_likes); 
+ }
+
+
+/**
+* @method post_likes_delete
+*
+* @uses remove liked post
+*
+* @created Sakthi
+*
+* @updated 
+*
+* @param 
+* 
+* @return response success/failure message
+*
+**/
+public function post_likes_delete(Request $request) {
+
+    try {
+
+        DB::begintransaction();
+
+        $post_likes = \App\PostLike::find($request->post_id);
+
+        if(!$post_likes) {
+
+            throw new Exception(tr('post_not_found'), 101);                
+        }
+
+        $post_likes->where('user_id',$request->user_id);
+
+        if($post_likes->delete()) {
+
+            DB::commit();
+
+            return redirect()->back()->with('flash_success',tr('like_post_deleted'));   
+
+        } 
+
+        throw new Exception(tr('like_post_delete_failed'));
+
+    } catch(Exception $e){
+
+        DB::rollback();
+
+        return redirect()->back()->with('flash_error', $e->getMessage());
+
+    }   
+}
+
+
 }

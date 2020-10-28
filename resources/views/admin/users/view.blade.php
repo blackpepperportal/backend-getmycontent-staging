@@ -240,6 +240,12 @@
 
                             </div>
 
+                              <div class="col-3">
+                                
+                                <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" href="{{ route('admin.post_likes.index', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('liked_posts') }}</a>
+
+                            </div>
+
                         </div>
 
                     </div>
