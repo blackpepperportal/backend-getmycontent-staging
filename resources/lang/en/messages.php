@@ -62,7 +62,9 @@ return [
 	/*********** COMMON CONTENT *******/
 
 	"select_picture" => "Selecte Picture",
+	"select_cover" => "Selecte Cover Picture",
 	"select_status" => "Select Status",
+	"select_gender" => "Select Gender",
 	"member_since" => "Since ",
 
 	"version" => "Version",
@@ -82,7 +84,14 @@ return [
 	"YES" => "Yes",
 	"NO" => "No",
 
-	
+	"male" => "Male",
+	"female" => "Female",
+	"others" => "Others",
+	"website" => "Website",
+	"amazon_wishlist" => "Amazon Wishlist",
+	"choose_account_type" => "Choose Account Type",
+
+
 	"user" => "User",
 	"admin" => "Admin",
 	"user_welcome_title" => "Welcome to ",
@@ -558,7 +567,7 @@ return [
 	"like_post_delete_failed" => "The liked post deletion failed!!",
 	"post_likes_search_placeholder" => "Search By Post User Name",
 	"post_save_failed" => "The post updating failed!!",
-	"posts_create_succes" => "The post created successfully",
+	"posts_create_succes" => "The post created successfully..!!",
 	"content" => "Content",
 	"is_paid_post" => "Is Paid Post",
 	"post_details" => "Post Details",

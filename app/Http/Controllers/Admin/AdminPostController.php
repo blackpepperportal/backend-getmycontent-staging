@@ -176,7 +176,7 @@ class AdminPostController extends Controller
 
                 DB::commit(); 
 
-                return redirect(route('admin.posts.index'))->with('flash_success', 'posts_create_succes');
+                return redirect(route('admin.posts.index'))->with('flash_success', tr('posts_create_succes'));
 
             } 
 
