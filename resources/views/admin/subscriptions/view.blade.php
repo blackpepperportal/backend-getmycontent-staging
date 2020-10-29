@@ -3,7 +3,6 @@
 @section('content-header', tr('subscriptions'))
 
 @section('breadcrumb')
-	<li class="breadcrumb-item"><a href="{{tr('admin.dashboard')}}">{{tr('home')}}</a> </li>
 
     <li class="breadcrumb-item"><a href="{{route('admin.subscriptions.index')}}">{{tr('subscriptions')}}</a>
     </li>
