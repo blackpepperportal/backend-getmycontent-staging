@@ -55,29 +55,29 @@ Route::group(['middleware' => 'web'], function() {
 
         //users CRUD Operations
 
-        Route::get('content_creators', 'Admin\AdminContentCreatorController@content_creators_index')->name('content_creators.index');
+        // Route::get('content_creators', 'Admin\AdminContentCreatorController@content_creators_index')->name('content_creators.index');
 
-        Route::get('content_creators/create', 'Admin\AdminContentCreatorController@content_creators_create')->name('content_creators.create');
+        // Route::get('content_creators/create', 'Admin\AdminContentCreatorController@content_creators_create')->name('content_creators.create');
 
-        Route::get('content_creators/edit', 'Admin\AdminContentCreatorController@content_creators_edit')->name('content_creators.edit');
+        // Route::get('content_creators/edit', 'Admin\AdminContentCreatorController@content_creators_edit')->name('content_creators.edit');
 
-        Route::post('content_creators/save', 'Admin\AdminContentCreatorController@content_creators_save')->name('content_creators.save');
+        // Route::post('content_creators/save', 'Admin\AdminContentCreatorController@content_creators_save')->name('content_creators.save');
 
-        Route::get('content_creators/view', 'Admin\AdminContentCreatorController@content_creators_view')->name('content_creators.view');
+        // Route::get('content_creators/view', 'Admin\AdminContentCreatorController@content_creators_view')->name('content_creators.view');
 
-        Route::get('content_creators/delete', 'Admin\AdminContentCreatorController@content_creators_delete')->name('content_creators.delete');
+        // Route::get('content_creators/delete', 'Admin\AdminContentCreatorController@content_creators_delete')->name('content_creators.delete');
 
-        Route::get('content_creators/status', 'Admin\AdminContentCreatorController@content_creators_status')->name('content_creators.status');
+        // Route::get('content_creators/status', 'Admin\AdminContentCreatorController@content_creators_status')->name('content_creators.status');
 
-        Route::get('content_creators/verify', 'Admin\AdminContentCreatorController@content_creators_verify_status')->name('content_creators.verify');
+        // Route::get('content_creators/verify', 'Admin\AdminContentCreatorController@content_creators_verify_status')->name('content_creators.verify');
 
         //user documents 
 
-        Route::get('users/documents', 'Admin\AdminContentCreatorController@user_documents_index')->name('users.documents.index');
+        Route::get('users/documents', 'Admin\AdminUserController@user_documents_index')->name('users.documents.index');
 
-        Route::get('users/documents/view', 'Admin\AdminContentCreatorController@user_documents_view')->name('users.documents.view');
+        Route::get('users/documents/view', 'Admin\AdminUserController@user_documents_view')->name('users.documents.view');
 
-        Route::get('users/documents/verify', 'Admin\AdminContentCreatorController@user_documents_verify')->name('users.documents.verify');
+        Route::get('users/documents/verify', 'Admin\AdminUserController@user_documents_verify')->name('users.documents.verify');
 
         //user products CRUD Operations
 

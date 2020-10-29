@@ -929,5 +929,6 @@ return [
 	"verification_documents" => "Verification Documents",
 	"free_users" => "Free Accounts",
 	"premium_users" => "Premium Accounts",
+	"recent_premium_users" => "Recent Premium Users"
 
 ]?>

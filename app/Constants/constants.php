@@ -102,10 +102,6 @@ if(!defined('STARDOM')) define('STARDOM', 'stardom');
 
 if(!defined('USER'))  define('USER', 'user');
 
-if(!defined('STARDOM_DOCUMENT_VERIFIED')) define('STARDOM_DOCUMENT_VERIFIED',1);
-
-if(!defined('STARDOM_DOCUMENT_NOT_VERIFIED')) define('STARDOM_DOCUMENT_NOT_VERIFIED',0);
-
 if(!defined('FREE')) define('FREE', 3);
 
 if(!defined('FREE_POST')) define('FREE_POST',0);
@@ -203,6 +199,10 @@ if(!defined('USER_DOCUMENT_NONE')) define('USER_DOCUMENT_NONE', 0);
 if(!defined('USER_DOCUMENT_PENDING')) define('USER_DOCUMENT_PENDING', 1);
 if(!defined('USER_DOCUMENT_APPROVED')) define('USER_DOCUMENT_APPROVED', 2);
 if(!defined('USER_DOCUMENT_DECLINED')) define('USER_DOCUMENT_DECLINED', 3);
+
+if(!defined('USER_DOCUMENT_VERIFIED')) define('USER_DOCUMENT_VERIFIED',1);
+
+if(!defined('USER_DOCUMENT_NOT_VERIFIED')) define('USER_DOCUMENT_NOT_VERIFIED',0);
 
 
 if(!defined('USER_FREE_ACCOUNT')) define('USER_FREE_ACCOUNT', 0);

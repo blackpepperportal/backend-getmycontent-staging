@@ -122,10 +122,10 @@ class FollowersApiController extends Controller
             }
 
             // Viewer or content creator -> Both can follow only creators.
-            if($this->loginUser->is_content_creator == NO) {
+            // if($this->loginUser->is_content_creator == NO) {
 
-                throw new Exception(api_error(138), 138);
-            }
+            //     throw new Exception(api_error(138), 138);
+            // }
 
             $follower = new Follower;
 
