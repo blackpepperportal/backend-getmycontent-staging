@@ -196,7 +196,7 @@ class AdminUserController extends Controller
      *
      */
     public function users_save(Request $request) {
-        
+
         try {
 
             DB::begintransaction();
@@ -210,7 +210,9 @@ class AdminUserController extends Controller
                 'password' => $request->user_id ? "" : 'required|min:6|confirmed',
                 'mobile' => $request->mobile ? 'digits_between:6,13' : '',
                 'picture' => 'mimes:jpg,png,jpeg',
-                'user_id' => 'exists:users,id|nullable'
+                'user_id' => 'exists:users,id|nullable',
+                'cover' => 'nullable|mimes:jpeg,bmp,png',
+                'gender' => 'nullable|in:male,female,others',
             ];
 
             Helper::custom_validator($request->all(),$rules);
@@ -262,6 +264,8 @@ class AdminUserController extends Controller
 
             $username = $request->username ?: $user->username;
 
+            $user->user_account_type = $request->user_account_type;
+
             $user->unique_id = $user->username = routefreestring(strtolower($username));
             
             // Upload picture
@@ -275,6 +279,14 @@ class AdminUserController extends Controller
                 }
 
                 $user->picture = Helper::storage_upload_file($request->file('picture'), COMMON_FILE_PATH);
+            }
+
+            if($request->hasFile('cover') != "") {
+
+                Helper::storage_delete_file($user->cover, COMMON_FILE_PATH); // Delete the old pic
+
+                $user->cover = Helper::storage_upload_file($request->file('cover'), COMMON_FILE_PATH);
+            
             }
 
             if($user->save()) {

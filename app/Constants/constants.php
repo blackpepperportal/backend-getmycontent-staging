@@ -21,6 +21,10 @@ if(!defined('DEVICE_ANDROID')) define('DEVICE_ANDROID', 'android');
 if(!defined('DEVICE_IOS')) define('DEVICE_IOS', 'ios');
 if(!defined('DEVICE_WEB')) define('DEVICE_WEB', 'web');
 
+if(!defined('MALE')) define('MALE', 'male');
+if(!defined('FEMALE')) define('FEMALE', 'female');
+if(!defined('OTHERS')) define('OTHERS', 'others');
+
 if(!defined('APPROVED')) define('APPROVED', 1);
 if(!defined('DECLINED')) define('DECLINED', 0);
 
