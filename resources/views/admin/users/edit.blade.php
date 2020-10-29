@@ -17,3 +17,20 @@
     @include('admin.users._form')
 
 @endsection
+
+@section('script')
+
+<script type="text/javascript">
+
+	function premium_check(){
+         
+        if($('input[name="user_account_type"]:checked').val() == {{USER_PREMIUM_ACCOUNT}}){
+			$('.premium_account').css("display", "block");
+		}else{
+			$('.premium_account').css("display", "none");
+		}
+		
+	}
+
+</script>
+@endscript

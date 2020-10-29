@@ -153,6 +153,10 @@
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
                                                 <a class="dropdown-item" href="{{ route('admin.users.view', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('view') }}</a>
+                                                
+                                                 @if($user_details->user_account_type  == USER_FREE_ACCOUNT)
+                                                 <a class="dropdown-item" href="{{ route('admin.users.view', ['user_id' => $user_details->id] ) }}" data-toggle="modal" data-target="#{{$user_details->id}}">&nbsp;{{ tr('upgrade_to_premium') }}</a>
+                                                 @endif
 
                                                 @if(Setting::get('is_demo_control_enabled') == YES)
 
@@ -205,6 +209,63 @@
                                     </td>
 
                                 </tr>
+                                <!-- modal start -->
+                                <div id="{{$user_details->id}}" class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
+
+                                        <form action="{{route('admin.users.upgrade_account')}}">
+
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+
+                                                    <h4 class="modal-title">{{tr('upgrade_to_premium')}}</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+
+                                                        <input type="hidden" name="user_id" value="{{$user_details->id}}">
+
+                                                    </div>
+                                                    <br>
+                                                    <div class="row">
+
+                                                        <div class="col-md-6 premium_account">
+                                                            <div class="form-group">
+                                                                <label for="monthly_amount">{{ tr('monthly_amount') }}</label><br>
+                                                                <input type="number" id="monthly_amount" name="monthly_amount" class="form-control" placeholder="{{ tr('monthly_amount') }}" value="">
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6 premium_account">
+                                                            <div class="form-group">
+                                                                <label for="yearly_amount">{{ tr('yearly_amount') }}</label><br>
+                                                                <input type="number" id="yearly_amount" name="yearly_amount" class="form-control" placeholder="{{ tr('yearly_amount') }}" value="">
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <br>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <div class="pull-right">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">{{tr('cancel')}}</button>
+                                                        <button type="submit" class="btn btn-primary">{{tr('submit')}}</button>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </div>
+
+                                        </form>
+
+                                    </div>
+
+                                </div>
+                                <!-- Modal -->
 
                                 @endforeach
 
