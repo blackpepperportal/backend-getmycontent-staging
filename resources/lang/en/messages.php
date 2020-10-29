@@ -51,6 +51,9 @@ return [
 	"amount"	=> 	"Amount",
 	"frontend_url" => "Frontend Url",
 	"currency" 	=>	"Currency",
+	"monthly_amount" => "Monthly Amount",
+	"yearly_amount" => "yearly Amount",
+
 
 	"image_type" => "Image Type",
 	"is_required" => "Is Required?",
@@ -90,6 +93,7 @@ return [
 	"website" => "Website",
 	"amazon_wishlist" => "Amazon Wishlist",
 	"choose_account_type" => "Choose Account Type",
+	"account_type"=> "Account Type",
 
 
 	"user" => "User",
@@ -929,6 +933,10 @@ return [
 	"verification_documents" => "Verification Documents",
 	"free_users" => "Free Accounts",
 	"premium_users" => "Premium Accounts",
-	"recent_premium_users" => "Recent Premium Users"
+	"recent_premium_users" => "Recent Premium Users",
+	"upgrade_to_premium" => "Upgrade To Premium Account",
+	"cancel" => "Cancel",
+	"user_upgrade_account_failed"=> "Upgrade to premium account failed!!",
+	"user_upgrade_account" => "User (:other_key) account upgraded successfully..!!",
 
 ]?>

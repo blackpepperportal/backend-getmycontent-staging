@@ -52,6 +52,8 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('users/excel','Admin\AdminUserController@users_excel')->name('users.excel');
 
+      
+
 
         //users CRUD Operations
 
@@ -78,6 +80,9 @@ Route::group(['middleware' => 'web'], function() {
         Route::get('users/documents/view', 'Admin\AdminUserController@user_documents_view')->name('users.documents.view');
 
         Route::get('users/documents/verify', 'Admin\AdminUserController@user_documents_verify')->name('users.documents.verify');
+
+        Route::get('users/upgrade_account', 'Admin\AdminUserController@user_upgrade_account')->name('users.upgrade_account');
+
 
         //user products CRUD Operations
 

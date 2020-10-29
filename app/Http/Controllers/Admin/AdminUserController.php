@@ -291,6 +291,24 @@ class AdminUserController extends Controller
 
             if($user->save()) {
 
+                if($request->monthly_amount || $request->yearly_amount) {
+
+
+                    $user_subscription = \App\UserSubscription::where('user_id', $user->id)->first() ?? new \App\UserSubscription;
+
+                    $user_subscription->user_id = $user->id;
+
+                    $user_subscription->monthly_amount = $request->monthly_amount ?: ($user_subscription->monthly_amount ?: 0.00);
+
+                    $user_subscription->yearly_amount = $request->yearly_amount ?: ($user_subscription->yearly_amount ?: 0.00);
+
+                    $user_subscription->save();
+
+                    DB::commit();
+
+                }
+
+
                 if($is_new_user == YES) {
 
                     /**
@@ -320,6 +338,87 @@ class AdminUserController extends Controller
             } 
 
             throw new Exception(tr('user_save_failed'));
+            
+        } 
+        catch(Exception $e){ 
+
+            DB::rollback();
+
+            return redirect()->back()->withInput()->with('flash_error', $e->getMessage());
+
+        } 
+
+    }
+
+
+    /**
+     * @method user_upgrade_account()
+     *
+     * @uses To save the users details of new/existing user object based on details
+     *
+     * @created Akshata
+     *
+     * @updated 
+     *
+     * @param object request - User Form Data
+     *
+     * @return success message
+     *
+     */
+    public function user_upgrade_account(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+              $rules = [
+                'user_id' => 'required',
+                'monthly_amount' => 'required_without:yearly_amount',
+                'yearly_amount' => 'required_without:monthly_amount',
+            ];
+
+
+            Helper::custom_validator($request->all(),$rules);
+
+            $user = \App\User::find($request->user_id);
+
+
+            if(!$user) { 
+
+                throw new Exception(tr('user_not_found'), 101);                
+            }
+
+            $user->user_account_type = USER_PREMIUM_ACCOUNT;
+
+            $user->is_document_verified = USER_DOCUMENT_APPROVED;
+           
+
+            if($user->save()) {
+
+                if($request->monthly_amount || $request->yearly_amount) {
+
+
+                    $user_subscription = new \App\UserSubscription;
+
+                    $user_subscription->user_id = $user->id;
+
+                    $user_subscription->monthly_amount = $request->monthly_amount ??  0.00;
+
+                    $user_subscription->yearly_amount = $request->yearly_amount ?? 0.00;
+
+                    $user_subscription->save();
+
+                    DB::commit();
+
+                }
+
+                DB::commit(); 
+
+                return redirect()->back()->with('flash_success',tr('user_upgrade_account',$user->name));
+
+            } 
+
+            throw new Exception(tr('user_upgrade_account_failed'));
             
         } 
         catch(Exception $e){ 
