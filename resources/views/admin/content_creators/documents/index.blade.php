@@ -7,10 +7,10 @@
 @section('breadcrumb')
 
 <li class="breadcrumb-item">
-    <a href="{{ route('admin.content_creators.index') }}">{{ tr('users') }}</a>
+    <a href="{{ route('admin.content_creators.index') }}">{{ tr('content_creators') }}</a>
 </li>
 
-<li class="breadcrumb-item active">{{ tr('users_documents') }}</a></li>
+<li class="breadcrumb-item active">{{ tr('content_creator_documents') }}</a></li>
 
 @endsection 
 
@@ -40,7 +40,7 @@
                             <thead>
                                 <tr>
                                     <th>{{ tr('s_no') }}</th>
-                                    <th>{{ tr('username') }}</th>
+                                    <th>{{ tr('content_creator') }}</th>
                                     <th>{{ tr('document') }}</th>
                                     <th>{{ tr('is_email_verified') }}</th>
                                     <th>{{ tr('status') }}</th>
@@ -109,13 +109,13 @@
                                                 <div class="dropdown-divider"></div>
                                                 @if($user_document->is_email_verified == STARDOM_DOCUMENT_NOT_VERIFIED)
 
-                                                    <a class="dropdown-item" href="{{ route('admin.users.documents.verify' , ['stardom_document_id' => $user_document->id]) }}">
+                                                    <a class="dropdown-item" href="{{ route('admin.stardoms.documents.verify' , ['stardom_document_id' => $user_document->id]) }}">
                                                         {{ tr('verify') }}
                                                     </a>
 
                                                 @else
 
-                                                <a class="dropdown-item" href="{{ route('admin.users.documents.verify' , ['stardom_document_id' => $user_document->id]) }}">
+                                                <a class="dropdown-item" href="{{ route('admin.stardoms.documents.verify' , ['stardom_document_id' => $user_document->id]) }}">
                                                     {{ tr('unverify') }}
                                                 </a>@endif
 
