@@ -93,6 +93,7 @@ class AdminUserController extends Controller
 
         $users = $base_query->paginate(10);
 
+
         return view('admin.users.index')
                     ->with('page', $page)
                     ->with('sub_page', $sub_page)
@@ -687,4 +688,129 @@ class AdminUserController extends Controller
                 ->with('users_name',$users_name);
        
      }
+
+     /**
+     * @method user_documents_index()
+     *
+     * @uses Lists all stradom documents 
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param object $request - Stardom document Id
+     *
+     * @return view page
+     */
+    public function user_documents_index(Request $request) {
+
+
+        $base_query = \App\UserDocument::orderBy('created_at','DESC');
+
+        $stardom_documents = $base_query->paginate(10);
+       
+        return view('admin.content_creators.documents.index')
+                    
+                    ->with('page','content_creators')
+                    ->with('sub_page' , 'content_creators-documents')
+                    ->with('stardom_documents' , $stardom_documents);
+    
+    }
+
+    /**
+     * @method user_document_view()
+     *
+     * @uses Display the specified document
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param object $request - Stardom document Id
+     *
+     * @return view page
+     */
+    public function user_documents_view(Request $request) {
+
+        try {
+      
+            $stardom_document_details = \App\UserDocument::find($request->stardom_document_id);
+
+            if(!$stardom_document_details) { 
+
+                throw new Exception(tr('stardom_document_not_found'), 101);                
+            }
+
+            return view('admin.users.documents.view')
+                        
+                        ->with('page', 'content_creators') 
+                        ->with('sub_page','content_creators-documents') 
+                        ->with('stardom_document_details' , $stardom_document_details);
+            
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+     /**
+     * @method user_documents_verify()
+     *
+     * @uses verify the stardom documents
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param object $request - Stardom Document Id
+     *
+     * @return redirect back page with status of the stardom verification
+     */
+    public function user_documents_verify(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $stardom_document_details = \App\UserDocument::find($request->stardom_document_id);   
+            
+            if(!$stardom_document_details) {
+
+                throw new Exception(tr('stardom_document_details_not_found'), 101);
+                
+            }
+
+            $stardom_document_details->is_email_verified = $stardom_document_details->is_email_verified ? STARDOM_DOCUMENT_NOT_VERIFIED : STARDOM_DOCUMENT_VERIFIED;
+
+            if($stardom_document_details->save()) {
+
+                DB::commit();
+
+                $email_data['subject'] = tr('stardom_document_verification' , Setting::get('site_name'));
+
+                $email_data['email']  = $stardom_document_details->userDetails->email ?? "-";
+
+                $email_data['name']  = $stardom_document_details->userDetails->name ?? "-";
+
+                $email_data['page'] = "emails.users.document-verify";
+
+                $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+
+                $message = $stardom_document_details->is_email_verified ? tr('stardom_document_verify_success') : tr('stardom_document_unverify_success');
+
+                return redirect()->route('admin.users.documents.index')->with('flash_success', $message);
+            }
+            
+            throw new Exception(tr('stardom_document_verify_change_failed'));
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->route('admin.users.documents.index')->with('flash_error', $e->getMessage());
+
+        }
+    
+    }
 }

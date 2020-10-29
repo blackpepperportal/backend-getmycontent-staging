@@ -210,6 +210,8 @@ return [
 	"mobile_note" => "Note : The mobile must be between 6 and 13 digits.",
 	"png_image_note" => "Please enter .png images only.",
 	"description" => "Description",
+	"upload_files" => "Upload Images/Upload Videos",
+
 
 	"invalid_request_input" => "Invalid request details",
 
@@ -928,6 +930,8 @@ return [
 	"now"=>"Now",
 	"schedule"=>"Schedule",
 	"select_publish_type"=>"Select Publish Type",
+	"select_user_name"=>"Select User Name",
+
 
 	"unverified_users" => "Unverified Users",
 	"verification_documents" => "Verification Documents",
@@ -937,6 +941,7 @@ return [
 	"cancel" => "Cancel",
 	"user_upgrade_account_failed"=> "Upgrade to premium account failed!!",
 	"user_upgrade_account"=> "User (:other_key) account upgraded successfully..!!",
+	"select_publish_date" => "Select Publish Date",
 
 
 ]?>

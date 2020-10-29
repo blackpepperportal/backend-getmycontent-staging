@@ -19,14 +19,20 @@
     @include('admin.posts._form')
 
 @endsection
-@section('scripts')
-<script src="https://cdn.ckeditor.com/ckeditor5/11.1.1/classic/ckeditor.js"></script>
-<script>
-    ClassicEditor
-        .create( document.querySelector( '#ckeditor' ) )
-        .catch( error => {
-            console.error( error );
-        } );
-</script>
 
-@endsection
+@section('script')
+
+<script type="text/javascript">
+		
+	function select_publish_type(){
+		
+         if($('input[name="publish_type"]:checked').val() == {{UNPUBLISHED}}){
+			$('.schedule_time').css("display", "block");
+		}else{
+			$('.schedule_time').css("display", "none");
+		}
+		
+	}
+
+</script>
+@endscript
