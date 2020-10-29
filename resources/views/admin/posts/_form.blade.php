@@ -32,27 +32,6 @@
                           
                             <div class="form-body">
 
-                                <div class="row">
-
-                                    <input type="hidden" name="post_id" id="post_id" value="{{ $post_details->id}}">
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="user_name">{{ tr('content') }}*</label>
-
-                                            <input type="text" id="content" name="content" class="form-control" placeholder="{{ tr('content') }}" value="{{ $post_details->content ?: old('content') }}" >
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="user_name">{{ tr('amount') }}</label>
-                                            <input type="number" id="amount" name="amount" class="form-control" placeholder="{{ tr('amount') }}" value="{{ $post_details->amount ?: old('amount') }}" >
-                                        </div>
-                                    </div>
-
-                                </div>
 
                                 <div class="row">
 
@@ -89,6 +68,20 @@
 
                                 <div class="row">
 
+                                    <input type="hidden" name="post_id" id="post_id" value="{{ $post_details->id}}">
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="user_name">{{ tr('content') }}*</label>
+                                            <textarea name="content" class="form-control">{{ $post_details->content ?: old('content') }}</textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row">
+
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="page">
@@ -111,6 +104,13 @@
 
                                             <input class="form-control" name="publish_time" type="date" id="datepicker" value="{{ $post_details->publish_time? date('Y-m-d', strtotime($post_details->publish_time)) : old('publish_time') }}">
 
+                                        </div>
+                                    </div>
+
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="user_name">{{ tr('amount') }}</label>
+                                            <input type="number" id="amount" name="amount" class="form-control" placeholder="{{ tr('amount') }}" value="{{ $post_details->amount ?: old('amount') }}" >
                                         </div>
                                     </div>
 
