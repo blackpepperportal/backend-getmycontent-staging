@@ -14,7 +14,7 @@ use App\Jobs\SendEmailJob;
 
 class AdminContentCreatorController extends Controller
 {
-	/**
+    /**
      * Create a new controller instance.
      *
      * @return void

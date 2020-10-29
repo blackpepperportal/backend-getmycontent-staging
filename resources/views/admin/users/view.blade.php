@@ -163,6 +163,13 @@
                                     <td>{{$user_details->mobile}}</td>
                                 </tr>
 
+                                 <tr>
+                                    <th>{{tr('user_wallet_balance')}}</th>
+                                    <td>
+                                       {{ ($user_details->userWallets) ? formatted_amount($user_details->userWallets->remaining) : '-' }}
+                                    </td>
+                                </tr>
+
                                 <tr>
                                     <th>{{tr('email_notification')}}</th>
                                     <td>

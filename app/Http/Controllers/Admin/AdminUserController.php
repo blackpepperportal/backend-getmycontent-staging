@@ -93,6 +93,7 @@ class AdminUserController extends Controller
 
         $users = $base_query->paginate(10);
 
+
         return view('admin.users.index')
                     ->with('page', $page)
                     ->with('sub_page', $sub_page)
@@ -811,4 +812,5 @@ class AdminUserController extends Controller
         }
     
     }
+
 }

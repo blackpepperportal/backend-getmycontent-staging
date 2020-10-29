@@ -123,9 +123,12 @@ class AdminPostController extends Controller
 
         $post_details = new \App\Post;
 
+        $user_details = \App\User::all();
+
         return view('admin.posts.create')
                 ->with('page', 'posts')
                 ->with('sub_page', 'posts-create')
+                ->with('user_details', $user_details)
                 ->with('post_details', $post_details);  
 
     }
@@ -145,12 +148,12 @@ class AdminPostController extends Controller
     *
     */
     public function posts_save(Request $request) {
-
         try {
 
             DB::begintransaction();
 
             $rules = [
+                'user_id' => 'required',
                 'content' => 'required|max:191',
                 'amount' => 'nullable|min:0',
                 'publish_type'=>'required',
@@ -160,13 +163,15 @@ class AdminPostController extends Controller
 
             $post = \App\Post::find($request->post_id) ?? new \App\Post;
 
-            $post->user_id = Auth::user()->id;
+            $post->user_id = $request->user_id;
 
             $post->content = $request->content;
 
             $post->is_published = $request->publish_type;
 
-            $post->publish_time = $post->is_published ? now() : NULL;
+            $publish_time = $request->publish_time ?: date('Y-m-d H:i:s');
+
+            $post->publish_time = date('Y-m-d H:i:s', strtotime($publish_time));
 
             $post->amount = $request->amount?? 0;
 
@@ -213,6 +218,8 @@ class AdminPostController extends Controller
         try {
 
             $post = \App\Post::find($request->post_id);
+            
+            $user_details = \App\User::all();
 
             if(!$post) { 
 
@@ -222,6 +229,7 @@ class AdminPostController extends Controller
             return view('admin.posts.edit')
                 ->with('page', 'post')
                 ->with('sub_page', 'post-view')
+                ->with('user_details', $user_details)
                 ->with('post_details', $post); 
 
         } catch(Exception $e) {
@@ -941,6 +949,7 @@ class AdminPostController extends Controller
 
         return view('admin.bookmarks.index')
                     ->with('page','post_bookmarks')
+                    ->with('sub_page','users-view')
                     ->with('post_bookmarks',$post_bookmarks);
     }
 

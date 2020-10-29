@@ -32,45 +32,85 @@
                           
                             <div class="form-body">
 
-                                <div class="row">
 
-                                    <input type="hidden" name="post_id" id="post_id" value="{{ $post_details->id}}">
+                                <div class="row">
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="user_name">{{ tr('content') }}*</label>
+                                            <label for="page">
+                                                {{tr('user_name')}}
+                                                <span class="required" aria-required="true"> <span class="admin-required">*</span> </span>
+                                            </label>
 
-                                             <textarea id="ckeditor" rows="5" class="form-control" name="content" placeholder="{{ tr('content') }}">{{$post_details->content ?: old('content')}}</textarea>
+                                            <select class="form-control select2" name="user_id" required>
 
+                                                <option>{{tr('select_user_name')}}</option>
+                                                @foreach($user_details as $users)
+                                                <option value="{{$users->id}}" @if($users->id == $post_details->user_id) selected="true" @endif>{{$users->name}}</option>
+                                                @endforeach
+                                            
+                                            </select>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                   <div class="col-md-6">
+                                        
                                         <div class="form-group">
-                                            <label for="user_name">{{ tr('amount') }}</label>
-                                            <input type="number" id="amount" name="amount" class="form-control" placeholder="{{ tr('amount') }}" value="{{ $post_details->amount ?: old('amount') }}" >
+                                            <label for="page">
+                                                {{tr('upload_files')}}
+                                            </label>
+                                            <input type="file" class="form-control" name="post_files[]" accept="image/*,video/*"multiple />
                                         </div>
+
                                     </div>
 
                                 </div>
 
                                 <div class="row">
 
+                                    <input type="hidden" name="post_id" id="post_id" value="{{ $post_details->id}}">
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="user_name">{{ tr('content') }}*</label>
+                                            <textarea name="content" class="form-control">{{ $post_details->content ?: old('content') }}</textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row">
+
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                          <label for="page">
+                                            <label for="page">
                                                 {{tr('select_publish_type')}}
                                                 <span class="required" aria-required="true"> <span class="admin-required">*</span> </span>
-                                            </label>
-                                            
-                                            <select class="form-control select2" name="publish_type" required>
-                                                <option>{{tr('select_publish_type')}}</option>
+                                            </label><br>
 
-                                                    <option value="{{PUBLISHED}}" @if(PUBLISHED == $post_details->is_published) selected="true" @endif>{{ tr('now') }}</option>
+                                            <input type="radio" id="now" onclick="select_publish_type();" name="publish_type" value="{{PUBLISHED}}" {{ ($post_details->is_published  == PUBLISHED)? "checked" : "" }}   ><label for="{{USER_PREMIUM_ACCOUNT}}"> {{tr('now')}} </label>
 
-                                                     <option value="{{UNPUBLISHED}}" @if(UNPUBLISHED == $post_details->is_published) selected="true" @endif>{{ tr('schedule') }}</option>
+                                            <input type="radio"  id="schedule" onclick="select_publish_type();" name="publish_type" value="{{UNPUBLISHED}}"  {{ ($post_details->is_published  == UNPUBLISHED)? "checked" : "" }} ><label for="{{UNPUBLISHED}}"> {{tr('schedule')}} </label>&nbsp;
+                                          
+                                        </div>
+                                    </div>
 
-                                            </select>
+                                    <div class="col-md-6 schedule_time" {{ ($post_details->is_published  == PUBLISHED)? "style=display:none;": "" }}>
+                                        <div class="form-group">
+                                            <label for="page">
+                                                {{tr('select_publish_date')}}
+                                            </label><br>
+
+                                            <input class="form-control" name="publish_time" type="date" id="datepicker" value="{{ $post_details->publish_time? date('Y-m-d', strtotime($post_details->publish_time)) : old('publish_time') }}">
+
+                                        </div>
+                                    </div>
+
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="user_name">{{ tr('amount') }}</label>
+                                            <input type="number" id="amount" name="amount" class="form-control" placeholder="{{ tr('amount') }}" value="{{ $post_details->amount ?: old('amount') }}" >
                                         </div>
                                     </div>
 

@@ -101,6 +101,7 @@
                                     <th>{{ tr('s_no') }}</th>
                                     <th>{{ tr('name') }}</th>
                                     <th>{{ tr('email') }}</th>
+                                    <th>{{ tr('user_wallets') }}</th>
                                     <th>{{ tr('status') }}</th>
                                     <th>{{ tr('verify') }}</th>
                                     <th>{{ tr('action') }}</th>
@@ -122,6 +123,12 @@
 
                                     <td>{{ $user_details->email }}<br>
                                         <span class="text-success">{{ $user_details->mobile ?: "-" }}</span>
+                                    </td>
+
+                                    <td>
+                                        <a href="{{  route('admin.user_wallets.view' , ['user_id' => $user_details->id] )  }}">
+                                             {{ ($user_details->userWallets) ? formatted_amount($user_details->userWallets->remaining) : '-' }}
+                                        </a>
                                     </td>
 
                                     <td>
