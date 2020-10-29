@@ -40,7 +40,7 @@
                             <thead>
                                 <tr>
                                     <th>{{ tr('s_no') }}</th>
-                                    <th>{{ tr('content_creator') }}</th>
+                                    <th>{{ tr('username') }}</th>
                                     <th>{{ tr('document') }}</th>
                                     <th>{{ tr('is_email_verified') }}</th>
                                     <th>{{ tr('status') }}</th>

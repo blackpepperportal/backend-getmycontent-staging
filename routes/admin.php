@@ -75,11 +75,11 @@ Route::group(['middleware' => 'web'], function() {
 
         //user documents 
 
-        Route::get('users/documents', 'Admin\AdminContentCreatorController@user_documents_index')->name('users.documents.index');
+        Route::get('users/documents', 'Admin\AdminUserController@user_documents_index')->name('users.documents.index');
 
-        Route::get('users/documents/view', 'Admin\AdminContentCreatorController@user_documents_view')->name('users.documents.view');
+        Route::get('users/documents/view', 'Admin\AdminUserController@user_documents_view')->name('users.documents.view');
 
-        Route::get('users/documents/verify', 'Admin\AdminContentCreatorController@user_documents_verify')->name('users.documents.verify');
+        Route::get('users/documents/verify', 'Admin\AdminUserController@user_documents_verify')->name('users.documents.verify');
 
         Route::get('users/upgrade_account', 'Admin\AdminUserController@user_upgrade_account')->name('users.upgrade_account');
 

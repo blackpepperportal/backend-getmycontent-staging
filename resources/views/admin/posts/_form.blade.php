@@ -109,7 +109,7 @@
                                                 {{tr('select_publish_date')}}
                                             </label><br>
 
-                                            <input class="form-control" name="publish_time" type="date" id="datepicker">
+                                            <input class="form-control" name="publish_time" type="date" id="datepicker" value="{{ $post_details->publish_time? : old('publish_time') }}">
 
                                         </div>
                                     </div>

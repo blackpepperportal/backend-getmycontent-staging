@@ -218,6 +218,8 @@ class AdminPostController extends Controller
         try {
 
             $post = \App\Post::find($request->post_id);
+            
+            $user_details = \App\User::all();
 
             if(!$post) { 
 
@@ -227,6 +229,7 @@ class AdminPostController extends Controller
             return view('admin.posts.edit')
                 ->with('page', 'post')
                 ->with('sub_page', 'post-view')
+                ->with('user_details', $user_details)
                 ->with('post_details', $post); 
 
         } catch(Exception $e) {
