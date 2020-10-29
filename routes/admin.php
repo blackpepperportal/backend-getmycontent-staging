@@ -30,7 +30,7 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::post('change/password', 'Admin\AdminAccountController@change_password')->name('change.password');
 
-        Route::get('', 'Admin\AdminRevenueController@main_dashboard')->name('dashboard');
+        Route::get('/', 'Admin\AdminRevenueController@main_dashboard')->name('dashboard');
         
         // Users CRUD Operations
 
