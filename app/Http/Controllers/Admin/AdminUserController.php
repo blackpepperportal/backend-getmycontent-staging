@@ -401,9 +401,9 @@ class AdminUserController extends Controller
 
                     $user_subscription->user_id = $user->id;
 
-                    $user_subscription->monthly_amount = $request->monthly_amount ?: ($user_subscription->monthly_amount ?: 0.00);
+                    $user_subscription->monthly_amount = $request->monthly_amount ??  0.00;
 
-                    $user_subscription->yearly_amount = $request->yearly_amount ?: ($user_subscription->yearly_amount ?: 0.00);
+                    $user_subscription->yearly_amount = $request->yearly_amount ?? 0.00;
 
                     $user_subscription->save();
 
