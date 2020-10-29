@@ -372,6 +372,7 @@ class AdminUserController extends Controller
             DB::beginTransaction();
 
               $rules = [
+                'user_id' => 'required',
                 'monthly_amount' => 'required_without:yearly_amount',
                 'yearly_amount' => 'required_without:monthly_amount',
             ];

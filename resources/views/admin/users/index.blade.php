@@ -227,6 +227,12 @@
 
                                                         <input type="hidden" name="user_id" value="{{$user_details->id}}">
 
+                                                        <div class="col-md-6 premium_account"> <h6 class="modal-title">
+                                                            <label for="user_name">{{ tr('user_name') }}</label>&nbsp;: &nbsp;<a href="{{  route('admin.users.view' , ['user_id' => $user_details->id] )  }}">
+                                                            {{ ucfirst($user_details->name) }}
+                                                        </a></h6>
+                                                    </div>
+
                                                     </div>
                                                     <br>
                                                     <div class="row">

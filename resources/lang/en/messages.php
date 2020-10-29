@@ -93,6 +93,7 @@ return [
 	"website" => "Website",
 	"amazon_wishlist" => "Amazon Wishlist",
 	"choose_account_type" => "Choose Account Type",
+	"account_type"=> "Account Type",
 
 
 	"user" => "User",
@@ -930,8 +931,8 @@ return [
 
 	"unverified_users" => "Unverified Users",
 	"verification_documents" => "Verification Documents",
-	"free_users" => "Free Accounts",
-	"premium_users" => "Premium Accounts",
+	"free_users" => "Free Account",
+	"premium_users" => "Premium Account",
 	"upgrade_to_premium" => "Upgrade To Premium Account",
 	"cancel" => "Cancel",
 	"user_upgrade_account_failed"=> "Upgrade to premium account failed!!",

@@ -131,14 +131,14 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="website">{{ tr('website') }}</label>
-                                            <input type="text" id="website" name="website" class="form-control" placeholder="{{ tr('website') }}" value="{{ $user_details->website ?: old('website') }}">
+                                            <input type="url" id="website" name="website" class="form-control" placeholder="{{ tr('website') }}" value="{{ $user_details->website ?: old('website') }}">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="amazon_wishlist">{{ tr('amazon_wishlist') }}</label>
-                                            <input type="text" id="amazon_wishlist" name="amazon_wishlist" class="form-control" placeholder="{{ tr('amazon_wishlist') }}" value="{{ $user_details->amazon_wishlist ?: old('amazon_wishlist') }}" required>
+                                            <input type="url" id="amazon_wishlist" name="amazon_wishlist" class="form-control" placeholder="{{ tr('amazon_wishlist') }}" value="{{ $user_details->amazon_wishlist ?: old('amazon_wishlist') }}" required>
                                         </div>
                                     </div>
 
@@ -186,7 +186,7 @@
                                     <div class="col-md-6 premium_account" {{ ($user_details->user_account_type  == USER_FREE_ACCOUNT)? "style=display:none;": "" }}>
                                         <div class="form-group">
                                             <label for="monthly_amount">{{ tr('monthly_amount') }}</label><br>
-                                            <input type="number" id="monthly_amount" name="monthly_amount" class="form-control" placeholder="{{ tr('monthly_amount') }}" value="{{ $user_details->userSubscription->monthly_amount ?: old('monthly_amount') }}">
+                                            <input type="number" id="monthly_amount" name="monthly_amount" class="form-control" placeholder="{{ tr('monthly_amount') }}" value="{{ ($user_details->userSubscription) ? $user_details->userSubscription->monthly_amount: old('monthly_amount') }}">
 
                                         </div>
                                     </div>
@@ -194,7 +194,7 @@
                                     <div class="col-md-6 premium_account" {{ ($user_details->user_account_type  == USER_FREE_ACCOUNT)? "style=display:none;": "" }}>
                                         <div class="form-group">
                                             <label for="yearly_amount">{{ tr('yearly_amount') }}</label><br>
-                                            <input type="number" id="yearly_amount" name="yearly_amount" class="form-control" placeholder="{{ tr('yearly_amount') }}" value="{{ $user_details->userSubscription->yearly_amount ?: old('yearly_amount') }}">
+                                            <input type="number" id="yearly_amount" name="yearly_amount" class="form-control" placeholder="{{ tr('yearly_amount') }}" value="{{ ($user_details->userSubscription)? $user_details->userSubscription->yearly_amount : old('yearly_amount') }}">
 
                                         </div>
                                     </div>

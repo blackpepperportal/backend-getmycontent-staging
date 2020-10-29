@@ -112,6 +112,57 @@
                                     </td>
                                 </tr>
 
+                                 <tr>
+                                    <th>{{tr('gender')}}</th>
+                                    <td>{{ucfirst($user_details->gender)}}</td>
+                                </tr>
+
+                                <tr>
+                                    <th>{{tr('website')}}</th>
+                                    <td><a href="{{$user_details->website}}" target="_blank">{{$user_details->website}}</a></td>
+                                </tr>
+
+                                <tr>
+                                    <th>{{tr('amazon_wishlist')}}</th>
+                                    <td><a href="{{$user_details->amazon_wishlist}}" target="_blank"> {{$user_details->amazon_wishlist}}</a></td>
+                                </tr>
+
+
+                                <tr>
+                                    <th>{{tr('account_type')}}</th>
+                                    <td>
+                                        @if($user_details->user_account_type == USER_PREMIUM_ACCOUNT) 
+
+                                            <span class="badge badge-success">{{tr('premium_users')}}</span>
+
+                                        @else
+                                            <span class="badge badge-danger">{{tr('free_users')}}</span>
+
+                                        @endif
+                                    </td>
+                                </tr>
+
+                                @if($user_details->user_account_type == USER_PREMIUM_ACCOUNT) 
+                                <tr>
+                                    <th>{{tr('monthly_amount')}}</th>
+                                    <td>
+                                        {{($user_details->userSubscription) ? formatted_amount($user_details->userSubscription->monthly_amount) : '-'}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>{{tr('yearly_amount')}}</th>
+                                    <td>
+                                        {{($user_details->userSubscription) ? formatted_amount($user_details->userSubscription->yearly_amount) : '-'}}
+                                    </td>
+                                </tr>
+                                @endif
+
+                                <tr>
+                                    <th>{{tr('mobile')}}</th>
+                                    <td>{{$user_details->mobile}}</td>
+                                </tr>
+
                                 <tr>
                                     <th>{{tr('email_notification')}}</th>
                                     <td>
