@@ -48,10 +48,6 @@ class AdminPostController extends Controller
 
         $base_query = \App\Post::orderBy('created_at','DESC');
 
-       
-        PublishPostJob::dispatch();
-
-
         if($request->search_key) {
 
             $search_key = $request->search_key;
