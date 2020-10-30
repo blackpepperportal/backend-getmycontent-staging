@@ -12,6 +12,8 @@ use DB, Hash, Setting, Auth, Validator, Exception, Enveditor;
 
 use App\Jobs\SendEmailJob;
 
+use App\Jobs\PublishPostJob;
+
 class AdminPostController extends Controller
 {
     /**
@@ -45,6 +47,10 @@ class AdminPostController extends Controller
     public function posts_index(Request $request) {
 
         $base_query = \App\Post::orderBy('created_at','DESC');
+
+       
+        PublishPostJob::dispatch();
+
 
         if($request->search_key) {
 
@@ -228,7 +234,7 @@ class AdminPostController extends Controller
 
             return view('admin.posts.edit')
                 ->with('page', 'post')
-                ->with('sub_page', 'post-view')
+                ->with('sub_page', 'posts-view')
                 ->with('user_details', $user_details)
                 ->with('post_details', $post); 
 
