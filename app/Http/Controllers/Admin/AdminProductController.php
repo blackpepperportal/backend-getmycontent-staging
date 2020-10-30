@@ -90,7 +90,7 @@ class AdminProductController extends Controller
 
         $user_product_details = new \App\UserProduct;
 
-        $users = \App\User::isContentCreator(YES)->where('status', APPROVED)->get();
+        $users = \App\User::Approved()->where('status', APPROVED)->get();
 
         return view('admin.user_products.create')
                 ->with('page', 'user_products')
@@ -124,7 +124,7 @@ class AdminProductController extends Controller
                 throw new Exception(tr('user_product_not_found'), 101);
             }
 
-            $users = \App\User::isContentCreator(YES)->where('status', APPROVED)->get();
+            $users = \App\User::Approved()->where('status', APPROVED)->get();
 
             foreach ($users as $key => $user_details) {
 

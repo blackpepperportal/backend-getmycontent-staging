@@ -503,7 +503,7 @@ class AdminContentCreatorController extends Controller
     
     }
 
-     /**
+    /**
      * @method user_documents_verify()
      *
      * @uses verify the stardom documents

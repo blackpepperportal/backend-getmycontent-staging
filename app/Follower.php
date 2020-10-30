@@ -28,7 +28,6 @@ class Follower extends Model
                 'users.username',
 	            'users.email as email',
 	            'users.picture as picture',
-	            'users.is_content_creator',
                 'followers.follower_id',
                 'followers.created_at',
                 'followers.updated_at'

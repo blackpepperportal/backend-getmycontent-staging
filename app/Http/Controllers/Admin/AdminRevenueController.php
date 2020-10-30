@@ -49,7 +49,7 @@ class AdminRevenueController extends Controller
 
         $data->total_users = \App\User::count();
 
-        $data->total_content_creators = \App\User::isContentCreator(YES)->count();
+        $data->total_premium_users = \App\User::where('user_account_type', USER_PREMIUM_ACCOUNT)->count();
 
         $data->total_posts = \App\Post::count();
 
@@ -57,7 +57,7 @@ class AdminRevenueController extends Controller
 
         $data->recent_users= \App\User::orderBy('id' , 'desc')->skip($this->skip)->take(TAKE_COUNT)->get();
 
-        $data->recent_content_creators=  \App\User::isContentCreator(YES)->orderBy('id' , 'desc')->skip($this->skip)->take(TAKE_COUNT)->get(); 
+        $data->recent_premium_users = \App\User::where('user_account_type', USER_PREMIUM_ACCOUNT)->orderBy('id' , 'desc')->skip($this->skip)->take(TAKE_COUNT)->get(); 
 
         $data->analytics = last_x_months_data(12);
         
