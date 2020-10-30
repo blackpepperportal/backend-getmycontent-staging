@@ -6,9 +6,9 @@
 
 @section('breadcrumb')
 
-    
-    
-    <li class="breadcrumb-item"><a href="{{route('admin.posts.index')}}">{{tr('posts')}}</a></li>
+    <li class="breadcrumb-item">
+    	<a href="{{route('admin.posts.index')}}">{{tr('posts')}}</a>
+    </li>
 
     <li class="breadcrumb-item active">{{tr('create_post')}}</a></li>
 
@@ -35,4 +35,5 @@
 	}
 
 </script>
-@endscript
+
+@endsection

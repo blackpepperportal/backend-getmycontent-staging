@@ -658,13 +658,13 @@ class AdminUserController extends Controller
         $user_followers = \App\Follower::where('follower_id',$request->follower_id)->paginate($this->take);
         
         return view('admin.users.followers')
-                ->with('page','users')
-                ->with('sub_page','users-view')
-                ->with('user_followers',$user_followers);
+                ->with('page', 'users')
+                ->with('sub_page', 'users-view')
+                ->with('user_followers', $user_followers);
      }
 
     /**
-     * @method user_following()
+     * @method user_followings()
      *
      * @uses This is to display the all followers of specified 
      *
@@ -676,16 +676,23 @@ class AdminUserController extends Controller
      *
      * @return view page
      */
-     public function user_following(Request $request) {
+     public function user_followings(Request $request) {
 
-        $user_followings = \App\Follower::where('user_id',$request->user_id)->paginate($this->take);
-        $users_name = \App\User::where('id', $request->user_id)->first()->name;
+        $user = \App\User::find($request->user_id);
 
-        return view('admin.users.following')
+        if(!$user) {
+
+            throw new Exception(tr('user_details_not_found'));
+
+        }
+
+        $followings = \App\Follower::where('user_id', $request->user_id)->paginate($this->take);
+
+        return view('admin.users.followings')
                 ->with('page','users')
                 ->with('sub_page','users-view')
-                ->with('user_followings',$user_followings)
-                ->with('users_name',$users_name);
+                ->with('followings', $followings)
+                ->with('user', $user);
        
     }
 
@@ -704,15 +711,34 @@ class AdminUserController extends Controller
      */
     public function user_documents_index(Request $request) {
 
+        $base_query = \App\User::orderBy('updated_at','desc');
+        
+        if($request->search_key) {
 
-        $base_query = \App\UserDocument::orderBy('created_at','DESC');
+            $base_query->where(function ($query) use ($request) {
+                $query->where('name', "like", "%" . $request->search_key . "%");
+                $query->orWhere('email', "like", "%" . $request->search_key . "%");
+                $query->orWhere('mobile', "like", "%" . $request->search_key . "%");
+            });
+        }
 
-        $user_documents = $base_query->paginate(10);
-       
+        if($request->status!='') {
+
+            $base_query->where('status', $request->status);
+        }
+
+        $users = $base_query->where('is_document_verified', '!=', USER_DOCUMENT_VERIFIED)->paginate($this->take);
+
+        foreach($users as $user){
+
+            $user->documents_count = \App\UserDocument::where('user_id',$user->id)->count();
+            
+        }
+        
         return view('admin.users.documents.index')
                     ->with('page','users-documents')
                     ->with('sub_page', '')
-                    ->with('user_documents', $user_documents);
+                    ->with('users', $users);    
     
     }
 
@@ -732,21 +758,25 @@ class AdminUserController extends Controller
     public function user_documents_view(Request $request) {
 
         try {
-      
-            $stardom_document_details = \App\UserDocument::find($request->stardom_document_id);
 
-            if(!$stardom_document_details) { 
+            $user = \App\User::whereHas('userDocuments')->find($request->user_id);
 
-                throw new Exception(tr('stardom_document_not_found'), 101);                
+            if(!$user) {
+
+                throw new Exception(tr('user_details_not_found'));
+
             }
 
+            $user_documents = \App\UserDocument::where('user_id', $request->user_id)->orderBy('updated_at','desc')->get();
+
             return view('admin.users.documents.view')
-                        
-                        ->with('page', 'content_creators') 
-                        ->with('sub_page','content_creators-documents') 
-                        ->with('stardom_document_details' , $stardom_document_details);
+                    ->with('page', 'users-documents')
+                    ->with('sub_page', '')
+                    ->with('user', $user)
+                    ->with('user_documents', $user_documents);
             
         } catch (Exception $e) {
+
 
             return redirect()->back()->with('flash_error', $e->getMessage());
         }

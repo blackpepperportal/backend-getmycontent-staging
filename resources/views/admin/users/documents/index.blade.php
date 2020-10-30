@@ -36,85 +36,69 @@
 
                     <div class="card-body card-dashboard">
 
+                        @include('admin.users.documents._search')
+
                         <table class="table table-striped table-bordered sourced-data">
                             
                             <thead>
                                 <tr>
-                                    <th>{{ tr('s_no') }}</th>
-                                    <th>{{ tr('user') }}</th>
-                                    <th>{{ tr('document') }}</th>
-                                    <th>{{ tr('status') }}</th>
-                                    <th>{{ tr('uploaded_by') }}</th>
-                                    <th>{{ tr('action') }}</th>
+                                    <th>{{tr('s_no')}}</th>
+                                    <th>{{tr('name')}}</th>
+                                    <th>{{tr('email')}}</th>
+                                    <th>{{tr('no_of_documents')}}</th>
+                                    <th>{{tr('status')}}</th>
+                                    <th>{{tr('action')}}</th>
                                 </tr>
                             </thead>
                            
                             <tbody>
 
-                                @foreach($user_documents as $i => $user_document)
+                                @foreach($users as $i => $user)
                                
                                 <tr>
-                                    <td>{{ $i+$user_documents->firstItem() }}</td>
+                                    <td>{{$i+$users->firstItem()}}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.users.view' , ['user_id' => $user_document->user_id] )  }}">
-                                        {{ $user_document->userDetails->name  ?? "-" }}
+                                        <a href="{{route('admin.users.view' , ['user_id' => $user->id])}}">
+                                        {{ $user->name  ?? "-" }}
                                         </a>
                                     </td>
 
                                     <td>
-                                        <a href="{{  route('admin.documents.view' , ['document_id' => $user_document->document_id] )  }}">
-                                            {{$user_document->document->name ?? "-" }}
-                                        </a>
+                                        {{$user->email}}
+                                        <span><h6>{{$user->mobile?: tr('n_a')}}</h6></span>
+                                    </td>
+
+                                    <td>{{$user->userDocuments->count()}}
+
+                                    <td>
+                                        @if($user->status == YES)
+                                            <span class="text-success">{{tr('approved')}}</span>
+                                        @else
+                                            <span class="text-danger">{{tr('declined')}}</span>
+
+                                        @endif
+                                    
                                     </td>
 
                                     <td>
-                                        @if($user_document->userDetails->is_document_verified != USER_DOCUMENT_VERIFIED)
 
-                                            <span class="btn btn-success btn-sm">{{ tr('verified') }}</span> 
+                                        @if($user->documents_count > 0 )
 
+                                            <a class="btn btn-outline-secondary btn-sm" href="#" onclick="return confirm(&quot;{{tr('user_document_verify_confirmation')}}&quot;);">
+                                                {{tr('verify')}}
+                                            </a>
+
+                                            <a class="btn btn-outline-pink" href="{{route('admin.user_documents.view', ['user_id' => $user->id])}}">
+                                                {{ tr('view_all_documents') }}
+                                            </a>
                                         @else
 
-                                            <span class="btn btn-warning btn-sm">{{ tr('pending') }}</span> 
+                                            <a class="btn btn-success" href="#" onClick="alert(&quot;{{tr('user_documents_empty')}}&quot;)">
+                                                {{tr('verify')}}
+                                            </a>
                                         @endif
-                                        
-                                    </td>
-
-                                    <td>
-                                        <span class="badge badge-secondary">{{ $user_document->uploaded_by ?: "-" }}</span>
-                                    </td>
-
-                                    <td>
                                     
-                                        <div class="btn-group" role="group">
-
-                                            <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ft-settings icon-left"></i> {{ tr('action') }}</button>
-
-                                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-
-                                                <a class="dropdown-item" href="{{$user_document->document_file}}" target="_black"> {{ tr('document_file') }}</a> 
-
-                                                <a class="dropdown-item" href="{{$user_document->document_file_front}}" target="_black"> {{ tr('document_file_front') }}</a> 
-
-                                                <a class="dropdown-item" href="{{$user_document->document_file_back}}" target="_blank"> {{ tr('document_file_back') }}</a> 
-
-                                                <div class="dropdown-divider"></div>
-                                                @if($user_document->is_email_verified == USER_DOCUMENT_NOT_VERIFIED)
-
-                                                    <a class="dropdown-item" href="{{ route('admin.users.documents.verify' , ['user_document_id' => $user_document->id]) }}">
-                                                        {{ tr('verify') }}
-                                                    </a>
-
-                                                @else
-
-                                                <a class="dropdown-item" href="{{ route('admin.users.documents.verify' , ['user_document_id' => $user_document->id]) }}">
-                                                    {{ tr('unverify') }}
-                                                </a>@endif
-
-                                            </div>
-
-                                        </div>
-
                                     </td>
 
                                 </tr>
@@ -125,7 +109,7 @@
                         
                         </table>
 
-                        <div class="pull-right" id="paglink">{{ $user_documents->appends(request()->input())->links() }}</div>
+                        <div class="pull-right" id="paglink">{{ $users->appends(request()->input())->links() }}</div>
 
                     </div>
 

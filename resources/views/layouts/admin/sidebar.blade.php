@@ -36,7 +36,7 @@
             </li>
 
             <li class="nav-item" id="users-documents">
-                <a class="menu-item" href="{{route('admin.users.documents.index')}}">
+                <a class="menu-item" href="{{route('admin.user_documents.index')}}">
                     <i class="ft-shield"></i>
                     <span class="menu-title" data-i18n="">
                     {{tr('verification_documents')}}

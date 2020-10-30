@@ -941,5 +941,14 @@ return [
 	"user_upgrade_account_failed"=> "Upgrade to premium account failed!!",
 	"user_upgrade_account"=> "User (:other_key) account upgraded successfully..!!",
 	"select_publish_date" => "Select Publish Date",
+	"view_all_documents" => "View Documents",
+
+	"USER_KYC_DOCUMENT_NONE" => "Pending",
+	"USER_KYC_DOCUMENT_PENDING" => "Pending",
+	"USER_KYC_DOCUMENT_APPROVED" => "Approved",
+	"USER_KYC_DOCUMENT_DECLINED" => "Declined",
+	"user_documents_waiting_upload" => "Waiting for user upload",
+	"no_of_documents" => "No Of Documents",
+	"user_documents_empty" => "The user haven't uploaded any documents."
 
 ]?>
