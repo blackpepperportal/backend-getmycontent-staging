@@ -214,5 +214,75 @@ public function subscription_payments_autorenewal(Request $request){
 
     }
 
+        /**
+     * @method chat_messages_save()
+     * 
+     * @uses - To save the chat message.
+     *
+     * @created vidhya R
+     *
+     * @updated vidhya R
+     * 
+     * @param 
+     *
+     * @return No return response.
+     *
+     */
+
+    public function chat_messages_save(Request $request) {
+
+        try {
+
+            Log::info("message_save".print_r($request->all() , true));
+
+            $rules = [
+                'from_user_id' => 'required|users:exists,id',
+                'to_user_id' => 'required|users:exists,id',
+                'message' => 'required',
+            ];
+
+            Helper::custom_validator($request->all(),$rules);
+            
+            $message = $request->message;
+
+            $from_chat_user = \App\ChatUser::where('from_user_id', $request->from_user_id)->where('to_user_id', $request->to_user_id)->first();
+
+            if(!$from_chat_user) {
+
+                $chat_user = \App\ChatUser::create(['from_user_id' => $request->from_user_id, 'to_user_id' => $request->to_user_id]);
+
+            }
+
+            $to_chat_user = \App\ChatUser::where('from_user_id', $request->to_user_id)->where('to_user_id', $request->from_user_id)->first();
+
+            if(!$to_chat_user) {
+
+                $chat_user = \App\ChatUser::create(['from_user_id' => $request->from_user_id, 'to_user_id' => $request->to_user_id]);
+
+            }
+
+            $chat_message = new \App\ChatMessage;
+
+            $chat_message->from_user_id = $request->from_user_id;
+
+            $chat_message->to_user_id = $request->to_user_id;
+
+            $chat_message->message = $request->message;
+
+            $chat_message->save();
+
+            DB::commit();
+
+            return $this->sendResponse("", "", $chat_message);
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+    
+    }
+
 
 }

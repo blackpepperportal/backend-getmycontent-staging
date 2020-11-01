@@ -230,11 +230,9 @@ class FollowersApiController extends Controller
 
         try {
 
-            $followers = Follower::CommonResponse()
-                    ->where('user_id', $request->id)
-                    ->skip($this->skip)->take($this->take)
-                    ->orderBy('followers.created_at', 'desc')
-                    ->get();
+            $base_query = $total_query = Follower::CommonResponse()->where('user_id', $request->id);
+
+            $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
             foreach ($followers as $key => $follower) {
 
@@ -249,6 +247,8 @@ class FollowersApiController extends Controller
             }
 
             $data['followers'] = $followers;
+
+            $data['total'] = $total_query->count() ?: 0;
 
             return $this->sendResponse($message = "", $code = "", $data);
 
@@ -279,11 +279,9 @@ class FollowersApiController extends Controller
 
         try {
 
-            $followers = Follower::CommonResponse()
-                    ->where('follower_id', $request->id)
-                    ->skip($this->skip)->take($this->take)
-                    ->orderBy('followers.created_at', 'desc')
-                    ->get();
+            $base_query = $total_query = Follower::CommonResponse()->where('follower_id', $request->id);
+
+            $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
             foreach ($followers as $key => $follower) {
 
@@ -298,6 +296,90 @@ class FollowersApiController extends Controller
             }
 
             $data['followers'] = $followers;
+
+            $data['total'] = $total_query->count() ?: 0;
+
+            return $this->sendResponse($message = "", $code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+
+    }
+
+    /** 
+     * @method chat_users()
+     *
+     * @uses chat_users List
+     *
+     * @created vithya R
+     *
+     * @updated vithya R
+     *
+     * @param
+     * 
+     * @return JSON response
+     *
+     */
+    public function chat_users(Request $request) {
+
+        try {
+
+            $base_query = $total_query = \App\ChatUser::where('from_user_id', $request->id);
+
+            $chat_users = $base_query->skip($this->skip)->take($this->take)
+                    ->orderBy('chat_users.updated_at', 'desc')
+                    ->get();
+
+            $data['users'] = $chat_users ?? [];
+
+            $data['total'] = $total_query->count() ?: 0;
+
+            return $this->sendResponse($message = "", $code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+
+    }
+
+    /** 
+     * @method chat_messages()
+     *
+     * @uses chat_messages List
+     *
+     * @created vithya R
+     *
+     * @updated vithya R
+     *
+     * @param
+     * 
+     * @return JSON response
+     *
+     */
+    public function chat_messages(Request $request) {
+
+        try {
+
+            $base_query = $total_query = \App\ChatMessage::where(function($query) use ($request){
+                        $query->where('chat_messages.from_user_id', 'LIKE', '%'.$request->from_user_id.'%');
+                        $query->where('chat_messages.to_user_id', 'LIKE', '%'.$request->to_user_id.'%');
+                    })->where(function($query) use ($request){
+                        $query->where('chat_messages.from_user_id', 'LIKE', '%'.$request->to_user_id.'%');
+                        $query->where('chat_messages.to_user_id', 'LIKE', '%'.$request->from_user_id.'%');
+                    });
+
+            $chat_messages = $base_query->skip($this->skip)->take($this->take)
+                    ->orderBy('chat_messages.updated_at', 'desc')
+                    ->get();
+
+            $data['messages'] = $chat_messages ?? [];
+
+            $data['total'] = $total_query->count() ?: 0;
 
             return $this->sendResponse($message = "", $code = "", $data);
 

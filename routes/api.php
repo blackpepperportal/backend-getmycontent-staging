@@ -45,6 +45,8 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 	 *
 	 */
 
+    Route::post('chat_messages_save', 'Api\UserAccountApiController@chat_messages_save');
+
     Route::post('register','Api\UserAccountApiController@register');
     
     Route::post('login','Api\UserAccountApiController@login');
@@ -262,6 +264,9 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
     
 
     Route::post('tips_payment_by_stripe','Api\PostsApiController@tips_payment_by_stripe');
-
     Route::post('tips_payment_by_wallet','Api\PostsApiController@tips_payment_by_wallet');
+
+    Route::post('chat_users','Api\FollowersApiController@chat_users');
+
+    Route::post('chat_messages','Api\FollowersApiController@chat_messages');
 });
