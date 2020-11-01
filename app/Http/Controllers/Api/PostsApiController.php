@@ -53,7 +53,9 @@ class PostsApiController extends Controller
 
         try {
 
-            $base_query = $total_query = Post::with('postFiles')->orderBy('created_at', 'asc');
+            $follower_ids = get_follower_ids($request->id);
+
+            $base_query = $total_query = Post::whereIn('posts.user_id', $follower_ids)->with('postFiles')->orderBy('created_at', 'asc');
 
             $posts = $base_query->skip($this->skip)->take($this->take)->get();
 
@@ -90,7 +92,9 @@ class PostsApiController extends Controller
 
         try {
 
-            $base_query = $total_query = Post::with(['postFiles', 'user'])->orderBy('created_at', 'asc');
+            $follower_ids = get_follower_ids($request->id);
+
+            $base_query = $total_query = Post::whereIn('posts.user_id', $follower_ids)->with(['postFiles', 'user'])->orderBy('created_at', 'asc');
 
             if($request->search_key) {
 

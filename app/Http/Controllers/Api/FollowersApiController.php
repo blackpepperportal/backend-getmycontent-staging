@@ -54,9 +54,13 @@ class FollowersApiController extends Controller
 
             $following_user_ids = Follower::where('follower_id', $request->id)->pluck('user_id');
 
-            $users = User::Approved()->whereNotIn('usrs.id', $following_user_ids);
+            $base_query = $total_query = User::Approved()->OtherResponse()->whereNotIn('users.id', $following_user_ids)->orderBy('post_comments.created_at', 'desc');
+
+            $users = $base_query->skip($this->skip)->take($this->take)->get();
 
             $data['users'] = $users;
+
+            $data['total'] = $total_query->count() ?? 0;
 
             return $this->sendResponse($message = "", $code = "", $data);
 
@@ -105,12 +109,13 @@ class FollowersApiController extends Controller
 
             }
 
-            $follow_user = User::Approved()->whereFirst('id', $request->user_id);
+            $follow_user = User::where('id', $request->user_id)->first();
 
             if(!$follow_user) {
 
                 throw new Exception(api_error(135), 135);
             }
+
 
             // Check the user already following the selected users
             $follower = Follower::where('status', YES)->where('follower_id', $request->id)->where('user_id', $request->user_id)->first();
@@ -120,12 +125,6 @@ class FollowersApiController extends Controller
                 throw new Exception(api_error(137), 137);
 
             }
-
-            // Viewer or content creator -> Both can follow only creators.
-            // if($this->loginUser->is_content_creator == NO) {
-
-            //     throw new Exception(api_error(138), 138);
-            // }
 
             $follower = new Follower;
 

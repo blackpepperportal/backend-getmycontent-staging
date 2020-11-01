@@ -139,6 +139,21 @@ class User extends Authenticatable
             'users.unique_id as user_unique_id',
             'users.*'
             );
+    
+    }
+
+    /**
+     * Scope a query to only include active users.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOtherResponse($query) {
+
+        return $query->select(
+            'users.id as user_id',
+            'users.unique_id as user_unique_id',
+            'users.*'
+            );
     }
     
     public static function boot() {

@@ -896,3 +896,11 @@ function user_document_status_formatted($status) {
     return isset($status_list[$status]) ? $status_list[$status] : tr('USER_DOCUMENT_NONE');
 }
 
+function get_follower_ids($user_id) {
+
+    $follower_ids = \App\Follower::where('follower_id', $user_id)->pluck('user_id');
+
+    $follower_ids = $follower_ids ? $follower_ids->toArray() : [];
+
+    return $follower_ids;
+}
