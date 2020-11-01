@@ -1953,6 +1953,7 @@ class UserAccountApiController extends Controller
                 'paid_amount' => $subscription_amount,
                 'payment_type' => WALLET_PAYMENT_TYPE_PAID,
                 'amount_type' => WALLET_AMOUNT_TYPE_MINUS,
+                'to_user_id' => $user_subscription->user_id,
                 'payment_id' => 'WPP-'.rand()
             ]);
 
@@ -1960,7 +1961,7 @@ class UserAccountApiController extends Controller
 
             if($wallet_payment_response->success) {
 
-                $payment_response = PaymentRepo::user_subscriptions_payment_save($request)->getData();
+                $payment_response = PaymentRepo::user_subscription_payments_save($request, $user_subscription)->getData();
 
                 if(!$payment_response->success) {
 
