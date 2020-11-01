@@ -883,3 +883,16 @@ function get_post_file_type($file_url) {
     return 'image';
 
 }
+
+function user_document_status_formatted($status) {
+
+    $status_list = [
+                USER_DOCUMENT_NONE => tr('USER_DOCUMENT_NONE'),
+                USER_DOCUMENT_PENDING => tr('USER_DOCUMENT_PENDING'),
+                USER_DOCUMENT_APPROVED => tr('USER_DOCUMENT_APPROVED'),
+                USER_DOCUMENT_DECLINED => tr('USER_DOCUMENT_DECLINED')
+                ];
+
+    return isset($status_list[$status]) ? $status_list[$status] : tr('USER_DOCUMENT_NONE');
+}
+

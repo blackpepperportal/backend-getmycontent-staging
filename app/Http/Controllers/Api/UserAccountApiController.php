@@ -48,20 +48,19 @@ class UserAccountApiController extends Controller
      * @return Json response with user details
      */
     public function register(Request $request) {
-
         try {
 
             DB::beginTransaction();
 
             $rules = [
                 'device_type' => 'required|in:'.DEVICE_ANDROID.','.DEVICE_IOS.','.DEVICE_WEB,
-                'device_token' => 'required',
+                'device_token' => '',
                 'login_by' => 'required|in:manual,facebook,google,apple,linkedin,instagram',
             ];
 
             Helper::custom_validator($request->all(), $rules);
 
-            $allowed_social_logins = ['facebook','google','apple', 'linkedin', 'instagram'];
+            $allowed_social_logins = ['facebook', 'google', 'apple', 'linkedin', 'instagram'];
 
             if(in_array($request->login_by, $allowed_social_logins)) {
 
@@ -110,8 +109,6 @@ class UserAccountApiController extends Controller
                 register_mobile($request->device_type);
 
                 $send_email = YES;
-
-                $user->picture = asset('placeholder.jpg');
 
                 $user->registration_steps = 1;
 

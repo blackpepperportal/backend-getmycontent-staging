@@ -85,7 +85,7 @@
 
                                         @if($user->documents_count > 0 )
 
-                                            <a class="btn btn-outline-secondary btn-sm" href="#" onclick="return confirm(&quot;{{tr('user_document_verify_confirmation')}}&quot;);">
+                                            <a class="btn btn-success" href="{{route('admin.user_documents.verify', ['user_id' => $user->user_id])}}" onclick="return confirm(&quot;{{tr('user_document_verify_confirmation')}}&quot;);">
                                                 {{tr('verify')}}
                                             </a>
 

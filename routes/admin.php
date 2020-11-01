@@ -324,7 +324,7 @@ Route::group(['middleware' => 'web'], function() {
 
         // settings
 
-        Route::get('admin-control', 'Admin\AdminSettingController@admin_control')->name('control');
+        Route::get('settings-control', 'Admin\AdminSettingController@admin_control')->name('control');
 
         Route::get('settings', 'Admin\AdminSettingController@settings')->name('settings'); 
 

@@ -50,7 +50,8 @@
                                     <th>{{ tr('email') }}</th>
                                     <th>{{ tr('user_wallets') }}</th>
                                     <th>{{ tr('status') }}</th>
-                                    <th>{{ tr('verify') }}</th>
+                                    <th><i class="icon-envelope"></i> {{ tr('verify') }}</th>
+                                    <th>{{tr('documents')}}</th>
                                     <th>{{ tr('action') }}</th>
                                 </tr>
                             </thead>
@@ -63,39 +64,55 @@
                                     <td>{{ $i+$users->firstItem() }}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.users.view' , ['user_id' => $user->id] )  }}">
-                                            {{ $user->name }}
-                                        </a>
+                                        <a href="{{route('admin.users.view' , ['user_id' => $user->id])}}" class="custom-a">
+                                            {{$user->name}}
+                                        </a> 
+                                        @if($user->user_account_type == USER_PREMIUM_ACCOUNT) 
+                                        <b><i class="icon-badge text-green"></i></b>
+                                        @endif
                                     </td>
 
                                     <td>{{ $user->email }}<br>
-                                        <span class="text-success">{{ $user->mobile ?: "-" }}</span>
+                                        <span class="custom-muted">{{ $user->mobile ?: "-" }}</span>
                                     </td>
 
                                     <td>
-                                        <a href="{{  route('admin.user_wallets.view' , ['user_id' => $user->id] )  }}">
-                                             {{ ($user->userWallets) ? formatted_amount($user->userWallets->remaining) : '-' }}
+                                        <a href="{{route('admin.user_wallets.view' , ['user_id' => $user->id])}}">
+                                            {{$user->userWallets->remaining_formatted ?? "0.00"}}
                                         </a>
                                     </td>
 
                                     <td>
                                         @if($user->status == USER_APPROVED)
 
-                                        <span class="btn btn-success btn-sm">{{ tr('approved') }}</span> @else
+                                            <span class="btn btn-success btn-sm">{{ tr('approved') }}</span> 
 
-                                        <span class="btn btn-warning btn-sm">{{ tr('declined') }}</span> @endif
+                                        @else
+
+                                            <span class="btn btn-warning btn-sm">{{ tr('declined') }}</span> 
+
+                                        @endif
                                     </td>
 
                                     <td>
                                         @if($user->is_email_verified == USER_EMAIL_NOT_VERIFIED)
 
-                                        <a class="btn btn-outline-danger btn-sm" href="{{ route('admin.users.verify' , ['user_id' => $user->id]) }}">
-                                            <i class="icon-close"></i> {{ tr('verify') }}
-                                        </a>
+                                            <a class="btn btn-outline-danger btn-sm" href="{{ route('admin.users.verify', ['user_id' => $user->id]) }}">
+                                                <i class="icon-close"></i> {{ tr('verify') }}
+                                            </a>
 
                                         @else
 
-                                        <span class="btn btn-success btn-sm">{{ tr('verified') }}</span> @endif
+                                            <span class="btn btn-success btn-sm">{{ tr('verified') }}</span> 
+
+                                        @endif
+                                    </td>
+
+                                    <td>
+                                        <span class="text-primary">
+                                            <a class="btn btn-outline-blue" href="{{route('admin.user_documents.view', ['user_id' => $user->id])}}">{{$user->is_document_verified_formatted}}</a>
+
+                                        </span>
                                     </td>
 
                                     <td>
@@ -108,9 +125,9 @@
 
                                                 <a class="dropdown-item" href="{{ route('admin.users.view', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('view') }}</a>
                                                 
-                                                 @if($user->user_account_type  == USER_FREE_ACCOUNT)
-                                                 <a class="dropdown-item" href="{{ route('admin.users.view', ['user_id' => $user->id] ) }}" data-toggle="modal" data-target="#{{$user->id}}">&nbsp;{{ tr('upgrade_to_premium') }}</a>
-                                                 @endif
+                                                @if($user->user_account_type  == USER_FREE_ACCOUNT)
+                                                    <a class="dropdown-item" href="{{ route('admin.users.view', ['user_id' => $user->id] ) }}" data-toggle="modal" data-target="#{{$user->id}}">&nbsp;{{ tr('upgrade_to_premium') }}</a>
+                                                @endif
 
                                                 @if(Setting::get('is_demo_control_enabled') == YES)
 
@@ -164,67 +181,9 @@
 
                                 </tr>
                                 <!-- modal start -->
-                                <div id="{{$user->id}}" class="modal fade" role="dialog">
-                                    <div class="modal-dialog">
 
-                                        <form action="{{route('admin.users.upgrade_account')}}">
-
-                                            <!-- Modal content-->
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-
-                                                    <h4 class="modal-title">{{tr('upgrade_to_premium')}}</h4>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="row">
-
-                                                        <input type="hidden" name="user_id" value="{{$user->id}}">
-
-                                                        <div class="col-md-6 premium_account"> <h6 class="modal-title">
-                                                            <label for="user_name">{{ tr('user_name') }}</label>&nbsp;: &nbsp;<a href="{{  route('admin.users.view' , ['user_id' => $user->id] )  }}">
-                                                            {{ ucfirst($user->name) }}
-                                                        </a></h6>
-                                                    </div>
-
-                                                    </div>
-                                                    <br>
-                                                    <div class="row">
-
-                                                        <div class="col-md-6 premium_account">
-                                                            <div class="form-group">
-                                                                <label for="monthly_amount">{{ tr('monthly_amount') }}</label><br>
-                                                                <input type="number" id="monthly_amount" name="monthly_amount" class="form-control" placeholder="{{ tr('monthly_amount') }}" value="">
-
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-6 premium_account">
-                                                            <div class="form-group">
-                                                                <label for="yearly_amount">{{ tr('yearly_amount') }}</label><br>
-                                                                <input type="number" id="yearly_amount" name="yearly_amount" class="form-control" placeholder="{{ tr('yearly_amount') }}" value="">
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                    <br>
-
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <div class="pull-right">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">{{tr('cancel')}}</button>
-                                                        <button type="submit" class="btn btn-primary">{{tr('submit')}}</button>
-                                                    </div>
-                                                    <div class="clearfix"></div>
-                                                </div>
-                                            </div>
-
-                                        </form>
-
-                                    </div>
-
-                                </div>
+                                @include('admin.users._premium_account_form')
+                                
                                 <!-- Modal -->
 
                                 @endforeach

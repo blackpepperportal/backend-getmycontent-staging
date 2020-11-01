@@ -521,14 +521,16 @@ return [
 	"documents_list_note" => "Note: The user has to upload these documents while upgrading the account. Please ",
 	"click_here_documents" => "Click Here to see the user uploaded documents",
 
-	"content_creator_document_approve_success" => "The Content creator document approved successfully..!!",
-	"content_creator_document_decline_success" => "The Content creator document declined successfully..!!",
-	"content_creator_document_decline_confirmation" => "Do you want decline this Content creator document?",
-	"content_creator_document_status_change_failed" => "The Content creator document status updating failed..!!",
-	"content_creator_document_verify_success" => "The Content creator document verification completed!",
-	"content_creator_document_unverify_success" => "The Content creator document verification removed!",
-	"content_creator_document_verify_change_failed" => "Updating Content creator document verification status failed..!!",
-	"content_creator_document_not_found" => "The document not found", 
+	"user_document_approve_success" => "The user document approved successfully..!!",
+	"user_document_decline_success" => "The user document declined successfully..!!",
+	"user_document_verify_confirmation" => "Do you want verify this user?",
+	"user_document_decline_confirmation" => "Do you want decline this user document?",
+	"user_document_status_change_failed" => "The user document status updating failed..!!",
+	"user_document_verify_success" => "The user document verification completed!",
+	"user_document_unverify_success" => "The user document verification removed!",
+	"user_document_verify_change_failed" => "Updating user document verification status failed..!!",
+
+	"user_document_not_found" => "The document not found", 
 
 	// Products management
 
@@ -905,11 +907,12 @@ return [
 	'is_cancelled' => 'Is Cancelled',
 	'cancel_reason' => 'Cancel Reason',
 	'account_holder_name' => 'Account Holder Name',
-	"ifsc_code" => "Ifsc Code",
+	"nickname" => "Nickname",
+	"add_billing_account" => "Add Billing Account",
+	"ifsc_code" => "IFSC Code",
 	"swift_code" => "Swift Code",
 	"account_holder_name" => "Account Holder Name",
 	"account_number" => "Account Number",
-	"ifsc_code" => "Ifsc Code",
 	"swift_code" => "Swift Code",
 	"bank_name" => "Bank Name",
 	"not_available" => "N/A",
@@ -939,13 +942,15 @@ return [
 	"select_publish_date" => "Select Publish Date",
 	"view_all_documents" => "View Documents",
 
-	"USER_KYC_DOCUMENT_NONE" => "Pending",
-	"USER_KYC_DOCUMENT_PENDING" => "Pending",
-	"USER_KYC_DOCUMENT_APPROVED" => "Approved",
-	"USER_KYC_DOCUMENT_DECLINED" => "Declined",
+	"USER_DOCUMENT_NONE" => "Pending",
+	"USER_DOCUMENT_PENDING" => "Pending",
+	"USER_DOCUMENT_APPROVED" => "Approved",
+	"USER_DOCUMENT_DECLINED" => "Declined",
 	"user_documents_waiting_upload" => "Waiting for user upload",
 	"no_of_documents" => "No Of Documents",
 	"user_documents_empty" => "The user haven't uploaded any documents.",
 	"email_verified" => 'Email Verified',
+	"user_documents_verify_notes" => 'Make sure the user has uploaded proper documents. Once all verified, you can verify the user.',
+
 
 ]?>

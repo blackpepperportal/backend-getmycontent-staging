@@ -397,11 +397,30 @@ class AdminUserController extends Controller
 
             $user->is_document_verified = USER_DOCUMENT_APPROVED;
            
-
             if($user->save()) {
 
-                if($request->monthly_amount || $request->yearly_amount) {
+                if($request->is_billing_account) {
 
+                    $user_billing_account = new \App\UserBillingAccount;
+
+                    $user_billing_account->user_id = $request->user_id;
+
+                    $user_billing_account->nickname = $request->nickname;
+
+                    $user_billing_account->account_holder_name = $request->account_holder_name;
+
+                    $user_billing_account->account_number = $request->account_number;
+
+                    $user_billing_account->ifsc_code = $request->ifsc_code;
+
+                    $user_billing_account->swift_code = $request->swift_code;
+
+                    $user_billing_account->bank_name = $request->bank_name;
+
+                    $user_billing_account->save();
+                }
+
+                if($request->monthly_amount || $request->yearly_amount) {
 
                     $user_subscription = new \App\UserSubscription;
 
@@ -617,7 +636,7 @@ class AdminUserController extends Controller
 
             if(!$user_details) {
 
-                throw new Exception(tr('user_details_not_found'), 101);
+                throw new Exception(tr('user_not_found'), 101);
                 
             }
 
@@ -686,7 +705,7 @@ class AdminUserController extends Controller
 
         if(!$user) {
 
-            throw new Exception(tr('user_details_not_found'));
+            throw new Exception(tr('user_not_found'));
 
         }
 
@@ -731,7 +750,7 @@ class AdminUserController extends Controller
             $base_query->where('status', $request->status);
         }
 
-        $users = $base_query->where('is_document_verified', '!=', USER_DOCUMENT_VERIFIED)->paginate($this->take);
+        $users = $base_query->where('is_document_verified', '!=', USER_DOCUMENT_APPROVED)->paginate($this->take);
 
         foreach($users as $user){
 
@@ -763,11 +782,11 @@ class AdminUserController extends Controller
 
         try {
 
-            $user = \App\User::whereHas('userDocuments')->find($request->user_id);
+            $user = \App\User::find($request->user_id);
 
             if(!$user) {
 
-                throw new Exception(tr('user_details_not_found'));
+                throw new Exception(tr('user_not_found'));
 
             }
 
@@ -806,42 +825,42 @@ class AdminUserController extends Controller
 
             DB::beginTransaction();
 
-            $stardom_document_details = \App\UserDocument::find($request->stardom_document_id);   
+            $user = \App\User::find($request->user_id);   
             
-            if(!$stardom_document_details) {
+            if(!$user) {
 
-                throw new Exception(tr('stardom_document_details_not_found'), 101);
+                throw new Exception(tr('user_not_found'), 101);
                 
             }
 
-            $stardom_document_details->is_email_verified = $stardom_document_details->is_email_verified ? STARDOM_DOCUMENT_NOT_VERIFIED : STARDOM_DOCUMENT_VERIFIED;
+            $user->is_document_verified = $user->is_document_verified ? USER_DOCUMENT_APPROVED : USER_DOCUMENT_DECLINED;
 
-            if($stardom_document_details->save()) {
+            if($user->save()) {
 
                 DB::commit();
 
-                $email_data['subject'] = tr('stardom_document_verification' , Setting::get('site_name'));
+                $email_data['subject'] = tr('user_document_verification' , Setting::get('site_name'));
 
-                $email_data['email']  = $stardom_document_details->userDetails->email ?? "-";
+                $email_data['email']  = $user->email ?? "-";
 
-                $email_data['name']  = $stardom_document_details->userDetails->name ?? "-";
+                $email_data['name']  = $user->name ?? "-";
 
                 $email_data['page'] = "emails.users.document-verify";
 
-                $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+                // $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
-                $message = $stardom_document_details->is_email_verified ? tr('stardom_document_verify_success') : tr('stardom_document_unverify_success');
+                $message = $user->is_document_verified ? tr('user_document_verify_success') : tr('user_document_unverify_success');
 
-                return redirect()->route('admin.users.documents.index')->with('flash_success', $message);
+                return redirect()->route('admin.user_documents.index')->with('flash_success', $message);
             }
             
-            throw new Exception(tr('stardom_document_verify_change_failed'));
+            throw new Exception(tr('user_document_verify_change_failed'));
 
         } catch(Exception $e) {
 
             DB::rollback();
 
-            return redirect()->route('admin.users.documents.index')->with('flash_error', $e->getMessage());
+            return redirect()->route('admin.user_documents.index')->with('flash_error', $e->getMessage());
 
         }
     

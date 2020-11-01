@@ -26,7 +26,7 @@
                             <a href="{{route('admin.users.index')}}"><i class="icon-user font-large-2 white"></i></a>
                         </div>
 
-                        <div class="p-1 bg-gradient-striped-pink media-body">
+                        <div class="p-1 media-body">
                             <h5>{{tr('total_users')}}</h5>
                             <h5 class="text-bold-400 mb-2">{{$data->total_users}}</h5>
                         </div>
@@ -51,7 +51,7 @@
                             <a href="{{route('admin.users.index', ['account_type' => USER_PREMIUM_ACCOUNT])}}"><i class="icon-badge font-large-2 white"></i></a>
                         </div>
 
-                        <div class="p-1 bg-gradient-striped-teal media-body">
+                        <div class="p-1 media-body">
                             <h5>{{tr('premium_users')}}</h5>
                             <h5 class="text-bold-400 mb-2">{{$data->total_premium_users}}</h5>
                         </div>
@@ -76,7 +76,7 @@
                             <a href="{{route('admin.posts.index')}}"><i class="icon-basket-loaded font-large-2 white"></i></a>
                         </div>
 
-                        <div class="p-1 bg-gradient-striped-red media-body">
+                        <div class="p-1 media-body">
                             <h5>{{tr('posts')}}</h5>
                             <h5 class="text-bold-400 mb-2">{{$data->total_posts}}</h5>
                         </div>
@@ -101,7 +101,7 @@
                             <a href="{{route('admin.revenues.dashboard')}}"><i class="icon-wallet font-large-2 white"></i></a>
                         </div>
 
-                        <div class="p-1 bg-gradient-striped-warning media-body">
+                        <div class="p-1 media-body">
                             <h5>{{tr('revenue')}}</h5>
                             <h5 class="text-bold-500 mb-2">{{formatted_amount($data->total_revenue)}}</h5>
                         </div>

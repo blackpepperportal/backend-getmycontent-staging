@@ -22,6 +22,8 @@
 
         <div class="col-12">
 
+            <p>{{tr('user_documents_verify_notes')}}</p>
+
             <div class="card">
 
                 <div class="card-header border-bottom border-gray">
@@ -32,9 +34,9 @@
 
                     <div class="heading-elements">
 
-                        @if($user->is_document_approved != USER_DOCUMENT_APPROVED && $user_documents->count() > 0)
+                        @if($user->is_document_verified != USER_DOCUMENT_APPROVED && $user_documents->count() > 0)
 
-                            <a href="{{ route('admin.user_documents.verify',['user_id'=> $user->id]) }}" class="btn btn-success text-uppercase"> <i class="ft-shield"></i> {{tr('verify')}}</a>
+                            <a href="{{ route('admin.user_documents.verify',['user_id'=> $user->id]) }}" class="btn btn-lg btn-success text-uppercase"> <i class="icon-badge"></i> {{tr('verify')}}</a>
 
                         @endif
 
@@ -58,29 +60,24 @@
                                     <th>{{ tr('s_no') }}</th>
                                     <th>{{ tr('documents') }}</th>
                                     <th>{{ tr('updated_on') }}</th>
-                                    <th>{{ tr('uploaded_by') }}</th>
                                     <th>{{ tr('file') }}</th>
                                 </tr>
                             </thead>
 
                             <tbody>
                                         
-                                @foreach($user_documents as $index => $document)
+                                @foreach($user_documents as $i => $document)
 
                                 <tr>
 
-                                    <td>{{ $index+$user_documents->firstItem() }}</td>
+                                    <td>{{ $i+1 }}</td>
 
                                     <td>
-                                        <a href="{{ route('admin.kyc_documents.view',['kyc_document_id' => $document->kyc_document_id ]) }}">{{ $document->documentDetails->name ?? "-"}} </a>
+                                        <a href="{{ route('admin.documents.view',['document_id' => $document->document_id ]) }}">{{$document->document->name ?? "-"}} </a>
                                     </td>
 
                                     <td>
-                                        {{ common_date($document->updated_at, Auth::guard('admin')->user()->timezone) }}
-                                    </td>
-
-                                    <td>
-                                        {{$document->uploaded_by ?: tr('not_available')}}
+                                        {{common_date($document->updated_at, Auth::guard('admin')->user()->timezone)}}
                                     </td>
 
                                     <td>
