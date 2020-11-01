@@ -1,16 +1,12 @@
 @extends('layouts.admin') 
 
-@section('title', tr('user_wallets')) 
+@section('title', tr('revenue_management')) 
 
-@section('content-header', tr('user_wallets')) 
+@section('content-header', tr('revenue_management')) 
 
 @section('breadcrumb')
 
-<li class="breadcrumb-item"><a href="{{route('admin.user_wallets.index')}}">{{ tr('user_wallets') }}</a></a>
-</li>
-
-<li class="breadcrumb-item">{{ tr('view_user_wallets') }}</a>
-</li>
+<li class="breadcrumb-item active">{{tr('wallets')}}</li>
 
 @endsection 
 
@@ -26,7 +22,7 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('view_user_wallets') }}</h4>
+                    <h4 class="card-title">{{tr('wallets')}}</h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                     
                 </div>

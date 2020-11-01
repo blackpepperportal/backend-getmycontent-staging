@@ -6,7 +6,8 @@
 
 @section('breadcrumb')
  
-<li class="breadcrumb-item active"><a href="{{route('admin.users.index')}}">{{ tr('users') }}</a>
+<li class="breadcrumb-item active">
+    <a href="{{route('admin.users.index')}}">{{ tr('users') }}</a>
 </li>
 
 <li class="breadcrumb-item">{{tr('view_users')}}</li>
@@ -16,7 +17,6 @@
 @section('content')
 
 <section id="configuration">
-
     <div class="row">
 
         <div class="col-12">
@@ -25,7 +25,7 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('view_users') }}</h4>
+                    <h4 class="card-title">{{$title ?? tr('view_users')}}</h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
                     <div class="heading-elements">

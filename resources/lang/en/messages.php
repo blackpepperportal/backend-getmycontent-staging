@@ -518,6 +518,8 @@ return [
 	"content_creator_documents" => "Content Creator Documents",
 	"document" => "Document",
 	"uploaded_by" => "Uploaded By",
+	"documents_list_note" => "Note: The user has to upload these documents while upgrading the account. Please ",
+	"click_here_documents" => "Click Here to see the user uploaded documents",
 
 	"content_creator_document_approve_success" => "The Content creator document approved successfully..!!",
 	"content_creator_document_decline_success" => "The Content creator document declined successfully..!!",
@@ -689,19 +691,13 @@ return [
 	"username_password_not_match" => "Email or password did not match,Please try again",
 	"redeems" => "Redeems",	
 	"select_section_type" => "Select Section Type",
-	"content_creator_fcm_server_key" => "Content Creator Fcm Server Key",
-	"content_creator_fcm_sender_id" => "Content Creator Fcm Sender Id",
-	"appstore_content_creator" => "Appstore Content creator",
 	"user_fcm_server_key" => "User Fcm Server Key",
 	"user_fcm_sender_id" => "User Fcm Sender Id",
-	"playstore_content_creator" => "Playstore Content Creator",	
 	"contact_information" => "Contact Information",
 	"copyright_content" => "Copyright Content",
 	"contact_mobile" => "Contact Mobile",
 	"contact_email" => "Contact Email",
 	"contact_address" => "Contact Address",
-	
-	
 
 	"withdrawals" => "Withdrawals",
 	"user_withdrawals" => "Withdrawals",
@@ -949,6 +945,7 @@ return [
 	"USER_KYC_DOCUMENT_DECLINED" => "Declined",
 	"user_documents_waiting_upload" => "Waiting for user upload",
 	"no_of_documents" => "No Of Documents",
-	"user_documents_empty" => "The user haven't uploaded any documents."
+	"user_documents_empty" => "The user haven't uploaded any documents.",
+	"email_verified" => 'Email Verified',
 
 ]?>

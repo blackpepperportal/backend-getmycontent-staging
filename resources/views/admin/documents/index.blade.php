@@ -24,6 +24,8 @@
 
         <div class="col-12">
 
+            <p>{{tr('documents_list_note')}} <a href="{{route('admin.user_documents.index')}}">{{tr('click_here_documents')}}</a></p>
+
             <div class="card">
 
                 <div class="card-header border-bottom border-gray">

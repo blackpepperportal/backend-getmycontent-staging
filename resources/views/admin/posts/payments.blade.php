@@ -1,12 +1,10 @@
 @extends('layouts.admin') 
 
-@section('title', tr('payments')) 
+@section('title', tr('revenue_management')) 
 
-@section('content-header', tr('payments')) 
+@section('content-header', tr('revenue_management')) 
 
 @section('breadcrumb')
-
-
     
 <li class="breadcrumb-item"><a href="">{{ tr('payments') }}</a></li>
 

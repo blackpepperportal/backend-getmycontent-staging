@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
-@section('title', tr('user_withdrawals'))
+@section('title', tr('revenue_management'))
 
-@section('content-header', tr('user_withdrawals'))
+@section('content-header', tr('revenue_management'))
 
 @section('breadcrumb')
 

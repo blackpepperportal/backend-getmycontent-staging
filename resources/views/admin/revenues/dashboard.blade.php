@@ -1,16 +1,12 @@
 @extends('layouts.admin') 
 
-@section('title', tr('revenue_dashboard')) 
+@section('title', tr('revenue_management')) 
 
-@section('content-header', tr('revenue_dashboard'))
-
+@section('content-header', tr('revenue_management'))
 
 @section('breadcrumb')
 
-    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ tr('home') }}</a>
-    </li>
-    <li class="breadcrumb-item active">{{ tr('revenue_dashboard') }}</a>
-    </li>
+<li class="breadcrumb-item active">{{ tr('revenue_dashboard') }}</li>
 
 @endsection 
 
@@ -26,7 +22,7 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('revenue_dashboard') }}</h4>
+                    <h4 class="card-title">{{ tr('dashboard') }}</h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                     
                 </div>

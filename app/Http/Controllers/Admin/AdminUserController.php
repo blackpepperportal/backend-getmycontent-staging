@@ -83,20 +83,24 @@ class AdminUserController extends Controller
 
         $page = 'users'; $sub_page = 'users-view';
 
+        $title = tr('view_users');
+
         if($request->has('account_type')) {
 
             $page = $request->account_type == USER_FREE_ACCOUNT ? 'users-free' : 'users-premium'; $sub_page = '';
+
+            $title = $request->account_type == USER_FREE_ACCOUNT ? tr('free_users') : tr('premium_users');
 
             $base_query = $base_query->where('users.user_account_type', $request->account_type);
 
         } 
 
-        $users = $base_query->paginate(10);
-
+        $users = $base_query->paginate($this->take);
 
         return view('admin.users.index')
                     ->with('page', $page)
                     ->with('sub_page', $sub_page)
+                    ->with('title', $title)
                     ->with('users', $users);
     
     }

@@ -4,13 +4,11 @@
 
 @section('breadcrumb')
 
-  
-
-<li class="breadcrumb-item active"><a href="{{route('admin.faqs.index')}}">{{ tr('faqs') }}</a>
+<li class="breadcrumb-item active">
+    <a href="{{route('admin.faqs.index')}}">{{ tr('faqs') }}</a>
 </li>
 
-<li class="breadcrumb-item active">{{ tr('view_faqs') }}</a>
-</li>
+<li class="breadcrumb-item active">{{ tr('view_faqs') }}</li>
 @endsection 
 
 @section('content')
