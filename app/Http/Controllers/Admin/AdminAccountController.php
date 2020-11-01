@@ -45,11 +45,11 @@ class AdminAccountController extends Controller
 
     public function profile() {
 
-        $admin_details = Auth::guard('admin')->user();
+        $admin = Auth::guard('admin')->user();
 
         return view('admin.account.profile')
                 ->with('page', 'profile')
-                ->with('admin_details',$admin_details);
+                ->with('admin', $admin);
     
     }
 
@@ -83,31 +83,31 @@ class AdminAccountController extends Controller
             
             Helper::custom_validator($request->all(),$rules);
             
-            $admin_details = \App\Admin::find($request->admin_id);
+            $admin = \App\Admin::find($request->admin_id);
 
-            if(!$admin_details) {
+            if(!$admin) {
 
                 Auth::guard('admin')->logout();
 
-                throw new Exception(tr('admin_details_not_found'), 101);
+                throw new Exception(tr('admin_not_found'), 101);
             }
         
-            $admin_details->name = $request->name ?: $admin_details->name;
+            $admin->name = $request->name ?: $admin->name;
 
-            $admin_details->email = $request->email ?: $admin_details->email;
+            $admin->email = $request->email ?: $admin->email;
 
-            $admin_details->about = $request->about ?: $admin_details->about;
+            $admin->about = $request->about ?: $admin->about;
   
             if($request->hasFile('picture') ) {
                 
-                Helper::storage_delete_file($admin_details->picture, PROFILE_PATH_ADMIN); 
+                Helper::storage_delete_file($admin->picture, PROFILE_PATH_ADMIN); 
                 
-                $admin_details->picture = Helper::storage_upload_file($request->file('picture'), PROFILE_PATH_ADMIN);
+                $admin->picture = Helper::storage_upload_file($request->file('picture'), PROFILE_PATH_ADMIN);
             }
             
-            $admin_details->remember_token = Helper::generate_token();
+            $admin->remember_token = Helper::generate_token();
 
-            $admin_details->save();
+            $admin->save();
 
             DB::commit();
 
@@ -152,21 +152,21 @@ class AdminAccountController extends Controller
             
             Helper::custom_validator($request->all(),$rules);
 
-            $admin_details = \App\Admin::find(Auth::guard('admin')->user()->id);
+            $admin = \App\Admin::find(Auth::guard('admin')->user()->id);
 
-            if(!$admin_details) {
+            if(!$admin) {
 
                 Auth::guard('admin')->logout();
                               
-                throw new Exception(tr('admin_details_not_found'), 101);
+                throw new Exception(tr('admin_not_found'), 101);
 
             }
 
-            if(Hash::check($request->old_password,$admin_details->password)) {
+            if(Hash::check($request->old_password,$admin->password)) {
 
-                $admin_details->password = Hash::make($request->password);
+                $admin->password = Hash::make($request->password);
 
-                $admin_details->save();
+                $admin->save();
 
                 DB::commit();
 

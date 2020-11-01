@@ -8,7 +8,7 @@
                 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title" id="basic-layout-form">{{ $faq_details->id ? tr('edit_faq') : tr('add_faq') }}</h4>
+                    <h4 class="card-title" id="basic-layout-form">{{ $faq->id ? tr('edit_faq') : tr('add_faq') }}</h4>
 
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
@@ -32,12 +32,12 @@
 
                             <div class="form-row">
 
-                                <input type="hidden" name="faq_id" id="faq_id" value="{{ $faq_details->id}}">
+                                <input type="hidden" name="faq_id" id="faq_id" value="{{ $faq->id}}">
 
                                 <div class="col-md-12 mb-3">
                                     <div class="form-group">
                                         <label class="form-control-label" for="question">{{tr('question')}}*</label>
-                                        <input type="text" id="question" name="question" class="form-control" placeholder="{{tr('question_placeholder')}}" value="{{ $faq_details->question ?: old('question') }}" required>
+                                        <input type="text" id="question" name="question" class="form-control" placeholder="{{tr('question_placeholder')}}" value="{{ $faq->question ?: old('question') }}" required>
                                     </div>
                                 </div>
 
@@ -45,7 +45,7 @@
                                     <div class="form-group">
                                         <label class="form-control-label" for="answer">{{tr('answer')}}*</label>
                                         
-                                         <textarea id="summernote" rows="5" class="form-control" name="answer" placeholder="{{ tr('answer') }}">{{old('answer') ?: $faq_details->answer}}</textarea>
+                                         <textarea id="summernote" rows="5" class="form-control" name="answer" placeholder="{{ tr('answer') }}">{{old('answer') ?: $faq->answer}}</textarea>
                                        
                                     </div>
                                 </div>

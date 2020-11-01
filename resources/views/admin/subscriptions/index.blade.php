@@ -52,23 +52,23 @@
                             </thead>
 
                             <tbody>
-                                @foreach($subscriptions as $i => $subscription_details)
+                                @foreach($subscriptions as $i => $subscription)
                                       
                                     <tr>
                                         <td>{{$i+$subscriptions->firstItem()}}</td>
 
                                         <td>
-                                            <a href="{{route('admin.subscriptions.view' , ['subscription_id' => $subscription_details->id])}}"> {{ $subscription_details->title }}
+                                            <a href="{{route('admin.subscriptions.view' , ['subscription_id' => $subscription->id])}}"> {{ $subscription->title }}
                                             </a>
                                         </td>
 
-                                        <td>{{$subscription_details->plan_type_formatted}}</td>
+                                        <td>{{$subscription->plan_type_formatted}}</td>
                                       
-                                        <td><a href="{{route('admin.subscription_payments.index' , ['subscription_id' => $subscription_details->id])}}"> {{$subscription_details->subscriptionPayments->count() ?? 0}}</a></td>
+                                        <td><a href="{{route('admin.subscription_payments.index' , ['subscription_id' => $subscription->id])}}"> {{$subscription->subscriptionPayments->count() ?? 0}}</a></td>
 
                                         <td>
 
-                                            @if($subscription_details->status == APPROVED)
+                                            @if($subscription->status == APPROVED)
 
                                                 <span class="badge bg-success">{{ tr('approved') }} </span>
 
@@ -81,7 +81,7 @@
                                         </td>
                                             
                                         <td>  
-                                            {{$subscription_details->amount_formatted}}           
+                                            {{$subscription->amount_formatted}}           
                                         </td>
 
                                         <td>     
@@ -95,38 +95,38 @@
 
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton1">
                                                       
-                                                        <a class="dropdown-item" href="{{ route('admin.subscriptions.view', ['subscription_id' => $subscription_details->id]) }}">
+                                                        <a class="dropdown-item" href="{{ route('admin.subscriptions.view', ['subscription_id' => $subscription->id]) }}">
                                                             {{tr('view')}}
                                                         </a>
                                                         
                                                         @if(Setting::get('is_demo_control_enabled') == NO)
-                                                            <a class="dropdown-item" href="{{ route('admin.subscriptions.edit', ['subscription_id' => $subscription_details->id]) }}">
+                                                            <a class="dropdown-item" href="{{ route('admin.subscriptions.edit', ['subscription_id' => $subscription->id]) }}">
                                                                 {{tr('edit')}}
                                                             </a>
                                                             
-                                                            <a class="dropdown-item" href="{{route('admin.subscriptions.delete', ['subscription_id' => $subscription_details->id])}}" 
-                                                            onclick="return confirm(&quot;{{tr('subscription_delete_confirmation' , $subscription_details->title)}}&quot;);">
+                                                            <a class="dropdown-item" href="{{route('admin.subscriptions.delete', ['subscription_id' => $subscription->id])}}" 
+                                                            onclick="return confirm(&quot;{{tr('subscription_delete_confirmation' , $subscription->title)}}&quot;);">
                                                                 {{tr('delete')}}
                                                             </a>
                                                         @else
 
                                                             <a class="dropdown-item text-muted" href="javascript:;" >{{tr('edit')}}</a>
                                                           
-                                                            <a class="dropdown-item text-muted" href="javascript:;" onclick="return confirm(&quot;{{tr('subscription_delete_confirmation' , $subscription_details->title)}}&quot;);">{{tr('delete')}}</a>                           
+                                                            <a class="dropdown-item text-muted" href="javascript:;" onclick="return confirm(&quot;{{tr('subscription_delete_confirmation' , $subscription->title)}}&quot;);">{{tr('delete')}}</a>                           
                                                         @endif
 
                                                         <div class="dropdown-divider"></div>
 
 
-                                                        @if($subscription_details->status == APPROVED)
+                                                        @if($subscription->status == APPROVED)
 
-                                                            <a class="dropdown-item" href="{{ route('admin.subscriptions.status', ['subscription_id' => $subscription_details->id]) }}" onclick="return confirm(&quot;{{$subscription_details->title}} - {{tr('subscription_decline_confirmation')}}&quot;);" >
+                                                            <a class="dropdown-item" href="{{ route('admin.subscriptions.status', ['subscription_id' => $subscription->id]) }}" onclick="return confirm(&quot;{{$subscription->title}} - {{tr('subscription_decline_confirmation')}}&quot;);" >
                                                                 {{ tr('decline') }} 
                                                             </a>
 
                                                         @else
                                                             
-                                                            <a class="dropdown-item" href="{{ route('admin.subscriptions.status', ['subscription_id' => $subscription_details->id]) }}">
+                                                            <a class="dropdown-item" href="{{ route('admin.subscriptions.status', ['subscription_id' => $subscription->id]) }}">
                                                                 {{ tr('approve') }} 
                                                             </a>
                                                                

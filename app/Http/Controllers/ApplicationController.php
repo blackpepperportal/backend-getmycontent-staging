@@ -118,17 +118,17 @@ public function subscription_payments_autorenewal(Request $request){
 
             }
             DB::beginTransaction();
-            foreach ($subscription_payments as $subscription_payment_detail){
+            foreach ($subscription_payments as $subscription_payment){
 
-                $user_details = User::where('id',  $subscription_payment_detail->user_id)->first();
+                $user = User::where('id',  $subscription_payment->user_id)->first();
 
-                if ($user_details){
+                if ($user){
                     
                     // Check the subscription is available
 
-                    $subscription_details = Subscription::Approved()->firstWhere('id',  $subscription_payment_detail->subscription_id);
+                    $subscription = Subscription::Approved()->firstWhere('id',  $subscription_payment->subscription_id);
 
-                    if(!$subscription_details) {
+                    if(!$subscription) {
 
                         throw new Exception(api_error(129), 129);
 
@@ -137,19 +137,19 @@ public function subscription_payments_autorenewal(Request $request){
                     
                     $is_user_subscribed_free_plan = $this->loginUser->one_time_subscription ?? NO;
 
-                    if($subscription_details->amount <= 0 && $is_user_subscribed_free_plan) {
+                    if($subscription->amount <= 0 && $is_user_subscribed_free_plan) {
 
                         throw new Exception(api_error(130), 130);
 
                     }
 
-                    $payment_details['payment_mode'] = CARD;
+                    $payment['payment_mode'] = CARD;
 
-                    $total = $user_pay_amount = $subscription_details->amount;
+                    $total = $user_pay_amount = $subscription->amount;
 
-                    $card_details = \App\UserCard::where('user_id', $subscription_details->id)->firstWhere('is_default', YES);
+                    $card = \App\UserCard::where('user_id', $subscription->id)->firstWhere('is_default', YES);
 
-                    if(!$card_details) {
+                    if(!$card) {
 
                           throw new Exception(api_error(120), 120);
 
@@ -157,12 +157,12 @@ public function subscription_payments_autorenewal(Request $request){
 
                     $request->request->add([
                     'total' => $total, 
-                    'customer_id' => $card_details->customer_id,
+                    'customer_id' => $card->customer_id,
                     'user_pay_amount' => $user_pay_amount,
                     'paid_amount' => $user_pay_amount,
                 ]);
 
-                     $card_payment_response = PaymentRepo::subscriptions_payment_by_stripe($request, $subscription_details)->getData();
+                     $card_payment_response = PaymentRepo::subscriptions_payment_by_stripe($request, $subscription)->getData();
 
                     if($card_payment_response->success == false) {
 
@@ -172,16 +172,16 @@ public function subscription_payments_autorenewal(Request $request){
 
                      $card_payment_data = $card_payment_response->data;
 
-                     $request->request->add(['paid_amount' => $card_payment_data->paid_amount, 'payment_id' => $card_payment_data->payment_id, 'subscription_id' => $subscription_details->id, 'paid_status' => $card_payment_data->paid_status]);
+                     $request->request->add(['paid_amount' => $card_payment_data->paid_amount, 'payment_id' => $card_payment_data->payment_id, 'subscription_id' => $subscription->id, 'paid_status' => $card_payment_data->paid_status]);
 
 
-                    $payment_response = PaymentRepo::subscriptions_payment_save($request, $subscription_details)->getData();
+                    $payment_response = PaymentRepo::subscriptions_payment_save($request, $subscription)->getData();
 
                     if($payment_response->success) {
 
                         // Change old status to expired
 
-                        SubscriptionPayment::where('id', $subscription_payment_detail->id)->update(['is_current_subscription' => 0]);
+                        SubscriptionPayment::where('id', $subscription_payment->id)->update(['is_current_subscription' => 0]);
 
                         // Change new is_current_subscription to 1 
 

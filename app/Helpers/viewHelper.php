@@ -416,9 +416,9 @@ function selected($array, $id, $check_key_name) {
     
     $is_key_array = is_array($id);
     
-    foreach ($array as $key => $array_details) {
+    foreach ($array as $key => $value) {
 
-        $array_details->is_selected = ($array_details->$check_key_name == $id) ? YES : NO;
+        $value->is_selected = ($value->$check_key_name == $id) ? YES : NO;
     }  
 
     return $array;

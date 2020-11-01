@@ -8,7 +8,7 @@
                 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title" id="basic-layout-form">{{$support_ticket_details->id ? tr('edit_subscription') : tr('add_support_tickets')}}</h4>
+                    <h4 class="card-title" id="basic-layout-form">{{$support_ticket->id ? tr('edit_subscription') : tr('add_support_tickets')}}</h4>
 
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
@@ -29,7 +29,7 @@
 
                             <div class="card-body">
 
-                                <input type="hidden" name="support_ticket_id" id="support_ticket_id" value="{{$support_ticket_details->id}}">
+                                <input type="hidden" name="support_ticket_id" id="support_ticket_id" value="{{$support_ticket->id}}">
 
                                 <div class="row">
 
@@ -57,7 +57,7 @@
 
                                         <select class="form-control select2" name="support_member_id" id="support_member_id">
 
-                                        <option class="select-color" value="{{ $support_ticket_details->support_member_id ?: '' }}">Select Support Member</option>
+                                        <option class="select-color" value="{{ $support_ticket->support_member_id ?: '' }}">Select Support Member</option>
                                        
                                         @foreach($support_members as $support_member)
                                         <option class="select-color" value="{{$support_member->id}}" selected="{{$support_member->is_selected ? true : false}}">{{$support_member->name}}</option>     
@@ -75,7 +75,7 @@
 
                                         <label for="subject" class="">{{ tr('subject') }} <span class="admin-required">*</span></label>
 
-                                        <input type="text" name="subject" class="form-control" id="subject" value="{{ old('subject') ?: $support_ticket_details->subject }}" placeholder="{{ tr('subject') }}" required >
+                                        <input type="text" name="subject" class="form-control" id="subject" value="{{ old('subject') ?: $support_ticket->subject }}" placeholder="{{ tr('subject') }}" required >
                                         
                                     </div>
                                     <div class="form-group col-md-6">
@@ -95,7 +95,7 @@
 
                                         <label for="simpleMde">{{ tr('message') }}</label>
 
-                                        <textarea class="form-control" id="message" name="message">{{ old('message') ?: $support_ticket_details->message}}</textarea>
+                                        <textarea class="form-control" id="message" name="message">{{ old('message') ?: $support_ticket->message}}</textarea>
 
                                     </div>
 

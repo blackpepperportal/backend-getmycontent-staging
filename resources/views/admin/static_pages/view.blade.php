@@ -45,7 +45,7 @@
 
                                     <h4 class="card-title">{{ tr('description') }}</h4>
                             
-                                    <p class="card-text"><?= $static_page_details->description ?></p>
+                                    <p class="card-text"><?= $static_page->description ?></p>
                                     
                                 </div>
 
@@ -59,7 +59,7 @@
                                     
                                         <h5 class="card-title">{{tr('title')}}</h5>
                                         
-                                        <p class="card-text">{{$static_page_details->title}}</p>
+                                        <p class="card-text">{{$static_page->title}}</p>
 
                                     </div> 
                                     <hr>
@@ -68,7 +68,7 @@
                                     
                                         <h5 class="card-title">{{tr('static_page_type')}}</h5>
                                         
-                                        <p class="card-text">{{$static_page_details->type}}</p>
+                                        <p class="card-text">{{$static_page->type}}</p>
 
                                     </div>
                                     <hr>
@@ -79,7 +79,7 @@
                                         
                                         <p class="card-text">
 
-                                            @if($static_page_details->status == APPROVED)
+                                            @if($static_page->status == APPROVED)
 
                                                 <span class="badge badge-success badge-md text-uppercase">{{tr('approved')}}</span>
 
@@ -98,7 +98,7 @@
                                     
                                         <h5 class="card-title">{{tr('updated_at')}}</h5>
                                         
-                                        <p class="card-text">{{ common_date($static_page_details->updated_at,Auth::guard('admin')->user()->timezone) }}</p>
+                                        <p class="card-text">{{ common_date($static_page->updated_at,Auth::guard('admin')->user()->timezone) }}</p>
 
                                     </div>
                                     <hr>
@@ -107,7 +107,7 @@
                                     
                                         <h5 class="card-title">{{tr('created_at')}}</h5>
                                         
-                                        <p class="card-text">{{ common_date($static_page_details->created_at,Auth::guard('admin')->user()->timezone) }}</p>
+                                        <p class="card-text">{{ common_date($static_page->created_at,Auth::guard('admin')->user()->timezone) }}</p>
 
                                     </div>
                                     <hr> 
@@ -119,12 +119,12 @@
                                         @if(Setting::get('is_demo_control_enabled') == NO)
                                             <div class="col-md-4 col-lg-4">
 
-                                                <a href="{{ route('admin.static_pages.edit', ['static_page_id'=> $static_page_details->id] ) }}" class="btn btn-primary btn-block">{{tr('edit')}}</a>
+                                                <a href="{{ route('admin.static_pages.edit', ['static_page_id'=> $static_page->id] ) }}" class="btn btn-primary btn-block">{{tr('edit')}}</a>
                                                 
                                             </div>                              
 
                                             <div class="col-md-4 col-lg-4">
-                                                <a onclick="return confirm(&quot;{{tr('static_page_delete_confirmation' , $static_page_details->title)}}&quot;);" href="{{ route('admin.static_pages.delete', ['static_page_id'=> $static_page_details->id] ) }}" class="btn btn-danger btn-block">
+                                                <a onclick="return confirm(&quot;{{tr('static_page_delete_confirmation' , $static_page->title)}}&quot;);" href="{{ route('admin.static_pages.delete', ['static_page_id'=> $static_page->id] ) }}" class="btn btn-danger btn-block">
                                                     {{ tr('delete') }}
                                                 </a>
 
@@ -146,11 +146,11 @@
 
                                         @endif
 
-                                        @if($static_page_details->status == APPROVED)
+                                        @if($static_page->status == APPROVED)
 
                                             <div class="col-md-4 col-lg-4">
                                                 
-                                                <a class="btn btn-warning btn-block" href="{{ route('admin.static_pages.status', ['static_page_id'=> $static_page_details->id] ) }}" onclick="return confirm(&quot;{{ $static_page_details->title }}-{{tr('static_page_decline_confirmation' , $static_page_details->title)}}&quot;);">
+                                                <a class="btn btn-warning btn-block" href="{{ route('admin.static_pages.status', ['static_page_id'=> $static_page->id] ) }}" onclick="return confirm(&quot;{{ $static_page->title }}-{{tr('static_page_decline_confirmation' , $static_page->title)}}&quot;);">
 
                                                     {{tr('decline')}}
                                                 </a>
@@ -159,7 +159,7 @@
                                         @else
 
                                             <div class="col-md-4 col-lg-4">
-                                                 <a class="btn btn-success btn-block" href="{{ route('admin.static_pages.status', ['static_page_id'=> $static_page_details->id] ) }}">
+                                                 <a class="btn btn-success btn-block" href="{{ route('admin.static_pages.status', ['static_page_id'=> $static_page->id] ) }}">
                                                     {{tr('approve')}}
                                                 </a>
                                             </div>

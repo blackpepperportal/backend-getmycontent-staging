@@ -77,12 +77,12 @@ class Helper {
 
         } else {
 
-            $user_details = User::find($user_id);
+            $user = User::find($user_id);
         }
 
         // Check the data exists
 
-        if($user_details) {
+        if($user) {
 
             // Check whether verification code is empty or not
 
@@ -90,9 +90,9 @@ class Helper {
 
                 // Log::info("Verification Code".$verification_code);
 
-                // Log::info("Verification Code".$user_details->verification_code);
+                // Log::info("Verification Code".$user->verification_code);
 
-                if ($verification_code ===  $user_details->verification_code ) {
+                if ($verification_code ===  $user->verification_code ) {
 
                     // Token is valid
 
@@ -115,7 +115,7 @@ class Helper {
                 
             // Check whether verification code expiry 
 
-            if ($user_details->verification_code_expiry > time()) {
+            if ($user->verification_code_expiry > time()) {
 
                 // Token is valid
 
@@ -125,20 +125,20 @@ class Helper {
 
                 return true;
 
-            } else if($user_details->verification_code_expiry < time() || (!$user_details->verification_code || !$user_details->verification_code_expiry) ) {
+            } else if($user->verification_code_expiry < time() || (!$user->verification_code || !$user->verification_code_expiry) ) {
 
-                $user_details->verification_code = Helper::generate_email_code();
+                $user->verification_code = Helper::generate_email_code();
                 
-                $user_details->verification_code_expiry = Helper::generate_email_expiry();
+                $user->verification_code_expiry = Helper::generate_email_expiry();
                 
-                $user_details->save();
+                $user->save();
 
                 // If code expired means send mail to that user
 
                 $subject = tr('verification_code_title');
-                $email_data = $user_details;
+                $email_data = $user;
                 $page = "emails.welcome";
-                $email = $user_details->email;
+                $email = $user->email;
                 $result = Helper::send_email($page,$subject,$email,$email_data);
 
                 $error = tr('verification_code_expired');
@@ -538,9 +538,9 @@ class Helper {
 
         $sample_data = [];
 
-        foreach ($settings as $key => $setting_details) {
+        foreach ($settings as $key => $setting) {
 
-            $sample_data[$setting_details->key] = $setting_details->value;
+            $sample_data[$setting->key] = $setting->value;
         }
 
         $footer_first_section = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->get();
@@ -567,9 +567,9 @@ class Helper {
 
         $social_login_data = [];
 
-        foreach ($social_logins as $key => $social_login_details) {
+        foreach ($social_logins as $key => $social_login) {
 
-            $social_login_data[$social_login_details->key] = $social_login_details->value;
+            $social_login_data[$social_login->key] = $social_login->value;
         }
 
         $sample_data['social_logins'] = $social_login_data;

@@ -43,7 +43,7 @@
                                     <div class="media-left pl-2 pt-2">
 
                                         <a  class="profile-image">
-                                          <img src="{{ $user_details->picture}}" alt="{{ $user_details->name}}" class="img-thumbnail img-fluid img-border height-100"
+                                          <img src="{{ $user->picture}}" alt="{{ $user->name}}" class="img-thumbnail img-fluid img-border height-100"
                                           alt="Card image">
                                         </a>
                                         
@@ -54,8 +54,8 @@
                                         <div class="row">
 
                                             <div class="col">
-                                                <h3 class="card-title">{{ $user_details->name }}</h3>
-                                                <span class="text-muted">{{ $user_details->email }}</span>
+                                                <h3 class="card-title">{{ $user->name }}</h3>
+                                                <span class="text-muted">{{ $user->email }}</span>
                                             </div>
 
                                         </div>
@@ -75,33 +75,33 @@
                             <table class="table table-xl mb-0">
                                 <tr>
                                     <th>{{tr('username')}}</th>
-                                    <td>{{$user_details->name}}</td>
+                                    <td>{{$user->name}}</td>
                                 </tr>
 
                                 <tr>
                                     <th>{{tr('email')}}</th>
-                                    <td>{{$user_details->email}}</td>
+                                    <td>{{$user->email}}</td>
                                 </tr> 
 
                                 <tr>
                                     <th>{{tr('payment_mode')}}</th>
-                                    <td>{{$user_details->payment_mode}}</td>
+                                    <td>{{$user->payment_mode}}</td>
                                 </tr>
                                 
                                 <tr>
                                     <th>{{tr('login_type')}}</th>
-                                    <td>{{$user_details->login_by}}</td>
+                                    <td>{{$user->login_by}}</td>
                                 </tr>
 
                                 <tr>
                                     <th>{{tr('device_type')}}</th>
-                                    <td>{{$user_details->device_type}}</td>
+                                    <td>{{$user->device_type}}</td>
                                 </tr>
 
                                 <tr>
                                     <th>{{tr('status')}}</th>
                                     <td>
-                                        @if($user_details->status == USER_APPROVED) 
+                                        @if($user->status == USER_APPROVED) 
 
                                             <span class="badge badge-success">{{tr('approved')}}</span>
 
@@ -114,24 +114,24 @@
 
                                  <tr>
                                     <th>{{tr('gender')}}</th>
-                                    <td>{{ucfirst($user_details->gender)}}</td>
+                                    <td>{{ucfirst($user->gender)}}</td>
                                 </tr>
 
                                 <tr>
                                     <th>{{tr('website')}}</th>
-                                    <td><a href="{{$user_details->website}}" target="_blank">{{$user_details->website}}</a></td>
+                                    <td><a href="{{$user->website}}" target="_blank">{{$user->website}}</a></td>
                                 </tr>
 
                                 <tr>
                                     <th>{{tr('amazon_wishlist')}}</th>
-                                    <td><a href="{{$user_details->amazon_wishlist}}" target="_blank"> {{$user_details->amazon_wishlist}}</a></td>
+                                    <td><a href="{{$user->amazon_wishlist}}" target="_blank"> {{$user->amazon_wishlist}}</a></td>
                                 </tr>
 
 
                                 <tr>
                                     <th>{{tr('account_type')}}</th>
                                     <td>
-                                        @if($user_details->user_account_type == USER_PREMIUM_ACCOUNT) 
+                                        @if($user->user_account_type == USER_PREMIUM_ACCOUNT) 
 
                                             <span class="badge badge-success">{{tr('premium_users')}}</span>
 
@@ -142,38 +142,38 @@
                                     </td>
                                 </tr>
 
-                                @if($user_details->user_account_type == USER_PREMIUM_ACCOUNT) 
+                                @if($user->user_account_type == USER_PREMIUM_ACCOUNT) 
                                 <tr>
                                     <th>{{tr('monthly_amount')}}</th>
                                     <td>
-                                        {{($user_details->userSubscription) ? formatted_amount($user_details->userSubscription->monthly_amount) : '-'}}
+                                        {{($user->userSubscription) ? formatted_amount($user->userSubscription->monthly_amount) : '-'}}
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <th>{{tr('yearly_amount')}}</th>
                                     <td>
-                                        {{($user_details->userSubscription) ? formatted_amount($user_details->userSubscription->yearly_amount) : '-'}}
+                                        {{($user->userSubscription) ? formatted_amount($user->userSubscription->yearly_amount) : '-'}}
                                     </td>
                                 </tr>
                                 @endif
 
                                 <tr>
                                     <th>{{tr('mobile')}}</th>
-                                    <td>{{$user_details->mobile}}</td>
+                                    <td>{{$user->mobile}}</td>
                                 </tr>
 
                                  <tr>
                                     <th>{{tr('user_wallet_balance')}}</th>
                                     <td>
-                                       {{ ($user_details->userWallets) ? formatted_amount($user_details->userWallets->remaining) : '-' }}
+                                       {{ ($user->userWallets) ? formatted_amount($user->userWallets->remaining) : '-' }}
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <th>{{tr('email_notification')}}</th>
                                     <td>
-                                        @if($user_details->is_email_notification == YES) 
+                                        @if($user->is_email_notification == YES) 
 
                                             <span class="badge badge-success">{{tr('yes')}}</span>
 
@@ -187,7 +187,7 @@
                                 <tr>
                                     <th>{{tr('push_notification')}}</th>
                                     <td>
-                                        @if($user_details->is_push_notification == YES) 
+                                        @if($user->is_push_notification == YES) 
 
                                             <span class="badge badge-success">{{tr('yes')}}</span>
 
@@ -200,12 +200,12 @@
 
                                 <tr>
                                   <th>{{tr('created_at')}} </th>
-                                  <td>{{common_date($user_details->created_at , Auth::guard('admin')->user()->timezone)}}</td>
+                                  <td>{{common_date($user->created_at , Auth::guard('admin')->user()->timezone)}}</td>
                                 </tr>
 
                                 <tr>
                                   <th>{{tr('updated_at')}} </th>
-                                  <td>{{common_date($user_details->updated_at , Auth::guard('admin')->user()->timezone)}}</td>
+                                  <td>{{common_date($user->updated_at , Auth::guard('admin')->user()->timezone)}}</td>
                                 </tr>
                                 
                             </table>
@@ -241,13 +241,13 @@
 
                             <div class="col-3">
 
-                                <a class="btn btn-outline-secondary btn-block btn-min-width mr-1 mb-1 " href="{{route('admin.users.edit', ['user_id'=>$user_details->id] )}}"> &nbsp;{{tr('edit')}}</a>
+                                <a class="btn btn-outline-secondary btn-block btn-min-width mr-1 mb-1 " href="{{route('admin.users.edit', ['user_id'=>$user->id] )}}"> &nbsp;{{tr('edit')}}</a>
 
                             </div>
 
                             <div class="col-3">
 
-                                <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" onclick="return confirm(&quot;{{tr('user_delete_confirmation' , $user_details->name)}}&quot;);" href="{{route('admin.users.delete', ['user_id'=> $user_details->id] )}}">&nbsp;{{tr('delete')}}</a>
+                                <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" onclick="return confirm(&quot;{{tr('user_delete_confirmation' , $user->name)}}&quot;);" href="{{route('admin.users.delete', ['user_id'=> $user->id] )}}">&nbsp;{{tr('delete')}}</a>
 
                             </div>
 
@@ -255,17 +255,17 @@
 
                             <div class="col-3">
                                 
-                                <a href="{{route('admin.delivery_address.index',['user_id' => $user_details->id])}}" class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1">{{tr('delivery_address')}}</a>
+                                <a href="{{route('admin.delivery_address.index',['user_id' => $user->id])}}" class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1">{{tr('delivery_address')}}</a>
 
                             </div>
 
                             <div class="col-3">
 
-                                @if($user_details->status == APPROVED)
-                                     <a class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1" href="{{route('admin.users.status' ,['user_id'=> $user_details->id] )}}" onclick="return confirm(&quot;{{$user_details->name}} - {{tr('user_decline_confirmation')}}&quot;);">&nbsp;{{tr('decline')}} </a> 
+                                @if($user->status == APPROVED)
+                                     <a class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1" href="{{route('admin.users.status' ,['user_id'=> $user->id] )}}" onclick="return confirm(&quot;{{$user->name}} - {{tr('user_decline_confirmation')}}&quot;);">&nbsp;{{tr('decline')}} </a> 
                                 @else
 
-                                    <a  class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1" href="{{route('admin.users.status' , ['user_id'=> $user_details->id] )}}">&nbsp;{{tr('approve')}}</a> 
+                                    <a  class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1" href="{{route('admin.users.status' , ['user_id'=> $user->id] )}}">&nbsp;{{tr('approve')}}</a> 
                                 @endif
                             </div>
 
@@ -275,32 +275,32 @@
 
                             <div class="col-3">
                                 
-                                <a href="{{route('admin.post.payments',['user_id' => $user_details->id])}}" class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1">{{tr('post_payments')}}</a>
+                                <a href="{{route('admin.post.payments',['user_id' => $user->id])}}" class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1">{{tr('post_payments')}}</a>
 
                             </div>
 
                             <div class="col-3">
                                 
-                                <a href="{{route('admin.orders.index',['user_id' => $user_details->id])}}" class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1">{{tr('orders')}}</a>
+                                <a href="{{route('admin.orders.index',['user_id' => $user->id])}}" class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1">{{tr('orders')}}</a>
 
                             </div>
 
 
                               <div class="col-3">
                                 
-                                <a href="{{ route('admin.bookmarks.index', ['user_id' => $user_details->id] ) }}" class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1">{{tr('bookmarks')}}</a>
+                                <a href="{{ route('admin.bookmarks.index', ['user_id' => $user->id] ) }}" class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1">{{tr('bookmarks')}}</a>
 
                             </div>
 
                             <div class="col-3">
                                 
-                                <a href="{{ route('admin.fav_users.index', ['user_id' => $user_details->id] ) }}" class="btn btn-outline-info btn-block btn-min-width mr-1 mb-1">{{tr('favorite_users')}}</a>
+                                <a href="{{ route('admin.fav_users.index', ['user_id' => $user->id] ) }}" class="btn btn-outline-info btn-block btn-min-width mr-1 mb-1">{{tr('favorite_users')}}</a>
 
                             </div>
 
                               <div class="col-3">
                                 
-                                <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" href="{{ route('admin.post_likes.index', ['user_id' => $user_details->id] ) }}">&nbsp;{{ tr('liked_posts') }}</a>
+                                <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" href="{{ route('admin.post_likes.index', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('liked_posts') }}</a>
 
                             </div>
 

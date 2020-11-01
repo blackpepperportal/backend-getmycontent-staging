@@ -121,13 +121,13 @@ class AdminUserController extends Controller
      */
     public function users_create() {
 
-        $user_details = new \App\User;
+        $user = new \App\User;
 
 
         return view('admin.users.create')
                     ->with('page', 'users')
                     ->with('sub_page','users-create')
-                    ->with('user_details', $user_details);           
+                    ->with('user', $user);           
    
     }
 
@@ -167,9 +167,9 @@ class AdminUserController extends Controller
 
         try {
 
-            $user_details = \App\User::find($request->user_id);
+            $user = \App\User::find($request->user_id);
 
-            if(!$user_details) { 
+            if(!$user) { 
 
                 throw new Exception(tr('user_not_found'), 101);
             }
@@ -177,7 +177,7 @@ class AdminUserController extends Controller
             return view('admin.users.edit')
                     ->with('page', 'users')
                     ->with('sub_page', 'users-view')
-                    ->with('user_details', $user_details); 
+                    ->with('user', $user); 
             
         } catch(Exception $e) {
 
@@ -473,10 +473,10 @@ class AdminUserController extends Controller
        
         try {
       
-            $user_details = \App\User::find($request->user_id);
+            $user = \App\User::find($request->user_id);
             
 
-            if(!$user_details) { 
+            if(!$user) { 
 
                 throw new Exception(tr('user_not_found'), 101);                
             }
@@ -484,7 +484,7 @@ class AdminUserController extends Controller
             return view('admin.users.view')
                         ->with('page', 'users') 
                         ->with('sub_page','users-view') 
-                        ->with('user_details' , $user_details);
+                        ->with('user' , $user);
             
         } catch (Exception $e) {
 
@@ -513,14 +513,14 @@ class AdminUserController extends Controller
 
             DB::begintransaction();
 
-            $user_details = \App\User::find($request->user_id);
+            $user = \App\User::find($request->user_id);
             
-            if(!$user_details) {
+            if(!$user) {
 
                 throw new Exception(tr('user_not_found'), 101);                
             }
 
-            if($user_details->delete()) {
+            if($user->delete()) {
 
                 DB::commit();
 
@@ -560,19 +560,19 @@ class AdminUserController extends Controller
 
             DB::beginTransaction();
 
-            $user_details = \App\User::find($request->user_id);
+            $user = \App\User::find($request->user_id);
 
-            if(!$user_details) {
+            if(!$user) {
 
                 throw new Exception(tr('user_not_found'), 101);
                 
             }
 
-            $user_details->status = $user_details->status ? DECLINED : APPROVED ;
+            $user->status = $user->status ? DECLINED : APPROVED ;
 
-            if($user_details->save()) {
+            if($user->save()) {
 
-                if($user_details->status == DECLINED) {
+                if($user->status == DECLINED) {
 
                     $email_data['subject'] = tr('user_decline_email' , Setting::get('site_name'));
 
@@ -586,9 +586,9 @@ class AdminUserController extends Controller
 
                 }
 
-                $email_data['email']  = $user_details->email;
+                $email_data['email']  = $user->email;
 
-                $email_data['name']  = $user_details->name;
+                $email_data['name']  = $user->name;
 
                 $email_data['page'] = "emails.users.status";
 
@@ -596,7 +596,7 @@ class AdminUserController extends Controller
 
                 DB::commit();
 
-                $message = $user_details->status ? tr('user_approve_success') : tr('user_decline_success');
+                $message = $user->status ? tr('user_approve_success') : tr('user_decline_success');
 
                 return redirect()->back()->with('flash_success', $message);
             }
@@ -632,21 +632,21 @@ class AdminUserController extends Controller
 
             DB::beginTransaction();
 
-            $user_details = \App\User::find($request->user_id);
+            $user = \App\User::find($request->user_id);
 
-            if(!$user_details) {
+            if(!$user) {
 
                 throw new Exception(tr('user_not_found'), 101);
                 
             }
 
-            $user_details->is_email_verified = $user_details->is_email_verified ? USER_EMAIL_NOT_VERIFIED : USER_EMAIL_VERIFIED;
+            $user->is_email_verified = $user->is_email_verified ? USER_EMAIL_NOT_VERIFIED : USER_EMAIL_VERIFIED;
 
-            if($user_details->save()) {
+            if($user->save()) {
 
                 DB::commit();
 
-                $message = $user_details->is_email_verified ? tr('user_verify_success') : tr('user_unverify_success');
+                $message = $user->is_email_verified ? tr('user_verify_success') : tr('user_unverify_success');
 
                 return redirect()->route('admin.users.index')->with('flash_success', $message);
             }

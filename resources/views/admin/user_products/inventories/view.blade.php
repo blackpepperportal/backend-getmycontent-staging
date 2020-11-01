@@ -44,28 +44,28 @@
                                    
                                     <tr>
                                         <td>{{ tr('user_product')}} </td>
-                                        <td><a href="{{  route('admin.product_inventories.view' , ['user_product_id' => $product_inventory_details->id] )  }}">{{ $product_inventory_details->userProductDetails->name ?? "-"}}</a></td>
+                                        <td><a href="{{  route('admin.product_inventories.view' , ['user_product_id' => $product_inventory->id] )  }}">{{ $product_inventory->userProductDetails->name ?? "-"}}</a></td>
                                     </tr>
 
                                     <tr>
                                         <td>{{tr('total_quantity')}}</td>
-                                        <td>{{$product_inventory_details->total_quantity}}</td>
+                                        <td>{{$product_inventory->total_quantity}}</td>
                                     </tr>
                                     
                                     <tr>
                                         <td>{{tr('used_quantity')}}</td>
-                                        <td>{{$product_inventory_details->used_quantity}}</td>
+                                        <td>{{$product_inventory->used_quantity}}</td>
                                     </tr>
 
                                     <tr>
                                         <td>{{tr('remaining_quatity')}}</td>
-                                        <td>{{$product_inventory_details->remaining_quantity}}</td>
+                                        <td>{{$product_inventory->remaining_quantity}}</td>
                                     </tr>
 
                                     <tr>
                                         <td>{{tr('status')}}</td> 
 
-                                        @if($product_inventory_details->status == APPROVED)
+                                        @if($product_inventory->status == APPROVED)
 
                                             <td class="text-success">{{ tr('approved') }}</td> 
                                         @else
@@ -78,7 +78,7 @@
                                     <tr>
                                         <td> {{tr('created_at')}}</td>
                                         <td>
-                                            {{common_date($product_inventory_details->created_at , Auth::guard('admin')->user()->timezone)}}
+                                            {{common_date($product_inventory->created_at , Auth::guard('admin')->user()->timezone)}}
                                         </td>
                                     </tr>
                                     
@@ -86,7 +86,7 @@
                                     <tr>
                                         <td>{{tr('updated_at')}}</td> 
                                         <td>
-                                            {{common_date($product_inventory_details->updated_at , Auth::guard('admin')->user()->timezone)}}
+                                            {{common_date($product_inventory->updated_at , Auth::guard('admin')->user()->timezone)}}
                                         </td>
                                     </tr>
                                     

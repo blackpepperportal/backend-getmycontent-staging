@@ -58,27 +58,27 @@
                            
                             <tbody>
 
-                                @foreach($user_products as $i => $user_product_details)
+                                @foreach($user_products as $i => $user_product)
                                 <tr>
                                     <td>{{ $i+1 }}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.user_products.view' , ['user_product_id' => $user_product_details->id] )  }}">
-                                        {{ $user_product_details->name }}
+                                        <a href="{{  route('admin.user_products.view' , ['user_product_id' => $user_product->id] )  }}">
+                                        {{ $user_product->name }}
                                         </a>
                                     </td>
 
                                     <td> 
-                                        <a href="{{  route('admin.users.view' , ['user_id' => $user_product_details->user_id] )  }}">{{ $user_product_details->userDetails->name ?? "-"}}
+                                        <a href="{{  route('admin.users.view' , ['user_id' => $user_product->user_id] )  }}">{{ $user_product->userDetails->name ?? "-"}}
                                         </a>
                                     </td>
 
-                                    <td>{{ $user_product_details->quantity }}</td>
+                                    <td>{{ $user_product->quantity }}</td>
 
-                                    <td>{{ $user_product_details->user_product_price_formatted}}</td>
+                                    <td>{{ $user_product->user_product_price_formatted}}</td>
 
                                     <td>
-                                        @if($user_product_details->status == APPROVED)
+                                        @if($user_product->status == APPROVED)
 
                                             <span class="btn btn-success btn-sm">{{ tr('approved') }}</span> 
                                         @else
@@ -95,7 +95,7 @@
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                <a class="dropdown-item" href="{{ route('admin.user_products.view', ['user_product_id' => $user_product_details->id] ) }}">&nbsp;{{ tr('view') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.user_products.view', ['user_product_id' => $user_product->id] ) }}">&nbsp;{{ tr('view') }}</a> 
 
                                                 @if(Setting::get('is_demo_control_enabled') == YES)
 
@@ -105,30 +105,30 @@
 
                                                 @else
 
-                                                    <a class="dropdown-item" href="{{ route('admin.user_products.edit', ['user_product_id' => $user_product_details->id] ) }}">&nbsp;{{ tr('edit') }}</a>
+                                                    <a class="dropdown-item" href="{{ route('admin.user_products.edit', ['user_product_id' => $user_product->id] ) }}">&nbsp;{{ tr('edit') }}</a>
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('user_product_delete_confirmation' , $user_product_details->name) }}&quot;);" href="{{ route('admin.user_products.delete', ['user_product_id' => $user_product_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('user_product_delete_confirmation' , $user_product->name) }}&quot;);" href="{{ route('admin.user_products.delete', ['user_product_id' => $user_product->id] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 
-                                                @if($user_product_details->status == APPROVED)
+                                                @if($user_product->status == APPROVED)
 
-                                                    <a class="dropdown-item" href="{{  route('admin.user_products.status' , ['user_product_id' => $user_product_details->id] )  }}" onclick="return confirm(&quot;{{ $user_product_details->name }} - {{ tr('user_product_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
+                                                    <a class="dropdown-item" href="{{  route('admin.user_products.status' , ['user_product_id' => $user_product->id] )  }}" onclick="return confirm(&quot;{{ $user_product->name }} - {{ tr('user_product_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
                                                 </a> 
 
                                                 @else
 
-                                                    <a class="dropdown-item" href="{{ route('admin.user_products.status' , ['user_product_id' => $user_product_details->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
+                                                    <a class="dropdown-item" href="{{ route('admin.user_products.status' , ['user_product_id' => $user_product->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
 
                                                 @endif
 
                                                 <div class="dropdown-divider"></div>
 
-                                                <a  class="dropdown-item" href="{{route('admin.product_inventories.index',['user_product_id' => $user_product_details->id])}}">{{tr('inventory')}}</a>
+                                                <a  class="dropdown-item" href="{{route('admin.product_inventories.index',['user_product_id' => $user_product->id])}}">{{tr('inventory')}}</a>
 
-                                                <a  class="dropdown-item" href="{{route('admin.order_products',['user_product_id' => $user_product_details->id])}}">{{tr('orders')}}</a>
+                                                <a  class="dropdown-item" href="{{route('admin.order_products',['user_product_id' => $user_product->id])}}">{{tr('orders')}}</a>
 
-                                                <a href="{{route('admin.user_products.dashboard',['user_product_id' => $user_product_details->id])}}" class="dropdown-item">{{tr('dashboard')}}</a>
+                                                <a href="{{route('admin.user_products.dashboard',['user_product_id' => $user_product->id])}}" class="dropdown-item">{{tr('dashboard')}}</a>
 
                                             </div>
 

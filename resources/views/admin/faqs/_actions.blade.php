@@ -26,12 +26,12 @@
 
 	        @else
 	        
-	            <a class="col-4 shortcut-item" href="{{ route('admin.faqs.edit', ['faq_id' => $faq_details->id] ) }}"> 
+	            <a class="col-4 shortcut-item" href="{{ route('admin.faqs.edit', ['faq_id' => $faq->id] ) }}"> 
 	            	<span class="shortcut-media avatar rounded-circle bg-gradient-green"><i class="fa fa-edit" aria-hidden="true"></i></span>
 	            	<small>{{tr('edit')}}</small>
 	            </a>
 
-	            <a class="col-4 shortcut-item" onclick="return confirm(&quot;{{ tr('faq_delete_confirmation', $faq_details->question ) }}&quot;);" href="{{ route('admin.faqs.delete', ['faq_id' => $faq_details->id] ) }}"><span class="shortcut-media avatar rounded-circle bg-gradient-red"><i class="fa fa-trash"></i>
+	            <a class="col-4 shortcut-item" onclick="return confirm(&quot;{{ tr('faq_delete_confirmation', $faq->question ) }}&quot;);" href="{{ route('admin.faqs.delete', ['faq_id' => $faq->id] ) }}"><span class="shortcut-media avatar rounded-circle bg-gradient-red"><i class="fa fa-trash"></i>
 	            	</span>
 	            	<small>{{tr('delete')}}</small>
 	            </a>

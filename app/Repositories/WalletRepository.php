@@ -66,7 +66,7 @@ class WalletRepository {
      *
      * @param object $request
      *
-     * @return object $payment_details
+     * @return object $list
      */
 
     public static function disputes_list_response($user_disputes, $request) {
@@ -77,7 +77,7 @@ class WalletRepository {
 
             if($request->id == $value->user_id) { // Who raised the dispute
 
-                $user_details = $value->DisputeReceiver;
+                $user = $value->DisputeReceiver;
 
                 // cancel button status
 
@@ -87,15 +87,15 @@ class WalletRepository {
 
             } else {
 
-                $user_details = $value->DisputeSender;
+                $user = $value->DisputeSender;
                 
                 unset($value->DisputeSender);
 
             }
 
-            $value->username = $user_details->name ?? "-";
+            $value->username = $user->name ?? "-";
 
-            $value->user_picture = $user_details->picture ?? asset('placeholder.jpg');
+            $value->user_picture = $user->picture ?? asset('placeholder.jpg');
 
             $value->cancel_btn_status = $cancel_btn_status; 
 

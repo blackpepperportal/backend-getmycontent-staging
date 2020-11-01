@@ -21,7 +21,7 @@ class PaymentRepository {
      *
      * @param object $request
      *
-     * @return object $user_wallet_payment_details
+     * @return object $user_wallet_payment
      */
 
     public static function user_wallets_payment_save($request) {
@@ -580,12 +580,12 @@ class PaymentRepository {
      * 
      * @updated Bhawya
      *
-     * @param object $subscription_details, object $request
+     * @param object $subscription, object $request
      *
-     * @return object $subscription_details
+     * @return object $subscription
      */
 
-    public static function subscriptions_payment_by_stripe($request, $subscription_details) {
+    public static function subscriptions_payment_by_stripe($request, $subscription) {
 
         try {
 
@@ -620,15 +620,15 @@ class PaymentRepository {
                 'paid_status' => $stripe_payment_response->paid ?? true
             ];
 
-            $response_array = ['success' => true, 'message' => 'done', 'data' => $payment_data];
+            $response = ['success' => true, 'message' => 'done', 'data' => $payment_data];
 
-            return response()->json($response_array, 200);
+            return response()->json($response, 200);
 
         } catch(Exception $e) {
 
-            $response_array = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
+            $response = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
 
-            return response()->json($response_array, 200);
+            return response()->json($response, 200);
 
         }
 
@@ -643,12 +643,12 @@ class PaymentRepository {
      * 
      * @updated Bhawya
      *
-     * @param object $subscription_details, object $request
+     * @param object $subscription, object $request
      *
-     * @return object $subscription_details
+     * @return object $subscription
      */
 
-    public static function subscriptions_payment_save($request, $subscription_details) {
+    public static function subscriptions_payment_save($request, $subscription) {
 
         try {
 
@@ -657,45 +657,45 @@ class PaymentRepository {
                 ->orderBy('created_at', 'desc')
                 ->first();
 
-            $user_subscription_details = new SubscriptionPayment;
+            $user_subscription = new SubscriptionPayment;
 
-            $user_subscription_details->expiry_date = date('Y-m-d H:i:s',strtotime("+{$subscription_details->plan} months"));
+            $user_subscription->expiry_date = date('Y-m-d H:i:s',strtotime("+{$subscription->plan} months"));
 
             if($previous_payment) {
 
                 if (strtotime($previous_payment->expiry_date) >= strtotime(date('Y-m-d H:i:s'))) {
-                    $user_subscription_details->expiry_date = date('Y-m-d H:i:s', strtotime("+{$subscription_details->plan} months", strtotime($previous_payment->expiry_date)));
+                    $user_subscription->expiry_date = date('Y-m-d H:i:s', strtotime("+{$subscription->plan} months", strtotime($previous_payment->expiry_date)));
                 }
             }
 
-            $user_subscription_details->subscription_id = $request->subscription_id;
+            $user_subscription->subscription_id = $request->subscription_id;
 
-            $user_subscription_details->user_id = $request->id;
+            $user_subscription->user_id = $request->id;
 
-            $user_subscription_details->payment_id = $request->payment_id ?? "NO-".rand();
+            $user_subscription->payment_id = $request->payment_id ?? "NO-".rand();
 
-            $user_subscription_details->status = PAID_STATUS;
+            $user_subscription->status = PAID_STATUS;
 
-            $user_subscription_details->amount = $request->paid_amount ?? 0.00;
+            $user_subscription->amount = $request->paid_amount ?? 0.00;
 
-            $user_subscription_details->payment_mode = $request->payment_mode ?? CARD;
+            $user_subscription->payment_mode = $request->payment_mode ?? CARD;
 
-            $user_subscription_details->cancel_reason = $request->cancel_reason ?? '';
+            $user_subscription->cancel_reason = $request->cancel_reason ?? '';
 
-            $user_subscription_details->save();
+            $user_subscription->save();
 
             // update the earnings
-            self::users_account_upgrade($request->id, $request->paid_amount, $subscription_details->amount, $user_subscription_details->expiry_date);
+            self::users_account_upgrade($request->id, $request->paid_amount, $subscription->amount, $user_subscription->expiry_date);
 
-            $response_array = ['success' => true, 'message' => 'paid', 'data' => ['user_type' => SUBSCRIBED_USER, 'payment_id' => $request->payment_id]];
+            $response = ['success' => true, 'message' => 'paid', 'data' => ['user_type' => SUBSCRIBED_USER, 'payment_id' => $request->payment_id]];
 
-            return response()->json($response_array, 200);
+            return response()->json($response, 200);
 
         } catch(Exception $e) {
 
-            $response_array = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
+            $response = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
 
-            return response()->json($response_array, 200);
+            return response()->json($response, 200);
 
         }
     
@@ -717,19 +717,19 @@ class PaymentRepository {
     
     public static function users_account_upgrade($user_id, $paid_amount = 0.00, $subscription_amount, $expiry_date) {
 
-        if($user_details = User::find($user_id)) {
+        if($user = User::find($user_id)) {
 
-            $user_details->user_type = SUBSCRIBED_USER;
+            $user->user_type = SUBSCRIBED_USER;
 
-            $user_details->one_time_subscription = $subscription_amount <= 0 ? YES : NO;
+            $user->one_time_subscription = $subscription_amount <= 0 ? YES : NO;
 
-            $user_details->amount_paid += $paid_amount ?? 0.00;
+            $user->amount_paid += $paid_amount ?? 0.00;
 
-            $user_details->expiry_date = $expiry_date;
+            $user->expiry_date = $expiry_date;
 
-            $user_details->no_of_days = total_days($expiry_date);
+            $user->no_of_days = total_days($expiry_date);
 
-            $user_details->save();
+            $user->save();
         
         }
     
@@ -784,22 +784,22 @@ class PaymentRepository {
                 'paid_status' => $stripe_payment_response->paid ?? true
             ];
 
-            $response_array = ['success' => true, 'message' => 'done', 'data' => $payment_data];
+            $response = ['success' => true, 'message' => 'done', 'data' => $payment_data];
 
-            return response()->json($response_array, 200);
+            return response()->json($response, 200);
 
         } catch(Exception $e) {
 
-            $response_array = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
+            $response = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
 
-            return response()->json($response_array, 200);
+            return response()->json($response, 200);
 
         }
 
     }
 
     /**
-     * @method posts_payment_save()
+     * @method post_payments_save()
      *
      * @uses used to save post payment details
      *
@@ -812,7 +812,7 @@ class PaymentRepository {
      * @return object $post_payment
      */
 
-    public static function posts_payment_save($request, $post) {
+    public static function post_payments_save($request, $post) {
 
         try {
 
@@ -826,11 +826,27 @@ class PaymentRepository {
 
             $post_payment->payment_mode = $request->payment_mode ?? CARD;
 
-            $post_payment->paid_amount = $request->paid_amount ?? 0.00;
+            $post_payment->paid_amount = $total = $request->paid_amount ?? 0.00;
+
+            // Commission calculation
+
+            $admin_commission_in_per = Setting::get('admin_commission', 1)/100;
+
+            $admin_amount = $total * $admin_commission_in_per;
+
+            $user_amount = $total - $admin_amount;
+
+            $post_payment->admin_amount = $admin_amount ?? 0.00;
+
+            $post_payment->user_amount = $user_amount ?? 0.00;
 
             $post_payment->status = PAID;
 
             $post_payment->save();
+
+            // Add to post user wallet
+
+            self::post_payment_wallet_update($request, $post, $post_payment);
 
             $response = ['success' => true, 'message' => 'paid', 'data' => [ 'payment_id' => $request->payment_id]];
 
@@ -895,15 +911,15 @@ class PaymentRepository {
                 'paid_status' => $stripe_payment_response->paid ?? true
             ];
 
-            $response_array = ['success' => true, 'message' => 'done', 'data' => $payment_data];
+            $response = ['success' => true, 'message' => 'done', 'data' => $payment_data];
 
-            return response()->json($response_array, 200);
+            return response()->json($response, 200);
 
         } catch(Exception $e) {
 
-            $response_array = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
+            $response = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
 
-            return response()->json($response_array, 200);
+            return response()->json($response, 200);
 
         }
 
@@ -963,5 +979,273 @@ class PaymentRepository {
     
     }
 
+    /**
+     * @method post_payment_wallet_update
+     *
+     * @uses post payment amount will update to the post owner wallet
+     *
+     * @created vithya R
+     *
+     * @updated vithya R
+     *
+     * @param
+     *
+     * @return
+     */
 
+    public static function post_payment_wallet_update($request, $post, $post_payment) {
+
+        try {
+
+            $to_user_inputs = [
+                'id' => $post->user_id,
+                'received_from_user_id' => $request->id,
+                'total' => $post_payment->user_amount, 
+                'user_pay_amount' => $post_payment->user_amount,
+                'paid_amount' => $post_payment->user_amount,
+                'payment_type' => WALLET_PAYMENT_TYPE_CREDIT,
+                'amount_type' => WALLET_AMOUNT_TYPE_ADD,
+                'payment_id' => $post_payment->payment_id
+            ];
+
+            $to_user_request = new \Illuminate\Http\Request();
+
+            $to_user_request->replace($to_user_inputs);
+
+            $to_user_payment_response = self::user_wallets_payment_save($to_user_request)->getData();
+
+            if($to_user_payment_response->success) {
+
+                DB::commit();
+
+                return $to_user_payment_response;
+
+            } else {
+
+                throw new Exception($to_user_payment_response->error, $to_user_payment_response->error_code);
+            }
+        
+        } catch(Exception $e) {
+
+            $response = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
+
+            return response()->json($response, 200);
+
+        }
+
+    }
+
+    /** | | | DONT GET CONFUSE WITH ADMIN SUBSCRIPTION. THIS FUNCTIONS ARE USED FOR OTHER USER SUBSCRIPTION PAYMENTs */
+
+    /**
+     * @method user_subscription_payments_save()
+     *
+     * @uses save the payment details when logged in user subscribe the other user plans
+     *
+     * @created Vithya
+     * 
+     * @updated Vithya
+     *
+     * @param object $user_subscription, object $request
+     *
+     * @return object $user_subscription
+     */
+
+    public static function user_subscription_payments_save($request, $user_subscription) {
+
+        try {
+
+            $previous_payment = \App\UserSubscriptionPayment::where('from_user_id', $request->id)->where('to_user_id', $user_subscription->user_id)->where('is_current_subscription', YES)->first();
+
+            $user_subscription_payment = new \App\UserSubscriptionPayment;
+
+            $plan = 1;
+
+            $plan_type = $request->plan_type == PLAN_TYPE_YEAR ? 'years' : 'months';
+
+            $plan_formatted = $plan." ".$plan_type;
+
+            $user_subscription_payment->expiry_date = date('Y-m-d H:i:s', strtotime("+{$plan_formatted}"));
+
+            if($previous_payment) {
+
+                if (strtotime($previous_payment->expiry_date) >= strtotime(date('Y-m-d H:i:s'))) {
+                    $user_subscription_payment->expiry_date = date('Y-m-d H:i:s', strtotime("+{$plan_formatted}", strtotime($previous_payment->expiry_date)));
+                }
+            }
+
+            $user_subscription_payment->user_subscription_id = $user_subscription->id;
+
+            $user_subscription_payment->from_user_id = $request->id;
+
+            $user_subscription_payment->to_user_id = $user_subscription->user_id;
+
+            $user_subscription_payment->payment_id = $request->payment_id ?? "NO-".rand();
+
+            $user_subscription_payment->status = PAID_STATUS;
+
+            $user_subscription_payment->amount = $total = $request->paid_amount ?? 0.00;
+
+            $user_subscription_payment->payment_mode = $request->payment_mode ?? CARD;
+
+            $user_subscription_payment->paid_date = now();
+
+            $user_subscription_payment->plan = 1;
+
+            $user_subscription_payment->plan_type = $request->plan_type ?: PLAN_TYPE_MONTH;
+
+            $user_subscription_payment->cancel_reason = $request->cancel_reason ?? '';
+
+            // Commission calculation & update the earnings to other user wallet
+
+            $admin_commission_in_per = Setting::get('admin_commission', 1)/100;
+
+            $admin_amount = $total * $admin_commission_in_per;
+
+            $user_amount = $total - $admin_amount;
+
+            $user_subscription_payment->admin_amount = $admin_amount ?? 0.00;
+
+            $user_subscription_payment->user_amount = $user_amount ?? 0.00;
+
+            $user_subscription_payment->status = PAID;
+
+            $user_subscription_payment->save();
+
+            // Add to post user wallet
+
+            self::user_subscription_payments_wallet_update($request, $user_subscription, $user_subscription_payment);
+
+            $response = ['success' => true, 'message' => 'paid', 'data' => ['user_type' => SUBSCRIBED_USER, 'payment_id' => $request->payment_id]];
+
+            return response()->json($response, 200);
+
+        } catch(Exception $e) {
+
+            $response = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
+
+            return response()->json($response, 200);
+
+        }
+    
+    }
+
+    /**
+     * @method user_subscriptions_payment_by_stripe()
+     *
+     * @uses deduct the subscription amount when logged in user subscribe the other user plans
+     *
+     * @created vithya
+     * 
+     * @updated vithya
+     *
+     * @param object $user_subscription, object $request
+     *
+     * @return object $user_subscription
+     */
+
+    public static function user_subscriptions_payment_by_stripe($request, $user_subscription) {
+
+        try {
+
+            // Check stripe configuration
+        
+            $stripe_secret_key = Setting::get('stripe_secret_key');
+
+            if(!$stripe_secret_key) {
+
+                throw new Exception(api_error(107), 107);
+
+            } 
+
+            \Stripe\Stripe::setApiKey($stripe_secret_key);
+           
+            $currency_code = Setting::get('currency_code', 'USD') ?: "USD";
+
+            $total = intval(round($request->user_pay_amount * 100));
+
+            $charge_array = [
+                'amount' => $total,
+                'currency' => $currency_code,
+                'customer' => $request->customer_id,
+            ];
+
+
+            $stripe_payment_response =  \Stripe\Charge::create($charge_array);
+
+            $payment_data = [
+                'payment_id' => $stripe_payment_response->id ?? 'CARD-'.rand(),
+                'paid_amount' => $stripe_payment_response->amount/100 ?? $total,
+                'paid_status' => $stripe_payment_response->paid ?? true
+            ];
+
+            $response = ['success' => true, 'message' => 'done', 'data' => $payment_data];
+
+            return response()->json($response, 200);
+
+        } catch(Exception $e) {
+
+            $response = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
+
+            return response()->json($response, 200);
+
+        }
+
+    }
+
+    /**
+     * @method user_subscription_payment_wallet_update
+     *
+     * @uses post payment amount will update to the post owner wallet
+     *
+     * @created vithya R
+     *
+     * @updated vithya R
+     *
+     * @param
+     *
+     * @return
+     */
+
+    public static function user_subscription_payments_wallet_update($request, $user_subscription, $user_subscription_payment) {
+
+        try {
+
+            $to_user_inputs = [
+                'id' => $user_subscription_payment->to_user_id,
+                'received_from_user_id' => $user_subscription_payment->from_user_id,
+                'total' => $user_subscription_payment->user_amount, 
+                'user_pay_amount' => $user_subscription_payment->user_amount,
+                'paid_amount' => $user_subscription_payment->user_amount,
+                'payment_type' => WALLET_PAYMENT_TYPE_CREDIT,
+                'amount_type' => WALLET_AMOUNT_TYPE_ADD,
+                'payment_id' => $user_subscription_payment->payment_id
+            ];
+
+            $to_user_request = new \Illuminate\Http\Request();
+
+            $to_user_request->replace($to_user_inputs);
+
+            $to_user_payment_response = self::user_wallets_payment_save($to_user_request)->getData();
+
+            if($to_user_payment_response->success) {
+
+                DB::commit();
+
+                return $to_user_payment_response;
+
+            } else {
+
+                throw new Exception($to_user_payment_response->error, $to_user_payment_response->error_code);
+            }
+        
+        } catch(Exception $e) {
+
+            $response = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
+
+            return response()->json($response, 200);
+
+        }
+
+    }
 }

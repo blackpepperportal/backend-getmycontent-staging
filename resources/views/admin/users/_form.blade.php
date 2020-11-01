@@ -8,7 +8,7 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title" id="basic-layout-form">{{ $user_details->id ? tr('edit_user') : tr('add_user') }}</h4>
+                    <h4 class="card-title" id="basic-layout-form">{{ $user->id ? tr('edit_user') : tr('add_user') }}</h4>
 
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
@@ -34,19 +34,19 @@
 
                                 <div class="row">
 
-                                    <input type="hidden" name="user_id" id="user_id" value="{{ $user_details->id}}">
+                                    <input type="hidden" name="user_id" id="user_id" value="{{ $user->id}}">
 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="user_name">{{ tr('first_name') }}*</label>
-                                            <input type="text" id="first_name" name="first_name" class="form-control" placeholder="{{ tr('first_name') }}" value="{{ $user_details->first_name ?: old('first_name') }}" required onkeydown="return alphaOnly(event);">
+                                            <input type="text" id="first_name" name="first_name" class="form-control" placeholder="{{ tr('first_name') }}" value="{{ $user->first_name ?: old('first_name') }}" required onkeydown="return alphaOnly(event);">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="user_name">{{ tr('last_name') }}*</label>
-                                            <input type="text" id="last_name" name="last_name" class="form-control" placeholder="{{ tr('last_name') }}" value="{{ $user_details->last_name ?: old('last_name') }}" required onkeydown="return alphaOnly(event);">
+                                            <input type="text" id="last_name" name="last_name" class="form-control" placeholder="{{ tr('last_name') }}" value="{{ $user->last_name ?: old('last_name') }}" required onkeydown="return alphaOnly(event);">
                                         </div>
                                     </div>
 
@@ -59,21 +59,21 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="email">{{tr('email')}}*</label>
-                                            <input type="email" id="email" name="email" class="form-control" placeholder="E-mail" value="{{ $user_details->email ?: old('email') }}" required>
+                                            <input type="email" id="email" name="email" class="form-control" placeholder="E-mail" value="{{ $user->email ?: old('email') }}" required>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="mobile">{{ tr('mobile') }}</label>
-                                            <input type="number" minlength="10" maxlength="12" class="form-control" pattern="[0-9]{6,13}" id="mobile" name="mobile" placeholder="{{ tr('mobile') }}" value="{{ old('mobile') ?: $user_details->mobile}}"/>
+                                            <input type="number" minlength="10" maxlength="12" class="form-control" pattern="[0-9]{6,13}" id="mobile" name="mobile" placeholder="{{ tr('mobile') }}" value="{{ old('mobile') ?: $user->mobile}}"/>
                                         </div>
                                     </div>
 
                                 </div>
 
 
-                                @if(!$user_details->id)
+                                @if(!$user->id)
 
                                 <div class="row">
 
@@ -131,14 +131,14 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="website">{{ tr('website') }}</label>
-                                            <input type="url" id="website" name="website" class="form-control" placeholder="{{ tr('website') }}" value="{{ $user_details->website ?: old('website') }}">
+                                            <input type="url" id="website" name="website" class="form-control" placeholder="{{ tr('website') }}" value="{{ $user->website ?: old('website') }}">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="amazon_wishlist">{{ tr('amazon_wishlist') }}</label>
-                                            <input type="url" id="amazon_wishlist" name="amazon_wishlist" class="form-control" placeholder="{{ tr('amazon_wishlist') }}" value="{{ $user_details->amazon_wishlist ?: old('amazon_wishlist') }}" required>
+                                            <input type="url" id="amazon_wishlist" name="amazon_wishlist" class="form-control" placeholder="{{ tr('amazon_wishlist') }}" value="{{ $user->amazon_wishlist ?: old('amazon_wishlist') }}" required>
                                         </div>
                                     </div>
 
@@ -150,9 +150,9 @@
                                         <div class="form-group">
                                             <label for="choose_account_type">{{ tr('choose_account_type') }}</label><br>
                                             
-                                            <input type="radio" id="premium" onclick="premium_check();" name="user_account_type" value="{{USER_PREMIUM_ACCOUNT}}" {{ ($user_details->user_account_type  == USER_PREMIUM_ACCOUNT)? "checked" : "" }}   ><label for="{{USER_PREMIUM_ACCOUNT}}"> {{tr('premium_users')}} </label>
+                                            <input type="radio" id="premium" onclick="premium_check();" name="user_account_type" value="{{USER_PREMIUM_ACCOUNT}}" {{ ($user->user_account_type  == USER_PREMIUM_ACCOUNT)? "checked" : "" }}   ><label for="{{USER_PREMIUM_ACCOUNT}}"> {{tr('premium_users')}} </label>
 
-                                            <input type="radio"  id="free" onclick="premium_check();" name="user_account_type" value="{{USER_FREE_ACCOUNT}}"  {{ ($user_details->user_account_type  == USER_FREE_ACCOUNT)? "checked" : "" }} ><label for="{{USER_FREE_ACCOUNT}}"> {{tr('free_users')}} </label>&nbsp;
+                                            <input type="radio"  id="free" onclick="premium_check();" name="user_account_type" value="{{USER_FREE_ACCOUNT}}"  {{ ($user->user_account_type  == USER_FREE_ACCOUNT)? "checked" : "" }} ><label for="{{USER_FREE_ACCOUNT}}"> {{tr('free_users')}} </label>&nbsp;
 
                                         </div>
                                     </div>
@@ -166,11 +166,11 @@
                                             <select class="form-control select2" name="gender" required>
                                                 <option>{{tr('select_gender')}}</option>
 
-                                                <option value="{{MALE}}" @if($user_details->gender == MALE) selected="true" @endif>{{ tr('male') }}</option>
+                                                <option value="{{MALE}}" @if($user->gender == MALE) selected="true" @endif>{{ tr('male') }}</option>
 
-                                                <option value="{{FEMALE}}" @if($user_details->gender == FEMALE) selected="true" @endif>{{ tr('female') }}</option>
+                                                <option value="{{FEMALE}}" @if($user->gender == FEMALE) selected="true" @endif>{{ tr('female') }}</option>
 
-                                                <option value="{{OTHERS}}" @if($user_details->gender == OTHERS) selected="true" @endif>{{ tr('others') }}</option>
+                                                <option value="{{OTHERS}}" @if($user->gender == OTHERS) selected="true" @endif>{{ tr('others') }}</option>
 
                                             </select>
                                         </div>
@@ -183,18 +183,18 @@
 
                                 <div class="row">
 
-                                    <div class="col-md-6 premium_account" {{ ($user_details->user_account_type  == USER_FREE_ACCOUNT)? "style=display:none;": "" }}>
+                                    <div class="col-md-6 premium_account" {{ ($user->user_account_type  == USER_FREE_ACCOUNT)? "style=display:none;": "" }}>
                                         <div class="form-group">
                                             <label for="monthly_amount">{{ tr('monthly_amount') }}</label><br>
-                                            <input type="number" id="monthly_amount" name="monthly_amount" class="form-control" placeholder="{{ tr('monthly_amount') }}" value="{{ ($user_details->userSubscription) ? $user_details->userSubscription->monthly_amount: old('monthly_amount') }}">
+                                            <input type="number" id="monthly_amount" name="monthly_amount" class="form-control" placeholder="{{ tr('monthly_amount') }}" value="{{ ($user->userSubscription) ? $user->userSubscription->monthly_amount: old('monthly_amount') }}">
 
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6 premium_account" {{ ($user_details->user_account_type  == USER_FREE_ACCOUNT)? "style=display:none;": "" }}>
+                                    <div class="col-md-6 premium_account" {{ ($user->user_account_type  == USER_FREE_ACCOUNT)? "style=display:none;": "" }}>
                                         <div class="form-group">
                                             <label for="yearly_amount">{{ tr('yearly_amount') }}</label><br>
-                                            <input type="number" id="yearly_amount" name="yearly_amount" class="form-control" placeholder="{{ tr('yearly_amount') }}" value="{{ ($user_details->userSubscription)? $user_details->userSubscription->yearly_amount : old('yearly_amount') }}">
+                                            <input type="number" id="yearly_amount" name="yearly_amount" class="form-control" placeholder="{{ tr('yearly_amount') }}" value="{{ ($user->userSubscription)? $user->userSubscription->yearly_amount : old('yearly_amount') }}">
 
                                         </div>
                                     </div>

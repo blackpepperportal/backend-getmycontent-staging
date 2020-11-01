@@ -111,12 +111,12 @@ class AdminContentCreatorController extends Controller
      */
     public function content_creators_create() {
 
-        $content_creator_details = new \App\User;
+        $content_creator = new \App\User;
 
         return view('admin.content_creators.create')
                     ->with('page' , 'content_creators')
                     ->with('sub_page','content_creators-create')
-                    ->with('content_creator_details', $content_creator_details);           
+                    ->with('content_creator', $content_creator);           
     }
 
     /**
@@ -137,9 +137,9 @@ class AdminContentCreatorController extends Controller
 
         try {
 
-            $content_creator_details = \App\User::find($request->user_id);
+            $content_creator = \App\User::find($request->user_id);
 
-            if(!$content_creator_details) { 
+            if(!$content_creator) { 
 
                 throw new Exception(tr('content_creator_not_found'), 101);
             }
@@ -147,7 +147,7 @@ class AdminContentCreatorController extends Controller
             return view('admin.content_creators.edit')                    
                     ->with('page' , 'content_creators')
                     ->with('sub_page','content_creators-view')
-                    ->with('content_creator_details' , $content_creator_details); 
+                    ->with('content_creator' , $content_creator); 
             
         } catch(Exception $e) {
 
@@ -187,39 +187,39 @@ class AdminContentCreatorController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $content_creator_details = $request->user_id ? \App\User::find($request->user_id) : new \App\User;
+            $content_creator = $request->user_id ? \App\User::find($request->user_id) : new \App\User;
 
-            if($content_creator_details->id) {
+            if($content_creator->id) {
 
                 $message = tr('content_creator_updated_success'); 
 
             } else {
 
-                $content_creator_details->password = ($request->password) ? \Hash::make($request->password) : null;
+                $content_creator->password = ($request->password) ? \Hash::make($request->password) : null;
 
                 $message = tr('content_creator_created_success');
 
-                $content_creator_details->email_verified_at = date('Y-m-d H:i:s');
+                $content_creator->email_verified_at = date('Y-m-d H:i:s');
 
-                $content_creator_details->picture = asset('placeholder.jpeg');
+                $content_creator->picture = asset('placeholder.jpeg');
 
-                $content_creator_details->is_email_verified = CONTENT_CREATOR_EMAIL_VERIFIED;
+                $content_creator->is_email_verified = CONTENT_CREATOR_EMAIL_VERIFIED;
 
-                $content_creator_details->token = Helper::generate_token();
+                $content_creator->token = Helper::generate_token();
 
-                $content_creator_details->token_expiry = Helper::generate_token_expiry();
+                $content_creator->token_expiry = Helper::generate_token_expiry();
 
-                $content_creator_details->login_by = $request->login_by ?: 'manual';
+                $content_creator->login_by = $request->login_by ?: 'manual';
 
-                $content_creator_details->is_content_creator = YES;
+                $content_creator->is_content_creator = YES;
 
             }
 
-            $content_creator_details->name = $request->name ?: $content_creator_details->name;
+            $content_creator->name = $request->name ?: $content_creator->name;
 
-            $content_creator_details->email = $request->email ?: $content_creator_details->email;
+            $content_creator->email = $request->email ?: $content_creator->email;
 
-            $content_creator_details->mobile = $request->mobile ?: '';
+            $content_creator->mobile = $request->mobile ?: '';
 
             // Upload picture
             
@@ -227,18 +227,18 @@ class AdminContentCreatorController extends Controller
 
                 if($request->user_id) {
 
-                    Helper::storage_delete_file($content_creator_details->picture, PROFILE_PATH_USER); 
+                    Helper::storage_delete_file($content_creator->picture, PROFILE_PATH_USER); 
                     // Delete the old pic
                 }
 
-                $content_creator_details->picture = Helper::storage_upload_file($request->file('picture'), PROFILE_PATH_USER);
+                $content_creator->picture = Helper::storage_upload_file($request->file('picture'), PROFILE_PATH_USER);
             }
 
-            if($content_creator_details->save()) {
+            if($content_creator->save()) {
 
                 DB::commit(); 
 
-                return redirect(route('admin.content_creators.view', ['user_id' => $content_creator_details->id]))->with('flash_success', $message);
+                return redirect(route('admin.content_creators.view', ['user_id' => $content_creator->id]))->with('flash_success', $message);
 
             } 
 
@@ -272,9 +272,9 @@ class AdminContentCreatorController extends Controller
        
         try {
       
-            $content_creator_details = \App\User::find($request->user_id);
+            $content_creator = \App\User::find($request->user_id);
 
-            if(!$content_creator_details) { 
+            if(!$content_creator) { 
 
                 throw new Exception(tr('content_creator_not_found'), 101);                
             }
@@ -282,7 +282,7 @@ class AdminContentCreatorController extends Controller
             return view('admin.content_creators.view')
                         ->with('page', 'content_creators') 
                         ->with('sub_page','content_creators-view') 
-                        ->with('content_creator_details' , $content_creator_details);
+                        ->with('content_creator' , $content_creator);
             
         } catch (Exception $e) {
 
@@ -311,14 +311,14 @@ class AdminContentCreatorController extends Controller
 
             DB::begintransaction();
 
-            $user_details = \App\User::find($request->user_id);
+            $user = \App\User::find($request->user_id);
             
-            if(!$user_details) {
+            if(!$user) {
 
                 throw new Exception(tr('content_creator_not_found'), 101);                
             }
 
-            if($user_details->delete()) {
+            if($user->delete()) {
 
                 DB::commit();
 
@@ -358,21 +358,21 @@ class AdminContentCreatorController extends Controller
             
             DB::beginTransaction();
 
-            $content_creator_details = \App\User::find($request->user_id);
+            $content_creator = \App\User::find($request->user_id);
 
-            if(!$content_creator_details) {
+            if(!$content_creator) {
 
-                throw new Exception(tr('content_creator_details_not_found'), 101);
+                throw new Exception(tr('content_creator_not_found'), 101);
                 
             }
 
-            $content_creator_details->status = $content_creator_details->status ? DECLINED : APPROVED ;
+            $content_creator->status = $content_creator->status ? DECLINED : APPROVED ;
 
-            if($content_creator_details->save()) {
+            if($content_creator->save()) {
 
                 DB::commit();
 
-                $message = $content_creator_details->status ? tr('content_creator_approve_success') : tr('content_creator_decline_success');
+                $message = $content_creator->status ? tr('content_creator_approve_success') : tr('content_creator_decline_success');
                 return redirect()->back()->with('flash_success', $message);
             }
             
@@ -407,21 +407,21 @@ class AdminContentCreatorController extends Controller
 
             DB::beginTransaction();
 
-            $content_creator_details = \App\User::find($request->user_id);
+            $content_creator = \App\User::find($request->user_id);
 
-            if(!$content_creator_details) {
+            if(!$content_creator) {
 
-                throw new Exception(tr('content_creator_details_not_found'), 101);
+                throw new Exception(tr('content_creator_not_found'), 101);
                 
             }
 
-            $content_creator_details->is_email_verified = $content_creator_details->is_email_verified ? CONTENT_CREATOR_EMAIL_NOT_VERIFIED : CONTENT_CREATOR_EMAIL_VERIFIED;
+            $content_creator->is_email_verified = $content_creator->is_email_verified ? CONTENT_CREATOR_EMAIL_NOT_VERIFIED : CONTENT_CREATOR_EMAIL_VERIFIED;
 
-            if($content_creator_details->save()) {
+            if($content_creator->save()) {
 
                 DB::commit();
 
-                $message = $content_creator_details->is_email_verified ? tr('content_creator_verify_success') : tr('content_creator_unverify_success');
+                $message = $content_creator->is_email_verified ? tr('content_creator_verify_success') : tr('content_creator_unverify_success');
 
                 return redirect()->back()->with('flash_success', $message);
             }
@@ -483,9 +483,9 @@ class AdminContentCreatorController extends Controller
 
         try {
       
-            $stardom_document_details = \App\UserDocument::find($request->stardom_document_id);
+            $stardom_document = \App\UserDocument::find($request->stardom_document_id);
 
-            if(!$stardom_document_details) { 
+            if(!$stardom_document) { 
 
                 throw new Exception(tr('stardom_document_not_found'), 101);                
             }
@@ -494,7 +494,7 @@ class AdminContentCreatorController extends Controller
                         
                         ->with('page', 'content_creators') 
                         ->with('sub_page','content_creators-documents') 
-                        ->with('stardom_document_details' , $stardom_document_details);
+                        ->with('stardom_document' , $stardom_document);
             
         } catch (Exception $e) {
 
@@ -522,31 +522,31 @@ class AdminContentCreatorController extends Controller
 
             DB::beginTransaction();
 
-            $stardom_document_details = \App\UserDocument::find($request->stardom_document_id);   
+            $stardom_document = \App\UserDocument::find($request->stardom_document_id);   
             
-            if(!$stardom_document_details) {
+            if(!$stardom_document) {
 
-                throw new Exception(tr('stardom_document_details_not_found'), 101);
+                throw new Exception(tr('stardom_document_not_found'), 101);
                 
             }
 
-            $stardom_document_details->is_email_verified = $stardom_document_details->is_email_verified ? STARDOM_DOCUMENT_NOT_VERIFIED : STARDOM_DOCUMENT_VERIFIED;
+            $stardom_document->is_email_verified = $stardom_document->is_email_verified ? STARDOM_DOCUMENT_NOT_VERIFIED : STARDOM_DOCUMENT_VERIFIED;
 
-            if($stardom_document_details->save()) {
+            if($stardom_document->save()) {
 
                 DB::commit();
 
                 $email_data['subject'] = tr('stardom_document_verification' , Setting::get('site_name'));
 
-                $email_data['email']  = $stardom_document_details->userDetails->email ?? "-";
+                $email_data['email']  = $stardom_document->userDetails->email ?? "-";
 
-                $email_data['name']  = $stardom_document_details->userDetails->name ?? "-";
+                $email_data['name']  = $stardom_document->userDetails->name ?? "-";
 
                 $email_data['page'] = "emails.users.document-verify";
 
                 $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
-                $message = $stardom_document_details->is_email_verified ? tr('stardom_document_verify_success') : tr('stardom_document_unverify_success');
+                $message = $stardom_document->is_email_verified ? tr('stardom_document_verify_success') : tr('stardom_document_unverify_success');
 
                 return redirect()->route('admin.users.documents.index')->with('flash_success', $message);
             }
@@ -624,23 +624,23 @@ class AdminContentCreatorController extends Controller
        
         try {
             
-            $user_wallet_details = \App\UserWallet::where('user_id',$request->user_id)->first();
+            $user_wallet = \App\UserWallet::where('user_id',$request->user_id)->first();
            
-            if(!$user_wallet_details) { 
+            if(!$user_wallet) { 
 
-                $user_wallet_details = new \App\UserWallet;
+                $user_wallet = new \App\UserWallet;
 
-                $user_wallet_details->user_id = $request->user_id;
+                $user_wallet->user_id = $request->user_id;
 
-                $user_wallet_details->save();
+                $user_wallet->save();
 
             }
 
-            $user_wallet_payments = \App\UserWalletPayment::where('user_id',$user_wallet_details->user_id)->paginate(10);
+            $user_wallet_payments = \App\UserWalletPayment::where('user_id',$user_wallet->user_id)->paginate(10);
                    
             return view('admin.user_wallets.view')
                         ->with('page', 'user_wallets') 
-                        ->with('user_wallet_details', $user_wallet_details)
+                        ->with('user_wallet', $user_wallet)
                         ->with('user_wallet_payments', $user_wallet_payments);
             
         } catch (Exception $e) {

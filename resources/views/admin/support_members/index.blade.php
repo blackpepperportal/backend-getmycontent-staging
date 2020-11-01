@@ -109,23 +109,23 @@
 
                             <tbody>
 
-                                @foreach($support_members as $i => $support_member_details) 
+                                @foreach($support_members as $i => $support_member) 
 
                                 <tr>
                                     <td>{{ $i+$support_members->firstItem() }}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.support_members.view' , ['support_member_id' => $support_member_details->id] )  }}">
-                                            {{ $support_member_details->name }}
+                                        <a href="{{  route('admin.support_members.view' , ['support_member_id' => $support_member->id] )  }}">
+                                            {{ $support_member->name }}
                                         </a>
                                     </td>
 
-                                    <td>{{ $support_member_details->email }}<br>
-                                        <span class="text-success">{{ $support_member_details->mobile ?: "-" }}</span>
+                                    <td>{{ $support_member->email }}<br>
+                                        <span class="text-success">{{ $support_member->mobile ?: "-" }}</span>
                                     </td>
 
                                     <td>
-                                        @if($support_member_details->status == APPROVED)
+                                        @if($support_member->status == APPROVED)
                                         <span class="btn btn-success btn-sm">{{ tr('approved') }}</span> 
                                         @else
                                         <span class="btn btn-warning btn-sm">{{ tr('declined') }}</span> 
@@ -134,8 +134,8 @@
 
                                     <td>
                                         
-                                        @if($support_member_details->is_email_verified)
-                                        <a class="btn btn-outline-danger btn-sm" href="{{ route('admin.support_members.verify' , ['support_member_id' => $support_member_details->id]) }}">
+                                        @if($support_member->is_email_verified)
+                                        <a class="btn btn-outline-danger btn-sm" href="{{ route('admin.support_members.verify' , ['support_member_id' => $support_member->id]) }}">
                                             <i class="icon-close"></i> {{ tr('verify') }}
                                         </a>
 
@@ -153,7 +153,7 @@
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                <a class="dropdown-item" href="{{ route('admin.support_members.view', ['support_member_id' => $support_member_details->id] ) }}">&nbsp;{{ tr('view') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.support_members.view', ['support_member_id' => $support_member->id] ) }}">&nbsp;{{ tr('view') }}</a>
 
                                                 @if(Setting::get('is_demo_control_enabled') == YES)
 
@@ -163,39 +163,39 @@
 
                                                 @else
 
-                                                <a class="dropdown-item" href="{{ route('admin.support_members.edit', ['support_member_id' => $support_member_details->id] ) }}">&nbsp;{{ tr('edit') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.support_members.edit', ['support_member_id' => $support_member->id] ) }}">&nbsp;{{ tr('edit') }}</a>
 
-                                                <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('support_member_delete_confirmation' , $support_member_details->name) }}&quot;);" href="{{ route('admin.support_members.delete', ['support_member_id' => $support_member_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('support_member_delete_confirmation' , $support_member->name) }}&quot;);" href="{{ route('admin.support_members.delete', ['support_member_id' => $support_member->id] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 
-                                                @if($support_member_details->status == APPROVED)
+                                                @if($support_member->status == APPROVED)
 
-                                                <a class="dropdown-item" href="{{  route('admin.support_members.status' , ['support_member_id' => $support_member_details->id] )  }}" onclick="return confirm(&quot;{{ $support_member_details->name }} - {{ tr('support_member_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
+                                                <a class="dropdown-item" href="{{  route('admin.support_members.status' , ['support_member_id' => $support_member->id] )  }}" onclick="return confirm(&quot;{{ $support_member->name }} - {{ tr('support_member_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
                                                 </a>
 
                                                 @else
 
-                                                <a class="dropdown-item" href="{{ route('admin.support_members.status' , ['support_member_id' => $support_member_details->id] ) }}">&nbsp;{{ tr('approve') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.support_members.status' , ['support_member_id' => $support_member->id] ) }}">&nbsp;{{ tr('approve') }}</a>
 
                                                 @endif
 
                                                 <div class="dropdown-divider"></div>
 
-                                                @if($support_member_details->is_content_creator)
+                                                @if($support_member->is_content_creator)
 
-                                                <a class="dropdown-item" href="{{ route('admin.users.followers',['follower_id' => $support_member_details->id]) }}">&nbsp;{{ tr('followers') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.users.followers',['follower_id' => $support_member->id]) }}">&nbsp;{{ tr('followers') }}</a>
 
                                                 @else
 
-                                                <a class="dropdown-item" href="{{ route('admin.users.followings',['support_member_id' => $support_member_details->id]) }}">&nbsp;{{ tr('followings') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.users.followings',['support_member_id' => $support_member->id]) }}">&nbsp;{{ tr('followings') }}</a>
                                                 @endif
 
-                                                <a class="dropdown-item" href="{{ route('admin.orders.index', ['support_member_id' => $support_member_details->id] ) }}">&nbsp;{{ tr('orders') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.orders.index', ['support_member_id' => $support_member->id] ) }}">&nbsp;{{ tr('orders') }}</a>
 
-                                                <a class="dropdown-item" href="{{ route('admin.post.payments', ['support_member_id' => $support_member_details->id] ) }}">&nbsp;{{ tr('post_payments') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.post.payments', ['support_member_id' => $support_member->id] ) }}">&nbsp;{{ tr('post_payments') }}</a>
 
-                                                <a class="dropdown-item" href="{{ route('admin.delivery_address.index', ['support_member_id' => $support_member_details->id] ) }}">&nbsp;{{ tr('delivery_address') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.delivery_address.index', ['support_member_id' => $support_member->id] ) }}">&nbsp;{{ tr('delivery_address') }}</a>
 
                                             </div>
 

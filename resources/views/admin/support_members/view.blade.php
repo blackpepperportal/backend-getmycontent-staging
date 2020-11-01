@@ -43,7 +43,7 @@
                                     <div class="media-left pl-2 pt-2">
 
                                         <a  class="profile-image">
-                                          <img src="{{ $support_member_details->picture}}" alt="{{ $support_member_details->name}}" class="img-thumbnail img-fluid img-border height-100"
+                                          <img src="{{ $support_member->picture}}" alt="{{ $support_member->name}}" class="img-thumbnail img-fluid img-border height-100"
                                           alt="Card image">
                                         </a>
                                         
@@ -54,8 +54,8 @@
                                         <div class="row">
 
                                             <div class="col">
-                                                <h3 class="card-title">{{ $support_member_details->name }}</h3>
-                                                <span class="text-muted">{{ $support_member_details->email }}</span>
+                                                <h3 class="card-title">{{ $support_member->name }}</h3>
+                                                <span class="text-muted">{{ $support_member->email }}</span>
                                             </div>
 
                                         </div>
@@ -75,33 +75,33 @@
                             <table class="table table-xl mb-0">
                                 <tr>
                                     <th>{{tr('support_membername')}}</th>
-                                    <td>{{$support_member_details->name}}</td>
+                                    <td>{{$support_member->name}}</td>
                                 </tr>
 
                                 <tr>
                                     <th>{{tr('email')}}</th>
-                                    <td>{{$support_member_details->email}}</td>
+                                    <td>{{$support_member->email}}</td>
                                 </tr> 
 
                                 <tr>
                                     <th>{{tr('payment_mode')}}</th>
-                                    <td>{{$support_member_details->payment_mode}}</td>
+                                    <td>{{$support_member->payment_mode}}</td>
                                 </tr>
                                 
                                 <tr>
                                     <th>{{tr('login_type')}}</th>
-                                    <td>{{$support_member_details->login_by}}</td>
+                                    <td>{{$support_member->login_by}}</td>
                                 </tr>
 
                                 <tr>
                                     <th>{{tr('device_type')}}</th>
-                                    <td>{{$support_member_details->device_type}}</td>
+                                    <td>{{$support_member->device_type}}</td>
                                 </tr>
 
                                 <tr>
                                     <th>{{tr('status')}}</th>
                                     <td>
-                                        @if($support_member_details->status == APPROVED)
+                                        @if($support_member->status == APPROVED)
 
                                             <span class="badge badge-success">{{tr('approved')}}</span>
                                         @else
@@ -115,7 +115,7 @@
                                 <tr>
                                     <th>{{tr('email_notification')}}</th>
                                     <td>
-                                        @if($support_member_details->is_email_notification == YES) 
+                                        @if($support_member->is_email_notification == YES) 
 
                                             <span class="badge badge-success">{{tr('yes')}}</span>
 
@@ -129,7 +129,7 @@
                                 <tr>
                                     <th>{{tr('push_notification')}}</th>
                                     <td>
-                                        @if($support_member_details->is_push_notification == YES) 
+                                        @if($support_member->is_push_notification == YES) 
 
                                             <span class="badge badge-success">{{tr('yes')}}</span>
 
@@ -142,12 +142,12 @@
 
                                 <tr>
                                   <th>{{tr('created_at')}} </th>
-                                  <td>{{$support_member_details->created_at}}</td>
+                                  <td>{{$support_member->created_at}}</td>
                                 </tr>
 
                                 <tr>
                                   <th>{{tr('updated_at')}} </th>
-                                  <td>{{$support_member_details->updated_at}}</td>
+                                  <td>{{$support_member->updated_at}}</td>
                                 </tr>
                                 
                             </table>
@@ -183,13 +183,13 @@
 
                             <div class="col-3">
 
-                                <a class="btn btn-outline-secondary btn-block btn-min-width mr-1 mb-1 " href="{{route('admin.support_members.edit', ['support_member_id'=>$support_member_details->id] )}}"> &nbsp;{{tr('edit')}}</a>
+                                <a class="btn btn-outline-secondary btn-block btn-min-width mr-1 mb-1 " href="{{route('admin.support_members.edit', ['support_member_id'=>$support_member->id] )}}"> &nbsp;{{tr('edit')}}</a>
 
                             </div>
 
                             <div class="col-3">
 
-                                <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" onclick="return confirm(&quot;{{tr('support_member_delete_confirmation' , $support_member_details->name)}}&quot;);" href="{{route('admin.support_members.delete', ['support_member_id'=> $support_member_details->id] )}}">&nbsp;{{tr('delete')}}</a>
+                                <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" onclick="return confirm(&quot;{{tr('support_member_delete_confirmation' , $support_member->name)}}&quot;);" href="{{route('admin.support_members.delete', ['support_member_id'=> $support_member->id] )}}">&nbsp;{{tr('delete')}}</a>
 
                             </div>
 
@@ -197,17 +197,17 @@
 
                             <div class="col-3">
                                 
-                                <a href="{{route('admin.delivery_address.index',['support_member_id' => $support_member_details->id])}}" class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1">{{tr('delivery_address')}}</a>
+                                <a href="{{route('admin.delivery_address.index',['support_member_id' => $support_member->id])}}" class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1">{{tr('delivery_address')}}</a>
 
                             </div>
 
                             <div class="col-3">
 
-                                @if($support_member_details->status == APPROVED)
-                                     <a class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1" href="{{route('admin.support_members.status' ,['support_member_id'=> $support_member_details->id] )}}" onclick="return confirm(&quot;{{$support_member_details->name}} - {{tr('support_member_decline_confirmation')}}&quot;);">&nbsp;{{tr('decline')}} </a> 
+                                @if($support_member->status == APPROVED)
+                                     <a class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1" href="{{route('admin.support_members.status' ,['support_member_id'=> $support_member->id] )}}" onclick="return confirm(&quot;{{$support_member->name}} - {{tr('support_member_decline_confirmation')}}&quot;);">&nbsp;{{tr('decline')}} </a> 
                                 @else
 
-                                    <a  class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1" href="{{route('admin.support_members.status' , ['support_member_id'=> $support_member_details->id] )}}">&nbsp;{{tr('approve')}}</a> 
+                                    <a  class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1" href="{{route('admin.support_members.status' , ['support_member_id'=> $support_member->id] )}}">&nbsp;{{tr('approve')}}</a> 
                                 @endif
                             </div>
 
@@ -217,13 +217,13 @@
 
                             <div class="col-3">
                                 
-                                <a href="{{route('admin.post.payments',['support_member_id' => $support_member_details->id])}}" class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1">{{tr('post_payments')}}</a>
+                                <a href="{{route('admin.post.payments',['support_member_id' => $support_member->id])}}" class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1">{{tr('post_payments')}}</a>
 
                             </div>
 
                             <div class="col-3">
                                 
-                                <a href="{{route('admin.orders.index',['support_member_id' => $support_member_details->id])}}" class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1">{{tr('orders')}}</a>
+                                <a href="{{route('admin.orders.index',['support_member_id' => $support_member->id])}}" class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1">{{tr('orders')}}</a>
 
                             </div>
 

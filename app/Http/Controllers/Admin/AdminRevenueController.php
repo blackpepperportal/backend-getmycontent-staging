@@ -134,9 +134,9 @@ class AdminRevenueController extends Controller
 
         try {
 
-            $post_payment_details = \App\PostPayment::where('id',$request->post_payment_id)->first();
+            $post_payment = \App\PostPayment::where('id',$request->post_payment_id)->first();
 
-            if(!$post_payment_details) {
+            if(!$post_payment) {
 
                 throw new Exception(tr('post_payment_not_found'), 1);
                 
@@ -145,7 +145,7 @@ class AdminRevenueController extends Controller
             return view('admin.posts.payments_view')
                     ->with('page','payments')
                     ->with('sub_page','post-payments')
-                    ->with('post_payment_details',$post_payment_details);
+                    ->with('post_payment',$post_payment);
 
         } catch(Exception $e) {
 
@@ -312,14 +312,14 @@ class AdminRevenueController extends Controller
      */
     public function subscriptions_create() {
 
-        $subscription_details = new \App\Subscription;
+        $subscription = new \App\Subscription;
 
         $subscription_plan_types = [PLAN_TYPE_MONTH,PLAN_TYPE_YEAR,PLAN_TYPE_WEEK,PLAN_TYPE_DAY];
 
         return view('admin.subscriptions.create')
                     ->with('page' , 'subscriptions')
                     ->with('sub_page', 'subscriptions-create')
-                    ->with('subscription_details', $subscription_details)
+                    ->with('subscription', $subscription)
                     ->with('subscription_plan_types', $subscription_plan_types);           
     }
 
@@ -341,9 +341,9 @@ class AdminRevenueController extends Controller
 
         try {
 
-            $subscription_details = \App\Subscription::find($request->subscription_id);
+            $subscription = \App\Subscription::find($request->subscription_id);
 
-            if(!$subscription_details) { 
+            if(!$subscription) { 
 
                 throw new Exception(tr('subscrprion_not_found'), 101);
             }
@@ -353,7 +353,7 @@ class AdminRevenueController extends Controller
             return view('admin.subscriptions.edit')
                     ->with('page', 'subscriptions')
                     ->with('sub_page', 'subscriptions-view')
-                    ->with('subscription_details', $subscription_details)
+                    ->with('subscription', $subscription)
                     ->with('subscription_plan_types', $subscription_plan_types); 
             
         } catch(Exception $e) {
@@ -394,34 +394,34 @@ class AdminRevenueController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $subscription_details = $request->subscription_id ? \App\Subscription::find($request->subscription_id) : new \App\Subscription;
+            $subscription = $request->subscription_id ? \App\Subscription::find($request->subscription_id) : new \App\Subscription;
 
-            if(!$subscription_details) {
+            if(!$subscription) {
 
                 throw new Exception(tr('subscription_not_found'), 101);
             }
 
-            $subscription_details->title = $request->title;
+            $subscription->title = $request->title;
 
-            $subscription_details->description = $request->description ?: "";
+            $subscription->description = $request->description ?: "";
 
-            $subscription_details->plan = $request->plan;
+            $subscription->plan = $request->plan;
 
-            $subscription_details->plan_type = $request->plan_type;
+            $subscription->plan_type = $request->plan_type;
 
-            $subscription_details->amount = $request->amount;
+            $subscription->amount = $request->amount;
 
-            $subscription_details->is_free = $request->is_free == YES ? YES :NO;
+            $subscription->is_free = $request->is_free == YES ? YES :NO;
         
-            $subscription_details->is_popular  = $request->is_popular == YES ? YES :NO;
+            $subscription->is_popular  = $request->is_popular == YES ? YES :NO;
 
-            if( $subscription_details->save() ) {
+            if( $subscription->save() ) {
 
                 DB::commit();
 
                 $message = $request->subscription_id ? tr('subscription_update_success')  : tr('subscription_create_success');
 
-                return redirect()->route('admin.subscriptions.view', ['subscription_id' => $subscription_details->id])->with('flash_success', $message);
+                return redirect()->route('admin.subscriptions.view', ['subscription_id' => $subscription->id])->with('flash_success', $message);
             } 
 
             throw new Exception(tr('subscription_saved_error') , 101);
@@ -453,9 +453,9 @@ class AdminRevenueController extends Controller
        
         try {
       
-            $subscription_details = \App\Subscription::find($request->subscription_id);
+            $subscription = \App\Subscription::find($request->subscription_id);
             
-            if(!$subscription_details) { 
+            if(!$subscription) { 
 
                 throw new Exception(tr('subscription_not_found'), 101);                
             }
@@ -463,7 +463,7 @@ class AdminRevenueController extends Controller
             return view('admin.subscriptions.view')
                         ->with('page', 'subscriptions') 
                         ->with('sub_page', 'subscriptions-view') 
-                        ->with('subscription_details', $subscription_details);
+                        ->with('subscription', $subscription);
             
         } catch (Exception $e) {
 
@@ -492,14 +492,14 @@ class AdminRevenueController extends Controller
 
             DB::begintransaction();
 
-            $subscription_details = \App\Subscription::find($request->subscription_id);
+            $subscription = \App\Subscription::find($request->subscription_id);
             
-            if(!$subscription_details) {
+            if(!$subscription) {
 
                 throw new Exception(tr('subscription_not_found'), 101);                
             }
 
-            if($subscription_details->delete()) {
+            if($subscription->delete()) {
 
                 DB::commit();
 
@@ -539,21 +539,21 @@ class AdminRevenueController extends Controller
 
             DB::beginTransaction();
 
-            $subscription_details = \App\Subscription::find($request->subscription_id);
+            $subscription = \App\Subscription::find($request->subscription_id);
 
-            if(!$subscription_details) {
+            if(!$subscription) {
 
                 throw new Exception(tr('subscription_not_found'), 101);
                 
             }
 
-            $subscription_details->status = $subscription_details->status ? DECLINED : APPROVED ;
+            $subscription->status = $subscription->status ? DECLINED : APPROVED ;
 
-            if($subscription_details->save()) {
+            if($subscription->save()) {
 
                 DB::commit();
 
-                $message = $subscription_details->status ? tr('subscription_approve_success') : tr('subscription_decline_success');
+                $message = $subscription->status ? tr('subscription_approve_success') : tr('subscription_decline_success');
 
                 return redirect()->back()->with('flash_success', $message);
             }
@@ -633,19 +633,19 @@ class AdminRevenueController extends Controller
 
           try {
 
-            $user_withdrawal_details = \App\UserWithdrawal::where('id',$request->user_withdrawal_id)->first();
+            $user_withdrawal = \App\UserWithdrawal::where('id',$request->user_withdrawal_id)->first();
 
 
-            if(!$user_withdrawal_details) { 
+            if(!$user_withdrawal) { 
 
                 throw new Exception(tr('user_withdrawal_not_found'), 101);                
             }  
 
-            $billing_account_details = \App\UserBillingAccount::where('user_id', $user_withdrawal_details->user_id)->first();
+            $billing_account_details = \App\UserBillingAccount::where('user_id', $user_withdrawal->user_id)->first();
        
             return view('admin.user_withdrawals.view')
                 ->with('page', 'content_creator-withdrawals')
-                ->with('user_withdrawal_details', $user_withdrawal_details)
+                ->with('user_withdrawal', $user_withdrawal)
                 ->with('billing_account_details',$billing_account_details);
 
         } catch(Exception $e) {
@@ -676,19 +676,19 @@ class AdminRevenueController extends Controller
 
             DB::begintransaction();
 
-            $user_withdrawal_details = \App\UserWithdrawal::find($request->user_withdrawal_id);
+            $user_withdrawal = \App\UserWithdrawal::find($request->user_withdrawal_id);
 
-            if(!$user_withdrawal_details) {
+            if(!$user_withdrawal) {
 
-                throw new Exception(tr('user_withdrawal_details_not_found'),101);
+                throw new Exception(tr('user_withdrawal_not_found'),101);
                 
             }
 
-            $user_withdrawal_details->paid_amount = $user_withdrawal_details->requested_amount;
+            $user_withdrawal->paid_amount = $user_withdrawal->requested_amount;
 
-            $user_withdrawal_details->status = WITHDRAW_PAID;
+            $user_withdrawal->status = WITHDRAW_PAID;
             
-            if($user_withdrawal_details->save()) {
+            if($user_withdrawal->save()) {
 
                 DB::commit();
 
@@ -696,9 +696,9 @@ class AdminRevenueController extends Controller
 
                 $email_data['page'] = "emails.users.withdrawals-approve";
     
-                $email_data['data'] = $user_withdrawal_details->userDetails;
+                $email_data['data'] = $user_withdrawal->userDetails;
     
-                $email_data['email'] = $user_withdrawal_details->userDetails->email ?? '';
+                $email_data['email'] = $user_withdrawal->userDetails->email ?? '';
 
                 $email_data['message'] = tr('user_withdraw_paid_description');
 
@@ -737,17 +737,17 @@ class AdminRevenueController extends Controller
 
             DB::begintransaction();
 
-            $user_withdrawal_details = \App\UserWithdrawal::find($request->user_withdrawal_id);
+            $user_withdrawal = \App\UserWithdrawal::find($request->user_withdrawal_id);
 
-            if(!$user_withdrawal_details) {
+            if(!$user_withdrawal) {
 
-                throw new Exception(tr('user_withdrawal_details_not_found'),101);
+                throw new Exception(tr('user_withdrawal_not_found'),101);
                 
             }
             
-            $user_withdrawal_details->status = WITHDRAW_REJECTED;
+            $user_withdrawal->status = WITHDRAW_REJECTED;
             
-            if($user_withdrawal_details->save()) {
+            if($user_withdrawal->save()) {
 
                 DB::commit();
 
@@ -755,9 +755,9 @@ class AdminRevenueController extends Controller
 
                 $email_data['page'] = "emails.users.withdrawals-decline";
     
-                $email_data['data'] = $user_withdrawal_details->userDetails;
+                $email_data['data'] = $user_withdrawal->userDetails;
     
-                $email_data['email'] = $user_withdrawal_details->userDetails->email ?? '';
+                $email_data['email'] = $user_withdrawal->userDetails->email ?? '';
 
                 $email_data['message'] = tr('user_withdraw_decline_description');
 
@@ -837,16 +837,16 @@ class AdminRevenueController extends Controller
        
         try {
       
-            $product_inventory_details = \App\ProductInventory::find($request->product_inventory_id);
+            $product_inventory = \App\ProductInventory::find($request->product_inventory_id);
 
-            if(!$product_inventory_details) { 
+            if(!$product_inventory) { 
 
                 throw new Exception(tr('product_inventory_not_found'), 101);                
             }
         
             return view('admin.user_products.inventories.view')
                         ->with('page', 'posts') 
-                        ->with('product_inventory_details',$product_inventory_details);
+                        ->with('product_inventory',$product_inventory);
             
         } catch (Exception $e) {
 
@@ -917,18 +917,18 @@ class AdminRevenueController extends Controller
 
         try {
 
-            $subscription_payment_details = \App\SubscriptionPayment::where('id',$request->subscription_payment_id)->first();
+            $subscription_payment = \App\SubscriptionPayment::where('id',$request->subscription_payment_id)->first();
            
-            if(!$subscription_payment_details) {
+            if(!$subscription_payment) {
 
-                throw new Exception(tr('subscription_payment_details_not_found'), 1);
+                throw new Exception(tr('subscription_payment_not_found'), 1);
                 
             }
            
             return view('admin.revenues.subscription_payments.view')
                     ->with('page','revenues')
                     ->with('sub_page','subscription-payments')
-                    ->with('subscription_payment_details',$subscription_payment_details);
+                    ->with('subscription_payment',$subscription_payment);
 
         } catch(Exception $e) {
 

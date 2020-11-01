@@ -88,14 +88,14 @@ class AdminProductController extends Controller
      */
     public function user_products_create() {
 
-        $user_product_details = new \App\UserProduct;
+        $user_product = new \App\UserProduct;
 
         $users = \App\User::Approved()->where('status', APPROVED)->get();
 
         return view('admin.user_products.create')
                 ->with('page', 'user_products')
                 ->with('sub_page', 'user_products-create')
-                ->with('user_product_details', $user_product_details)
+                ->with('user_product', $user_product)
                 ->with('users', $users);           
     }
 
@@ -117,30 +117,31 @@ class AdminProductController extends Controller
 
         try {
 
-            $user_product_details = \App\UserProduct::find($request->user_product_id);
+            $user_product = \App\UserProduct::find($request->user_product_id);
 
-            if(!$user_product_details) { 
+            if(!$user_product) { 
 
                 throw new Exception(tr('user_product_not_found'), 101);
             }
 
             $users = \App\User::Approved()->where('status', APPROVED)->get();
 
-            foreach ($users as $key => $user_details) {
+            foreach ($users as $key => $user) {
 
-                $user_details->is_selected = NO;
+                $user->is_selected = NO;
 
-                if($user_product_details->user_id == $user_details->id){
+                if($user_product->user_id == $user->id){
                     
-                    $user_details->is_selected = YES;
+                    $user->is_selected = YES;
                 }
 
             }
+            
             return view('admin.user_products.edit')
-                ->with('page' , 'user_products')
-                ->with('sub_page', 'user_products-view')
-                ->with('user_product_details', $user_product_details)
-                ->with('users', $users); 
+                        ->with('page' , 'user_products')
+                        ->with('sub_page', 'user_products-view')
+                        ->with('user_product', $user_product)
+                        ->with('users', $users); 
             
         } catch(Exception $e) {
 
@@ -181,9 +182,9 @@ class AdminProductController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $user_product_details = $request->user_product_id ? \App\UserProduct::find($request->user_product_id) : new \App\UserProduct;
+            $user_product = $request->user_product_id ? \App\UserProduct::find($request->user_product_id) : new \App\UserProduct;
 
-            if($user_product_details->id) {
+            if($user_product->id) {
 
                 $message = tr('user_product_updated_success'); 
 
@@ -193,15 +194,15 @@ class AdminProductController extends Controller
 
             }
 
-            $user_product_details->user_id = $request->user_id ?: $user_product_details->user_id;
+            $user_product->user_id = $request->user_id ?: $user_product->user_id;
 
-            $user_product_details->name = $request->name ?: $user_product_details->name;
+            $user_product->name = $request->name ?: $user_product->name;
 
-            $user_product_details->quantity = $request->quantity ?: $user_product_details->quantity;
+            $user_product->quantity = $request->quantity ?: $user_product->quantity;
 
-            $user_product_details->price = $request->price ?: '';
+            $user_product->price = $request->price ?: '';
 
-            $user_product_details->description = $request->description ?: '';
+            $user_product->description = $request->description ?: '';
 
             // Upload picture
             
@@ -209,18 +210,18 @@ class AdminProductController extends Controller
 
                 if($request->user_product_id) {
 
-                    Helper::storage_delete_file($user_product_details->picture, COMMON_FILE_PATH); 
+                    Helper::storage_delete_file($user_product->picture, COMMON_FILE_PATH); 
                     // Delete the old pic
                 }
 
-                $user_product_details->picture = Helper::storage_upload_file($request->file('picture'), COMMON_FILE_PATH);
+                $user_product->picture = Helper::storage_upload_file($request->file('picture'), COMMON_FILE_PATH);
             }
 
-            if($user_product_details->save()) {
+            if($user_product->save()) {
 
                 DB::commit(); 
 
-                return redirect(route('admin.user_products.view', ['user_product_id' => $user_product_details->id]))->with('flash_success', $message);
+                return redirect(route('admin.user_products.view', ['user_product_id' => $user_product->id]))->with('flash_success', $message);
 
             } 
 
@@ -254,9 +255,9 @@ class AdminProductController extends Controller
        
         try {
       
-            $user_product_details = \App\UserProduct::find($request->user_product_id);
+            $user_product = \App\UserProduct::find($request->user_product_id);
 
-            if(!$user_product_details) { 
+            if(!$user_product) { 
 
                 throw new Exception(tr('user_product_not_found'), 101);                
             }
@@ -264,7 +265,7 @@ class AdminProductController extends Controller
             return view('admin.user_products.view')
                     ->with('page', 'user_products') 
                     ->with('sub_page', 'user_products-view')
-                    ->with('user_product_details', $user_product_details);
+                    ->with('user_product', $user_product);
             
         } catch (Exception $e) {
 
@@ -293,14 +294,14 @@ class AdminProductController extends Controller
 
             DB::begintransaction();
 
-            $user_product_details = \App\UserProduct::find($request->user_product_id);
+            $user_product = \App\UserProduct::find($request->user_product_id);
             
-            if(!$user_product_details) {
+            if(!$user_product) {
 
                 throw new Exception(tr('user_product_not_found'), 101);                
             }
 
-            if($user_product_details->delete()) {
+            if($user_product->delete()) {
 
                 DB::commit();
 
@@ -340,21 +341,21 @@ class AdminProductController extends Controller
 
             DB::beginTransaction();
 
-            $user_product_details = \App\UserProduct::find($request->user_product_id);
+            $user_product = \App\UserProduct::find($request->user_product_id);
 
-            if(!$user_product_details) {
+            if(!$user_product) {
 
                 throw new Exception(tr('user_product_not_found'), 101);
                 
             }
 
-            $user_product_details->status = $user_product_details->status ? DECLINED : APPROVED ;
+            $user_product->status = $user_product->status ? DECLINED : APPROVED ;
 
-            if($user_product_details->save()) {
+            if($user_product->save()) {
 
                 DB::commit();
 
-                if($user_product_details->status == DECLINED) {
+                if($user_product->status == DECLINED) {
 
                     $email_data['subject'] = tr('product_decline_email' , Setting::get('site_name'));
 
@@ -367,17 +368,17 @@ class AdminProductController extends Controller
                     $email_data['status'] = tr('approved');
                 }
 
-                $email_data['email']  = $user_product_details->userDetails->email ?? "-";
+                $email_data['email']  = $user_product->userDetails->email ?? "-";
 
-                $email_data['name']  = $user_product_details->userDetails->name ?? "-";
+                $email_data['name']  = $user_product->userDetails->name ?? "-";
 
-                $email_data['product_name']  = $user_product_details->name;
+                $email_data['product_name']  = $user_product->name;
 
                 $email_data['page'] = "emails.products.status";
 
                 $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
-                $message = $user_product_details->status ? tr('user_product_approve_success') : tr('user_product_decline_success');
+                $message = $user_product->status ? tr('user_product_approve_success') : tr('user_product_decline_success');
 
                 return redirect()->back()->with('flash_success', $message);
             }
@@ -412,20 +413,20 @@ class AdminProductController extends Controller
 
         try {
 
-            $user_product_details = \App\UserProduct::where('id',$request->user_product_id)->first();
+            $user_product = \App\UserProduct::where('id',$request->user_product_id)->first();
 
-            if(!$user_product_details) {
+            if(!$user_product) {
 
-                throw new Exception(tr('user_product_details_not_found'), 101);
+                throw new Exception(tr('user_product_not_found'), 101);
             }
 
             $data = new \stdClass;
 
-            $data->total_orders = \App\OrderProduct::where('user_product_id',$user_product_details->id)->count();
+            $data->total_orders = \App\OrderProduct::where('user_product_id',$user_product->id)->count();
 
-            $data->today_orders = \App\OrderProduct::where('user_product_id',$user_product_details->id)->whereDate('created_at',today())->count();
+            $data->today_orders = \App\OrderProduct::where('user_product_id',$user_product->id)->whereDate('created_at',today())->count();
 
-            $order_products_ids =  \App\OrderProduct::where('user_product_id',$user_product_details->id)->pluck('order_id');
+            $order_products_ids =  \App\OrderProduct::where('user_product_id',$user_product->id)->pluck('order_id');
 
             $data->total_revenue = $order_products_ids->count() > 0 ? \App\OrderPayment::whereIn('order_id',[$order_products_ids])->sum('total') : 0;
 
@@ -531,12 +532,12 @@ class AdminProductController extends Controller
      */
     public function categories_create() {
 
-        $category_details = new \App\Category;
+        $category = new \App\Category;
 
         return view('admin.categories.create')
                 ->with('page', 'categories')
                 ->with('sub_page', 'categories-create')
-                ->with('category_details', $category_details);           
+                ->with('category', $category);           
     }
 
     /**
@@ -557,9 +558,9 @@ class AdminProductController extends Controller
 
         try {
 
-            $category_details = \App\Category::find($request->category_id);
+            $category = \App\Category::find($request->category_id);
 
-            if(!$category_details) { 
+            if(!$category) { 
 
                 throw new Exception(tr('category_not_found'), 101);
             }
@@ -567,7 +568,7 @@ class AdminProductController extends Controller
             return view('admin.categories.edit')
                 ->with('page' , 'categories')
                 ->with('sub_page', 'categories-view')
-                ->with('category_details', $category_details); 
+                ->with('category', $category); 
             
         } catch(Exception $e) {
 
@@ -604,9 +605,9 @@ class AdminProductController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $category_details = $request->category_id ? \App\Category::find($request->category_id) : new \App\Category;
+            $category = $request->category_id ? \App\Category::find($request->category_id) : new \App\Category;
 
-            if($category_details->id) {
+            if($category->id) {
 
                 $message = tr('category_updated_success'); 
 
@@ -616,9 +617,9 @@ class AdminProductController extends Controller
 
             }
 
-            $category_details->name = $request->name ?: $category_details->name;
+            $category->name = $request->name ?: $category->name;
 
-            $category_details->description = $request->description ?: '';
+            $category->description = $request->description ?: '';
 
             // Upload picture
             
@@ -626,18 +627,18 @@ class AdminProductController extends Controller
 
                 if($request->category_id) {
 
-                    Helper::storage_delete_file($category_details->picture, CATEGORY_FILE_PATH); 
+                    Helper::storage_delete_file($category->picture, CATEGORY_FILE_PATH); 
                     // Delete the old pic
                 }
 
-                $category_details->picture = Helper::storage_upload_file($request->file('picture'), CATEGORY_FILE_PATH);
+                $category->picture = Helper::storage_upload_file($request->file('picture'), CATEGORY_FILE_PATH);
             }
 
-            if($category_details->save()) {
+            if($category->save()) {
 
                 DB::commit(); 
 
-                return redirect(route('admin.categories.view', ['category_id' => $category_details->id]))->with('flash_success', $message);
+                return redirect(route('admin.categories.view', ['category_id' => $category->id]))->with('flash_success', $message);
 
             } 
 
@@ -671,9 +672,9 @@ class AdminProductController extends Controller
        
         try {
       
-            $category_details = \App\Category::find($request->category_id);
+            $category = \App\Category::find($request->category_id);
 
-            if(!$category_details) { 
+            if(!$category) { 
 
                 throw new Exception(tr('category_not_found'), 101);                
             }
@@ -681,7 +682,7 @@ class AdminProductController extends Controller
             return view('admin.categories.view')
                     ->with('page', 'categories') 
                     ->with('sub_page', 'categories-view')
-                    ->with('category_details', $category_details);
+                    ->with('category', $category);
             
         } catch (Exception $e) {
 
@@ -710,14 +711,14 @@ class AdminProductController extends Controller
 
             DB::begintransaction();
 
-            $category_details = \App\Category::find($request->category_id);
+            $category = \App\Category::find($request->category_id);
             
-            if(!$category_details) {
+            if(!$category) {
 
                 throw new Exception(tr('category_not_found'), 101);                
             }
 
-            if($category_details->delete()) {
+            if($category->delete()) {
 
                 DB::commit();
 
@@ -757,17 +758,17 @@ class AdminProductController extends Controller
 
             DB::beginTransaction();
 
-            $category_details = \App\Category::find($request->category_id);
+            $category = \App\Category::find($request->category_id);
 
-            if(!$category_details) {
+            if(!$category) {
 
                 throw new Exception(tr('category_not_found'), 101);
                 
             }
 
-            $category_details->status = $category_details->status ? DECLINED : APPROVED ;
+            $category->status = $category->status ? DECLINED : APPROVED ;
 
-            if($category_details->save()) {
+            if($category->save()) {
 
                 DB::commit();
 
@@ -826,14 +827,14 @@ class AdminProductController extends Controller
      */
     public function sub_categories_create() {
 
-        $sub_category_details = new \App\SubCategory;
+        $sub_category = new \App\SubCategory;
 
         $categories = \App\Category::where('status',APPROVED)->get();
 
         return view('admin.sub_categories.create')
                 ->with('page', 'sub_categories')
                 ->with('sub_page', 'sub_categories-create')
-                ->with('sub_category_details', $sub_category_details)
+                ->with('sub_category', $sub_category)
                 ->with('categories',$categories);           
     }
 
@@ -855,11 +856,11 @@ class AdminProductController extends Controller
 
         try {
 
-            $sub_category_details = \App\SubCategory::find($request->sub_category_id);
+            $sub_category = \App\SubCategory::find($request->sub_category_id);
 
-            $categories = selected(\App\Category::where('status',APPROVED)->get(), $sub_category_details->category_id, 'id');
+            $categories = selected(\App\Category::where('status',APPROVED)->get(), $sub_category->category_id, 'id');
 
-            if(!$sub_category_details) { 
+            if(!$sub_category) { 
 
                 throw new Exception(tr('category_not_found'), 101);
             }
@@ -867,7 +868,7 @@ class AdminProductController extends Controller
             return view('admin.sub_categories.edit')
                 ->with('page' , 'sub_categories')
                 ->with('sub_page', 'sub_categories-view')
-                ->with('sub_category_details', $sub_category_details)
+                ->with('sub_category', $sub_category)
                 ->with('categories',$categories); 
             
         } catch(Exception $e) {
@@ -906,9 +907,9 @@ class AdminProductController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $sub_category_details = $request->sub_category_id ? \App\SubCategory::find($request->sub_category_id) : new \App\SubCategory;
+            $sub_category = $request->sub_category_id ? \App\SubCategory::find($request->sub_category_id) : new \App\SubCategory;
 
-            if($sub_category_details->id) {
+            if($sub_category->id) {
 
                 $message = tr('sub_category_updated_success'); 
 
@@ -918,11 +919,11 @@ class AdminProductController extends Controller
 
             }
 
-            $sub_category_details->name = $request->name ?: $sub_category_details->name;
+            $sub_category->name = $request->name ?: $sub_category->name;
 
-            $sub_category_details->category_id = $request->category_id ?: $sub_category_details->category_id;
+            $sub_category->category_id = $request->category_id ?: $sub_category->category_id;
 
-            $sub_category_details->description = $request->description ?: '';
+            $sub_category->description = $request->description ?: '';
 
             // Upload picture
             
@@ -930,18 +931,18 @@ class AdminProductController extends Controller
 
                 if($request->sub_category_id) {
 
-                    Helper::storage_delete_file($sub_category_details->picture, CATEGORY_FILE_PATH); 
+                    Helper::storage_delete_file($sub_category->picture, CATEGORY_FILE_PATH); 
                     // Delete the old pic
                 }
 
-                $sub_category_details->picture = Helper::storage_upload_file($request->file('picture'), CATEGORY_FILE_PATH);
+                $sub_category->picture = Helper::storage_upload_file($request->file('picture'), CATEGORY_FILE_PATH);
             }
 
-            if($sub_category_details->save()) {
+            if($sub_category->save()) {
 
                 DB::commit(); 
 
-                return redirect(route('admin.sub_categories.view', ['sub_category_id' => $sub_category_details->id]))->with('flash_success', $message);
+                return redirect(route('admin.sub_categories.view', ['sub_category_id' => $sub_category->id]))->with('flash_success', $message);
 
             } 
 
@@ -975,9 +976,9 @@ class AdminProductController extends Controller
        
         try {
       
-            $sub_category_details = \App\SubCategory::find($request->sub_category_id);
+            $sub_category = \App\SubCategory::find($request->sub_category_id);
 
-            if(!$sub_category_details) { 
+            if(!$sub_category) { 
 
                 throw new Exception(tr('sub_category_not_found'), 101);                
             }
@@ -985,7 +986,7 @@ class AdminProductController extends Controller
             return view('admin.sub_categories.view')
                     ->with('page', 'sub_categories') 
                     ->with('sub_page', 'sub_categories-view')
-                    ->with('sub_category_details', $sub_category_details);
+                    ->with('sub_category', $sub_category);
             
         } catch (Exception $e) {
 
@@ -1014,14 +1015,14 @@ class AdminProductController extends Controller
 
             DB::begintransaction();
 
-            $category_details = \App\SubCategory::find($request->sub_category_id);
+            $category = \App\SubCategory::find($request->sub_category_id);
             
-            if(!$category_details) {
+            if(!$category) {
 
                 throw new Exception(tr('sub_category_not_found'), 101);                
             }
 
-            if($category_details->delete()) {
+            if($category->delete()) {
 
                 DB::commit();
 
@@ -1061,17 +1062,17 @@ class AdminProductController extends Controller
 
             DB::beginTransaction();
 
-            $sub_category_details = \App\SubCategory::find($request->sub_category_id);
+            $sub_category = \App\SubCategory::find($request->sub_category_id);
 
-            if(!$sub_category_details) {
+            if(!$sub_category) {
 
                 throw new Exception(tr('sub_category_not_found'), 101);
                 
             }
 
-            $sub_category_details->status = $sub_category_details->status ? DECLINED : APPROVED ;
+            $sub_category->status = $sub_category->status ? DECLINED : APPROVED ;
 
-            if($sub_category_details->save()) {
+            if($sub_category->save()) {
 
                 DB::commit();
 

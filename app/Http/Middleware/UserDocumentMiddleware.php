@@ -6,7 +6,7 @@ use Closure;
 
 use App\User;
 
-class IsContentCreator
+class UserDocumentMiddleware
 {
     /**
      * Handle an incoming request.

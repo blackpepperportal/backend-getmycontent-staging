@@ -12,6 +12,8 @@ use DB, Log, Hash, Validator, Exception, Setting;
 
 use App\User;
 
+use App\Repositories\PaymentRepository as PaymentRepo;
+
 class UserAccountApiController extends Controller
 {
  	protected $loginUser;
@@ -1677,7 +1679,7 @@ class UserAccountApiController extends Controller
                 throw new Exception(api_error(1002), 1002);
             }
 
-            $user_subscription = \App\UserSubscription::where('user_id', $request->id)->first();
+            $user_subscription = \App\UserSubscription::where('user_id', $user->id)->first();
 
             $data['user_subscription'] = $user_subscription ?? [];
 
@@ -1800,7 +1802,7 @@ class UserAccountApiController extends Controller
 
             $rules = [
                 'user_unique_id' => 'required|exists:users,unique_id',
-                'subscription_type' => 'required',
+                'plan_type' => 'required',
             ];
 
             Helper::custom_validator($request->all(), $rules, $custom_errors = []);
@@ -1825,7 +1827,7 @@ class UserAccountApiController extends Controller
                 
             }
 
-            $subscription_amount = $request->subscription_type == USER_SUBSCRIPTION_YEARLY ? $user_subscription->yearly_amount : $user_subscription->monthly_amount;
+            $subscription_amount = $request->plan_type == PLAN_TYPE_YEAR ? $user_subscription->yearly_amount : $user_subscription->monthly_amount;
 
             $request->request->add(['payment_mode' => CARD]);
 
@@ -1849,7 +1851,7 @@ class UserAccountApiController extends Controller
                 ]);
 
 
-                $card_payment_response = PaymentRepo::posts_payment_by_stripe($request, $post)->getData();
+                $card_payment_response = PaymentRepo::user_subscriptions_payment_by_stripe($request, $user_subscription)->getData();
                 
                 if($card_payment_response->success == false) {
 
@@ -1863,19 +1865,17 @@ class UserAccountApiController extends Controller
 
             }
 
-            $payment_response = PaymentRepo::user_subscriptions_payment_save($request, $post)->getData();
+            $payment_response = PaymentRepo::user_subscription_payments_save($request, $user_subscription)->getData();
 
-            if($payment_response->success) {
-                
-                DB::commit();
-
-                return $this->sendResponse(api_success(140), 140, $payment_response->data);
-
-            } else {
+            if(!$payment_response->success) {
 
                 throw new Exception($payment_response->error, $payment_response->error_code);
                 
             }
+
+            DB::commit();
+
+                return $this->sendResponse(api_success(140), 140, $payment_response->data);
         
         } catch(Exception $e) {
 
@@ -1909,7 +1909,7 @@ class UserAccountApiController extends Controller
 
             $rules = [
                 'user_unique_id' => 'required|exists:users,unique_id',
-                'subscription_type' => 'required',
+                'plan_type' => 'required',
             ];
 
             Helper::custom_validator($request->all(), $rules, $custom_errors = []);
@@ -1934,7 +1934,7 @@ class UserAccountApiController extends Controller
                 
             }
 
-            $subscription_amount = $request->subscription_type == USER_SUBSCRIPTION_YEARLY ? $user_subscription->yearly_amount : $user_subscription->monthly_amount;
+            $subscription_amount = $request->plan_type == PLAN_TYPE_YEAR ? $user_subscription->yearly_amount : $user_subscription->monthly_amount;
 
             // Check the user has enough balance 
 
@@ -1967,35 +1967,9 @@ class UserAccountApiController extends Controller
                     throw new Exception($payment_response->error, $payment_response->error_code);
                 }
 
-                // Update the to user
+                DB::commit();
 
-                $to_user_inputs = [
-                    'id' => $user_subscription->user_id,
-                    'received_from_user_id' => $request->id,
-                    'total' => $subscription_amount, 
-                    'user_pay_amount' => $subscription_amount,
-                    'paid_amount' => $subscription_amount,
-                    'payment_type' => WALLET_PAYMENT_TYPE_CREDIT,
-                    'amount_type' => WALLET_AMOUNT_TYPE_ADD,
-                    'payment_id' => 'CD-'.rand()
-                ];
-
-                $to_user_request = new \Illuminate\Http\Request();
-
-                $to_user_request->replace($to_user_inputs);
-
-                $to_user_payment_response = PaymentRepo::user_wallets_payment_save($to_user_request)->getData();
-
-                if($to_user_payment_response->success) {
-
-                    DB::commit();
-
-                    return $this->sendResponse(api_success(140), 140, $payment_response->data ?? []);
-
-                } else {
-
-                    throw new Exception($to_user_payment_response->error, $to_user_payment_response->error_code);
-                }
+                return $this->sendResponse(api_success(140), 140, $payment_response->data ?? []);
 
             } else {
 

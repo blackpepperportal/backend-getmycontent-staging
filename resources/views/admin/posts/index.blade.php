@@ -68,24 +68,24 @@
                            
                             <tbody>
 
-                                @foreach($posts as $i => $post_details)
+                                @foreach($posts as $i => $post)
                                 <tr>
                                     <td>{{ $i+$posts->firstItem() }}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.posts.view' , ['post_id' => $post_details->id] )  }}">
-                                        {{ $post_details->userdisplayname ?? "-" }}
+                                        <a href="{{  route('admin.posts.view' , ['post_id' => $post->id] )  }}">
+                                        {{ $post->userdisplayname ?? "-" }}
                                         </a>
                                     </td>
 
-                                    <td>{{($post_details->publish_time) ? common_date($post_details->publish_time , Auth::guard('admin')->user()->timezone) : '-'}}</td>
+                                    <td>{{($post->publish_time) ? common_date($post->publish_time , Auth::guard('admin')->user()->timezone) : '-'}}</td>
 
                                     <td>
-                                        {{ $post_details->amount_formatted}}
+                                        {{ $post->amount_formatted}}
                                     </td>
 
                                     <td>
-                                        @if($post_details->is_paid_post)
+                                        @if($post->is_paid_post)
                                             <span class="badge badge-success">{{tr('yes')}}</span>
                                         @else
                                             <span class="badge badge-danger">{{tr('no')}}</span>
@@ -93,7 +93,7 @@
                                     </td>
 
                                     <td>
-                                        @if($post_details->status == APPROVED)
+                                        @if($post->status == APPROVED)
 
                                         <span class="btn btn-success btn-sm">{{ tr('approved') }}</span> @else
 
@@ -109,12 +109,12 @@
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                 <a class="dropdown-item" href="{{ route('admin.posts.dashboard', ['post_id' => $post_details->id] ) }}">&nbsp;{{ tr('dashboard') }}</a> 
+                                                 <a class="dropdown-item" href="{{ route('admin.posts.dashboard', ['post_id' => $post->id] ) }}">&nbsp;{{ tr('dashboard') }}</a> 
 
 
-                                                <a class="dropdown-item" href="{{ route('admin.posts.view', ['post_id' => $post_details->id] ) }}">&nbsp;{{ tr('view') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.posts.view', ['post_id' => $post->id] ) }}">&nbsp;{{ tr('view') }}</a> 
 
-                                                 <a class="dropdown-item" href="{{ route('admin.posts.edit', ['post_id' => $post_details->id] ) }}">&nbsp;{{ tr('edit') }}</a> 
+                                                 <a class="dropdown-item" href="{{ route('admin.posts.edit', ['post_id' => $post->id] ) }}">&nbsp;{{ tr('edit') }}</a> 
 
                                                 @if(Setting::get('is_demo_control_enabled') == YES)
 
@@ -124,25 +124,25 @@
 
                                                 @else
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('post_delete_confirmation' , $post_details->unique_id) }}&quot;);" href="{{ route('admin.posts.delete', ['post_id' => $post_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('post_delete_confirmation' , $post->unique_id) }}&quot;);" href="{{ route('admin.posts.delete', ['post_id' => $post->id] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 
-                                                @if($post_details->status == APPROVED)
+                                                @if($post->status == APPROVED)
 
-                                                    <a class="dropdown-item" href="{{  route('admin.posts.status' , ['post_id' => $post_details->id] )  }}" onclick="return confirm(&quot;{{ tr('post_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
+                                                    <a class="dropdown-item" href="{{  route('admin.posts.status' , ['post_id' => $post->id] )  }}" onclick="return confirm(&quot;{{ tr('post_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
                                                 </a> 
 
                                                 @else
 
-                                                    <a class="dropdown-item" href="{{ route('admin.posts.status' , ['post_id' => $post_details->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
+                                                    <a class="dropdown-item" href="{{ route('admin.posts.status' , ['post_id' => $post->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
 
                                                 @endif
         
-                                                  <a class="dropdown-item" href="{{ route('admin.posts.comments' , ['post_id' => $post_details->id] ) }}">&nbsp;{{ tr('comments') }}</a> 
-                                                @if($post_details->is_published == NO)
+                                                  <a class="dropdown-item" href="{{ route('admin.posts.comments' , ['post_id' => $post->id] ) }}">&nbsp;{{ tr('comments') }}</a> 
+                                                @if($post->is_published == NO)
                                                   
-                                                    <a class="dropdown-item" href="{{ route('admin.posts.publish' , ['post_id' => $post_details->id] ) }}">&nbsp;{{ tr('publish') }}</a> 
+                                                    <a class="dropdown-item" href="{{ route('admin.posts.publish' , ['post_id' => $post->id] ) }}">&nbsp;{{ tr('publish') }}</a> 
 
                                                 @endif
 

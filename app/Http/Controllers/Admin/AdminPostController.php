@@ -106,57 +106,58 @@ class AdminPostController extends Controller
                 ->with('page', 'posts')
                 ->with('sub_page', 'posts-view')
                 ->with('posts', $posts);
+    
     }
 
     /**
-    * @method posts_create()
-    *
-    * @uses create new post
-    *
-    * @created sakthi 
-    *
-    * @updated 
-    *
-    * 
-    * @return View page
-    *
+     * @method posts_create()
+     *
+     * @uses create new post
+     *
+     * @created sakthi 
+     *
+     * @updated 
+     *
+     * 
+     * @return View page
+     *
     */
     public function posts_create() {
 
-        $post_details = new \App\Post;
+        $post = new \App\Post;
 
-        $user_details = \App\User::all();
+        $users = \App\User::Approved()->get();
 
         return view('admin.posts.create')
                 ->with('page', 'posts')
                 ->with('sub_page', 'posts-create')
-                ->with('user_details', $user_details)
-                ->with('post_details', $post_details);  
+                ->with('users', $users)
+                ->with('post', $post);  
 
     }
 
-
     /**
-    * @method posts_save()
-    *
-    * @uses save new post
-    *
-    * @created sakthi 
-    *
-    * @updated 
-    *
-    * 
-    * @return View page
-    *
+     * @method posts_save()
+     *
+     * @uses save new post
+     *
+     * @created sakthi 
+     *
+     * @updated 
+     *
+     * 
+     * @return View page
+     *
     */
     public function posts_save(Request $request) {
+        
         try {
 
             DB::begintransaction();
 
             $rules = [
                 'user_id' => 'required',
-                'content' => 'required|max:191',
+                'content' => 'required',
                 'amount' => 'nullable|min:0',
                 'publish_type'=>'required',
             ];
@@ -199,40 +200,38 @@ class AdminPostController extends Controller
 
     }
 
-
     /**
-    * @method posts_edit()
-    *
-    * @uses To display and update user details based on the user id
-    *
-    * @created sakthi
-    *
-    * @updated 
-    *
-    * @param object $request - User Id
-    * 
-    * @return redirect view page 
-    *
+     * @method posts_edit()
+     *
+     * @uses To display and update user details based on the user id
+     *
+     * @created sakthi
+     *
+     * @updated 
+     *
+     * @param object $request - User Id
+     * 
+     * @return redirect view page 
+     *
     */
     public function posts_edit(Request $request) {
-
 
         try {
 
             $post = \App\Post::find($request->post_id);
-            
-            $user_details = \App\User::all();
 
             if(!$post) { 
 
                 throw new Exception(tr('post_not_found'), 101);
             }
+            
+            $users = \App\User::Approved()->get();
 
             return view('admin.posts.edit')
-                ->with('page', 'post')
-                ->with('sub_page', 'posts-view')
-                ->with('user_details', $user_details)
-                ->with('post_details', $post); 
+                        ->with('page', 'post')
+                        ->with('sub_page', 'posts-view')
+                        ->with('users', $users)
+                        ->with('post', $post); 
 
         } catch(Exception $e) {
 
