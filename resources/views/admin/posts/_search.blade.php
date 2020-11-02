@@ -10,7 +10,7 @@
         </div>
 
         <div class="col-xs-12 col-sm-12 col-lg-3 col-md-6 md-full-width resp-mrg-btm-md">
-
+          <input type="hidden" class="form-control" name="scheduled" value="{{Request::get('scheduled')}}">
             <select class="form-control select2" name="status">
 
                 <option  class="select-color" value="">{{tr('select_status')}}</option>

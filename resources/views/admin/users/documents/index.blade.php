@@ -66,7 +66,7 @@
 
                                     <td>
                                         {{$user->email}}
-                                        <span><h6>{{$user->mobile?: tr('n_a')}}</h6></span>
+                                        <span><h6>{{$user->mobile?: tr('not_available')}}</h6></span>
                                     </td>
 
                                     <td>{{$user->userDocuments->count()}}

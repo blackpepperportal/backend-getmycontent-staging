@@ -24,7 +24,7 @@
 
         <div class="card-header border-bottom border-gray">
 
-            <h4 class="card-title">{{ tr('view_user_wallets') }} - <a href="{{route('admin.users.view',['user_id' => $user_wallet_details->user_id])}}">{{$user_wallet_details->user->name ?? "-"}}</a>	</h4>
+            <h4 class="card-title">{{ tr('view_user_wallets') }} - <a href="{{route('admin.users.view',['user_id' => $user_wallet->user_id])}}">{{$user_wallet->user->name ?? "-"}}</a>	</h4>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             
         </div>
@@ -39,7 +39,7 @@
 			                <div class="card-body">
 			                    <div class="media d-flex">
 			                        <div class="media-body white text-left">
-			                            <h3>{{$user_wallet_details->total_formatted}}</h3>
+			                            <h3>{{$user_wallet->total_formatted}}</h3>
 			                            <span>{{tr('total')}}</span>
 			                        </div>
 			                        <div class="align-self-center">
@@ -57,7 +57,7 @@
 			                <div class="card-body">
 			                    <div class="media d-flex">
 			                        <div class="media-body white text-left">
-			                            <h3>{{$user_wallet_details->used_formatted}}</h3>
+			                            <h3>{{$user_wallet->used_formatted}}</h3>
 			                            <span>{{tr('used')}}</span>
 			                        </div>
 			                        <div class="align-self-center">
@@ -75,7 +75,7 @@
 			                <div class="card-body">
 			                    <div class="media d-flex">
 			                        <div class="media-body white text-left">
-			                            <h3>{{$user_wallet_details->remaining_formatted}}</h3>
+			                            <h3>{{$user_wallet->remaining_formatted}}</h3>
 			                            <span>{{tr('remaining')}}</span>
 			                        </div>
 			                        <div class="align-self-center">
