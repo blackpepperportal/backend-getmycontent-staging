@@ -54,7 +54,7 @@ class AdminPostController extends Controller
 
             $base_query =  $base_query
 
-            ->whereHas('getuserDetails', function($q) use ($search_key) {
+            ->whereHas('user', function($q) use ($search_key) {
 
                 return $q->Where('users.name','LIKE','%'.$search_key.'%');
 

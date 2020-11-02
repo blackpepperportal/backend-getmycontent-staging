@@ -369,7 +369,7 @@ hr {
 
                                     <label for="admin_commission">{{tr('admin_commission')}}</label>
 
-                                    <input type="text" class="form-control" name="admin_commission" pattern="[0-9]{0,}" value="{{Setting::get('admin_commission')  }}" id="admin_ppv_commission" placeholder="{{tr('admin_commission')}}">
+                                    <input type="text" class="form-control" name="admin_commission" pattern="[0-9]{0,}" value="{{Setting::get('admin_commission')  }}" id="admin_commission" placeholder="{{tr('admin_commission')}}">
                                 </div>
                             </div>
 
