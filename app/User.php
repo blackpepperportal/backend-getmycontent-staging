@@ -14,7 +14,7 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $appends = ['user_id', 'is_notification', 'is_document_verified_formatted','monthly_amount_formatted','yearly_amount_formatted'];
+    protected $appends = ['user_id', 'is_notification', 'is_document_verified_formatted'];
 
     public function getUserIdAttribute() {
 
@@ -30,7 +30,6 @@ class User extends Authenticatable
 
         return user_document_status_formatted($this->is_document_verified);
     }
-
 
     /**
      * The attributes that are mass assignable.
