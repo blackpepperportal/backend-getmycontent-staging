@@ -53,6 +53,27 @@
                                             </div>
                                         </div>
 
+
+                                        <div class="form-group col-md-4">
+
+                                            <label for="page">
+                                                {{tr('select_section_type')}}
+
+                                                <span class="required" aria-required="true"> <span class="admin-required">*</span> </span>
+                                            </label>
+
+                                            <select class="form-control select2" name="section_type" required>
+                                                <option value="">{{tr('select_section_type')}}</option>
+
+                                                @foreach($section_types as $key => $value)
+
+                                                <option value="{{$key}}" @if($key == $static_page->section_type) selected @endif>{{ $value }}</option>
+
+                                                @endforeach 
+                                            </select>
+
+                                        </div>
+
                                         <div class="form-group col-md-6">
 
                                             <label for="page">

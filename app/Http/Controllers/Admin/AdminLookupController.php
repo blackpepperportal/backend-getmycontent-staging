@@ -385,6 +385,8 @@ class AdminLookupController extends Controller
             }
         }
 
+        $section_types = static_page_footers(0, $is_list = YES);
+
         $static_keys[] = 'others';
 
         $static_page = new \App\StaticPage;
@@ -393,7 +395,8 @@ class AdminLookupController extends Controller
                 ->with('page', 'static_pages')
                 ->with('sub_page', 'static_pages-create')
                 ->with('static_keys', $static_keys)
-                ->with('static_page', $static_page);
+                ->with('static_page', $static_page)
+                ->with('section_types',$section_types);
    
     }
 
@@ -439,12 +442,15 @@ class AdminLookupController extends Controller
 
             $static_keys[] = $static_page->type;
 
+
+            $section_types = static_page_footers(0, $is_list = YES);
+ 
             return view('admin.static_pages.edit')
                     ->with('page', 'static_pages')
                     ->with('sub_page', 'static_pages-view')
                     ->with('static_keys', array_unique($static_keys))
-                    ->with('static_page', $static_page);
-            
+                    ->with('static_page', $static_page)
+                    ->with('section_types',$section_types);
         } catch(Exception $e) {
 
             return redirect()->route('admin.static_pages.index')->with('flash_error' , $e->getMessage());
@@ -516,6 +522,8 @@ class AdminLookupController extends Controller
             $static_page->description = $request->description ?: $static_page->description;
 
             $static_page->type = $request->type ?: $static_page->type;
+            
+            $static_page->section_type = $request->section_type ?: $static_page->section_type;
 
             if($static_page->save()) {
 

@@ -942,6 +942,8 @@ return [
 	"user_upgrade_account"=> "User (:other_key) account upgraded successfully..!!",
 	"select_publish_date" => "Select Publish Date",
 	"view_all_documents" => "View Documents",
+	"admin_commission" => "Admin Commission",
+	"user_commission" => "User Commission",
 
 	"USER_DOCUMENT_NONE" => "Pending",
 	"USER_DOCUMENT_PENDING" => "Pending",
