@@ -122,6 +122,11 @@ hr {
             <a href="#" class="list-group-item text-left text-uppercase">
                 {{tr('payment_settings')}}
             </a>
+
+            <a href="#" class="list-group-item text-left text-uppercase">
+                {{tr('revenue_settings')}}
+            </a>
+
             <a href="#" class="list-group-item text-left text-uppercase">
                 {{tr('email_settings')}}
             </a>
@@ -312,6 +317,68 @@ hr {
                                     </label>
                                 </div>
                         </div>
+
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+
+                    <div class="pull-right">
+                    
+                        <button type="reset" class="btn btn-warning mr-1">
+                            <i class="ft-x"></i> {{ tr('reset') }} 
+                        </button>
+
+                        <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled @endif ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
+                    
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                </div>
+       
+            </form>
+       
+            <br>
+       
+        </div>
+
+          <!-- Revenue settings -->
+        <div class="fansclub-tab-content">
+            
+            <form id="site_settings_save" action="{{route('admin.settings.save')}}" method="POST" enctype="multipart/form-data" class="forms-sample">
+         
+            @csrf
+
+                <div class="box-body">
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+
+                            <h5 class="settings-sub-header text-uppercase" ><b>{{tr('revenue_settings')}}</b></h5>
+
+                            <hr>
+
+                        </div>
+                        
+
+                          <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="admin_commission">{{tr('admin_commission')}}</label>
+
+                                    <input type="text" class="form-control" name="admin_commission" pattern="[0-9]{0,}" value="{{Setting::get('admin_commission')  }}" id="admin_commission" placeholder="{{tr('admin_commission')}}">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="user_commission">{{tr('user_commission')}}</label>
+                                    <input type="text" class="form-control"  name="user_commission" pattern="[0-9]{0,}" value="{{Setting::get('user_commission')  }}" id="user_commission" placeholder="{{tr('user_commission')}}">
+                                </div>
+                            </div>
 
                     </div>
 

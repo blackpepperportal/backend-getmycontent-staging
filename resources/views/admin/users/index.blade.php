@@ -37,7 +37,7 @@
 
                 <div class="card-content collapse show">
 
-                    <div class="card-body card-dashboard">
+                    <div class="card-body card-dashboard table-responsive">
 
                         @include('admin.users._search')
 

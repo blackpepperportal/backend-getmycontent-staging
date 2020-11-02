@@ -245,11 +245,17 @@
                         </a>
                     </li> -->
 
-                   <!--  <li id="subscription-payments">
+<!--                     <li id="subscription-payments">
                         <a class="menu-item" href="{{route('admin.subscription_payments.index')}}">
                            {{tr('subscription_payments')}}
                         </a>
                     </li> -->
+
+                    <li id="user-subscription-payments">
+                        <a class="menu-item" href="{{route('admin.users_subscriptions.index')}}">
+                           {{tr('user_subscription_payments')}}
+                        </a>
+                    </li>
 
                 </ul>            
             </li>

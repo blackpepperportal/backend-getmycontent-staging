@@ -91,6 +91,36 @@
 
                             </div>
 
+
+                            <div class="col-xl-3 col-lg-6 col-12">
+
+                                <div class="card border-primary">
+
+                                    <div class="card-content">
+
+                                        <div class="card-body">
+
+                                            <div class="media">
+
+                                                <div class="media-body text-left w-100">
+                                                    <h3 class="info">{{formatted_amount($data->subscription_payments)}}</h3>
+                                                    <span>{{tr('subscription_payments')}}</span>
+                                                </div>
+
+                                                <div class="media-right media-middle">
+                                                    <i class="icon-credit-card info font-large-2 float-right"></i>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
                             <div class="col-xl-3 col-lg-6 col-12">
 
                                 <div class="card border-primary">

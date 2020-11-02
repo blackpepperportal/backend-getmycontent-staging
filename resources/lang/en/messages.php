@@ -281,6 +281,7 @@ return [
 	"mail_push_settings" => "Email & Push Settings",
 	"payment_settings" => "Payment Settings",
 	"stripe_settings" => "Stripe Settings",
+	"revenue_settings" => "Revenue Settings",
 
 	"site_name" => "Site Name",
 	"site_logo" => "Site Logo",
@@ -900,6 +901,7 @@ return [
 	'subscription_payment_not_found' => 'Subscription payment details not found',	 
 	'view_subscription_payments' => 'View Subscription Payments',
 	'subscription_payments' => 'Subscription Payments',
+	'user_subscription_payments' => 'User Subscription Payments',
 	'subscription_payment_search_placeholder' => 'Search By User Name, Payment Id',
 	'expiry_date' => 'Expiry Date',
 	'subscription' => 'Subscription',
@@ -941,6 +943,8 @@ return [
 	"user_upgrade_account"=> "User (:other_key) account upgraded successfully..!!",
 	"select_publish_date" => "Select Publish Date",
 	"view_all_documents" => "View Documents",
+	"admin_commission" => "Admin Commission",
+	"user_commission" => "User Commission",
 
 	"USER_DOCUMENT_NONE" => "Pending",
 	"USER_DOCUMENT_PENDING" => "Pending",
@@ -950,10 +954,18 @@ return [
 	"no_of_documents" => "No Of Documents",
 	"user_documents_empty" => "The user haven't uploaded any documents.",
 	"email_verified" => 'Email Verified',
+	"document_verified" => 'Document Verified',
 	"user_documents_verify_notes" => 'Make sure the user has uploaded proper documents. Once all verified, you can verify the user.',
 	"admin_not_found" => "The admin record is not found.",
 	"support_member_not_found" => "The member record is not found.",
-	"user_wallet_balance" => "Wallet Balance"
+	"user_wallet_balance" => "Wallet Balance",
+	"from_username" => "From UserName",
+	"to_username" => "To UserName",
+	"view_user_subscriptions_payment" => "View Users Subscriptions Payment",
+	"users_subscription_payment" => "User Subscriptions Payment",
+	"user_subscription_payment_not_found" => "Subscription payment not found !!",
+	"view_user_subscription_payment" => "View User Subscription Payment",
+	"user_amount" => "User Amount",
 
 
 ]?>

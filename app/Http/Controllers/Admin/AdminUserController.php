@@ -74,6 +74,13 @@ class AdminUserController extends Controller
                 case SORT_BY_EMAIL_VERIFIED:
                     $base_query = $base_query->where('users.is_email_verified',USER_EMAIL_VERIFIED);
                     break;
+
+                case SORT_BY_DOCUMENT_VERIFIED:
+
+                    $base_query =  $base_query->whereHas('userDocuments', function($q) use ($request) {
+                                    return $q->where('user_documents.is_verified',USER_DOCUMENT_VERIFIED);
+                                   });
+                    break;
                 
                 default:
                     $base_query = $base_query->where('users.is_email_verified',USER_EMAIL_NOT_VERIFIED);
@@ -864,6 +871,71 @@ class AdminUserController extends Controller
 
         }
     
+    }
+
+
+
+    /**
+     * @method user_subscriptions_payments()
+     *
+     * @uses To list out users subscription payment details 
+     *
+     * @created Sakthi
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function user_subscription_payments() {
+       
+        $user_subscriptions = \App\UserSubscriptionPayment::orderBy('updated_at','desc')->paginate(10);
+
+        return view('admin.users.subscriptions.index')
+                    ->with('page', 'user_subscriptions')
+                    ->with('sub_page', 'user-subscription-payments')
+                    ->with('user_subscriptions', $user_subscriptions);
+    }
+
+
+
+    /**
+     * @method user_subscriptions_payment_view()
+     *
+     * @uses To list out users subscription payment details 
+     *
+     * @created Sakthi
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function user_subscriptions_payment_view(Request $request) {
+
+        try {
+       
+            $user_subscription_payment = \App\UserSubscriptionPayment::find($request->subscription_id);
+
+             if(!$user_subscription_payment) { 
+
+                throw new Exception(tr('user_subscription_payment_not_found'), 101);                
+            }
+
+
+            return view('admin.users.subscriptions.view')
+                        ->with('page', 'user_subscription_payment')
+                        ->with('sub_page', 'user-subscription-payments')
+                        ->with('user_subscription_payment', $user_subscription_payment);
+
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+       }
     }
 
 }
