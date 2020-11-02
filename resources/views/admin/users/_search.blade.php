@@ -2,7 +2,7 @@
 
     <div class="row">
 
-        <div class="col-xs-12 col-sm-12 col-lg-2 col-md-6 resp-mrg-btm-md">
+        <div class="col-xs-12 col-sm-12 col-lg-3 col-md-6 resp-mrg-btm-md">
             @if(Request::has('search_key'))
             <p class="text-muted">Search results for <b>{{Request::get('search_key')}}</b></p>
             @endif
@@ -20,13 +20,15 @@
 
                 <option class="select-color" value="{{SORT_BY_EMAIL_VERIFIED}}" @if(Request::get('status') == SORT_BY_EMAIL_VERIFIED && Request::get('status')!='' ) selected @endif>{{tr('email_verified')}}</option>
 
+                <option class="select-color" value="{{SORT_BY_DOCUMENT_VERIFIED}}" @if(Request::get('status') == SORT_BY_DOCUMENT_VERIFIED && Request::get('status')!='' ) selected @endif>{{tr('document_verified')}}</option>
+
             </select>
 
         </div>
 
-        <div class="col-xs-12 col-sm-12 col-lg-6 mx-auto col-md-12">
+        <div class="col-xs-12 col-sm-12 col-lg-6 col-md-12">
 
-            <div class="input-group form-margin-left-sm">
+            <div class="input-group">
 
                 @foreach(request()->input() as $key => $value)
                     

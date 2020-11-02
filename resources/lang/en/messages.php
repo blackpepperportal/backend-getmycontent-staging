@@ -281,6 +281,7 @@ return [
 	"mail_push_settings" => "Email & Push Settings",
 	"payment_settings" => "Payment Settings",
 	"stripe_settings" => "Stripe Settings",
+	"revenue_settings" => "Revenue Settings",
 
 	"site_name" => "Site Name",
 	"site_logo" => "Site Logo",
@@ -950,6 +951,7 @@ return [
 	"no_of_documents" => "No Of Documents",
 	"user_documents_empty" => "The user haven't uploaded any documents.",
 	"email_verified" => 'Email Verified',
+	"document_verified" => 'Document Verified',
 	"user_documents_verify_notes" => 'Make sure the user has uploaded proper documents. Once all verified, you can verify the user.',
 	"admin_not_found" => "The admin record is not found.",
 	"support_member_not_found" => "The member record is not found.",

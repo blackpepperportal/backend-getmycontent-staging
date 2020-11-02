@@ -74,6 +74,13 @@ class AdminUserController extends Controller
                 case SORT_BY_EMAIL_VERIFIED:
                     $base_query = $base_query->where('users.is_email_verified',USER_EMAIL_VERIFIED);
                     break;
+
+                case SORT_BY_DOCUMENT_VERIFIED:
+
+                    $base_query =  $base_query->whereHas('userDocuments', function($q) use ($request) {
+                                    return $q->where('user_documents.is_verified',USER_DOCUMENT_VERIFIED);
+                                   });
+                    break;
                 
                 default:
                     $base_query = $base_query->where('users.is_email_verified',USER_EMAIL_NOT_VERIFIED);
