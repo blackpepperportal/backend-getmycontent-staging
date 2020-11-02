@@ -52,6 +52,10 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('users/excel','Admin\AdminUserController@users_excel')->name('users.excel');
 
+        Route::get('user_subscription_payments/index','Admin\AdminUserController@user_subscription_payments')->name('users_subscriptions.index');
+
+        Route::get('user_subscriptions_payment/view','Admin\AdminUserController@user_subscriptions_payment_view')->name('user_subscriptions.view');
+
         //user documents 
 
         Route::get('user-documents', 'Admin\AdminUserController@user_documents_index')->name('user_documents.index');
@@ -231,6 +235,8 @@ Route::group(['middleware' => 'web'], function() {
         Route::get('subscriptions_payments/index','Admin\AdminRevenueController@subscription_payments_index')->name('subscription_payments.index');
 
         Route::get('subscriptions_payments/view','Admin\AdminRevenueController@subscription_payments_view')->name('subscription_payments.view');
+
+
         //subscriptions end
 
         //categories start

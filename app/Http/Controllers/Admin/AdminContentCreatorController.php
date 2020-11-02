@@ -586,7 +586,7 @@ class AdminContentCreatorController extends Controller
 
             $base_query =  $base_query
 
-                ->whereHas('userDetails', function($q) use ($search_key) {
+                ->whereHas('user', function($q) use ($search_key) {
 
                     return $q->Where('users.name','LIKE','%'.$search_key.'%');
 

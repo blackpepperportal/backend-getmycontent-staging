@@ -901,6 +901,7 @@ return [
 	'subscription_payment_not_found' => 'Subscription payment details not found',	 
 	'view_subscription_payments' => 'View Subscription Payments',
 	'subscription_payments' => 'Subscription Payments',
+	'user_subscription_payments' => 'User Subscription Payments',
 	'subscription_payment_search_placeholder' => 'Search By User Name, Payment Id',
 	'expiry_date' => 'Expiry Date',
 	'subscription' => 'Subscription',
@@ -957,7 +958,14 @@ return [
 	"user_documents_verify_notes" => 'Make sure the user has uploaded proper documents. Once all verified, you can verify the user.',
 	"admin_not_found" => "The admin record is not found.",
 	"support_member_not_found" => "The member record is not found.",
-	"user_wallet_balance" => "Wallet Balance"
+	"user_wallet_balance" => "Wallet Balance",
+	"from_username" => "From UserName",
+	"to_username" => "To UserName",
+	"view_user_subscriptions_payment" => "View Users Subscriptions Payment",
+	"users_subscription_payment" => "User Subscriptions Payment",
+	"user_subscription_payment_not_found" => "Subscription payment not found !!",
+	"view_user_subscription_payment" => "View User Subscription Payment",
+	"user_amount" => "User Amount",
 
 
 ]?>
