@@ -54,7 +54,7 @@ class FollowersApiController extends Controller
 
             $following_user_ids = Follower::where('follower_id', $request->id)->pluck('user_id');
 
-            $base_query = $total_query = User::Approved()->OtherResponse()->whereNotIn('users.id', $following_user_ids)->orderBy('post_comments.created_at', 'desc');
+            $base_query = $total_query = User::Approved()->OtherResponse()->whereNotIn('users.id', $following_user_ids)->orderBy('users.created_at', 'desc');
 
             $users = $base_query->skip($this->skip)->take($this->take)->get();
 
