@@ -7,7 +7,7 @@
             <div class="modal-content">
                 <div class="modal-header">
 
-                    <h4 class="modal-title">{{tr('upgrade_to_premium')}}</h4>
+                    <h4 class="modal-title">{{ ($user->user_account_type  == USER_FREE_ACCOUNT) ? tr('upgrade_to_premium') : tr('update_premium') }}</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -15,6 +15,8 @@
                     <div class="row">
 
                         <input type="hidden" name="user_id" value="{{$user->id}}">
+                        <input type="hidden" name="subscription_id" value="{{($user->userSubscription) ?$user->userSubscription->id : ''}}">
+
 
                         <div class="col-md-6 premium_account">
                             <h6 class="">
@@ -34,7 +36,7 @@
                         <div class="col-md-6 premium_account">
                             <div class="form-group">
                                 <label for="monthly_amount">{{ tr('monthly_amount') }}</label><br>
-                                <input type="number" min="0" step="any" id="monthly_amount" name="monthly_amount" class="form-control" placeholder="{{ tr('monthly_amount')}}" value="" required>
+                                <input type="number" min="0" step="any" id="monthly_amount" name="monthly_amount" class="form-control" placeholder="{{ tr('monthly_amount')}}" value="{{ ($user->userSubscription) ? $user->userSubscription->monthly_amount : '' }}" required>
 
                             </div>
                         </div>
@@ -42,7 +44,7 @@
                         <div class="col-md-6 premium_account">
                             <div class="form-group">
                                 <label for="yearly_amount">{{ tr('yearly_amount') }}</label><br>
-                                <input type="number" min="0" step="any" id="yearly_amount" name="yearly_amount" class="form-control" placeholder="{{ tr('yearly_amount') }}" value="" required>
+                                <input type="number" min="0" step="any" id="yearly_amount" name="yearly_amount" class="form-control" placeholder="{{ tr('yearly_amount') }}" value="{{ ($user->userSubscription) ? $user->userSubscription->yearly_amount : '' }}" required>
 
                             </div>
                         </div>

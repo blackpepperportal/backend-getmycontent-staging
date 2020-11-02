@@ -29,7 +29,7 @@
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
                     <div class="heading-elements">
-                        <a href="{{ route('admin.users.excel',['downloadexcel'=>'excel']) }}" class="btn btn-primary">Export to Excel</a>
+                        <a href="{{ route('admin.users.excel',['downloadexcel'=>'excel','status'=>Request::get('status'),'searc_key'=>Request::get('search_key'),'account_type'=>Request::get('account_type')]) }}" class="btn btn-primary">Export to Excel</a>
                         <a href="{{ route('admin.users.create') }}" class="btn btn-primary"><i class="ft-plus icon-left"></i>{{ tr('add_user') }}</a>
                     </div>
 
@@ -125,9 +125,7 @@
 
                                                 <a class="dropdown-item" href="{{ route('admin.users.view', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('view') }}</a>
                                                 
-                                                @if($user->user_account_type  == USER_FREE_ACCOUNT)
-                                                    <a class="dropdown-item" href="{{ route('admin.users.view', ['user_id' => $user->id] ) }}" data-toggle="modal" data-target="#{{$user->id}}">&nbsp;{{ tr('upgrade_to_premium') }}</a>
-                                                @endif
+                                                    <a class="dropdown-item" href="{{ route('admin.users.view', ['user_id' => $user->id] ) }}" data-toggle="modal" data-target="#{{$user->id}}">&nbsp;{{ ($user->user_account_type  == USER_FREE_ACCOUNT) ? tr('upgrade_to_premium') : tr('update_premium') }}</a>
 
                                                 @if(Setting::get('is_demo_control_enabled') == YES)
 

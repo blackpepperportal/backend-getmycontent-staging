@@ -966,6 +966,7 @@ return [
 	"user_subscription_payment_not_found" => "Subscription payment not found !!",
 	"view_user_subscription_payment" => "View User Subscription Payment",
 	"user_amount" => "User Amount",
+	"update_premium" => "Update Premium Account",
 
 
 ]?>
