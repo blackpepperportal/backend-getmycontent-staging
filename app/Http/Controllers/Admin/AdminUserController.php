@@ -305,7 +305,7 @@ class AdminUserController extends Controller
                 if($request->monthly_amount || $request->yearly_amount) {
 
 
-                    $user_subscription = \App\UserSubscription::find($request->subscription_id) ?? new \App\UserSubscription ;
+                    $user_subscription = \App\UserSubscription::where('user_id', $user->id)->first() ?? new \App\UserSubscription;
 
                     $user_subscription->user_id = $user->id;
 
@@ -429,7 +429,7 @@ class AdminUserController extends Controller
                 if($request->monthly_amount || $request->yearly_amount) {
 
 
-                   $user_subscription =  $request->subscription_id ? \App\UserSubscription::find($request->subscription_id) : new \App\UserSubscription ;
+                   $user_subscription =  \App\UserSubscription::find($request->subscription_id) ?? new \App\UserSubscription ;
 
                     $user_subscription->user_id = $user->id;
 
