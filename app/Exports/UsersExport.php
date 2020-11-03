@@ -1,15 +1,6 @@
 <?php
 
 namespace App\Exports;
-
-use Illuminate\Contracts\View\View;
-use Maatwebsite\Excel\Concerns\FromQuery;
-use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\With;
-use Illuminate\Http\Request;
-
-namespace App\Exports;
-
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
   
