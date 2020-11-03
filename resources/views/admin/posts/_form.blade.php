@@ -104,7 +104,7 @@
                                                 {{tr('select_publish_date')}}
                                             </label><br>
 
-                                            <input class="form-control" name="publish_time" type="date" id="datepicker" value="{{ $post->publish_time? date('Y-m-d', strtotime($post->publish_time)) : old('publish_time') }}">
+                                            <input class="form-control" name="publish_time" type="text" id="datepicker" value="{{ $post->publish_time ? date('Y-m-d', strtotime($post->publish_time)) : old('publish_time') }}" readonly='true'>
 
                                         </div>
                                     </div>
