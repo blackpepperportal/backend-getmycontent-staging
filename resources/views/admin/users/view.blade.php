@@ -85,17 +85,17 @@
 
                                 <tr>
                                     <th>{{tr('payment_mode')}}</th>
-                                    <td>{{$user->payment_mode}}</td>
+                                    <td>{{$user->payment_mode ?: tr('not_available')}}</td>
                                 </tr>
                                 
                                 <tr>
                                     <th>{{tr('login_type')}}</th>
-                                    <td>{{$user->login_by}}</td>
+                                    <td>{{$user->login_by ?: tr('not_available')}}</td>
                                 </tr>
 
                                 <tr>
                                     <th>{{tr('device_type')}}</th>
-                                    <td>{{$user->device_type}}</td>
+                                    <td>{{$user->device_type ?: tr('not_available')}}</td>
                                 </tr>
 
                                 <tr>
@@ -119,12 +119,12 @@
 
                                 <tr>
                                     <th>{{tr('website')}}</th>
-                                    <td><a href="{{$user->website}}" target="_blank">{{$user->website}}</a></td>
+                                    <td><a href="{{$user->website}}" target="_blank">{{$user->website ?: tr('not_available')}}</a></td>
                                 </tr>
 
                                 <tr>
                                     <th>{{tr('amazon_wishlist')}}</th>
-                                    <td><a href="{{$user->amazon_wishlist}}" target="_blank"> {{$user->amazon_wishlist}}</a></td>
+                                    <td><a href="{{$user->amazon_wishlist}}" target="_blank"> {{$user->amazon_wishlist ?: tr('not_available')}}</a></td>
                                 </tr>
 
 
@@ -160,13 +160,13 @@
 
                                 <tr>
                                     <th>{{tr('mobile')}}</th>
-                                    <td>{{$user->mobile}}</td>
+                                    <td>{{$user->mobile ?: tr('not_available')}}</td>
                                 </tr>
 
                                  <tr>
                                     <th>{{tr('user_wallet_balance')}}</th>
                                     <td>
-                                       {{ ($user->userWallets) ? formatted_amount($user->userWallets->remaining) : '-' }}
+                                       {{$user->userWallets->remaining_formatted ?? "0.00"}}
                                     </td>
                                 </tr>
 

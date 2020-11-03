@@ -265,7 +265,7 @@ class AdminUserController extends Controller
                 'last_name' => 'required|max:191',
                 // 'email' => 'email|unique:users,email,'.$request->id.'|max:255',
                 'username' => 'nullable|unique:users,username,'.$request->user_id.'|max:255',
-                'email' => $request->user_id ? 'required|email|max:191|unique:users,email,'.$request->user_id.',id' : 'required|email|max:191|unique:users,email,NULL,id',
+                'email' => $request->user_id ? 'email:rfc,dns|required|email|max:191|unique:users,email,'.$request->user_id.',id' : 'email:rfc,dns|required|email|max:191|unique:users,email,NULL,id',
                 'password' => $request->user_id ? "" : 'required|min:6|confirmed',
                 'mobile' => $request->mobile ? 'digits_between:6,13' : '',
                 'picture' => 'mimes:jpg,png,jpeg',

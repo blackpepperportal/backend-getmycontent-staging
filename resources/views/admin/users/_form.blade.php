@@ -138,7 +138,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="amazon_wishlist">{{ tr('amazon_wishlist') }}</label>
-                                            <input type="url" id="amazon_wishlist" name="amazon_wishlist" class="form-control" placeholder="{{ tr('amazon_wishlist') }}" value="{{ $user->amazon_wishlist ?: old('amazon_wishlist') }}" required>
+                                            <input type="url" id="amazon_wishlist" name="amazon_wishlist" class="form-control" placeholder="{{ tr('amazon_wishlist') }}" value="{{ $user->amazon_wishlist ?: old('amazon_wishlist') }}">
                                         </div>
                                     </div>
 

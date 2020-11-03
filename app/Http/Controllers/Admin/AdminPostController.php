@@ -160,9 +160,15 @@ class AdminPostController extends Controller
                 'content' => 'required',
                 'amount' => 'nullable|min:0',
                 'publish_type'=>'required',
+                'publish_time' => 'required_if:publish_type,==,'.UNPUBLISHED,
             ];
 
-            Helper::custom_validator($request->all(),$rules);
+            $customMessages = [
+                'required_if' => 'The :attribute field is required when :other is '. tr('schedule') .'.',
+            ];
+
+
+            Helper::custom_validator($request->all(),$rules, $customMessages);
 
             $post = \App\Post::find($request->post_id) ?? new \App\Post;
 

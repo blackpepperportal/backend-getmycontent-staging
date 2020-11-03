@@ -17,3 +17,21 @@
     @include('admin.posts._form')
 
 @endsection
+
+@section('scripts')
+
+<script type="text/javascript">
+		
+	function select_publish_type(){
+		
+         if($('input[name="publish_type"]:checked').val() == {{UNPUBLISHED}}){
+			$('.schedule_time').css("display", "block");
+		}else{
+			$('.schedule_time').css("display", "none");
+		}
+		
+	}
+
+</script>
+
+@endsection
