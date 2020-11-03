@@ -180,7 +180,7 @@ class AdminPostController extends Controller
 
             $publish_time = $request->publish_time ?: date('Y-m-d H:i:s');
 
-            $post->publish_time = date('Y-m-d '.date('H:i:s'), strtotime($publish_time));
+            $post->publish_time = date('Y-m-d H:i:s', strtotime($publish_time));
 
             $post->amount = $request->amount?? 0;
 

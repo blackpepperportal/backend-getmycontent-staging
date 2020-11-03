@@ -145,55 +145,7 @@ class AdminUserController extends Controller
 
             $filename = routefreestring(Setting::get('site_name'))."-".date('Y-m-d-h-i-s')."-".uniqid().$file_format;
 
-
-            $base_query = \App\User::orderBy('created_at','desc');
-
-            if($request->search_key) {
-
-                $base_query = $base_query
-                ->where('users.name','LIKE','%'.$request->search_key.'%')
-                ->orWhere('users.email','LIKE','%'.$request->search_key.'%')
-                ->orWhere('users.mobile','LIKE','%'.$request->search_key.'%');
-            }
-
-            if($request->status) {
-
-                switch ($request->status) {
-
-                    case SORT_BY_APPROVED:
-                    $base_query = $base_query->where('users.status', USER_APPROVED);
-                    break;
-
-                    case SORT_BY_DECLINED:
-                    $base_query = $base_query->where('users.status', USER_DECLINED);
-                    break;
-
-                    case SORT_BY_EMAIL_VERIFIED:
-                    $base_query = $base_query->where('users.is_email_verified',USER_EMAIL_VERIFIED);
-                    break;
-
-                    case SORT_BY_DOCUMENT_VERIFIED:
-
-                    $base_query =  $base_query->whereHas('userDocuments', function($q) use ($request) {
-                        return $q->where('user_documents.is_verified',USER_DOCUMENT_VERIFIED);
-                    });
-                    break;
-
-                    default:
-                    $base_query = $base_query->where('users.is_email_verified',USER_EMAIL_NOT_VERIFIED);
-                    break;
-                }
-            }
-
-            if($request->has('account_type')) {
-
-                $base_query = $base_query->where('users.user_account_type', $request->account_type);
-
-            } 
-                $base_query = $base_query->get();
-
-
-            return Excel::download(new UsersExport($base_query), $filename);
+            return Excel::download(new UsersExport($request), $filename);
 
         } catch(\Exception $e) {
 
@@ -265,7 +217,7 @@ class AdminUserController extends Controller
                 'last_name' => 'required|max:191',
                 // 'email' => 'email|unique:users,email,'.$request->id.'|max:255',
                 'username' => 'nullable|unique:users,username,'.$request->user_id.'|max:255',
-                'email' => $request->user_id ? 'email:rfc,dns|required|email|max:191|unique:users,email,'.$request->user_id.',id' : 'email:rfc,dns|required|email|max:191|unique:users,email,NULL,id',
+                'email' => $request->user_id ? 'required|email|max:191|unique:users,email,'.$request->user_id.',id' : 'required|email|max:191|unique:users,email,NULL,id',
                 'password' => $request->user_id ? "" : 'required|min:6|confirmed',
                 'mobile' => $request->mobile ? 'digits_between:6,13' : '',
                 'picture' => 'mimes:jpg,png,jpeg',
@@ -353,7 +305,7 @@ class AdminUserController extends Controller
                 if($request->monthly_amount || $request->yearly_amount) {
 
 
-                    $user_subscription = \App\UserSubscription::where('user_id', $user->id)->first() ?? new \App\UserSubscription;
+                    $user_subscription = \App\UserSubscription::find($request->subscription_id) ?? new \App\UserSubscription ;
 
                     $user_subscription->user_id = $user->id;
 
