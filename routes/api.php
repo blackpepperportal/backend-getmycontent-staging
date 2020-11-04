@@ -154,6 +154,21 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('subscription_payments_autorenewal','ApplicationController@subscription_payments_autorenewal');
 
+        // Withdrawls start
+
+        Route::post('withdrawals_index','Api\WalletApiController@user_withdrawals_index');
+        
+        Route::post('withdrawals_view','Api\WalletApiController@user_withdrawals_view');
+
+        Route::post('withdrawals_search','Api\WalletApiController@user_withdrawals_search');
+
+        Route::post('withdrawals_send_request','Api\WalletApiController@user_withdrawals_send_request');
+
+        Route::post('withdrawals_cancel_request','Api\WalletApiController@user_withdrawals_cancel_request');
+
+        Route::post('withdrawals_check','Api\WalletApiController@user_withdrawals_check');
+
+
     });
 
     Route::group(['middleware' => ['CheckDocumentVerify']], function() {
