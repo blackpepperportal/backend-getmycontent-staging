@@ -3,14 +3,14 @@
 
     <div class="row">
 
-        <div class="col-xs-12 col-sm-12 col-lg-2 col-md-6 resp-mrg-btm-md">
+        <div class="col-xs-12 col-sm-12 col-lg-3 col-md-6 resp-mrg-btm-md">
             @if(Request::has('search_key'))
                 <p class="text-muted">{{tr('search_results_for')}}<b>{{Request::get('search_key')}}</b></p>
             @endif
         </div>
 
         <div class="col-xs-12 col-sm-12 col-lg-3 col-md-6 md-full-width resp-mrg-btm-md">
-
+          <input type="hidden" class="form-control" name="scheduled" value="{{Request::get('scheduled')}}">
             <select class="form-control select2" name="status">
 
                 <option  class="select-color" value="">{{tr('select_status')}}</option>
@@ -27,9 +27,9 @@
 
         </div>
 
-        <div class="col-xs-12 col-sm-12 col-lg-6 col-md-12 mx-auto">
+        <div class="col-xs-12 col-sm-12 col-lg-6 col-md-12">
 
-            <div class="input-group form-margin-left-sm">
+            <div class="input-group">
                
                 <input type="text" class="form-control" name="search_key"
                 placeholder="{{tr('post_search_placeholder')}}"> <span class="input-group-btn">

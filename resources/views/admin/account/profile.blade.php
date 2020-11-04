@@ -5,8 +5,7 @@
 @section('content-header', tr('profile')) 
 
 @section('breadcrumb')
-    <li class="breadcrumb-item active">{{ tr('profile') }}</a>
-    </li>
+<li class="breadcrumb-item active">{{tr('profile')}}</li>
 
 @endsection 
 
@@ -26,11 +25,11 @@
 
                         <div class="card-body">
 
-                            <center class="m-t-30"> <img src="{{$admin_details->picture  ?: asset('placeholder.png')}}" class="img-circle mb-2" width="150" />
+                            <center class="m-t-30"> <img src="{{$admin->picture ?: asset('placeholder.png')}}" class="img-circle mb-2" width="150" />
 
-                                <h4 class="card-title m-t-10">{{$admin_details->name}}</h4>
+                                <h4 class="card-title m-t-10">{{$admin->name}}</h4>
 
-                                <h6 class="card-subtitle">{{$admin_details->timezone}}</h6>
+                                <h6 class="card-subtitle">{{$admin->timezone}}</h6>
                             </center>
 
                         </div>
@@ -39,11 +38,11 @@
                         <ul class="list-group list-group-unbordered">
 
                             <li class="list-group-item">
-                                <b>{{tr('email')}}</b> <a class="pull-right">{{$admin_details->email}}</a>
+                                <b>{{tr('email')}}</b> <a class="pull-right">{{$admin->email}}</a>
                             </li>
                             
                             <li class="list-group-item">
-                                <b>{{tr('about')}}</b> <a class="pull-right">{{$admin_details->about}}</a>
+                                <b>{{tr('about')}}</b> <a class="pull-right">{{$admin->about}}</a>
                             </li>
                         </ul>
                     </div>

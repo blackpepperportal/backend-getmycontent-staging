@@ -6,11 +6,11 @@
 
 @section('breadcrumb')
 
-    
-    <li class="breadcrumb-item"><a href="{{route('admin.documents.index')}}">{{tr('documents')}}</a>
-    </li>
-    <li class="breadcrumb-item active">{{tr('view_documents')}}</a>
-    </li>
+<li class="breadcrumb-item">
+    <a href="{{route('admin.documents.index')}}">{{tr('documents')}}</a>
+</li>
+
+<li class="breadcrumb-item active">{{tr('view_documents')}}</li>
 
 @endsection
 
@@ -22,7 +22,7 @@
 
         <div class="card-header">
 
-            <h4 id="basic-forms" class="card-title">{{$document_details->name}} {{tr('documentation')}}</h4>
+            <h4 id="basic-forms" class="card-title">{{$document->name}} {{tr('documentation')}}</h4>
 
         </div>
         
@@ -37,7 +37,7 @@
                     <div class="col-md-3">
                         <div class="card-title">{{tr('document_image')}}</div>
 
-                        <img src="{{$document_details->picture ?: asset('placeholder.png')}}" class="document-image">
+                        <img src="{{$document->picture ?: asset('placeholder.png')}}" class="document-image">
                     </div>
 
                     <div class="col-md-3">
@@ -48,25 +48,25 @@
 
                             <a href="javascript:;" class="btn btn-warning mb-2" title="{{tr('edit')}}"><b>{{tr('edit')}}</b></a>
 
-                            <a onclick="return confirm(&quot;{{ tr('document_delete_confirmation', $document_details->title ) }}&quot;);" href="javascript:;" class="btn btn-danger" title="{{tr('delete')}}"><b>{{tr('delete')}}</b>
+                            <a onclick="return confirm(&quot;{{ tr('document_delete_confirmation', $document->title ) }}&quot;);" href="javascript:;" class="btn btn-danger" title="{{tr('delete')}}"><b>{{tr('delete')}}</b>
                                 </a>
 
                         @else
-                            <a href="{{ route('admin.documents.edit' , ['document_id' => $document_details->id] ) }}" class="btn btn-warning btn-min-width mr-1 mb-1" title="{{tr('edit')}}"><b>{{tr('edit')}}</b></a>  
+                            <a href="{{ route('admin.documents.edit' , ['document_id' => $document->id] ) }}" class="btn btn-warning btn-min-width mr-1 mb-1" title="{{tr('edit')}}"><b>{{tr('edit')}}</b></a>  
                                                         
-                            <a onclick="return confirm(&quot;{{ tr('document_delete_confirmation', $document_details->name ) }}&quot;);" href="{{ route('admin.documents.delete', ['document_id' => $document_details->id] ) }}" class="btn btn-danger btn-min-width mr-1 mb-1" title="{{tr('delete')}}"><b>{{tr('delete')}}</i></b>
+                            <a onclick="return confirm(&quot;{{ tr('document_delete_confirmation', $document->name ) }}&quot;);" href="{{ route('admin.documents.delete', ['document_id' => $document->id] ) }}" class="btn btn-danger btn-min-width mr-1 mb-1" title="{{tr('delete')}}"><b>{{tr('delete')}}</i></b>
                                 </a>
                         @endif
 
-                        @if($document_details->status == APPROVED)
+                        @if($document->status == APPROVED)
 
-                            <a class="btn btn-danger btn-min-width mr-1 mb-1" title="{{tr('decline')}}" href="{{ route('admin.documents.status', ['document_id' => $document_details->id]) }}" onclick="return confirm(&quot;{{$document_details->name}} - {{tr('document_decline_confirmation')}}&quot;);" >
+                            <a class="btn btn-danger btn-min-width mr-1 mb-1" title="{{tr('decline')}}" href="{{ route('admin.documents.status', ['document_id' => $document->id]) }}" onclick="return confirm(&quot;{{$document->name}} - {{tr('document_decline_confirmation')}}&quot;);" >
                                 <b>{{tr('decline')}}</b>
                             </a>
 
                         @else
                             
-                            <a class="btn btn-success btn-min-width mr-1 mb-1" title="{{tr('approve')}}" href="{{ route('admin.documents.status', ['document_id' => $document_details->id]) }}">
+                            <a class="btn btn-success btn-min-width mr-1 mb-1" title="{{tr('approve')}}" href="{{ route('admin.documents.status', ['document_id' => $document->id]) }}">
                                 <b>{{tr('approve')}}</b> 
                             </a>
                                
@@ -76,11 +76,11 @@
 
                     <div class="col-lg-6">
 
-                        <div class="card-title">{{tr('document_details')}}</div>
+                        <div class="card-title">{{tr('document')}}</div>
 
                         <p><strong>{{tr('name')}}</strong>
 
-                            <span class="pull-right">{{$document_details->name}}
+                            <span class="pull-right">{{$document->name}}
                             </span>
                             
                         </p>
@@ -88,7 +88,7 @@
 
                         <p><strong>{{tr('is_required')}}</strong>
 
-                            @if($document_details->is_required == YES)
+                            @if($document->is_required == YES)
                                 <span class="badge bg-success pull-right">{{tr('yes')}}</span>
                             @else
                                 <span class="badge bg-danger pull-right">{{tr('no')}}</span>
@@ -99,7 +99,7 @@
 
                        <p><strong>{{tr('status')}}</strong>
 
-                            @if($document_details->status == APPROVED)
+                            @if($document->status == APPROVED)
                                 <span class="badge bg-success pull-right">{{tr('approved')}}</span>
                             @else
                                 <span class="badge bg-danger pull-right">{{tr('declined')}}</span>
@@ -109,18 +109,18 @@
                         <hr>
 
                         <p><strong>{{tr('created_at')}} </strong>
-                            <span class="pull-right">{{common_date($document_details->created_at , Auth::guard('admin')->user()->timezone)}}</span>
+                            <span class="pull-right">{{common_date($document->created_at , Auth::guard('admin')->user()->timezone)}}</span>
                         </p>
                         <hr>
 
                         <p><strong>{{tr('updated_at')}} </strong>
-                            <span class="pull-right">{{common_date($document_details->updated_at , Auth::guard('admin')->user()->timezone)}}
+                            <span class="pull-right">{{common_date($document->updated_at , Auth::guard('admin')->user()->timezone)}}
                             </span>
                         </p>
                         <hr>
 
                         <p><strong>{{tr('description')}}</strong></p>
-                        <span>{{$document_details->description ?: "-"}}</span>
+                        <span>{{$document->description ?: "-"}}</span>
 
                     </div>
 

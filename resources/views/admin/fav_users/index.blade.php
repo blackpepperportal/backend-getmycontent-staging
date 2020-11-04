@@ -6,7 +6,8 @@
 
 @section('breadcrumb')
 
-<li class="breadcrumb-item active"><a href="{{route('admin.users.index')}}">{{ tr('users') }}</a>
+<li class="breadcrumb-item active">
+    <a href="{{route('admin.users.index')}}">{{ tr('users') }}</a>
 </li>
     
 <li class="breadcrumb-item">{{ tr('favorite_users_list') }}</li>

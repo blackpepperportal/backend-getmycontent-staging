@@ -45,7 +45,7 @@
                                     
                                         <h6 class="card-title">{{tr('question')}}</h6>
                                         
-                                        <p class="card-text">{{$faq_details->question}}</p>
+                                        <p class="card-text">{{$faq->question}}</p>
 
                                     </div> 
                                     <hr>
@@ -54,7 +54,7 @@
                                     
                                         <h5 class="card-title">{{tr('answer')}}</h5>
                                         
-                                        <p class="card-text"><?= $faq_details->answer ?></p>
+                                        <p class="card-text"><?= $faq->answer ?></p>
 
                                     </div>
                                     <hr>
@@ -65,7 +65,7 @@
                                         
                                         <p class="card-text">
 
-                                            @if($faq_details->status == APPROVED)
+                                            @if($faq->status == APPROVED)
 
                                                 <span class="badge badge-success badge-md text-uppercase">{{tr('approved')}}</span>
 
@@ -84,7 +84,7 @@
                                     
                                         <h5 class="card-title">{{tr('updated_at')}}</h5>
                                         
-                                        <p class="card-text">{{ common_date($faq_details->updated_at,Auth::guard('admin')->user()->timezone) }}</p>
+                                        <p class="card-text">{{ common_date($faq->updated_at,Auth::guard('admin')->user()->timezone) }}</p>
 
                                     </div>
                                     <hr>
@@ -93,7 +93,7 @@
                                     
                                         <h5 class="card-title">{{tr('created_at')}}</h5>
                                         
-                                        <p class="card-text">{{ common_date($faq_details->created_at,Auth::guard('admin')->user()->timezone) }}</p>
+                                        <p class="card-text">{{ common_date($faq->created_at,Auth::guard('admin')->user()->timezone) }}</p>
 
                                     </div>
                                     <hr> 
@@ -105,12 +105,12 @@
                                         @if(Setting::get('is_demo_control_enabled') == NO)
                                             <div class="col-md-4 col-lg-4">
 
-                                                <a href="{{ route('admin.faqs.edit', ['faq_id'=> $faq_details->id] ) }}" class="btn btn-primary btn-block">{{tr('edit')}}</a>
+                                                <a href="{{ route('admin.faqs.edit', ['faq_id'=> $faq->id] ) }}" class="btn btn-primary btn-block">{{tr('edit')}}</a>
                                                 
                                             </div>                              
 
                                             <div class="col-md-4 col-lg-4">
-                                                <a onclick="return confirm(&quot;{{tr('faq_delete_confirmation' , $faq_details->question)}}&quot;);" href="{{ route('admin.faqs.delete', ['faq_id'=> $faq_details->id] ) }}" class="btn btn-danger btn-block">
+                                                <a onclick="return confirm(&quot;{{tr('faq_delete_confirmation' , $faq->question)}}&quot;);" href="{{ route('admin.faqs.delete', ['faq_id'=> $faq->id] ) }}" class="btn btn-danger btn-block">
                                                     {{ tr('delete') }}
                                                 </a>
 
@@ -132,11 +132,11 @@
 
                                         @endif
 
-                                        @if($faq_details->status == APPROVED)
+                                        @if($faq->status == APPROVED)
 
                                             <div class="col-md-4 col-lg-4">
                                                 
-                                                <a class="btn btn-warning btn-block" href="{{ route('admin.faqs.status', ['faq_id'=> $faq_details->id] ) }}" onclick="return confirm(&quot;{{ $faq_details->question }}-{{tr('faq_decline_confirmation' , $faq_details->title)}}&quot;);">
+                                                <a class="btn btn-warning btn-block" href="{{ route('admin.faqs.status', ['faq_id'=> $faq->id] ) }}" onclick="return confirm(&quot;{{ $faq->question }}-{{tr('faq_decline_confirmation' , $faq->title)}}&quot;);">
 
                                                     {{tr('decline')}}
                                                 </a>
@@ -145,7 +145,7 @@
                                         @else
 
                                             <div class="col-md-4 col-lg-4">
-                                                 <a class="btn btn-success btn-block" href="{{ route('admin.faqs.status', ['faq_id'=> $faq_details->id] ) }}">
+                                                 <a class="btn btn-success btn-block" href="{{ route('admin.faqs.status', ['faq_id'=> $faq->id] ) }}">
                                                     {{tr('approve')}}
                                                 </a>
                                             </div>

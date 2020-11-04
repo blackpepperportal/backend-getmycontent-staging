@@ -45,47 +45,47 @@
 
                                         <tr>
                                             <td>{{ tr('unique_id')}} </td>
-                                            <td class="text-uppercase">{{ $subscription_payment_details->unique_id}}</td>
+                                            <td class="text-uppercase">{{ $subscription_payment->unique_id}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('payment_id')}} </td>
-                                            <td>{{ $subscription_payment_details->payment_id}}</td>
+                                            <td>{{ $subscription_payment->payment_id}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('plan')}} </td>
-                                            <td>{{ $subscription_payment_details->plan_formatted}}</td>
+                                            <td>{{ $subscription_payment->plan_formatted}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('subscription')}} </td>
-                                            <td><a href="{{route('admin.subscriptions.view',['subscription_id' => $subscription_payment_details->subscription_id])}}">{{ $subscription_payment_details->subscription->title ?? "-"}}</a></td>
+                                            <td><a href="{{route('admin.subscriptions.view',['subscription_id' => $subscription_payment->subscription_id])}}">{{ $subscription_payment->subscription->title ?? "-"}}</a></td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('payment_mode')}} </td>
-                                            <td>{{ $subscription_payment_details->payment_mode}}</td>
+                                            <td>{{ $subscription_payment->payment_mode}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('user')}} </td>
                                             <td>
-                                                <a href="{{ route('admin.users.view', ['user_id' => $subscription_payment_details->user_id])}}">
-                                                {{ $subscription_payment_details->user->name ?? "-"}}
+                                                <a href="{{ route('admin.users.view', ['user_id' => $subscription_payment->user_id])}}">
+                                                {{ $subscription_payment->user->name ?? "-"}}
                                                 </a>
                                             </td>
                                         </tr> 
 
                                         <tr>
                                             <td>{{ tr('amount') }}</td>
-                                            <td>{{ $subscription_payment_details->amount_formatted}}</td>
+                                            <td>{{ $subscription_payment->amount_formatted}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('is_current_subscription') }}</td>
                                             <td>
-                                                @if($subscription_payment_details->is_current_subscription ==YES)
+                                                @if($subscription_payment->is_current_subscription ==YES)
 
                                                     <span class="badge bg-success">{{tr('yes')}}</span>
 
@@ -109,18 +109,18 @@
 
                                         <tr>
                                             <td>{{ tr('expiry_date') }}</td>
-                                            <td>{{common_date($subscription_payment_details->expiry_date , Auth::guard('admin')->user()->timezone)}}</td>
+                                            <td>{{common_date($subscription_payment->expiry_date , Auth::guard('admin')->user()->timezone)}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('paid_date') }}</td>
-                                            <td>{{common_date($subscription_payment_details->paid_date , Auth::guard('admin')->user()->timezone)}}</td>
+                                            <td>{{common_date($subscription_payment->paid_date , Auth::guard('admin')->user()->timezone)}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('status') }}</td>
                                             <td>
-                                                @if($subscription_payment_details->status ==YES)
+                                                @if($subscription_payment->status ==YES)
 
                                                     <span class="badge bg-success">{{tr('yes')}}</span>
 
@@ -134,7 +134,7 @@
                                         <tr>
                                             <td>{{ tr('is_cancelled') }}</td>
                                             <td>
-                                                @if($subscription_payment_details->is_cancelled ==YES)
+                                                @if($subscription_payment->is_cancelled ==YES)
 
                                                     <span class="badge bg-success">{{tr('yes')}}</span>
 
@@ -147,17 +147,17 @@
 
                                         <tr>
                                             <td>{{ tr('cancel_reason') }}</td>
-                                            <td>{{ $subscription_payment_details->cancel_reason}}</td>
+                                            <td>{{ $subscription_payment->cancel_reason}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('created_at') }}</td>
-                                            <td>{{common_date($subscription_payment_details->created_at , Auth::guard('admin')->user()->timezone)}}</td>
+                                            <td>{{common_date($subscription_payment->created_at , Auth::guard('admin')->user()->timezone)}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('updated_at') }}</td>
-                                            <td>{{common_date($subscription_payment_details->updated_at , Auth::guard('admin')->user()->timezone)}}</td>
+                                            <td>{{common_date($subscription_payment->updated_at , Auth::guard('admin')->user()->timezone)}}</td>
                                         </tr>
 
                                     </tbody>

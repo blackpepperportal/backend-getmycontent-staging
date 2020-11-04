@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
-@section('title', tr('user_withdrawals'))
+@section('title', tr('revenue_management'))
 
-@section('content-header', tr('user_withdrawals'))
+@section('content-header', tr('revenue_management'))
 
 @section('breadcrumb')
 
@@ -49,30 +49,30 @@
 
                             <tbody>
 
-                                @foreach($user_withdrawals as $i => $user_withdrawal_details)
+                                @foreach($user_withdrawals as $i => $user_withdrawal)
                                 <tr>
                                     <td>{{ $i+$user_withdrawals->firstItem() }}</td>
 
-                                    <td>{{ $user_withdrawal_details->payment_id}}</td>
+                                    <td>{{ $user_withdrawal->payment_id}}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.users.view' , ['user_id' => $user_withdrawal_details->user_id] )  }}">
-                                            {{ $user_withdrawal_details->userDetails->name ?? "-" }}
+                                        <a href="{{  route('admin.users.view' , ['user_id' => $user_withdrawal->user_id] )  }}">
+                                            {{ $user_withdrawal->userDetails->name ?? "-" }}
                                         </a>
                                     </td>
 
-                                    <td>{{ $user_withdrawal_details->requested_amount_formatted }}</td>
+                                    <td>{{ $user_withdrawal->requested_amount_formatted }}</td>
 
                                     <td>
-                                        {{ $user_withdrawal_details->paid_amount_formatted}}
+                                        {{ $user_withdrawal->paid_amount_formatted}}
                                     </td>
 
                                     <td>
-                                        @if($user_withdrawal_details->status == WITHDRAW_PAID)
+                                        @if($user_withdrawal->status == WITHDRAW_PAID)
 
                                         <span class="badge badge-success">{{tr('paid')}}</span>
 
-                                        @elseif($user_withdrawal_details->status == WITHDRAW_INITIATED)
+                                        @elseif($user_withdrawal->status == WITHDRAW_INITIATED)
 
                                         <span class="badge badge-warning">{{tr('initiated')}}</span>
 
@@ -90,7 +90,7 @@
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                @if(in_array($user_withdrawal_details->status,[ WITHDRAW_INITIATED,WITHDRAW_ONHOLD]))
+                                                @if(in_array($user_withdrawal->status,[ WITHDRAW_INITIATED,WITHDRAW_ONHOLD]))
 
                                                 <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#paynowModal{{$i}}">
                                                     
@@ -100,14 +100,14 @@
 
                                                 <div class="dropdown-divider"></div>
 
-                                                <a href="{{route('admin.user_withdrawals.reject',['user_withdrawal_id'=>$user_withdrawal_details->id])}}" class="dropdown-item" onclick="return confirm(&quot;{{tr('user_withdrawal_reject_confirmation')}}&quot;);">{{tr('reject')}}</a>
+                                                <a href="{{route('admin.user_withdrawals.reject',['user_withdrawal_id'=>$user_withdrawal->id])}}" class="dropdown-item" onclick="return confirm(&quot;{{tr('user_withdrawal_reject_confirmation')}}&quot;);">{{tr('reject')}}</a>
 
                                                 @endif
 
                                                 <div class="dropdown-divider"></div>
 
 
-                                                <a href="{{route('admin.user_withdrawals.view',['user_withdrawal_id'=>$user_withdrawal_details->id])}}" class="dropdown-item">{{tr('view')}}</a>
+                                                <a href="{{route('admin.user_withdrawals.view',['user_withdrawal_id'=>$user_withdrawal->id])}}" class="dropdown-item">{{tr('view')}}</a>
 
                                             </div>
 

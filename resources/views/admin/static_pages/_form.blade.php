@@ -8,7 +8,7 @@
                 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title" id="basic-layout-form">{{$static_page_details->id ? tr('edit_static_page') : tr('add_static_page')}}</h4>
+                    <h4 class="card-title" id="basic-layout-form">{{$static_page->id ? tr('edit_static_page') : tr('add_static_page')}}</h4>
 
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
@@ -36,9 +36,9 @@
 
                             <div class="card-body">
 
-                                @if($static_page_details->id)
+                                @if($static_page->id)
 
-                                    <input type="hidden" name="static_page_id" value="{{$static_page_details->id}}">
+                                    <input type="hidden" name="static_page_id" value="{{$static_page->id}}">
 
                                 @endif
 
@@ -49,8 +49,29 @@
                                         <div class="form-group col-md-6">
                                             <div class="form-group">
                                                 <label for="title">{{tr('title')}}<span class="admin-required">*</span> </label>
-                                                <input type="text" id="title" name="title" class="form-control" placeholder="Enter {{tr('title')}}" required  value="{{old('title')?: $static_page_details->title}}" onkeydown="return alphaOnly(event);">
+                                                <input type="text" id="title" name="title" class="form-control" placeholder="Enter {{tr('title')}}" required  value="{{old('title')?: $static_page->title}}" onkeydown="return alphaOnly(event);">
                                             </div>
+                                        </div>
+
+
+                                        <div class="form-group col-md-4">
+
+                                            <label for="page">
+                                                {{tr('select_section_type')}}
+
+                                                <span class="required" aria-required="true"> <span class="admin-required">*</span> </span>
+                                            </label>
+
+                                            <select class="form-control select2" name="section_type" required>
+                                                <option value="">{{tr('select_section_type')}}</option>
+
+                                                @foreach($section_types as $key => $value)
+
+                                                <option value="{{$key}}" @if($key == $static_page->section_type) selected @endif>{{ $value }}</option>
+
+                                                @endforeach 
+                                            </select>
+
                                         </div>
 
                                         <div class="form-group col-md-6">
@@ -65,7 +86,7 @@
 
                                                 @foreach($static_keys as $value)
 
-                                                    <option value="{{$value}}" @if($value == $static_page_details->type) selected="true" @endif>{{ ucfirst($value) }}</option>
+                                                    <option value="{{$value}}" @if($value == $static_page->type) selected="true" @endif>{{ ucfirst($value) }}</option>
 
                                                 @endforeach 
                                             </select>
@@ -81,7 +102,7 @@
 
                                                 <label for="description">{{tr('description')}}<span class="admin-required">*</span></label>
 
-                                                <textarea id="summernote" rows="5" class="form-control" name="description" placeholder="{{ tr('description') }}">{{old('description') ?: $static_page_details->description}}</textarea>
+                                                <textarea id="summernote" rows="5" class="form-control" name="description" placeholder="{{ tr('description') }}">{{old('description') ?: $static_page->description}}</textarea>
 
                                             </div>
 

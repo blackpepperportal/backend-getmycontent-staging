@@ -128,10 +128,10 @@
                     
                     <div class="card-body my-gallery" itemscope itemtype="http://schema.org/ImageGallery">
                         <div class="row">
-                            @foreach($posts as $post_details)
+                            @foreach($posts as $post)
                             <figure class="col-lg-3 col-md-6 col-12" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
                                 <a href="" itemprop="contentUrl" data-size="480x360">
-                                    <img class="img-thumbnail img-fluid" src="{{$post_details->picture}}" itemprop="thumbnail" alt="Image description" />
+                                    <img class="img-thumbnail img-fluid" src="{{$post->picture}}" itemprop="thumbnail" alt="Image description" />
                                 </a>
                             </figure>
                             @endforeach

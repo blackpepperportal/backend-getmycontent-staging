@@ -416,9 +416,9 @@ function selected($array, $id, $check_key_name) {
     
     $is_key_array = is_array($id);
     
-    foreach ($array as $key => $array_details) {
+    foreach ($array as $key => $value) {
 
-        $array_details->is_selected = ($array_details->$check_key_name == $id) ? YES : NO;
+        $value->is_selected = ($value->$check_key_name == $id) ? YES : NO;
     }  
 
     return $array;
@@ -882,4 +882,25 @@ function get_post_file_type($file_url) {
 
     return 'image';
 
+}
+
+function user_document_status_formatted($status) {
+
+    $status_list = [
+                USER_DOCUMENT_NONE => tr('USER_DOCUMENT_NONE'),
+                USER_DOCUMENT_PENDING => tr('USER_DOCUMENT_PENDING'),
+                USER_DOCUMENT_APPROVED => tr('USER_DOCUMENT_APPROVED'),
+                USER_DOCUMENT_DECLINED => tr('USER_DOCUMENT_DECLINED')
+                ];
+
+    return isset($status_list[$status]) ? $status_list[$status] : tr('USER_DOCUMENT_NONE');
+}
+
+function get_follower_ids($user_id) {
+
+    $follower_ids = \App\Follower::where('follower_id', $user_id)->pluck('user_id');
+
+    $follower_ids = $follower_ids ? $follower_ids->toArray() : [];
+
+    return $follower_ids;
 }

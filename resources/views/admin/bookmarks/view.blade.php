@@ -49,7 +49,7 @@
                                 </tr>
 
                                 <tr>
-                                    <th>{{tr('post_details')}}</th>
+                                    <th>{{tr('post')}}</th>
                                     <td>{{$post_bookmark->post->content ?? tr('n_a')}}</td>
                                 </tr> 
                                 

@@ -27,22 +27,38 @@ class Post extends Model
 
 	public function getUserUniqueIdAttribute() {
 
-		return $this->user->unique_id ?? "";
+		$user_unique_id = $this->user->unique_id ?? "";
+
+		unset($this->user);
+
+		return $user_unique_id ?? "";
 	}
 
 	public function getUsernameAttribute() {
 
-		return $this->user->username ?? "";
+		$username = $this->user->username ?? "";
+
+		unset($this->user);
+
+		return $username ?? "";
 	}
 
 	public function getUserDisplaynameAttribute() {
 
-		return $this->user->name ?? "";
+		$name = $this->user->name ?? "";
+
+		unset($this->user);
+
+		return $name ?? "";
 	}
 
 	public function getUserPictureAttribute() {
 
-		return $this->user->picture ?? "";
+		$picture = $this->user->picture ?? "";
+
+		unset($this->user);
+
+		return $picture ?? "";
 	}
 
 	public function getTotalLikesAttribute() {

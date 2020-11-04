@@ -58,26 +58,26 @@
                            
                             <tbody>
 
-                                @foreach($subscription_payments as $i => $subscription_payment_details)
+                                @foreach($subscription_payments as $i => $subscription_payment)
                                 <tr>
                                     <td>{{ $i+$subscription_payments->firstItem() }}</td>
 
-                                    <td> <a href="{{ route('admin.subscription_payments.view', ['subscription_payment_id' => $subscription_payment_details->id] ) }}">{{$subscription_payment_details->payment_id}}</a></td>
+                                    <td> <a href="{{ route('admin.subscription_payments.view', ['subscription_payment_id' => $subscription_payment->id] ) }}">{{$subscription_payment->payment_id}}</a></td>
 
                                     <td>
-                                        <a href="{{  route('admin.users.view' , ['user_id' => $subscription_payment_details->user_id] )  }}">
-                                        {{ $subscription_payment_details->user->name ?? "-" }}
+                                        <a href="{{  route('admin.users.view' , ['user_id' => $subscription_payment->user_id] )  }}">
+                                        {{ $subscription_payment->user->name ?? "-" }}
                                         </a>
                                     </td>
 
                                     <td>
-                                        {{ $subscription_payment_details->amount_formatted}}
+                                        {{ $subscription_payment->amount_formatted}}
                                     </td>
 
-                                    <td><span class="text-danger">{{common_date($subscription_payment_details->expiry_time , Auth::guard('admin')->user()->timezone)}}</span></td>
+                                    <td><span class="text-danger">{{common_date($subscription_payment->expiry_time , Auth::guard('admin')->user()->timezone)}}</span></td>
 
                                     <td>
-                                        @if($subscription_payment_details->status == APPROVED)
+                                        @if($subscription_payment->status == APPROVED)
 
                                             <span class="btn btn-success btn-sm">{{ tr('approved') }}</span>
                                         @else
@@ -89,7 +89,7 @@
 
                                     <td>
 
-                                        <a class="btn btn-primary" href="{{ route('admin.subscription_payments.view', ['subscription_payment_id' => $subscription_payment_details->id] ) }}">&nbsp;{{ tr('view') }}</a> 
+                                        <a class="btn btn-primary" href="{{ route('admin.subscription_payments.view', ['subscription_payment_id' => $subscription_payment->id] ) }}">&nbsp;{{ tr('view') }}</a> 
                                     
                                     </td>
 

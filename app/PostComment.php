@@ -10,7 +10,7 @@ class PostComment extends Model
 
     protected $hidden = ['id','unique_id'];
 
-	protected $appends = ['post_comment_id','post_comment_unique_id', 'username', 'user_picture'];
+	protected $appends = ['post_comment_id','post_comment_unique_id', 'username', 'user_displayname','user_picture', 'user_unique_id',];
 	
 	public function getPostCommentIdAttribute() {
 
@@ -22,14 +22,40 @@ class PostComment extends Model
 		return $this->unique_id;
 	}
 
+	public function getUserUniqueIdAttribute() {
+
+		$user_unique_id = $this->user->unique_id ?? "";
+
+		unset($this->user);
+
+		return $user_unique_id ?? "";
+	}
+
 	public function getUsernameAttribute() {
 
-		return $this->user->name ?? "";
+		$username = $this->user->username ?? "";
+
+		unset($this->user);
+
+		return $username ?? "";
+	}
+
+	public function getUserDisplaynameAttribute() {
+
+		$name = $this->user->name ?? "";
+
+		unset($this->user);
+
+		return $name ?? "";
 	}
 
 	public function getUserPictureAttribute() {
 
-		return $this->user->picture ?? "";
+		$picture = $this->user->picture ?? "";
+
+		unset($this->user);
+
+		return $picture ?? "";
 	}
 
 	public function user() {

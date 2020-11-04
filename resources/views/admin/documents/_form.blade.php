@@ -34,13 +34,13 @@
 
                                 <div class="row">
 
-                                    <input type="hidden" name="document_id" id="document_id" value="{{ $document_details->id}}">
+                                    <input type="hidden" name="document_id" id="document_id" value="{{ $document->id}}">
 
                                     <div class="col-md-6">
 
                                         <div class="form-group">
                                             <label for="name">{{ tr('name') }}*</label>
-                                            <input type="text" id="name" name="name" class="form-control" placeholder="{{ tr('name') }}" value="{{ $document_details->name ?: old('name') }}" required onkeydown="return alphaOnly(event);">
+                                            <input type="text" id="name" name="name" class="form-control" placeholder="{{ tr('name') }}" value="{{ $document->name ?: old('name') }}" required onkeydown="return alphaOnly(event);">
                                         </div>
 
                                     </div>
@@ -65,7 +65,7 @@
 
                                             <fieldset>
 
-                                                <input type="checkbox" id="input-6" name="is_required" value="{{YES}}" @if($document_details->is_required ==  YES) checked="checked" @endif>
+                                                <input type="checkbox" id="input-6" name="is_required" value="{{YES}}" @if($document->is_required ==  YES) checked="checked" @endif>
 
                                                 <label for="input-6">{{tr('is_required')}}</label>
 
@@ -85,7 +85,7 @@
                                         
                                         <label for="description">{{ tr('description') }}</label>
 
-                                        <textarea class="form-control" name="description" placeholder="{{ tr('description') }}">{{ $document_details->description ? $document_details->description :old('description') }}</textarea>
+                                        <textarea class="form-control" name="description" placeholder="{{ tr('description') }}">{{ $document->description ? $document->description :old('description') }}</textarea>
                                        
                                     </div>
 

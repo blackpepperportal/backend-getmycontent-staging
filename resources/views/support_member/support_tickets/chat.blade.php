@@ -10,14 +10,11 @@
 
 @section('breadcrumb')
 
-<li class="breadcrumb-item"><a href="{{ route('support_member.dashboard') }}">{{ tr('home') }}</a>
+<li class="breadcrumb-item">
+  <a href="{{route('support_member.support_tickets.index')}}">{{tr('support_tickets')}}</a>
 </li>
 
-<li class="breadcrumb-item"><a href="{{route('support_member.support_tickets.index')}}">{{ tr('support_tickets') }}</a></a>
-</li>
-
-<li class="breadcrumb-item">{{ tr('view_support_tickets') }}</a>
-</li>
+<li class="breadcrumb-item">{{ tr('view_support_tickets') }}</li>
 
 @endsection 
 

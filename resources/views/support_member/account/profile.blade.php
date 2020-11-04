@@ -30,11 +30,11 @@
 
                         <div class="card-body">
 
-                            <center class="m-t-30"> <img src="{{$support_member_details->picture  ?: asset('placeholder.png')}}" class="img-circle mb-2" width="150" />
+                            <center class="m-t-30"> <img src="{{$support_member->picture  ?: asset('placeholder.png')}}" class="img-circle mb-2" width="150" />
 
-                                <h4 class="card-title m-t-10">{{$support_member_details->name}}</h4>
+                                <h4 class="card-title m-t-10">{{$support_member->name}}</h4>
 
-                                <h6 class="card-subtitle">{{$support_member_details->timezone}}</h6>
+                                <h6 class="card-subtitle">{{$support_member->timezone}}</h6>
                             </center>
 
                         </div>
@@ -43,11 +43,11 @@
                         <ul class="list-group list-group-unbordered">
 
                             <li class="list-group-item">
-                                <b>{{tr('email')}}</b> <a class="pull-right">{{$support_member_details->email}}</a>
+                                <b>{{tr('email')}}</b> <a class="pull-right">{{$support_member->email}}</a>
                             </li>
                             
                             <li class="list-group-item">
-                                <b>{{tr('about')}}</b> <a class="pull-right">{{$support_member_details->about}}</a>
+                                <b>{{tr('about')}}</b> <a class="pull-right">{{$support_member->about}}</a>
                             </li>
                         </ul>
                     </div>

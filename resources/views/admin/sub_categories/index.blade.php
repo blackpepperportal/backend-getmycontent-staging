@@ -56,26 +56,26 @@
                            
                             <tbody>
 
-                                @foreach($sub_categories as $i => $sub_category_details)
+                                @foreach($sub_categories as $i => $sub_category)
                                 <tr>
                                     <td>{{ $i+$sub_categories->firstItem() }}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.sub_categories.view' , ['sub_category_id' => $sub_category_details->id] )  }}">
-                                        {{ $sub_category_details->name }}
+                                        <a href="{{  route('admin.sub_categories.view' , ['sub_category_id' => $sub_category->id] )  }}">
+                                        {{ $sub_category->name }}
                                         </a>
                                     </td>
 
                                     <td>
-                                        <a href="{{  route('admin.categories.view' , ['category_id' => $sub_category_details->category_id] )  }}">
-                                        {{ $sub_category_details->categoryDetails->name ?? "-" }}
+                                        <a href="{{  route('admin.categories.view' , ['category_id' => $sub_category->category_id] )  }}">
+                                        {{ $sub_category->categoryDetails->name ?? "-" }}
                                         </a>
                                     </td>
 
-                                    <td><img src="{{$sub_category_details->picture}}" class="category-image"></td>4
+                                    <td><img src="{{$sub_category->picture}}" class="category-image"></td>4
                                     
                                     <td>
-                                        @if($sub_category_details->status == APPROVED)
+                                        @if($sub_category->status == APPROVED)
 
                                             <span class="btn btn-success btn-sm">{{ tr('approved') }}</span> 
                                         @else
@@ -92,7 +92,7 @@
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                <a class="dropdown-item" href="{{ route('admin.sub_categories.view', ['sub_category_id' => $sub_category_details->id] ) }}">&nbsp;{{ tr('view') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.sub_categories.view', ['sub_category_id' => $sub_category->id] ) }}">&nbsp;{{ tr('view') }}</a> 
 
                                                 @if(Setting::get('is_demo_control_enabled') == YES)
 
@@ -102,20 +102,20 @@
 
                                                 @else
 
-                                                    <a class="dropdown-item" href="{{ route('admin.sub_categories.edit', ['sub_category_id' => $sub_category_details->id] ) }}">&nbsp;{{ tr('edit') }}</a>
+                                                    <a class="dropdown-item" href="{{ route('admin.sub_categories.edit', ['sub_category_id' => $sub_category->id] ) }}">&nbsp;{{ tr('edit') }}</a>
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('sub_category_delete_confirmation' , $sub_category_details->name) }}&quot;);" href="{{ route('admin.sub_categories.delete', ['sub_category_id' => $sub_category_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('sub_category_delete_confirmation' , $sub_category->name) }}&quot;);" href="{{ route('admin.sub_categories.delete', ['sub_category_id' => $sub_category->id] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 
-                                                @if($sub_category_details->status == APPROVED)
+                                                @if($sub_category->status == APPROVED)
 
-                                                    <a class="dropdown-item" href="{{  route('admin.sub_categories.status' , ['sub_category_id' => $sub_category_details->id] )  }}" onclick="return confirm(&quot;{{ $sub_category_details->name }} - {{ tr('sub_category_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
+                                                    <a class="dropdown-item" href="{{  route('admin.sub_categories.status' , ['sub_category_id' => $sub_category->id] )  }}" onclick="return confirm(&quot;{{ $sub_category->name }} - {{ tr('sub_category_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
                                                 </a> 
 
                                                 @else
 
-                                                    <a class="dropdown-item" href="{{ route('admin.sub_categories.status' , ['sub_category_id' => $sub_category_details->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
+                                                    <a class="dropdown-item" href="{{ route('admin.sub_categories.status' , ['sub_category_id' => $sub_category->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
 
                                                 @endif
 

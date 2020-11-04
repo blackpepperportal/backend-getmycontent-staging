@@ -8,7 +8,7 @@ class UserSubscription extends Model
 {
     protected $hidden = ['id', 'unique_id'];
 
-	protected $appends = ['user_subscription_id', 'user_subscription_unique_id', 'monthly_amount_formatted', 'yearly_amount_formatted', 'username', 'user_picture'];
+	protected $appends = ['user_subscription_id', 'user_subscription_unique_id', 'monthly_amount_formatted', 'yearly_amount_formatted', 'user_unique_id', 'username','user_displayname', 'user_picture'];
 	
 	public function getUserSubscriptionIdAttribute() {
 
@@ -20,24 +20,50 @@ class UserSubscription extends Model
 		return $this->unique_id;
 	}
 
-	public function getMonthlyAmountFormattedUniqueIdAttribute() {
+	public function getMonthlyAmountFormattedAttribute() {
 
-		return formatted_amount($this->monthly_amount_formatted);
+		return formatted_amount($this->monthly_amount);
 	}
 
-	public function getYearlyAmountFormattedUniqueIdAttribute() {
+	public function getYearlyAmountFormattedAttribute() {
 
-		return formatted_amount($this->yearly_amount_formatted);
+		return formatted_amount($this->yearly_amount);
+	}
+
+	public function getUserUniqueIdAttribute() {
+
+		$user_unique_id = $this->user->unique_id ?? "";
+
+		unset($this->user);
+
+		return $user_unique_id ?? "";
 	}
 
 	public function getUsernameAttribute() {
 
-		return $this->user->name ?? "";
+		$username = $this->user->username ?? "";
+
+		unset($this->user);
+
+		return $username ?? "";
+	}
+
+	public function getUserDisplaynameAttribute() {
+
+		$name = $this->user->name ?? "";
+
+		unset($this->user);
+
+		return $name ?? "";
 	}
 
 	public function getUserPictureAttribute() {
 
-		return $this->user->picture ?? "";
+		$picture = $this->user->picture ?? "";
+
+		unset($this->user);
+
+		return $picture ?? "";
 	}
 
 	public function user() {

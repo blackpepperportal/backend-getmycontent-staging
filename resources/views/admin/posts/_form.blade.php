@@ -8,7 +8,7 @@
                 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title" id="basic-layout-form">{{ $post_details->id ? tr('edit_post') : tr('create_post') }}</h4>
+                    <h4 class="card-title" id="basic-layout-form">{{ $post->id ? tr('edit_post') : tr('create_post') }}</h4>
 
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
@@ -45,8 +45,10 @@
                                             <select class="form-control select2" name="user_id" required>
 
                                                 <option>{{tr('select_user_name')}}</option>
-                                                @foreach($user_details as $users)
-                                                <option value="{{$users->id}}" @if($users->id == $post_details->user_id) selected="true" @endif>{{$users->name}}</option>
+                                                @foreach($users as $user)
+                                                    <option value="{{$user->id}}" @if($user->id == $post->user_id) selected="true" @endif>
+                                                        {{$user->name}}
+                                                    </option>
                                                 @endforeach
                                             
                                             </select>
@@ -68,12 +70,12 @@
 
                                 <div class="row">
 
-                                    <input type="hidden" name="post_id" id="post_id" value="{{ $post_details->id}}">
+                                    <input type="hidden" name="post_id" id="post_id" value="{{ $post->id}}">
 
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="user_name">{{ tr('content') }}*</label>
-                                            <textarea name="content" class="form-control">{{ $post_details->content ?: old('content') }}</textarea>
+                                            <textarea name="content" class="form-control">{{ $post->content ?: old('content') }}</textarea>
                                         </div>
                                     </div>
 
@@ -89,20 +91,20 @@
                                                 <span class="required" aria-required="true"> <span class="admin-required">*</span> </span>
                                             </label><br>
 
-                                            <input type="radio" id="now" onclick="select_publish_type();" name="publish_type" value="{{PUBLISHED}}" {{ ($post_details->is_published  == PUBLISHED)? "checked" : "" }}   ><label for="{{USER_PREMIUM_ACCOUNT}}"> {{tr('now')}} </label>
+                                            <input type="radio" id="now" onclick="select_publish_type();" name="publish_type" value="{{PUBLISHED}}" {{ ($post->is_published  == PUBLISHED)? "checked" : "" }}   ><label for="{{USER_PREMIUM_ACCOUNT}}"> {{tr('now')}} </label>
 
-                                            <input type="radio"  id="schedule" onclick="select_publish_type();" name="publish_type" value="{{UNPUBLISHED}}"  {{ ($post_details->is_published  == UNPUBLISHED)? "checked" : "" }} ><label for="{{UNPUBLISHED}}"> {{tr('schedule')}} </label>&nbsp;
+                                            <input type="radio"  id="schedule" onclick="select_publish_type();" name="publish_type" value="{{UNPUBLISHED}}"  {{ ($post->is_published  == UNPUBLISHED)? "checked" : "" }} ><label for="{{UNPUBLISHED}}"> {{tr('schedule')}} </label>&nbsp;
                                           
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6 schedule_time" {{ ($post_details->is_published  == PUBLISHED)? "style=display:none;": "" }}>
+                                    <div class="col-md-6 schedule_time" {{ ($post->is_published  == PUBLISHED)? "style=display:none;": "" }}>
                                         <div class="form-group">
                                             <label for="page">
                                                 {{tr('select_publish_date')}}
                                             </label><br>
 
-                                            <input class="form-control" name="publish_time" type="date" id="datepicker" value="{{ $post_details->publish_time? date('Y-m-d', strtotime($post_details->publish_time)) : old('publish_time') }}">
+                                            <input class="form-control" name="publish_time" type="text" id="datepicker" value="{{ $post->publish_time ? date('Y-m-d', strtotime($post->publish_time)) : old('publish_time') }}" readonly='true'>
 
                                         </div>
                                     </div>
@@ -110,7 +112,7 @@
                                       <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="user_name">{{ tr('amount') }}</label>
-                                            <input type="number" id="amount" name="amount" class="form-control" placeholder="{{ tr('amount') }}" value="{{ $post_details->amount ?: old('amount') }}" >
+                                            <input type="number" id="amount" name="amount" class="form-control" placeholder="{{ tr('amount') }}" value="{{ $post->amount ?: old('amount') }}" >
                                         </div>
                                     </div>
 

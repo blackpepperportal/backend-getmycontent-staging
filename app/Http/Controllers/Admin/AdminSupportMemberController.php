@@ -102,12 +102,12 @@ class AdminSupportMemberController extends Controller
      */
     public function support_members_create() {
 
-        $support_member_details = new \App\SupportMember;
+        $support_member = new \App\SupportMember;
 
         return view('admin.support_members.create')
                     ->with('page', 'support_members')
                     ->with('sub_page','support_members-create')
-                    ->with('support_member_details', $support_member_details);           
+                    ->with('support_member', $support_member);           
    
     }
 
@@ -129,9 +129,9 @@ class AdminSupportMemberController extends Controller
 
         try {
 
-            $support_member_details = \App\SupportMember::find($request->support_member_id);
+            $support_member = \App\SupportMember::find($request->support_member_id);
 
-            if(!$support_member_details) { 
+            if(!$support_member) { 
 
                 throw new Exception(tr('support_member_not_found'), 101);
             }
@@ -139,7 +139,7 @@ class AdminSupportMemberController extends Controller
             return view('admin.support_members.edit')
                     ->with('page', 'support_members')
                     ->with('sub_page', 'support_members-view')
-                    ->with('support_member_details', $support_member_details); 
+                    ->with('support_member', $support_member); 
             
         } catch(Exception $e) {
 
@@ -183,11 +183,11 @@ class AdminSupportMemberController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $support_member_details = $request->support_members_id ? \App\SupportMember::find($request->support_member_id) : new \App\SupportMember;
+            $support_member = $request->support_members_id ? \App\SupportMember::find($request->support_member_id) : new \App\SupportMember;
 
             $is_new_support_member = NO;
 
-            if($support_member_details->id) {
+            if($support_member->id) {
 
                 $message = tr('support_member_updated_success'); 
 
@@ -195,29 +195,29 @@ class AdminSupportMemberController extends Controller
 
                 $is_new_support_member = YES;
 
-                $support_member_details->password = ($request->password) ? \Hash::make($request->password) : null;
+                $support_member->password = ($request->password) ? \Hash::make($request->password) : null;
 
                 $message = tr('support_member_created_success');
 
-                //$support_member_details->email_verified_at = date('Y-m-d H:i:s');
+                //$support_member->email_verified_at = date('Y-m-d H:i:s');
 
-                $support_member_details->picture = asset('placeholder.jpeg');
+                $support_member->picture = asset('placeholder.jpeg');
 
-                //$support_member_details->is_email_verified = EMAIL_VERIFIED;
+                //$support_member->is_email_verified = EMAIL_VERIFIED;
 
-                $support_member_details->token = Helper::generate_token();
+                $support_member->token = Helper::generate_token();
 
-                $support_member_details->token_expiry = Helper::generate_token_expiry();
+                $support_member->token_expiry = Helper::generate_token_expiry();
 
             }
 
-            $support_member_details->first_name = $request->first_name ?: $support_member_details->first_name;
+            $support_member->first_name = $request->first_name ?: $support_member->first_name;
 
-            $support_member_details->last_name = $request->last_name ?: $support_member_details->last_name;
+            $support_member->last_name = $request->last_name ?: $support_member->last_name;
 
-            $support_member_details->email = $request->email ?: $support_member_details->email;
+            $support_member->email = $request->email ?: $support_member->email;
 
-            $support_member_details->mobile = $request->mobile ?: '';
+            $support_member->mobile = $request->mobile ?: '';
 
             // Upload picture
             
@@ -225,14 +225,14 @@ class AdminSupportMemberController extends Controller
 
                 if($request->support_member_id) {
 
-                    Helper::storage_delete_file($support_member_details->picture, COMMON_FILE_PATH); 
+                    Helper::storage_delete_file($support_member->picture, COMMON_FILE_PATH); 
                     // Delete the old pic
                 }
 
-                $support_member_details->picture = Helper::storage_upload_file($request->file('picture'), COMMON_FILE_PATH);
+                $support_member->picture = Helper::storage_upload_file($request->file('picture'), COMMON_FILE_PATH);
             }
 
-            if($support_member_details->save()) {
+            if($support_member->save()) {
 
                 if($is_new_support_member == YES) {
 
@@ -242,23 +242,23 @@ class AdminSupportMemberController extends Controller
 
                     $email_data['subject'] = tr('support_member_welcome_email' , Setting::get('site_name'));
 
-                    $email_data['email']  = $support_member_details->email;
+                    $email_data['email']  = $support_member->email;
 
-                    $email_data['name'] = $support_member_details->first_name;
+                    $email_data['name'] = $support_member->first_name;
 
                     $email_data['page'] = "emails.support_members.welcome";
 
                     $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
-                    //$support_member_details->is_email_verified = SUPPORT_MEMBER_EMAIL_VERIFIED;
+                    //$support_member->is_email_verified = SUPPORT_MEMBER_EMAIL_VERIFIED;
 
-                    $support_member_details->save();
+                    $support_member->save();
 
                 }
 
                 DB::commit(); 
 
-                return redirect(route('admin.support_members.view', ['support_member_id' => $support_member_details->id]))->with('flash_success', $message);
+                return redirect(route('admin.support_members.view', ['support_member_id' => $support_member->id]))->with('flash_success', $message);
 
             } 
 
@@ -293,9 +293,9 @@ class AdminSupportMemberController extends Controller
        
         try {
       
-            $support_member_details = \App\SupportMember::find($request->support_member_id);
+            $support_member = \App\SupportMember::find($request->support_member_id);
 
-            if(!$support_member_details) { 
+            if(!$support_member) { 
 
                 throw new Exception(tr('support_member_not_found'), 101);                
             }
@@ -303,7 +303,7 @@ class AdminSupportMemberController extends Controller
             return view('admin.support_members.view')
                         ->with('page', 'support_members') 
                         ->with('sub_page','support_members-view') 
-                        ->with('support_member_details' , $support_member_details);
+                        ->with('support_member' , $support_member);
             
         } catch (Exception $e) {
 
@@ -332,14 +332,14 @@ class AdminSupportMemberController extends Controller
 
             DB::begintransaction();
 
-            $support_member_details = \App\SupportMember::find($request->support_member_id);
+            $support_member = \App\SupportMember::find($request->support_member_id);
             
-            if(!$support_member_details) {
+            if(!$support_member) {
 
                 throw new Exception(tr('support_member_not_found'), 101);                
             }
 
-            if($support_member_details->delete()) {
+            if($support_member->delete()) {
 
                 DB::commit();
 
@@ -379,19 +379,19 @@ class AdminSupportMemberController extends Controller
 
             DB::beginTransaction();
 
-            $support_member_details = \App\SupportMember::find($request->support_member_id);
+            $support_member = \App\SupportMember::find($request->support_member_id);
 
-            if(!$support_member_details) {
+            if(!$support_member) {
 
                 throw new Exception(tr('support_member_not_found'), 101);
                 
             }
 
-            $support_member_details->status = $support_member_details->status ? DECLINED : APPROVED ;
+            $support_member->status = $support_member->status ? DECLINED : APPROVED ;
 
-            if($support_member_details->save()) {
+            if($support_member->save()) {
 
-                if($support_member_details->status == DECLINED) {
+                if($support_member->status == DECLINED) {
 
                     $email_data['subject'] = tr('support_member_decline_email' , Setting::get('site_name'));
 
@@ -405,9 +405,9 @@ class AdminSupportMemberController extends Controller
 
                 }
 
-                $email_data['email']  = $support_member_details->email;
+                $email_data['email']  = $support_member->email;
 
-                $email_data['name']  = $support_member_details->name;
+                $email_data['name']  = $support_member->name;
 
                 $email_data['page'] = "emails.support_members.status";
 
@@ -415,7 +415,7 @@ class AdminSupportMemberController extends Controller
 
                 DB::commit();
 
-                $message = $support_member_details->status ? tr('support_member_approve_success') : tr('support_member_decline_success');
+                $message = $support_member->status ? tr('support_member_approve_success') : tr('support_member_decline_success');
 
                 return redirect()->back()->with('flash_success', $message);
             }
@@ -451,21 +451,21 @@ class AdminSupportMemberController extends Controller
 
             DB::beginTransaction();
 
-            $support_member_details = \App\SupportMember::find($request->support_member_id);
+            $support_member = \App\SupportMember::find($request->support_member_id);
 
-            if(!$support_member_details) {
+            if(!$support_member) {
 
-                throw new Exception(tr('support_member_details_not_found'), 101);
+                throw new Exception(tr('support_member_not_found'), 101);
                 
             }
 
-            $support_member_details->is_email_verified = $support_member_details->is_email_verified ? SUPPORT_MEMBER_EMAIL_NOT_VERIFIED : SUPPORT_MEMBER_EMAIL_VERIFIED;
+            $support_member->is_email_verified = $support_member->is_email_verified ? SUPPORT_MEMBER_EMAIL_NOT_VERIFIED : SUPPORT_MEMBER_EMAIL_VERIFIED;
 
-            if($support_member_details->save()) {
+            if($support_member->save()) {
 
                 DB::commit();
 
-                $message = $support_member_details->is_email_verified ? tr('support_member_verify_success') : tr('support_member_unverify_success');
+                $message = $support_member->is_email_verified ? tr('support_member_verify_success') : tr('support_member_unverify_success');
 
                 return redirect()->route('admin.support_members.index')->with('flash_success', $message);
             }
@@ -524,9 +524,9 @@ class AdminSupportMemberController extends Controller
        
         try {
       
-            $support_ticket_details = \App\SupportTicket::find($request->support_ticket_id);
+            $support_ticket = \App\SupportTicket::find($request->support_ticket_id);
 
-            if(!$support_ticket_details) { 
+            if(!$support_ticket) { 
 
                 throw new Exception(tr('support_ticket_not_found'), 101);                
             }
@@ -534,7 +534,7 @@ class AdminSupportMemberController extends Controller
             return view('admin.support_tickets.view')
                         ->with('page', 'support_tickets') 
                         ->with('sub_page','support_tickets-view') 
-                        ->with('support_ticket_details' , $support_ticket_details);
+                        ->with('support_ticket' , $support_ticket);
             
         } catch (Exception $e) {
 
@@ -559,7 +559,7 @@ class AdminSupportMemberController extends Controller
      */
     public function support_tickets_create() {
 
-        $support_ticket_details = new \App\SupportTicket;
+        $support_ticket = new \App\SupportTicket;
 
         $users = \App\User::orderby('name', 'desc')->Approved()->get();
 
@@ -577,7 +577,7 @@ class AdminSupportMemberController extends Controller
         return view('admin.support_tickets.create')
                     ->with('page', 'support_ticket')
                     ->with('sub_page','support_ticket-create')
-                    ->with('support_ticket_details', $support_ticket_details)
+                    ->with('support_ticket', $support_ticket)
                     ->with('users', $users)
                     ->with('support_members', $support_members);                    
 
@@ -614,27 +614,27 @@ class AdminSupportMemberController extends Controller
             Helper::custom_validator($request->all(),$rules);
 
 
-            $support_ticket_details = \App\SupportTicket::find($request->support_ticket_id) ?? new \App\SupportTicket;
+            $support_ticket = \App\SupportTicket::find($request->support_ticket_id) ?? new \App\SupportTicket;
 
-            $support_ticket_details->status = APPROVED;
+            $support_ticket->status = APPROVED;
             
-            $support_ticket_details->user_id = $request->user_id;
+            $support_ticket->user_id = $request->user_id;
 
-            $support_ticket_details->support_member_id = $request->support_member_id;
+            $support_ticket->support_member_id = $request->support_member_id;
 
-            $support_ticket_details->subject = $request->subject ?: "";
+            $support_ticket->subject = $request->subject ?: "";
 
-            $support_ticket_details->message = $request->message ?: "";
+            $support_ticket->message = $request->message ?: "";
 
             
 
-            if( $support_ticket_details->save() ) {
+            if( $support_ticket->save() ) {
 
                 DB::commit();
 
-                $message = $request->support_ticket_id ? tr('support_ticket_details_update_success')  : tr('support_ticket_create_success');
+                $message = $request->support_ticket_id ? tr('support_ticket_update_success')  : tr('support_ticket_create_success');
 
-                return redirect()->route('admin.support_tickets.view', ['support_ticket_id' => $support_ticket_details->id])->with('flash_success', $message);
+                return redirect()->route('admin.support_tickets.view', ['support_ticket_id' => $support_ticket->id])->with('flash_success', $message);
             } 
 
             throw new Exception(tr('support_ticket_saved_error') , 101);
@@ -666,9 +666,9 @@ class AdminSupportMemberController extends Controller
 
         try {
 
-            $support_ticket_details = \App\SupportTicket::find($request->support_ticket_id);
+            $support_ticket = \App\SupportTicket::find($request->support_ticket_id);
 
-            if(!$support_ticket_details) {
+            if(!$support_ticket) {
 
                 throw new Exception(tr('support_ticket_not_found'), 101);
             }
@@ -677,20 +677,20 @@ class AdminSupportMemberController extends Controller
 
             foreach ($users as $key => $user_details) {
 
-                $user_details->is_selected = $user_details->id == $support_ticket_details->user_id ? YES : NO;
+                $user_details->is_selected = $user_details->id == $support_ticket->user_id ? YES : NO;
             }
 
             $support_members = \App\SupportMember::Approved()->orderBy('name', 'desc')->get();
 
             foreach ($support_members as $key => $support_member) {
-                $support_member->is_selected = $support_member->id == $support_ticket_details->support_member_id ? YES : NO;
+                $support_member->is_selected = $support_member->id == $support_ticket->support_member_id ? YES : NO;
 
             }
 
             return view('admin.support_tickets.edit')
                     ->with('page', 'support_tickets')
                     ->with('sub_page', 'support_ticket-view')
-                    ->with('support_ticket_details', $support_ticket_details)
+                    ->with('support_ticket', $support_ticket)
                     ->with('users', $users)
                     ->with('support_members', $support_members);
             
@@ -721,14 +721,14 @@ class AdminSupportMemberController extends Controller
 
             DB::begintransaction();
 
-            $support_ticket_details = \App\SupportTicket::find($request->support_ticket_id);
+            $support_ticket = \App\SupportTicket::find($request->support_ticket_id);
             
-            if(!$support_ticket_details) {
+            if(!$support_ticket) {
 
                 throw new Exception(tr('support_tickets_not_found'), 101);                
             }
 
-            if($support_ticket_details->delete()) {
+            if($support_ticket->delete()) {
 
                 DB::commit();
 

@@ -26,7 +26,7 @@
 
             <div class="card-header border-bottom border-gray">
 
-                <h4 class="card-title">{{ tr('view_user_withdrawals') }} - <a href="{{route('admin.users.view',['user_id' => $user_withdrawal_details->user_id])}}">{{$user_withdrawal_details->userDetails->name ?? "-"}}</a>	</h4>
+                <h4 class="card-title">{{ tr('view_user_withdrawals') }} - <a href="{{route('admin.users.view',['user_id' => $user_withdrawal->user_id])}}">{{$user_withdrawal->userDetails->name ?? "-"}}</a>	</h4>
                 <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                 
             </div>
@@ -43,37 +43,37 @@
 
                             	<tr>
                             		<td>{{ tr('unique_id') }}</td>
-                                    <td>{{$user_withdrawal_details->unique_id}}</td>
+                                    <td>{{$user_withdrawal->unique_id}}</td>
                             	</tr>
 
                                 <tr>
                                     <td>{{ tr('user') }}</td>
-                                    <td><a href="{{route('admin.users.view',['user_id'=>$user_withdrawal_details->user_id])}}">{{$user_withdrawal_details->userDetails->name ?? "-"}}</a></td>
+                                    <td><a href="{{route('admin.users.view',['user_id'=>$user_withdrawal->user_id])}}">{{$user_withdrawal->userDetails->name ?? "-"}}</a></td>
                                 </tr>
 
                                 <tr>
                             		<td>{{ tr('payment_id') }}</td>
-                                    <td>{{$user_withdrawal_details->payment_id}}</td>
+                                    <td>{{$user_withdrawal->payment_id}}</td>
                             	</tr>
 
                             	<tr>
                             		<td>{{ tr('paid_amount') }}</td>
-                                    <td>{{$user_withdrawal_details->paid_amount_formatted}}</td>
+                                    <td>{{$user_withdrawal->paid_amount_formatted}}</td>
                             	</tr>
                                 <tr>
                                 	<td>{{tr('email')}}</td>
-                                	<td>{{$user_withdrawal_details->userDetails->email ?? "-"}}</td>
+                                	<td>{{$user_withdrawal->userDetails->email ?? "-"}}</td>
                                 </tr>
 
                                 <tr>
                                 	<td>{{tr('payment_mode')}}</td>
-                                	<td><span class="badge badge-secondary">{{$user_withdrawal_details->payment_mode}}</span></td>
+                                	<td><span class="badge badge-secondary">{{$user_withdrawal->payment_mode}}</span></td>
                                 </tr>
 
                                 <tr>
                                     <td>{{ tr('status') }}</td>
                                     <td>
-                                        @if($user_withdrawal_details->status ==YES)
+                                        @if($user_withdrawal->status ==YES)
 
                                             <span class="badge bg-success">{{tr('yes')}}</span>
 
@@ -116,17 +116,17 @@
                                 </tr>
                             	<tr>
                             		<td>{{ tr('amount') }}</td>
-                                    <td>{{$user_withdrawal_details->requested_amount_formatted}}</td>
+                                    <td>{{$user_withdrawal->requested_amount_formatted}}</td>
                             	</tr>
 
                             	<tr>
                                     <td>{{ tr('updated_at') }}</td>
-                                    <td>{{common_date($user_withdrawal_details->updated_at , Auth::guard('admin')->user()->timezone)}}</td>
+                                    <td>{{common_date($user_withdrawal->updated_at , Auth::guard('admin')->user()->timezone)}}</td>
                                 </tr>
 
                                 <tr>
                                     <td>{{ tr('created_at') }}</td>
-                                    <td>{{common_date($user_withdrawal_details->created_at , Auth::guard('admin')->user()->timezone)}}</td>
+                                    <td>{{common_date($user_withdrawal->created_at , Auth::guard('admin')->user()->timezone)}}</td>
                                 </tr>
 
                             </tbody>

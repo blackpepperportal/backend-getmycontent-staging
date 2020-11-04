@@ -53,19 +53,19 @@
                             <tbody>
 
 
-                                @foreach($static_pages as $i => $static_page_details)
+                                @foreach($static_pages as $i => $static_page)
 
                                     <tr>
                                         <td>{{$i+$static_pages->firstItem()}}</td>
 
                                         <td>
-                                            <a href="{{route('admin.static_pages.view' , ['static_page_id'=> $static_page_details->id] )}}"> {{$static_page_details->title}}</a>
+                                            <a href="{{route('admin.static_pages.view' , ['static_page_id'=> $static_page->id] )}}"> {{$static_page->title}}</a>
                                         </td>
 
-                                        <td class="text-capitalize">{{$static_page_details->type}}</td>
+                                        <td class="text-capitalize">{{$static_page->type}}</td>
 
                                         <td>
-                                            @if($static_page_details->status == APPROVED)
+                                            @if($static_page->status == APPROVED)
 
                                               <span class="badge badge-success">{{tr('approved')}}</span> 
 
@@ -83,18 +83,18 @@
 
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton1">
 
-                                                    <a class="dropdown-item" href="{{ route('admin.static_pages.view', ['static_page_id' => $static_page_details->id] ) }}">
+                                                    <a class="dropdown-item" href="{{ route('admin.static_pages.view', ['static_page_id' => $static_page->id] ) }}">
                                                         {{tr('view')}}
                                                     </a>
 
                                                     @if(Setting::get('is_demo_control_enabled') == NO)
                                                     
-                                                        <a class="dropdown-item" href="{{ route('admin.static_pages.edit', ['static_page_id' => $static_page_details->id] ) }}">
+                                                        <a class="dropdown-item" href="{{ route('admin.static_pages.edit', ['static_page_id' => $static_page->id] ) }}">
                                                             {{tr('edit')}}
                                                         </a>
 
                                                         <a class="dropdown-item" 
-                                                        onclick="return confirm(&quot;{{tr('static_page_delete_confirmation' , $static_page_details->title)}}&quot;);" href="{{ route('admin.static_pages.delete', ['static_page_id' => $static_page_details->id] ) }}" >
+                                                        onclick="return confirm(&quot;{{tr('static_page_delete_confirmation' , $static_page->title)}}&quot;);" href="{{ route('admin.static_pages.delete', ['static_page_id' => $static_page->id] ) }}" >
                                                             {{ tr('delete') }}
                                                         </a>
 
@@ -108,16 +108,16 @@
 
                                                     <div class="dropdown-divider"></div>
 
-                                                    @if($static_page_details->status == APPROVED)
+                                                    @if($static_page->status == APPROVED)
 
-                                                        <a class="dropdown-item" href="{{ route('admin.static_pages.status', ['static_page_id' =>  $static_page_details->id] ) }}" 
-                                                        onclick="return confirm(&quot;{{$static_page_details->title}} - {{tr('static_page_decline_confirmation')}}&quot;);"> 
+                                                        <a class="dropdown-item" href="{{ route('admin.static_pages.status', ['static_page_id' =>  $static_page->id] ) }}" 
+                                                        onclick="return confirm(&quot;{{$static_page->title}} - {{tr('static_page_decline_confirmation')}}&quot;);"> 
                                                             {{tr('decline')}}
                                                         </a>
 
                                                     @else
 
-                                                        <a class="dropdown-item" href="{{ route('admin.static_pages.status', ['static_page_id' =>  $static_page_details->id] ) }}">
+                                                        <a class="dropdown-item" href="{{ route('admin.static_pages.status', ['static_page_id' =>  $static_page->id] ) }}">
                                                             {{tr('approve')}}
                                                         </a>
                                                            

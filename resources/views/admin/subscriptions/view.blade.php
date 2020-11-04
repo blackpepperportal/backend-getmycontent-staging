@@ -44,15 +44,15 @@
 			        			<ul class="action-item">
 
 			        				<li>
-			        					@if($subscription_details->status == APPROVED)
+			        					@if($subscription->status == APPROVED)
 
-							                <a class="btn btn-danger btn-min-width mr-1 mb-1" title="{{tr('decline')}}" href="{{ route('admin.subscriptions.status', ['subscription_id' => $subscription_details->id]) }}" onclick="return confirm(&quot;{{$subscription_details->title}} - {{tr('subscription_decline_confirmation')}}&quot;);" >
+							                <a class="btn btn-danger btn-min-width mr-1 mb-1" title="{{tr('decline')}}" href="{{ route('admin.subscriptions.status', ['subscription_id' => $subscription->id]) }}" onclick="return confirm(&quot;{{$subscription->title}} - {{tr('subscription_decline_confirmation')}}&quot;);" >
 							                    <b>{{tr('decline')}}</b>
 							                </a>
 
 							            @else
 							                
-							                <a class="btn btn-success btn-min-width mr-1 mb-1" title="{{tr('approve')}}" href="{{ route('admin.subscriptions.status', ['subscription_id' => $subscription_details->id]) }}">
+							                <a class="btn btn-success btn-min-width mr-1 mb-1" title="{{tr('approve')}}" href="{{ route('admin.subscriptions.status', ['subscription_id' => $subscription->id]) }}">
 							                    <b>{{tr('approve')}}</b> 
 							                </a>
 							                   
@@ -62,15 +62,15 @@
 				            		<li>
 			        					@if(Setting::get('admin_delete_control') == YES )
 
-								      		<a href="{{ route('admin.subscriptions.edit', ['subscription_id' => $subscription_details->id] ) }}" class="btn btn-warning btn-min-width mr-1 mb-1" title="{{tr('edit')}}"><b>{{tr('edit')}}</b></a>
+								      		<a href="{{ route('admin.subscriptions.edit', ['subscription_id' => $subscription->id] ) }}" class="btn btn-warning btn-min-width mr-1 mb-1" title="{{tr('edit')}}"><b>{{tr('edit')}}</b></a>
 
-								      		<a onclick="return confirm(&quot;{{ tr('subscription_delete_confirmation', $subscription_details->title ) }}&quot;);" href="javascript:;" class="btn btn-danger btn-min-width mr-1 mb-1" title="{{tr('delete')}}"><b>{{tr('delete')}}</b>
+								      		<a onclick="return confirm(&quot;{{ tr('subscription_delete_confirmation', $subscription->title ) }}&quot;);" href="javascript:;" class="btn btn-danger btn-min-width mr-1 mb-1" title="{{tr('delete')}}"><b>{{tr('delete')}}</b>
 								      			</a>
 
 								   		@else
-								   			<a href="{{ route('admin.subscriptions.edit' , ['subscription_id' => $subscription_details->id] ) }}" class="btn btn-warning btn-min-width mr-1 mb-1" title="{{tr('edit')}}"><b>{{tr('edit')}}</b></a>	
+								   			<a href="{{ route('admin.subscriptions.edit' , ['subscription_id' => $subscription->id] ) }}" class="btn btn-warning btn-min-width mr-1 mb-1" title="{{tr('edit')}}"><b>{{tr('edit')}}</b></a>	
 								      		                			
-								      	 	<a onclick="return confirm(&quot;{{ tr('subscription_delete_confirmation', $subscription_details->title ) }}&quot;);" href="{{ route('admin.subscriptions.delete', ['subscription_id' => $subscription_details->id] ) }}" class="btn btn-danger btn-min-width mr-1 mb-1" title="{{tr('delete')}}"><b>{{tr('delete')}}</b>
+								      	 	<a onclick="return confirm(&quot;{{ tr('subscription_delete_confirmation', $subscription->title ) }}&quot;);" href="{{ route('admin.subscriptions.delete', ['subscription_id' => $subscription->id] ) }}" class="btn btn-danger btn-min-width mr-1 mb-1" title="{{tr('delete')}}"><b>{{tr('delete')}}</b>
 								      			</a>
 								      	@endif
 				            		</li>
@@ -80,7 +80,7 @@
 
 			        			<div class="card-title">{{tr('description')}}</div>
 
-			        			<span> {{$subscription_details->description ?: "-"}}</span>
+			        			<span> {{$subscription->description ?: "-"}}</span>
 			        			
 					        		
 				        	</div>
@@ -92,26 +92,26 @@
 			        				<li class="nav-item">
 			        					{{tr('name')}}
 			        					<span class="float-right">
-			        						{{$subscription_details->title}}
+			        						{{$subscription->title}}
 			        					</span>
 			        				</li>
 			        				<hr>
 
 			        				<li class="nav-item">
 			        					{{tr('total_amount')}}
-			        					<span class="float-right"> {{$subscription_details->amount_formatted}}</span>
+			        					<span class="float-right"> {{$subscription->amount_formatted}}</span>
 			        				</li>
 			        				<hr>
 
 			        				<li class="nav-item">
 			        					{{tr('plan_type')}}
-			        					<span class="float-right"> {{$subscription_details->plan_type_formatted}}</span>
+			        					<span class="float-right"> {{$subscription->plan_type_formatted}}</span>
 			        				</li>
 			        				<hr>
 
 			        				<li class="nav-item">
 			        					{{tr('is_popular')}}
-			        					@if($subscription_details->is_popular == YES)
+			        					@if($subscription->is_popular == YES)
 			        						<span class="float-right badge bg-success">{{tr('yes')}}</span>
 			        					@else
 			        						<span class="float-right badge bg-danger">
@@ -123,7 +123,7 @@
 			        			
 			        				<li class="nav-item">
 			        					{{tr('is_free')}}
-			        					@if($subscription_details->is_free == YES)
+			        					@if($subscription->is_free == YES)
 			        						<span class="float-right badge bg-success">{{tr('yes')}}</span>
 			        					@else
 			        						<span class="float-right badge bg-danger">
@@ -135,7 +135,7 @@
 
 			        				<li class="nav-item">
 			        					{{tr('status')}}
-			        					@if($subscription_details->status == YES)
+			        					@if($subscription->status == YES)
 			        						<span class="float-right badge bg-success">
 			        						{{tr('approved')}}
 			        						</span>
@@ -149,13 +149,13 @@
 
 			        				<li class="nav-item">
 			        					{{tr('created_at')}}
-			        					<span class="float-right"> {{common_date($subscription_details->created_at,Auth::guard('admin')->user()->timezone)}}</span>
+			        					<span class="float-right"> {{common_date($subscription->created_at,Auth::guard('admin')->user()->timezone)}}</span>
 			        				</li>
 			        				<hr>
 
 			        				<li class="nav-item">
 			        					{{tr('updated_at')}}
-			        					<span class="float-right"> {{common_date($subscription_details->updated_at,Auth::guard('admin')->user()->timezone)}}</span>
+			        					<span class="float-right"> {{common_date($subscription->updated_at,Auth::guard('admin')->user()->timezone)}}</span>
 			        				</li>
 			        			</ul>
 					                

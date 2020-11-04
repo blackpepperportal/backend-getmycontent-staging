@@ -158,3 +158,11 @@ img {
 .recent_comment{
   box-shadow: 0 10px 40px 0 rgba(62, 57, 107, 0.07), 0 2px 9px 0 rgba(62, 57, 107, 0.06);
 }
+
+.custom-a {
+  color: #404E67;
+}
+
+.custom-muted {
+  color: #b1c1d8
+}

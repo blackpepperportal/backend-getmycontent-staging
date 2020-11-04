@@ -86,9 +86,9 @@ class SupportMemberController extends Controller
        
         try {
       
-            $support_ticket_details = \App\SupportTicket::find($request->support_ticket_id);
+            $support_ticket = \App\SupportTicket::find($request->support_ticket_id);
 
-            if(!$support_ticket_details) { 
+            if(!$support_ticket) { 
 
                 throw new Exception(tr('support_ticket_not_found'), 101);                
             }
@@ -96,7 +96,7 @@ class SupportMemberController extends Controller
             return view('support_member.support_tickets.view')
                         ->with('page', 'support_tickets') 
                         ->with('sub_page','support_tickets-view') 
-                        ->with('support_ticket_details' , $support_ticket_details);
+                        ->with('support_ticket', $support_ticket);
             
         } catch (Exception $e) {
 
@@ -121,11 +121,11 @@ class SupportMemberController extends Controller
 
     public function profile() {
 
-        $support_member_details = Auth::guard('support_member')->user();
+        $support_member = Auth::guard('support_member')->user();
 
         return view('support_member.account.profile')
                 ->with('page', 'profile')
-                ->with('support_member_details',$support_member_details);
+                ->with('support_member',$support_member);
     }
 
 
@@ -159,29 +159,29 @@ class SupportMemberController extends Controller
             
             Helper::custom_validator($request->all(),$rules);
             
-            $support_member_details = \App\SupportMember::find($request->support_member_id);
+            $support_member = \App\SupportMember::find($request->support_member_id);
 
-            if(!$support_member_details) {
+            if(!$support_member) {
 
                 Auth::guard('support_member')->logout();
 
-                throw new Exception(tr('support_member_details_not_found'), 101);
+                throw new Exception(tr('support_member_not_found'), 101);
             }
         
-            $support_member_details->name = $request->name ?: $support_member_details->name;
+            $support_member->name = $request->name ?: $support_member->name;
 
-            $support_member_details->email = $request->email ?: $support_member_details->email;
+            $support_member->email = $request->email ?: $support_member->email;
 
-            $support_member_details->mobile = $request->mobile ?: $support_member_details->mobile;
+            $support_member->mobile = $request->mobile ?: $support_member->mobile;
 
             if($request->hasFile('picture') ) {
                 
-                Helper::storage_delete_file($support_member_details->picture, SUPPORT_MEMBER_FILE_PATH); 
+                Helper::storage_delete_file($support_member->picture, SUPPORT_MEMBER_FILE_PATH); 
                 
-                $support_member_details->picture = Helper::storage_upload_file($request->file('picture'), SUPPORT_MEMBER_FILE_PATH);
+                $support_member->picture = Helper::storage_upload_file($request->file('picture'), SUPPORT_MEMBER_FILE_PATH);
             }
 
-            $support_member_details->save();
+            $support_member->save();
 
             DB::commit();
 
@@ -226,21 +226,21 @@ class SupportMemberController extends Controller
             
             Helper::custom_validator($request->all(),$rules);
 
-            $support_member_details = \App\SupportMember::find(Auth::guard('support_member')->user()->id);
+            $support_member = \App\SupportMember::find(Auth::guard('support_member')->user()->id);
 
-            if(!$support_member_details) {
+            if(!$support_member) {
 
                 Auth::guard('support_member')->logout();
                               
-                throw new Exception(tr('support_member_details_not_found'), 101);
+                throw new Exception(tr('support_member_not_found'), 101);
 
             }
 
-            if(Hash::check($request->old_password,$support_member_details->password)) {
+            if(Hash::check($request->old_password,$support_member->password)) {
 
-                $support_member_details->password = Hash::make($request->password);
+                $support_member->password = Hash::make($request->password);
 
-                $support_member_details->save();
+                $support_member->save();
 
                 DB::commit();
 

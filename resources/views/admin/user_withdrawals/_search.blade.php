@@ -2,7 +2,7 @@
 
     <div class="row">
 
-        <div class="col-xs-12 col-sm-12 col-lg-2 col-md-6 resp-mrg-btm-md">
+        <div class="col-xs-12 col-sm-12 col-lg-3 col-md-6 resp-mrg-btm-md">
             @if(Request::has('search_key'))
                 <p class="text-muted">{{tr('search_results_for')}}<b>{{Request::get('search_key')}}</b></p>
             @endif
@@ -24,9 +24,9 @@
             </select>
         </div>
 
-        <div class="col-xs-12 col-sm-12 col-lg-6 col-md-12 mx-auto">
+        <div class="col-xs-12 col-sm-12 col-lg-6 col-md-12">
 
-            <div class="input-group form-margin-left-sm">
+            <div class="input-group">
                
                 <input type="text" class="form-control" name="search_key"
                 placeholder="{{tr('user_withdrawals_search_placeholder')}}"> <span class="input-group-btn">

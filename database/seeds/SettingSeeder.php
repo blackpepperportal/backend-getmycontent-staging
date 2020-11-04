@@ -177,7 +177,7 @@ class SettingSeeder extends Seeder
 		    ],
 		    [
 		        'key' => 'demo_user_email',
-		        'value' => 'user@cgschool.com'
+		        'value' => 'user@fansclub.com'
 		    ],
 		    [
 		        'key' => 'demo_user_password',
@@ -206,22 +206,18 @@ class SettingSeeder extends Seeder
 		        'key' => 'user_fcm_server_key',
 		        'value' => ''
 		    ],
+		    
 		    [
-		        'key' => 'stardom_fcm_sender_id',
-		        'value' => '865212328189'
-		    ],
-		    [
-		        'key' => 'stardom_fcm_server_key',
-		        'value' => ''
-		    ],
-
-		    	[
 		        'key' => 'demo_support_member_email',
-		        'value' => 'support_member@gmail.com'
+		        'value' => 'support@fansclub.com'
 		    ],
 		    [
 		        'key' => 'demo_support_member_password',
 		        'value' => 123456
+		    ],
+			[
+		        'key' => 'admin_commission',
+		        'value' => 20
 		    ],
 
 		]);

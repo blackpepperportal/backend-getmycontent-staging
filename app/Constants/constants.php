@@ -90,6 +90,8 @@ if(!defined('SORT_BY_EMAIL_VERIFIED')) define('SORT_BY_EMAIL_VERIFIED',3);
 
 if(!defined('SORT_BY_EMAIL_NOT_VERIFIED')) define('SORT_BY_EMAIL_NOT_VERIFIED',4);
 
+if(!defined('SORT_BY_DOCUMENT_VERIFIED')) define('SORT_BY_DOCUMENT_VERIFIED',5);
+
 if(!defined('STATIC_PAGE_SECTION_1')) define('STATIC_PAGE_SECTION_1', 1);
 
 if(!defined('STATIC_PAGE_SECTION_2')) define('STATIC_PAGE_SECTION_2', 2);
@@ -97,6 +99,9 @@ if(!defined('STATIC_PAGE_SECTION_2')) define('STATIC_PAGE_SECTION_2', 2);
 if(!defined('STATIC_PAGE_SECTION_3')) define('STATIC_PAGE_SECTION_3', 3);
 
 if(!defined('STATIC_PAGE_SECTION_4')) define('STATIC_PAGE_SECTION_4', 4);
+
+if(!defined('USER_DOCUMENT_VERIFIED')) define('USER_DOCUMENT_VERIFIED', 1);
+
 
 if(!defined('STARDOM')) define('STARDOM', 'stardom');
 
@@ -199,11 +204,6 @@ if(!defined('USER_DOCUMENT_NONE')) define('USER_DOCUMENT_NONE', 0);
 if(!defined('USER_DOCUMENT_PENDING')) define('USER_DOCUMENT_PENDING', 1);
 if(!defined('USER_DOCUMENT_APPROVED')) define('USER_DOCUMENT_APPROVED', 2);
 if(!defined('USER_DOCUMENT_DECLINED')) define('USER_DOCUMENT_DECLINED', 3);
-
-if(!defined('USER_DOCUMENT_VERIFIED')) define('USER_DOCUMENT_VERIFIED',1);
-
-if(!defined('USER_DOCUMENT_NOT_VERIFIED')) define('USER_DOCUMENT_NOT_VERIFIED',0);
-
 
 if(!defined('USER_FREE_ACCOUNT')) define('USER_FREE_ACCOUNT', 0);
 if(!defined('USER_PREMIUM_ACCOUNT')) define('USER_PREMIUM_ACCOUNT', 1);

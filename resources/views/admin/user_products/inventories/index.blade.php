@@ -55,31 +55,31 @@
                            
                             <tbody>
 
-                                @foreach($product_inventories as $i => $product_inventory_details)
+                                @foreach($product_inventories as $i => $product_inventory)
                                 <tr>
                                     <td>{{ $i+$product_inventories->firstItem() }}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.user_products.view' , ['user_product_id' => $product_inventory_details->user_product_id] )  }}">
-                                        {{ $product_inventory_details->userProductDetails->name ?? "-" }}
+                                        <a href="{{  route('admin.user_products.view' , ['user_product_id' => $product_inventory->user_product_id] )  }}">
+                                        {{ $product_inventory->userProductDetails->name ?? "-" }}
                                         </a>
                                     </td>
                                     
                                     <td>
-                                        {{ $product_inventory_details->total_quantity}}
+                                        {{ $product_inventory->total_quantity}}
                                     </td>
 
                                      <td>
-                                        {{ $product_inventory_details->used_quantity}}
+                                        {{ $product_inventory->used_quantity}}
                                     </td>
 
                                      <td>
-                                        {{ $product_inventory_details->remaining_quantity}}
+                                        {{ $product_inventory->remaining_quantity}}
                                     </td>
 
 
                                     <td>
-                                        <a class="btn btn-primary" href="{{ route('admin.product_inventories.view', ['product_inventory_id' => $product_inventory_details->id] ) }}">&nbsp;{{ tr('view') }}</a> 
+                                        <a class="btn btn-primary" href="{{ route('admin.product_inventories.view', ['product_inventory_id' => $product_inventory->id] ) }}">&nbsp;{{ tr('view') }}</a> 
                                     </td>
 
                                 </tr>

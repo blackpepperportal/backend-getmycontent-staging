@@ -54,9 +54,13 @@ class FollowersApiController extends Controller
 
             $following_user_ids = Follower::where('follower_id', $request->id)->pluck('user_id');
 
-            $users = User::Approved()->whereNotIn('usrs.id', $following_user_ids);
+            $base_query = $total_query = User::Approved()->OtherResponse()->whereNotIn('users.id', $following_user_ids)->orderBy('users.created_at', 'desc');
+
+            $users = $base_query->skip($this->skip)->take($this->take)->get();
 
             $data['users'] = $users;
+
+            $data['total'] = $total_query->count() ?? 0;
 
             return $this->sendResponse($message = "", $code = "", $data);
 
@@ -105,12 +109,13 @@ class FollowersApiController extends Controller
 
             }
 
-            $follow_user = User::Approved()->whereFirst('id', $request->user_id);
+            $follow_user = User::where('id', $request->user_id)->first();
 
             if(!$follow_user) {
 
                 throw new Exception(api_error(135), 135);
             }
+
 
             // Check the user already following the selected users
             $follower = Follower::where('status', YES)->where('follower_id', $request->id)->where('user_id', $request->user_id)->first();
@@ -120,12 +125,6 @@ class FollowersApiController extends Controller
                 throw new Exception(api_error(137), 137);
 
             }
-
-            // Viewer or content creator -> Both can follow only creators.
-            // if($this->loginUser->is_content_creator == NO) {
-
-            //     throw new Exception(api_error(138), 138);
-            // }
 
             $follower = new Follower;
 
@@ -230,11 +229,9 @@ class FollowersApiController extends Controller
 
         try {
 
-            $followers = Follower::CommonResponse()
-                    ->where('user_id', $request->id)
-                    ->skip($this->skip)->take($this->take)
-                    ->orderBy('followers.created_at', 'desc')
-                    ->get();
+            $base_query = $total_query = Follower::CommonResponse()->where('user_id', $request->id);
+
+            $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
             foreach ($followers as $key => $follower) {
 
@@ -249,6 +246,8 @@ class FollowersApiController extends Controller
             }
 
             $data['followers'] = $followers;
+
+            $data['total'] = $total_query->count() ?: 0;
 
             return $this->sendResponse($message = "", $code = "", $data);
 
@@ -279,11 +278,9 @@ class FollowersApiController extends Controller
 
         try {
 
-            $followers = Follower::CommonResponse()
-                    ->where('follower_id', $request->id)
-                    ->skip($this->skip)->take($this->take)
-                    ->orderBy('followers.created_at', 'desc')
-                    ->get();
+            $base_query = $total_query = Follower::CommonResponse()->where('follower_id', $request->id);
+
+            $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
             foreach ($followers as $key => $follower) {
 
@@ -298,6 +295,90 @@ class FollowersApiController extends Controller
             }
 
             $data['followers'] = $followers;
+
+            $data['total'] = $total_query->count() ?: 0;
+
+            return $this->sendResponse($message = "", $code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+
+    }
+
+    /** 
+     * @method chat_users()
+     *
+     * @uses chat_users List
+     *
+     * @created vithya R
+     *
+     * @updated vithya R
+     *
+     * @param
+     * 
+     * @return JSON response
+     *
+     */
+    public function chat_users(Request $request) {
+
+        try {
+
+            $base_query = $total_query = \App\ChatUser::where('from_user_id', $request->id);
+
+            $chat_users = $base_query->skip($this->skip)->take($this->take)
+                    ->orderBy('chat_users.updated_at', 'desc')
+                    ->get();
+
+            $data['users'] = $chat_users ?? [];
+
+            $data['total'] = $total_query->count() ?: 0;
+
+            return $this->sendResponse($message = "", $code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+
+    }
+
+    /** 
+     * @method chat_messages()
+     *
+     * @uses chat_messages List
+     *
+     * @created vithya R
+     *
+     * @updated vithya R
+     *
+     * @param
+     * 
+     * @return JSON response
+     *
+     */
+    public function chat_messages(Request $request) {
+
+        try {
+
+            $base_query = $total_query = \App\ChatMessage::where(function($query) use ($request){
+                        $query->where('chat_messages.from_user_id', 'LIKE', '%'.$request->from_user_id.'%');
+                        $query->where('chat_messages.to_user_id', 'LIKE', '%'.$request->to_user_id.'%');
+                    })->where(function($query) use ($request){
+                        $query->where('chat_messages.from_user_id', 'LIKE', '%'.$request->to_user_id.'%');
+                        $query->where('chat_messages.to_user_id', 'LIKE', '%'.$request->from_user_id.'%');
+                    });
+
+            $chat_messages = $base_query->skip($this->skip)->take($this->take)
+                    ->orderBy('chat_messages.updated_at', 'desc')
+                    ->get();
+
+            $data['messages'] = $chat_messages ?? [];
+
+            $data['total'] = $total_query->count() ?: 0;
 
             return $this->sendResponse($message = "", $code = "", $data);
 

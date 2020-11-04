@@ -8,7 +8,7 @@
                 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title" id="basic-layout-form">{{$subscription_details->id ? tr('edit_subscription') : tr('add_subscription')}}</h4>
+                    <h4 class="card-title" id="basic-layout-form">{{$subscription->id ? tr('edit_subscription') : tr('add_subscription')}}</h4>
 
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
@@ -29,7 +29,7 @@
 
                             <div class="card-body">
 
-                                <input type="hidden" name="subscription_id" id="subscription_id" value="{{$subscription_details->id}}">
+                                <input type="hidden" name="subscription_id" id="subscription_id" value="{{$subscription->id}}">
 
                                 <div class="row">
 
@@ -37,7 +37,7 @@
 
                                         <label for="title" class="">{{ tr('title') }} <span class="admin-required">*</span></label>
 
-                                        <input type="text" name="title" class="form-control" id="title" value="{{ old('title') ?: $subscription_details->title }}" placeholder="{{ tr('title') }}" required >
+                                        <input type="text" name="title" class="form-control" id="title" value="{{ old('title') ?: $subscription->title }}" placeholder="{{ tr('title') }}" required >
                                         
                                     </div>
 
@@ -45,7 +45,7 @@
 
                                         <label for="amount" class="">{{ tr('amount') }} <span class="admin-required">*</span></label>
 
-                                        <input type="number" value="{{ old('amount') ?: $subscription_details->amount }}" name="amount" class="form-control" id="amount" placeholder="{{ tr('amount') }}" min="0" step="any" required>
+                                        <input type="number" value="{{ old('amount') ?: $subscription->amount }}" name="amount" class="form-control" id="amount" placeholder="{{ tr('amount') }}" min="0" step="any" required>
                                     </div>
                                     
                                 </div>
@@ -56,7 +56,7 @@
 
                                         <label for="plan">{{ tr('plan') }} <span class="admin-required">*</span></label>
 
-                                        <input type="number" min="1"  max="30" required name="plan" class="form-control" id="plan" value="{{ old('plan') ?: $subscription_details->plan }}" title="{{ tr('plan') }}" placeholder="{{ tr('plan') }}">
+                                        <input type="number" min="1"  max="30" required name="plan" class="form-control" id="plan" value="{{ old('plan') ?: $subscription->plan }}" title="{{ tr('plan') }}" placeholder="{{ tr('plan') }}">
                                     </div>
 
                                      <div class="form-group col-md-6">
@@ -67,7 +67,7 @@
                                             <option value="">{{tr('select_plan_type')}}</option>
 
                                             @foreach($subscription_plan_types as $subscription_plan_type)
-                                                <option value="{{$subscription_plan_type}}"@if($subscription_details->plan_type == $subscription_plan_type) selected @endif>
+                                                <option value="{{$subscription_plan_type}}"@if($subscription->plan_type == $subscription_plan_type) selected @endif>
                                                     {{ucfirst($subscription_plan_type)}}
                                                 </option>
                                             @endforeach
@@ -84,7 +84,7 @@
                                          <div class="form-group clearfix">
 
                                           <div class="icheck-success d-inline">
-                                                <input type="checkbox" id="checkboxSuccess1" name="is_free" value="{{YES}}" @if($subscription_details->is_free ==  YES) checked="checked" @endif>
+                                                <input type="checkbox" id="checkboxSuccess1" name="is_free" value="{{YES}}" @if($subscription->is_free ==  YES) checked="checked" @endif>
                                                 <label for="checkboxSuccess1">{{tr('is_free')}}</label>
 
                                           </div>
@@ -99,7 +99,7 @@
 
                                             <div class="icheck-success d-inline">
                                                 <input type="checkbox" id="checkboxSuccess2" name="is_popular"
-                                                value="{{YES}}" @if($subscription_details->is_popular ==  YES) checked="checked" @endif>
+                                                value="{{YES}}" @if($subscription->is_popular ==  YES) checked="checked" @endif>
                                                 <label for="checkboxSuccess2">{{tr('is_popular')}}</label>
                                             </div>
 
@@ -115,7 +115,7 @@
 
                                         <label for="simpleMde">{{ tr('description') }}</label>
 
-                                        <textarea class="form-control" id="description" name="description">{{ old('description') ?: $subscription_details->description}}</textarea>
+                                        <textarea class="form-control" id="description" name="description">{{ old('description') ?: $subscription->description}}</textarea>
 
                                     </div>
 

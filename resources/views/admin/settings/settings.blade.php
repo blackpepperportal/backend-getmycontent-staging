@@ -2,13 +2,11 @@
 
 @section('title', tr('settings'))
 
-@section('content-header',tr('settings'))
+@section('content-header', tr('settings'))
 
 @section('breadcrumb')
 
-<li class="breadcrumb-item active" aria-current="page">
-{{ tr('settings') }}
-</li>
+<li class="breadcrumb-item active" aria-current="page">{{ tr('settings') }}</li>
 
 @endsection 
 
@@ -103,6 +101,10 @@ hr {
     margin-top: 15px;
     margin-bottom: 15px;
 }
+
+.settings-sub-header {
+    color: #f30660 !important;
+}
 </style>
 @endsection
 
@@ -120,6 +122,11 @@ hr {
             <a href="#" class="list-group-item text-left text-uppercase">
                 {{tr('payment_settings')}}
             </a>
+
+            <a href="#" class="list-group-item text-left text-uppercase">
+                {{tr('revenue_settings')}}
+            </a>
+
             <a href="#" class="list-group-item text-left text-uppercase">
                 {{tr('email_settings')}}
             </a>
@@ -161,7 +168,7 @@ hr {
 
                         <div class="col-md-12">
 
-                            <h5 class="settings-sub-header text-uppercase" style="color: #f30660;"><b>{{tr('site_settings')}}</b></h5>
+                            <h5 class="settings-sub-header text-uppercase"><b>{{tr('site_settings')}}</b></h5>
                             <hr>
 
                         </div>
@@ -261,7 +268,7 @@ hr {
 
                         <div class="col-md-12">
 
-                            <h5 class="settings-sub-header text-uppercase"  style="color: #f30660;"><b>{{tr('payment_settings')}}</b></h5>
+                            <h5 class="settings-sub-header text-uppercase" ><b>{{tr('payment_settings')}}</b></h5>
 
                             <hr>
 
@@ -337,6 +344,68 @@ hr {
        
         </div>
 
+          <!-- Revenue settings -->
+        <div class="fansclub-tab-content">
+            
+            <form id="site_settings_save" action="{{route('admin.settings.save')}}" method="POST" enctype="multipart/form-data" class="forms-sample">
+         
+            @csrf
+
+                <div class="box-body">
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+
+                            <h5 class="settings-sub-header text-uppercase" ><b>{{tr('revenue_settings')}}</b></h5>
+
+                            <hr>
+
+                        </div>
+                        
+
+                          <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="admin_commission">{{tr('admin_commission')}}</label>
+
+                                    <input type="text" class="form-control" name="admin_commission" pattern="[0-9]{0,}" value="{{Setting::get('admin_commission')  }}" id="admin_commission" placeholder="{{tr('admin_commission')}}">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="user_commission">{{tr('user_commission')}}</label>
+                                    <input type="text" class="form-control"  name="user_commission" pattern="[0-9]{0,}" value="{{Setting::get('user_commission')  }}" id="user_commission" placeholder="{{tr('user_commission')}}">
+                                </div>
+                            </div>
+
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+
+                    <div class="pull-right">
+                    
+                        <button type="reset" class="btn btn-warning mr-1">
+                            <i class="ft-x"></i> {{ tr('reset') }} 
+                        </button>
+
+                        <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled @endif ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
+                    
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                </div>
+       
+            </form>
+       
+            <br>
+       
+        </div>
+
         <!-- Email settings -->
         <div class="fansclub-tab-content">
             <form id="site_settings_save" action="{{route('admin.env-settings.save')}}" method="POST">
@@ -349,7 +418,7 @@ hr {
 
                         <div class="col-md-12">
 
-                            <h5 class="settings-sub-header text-uppercase" style="color: #f30660;"><b>{{tr('email_settings')}}</b></h5>
+                            <h5 class="settings-sub-header text-uppercase"><b>{{tr('email_settings')}}</b></h5>
 
                             <hr>
 
@@ -425,7 +494,7 @@ hr {
 
                         <div class="clearfix"></div>
 
-                        @if(isset($env_values['MAIL_DRIVER']) && $env_values['MAIL_DRIVER'] == 'mailgun')
+                        @if(isset($env_values['MAIL_MAILER']) && $env_values['MAIL_MAILER'] == 'mailgun')
 
                             <div class="col-md-12">
 
@@ -480,7 +549,7 @@ hr {
 
                         <div class="col-md-12">
 
-                            <h5 class="settings-sub-header text-uppercase"  style="color: #f30660;"><b>{{tr('social_settings')}}</b></h5>
+                            <h5 class="settings-sub-header text-uppercase" ><b>{{tr('social_settings')}}</b></h5>
 
                             <hr>
 
@@ -509,15 +578,6 @@ hr {
                                     <input type="text" class="form-control" id="twitter_link" name="twitter_link" placeholder="Enter {{tr('twitter_link')}}" value="{{old('twitter_link') ?: Setting::get('twitter_link')}}">
                             </div>
                         </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="google_plus_link">{{tr('google_plus_link')}} *</label>
-
-                                <input type="text" class="form-control" id="google_plus_link" name="google_plus_link" placeholder="Enter {{tr('google_plus_link')}}" value="{{old('google_plus_link') ?: Setting::get('google_plus_link')}}">
-                            </div>
-                        </div>
-
 
                         <div class="col-md-6">
                             <div class="form-group">
@@ -576,7 +636,7 @@ hr {
 
                          <div class="col-md-12">
 
-                           <h5 class="settings-sub-header text-uppercase"  style="color: #f30660;"><b>{{tr('social_login')}}</b></h5>
+                           <h5 class="settings-sub-header text-uppercase" ><b>{{tr('social_login')}}</b></h5>
 
                             <hr>
 
@@ -681,7 +741,7 @@ hr {
                     <div class="row">
 
                         <div class="col-md-12">
-                            <h5 class="settings-sub-header text-uppercase" style="color: #f30660;"><b>{{tr('notification_settings')}}</b></h5>
+                            <h5 class="settings-sub-header text-uppercase"><b>{{tr('notification_settings')}}</b></h5>
                             <hr>
                         </div>
 
@@ -704,26 +764,6 @@ hr {
                                 value="{{ Setting::get('user_fcm_server_key') }}" placeholder="{{ tr('user_fcm_server_key') }}">
                             </div>
                         </div> 
-                        
-                        <div class="col-md-6">
-                            <div class="form-group">
-
-                                <label for="content_creator_fcm_sender_id">{{ tr('content_creator_fcm_sender_id') }}</label>
-
-                                <input type="text" class="form-control" name="content_creator_fcm_sender_id" id="content_creator_fcm_sender_id"
-                                value="{{ Setting::get('content_creator_fcm_sender_id') }}" placeholder="{{ tr('content_creator_fcm_sender_id') }}">
-                            </div>
-                        </div>  
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-
-                                <label for="content_creator_fcm_server_key">{{ tr('content_creator_fcm_server_key') }}</label>
-
-                                <input type="text" class="form-control" name="content_creator_fcm_server_key" id="content_creator_fcm_server_key"
-                                value="{{ Setting::get('content_creator_fcm_server_key') }}" placeholder="{{ tr('content_creator_fcm_server_key') }}">
-                            </div>
-                        </div>
 
                     </div>  
         
@@ -763,7 +803,7 @@ hr {
 
                         <div class="col-md-12">
 
-                            <h5 class="settings-sub-header text-uppercase"  style="color: #f30660;"><b>{{tr('mobile_settings')}}</b></h5>
+                            <h5 class="settings-sub-header text-uppercase" ><b>{{tr('mobile_settings')}}</b></h5>
 
                             <hr>
 
@@ -782,24 +822,7 @@ hr {
 
                                 <input type="text" class="form-control" id="appstore_user" name="appstore_user" placeholder="Enter {{tr('appstore_user')}}" value="{{old('appstore_user') ?: Setting::get('appstore_user')}}">
                             </div>
-                        </div>
-
-                        <div class="col-md-6">
-
-                           <div class="form-group">
-                                <label for="playstore_content_creator">{{tr('playstore_content_creator')}} *</label>
-
-                                <input type="text" class="form-control" id="playstore_content_creator" name="playstore_content_creator" placeholder="Enter {{tr('playstore_content_creator')}}" value="{{old('playstore_content_creator') ?: Setting::get('playstore_content_creator')}}">
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="appstore_content_creator">{{tr('appstore_content_creator')}} *</label>
-
-                                <input type="text" class="form-control" id="appstore_content_creator" name="appstore_content_creator" placeholder="Enter {{tr('appstore_content_creator')}}" value="{{old('appstore_content_creator') ?: Setting::get('appstore_content_creator')}}">
-                            </div>
-                        </div>
+                        </div>                       
                         
                     </div>
 
@@ -836,7 +859,7 @@ hr {
 
                         <div class="col-md-12">
 
-                            <h5 class="settings-sub-header text-uppercase"  style="color: #f30660;"><b>{{tr('contact_information')}}</b></h5>
+                            <h5 class="settings-sub-header text-uppercase" ><b>{{tr('contact_information')}}</b></h5>
 
                             <hr>
 
@@ -913,7 +936,7 @@ hr {
 
                         <div class="col-md-12">
 
-                            <h5 class="settings-sub-header text-uppercase"  style="color: #f30660;"><b>{{tr('other_settings')}}</b></h5>
+                            <h5 class="settings-sub-header text-uppercase" ><b>{{tr('other_settings')}}</b></h5>
 
                             <hr>
 

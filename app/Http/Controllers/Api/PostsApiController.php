@@ -53,7 +53,9 @@ class PostsApiController extends Controller
 
         try {
 
-            $base_query = $total_query = Post::with('postFiles')->orderBy('created_at', 'asc');
+            $follower_ids = get_follower_ids($request->id);
+
+            $base_query = $total_query = Post::whereIn('posts.user_id', $follower_ids)->with('postFiles')->orderBy('created_at', 'asc');
 
             $posts = $base_query->skip($this->skip)->take($this->take)->get();
 
@@ -90,7 +92,9 @@ class PostsApiController extends Controller
 
         try {
 
-            $base_query = $total_query = Post::with(['postFiles', 'user'])->orderBy('created_at', 'asc');
+            $follower_ids = get_follower_ids($request->id);
+
+            $base_query = $total_query = Post::whereIn('posts.user_id', $follower_ids)->with(['postFiles', 'user'])->orderBy('created_at', 'asc');
 
             if($request->search_key) {
 
@@ -498,7 +502,6 @@ class PostsApiController extends Controller
                     'paid_amount' => $user_pay_amount,
                 ]);
 
-
                 $card_payment_response = PaymentRepo::posts_payment_by_stripe($request, $post)->getData();
                 
                 if($card_payment_response->success == false) {
@@ -513,7 +516,7 @@ class PostsApiController extends Controller
 
             }
 
-            $payment_response = PaymentRepo::posts_payment_save($request, $post)->getData();
+            $payment_response = PaymentRepo::post_payments_save($request, $post)->getData();
 
             if($payment_response->success) {
                 
@@ -609,42 +612,14 @@ class PostsApiController extends Controller
 
             if($wallet_payment_response->success) {
 
-                $payment_response = PaymentRepo::posts_payment_save($request, $post)->getData();
+                $payment_response = PaymentRepo::post_payments_save($request, $post)->getData();
 
                 if(!$payment_response->success) {
 
                     throw new Exception($payment_response->error, $payment_response->error_code);
                 }
 
-                // Update the to user
-
-                $to_user_inputs = [
-                    'id' => $post->user_id,
-                    'received_from_user_id' => $request->id,
-                    'total' => $post->amount, 
-                    'user_pay_amount' => $post->amount,
-                    'paid_amount' => $post->amount,
-                    'payment_type' => WALLET_PAYMENT_TYPE_CREDIT,
-                    'amount_type' => WALLET_AMOUNT_TYPE_ADD,
-                    'payment_id' => 'CD-'.rand()
-                ];
-
-                $to_user_request = new \Illuminate\Http\Request();
-
-                $to_user_request->replace($to_user_inputs);
-
-                $to_user_payment_response = PaymentRepo::user_wallets_payment_save($to_user_request)->getData();
-
-                if($to_user_payment_response->success) {
-
-                    DB::commit();
-
-                    return $this->sendResponse(api_success(140), 140, $payment_response->data ?? []);
-
-                } else {
-
-                    throw new Exception($to_user_payment_response->error, $to_user_payment_response->error_code);
-                }
+                return $this->sendResponse(api_success(140), 140, $payment_response->data ?? []);
 
             } else {
 
@@ -689,9 +664,9 @@ class PostsApiController extends Controller
             
             // Validation end
 
-           // Check the subscription is available
+            // Check the subscription is available
 
-            $base_query = $total_query = \App\PostComment::Approved()->where('post_comments.id',  $request->post_id)->orderBy('post_comments.created_at', 'desc');
+            $base_query = $total_query = \App\PostComment::Approved()->where('post_comments.post_id', $request->post_id)->orderBy('post_comments.created_at', 'desc');
 
             $post_comments = $base_query->skip($this->skip)->take($this->take)->get();
 
@@ -740,7 +715,7 @@ class PostsApiController extends Controller
 
             $custom_request->request->add(['user_id' => $request->id, 'post_id' => $request->post_id, 'comment' => $request->comment]);
 
-            $post_comment = \App\PostComment::updateOrCreate($custom_request->request->all());
+            $post_comment = \App\PostComment::create($custom_request->request->all());
 
             DB::commit(); 
 

@@ -69,12 +69,12 @@ class AdminLookupController extends Controller
      */
     public function documents_create() {
 
-        $document_details = new \App\Document;
+        $document = new \App\Document;
 
         return view('admin.documents.create')
                     ->with('page', 'documents')
                     ->with('sub_page','documents-create')
-                    ->with('document_details', $document_details);           
+                    ->with('document', $document);           
     }
 
     /**
@@ -95,9 +95,9 @@ class AdminLookupController extends Controller
 
         try {
 
-            $document_details = \App\Document::find($request->document_id);
+            $document = \App\Document::find($request->document_id);
 
-            if(!$document_details) { 
+            if(!$document) { 
 
                 throw new Exception(tr('document_not_found'), 101);
             }
@@ -105,7 +105,7 @@ class AdminLookupController extends Controller
             return view('admin.documents.edit')
                     ->with('page', 'documents')
                     ->with('sub_page','documents-create')
-                    ->with('document_details' , $document_details); 
+                    ->with('document' , $document); 
             
         } catch(Exception $e) {
 
@@ -143,9 +143,9 @@ class AdminLookupController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $document_details = $request->document_id ? \App\Document::find($request->document_id) : new \App\Document;
+            $document = $request->document_id ? \App\Document::find($request->document_id) : new \App\Document;
 
-            if($document_details->id) {
+            if($document->id) {
 
                 $message = tr('document_updated_success'); 
 
@@ -153,15 +153,15 @@ class AdminLookupController extends Controller
 
                 $message = tr('document_created_success');
 
-                $document_details->picture = asset('document.jpeg');
+                $document->picture = asset('document.jpeg');
 
             }
 
-            $document_details->name = $request->name ?: $document_details->name;
+            $document->name = $request->name ?: $document->name;
 
-            $document_details->description = $request->description ?: $document_details->description;
+            $document->description = $request->description ?: $document->description;
 
-            $document_details->is_required = $request->is_required == YES ? YES : NO;
+            $document->is_required = $request->is_required == YES ? YES : NO;
 
             // Upload picture
             
@@ -169,18 +169,18 @@ class AdminLookupController extends Controller
 
                 if($request->user_id) {
 
-                    Helper::storage_delete_file($document_details->picture, COMMON_FILE_PATH); 
+                    Helper::storage_delete_file($document->picture, COMMON_FILE_PATH); 
                     // Delete the old pic
                 }
 
-                $document_details->picture = Helper::storage_upload_file($request->file('picture'), COMMON_FILE_PATH);
+                $document->picture = Helper::storage_upload_file($request->file('picture'), COMMON_FILE_PATH);
             }
 
-            if($document_details->save()) {
+            if($document->save()) {
 
                 DB::commit(); 
 
-                return redirect(route('admin.documents.view', ['document_id' => $document_details->id]))->with('flash_success', $message);
+                return redirect(route('admin.documents.view', ['document_id' => $document->id]))->with('flash_success', $message);
 
             } 
 
@@ -214,9 +214,9 @@ class AdminLookupController extends Controller
        
         try {
       
-            $document_details = \App\Document::find($request->document_id);
+            $document = \App\Document::find($request->document_id);
 
-            if(!$document_details) { 
+            if(!$document) { 
 
                 throw new Exception(tr('document_not_found'), 101);                
             }
@@ -224,7 +224,7 @@ class AdminLookupController extends Controller
             return view('admin.documents.view')
                         ->with('page', 'documents') 
                         ->with('sub_page', 'documents-view') 
-                        ->with('document_details', $document_details);
+                        ->with('document', $document);
             
         } catch (Exception $e) {
 
@@ -253,14 +253,14 @@ class AdminLookupController extends Controller
 
             DB::begintransaction();
 
-            $document_details = \App\Document::find($request->document_id);
+            $document = \App\Document::find($request->document_id);
             
-            if(!$document_details) {
+            if(!$document) {
 
                 throw new Exception(tr('document_not_found'), 101);                
             }
 
-            if($document_details->delete()) {
+            if($document->delete()) {
 
                 DB::commit();
 
@@ -300,21 +300,21 @@ class AdminLookupController extends Controller
 
             DB::beginTransaction();
 
-            $document_details = \App\Document::find($request->document_id);
+            $document = \App\Document::find($request->document_id);
 
-            if(!$document_details) {
+            if(!$document) {
 
                 throw new Exception(tr('document_not_found'), 101);
                 
             }
 
-            $document_details->status = $document_details->status ? DECLINED : APPROVED ;
+            $document->status = $document->status ? DECLINED : APPROVED ;
 
-            if($document_details->save()) {
+            if($document->save()) {
 
                 DB::commit();
 
-                $message = $document_details->status ? tr('document_approve_success') : tr('document_decline_success');
+                $message = $document->status ? tr('document_approve_success') : tr('document_decline_success');
 
                 return redirect()->back()->with('flash_success', $message);
             }
@@ -385,15 +385,18 @@ class AdminLookupController extends Controller
             }
         }
 
+        $section_types = static_page_footers(0, $is_list = YES);
+
         $static_keys[] = 'others';
 
-        $static_page_details = new \App\StaticPage;
+        $static_page = new \App\StaticPage;
 
         return view('admin.static_pages.create')
                 ->with('page', 'static_pages')
                 ->with('sub_page', 'static_pages-create')
                 ->with('static_keys', $static_keys)
-                ->with('static_page_details', $static_page_details);
+                ->with('static_page', $static_page)
+                ->with('section_types',$section_types);
    
     }
 
@@ -415,9 +418,9 @@ class AdminLookupController extends Controller
 
         try {
 
-            $static_page_details = \App\StaticPage::find($request->static_page_id);
+            $static_page = \App\StaticPage::find($request->static_page_id);
 
-            if(!$static_page_details) {
+            if(!$static_page) {
 
                 throw new Exception(tr('static_page_not_found'), 101);
             }
@@ -437,14 +440,17 @@ class AdminLookupController extends Controller
 
             $static_keys[] = 'others';
 
-            $static_keys[] = $static_page_details->type;
+            $static_keys[] = $static_page->type;
 
+
+            $section_types = static_page_footers(0, $is_list = YES);
+ 
             return view('admin.static_pages.edit')
                     ->with('page', 'static_pages')
                     ->with('sub_page', 'static_pages-view')
                     ->with('static_keys', array_unique($static_keys))
-                    ->with('static_page_details', $static_page_details);
-            
+                    ->with('static_page', $static_page)
+                    ->with('section_types',$section_types);
         } catch(Exception $e) {
 
             return redirect()->route('admin.static_pages.index')->with('flash_error' , $e->getMessage());
@@ -482,7 +488,7 @@ class AdminLookupController extends Controller
 
             if($request->static_page_id != '') {
 
-                $static_page_details = \App\StaticPage::find($request->static_page_id);
+                $static_page = \App\StaticPage::find($request->static_page_id);
 
                 $message = tr('static_page_updated_success');                    
 
@@ -505,25 +511,27 @@ class AdminLookupController extends Controller
 
                 $message = tr('static_page_created_success');
 
-                $static_page_details = new \App\StaticPage;
+                $static_page = new \App\StaticPage;
 
-                $static_page_details->status = APPROVED;
+                $static_page->status = APPROVED;
 
             }
 
-            $static_page_details->title = $request->title ?: $static_page_details->title;
+            $static_page->title = $request->title ?: $static_page->title;
 
-            $static_page_details->description = $request->description ?: $static_page_details->description;
+            $static_page->description = $request->description ?: $static_page->description;
 
-            $static_page_details->type = $request->type ?: $static_page_details->type;
+            $static_page->type = $request->type ?: $static_page->type;
+            
+            $static_page->section_type = $request->section_type ?: $static_page->section_type;
 
-            if($static_page_details->save()) {
+            if($static_page->save()) {
 
                 DB::commit();
 
                 Helper::settings_generate_json();
                 
-                return redirect()->route('admin.static_pages.view', ['static_page_id' => $static_page_details->id] )->with('flash_success', $message);
+                return redirect()->route('admin.static_pages.view', ['static_page_id' => $static_page->id] )->with('flash_success', $message);
 
             } 
 
@@ -559,15 +567,15 @@ class AdminLookupController extends Controller
 
             DB::beginTransaction();
 
-            $static_page_details = \App\StaticPage::find($request->static_page_id);
+            $static_page = \App\StaticPage::find($request->static_page_id);
 
-            if(!$static_page_details) {
+            if(!$static_page) {
 
                 throw new Exception(tr('static_page_not_found'), 101);
                 
             }
 
-            if($static_page_details->delete()) {
+            if($static_page->delete()) {
 
                 DB::commit();
 
@@ -603,9 +611,9 @@ class AdminLookupController extends Controller
      */
     public function static_pages_view(Request $request) {
 
-        $static_page_details = \App\StaticPage::find($request->static_page_id);
+        $static_page = \App\StaticPage::find($request->static_page_id);
 
-        if(!$static_page_details) {
+        if(!$static_page) {
            
             return redirect()->route('admin.static_pages.index')->with('flash_error',tr('static_page_not_found'));
 
@@ -614,7 +622,7 @@ class AdminLookupController extends Controller
         return view('admin.static_pages.view')
                     ->with('page', 'static_pages')
                     ->with('sub_page', 'static_pages-view')
-                    ->with('static_page_details', $static_page_details);
+                    ->with('static_page', $static_page);
     }
 
     /**
@@ -637,21 +645,21 @@ class AdminLookupController extends Controller
 
             DB::beginTransaction();
 
-            $static_page_details = \App\StaticPage::find($request->static_page_id);
+            $static_page = \App\StaticPage::find($request->static_page_id);
 
-            if(!$static_page_details) {
+            if(!$static_page) {
 
                 throw new Exception(tr('static_page_not_found'), 101);
                 
             }
 
-            $static_page_details->status = $static_page_details->status == DECLINED ? APPROVED : DECLINED;
+            $static_page->status = $static_page->status == DECLINED ? APPROVED : DECLINED;
 
-            $static_page_details->save();
+            $static_page->save();
 
             DB::commit();
 
-            $message = $static_page_details->status == DECLINED ? tr('static_page_decline_success') : tr('static_page_approve_success');
+            $message = $static_page->status == DECLINED ? tr('static_page_decline_success') : tr('static_page_approve_success');
 
             return redirect()->back()->with('flash_success', $message);
 
@@ -708,13 +716,13 @@ class AdminLookupController extends Controller
      */
     public function faqs_create() {
 
-        $faq_details = new \App\Faq;
+        $faq = new \App\Faq;
 
         return view('admin.faqs.create')
                     ->with('main_page','faqs-crud')
                     ->with('page' , 'faqs')
                     ->with('sub_page','faqs-create')
-                    ->with('faq_details', $faq_details);
+                    ->with('faq', $faq);
                 
     }
 
@@ -736,9 +744,9 @@ class AdminLookupController extends Controller
 
         try {
 
-            $faq_details = \App\Faq::find($request->faq_id);
+            $faq = \App\Faq::find($request->faq_id);
 
-            if(!$faq_details) { 
+            if(!$faq) { 
 
                 throw new Exception(tr('faq_not_found'), 101);
 
@@ -748,7 +756,7 @@ class AdminLookupController extends Controller
                     ->with('main_page','faqs-crud')
                     ->with('page' , 'faqs')
                     ->with('sub_page','faqs-view')
-                    ->with('faq_details' , $faq_details); 
+                    ->with('faq' , $faq); 
             
         } catch(Exception $e) {
 
@@ -785,26 +793,26 @@ class AdminLookupController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $faq_details = $request->faq_id ? \App\Faq::find($request->faq_id) : new \App\Faq;
+            $faq = $request->faq_id ? \App\Faq::find($request->faq_id) : new \App\Faq;
 
-            if(!$faq_details) {
+            if(!$faq) {
 
                 throw new Exception(tr('faq_not_found'), 101);
             }
 
-            $faq_details->question = $request->question;
+            $faq->question = $request->question;
 
-            $faq_details->answer = $request->answer;
+            $faq->answer = $request->answer;
 
-            $faq_details->status = APPROVED;
+            $faq->status = APPROVED;
 
-            if($faq_details->save() ) {
+            if($faq->save() ) {
 
                 DB::commit();
 
                 $message = $request->faq_id ? tr('faq_update_success')  : tr('faq_create_success');
 
-                return redirect()->route('admin.faqs.view', ['faq_id' => $faq_details->id])->with('flash_success', $message);
+                return redirect()->route('admin.faqs.view', ['faq_id' => $faq->id])->with('flash_success', $message);
             } 
 
             throw new Exception(tr('faq_saved_error') , 101);
@@ -836,9 +844,9 @@ class AdminLookupController extends Controller
        
         try {
       
-            $faq_details = \App\Faq::find($request->faq_id);
+            $faq = \App\Faq::find($request->faq_id);
             
-            if(!$faq_details) { 
+            if(!$faq) { 
 
                 throw new Exception(tr('faq_not_found'), 101);                
             }
@@ -847,7 +855,7 @@ class AdminLookupController extends Controller
                         ->with('main_page','faqs-crud')
                         ->with('page', 'faqs') 
                         ->with('sub_page','faqs-view') 
-                        ->with('faq_details' , $faq_details);
+                        ->with('faq' , $faq);
             
         } catch (Exception $e) {
 
@@ -876,14 +884,14 @@ class AdminLookupController extends Controller
 
             DB::begintransaction();
 
-            $faq_details = \App\Faq::find($request->faq_id);
+            $faq = \App\Faq::find($request->faq_id);
             
-            if(!$faq_details) {
+            if(!$faq) {
 
                 throw new Exception(tr('faq_not_found'), 101);                
             }
 
-            if($faq_details->delete()) {
+            if($faq->delete()) {
 
                 DB::commit();
 
@@ -923,21 +931,21 @@ class AdminLookupController extends Controller
 
             DB::beginTransaction();
 
-            $faq_details = \App\Faq::find($request->faq_id);
+            $faq = \App\Faq::find($request->faq_id);
 
-            if(!$faq_details) {
+            if(!$faq) {
 
                 throw new Exception(tr('faq_not_found'), 101);
                 
             }
 
-            $faq_details->status = $faq_details->status ? DECLINED : APPROVED ;
+            $faq->status = $faq->status ? DECLINED : APPROVED ;
 
-            if($faq_details->save()) {
+            if($faq->save()) {
 
                 DB::commit();
 
-                $message = $faq_details->status ? tr('faq_approve_success') : tr('faq_decline_success');
+                $message = $faq->status ? tr('faq_approve_success') : tr('faq_decline_success');
 
                 return redirect()->back()->with('flash_success', $message);
             }

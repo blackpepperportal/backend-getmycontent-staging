@@ -4,13 +4,11 @@
 
 @section('breadcrumb')
 
-  
-
-<li class="breadcrumb-item active"><a href="{{route('admin.faqs.index')}}">{{ tr('faqs') }}</a>
+<li class="breadcrumb-item active">
+    <a href="{{route('admin.faqs.index')}}">{{ tr('faqs') }}</a>
 </li>
 
-<li class="breadcrumb-item active">{{ tr('view_faqs') }}</a>
-</li>
+<li class="breadcrumb-item active">{{ tr('view_faqs') }}</li>
 @endsection 
 
 @section('content')
@@ -51,18 +49,18 @@
                            
                             <tbody>
 
-                                @foreach($faqs as $i => $faq_details)
+                                @foreach($faqs as $i => $faq)
                                 <tr>
                                     <td>{{ $i+$faqs->firstItem() }}</td>
 
                                     <td>
-                                        <a href="{{route('admin.faqs.view',['faq_id' => $faq_details->id])}}">
-                                        {{ substr($faq_details->question,0,10)}}...
+                                        <a href="{{route('admin.faqs.view',['faq_id' => $faq->id])}}">
+                                        {{ substr($faq->question,0,10)}}...
                                         </a>
                                     </td>
 
                                     <td>
-                                        @if($faq_details->status == APPROVED)
+                                        @if($faq->status == APPROVED)
 
                                             <span class="badge badge-success">{{tr('approved')}}</span>
 
@@ -81,7 +79,7 @@
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                <a class="dropdown-item" href="{{ route('admin.faqs.view', ['faq_id' => $faq_details->id] ) }}">&nbsp;{{ tr('view') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.faqs.view', ['faq_id' => $faq->id] ) }}">&nbsp;{{ tr('view') }}</a> 
 
                                                 @if(Setting::get('is_demo_control_enabled') == YES)
 
@@ -91,20 +89,20 @@
 
                                                 @else
 
-                                                    <a class="dropdown-item" href="{{ route('admin.faqs.edit', ['faq_id' => $faq_details->id] ) }}">&nbsp;{{ tr('edit') }}</a>
+                                                    <a class="dropdown-item" href="{{ route('admin.faqs.edit', ['faq_id' => $faq->id] ) }}">&nbsp;{{ tr('edit') }}</a>
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('faq_delete_confirmation' , $faq_details->question) }}&quot;);" href="{{ route('admin.faqs.delete', ['faq_id' => $faq_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('faq_delete_confirmation' , $faq->question) }}&quot;);" href="{{ route('admin.faqs.delete', ['faq_id' => $faq->id] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 
-                                                @if($faq_details->status == APPROVED)
+                                                @if($faq->status == APPROVED)
 
-                                                    <a class="dropdown-item" href="{{  route('admin.faqs.status' , ['faq_id' => $faq_details->id] )  }}" onclick="return confirm(&quot;{{ $faq_details->question }} - {{ tr('faq_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
+                                                    <a class="dropdown-item" href="{{  route('admin.faqs.status' , ['faq_id' => $faq->id] )  }}" onclick="return confirm(&quot;{{ $faq->question }} - {{ tr('faq_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
                                                 </a> 
 
                                                 @else
 
-                                                    <a class="dropdown-item" href="{{ route('admin.faqs.status' , ['faq_id' => $faq_details->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
+                                                    <a class="dropdown-item" href="{{ route('admin.faqs.status' , ['faq_id' => $faq->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
 
                                                 @endif
 

@@ -52,37 +52,24 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('users/excel','Admin\AdminUserController@users_excel')->name('users.excel');
 
-      
+        Route::get('user_subscription_payments/index','Admin\AdminUserController@user_subscription_payments')->name('users_subscriptions.index');
 
-
-        //users CRUD Operations
-
-        // Route::get('content_creators', 'Admin\AdminContentCreatorController@content_creators_index')->name('content_creators.index');
-
-        // Route::get('content_creators/create', 'Admin\AdminContentCreatorController@content_creators_create')->name('content_creators.create');
-
-        // Route::get('content_creators/edit', 'Admin\AdminContentCreatorController@content_creators_edit')->name('content_creators.edit');
-
-        // Route::post('content_creators/save', 'Admin\AdminContentCreatorController@content_creators_save')->name('content_creators.save');
-
-        // Route::get('content_creators/view', 'Admin\AdminContentCreatorController@content_creators_view')->name('content_creators.view');
-
-        // Route::get('content_creators/delete', 'Admin\AdminContentCreatorController@content_creators_delete')->name('content_creators.delete');
-
-        // Route::get('content_creators/status', 'Admin\AdminContentCreatorController@content_creators_status')->name('content_creators.status');
-
-        // Route::get('content_creators/verify', 'Admin\AdminContentCreatorController@content_creators_verify_status')->name('content_creators.verify');
+        Route::get('user_subscriptions_payment/view','Admin\AdminUserController@user_subscriptions_payment_view')->name('user_subscriptions.view');
 
         //user documents 
 
-        Route::get('users/documents', 'Admin\AdminUserController@user_documents_index')->name('users.documents.index');
+        Route::get('user-documents', 'Admin\AdminUserController@user_documents_index')->name('user_documents.index');
 
-        Route::get('users/documents/view', 'Admin\AdminUserController@user_documents_view')->name('users.documents.view');
+        Route::get('user-document', 'Admin\AdminUserController@user_documents_view')->name('user_documents.view');
 
-        Route::get('users/documents/verify', 'Admin\AdminUserController@user_documents_verify')->name('users.documents.verify');
+        Route::get('user-documents/verify', 'Admin\AdminUserController@user_documents_verify')->name('user_documents.verify');
 
         Route::get('users/upgrade_account', 'Admin\AdminUserController@user_upgrade_account')->name('users.upgrade_account');
 
+        //followers
+         Route::get('followers' , 'Admin\AdminUserController@user_followers')->name('user_followers');
+
+        Route::get('followings', 'Admin\AdminUserController@user_followings')->name('user_followings');
 
         //user products CRUD Operations
 
@@ -248,6 +235,8 @@ Route::group(['middleware' => 'web'], function() {
         Route::get('subscriptions_payments/index','Admin\AdminRevenueController@subscription_payments_index')->name('subscription_payments.index');
 
         Route::get('subscriptions_payments/view','Admin\AdminRevenueController@subscription_payments_view')->name('subscription_payments.view');
+
+
         //subscriptions end
 
         //categories start
@@ -341,7 +330,7 @@ Route::group(['middleware' => 'web'], function() {
 
         // settings
 
-        Route::get('admin-control', 'Admin\AdminSettingController@admin_control')->name('control');
+        Route::get('settings-control', 'Admin\AdminSettingController@admin_control')->name('control');
 
         Route::get('settings', 'Admin\AdminSettingController@settings')->name('settings'); 
 
@@ -360,12 +349,6 @@ Route::group(['middleware' => 'web'], function() {
         Route::get('support_tickets/edit', 'Admin\AdminSupportMemberController@support_tickets_edit')->name('support_tickets.edit');
 
         Route::get('support_tickets/delete', 'Admin\AdminSupportMemberController@support_tickets_delete')->name('support_tickets.delete');
-
-
-        //followers
-         Route::get('followers' , 'Admin\AdminContentCreatorController@users_followers')->name('users.followers');
-
-        Route::get('followings' , 'Admin\AdminContentCreatorController@users_followings')->name('users.followings');
 
         // Support Members Operations
 

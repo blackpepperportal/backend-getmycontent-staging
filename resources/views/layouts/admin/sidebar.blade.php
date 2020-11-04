@@ -36,7 +36,7 @@
             </li>
 
             <li class="nav-item" id="users-documents">
-                <a class="menu-item" href="{{route('admin.users.documents.index')}}">
+                <a class="menu-item" href="{{route('admin.user_documents.index')}}">
                     <i class="ft-shield"></i>
                     <span class="menu-title" data-i18n="">
                     {{tr('verification_documents')}}
@@ -245,11 +245,17 @@
                         </a>
                     </li> -->
 
-                   <!--  <li id="subscription-payments">
+<!--                     <li id="subscription-payments">
                         <a class="menu-item" href="{{route('admin.subscription_payments.index')}}">
                            {{tr('subscription_payments')}}
                         </a>
                     </li> -->
+
+                    <li id="user-subscription-payments">
+                        <a class="menu-item" href="{{route('admin.users_subscriptions.index')}}">
+                           {{tr('user_subscription_payments')}}
+                        </a>
+                    </li>
 
                 </ul>            
             </li>

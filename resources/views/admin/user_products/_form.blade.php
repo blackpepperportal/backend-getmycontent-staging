@@ -8,7 +8,7 @@
                 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title" id="basic-layout-form">{{$user_product_details->id ? tr('edit_user_product') : tr('add_user_product')}}</h4>
+                    <h4 class="card-title" id="basic-layout-form">{{$user_product->id ? tr('edit_user_product') : tr('add_user_product')}}</h4>
 
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
@@ -34,19 +34,19 @@
 
                                 <div class="row">
 
-                                    <input type="hidden" name="user_product_id" id="user_product_id" value="{{ $user_product_details->id}}">
+                                    <input type="hidden" name="user_product_id" id="user_product_id" value="{{ $user_product->id}}">
 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="user_name">{{ tr('name') }}*</label>
-                                            <input type="text" id="name" name="name" class="form-control" placeholder="{{ tr('name') }}" value="{{ $user_product_details->name ?: old('name') }}" required onkeydown="return alphaOnly(event);">
+                                            <input type="text" id="name" name="name" class="form-control" placeholder="{{ tr('name') }}" value="{{ $user_product->name ?: old('name') }}" required onkeydown="return alphaOnly(event);">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="quantity">{{tr('quantity')}}*</label>
-                                            <input type="number" id="quantity" name="quantity" class="form-control" placeholder="{{tr('quantity')}}" value="{{ $user_product_details->quantity ?: old('quantity') }}" required>
+                                            <input type="number" id="quantity" name="quantity" class="form-control" placeholder="{{tr('quantity')}}" value="{{ $user_product->quantity ?: old('quantity') }}" required>
                                         </div>
                                     </div>
 
@@ -57,7 +57,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="price">{{tr('price')}}*</label>
-                                            <input type="number" id="price" name="price" class="form-control" placeholder="{{tr('price')}}" value="{{ $user_product_details->price ?: old('price') }}" required>
+                                            <input type="number" id="price" name="price" class="form-control" placeholder="{{tr('price')}}" value="{{ $user_product->price ?: old('price') }}" required>
                                         </div>
                                     </div>
 
@@ -104,7 +104,7 @@
 
                                         <label for="description">{{tr('description')}}<span class="admin-required">*</span></label>
 
-                                        <textarea id="summernote" rows="5" class="form-control" name="description" placeholder="{{ tr('description') }}">{{old('description') ?: $user_product_details->description}}</textarea>
+                                        <textarea id="summernote" rows="5" class="form-control" name="description" placeholder="{{ tr('description') }}">{{old('description') ?: $user_product->description}}</textarea>
 
                                     </div>
 

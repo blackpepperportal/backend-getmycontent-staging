@@ -74,6 +74,13 @@ class AdminUserController extends Controller
                 case SORT_BY_EMAIL_VERIFIED:
                     $base_query = $base_query->where('users.is_email_verified',USER_EMAIL_VERIFIED);
                     break;
+
+                case SORT_BY_DOCUMENT_VERIFIED:
+
+                    $base_query =  $base_query->whereHas('userDocuments', function($q) use ($request) {
+                                    return $q->where('user_documents.is_verified',USER_DOCUMENT_VERIFIED);
+                                   });
+                    break;
                 
                 default:
                     $base_query = $base_query->where('users.is_email_verified',USER_EMAIL_NOT_VERIFIED);
@@ -83,20 +90,24 @@ class AdminUserController extends Controller
 
         $page = 'users'; $sub_page = 'users-view';
 
+        $title = tr('view_users');
+
         if($request->has('account_type')) {
 
             $page = $request->account_type == USER_FREE_ACCOUNT ? 'users-free' : 'users-premium'; $sub_page = '';
+
+            $title = $request->account_type == USER_FREE_ACCOUNT ? tr('free_users') : tr('premium_users');
 
             $base_query = $base_query->where('users.user_account_type', $request->account_type);
 
         } 
 
-        $users = $base_query->paginate(10);
-
+        $users = $base_query->paginate($this->take);
 
         return view('admin.users.index')
                     ->with('page', $page)
                     ->with('sub_page', $sub_page)
+                    ->with('title', $title)
                     ->with('users', $users);
     
     }
@@ -117,25 +128,24 @@ class AdminUserController extends Controller
      */
     public function users_create() {
 
-        $user_details = new \App\User;
+        $user = new \App\User;
 
 
         return view('admin.users.create')
                     ->with('page', 'users')
                     ->with('sub_page','users-create')
-                    ->with('user_details', $user_details);           
+                    ->with('user', $user);           
    
     }
 
-    public function users_excel() {
+    public function users_excel(Request $request) {
 
         try{
             $file_format = '.xlsx';
 
             $filename = routefreestring(Setting::get('site_name'))."-".date('Y-m-d-h-i-s')."-".uniqid().$file_format;
 
-
-            return Excel::download(new UsersExport, $filename);
+            return Excel::download(new UsersExport($request), $filename);
 
         } catch(\Exception $e) {
 
@@ -163,9 +173,9 @@ class AdminUserController extends Controller
 
         try {
 
-            $user_details = \App\User::find($request->user_id);
+            $user = \App\User::find($request->user_id);
 
-            if(!$user_details) { 
+            if(!$user) { 
 
                 throw new Exception(tr('user_not_found'), 101);
             }
@@ -173,7 +183,7 @@ class AdminUserController extends Controller
             return view('admin.users.edit')
                     ->with('page', 'users')
                     ->with('sub_page', 'users-view')
-                    ->with('user_details', $user_details); 
+                    ->with('user', $user); 
             
         } catch(Exception $e) {
 
@@ -393,13 +403,33 @@ class AdminUserController extends Controller
 
             $user->is_document_verified = USER_DOCUMENT_APPROVED;
            
-
             if($user->save()) {
+
+                if($request->is_billing_account) {
+
+                    $user_billing_account = new \App\UserBillingAccount;
+
+                    $user_billing_account->user_id = $request->user_id;
+
+                    $user_billing_account->nickname = $request->nickname;
+
+                    $user_billing_account->account_holder_name = $request->account_holder_name;
+
+                    $user_billing_account->account_number = $request->account_number;
+
+                    $user_billing_account->ifsc_code = $request->ifsc_code;
+
+                    $user_billing_account->swift_code = $request->swift_code;
+
+                    $user_billing_account->bank_name = $request->bank_name;
+
+                    $user_billing_account->save();
+                }
 
                 if($request->monthly_amount || $request->yearly_amount) {
 
 
-                    $user_subscription = new \App\UserSubscription;
+                   $user_subscription =  \App\UserSubscription::find($request->subscription_id) ?? new \App\UserSubscription ;
 
                     $user_subscription->user_id = $user->id;
 
@@ -450,10 +480,10 @@ class AdminUserController extends Controller
        
         try {
       
-            $user_details = \App\User::find($request->user_id);
+            $user = \App\User::find($request->user_id);
             
 
-            if(!$user_details) { 
+            if(!$user) { 
 
                 throw new Exception(tr('user_not_found'), 101);                
             }
@@ -461,7 +491,7 @@ class AdminUserController extends Controller
             return view('admin.users.view')
                         ->with('page', 'users') 
                         ->with('sub_page','users-view') 
-                        ->with('user_details' , $user_details);
+                        ->with('user' , $user);
             
         } catch (Exception $e) {
 
@@ -490,14 +520,14 @@ class AdminUserController extends Controller
 
             DB::begintransaction();
 
-            $user_details = \App\User::find($request->user_id);
+            $user = \App\User::find($request->user_id);
             
-            if(!$user_details) {
+            if(!$user) {
 
                 throw new Exception(tr('user_not_found'), 101);                
             }
 
-            if($user_details->delete()) {
+            if($user->delete()) {
 
                 DB::commit();
 
@@ -537,19 +567,19 @@ class AdminUserController extends Controller
 
             DB::beginTransaction();
 
-            $user_details = \App\User::find($request->user_id);
+            $user = \App\User::find($request->user_id);
 
-            if(!$user_details) {
+            if(!$user) {
 
                 throw new Exception(tr('user_not_found'), 101);
                 
             }
 
-            $user_details->status = $user_details->status ? DECLINED : APPROVED ;
+            $user->status = $user->status ? DECLINED : APPROVED ;
 
-            if($user_details->save()) {
+            if($user->save()) {
 
-                if($user_details->status == DECLINED) {
+                if($user->status == DECLINED) {
 
                     $email_data['subject'] = tr('user_decline_email' , Setting::get('site_name'));
 
@@ -563,9 +593,9 @@ class AdminUserController extends Controller
 
                 }
 
-                $email_data['email']  = $user_details->email;
+                $email_data['email']  = $user->email;
 
-                $email_data['name']  = $user_details->name;
+                $email_data['name']  = $user->name;
 
                 $email_data['page'] = "emails.users.status";
 
@@ -573,7 +603,7 @@ class AdminUserController extends Controller
 
                 DB::commit();
 
-                $message = $user_details->status ? tr('user_approve_success') : tr('user_decline_success');
+                $message = $user->status ? tr('user_approve_success') : tr('user_decline_success');
 
                 return redirect()->back()->with('flash_success', $message);
             }
@@ -609,21 +639,21 @@ class AdminUserController extends Controller
 
             DB::beginTransaction();
 
-            $user_details = \App\User::find($request->user_id);
+            $user = \App\User::find($request->user_id);
 
-            if(!$user_details) {
+            if(!$user) {
 
-                throw new Exception(tr('user_details_not_found'), 101);
+                throw new Exception(tr('user_not_found'), 101);
                 
             }
 
-            $user_details->is_email_verified = $user_details->is_email_verified ? USER_EMAIL_NOT_VERIFIED : USER_EMAIL_VERIFIED;
+            $user->is_email_verified = $user->is_email_verified ? USER_EMAIL_NOT_VERIFIED : USER_EMAIL_VERIFIED;
 
-            if($user_details->save()) {
+            if($user->save()) {
 
                 DB::commit();
 
-                $message = $user_details->is_email_verified ? tr('user_verify_success') : tr('user_unverify_success');
+                $message = $user->is_email_verified ? tr('user_verify_success') : tr('user_unverify_success');
 
                 return redirect()->route('admin.users.index')->with('flash_success', $message);
             }
@@ -658,13 +688,13 @@ class AdminUserController extends Controller
         $user_followers = \App\Follower::where('follower_id',$request->follower_id)->paginate($this->take);
         
         return view('admin.users.followers')
-                ->with('page','users')
-                ->with('sub_page','users-view')
-                ->with('user_followers',$user_followers);
+                ->with('page', 'users')
+                ->with('sub_page', 'users-view')
+                ->with('user_followers', $user_followers);
      }
 
     /**
-     * @method user_following()
+     * @method user_followings()
      *
      * @uses This is to display the all followers of specified 
      *
@@ -676,16 +706,23 @@ class AdminUserController extends Controller
      *
      * @return view page
      */
-     public function user_following(Request $request) {
+     public function user_followings(Request $request) {
 
-        $user_followings = \App\Follower::where('user_id',$request->user_id)->paginate($this->take);
-        $users_name = \App\User::where('id', $request->user_id)->first()->name;
+        $user = \App\User::find($request->user_id);
 
-        return view('admin.users.following')
+        if(!$user) {
+
+            throw new Exception(tr('user_not_found'));
+
+        }
+
+        $followings = \App\Follower::where('user_id', $request->user_id)->paginate($this->take);
+
+        return view('admin.users.followings')
                 ->with('page','users')
                 ->with('sub_page','users-view')
-                ->with('user_followings',$user_followings)
-                ->with('users_name',$users_name);
+                ->with('followings', $followings)
+                ->with('user', $user);
        
     }
 
@@ -704,15 +741,34 @@ class AdminUserController extends Controller
      */
     public function user_documents_index(Request $request) {
 
+        $base_query = \App\User::orderBy('updated_at','desc');
+        
+        if($request->search_key) {
 
-        $base_query = \App\UserDocument::orderBy('created_at','DESC');
+            $base_query->where(function ($query) use ($request) {
+                $query->where('name', "like", "%" . $request->search_key . "%");
+                $query->orWhere('email', "like", "%" . $request->search_key . "%");
+                $query->orWhere('mobile', "like", "%" . $request->search_key . "%");
+            });
+        }
 
-        $user_documents = $base_query->paginate(10);
-       
+        if($request->status!='') {
+
+            $base_query->where('status', $request->status);
+        }
+
+        $users = $base_query->where('is_document_verified', '!=', USER_DOCUMENT_APPROVED)->paginate($this->take);
+
+        foreach($users as $user){
+
+            $user->documents_count = \App\UserDocument::where('user_id',$user->id)->count();
+            
+        }
+        
         return view('admin.users.documents.index')
                     ->with('page','users-documents')
                     ->with('sub_page', '')
-                    ->with('user_documents', $user_documents);
+                    ->with('users', $users);    
     
     }
 
@@ -732,21 +788,25 @@ class AdminUserController extends Controller
     public function user_documents_view(Request $request) {
 
         try {
-      
-            $stardom_document_details = \App\UserDocument::find($request->stardom_document_id);
 
-            if(!$stardom_document_details) { 
+            $user = \App\User::find($request->user_id);
 
-                throw new Exception(tr('stardom_document_not_found'), 101);                
+            if(!$user) {
+
+                throw new Exception(tr('user_not_found'));
+
             }
 
+            $user_documents = \App\UserDocument::where('user_id', $request->user_id)->orderBy('updated_at','desc')->get();
+
             return view('admin.users.documents.view')
-                        
-                        ->with('page', 'content_creators') 
-                        ->with('sub_page','content_creators-documents') 
-                        ->with('stardom_document_details' , $stardom_document_details);
+                    ->with('page', 'users-documents')
+                    ->with('sub_page', '')
+                    ->with('user', $user)
+                    ->with('user_documents', $user_documents);
             
         } catch (Exception $e) {
+
 
             return redirect()->back()->with('flash_error', $e->getMessage());
         }
@@ -772,45 +832,110 @@ class AdminUserController extends Controller
 
             DB::beginTransaction();
 
-            $stardom_document_details = \App\UserDocument::find($request->stardom_document_id);   
+            $user = \App\User::find($request->user_id);   
             
-            if(!$stardom_document_details) {
+            if(!$user) {
 
-                throw new Exception(tr('stardom_document_details_not_found'), 101);
+                throw new Exception(tr('user_not_found'), 101);
                 
             }
 
-            $stardom_document_details->is_email_verified = $stardom_document_details->is_email_verified ? STARDOM_DOCUMENT_NOT_VERIFIED : STARDOM_DOCUMENT_VERIFIED;
+            $user->is_document_verified = $user->is_document_verified ? USER_DOCUMENT_APPROVED : USER_DOCUMENT_DECLINED;
 
-            if($stardom_document_details->save()) {
+            if($user->save()) {
 
                 DB::commit();
 
-                $email_data['subject'] = tr('stardom_document_verification' , Setting::get('site_name'));
+                $email_data['subject'] = tr('user_document_verification' , Setting::get('site_name'));
 
-                $email_data['email']  = $stardom_document_details->userDetails->email ?? "-";
+                $email_data['email']  = $user->email ?? "-";
 
-                $email_data['name']  = $stardom_document_details->userDetails->name ?? "-";
+                $email_data['name']  = $user->name ?? "-";
 
                 $email_data['page'] = "emails.users.document-verify";
 
-                $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+                // $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
-                $message = $stardom_document_details->is_email_verified ? tr('stardom_document_verify_success') : tr('stardom_document_unverify_success');
+                $message = $user->is_document_verified ? tr('user_document_verify_success') : tr('user_document_unverify_success');
 
-                return redirect()->route('admin.users.documents.index')->with('flash_success', $message);
+                return redirect()->route('admin.user_documents.index')->with('flash_success', $message);
             }
             
-            throw new Exception(tr('stardom_document_verify_change_failed'));
+            throw new Exception(tr('user_document_verify_change_failed'));
 
         } catch(Exception $e) {
 
             DB::rollback();
 
-            return redirect()->route('admin.users.documents.index')->with('flash_error', $e->getMessage());
+            return redirect()->route('admin.user_documents.index')->with('flash_error', $e->getMessage());
 
         }
     
+    }
+
+
+
+    /**
+     * @method user_subscriptions_payments()
+     *
+     * @uses To list out users subscription payment details 
+     *
+     * @created Sakthi
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function user_subscription_payments() {
+       
+        $user_subscriptions = \App\UserSubscriptionPayment::orderBy('updated_at','desc')->paginate(10);
+
+        return view('admin.users.subscriptions.index')
+                    ->with('page', 'user_subscriptions')
+                    ->with('sub_page', 'user-subscription-payments')
+                    ->with('user_subscriptions', $user_subscriptions);
+    }
+
+
+
+    /**
+     * @method user_subscriptions_payment_view()
+     *
+     * @uses To list out users subscription payment details 
+     *
+     * @created Sakthi
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function user_subscriptions_payment_view(Request $request) {
+
+        try {
+       
+            $user_subscription_payment = \App\UserSubscriptionPayment::find($request->subscription_id);
+
+             if(!$user_subscription_payment) { 
+
+                throw new Exception(tr('user_subscription_payment_not_found'), 101);                
+            }
+
+
+            return view('admin.users.subscriptions.view')
+                        ->with('page', 'user_subscription_payment')
+                        ->with('sub_page', 'user-subscription-payments')
+                        ->with('user_subscription_payment', $user_subscription_payment);
+
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+       }
     }
 
 }

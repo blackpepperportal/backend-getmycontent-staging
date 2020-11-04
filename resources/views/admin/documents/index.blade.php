@@ -5,8 +5,6 @@
 @section('content-header', tr('documents')) 
 
 @section('breadcrumb')
-
-
     
 <li class="breadcrumb-item active">
     <a href="{{route('admin.documents.index')}}">{{ tr('documents') }}</a>
@@ -23,6 +21,8 @@
     <div class="row">
 
         <div class="col-12">
+
+            <p>{{tr('documents_list_note')}} <a href="{{route('admin.user_documents.index')}}">{{tr('click_here_documents')}}</a></p>
 
             <div class="card">
 
@@ -55,18 +55,18 @@
                            
                             <tbody>
 
-                                @foreach($documents as $i => $document_details)
+                                @foreach($documents as $i => $document)
                                 <tr>
                                     <td>{{ $i+1 }}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.documents.view' , ['document_id' => $document_details->id] )  }}">
-                                        {{ $document_details->name }}
+                                        <a href="{{  route('admin.documents.view' , ['document_id' => $document->id] )  }}">
+                                        {{ $document->name }}
                                         </a>
                                     </td>
 
                                     <td>
-                                        @if($document_details->status == APPROVED)
+                                        @if($document->status == APPROVED)
 
                                             <span class="btn btn-success btn-sm">{{ tr('approved') }}</span>
                                         @else
@@ -76,7 +76,7 @@
                                     </td>
 
                                     <td>
-                                        @if($document_details->is_required == YES)
+                                        @if($document->is_required == YES)
 
                                        <span class="btn btn-success btn-sm">{{ tr('yes') }}</span>
 
@@ -93,7 +93,7 @@
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                <a class="dropdown-item" href="{{ route('admin.documents.view', ['document_id' => $document_details->id] ) }}">&nbsp;{{ tr('view') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.documents.view', ['document_id' => $document->id] ) }}">&nbsp;{{ tr('view') }}</a> 
 
                                                 @if(Setting::get('is_demo_control_enabled') == YES)
 
@@ -103,20 +103,20 @@
 
                                                 @else
 
-                                                    <a class="dropdown-item" href="{{ route('admin.documents.edit', ['document_id' => $document_details->id] ) }}">&nbsp;{{ tr('edit') }}</a>
+                                                    <a class="dropdown-item" href="{{ route('admin.documents.edit', ['document_id' => $document->id] ) }}">&nbsp;{{ tr('edit') }}</a>
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('document_delete_confirmation' , $document_details->name) }}&quot;);" href="{{ route('admin.documents.delete', ['document_id' => $document_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('document_delete_confirmation' , $document->name) }}&quot;);" href="{{ route('admin.documents.delete', ['document_id' => $document->id] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 
-                                                @if($document_details->status == APPROVED)
+                                                @if($document->status == APPROVED)
 
-                                                    <a class="dropdown-item" href="{{  route('admin.documents.status' , ['document_id' => $document_details->id] )  }}" onclick="return confirm(&quot;{{ $document_details->name }} - {{ tr('document_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
+                                                    <a class="dropdown-item" href="{{  route('admin.documents.status' , ['document_id' => $document->id] )  }}" onclick="return confirm(&quot;{{ $document->name }} - {{ tr('document_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
                                                 </a> 
 
                                                 @else
 
-                                                    <a class="dropdown-item" href="{{ route('admin.documents.status' , ['document_id' => $document_details->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
+                                                    <a class="dropdown-item" href="{{ route('admin.documents.status' , ['document_id' => $document->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
 
                                                 @endif
 

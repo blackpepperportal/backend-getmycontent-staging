@@ -62,7 +62,7 @@ class UserSubscriptionPayment extends Model
 
     public function toUser() {
 
-    	return $this->belongsTo(Post::class, 'to_user_id');
+    	return $this->belongsTo(User::class, 'to_user_id');
     }
 
     /**

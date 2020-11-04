@@ -14,7 +14,7 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $appends = ['user_id', 'is_notification'];
+    protected $appends = ['user_id', 'is_notification', 'is_document_verified_formatted'];
 
     public function getUserIdAttribute() {
 
@@ -24,6 +24,11 @@ class User extends Authenticatable
     public function getIsNotificationAttribute() {
 
         return $this->is_email_notification ? YES : NO;
+    }
+
+    public function getIsDocumentVerifiedFormattedAttribute() {
+
+        return user_document_status_formatted($this->is_document_verified);
     }
 
     /**
@@ -134,6 +139,21 @@ class User extends Authenticatable
             'users.unique_id as user_unique_id',
             'users.*'
             );
+    
+    }
+
+    /**
+     * Scope a query to only include active users.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOtherResponse($query) {
+
+        return $query->select(
+            'users.id as user_id',
+            'users.unique_id as user_unique_id',
+            'users.*'
+            );
     }
     
     public static function boot() {
@@ -148,7 +168,7 @@ class User extends Authenticatable
 
             $model->attributes['is_email_verified'] = USER_EMAIL_VERIFIED;
 
-            if (Setting::get('is_account_email_verification') == YES && env('MAIL_USERNAME') && env('MAIL_PASSWORD')) { 
+            if (Setting::get('is_account_email_verification') == YES && envfile('MAIL_USERNAME') && envfile('MAIL_PASSWORD')) { 
 
                 if($model->attributes['login_by'] == 'manual') {
 
@@ -232,7 +252,7 @@ class User extends Authenticatable
 
         if(Setting::get('is_account_email_verification') == YES && Setting::get('is_email_notification') == YES && Setting::get('is_email_configured') == YES) {
 
-            if($model->attributes['login_by'] != 'manual') {
+            if($this->attributes['login_by'] != 'manual') {
 
                 $this->attributes['is_email_verified'] = USER_EMAIL_VERIFIED;
 

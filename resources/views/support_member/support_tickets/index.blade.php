@@ -7,10 +7,11 @@
 <li class="breadcrumb-item"><a href="{{ route('support_member.dashboard') }}">{{ tr('home') }}</a>
 </li>
 
-<li class="breadcrumb-item"><a href="{{route('support_member.support_tickets.index')}}">{{ tr('support_tickets') }}</a></a>
+<li class="breadcrumb-item">
+    <a href="{{route('support_member.support_tickets.index')}}">{{ tr('support_tickets') }}</a>
 </li>
 
-<li class="breadcrumb-item">{{ tr('view_support_tickets') }}</a>
+<li class="breadcrumb-item">{{ tr('view_support_tickets') }}
 </li>
 
 @endsection 
@@ -51,22 +52,22 @@
                            
                             <tbody>
 
-                                @foreach($support_tickets as $i => $support_ticket_details)
+                                @foreach($support_tickets as $i => $support_ticket)
                                 <tr>
                                     <td>{{ $i+$support_tickets->firstItem() }}</td>
 
-                                    <td>{{ $support_ticket_details->unique_id}}</td>
+                                    <td>{{ $support_ticket->unique_id}}</td>
 
                                     <td>
                                     
-                                        {{ $support_ticket_details->userDetails->name ?? "-" }}
+                                        {{ $support_ticket->userDetails->name ?? "-" }}
                                     
                                     </td>
 
-                                    <td>{{ substr($support_ticket_details->subject,0,10)}}...</td>
+                                    <td>{{ substr($support_ticket->subject,0,10)}}...</td>
 
                                     <td>
-                                        {{ substr($support_ticket_details->message,0,10)}}...
+                                        {{ substr($support_ticket->message,0,10)}}...
                                     </td>
 
                                     <td>
@@ -77,7 +78,7 @@
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                <a class="dropdown-item" href="{{ route('support_member.support_tickets.view', ['support_ticket_id' => $support_ticket_details->id] ) }}">&nbsp;{{ tr('view') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('support_member.support_tickets.view', ['support_ticket_id' => $support_ticket->id] ) }}">&nbsp;{{ tr('view') }}</a> 
 
                                                 <div class="dropdown-divider"></div>
 
