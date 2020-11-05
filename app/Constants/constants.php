@@ -218,3 +218,8 @@ if(!defined('BOOKMARK_TYPE_AUDIOS')) define('BOOKMARK_TYPE_AUDIOS', 'audios');
 if(!defined('BOOKMARK_TYPE_LOCKED')) define('BOOKMARK_TYPE_LOCKED', 'locked');
 if(!defined('BOOKMARK_TYPE_OTHERS')) define('BOOKMARK_TYPE_OTHERS', 'others');
 
+// Bell notification status
+
+if(!defined('BELL_NOTIFICATION_STATUS_UNREAD')) define('BELL_NOTIFICATION_STATUS_UNREAD', 1);
+
+if(!defined('BELL_NOTIFICATION_STATUS_READ')) define('BELL_NOTIFICATION_STATUS_READ', 2);

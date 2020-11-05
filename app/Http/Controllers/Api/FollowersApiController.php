@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Helpers\Helper;
-
+use App\Jobs\FollowUserJob;
 use DB, Log, Hash, Validator, Exception, Setting;
 
 use App\User, App\Follower;
@@ -20,9 +20,9 @@ class FollowersApiController extends Controller
 
     public function __construct(Request $request) {
 
-        Log::info(url()->current());
+        // Log::info(url()->current());
 
-        Log::info("Request Data".print_r($request->all(), true));
+        // Log::info("Request Data".print_r($request->all(), true));
         
         $this->loginUser = User::find($request->id);
 
@@ -91,7 +91,7 @@ class FollowersApiController extends Controller
         try {
 
             DB::beginTransaction();
-
+            
             // Validation start
             // Follower id
             $rules = [
@@ -137,6 +137,12 @@ class FollowersApiController extends Controller
             $follower->save();
 
             DB::commit();
+
+            $job_data['follower'] = $follower;
+
+            $job_data['timezone'] = $this->timezone;
+
+            $this->dispatch(new FollowUserJob($job_data));
 
             $data['user_id'] = $request->user_id;
 

@@ -967,6 +967,8 @@ return [
 	"view_user_subscription_payment" => "View User Subscription Payment",
 	"user_amount" => "User Amount",
 	"update_premium" => "Update Premium Account",
+	"followed_by_user"=>"You have One Follower",
+    "user_follow_message"=>"User (:other_key) has been Following you",
 
 
 ]?>

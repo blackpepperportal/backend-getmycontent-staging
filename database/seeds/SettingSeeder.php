@@ -218,7 +218,11 @@ class SettingSeeder extends Seeder
 			[
 		        'key' => 'admin_commission',
 		        'value' => 20
-		    ],
+			],
+			[
+		        'key' => 'frontend_url_followings',
+		        'value' => envfile('FRONTEND_URL').'/user/followings'
+			],
 
 		]);
 
