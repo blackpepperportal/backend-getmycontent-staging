@@ -969,6 +969,7 @@ return [
 	"update_premium" => "Update Premium Account",
 	"followed_by_user"=>"You have One Follower",
     "user_follow_message"=>"User (:other_key) has been Following you",
-
+	"post_like_message"=>"Your Post has been Liked by the User (:other_key) ",
+    "post_liked_by_user"=>"Your Post has been Liked by the user"
 
 ]?>

@@ -1078,7 +1078,7 @@ class PostsApiController extends Controller
             DB::begintransaction();
 
             $rules = ['post_id' => 'nullable|exists:posts,id'];
-
+             
             $custom_errors = ['post_id.required' => api_error(139)];
 
             Helper::custom_validator($request->all(),$rules, $custom_errors);
@@ -1109,6 +1109,13 @@ class PostsApiController extends Controller
             }
 
             DB::commit(); 
+
+
+            $job_data['post_like'] = $post_like;
+
+            $job_data['timezone'] = $this->timezone;
+
+            $this->dispatch(new \App\Jobs\PostLikeJob($job_data));
 
             $data = $post_like;
 
