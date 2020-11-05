@@ -20,9 +20,9 @@ class FollowersApiController extends Controller
 
     public function __construct(Request $request) {
 
-        // Log::info(url()->current());
+        Log::info(url()->current());
 
-        // Log::info("Request Data".print_r($request->all(), true));
+        Log::info("Request Data".print_r($request->all(), true));
         
         $this->loginUser = User::find($request->id);
 
