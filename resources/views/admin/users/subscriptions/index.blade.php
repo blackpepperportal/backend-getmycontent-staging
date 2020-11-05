@@ -1,8 +1,10 @@
 @extends('layouts.admin') 
 
-@section('content-header', tr('users_subscription_payment'))
+@section('content-header', tr('payments'))
 
 @section('breadcrumb')
+
+    <li class="breadcrumb-item"><a href="">{{ tr('payments') }}</a></li>
 
     <li class="breadcrumb-item active" aria-current="page">
         <span>{{ tr('users_subscription_payment') }}</span>
@@ -22,7 +24,7 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('view_user_subscriptions_payment') }}</h4>
+                    <h4 class="card-title">{{ tr('users_subscription_payment') }}</h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
                 </div>

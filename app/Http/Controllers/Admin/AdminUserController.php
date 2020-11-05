@@ -338,6 +338,8 @@ class AdminUserController extends Controller
 
                     $user->is_email_verified = USER_EMAIL_VERIFIED;
 
+                    $user->user_account_type = $request->user_account_type;
+
                     $user->save();
 
                 }
