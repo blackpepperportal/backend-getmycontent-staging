@@ -55,7 +55,7 @@ class PostsApiController extends Controller
 
             $follower_ids = get_follower_ids($request->id);
 
-            $base_query = $total_query = Post::whereIn('posts.user_id', $follower_ids)->with('postFiles')->orderBy('created_at', 'asc');
+            $base_query = $total_query = Post::whereIn('posts.user_id', $follower_ids)->with('postFiles')->orderBy('created_at', 'desc');
 
             $posts = $base_query->skip($this->skip)->take($this->take)->get();
 
@@ -94,7 +94,7 @@ class PostsApiController extends Controller
 
             $follower_ids = get_follower_ids($request->id);
 
-            $base_query = $total_query = Post::whereIn('posts.user_id', $follower_ids)->with(['postFiles', 'user'])->orderBy('created_at', 'asc');
+            $base_query = $total_query = Post::whereIn('posts.user_id', $follower_ids)->with(['postFiles', 'user'])->orderBy('created_at', 'desc');
 
             if($request->search_key) {
 
@@ -183,7 +183,7 @@ class PostsApiController extends Controller
 
         try {
 
-            $base_query = $total_query = Post::orderBy('created_at', 'asc');
+            $base_query = $total_query = Post::with('postFiles')->orderBy('posts.created_at', 'desc');
 
             $posts = $base_query->skip($this->skip)->take($this->take)->get();
 
@@ -224,13 +224,11 @@ class PostsApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $post = Post::find($request->post_id);
+            $post = Post::with('postFiles')->find($request->post_id);
 
             if(!$post) {
                 throw new Exception(api_error(139), 139);   
             }
-
-            $post->post_files = \App\PostFile::where('post_id', $request->post_id)->get();
 
             $data['post'] = $post;
 
@@ -301,6 +299,18 @@ class PostsApiController extends Controller
                         $file_input = ['post_id' => $post->id, 'file' => $file];
 
                         $post_file = \App\PostFile::create($file_input);
+
+                        $old_path = get_post_temp_path($request->id, $file);
+
+                        $new_path = get_post_path($request->id, $file);
+
+                        $move = \Storage::move($old_path, $new_path);
+
+                        $post_file->blur_file = \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->id);
+
+                        $post_file->save();
+
+
                     }
                 }
 
@@ -313,6 +323,105 @@ class PostsApiController extends Controller
             } 
 
             throw new Exception(api_error(128), 128);
+            
+        } catch(Exception $e){ 
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        } 
+    
+    }
+
+    /**
+     * @method post_files_upload()
+     *
+     * @uses get the selected post details
+     *
+     * @created Vithya R
+     *
+     * @updated Vithya R
+     *
+     * @param integer $subscription_id
+     *
+     * @return JSON Response
+     */
+    public function post_files_upload(Request $request) {
+
+        try {
+            
+            $rules = [
+                'file' => 'required|file|max:20000',
+                'file_type' => 'required',
+                'post_id' => 'nullable|posts,id'
+            ];
+
+            Helper::custom_validator($request->all(),$rules);
+
+            $filename = rand(1,1000000).'-temp-post-'.$request->file_type;
+
+            $folder_path = POST_TEMP_PATH.$request->id.'/';
+
+            $post_file = Helper::post_upload_file($request->file, $folder_path, $filename);
+
+            $data['file'] = $post_file;
+
+            return $this->sendResponse(api_success(151), 151, $data);
+
+            
+        } catch(Exception $e){ 
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        } 
+    
+    }
+
+    /**
+     * @method post_files_remove()
+     *
+     * @uses remove the selected file
+     *
+     * @created Vithya R
+     *
+     * @updated Vithya R
+     *
+     * @param integer $post_file_id
+     *
+     * @return JSON Response
+     */
+    public function post_files_remove(Request $request) {
+
+        try {
+            
+            DB::begintransaction();
+
+            $rules = [
+                'file' => 'required',
+                'post_file_id' => 'nullable|exists:post_files,id',
+            ];
+
+            Helper::custom_validator($request->all(),$rules);
+
+            if($request->post_file_id) {
+
+                \App\PostFile::where('id', $request->post_file_id)->delete();
+
+            } else {
+
+                \App\PostFile::where('file', $request->file)->delete();
+
+                $folder_path = POST_TEMP_PATH.$request->id.'/';
+
+                Helper::storage_delete_file($request->file, $folder_path);
+
+            }
+
+            DB::commit(); 
+
+            return $this->sendResponse(api_success(152), 152, $data = []);
+           
             
         } catch(Exception $e){ 
 

@@ -583,11 +583,11 @@ class Helper {
         Storage::disk('public')->put($folder_path_name, $data);
     }
 
-     /**
+    /**
      * @method upload_file
      */
     
-    public static function storage_upload_file($input_file, $folder_path = COMMON_FILE_PATH) {
+    public static function storage_upload_file($input_file, $folder_path = COMMON_FILE_PATH, $name = "") {
 
         if(!$input_file) {
 
@@ -595,7 +595,7 @@ class Helper {
 
         }
        
-        $name = Helper::file_name();
+        $name = $name ?: Helper::file_name();
 
         $ext = $input_file->getClientOriginalExtension();
 
@@ -623,7 +623,67 @@ class Helper {
 
         $storage_file_path = $folder_path.$file_name;
 
-        Storage::delete($storage_file_path);
+        $response = Storage::disk('public')->delete($storage_file_path);
+    }
+
+    /**
+     * @method upload_file
+     */
+    
+    public static function post_upload_file($input_file, $folder_path = COMMON_FILE_PATH, $name = "") {
+
+        if(!$input_file) {
+
+            return "";
+
+        }
+       
+        $name = $name ?: Helper::file_name();
+
+        $ext = $input_file->getClientOriginalExtension();
+
+        $file_name = $name.".".$ext;
+
+        $public_folder_path = "public/".$folder_path;
+
+        Storage::putFileAs($public_folder_path, $input_file, $file_name);
+
+        $storage_file_path = $folder_path.$file_name;
+
+        $url = asset(Storage::url($storage_file_path));
+    
+        return $url;
+
+    }
+
+    /**
+     * @method upload_file
+     */
+    
+    public static function generate_post_blur_file($url, $user_id) {
+
+        if(!$url) {
+
+            return "";
+
+        }
+
+        \File::makeDirectory(Storage::path('public/'.POST_BLUR_PATH.$user_id), 0777, true, true);
+
+        $storage_file_path = 'public/'.POST_PATH.$user_id.'/'.basename($url);
+
+        $output_file_path = 'public/'.POST_BLUR_PATH.$user_id.'/'.basename($url);
+
+        // create new Intervention Image
+        $img = \Image::make(Storage::path($storage_file_path));
+
+        // apply stronger blur
+        $img->blur(15)->save(Storage::path($output_file_path));
+       
+        $url = asset(Storage::url($output_file_path));
+    
+        return $url;
+
     }
 
     public static function is_you_following($logged_in_user_id, $other_user_id) {

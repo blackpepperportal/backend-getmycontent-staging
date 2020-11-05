@@ -1583,6 +1583,8 @@ class UserAccountApiController extends Controller
                 throw new Exception(api_error(1002), 1002);
             }
 
+            $user->
+
             $data['user'] = $user;
 
             $data['total_followers'] = \App\Follower::where('user_id', $request->user_id)->count();
@@ -1627,13 +1629,13 @@ class UserAccountApiController extends Controller
             $user = \App\User::where('users.unique_id', $request->user_unique_id)->first();
 
             if(!$user) {
-                throw new Exception(api_error(1002), 1002);
+                throw new Exception(api_error(135), 135);
             }
 
             $base_query = $total_query = \App\Post::with('postFiles')->where('user_id', $user->id);
 
             $posts = $base_query->skip($this->skip)->take($this->take)->orderBy('created_at', 'desc')->get();
-            
+
             $posts = \App\Repositories\PostRepository::posts_list_response($posts, $request);
 
             $data['posts'] = $posts ?? [];

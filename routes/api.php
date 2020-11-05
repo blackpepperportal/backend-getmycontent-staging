@@ -210,6 +210,10 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('posts_delete_for_owner','Api\PostsApiController@posts_delete_for_owner');
 
+        Route::post('post_files_upload','Api\PostsApiController@post_files_upload');
+
+        Route::post('post_files_remove','Api\PostsApiController@post_files_remove');
+
     });
 
 
