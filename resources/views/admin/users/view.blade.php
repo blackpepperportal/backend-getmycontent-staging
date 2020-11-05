@@ -166,7 +166,7 @@
                                  <tr>
                                     <th>{{tr('user_wallet_balance')}}</th>
                                     <td>
-                                       {{$user->userWallets->remaining_formatted ?? "$0.00"}}
+                                       {{$user->userWallets->remaining_formatted ?? formatted_amount(0.00)}}
                                     </td>
                                 </tr>
 
