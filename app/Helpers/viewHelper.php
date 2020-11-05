@@ -875,11 +875,7 @@ function get_image_mime_type($image_path)
 }
 
 function get_post_file_type($file_url) {
-    $url = "http://domain/fotografo/admin/gallery_bg.php";
-    $keys = parse_url($url); // parse the url
-    $path = explode("/", $keys['path']); // splitting the path
-    $last = end($path); // get the value of the last element 
-
+    
     return 'image';
 
 }
@@ -903,4 +899,24 @@ function get_follower_ids($user_id) {
     $follower_ids = $follower_ids ? $follower_ids->toArray() : [];
 
     return $follower_ids;
+}
+
+function get_post_temp_path($user_id, $url) {
+
+    $filename = basename($url);
+
+    $folder_path = POST_TEMP_PATH.$user_id.'/';
+
+    return 'public/'.$folder_path.$filename;
+
+}
+
+function get_post_path($user_id, $url) {
+
+    $filename = basename($url);
+
+    $folder_path = POST_PATH.$user_id.'/';
+
+    return 'public/'.$folder_path.$filename;
+
 }

@@ -80,7 +80,7 @@ class Post extends Model
 
 	public function postFiles() {
 
-	   return $this->hasMany(PostFile::class,'post_id');
+	   return $this->hasMany(PostFile::class, 'post_id');
 	}
 
 	public function postLikes() {
