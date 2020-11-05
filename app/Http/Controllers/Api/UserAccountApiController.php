@@ -1583,8 +1583,6 @@ class UserAccountApiController extends Controller
                 throw new Exception(api_error(1002), 1002);
             }
 
-            $user->
-
             $data['user'] = $user;
 
             $data['total_followers'] = \App\Follower::where('user_id', $request->user_id)->count();
