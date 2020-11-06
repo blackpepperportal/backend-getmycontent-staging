@@ -41,7 +41,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = ['user_id', 'is_notification', 'is_document_verified_formatted', 'total_follwers', 'total_followings', 'user_account_type_formatted', 'total_posts'];
+    protected $appends = ['user_id', 'is_notification', 'is_document_verified_formatted', 'total_followers', 'total_followings', 'user_account_type_formatted', 'total_posts'];
 
     public function getUserIdAttribute() {
 
@@ -59,20 +59,32 @@ class User extends Authenticatable
     }
 
     public function getTotalFollowersAttribute() {
+
+        $count = $this->followers->count();
+
+        unset($this->followers);
         
-        return $this->followers->count();
+        return $count;
 
     }
 
     public function getTotalFollowingsAttribute() {
+
+        $count = $this->followings->count();
+
+        unset($this->followings);
         
-        return $this->followings->count();
+        return $count;
 
     }
 
     public function getTotalPostsAttribute() {
         
-        return $this->posts->count();
+        $count = $this->posts->count();
+
+        unset($this->posts);
+        
+        return $count;
 
     }
 
