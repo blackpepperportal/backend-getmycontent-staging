@@ -971,6 +971,6 @@ return [
     "user_follow_message"=>"User (:other_key) has been Following you",
 	"USER_FREE_ACCOUNT" => "Free",
 	"USER_PREMIUM_ACCOUNT" => "Premium",
-
-
+	"post_like_message"=>"Your Post has been Liked by the User (:other_key) ",
+    "post_liked_by_user"=>"Your Post has been Liked by the user"
 ]?>

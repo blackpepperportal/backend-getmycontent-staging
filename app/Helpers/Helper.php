@@ -312,6 +312,9 @@ class Helper {
             case 602:
                 $string = tr('followed_by_user');
                 break;
+            case 603:
+                $string = tr('post_liked_by_user');
+                break;
     
             default:
                 $string = "";
