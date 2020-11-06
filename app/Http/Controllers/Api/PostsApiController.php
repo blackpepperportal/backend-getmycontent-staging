@@ -917,7 +917,18 @@ class PostsApiController extends Controller
 
             if($post_ids) {
 
-                $posts = \App\Post::with('postFiles')->Approved()->whereIn('posts.id', $post_ids)->get();
+                $post_base_query = \App\Post::with('postFiles')->Approved()->whereIn('posts.id', $post_ids)->orderBy('posts.created_at', 'desc');
+
+                if($request->type != POSTS_ALL) {
+
+                    $type = $request->type;
+
+                    $post_base_query = $post_base_query->whereHas('postFiles', function($q) use($type) {
+                            $q->where('post_files.file_type', $type);
+                        });
+                }
+
+                $posts = $post_base_query->get();
 
                 $posts = \App\Repositories\PostRepository::posts_list_response($posts, $request);
             }

@@ -41,7 +41,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = ['user_id', 'is_notification', 'is_document_verified_formatted', 'total_followers', 'total_followings', 'user_account_type_formatted', 'total_posts'];
+    protected $appends = ['user_id', 'is_notification', 'is_document_verified_formatted', 'total_followers', 'total_followings', 'user_account_type_formatted', 'total_posts', 'total_fav_users', 'total_bookmarks'];
 
     public function getUserIdAttribute() {
 
@@ -83,6 +83,26 @@ class User extends Authenticatable
         $count = $this->posts->count();
 
         unset($this->posts);
+        
+        return $count;
+
+    }
+
+    public function getTotalFavUsersAttribute() {
+        
+        $count = $this->favUsers->count();
+
+        unset($this->favUsers);
+        
+        return $count;
+
+    }
+
+    public function getTotalBookmarksAttribute() {
+        
+        $count = $this->postBookmarks->count();
+
+        unset($this->postBookmarks);
         
         return $count;
 
@@ -155,20 +175,25 @@ class User extends Authenticatable
         return $this->hasOne(UserSubscription::class, 'user_id');
     }
 
-    /**
-      * Get the UserCard record associated with the user.
-     */
     public function followers() {
         
         return $this->hasMany(Follower::class, 'user_id');
     }
 
-    /**
-      * Get the UserCard record associated with the user.
-     */
     public function followings() {
         
         return $this->hasMany(Follower::class, 'follower_id');
+    }
+
+    
+    public function postBookmarks() {
+        
+        return $this->hasMany(PostBookmark::class, 'user_id');
+    }
+
+    public function favUsers() {
+        
+        return $this->hasMany(FavUser::class, 'user_id');
     }
     
     /**
