@@ -306,6 +306,10 @@ class PostsApiController extends Controller
 
                         $move = \Storage::move($old_path, $new_path);
 
+                        $file_path = POST_PATH.$request->id.'/'.basename($file);
+
+                        $post_file->file = Storage::url($file_path);
+
                         $post_file->blur_file = \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->id);
 
                         $post_file->save();
