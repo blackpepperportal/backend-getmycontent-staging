@@ -80,8 +80,10 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
         Route::post('email_notification_update', 'Api\UserAccountApiController@is_email_notification_change');
 
         Route::post('notifications_status_update','Api\UserAccountApiController@notifications_status_update');
-        
+
         Route::post('lists_index','Api\UserAccountApiController@lists_index');
+        
+        Route::post('payments_index','Api\UserAccountApiController@payments_index');
 
         // Cards management start
 

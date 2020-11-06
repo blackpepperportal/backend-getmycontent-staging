@@ -2042,6 +2042,49 @@ class UserAccountApiController extends Controller
     
     }
 
+    /** 
+     * @method payments_index()
+     *
+     * @uses To display the user details based on user  id
+     *
+     * @created Bhawya N 
+     *
+     * @updated Bhawya N
+     *
+     * @param object $request - User Id
+     *
+     * @return json response with user details
+     */
+
+    public function payments_index(Request $request) {
+
+        try {
+
+            $user = User::firstWhere('id' , $request->id);
+
+            if(!$user) { 
+
+                throw new Exception(api_error(1002) , 1002);
+            }
+
+            $data = [];
+
+            $data['user'] = $user;
+
+            $data['user_withdrawals_min_amount'] = Setting::get('user_withdrawals_min_amount', 10);
+
+            $data['wallet'] = \App\UserWallet::where('user_id', $request->id)->first();
+
+            return $this->sendResponse($message = "", $success_code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
+    }
+
 
 
 }
