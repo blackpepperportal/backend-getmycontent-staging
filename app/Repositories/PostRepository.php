@@ -40,6 +40,8 @@ class PostRepository {
 
                         $post->share_link = Setting::get('frontend_url')."/post/".$post->post_unique_id;
 
+                        $post->publish_time_formatted = common_date($post->publish_time, $request->timezone, 'M d');
+
                         $post->unsetRelation('postLikes')->unsetRelation('postBookmarks')->unsetRelation('user');
 
                         return $post;

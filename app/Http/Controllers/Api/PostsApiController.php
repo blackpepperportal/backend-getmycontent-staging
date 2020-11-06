@@ -55,7 +55,7 @@ class PostsApiController extends Controller
 
             $follower_ids = get_follower_ids($request->id);
 
-            $base_query = $total_query = Post::whereIn('posts.user_id', $follower_ids)->with('postFiles')->orderBy('posts.created_at', 'desc');
+            $base_query = $total_query = Post::Approved()->whereIn('posts.user_id', $follower_ids)->with('postFiles')->orderBy('posts.created_at', 'desc');
 
             $posts = $base_query->skip($this->skip)->take($this->take)->get();
 
@@ -94,7 +94,7 @@ class PostsApiController extends Controller
 
             $follower_ids = get_follower_ids($request->id);
 
-            $base_query = $total_query = Post::whereIn('posts.user_id', $follower_ids)->with(['postFiles', 'user'])->orderBy('created_at', 'desc');
+            $base_query = $total_query = Post::Approved()->whereIn('posts.user_id', $follower_ids)->with(['postFiles', 'user'])->orderBy('created_at', 'desc');
 
             if($request->search_key) {
 
@@ -146,7 +146,7 @@ class PostsApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $post = Post::with('postFiles')->where('posts.unique_id', $request->post_unique_id)->first();
+            $post = Post::with('postFiles')->Approved()->where('posts.unique_id', $request->post_unique_id)->first();
 
             if(!$post) {
                 throw new Exception(api_error(139), 139);   
@@ -1081,7 +1081,7 @@ class PostsApiController extends Controller
             
             DB::begintransaction();
 
-            $rules = ['post_id' => 'nullable|exists:posts,id'];
+            $rules = ['post_id' => 'required|exists:posts,id'];
              
             $custom_errors = ['post_id.required' => api_error(139)];
 
