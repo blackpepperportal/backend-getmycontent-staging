@@ -3,10 +3,11 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+
 use App\Post;
 
 use Carbon\Carbon;
@@ -19,29 +20,27 @@ use App\Helpers\Helper;
 
 use App\User;
 
-class FollowUserJob implements ShouldQueue
+class PostCommentJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-
     protected $data;
-    
-   /**
-     * The number of times the job may be attempted.
-     *
-     * @var int
-     */
-    public $tries = 2;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
+
+     /**
+     * Create a new job instance.
+     *
+     * @return void
+     */
     public function __construct($data)
     {
+        //
         $this->data = $data;
-
     }
 
     /**
@@ -51,29 +50,30 @@ class FollowUserJob implements ShouldQueue
      */
     public function handle()
     {
+        //
         try {
 
-            $follower = $this->data['follower'];
+            $post_comment = $this->data['post_comment'];
 
-            $title = $content = push_messages(602);
+            $title = $content = push_messages(604);
 
-            $message = tr('user_follow_message', $follower->followerDetails->name ?? ''); 
+            $message = tr('post_comment_message', $post_comment->user->name ?? ''); 
 
-            $data['from_user_id'] = $follower->follower_id;
+            $data['from_user_id'] = $post_comment->user_id;
 
-            $data['to_user_id'] = $follower->user_id;
+            $data['to_user_id'] = $post_comment->post->user_id;
           
             $data['message'] = $message;
 
-            $data['action_url'] = Setting::get('frontend_url')."/user/followings" ?? '';
+            $data['action_url'] = Setting::get('frontend_url')."/user/post_commets" ?? '';
 
-            $data['image'] = $follower->userDetails->picture ?? asset('placeholder.jpeg');
+            $data['image'] = $post_comment->user->picture ?? asset('placeholder.jpeg');
 
             $data['subject'] = $content;
 
             dispatch(new BellNotificationJob($data));
 
-            $user_details = User::where('id', $follower->user_id)->first();
+            $user_details = User::where('id', $post_comment->post->user_id)->first();
 
             if (Setting::get('is_push_notification') == YES && $user_details) {
 
@@ -93,4 +93,5 @@ class FollowUserJob implements ShouldQueue
 
         }
     }
+    
 }

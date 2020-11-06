@@ -920,3 +920,20 @@ function get_post_path($user_id, $url) {
     return 'public/'.$folder_path.$filename;
 
 }
+
+
+function push_messages($key , $other_key = "" , $lang_path = "messages.") {
+
+
+    if (!\Session::has('locale')) {
+
+        $locale = \Session::put('locale', config('app.locale'));
+
+    }else {
+
+        $locale = \Session::get('locale');
+
+    }
+
+return \Lang::choice('push-messages.'.$key, 0, Array('other_key' => $other_key), $locale);
+}

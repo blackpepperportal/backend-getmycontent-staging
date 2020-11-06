@@ -828,6 +828,12 @@ class PostsApiController extends Controller
 
             DB::commit(); 
 
+            $job_data['post_comment'] = $post_comment;
+
+            $job_data['timezone'] = $this->timezone;
+
+            $this->dispatch(new \App\Jobs\PostCommentJob($job_data));
+
             $data = $post_comment;
 
             return $this->sendResponse(api_success(141), 141, $data);
@@ -1347,6 +1353,8 @@ class PostsApiController extends Controller
                 
             }
 
+            $post = \App\Post::PaidApproved()->firstWhere('posts.id',  $request->post_id);
+
             $user = \App\User::Approved()->firstWhere('users.id',  $request->user_id);
 
             if(!$user) {
@@ -1395,11 +1403,19 @@ class PostsApiController extends Controller
             if($payment_response->success) {
                 
                 DB::commit();
+                
+                
+                $job_data['user_tips'] = $request->all();
+
+                $job_data['timezone'] = $this->timezone;
+    
+                $this->dispatch(new \App\Jobs\TipPaymentJob($job_data));
 
                 return $this->sendResponse(api_success(146), 146, $payment_response->data);
 
             } else {
-
+              
+                
                 throw new Exception($payment_response->error, $payment_response->error_code);
                 
             }

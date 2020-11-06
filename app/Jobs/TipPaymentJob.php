@@ -3,36 +3,23 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Post;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 use Carbon\Carbon;
-
 use Log, Auth;
-
 use Setting, Exception;
-
 use App\Helpers\Helper;
-
 use App\User;
 
-class FollowUserJob implements ShouldQueue
+class TipPaymentJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
 
     protected $data;
-    
-   /**
-     * The number of times the job may be attempted.
-     *
-     * @var int
-     */
-    public $tries = 2;
-
     /**
      * Create a new job instance.
      *
@@ -40,6 +27,7 @@ class FollowUserJob implements ShouldQueue
      */
     public function __construct($data)
     {
+        //
         $this->data = $data;
 
     }
@@ -51,29 +39,32 @@ class FollowUserJob implements ShouldQueue
      */
     public function handle()
     {
+        
         try {
 
-            $follower = $this->data['follower'];
+            $user_tips = (object) $this->data['user_tips'];
 
-            $title = $content = push_messages(602);
+            $title = $content = push_messages(605);
 
-            $message = tr('user_follow_message', $follower->followerDetails->name ?? ''); 
+            $from_user = User::find($user_tips->id);
 
-            $data['from_user_id'] = $follower->follower_id;
+            $message = tr('user_tips_message', $user_tips->amount ?? '')." ".$from_user->name ?? ''; 
 
-            $data['to_user_id'] = $follower->user_id;
+            $data['from_user_id'] = $user_tips->id;
+
+            $data['to_user_id'] = $user_tips->user_id;
           
             $data['message'] = $message;
 
-            $data['action_url'] = Setting::get('frontend_url')."/user/followings" ?? '';
+            $data['action_url'] = Setting::get('frontend_url')."/user/user_tips" ?? '';
 
-            $data['image'] = $follower->userDetails->picture ?? asset('placeholder.jpeg');
+            $data['image'] = $user_tips->user->picture ?? asset('placeholder.jpeg');
 
             $data['subject'] = $content;
 
             dispatch(new BellNotificationJob($data));
 
-            $user_details = User::where('id', $follower->user_id)->first();
+            $user_details = User::where('id', $user_tips->user_id)->first();
 
             if (Setting::get('is_push_notification') == YES && $user_details) {
 

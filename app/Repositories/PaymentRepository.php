@@ -947,7 +947,7 @@ class PaymentRepository {
 
             $user_tip->post_id = $request->post_id ?: 0;
 
-            $user_tip->from_user_id = $request->id;
+            $user_tip->user_id = $request->id;
 
             $user_tip->to_user_id = $request->to_user_id;
 

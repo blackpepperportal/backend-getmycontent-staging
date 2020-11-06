@@ -49,7 +49,7 @@ class PostLikeJob implements ShouldQueue
 
             $post_like = $this->data['post_like'];
 
-            $title = $content = Helper::push_message(603);
+            $title = $content = push_messages(603);
 
             $message = tr('post_like_message', $post_like->User->name ?? ''); 
 

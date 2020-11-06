@@ -309,13 +309,7 @@ class Helper {
             case 601:
                 $string = tr('push_no_provider_available');
                 break;
-            case 602:
-                $string = tr('followed_by_user');
-                break;
-            case 603:
-                $string = tr('post_liked_by_user');
-                break;
-    
+           
             default:
                 $string = "";
         }
