@@ -142,7 +142,7 @@ if(!defined('WITHDRAW_PAID')) define('WITHDRAW_PAID', 1);
 
 if(!defined('WITHDRAW_ONHOLD')) define('WITHDRAW_ONHOLD', 2);
 
-if(!defined('WITHDRAW_REJECTED')) define('WITHDRAW_REJECTED', 3);
+if(!defined('WITHDRAW_DECLINED')) define('WITHDRAW_DECLINED', 3);
 
 if(!defined('WITHDRAW_CANCELLED')) define('WITHDRAW_CANCELLED', 4);
 

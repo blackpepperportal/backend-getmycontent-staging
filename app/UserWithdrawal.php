@@ -10,7 +10,7 @@ class UserWithdrawal extends Model
 
     protected $fillable = ['user_id', 'requested_amount'];
 
-	protected $appends = ['user_withdrawal_id','user_withdrawal_unique_id', 'requested_amount_formatted', 'paid_amount_formatted', 'status_formatted', 'withdraw_picture', 'cancel_btn_status'];
+	protected $appends = ['user_withdrawal_id','user_withdrawal_unique_id', 'requested_amount_formatted', 'paid_amount_formatted', 'status_formatted', 'withdraw_picture', 'cancel_btn_status', 'billing_account_name'];
 
 	public function getUserWithdrawalIdAttribute() {
 
@@ -20,6 +20,11 @@ class UserWithdrawal extends Model
     public function getUserWithdrawalUniqueIdAttribute() {
 
         return $this->unique_id;
+    }
+
+    public function getBillingAccountNameAttribute() {
+
+        return $this->billingAccount->nickname ?? "-";
     }
 
     public function getRequestedAmountFormattedAttribute() {
@@ -79,7 +84,7 @@ class UserWithdrawal extends Model
         });
     }
 
-    public function billingaccountDetails() {
+    public function billingAccount() {
     	return $this->belongsTo(UserBillingAccount::class,'user_billing_account_id');
     }
 }

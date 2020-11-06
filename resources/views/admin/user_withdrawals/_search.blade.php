@@ -19,7 +19,7 @@
 
                 <option class="select-color" value="{{WITHDRAW_PAID}}">{{tr('paid')}}</option>
 
-                <option class="select-color" value="{{WITHDRAW_REJECTED}}">{{tr('rejected')}}</option>
+                <option class="select-color" value="{{WITHDRAW_DECLINED}}">{{tr('rejected')}}</option>
 
             </select>
         </div>
