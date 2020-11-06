@@ -81,6 +81,10 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('notifications_status_update','Api\UserAccountApiController@notifications_status_update');
 
+        Route::post('lists_index','Api\UserAccountApiController@lists_index');
+        
+        Route::post('payments_index','Api\UserAccountApiController@payments_index');
+
         // Cards management start
 
         Route::post('cards_add', 'Api\UserAccountApiController@cards_add');

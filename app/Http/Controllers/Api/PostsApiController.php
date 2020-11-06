@@ -55,7 +55,7 @@ class PostsApiController extends Controller
 
             $follower_ids = get_follower_ids($request->id);
 
-            $base_query = $total_query = Post::whereIn('posts.user_id', $follower_ids)->with('postFiles')->orderBy('created_at', 'desc');
+            $base_query = $total_query = Post::Approved()->whereIn('posts.user_id', $follower_ids)->with('postFiles')->orderBy('posts.created_at', 'desc');
 
             $posts = $base_query->skip($this->skip)->take($this->take)->get();
 
@@ -94,7 +94,7 @@ class PostsApiController extends Controller
 
             $follower_ids = get_follower_ids($request->id);
 
-            $base_query = $total_query = Post::whereIn('posts.user_id', $follower_ids)->with(['postFiles', 'user'])->orderBy('created_at', 'desc');
+            $base_query = $total_query = Post::Approved()->whereIn('posts.user_id', $follower_ids)->with(['postFiles', 'user'])->orderBy('created_at', 'desc');
 
             if($request->search_key) {
 
@@ -146,7 +146,7 @@ class PostsApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $post = Post::with('postFiles')->where('posts.unique_id', $request->post_unique_id)->first();
+            $post = Post::with('postFiles')->Approved()->where('posts.unique_id', $request->post_unique_id)->first();
 
             if(!$post) {
                 throw new Exception(api_error(139), 139);   
@@ -305,6 +305,10 @@ class PostsApiController extends Controller
                         $new_path = get_post_path($request->id, $file);
 
                         $move = \Storage::move($old_path, $new_path);
+
+                        $file_path = POST_PATH.$request->id.'/'.basename($file);
+
+                        $post_file->file = \Storage::url($file_path);
 
                         $post_file->blur_file = \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->id);
 
@@ -919,12 +923,23 @@ class PostsApiController extends Controller
 
             if($post_ids) {
 
-                $posts = \App\Post::whereIn('posts.id', $post_ids)->get();
+                $post_base_query = \App\Post::with('postFiles')->Approved()->whereIn('posts.id', $post_ids)->orderBy('posts.created_at', 'desc');
+
+                if($request->type != POSTS_ALL) {
+
+                    $type = $request->type;
+
+                    $post_base_query = $post_base_query->whereHas('postFiles', function($q) use($type) {
+                            $q->where('post_files.file_type', $type);
+                        });
+                }
+
+                $posts = $post_base_query->get();
 
                 $posts = \App\Repositories\PostRepository::posts_list_response($posts, $request);
             }
 
-            $data['post_bookmarks'] = $posts ?? [];
+            $data['posts'] = $posts ?? [];
 
             $data['total'] = $total_query->count() ?? 0;
 
@@ -1083,7 +1098,7 @@ class PostsApiController extends Controller
             
             DB::begintransaction();
 
-            $rules = ['post_id' => 'nullable|exists:posts,id'];
+            $rules = ['post_id' => 'required|exists:posts,id'];
              
             $custom_errors = ['post_id.required' => api_error(139)];
 

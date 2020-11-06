@@ -142,7 +142,7 @@ if(!defined('WITHDRAW_PAID')) define('WITHDRAW_PAID', 1);
 
 if(!defined('WITHDRAW_ONHOLD')) define('WITHDRAW_ONHOLD', 2);
 
-if(!defined('WITHDRAW_REJECTED')) define('WITHDRAW_REJECTED', 3);
+if(!defined('WITHDRAW_DECLINED')) define('WITHDRAW_DECLINED', 3);
 
 if(!defined('WITHDRAW_CANCELLED')) define('WITHDRAW_CANCELLED', 4);
 
@@ -223,3 +223,10 @@ if(!defined('BOOKMARK_TYPE_OTHERS')) define('BOOKMARK_TYPE_OTHERS', 'others');
 if(!defined('BELL_NOTIFICATION_STATUS_UNREAD')) define('BELL_NOTIFICATION_STATUS_UNREAD', 1);
 
 if(!defined('BELL_NOTIFICATION_STATUS_READ')) define('BELL_NOTIFICATION_STATUS_READ', 2);
+
+if(!defined('POSTS_ALL')) define('POSTS_ALL', 'all');
+if(!defined('POSTS_IMAGE')) define('POSTS_IMAGE', 'image');
+if(!defined('POSTS_VIDEO')) define('POSTS_VIDEO', 'video');
+if(!defined('POSTS_AUDIO')) define('POSTS_AUDIO', 'audio');
+if(!defined('POSTS_TEXT')) define('POSTS_TEXT', 'text');
+if(!defined('POSTS_LOCKED')) define('POSTS_LOCKED', 'locked');

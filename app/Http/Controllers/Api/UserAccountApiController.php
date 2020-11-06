@@ -1577,7 +1577,7 @@ class UserAccountApiController extends Controller
 
             Helper::custom_validator($request->all(), $rules, $custom_errors = []);
 
-            $user = \App\User::where('users.unique_id', $request->user_unique_id)->first();
+            $user = \App\User::OtherResponse()->where('users.unique_id', $request->user_unique_id)->first();
 
             if(!$user) {
                 throw new Exception(api_error(1002), 1002);
@@ -1986,6 +1986,105 @@ class UserAccountApiController extends Controller
         }
 
     }
+
+    /** 
+     * @method lists_index()
+     *
+     * @uses To display the user details based on user  id
+     *
+     * @created Bhawya N 
+     *
+     * @updated Bhawya N
+     *
+     * @param object $request - User Id
+     *
+     * @return json response with user details
+     */
+
+    public function lists_index(Request $request) {
+
+        try {
+
+            $user = User::firstWhere('id' , $request->id);
+
+            if(!$user) { 
+
+                throw new Exception(api_error(1002) , 1002);
+            }
+
+            $data = [];
+
+            $data['username'] = $user->username;
+
+            $data['name'] = $user->name;
+
+            $data['user_unique_id'] = $user->unique_id;
+
+            $data['user_id'] = $user->user_id;
+
+            $data['total_followers'] = $user->total_followers ?? 0;
+
+            $data['total_followings'] = $user->total_followings ?? 0;
+
+            $data['total_posts'] = $user->total_posts ?? 0;
+
+            $data['total_fav_users'] = $user->total_fav_users ?? 0;
+
+            $data['total_bookmarks'] = $user->total_bookmarks ?? 0;
+
+            return $this->sendResponse($message = "", $success_code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
+    }
+
+    /** 
+     * @method payments_index()
+     *
+     * @uses To display the user details based on user  id
+     *
+     * @created Bhawya N 
+     *
+     * @updated Bhawya N
+     *
+     * @param object $request - User Id
+     *
+     * @return json response with user details
+     */
+
+    public function payments_index(Request $request) {
+
+        try {
+
+            $user = User::firstWhere('id' , $request->id);
+
+            if(!$user) { 
+
+                throw new Exception(api_error(1002) , 1002);
+            }
+
+            $data = [];
+
+            $data['user'] = $user;
+
+            $data['user_withdrawals_min_amount'] = Setting::get('user_withdrawals_min_amount', 10);
+
+            $data['wallet'] = \App\UserWallet::where('user_id', $request->id)->first();
+
+            return $this->sendResponse($message = "", $success_code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
+    }
+
 
 
 }

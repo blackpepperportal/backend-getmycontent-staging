@@ -773,9 +773,15 @@ return [
 	"today_revenue" => "Today Revenue",
 	"product_dashboard" => "Product Dashboard",
 	"recent_comments" => "Recent Comments",
-	
+
 	"no_result_found" => "No Results Found",
-	
+
+	'WITHDRAW_INITIATED' => 'Sent',
+	'WITHDRAW_PAID' => 'Paid',
+	'WITHDRAW_ONHOLD' => 'On Hold',
+	'WITHDRAW_DECLINED' => 'Declined',
+	'WITHDRAW_CANCELLED' => 'Cancelled',
+
 	'WALLET_PAYMENT_TYPE_ADD_TEXT' => 'Added to wallet',
 	'WALLET_PAYMENT_TYPE_PAID_TEXT' => 'Money sent from wallet',
 	'WALLET_PAYMENT_TYPE_CREDIT_TEXT' => 'Money credited to wallet',
@@ -968,9 +974,10 @@ return [
 	"user_amount" => "User Amount",
 	"update_premium" => "Update Premium Account",
     "user_follow_message"=>"User (:other_key) has been Following you",
+	"USER_FREE_ACCOUNT" => "Free",
+	"USER_PREMIUM_ACCOUNT" => "Premium",
 	"post_like_message"=>"Your Post has been Liked by the User (:other_key) ",
 	"post_comment_message"=>"User (:other_key) has Commented For your Post",
 	"user_tips_message"=>"You had received the tips amount(:other_key) from the user",
-
-
+    "post_liked_by_user"=>"Your Post has been Liked by the user"
 ]?>

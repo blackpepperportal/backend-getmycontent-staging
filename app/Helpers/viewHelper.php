@@ -935,5 +935,31 @@ function push_messages($key , $other_key = "" , $lang_path = "messages.") {
 
     }
 
-return \Lang::choice('push-messages.'.$key, 0, Array('other_key' => $other_key), $locale);
+  return \Lang::choice('push-messages.'.$key, 0, Array('other_key' => $other_key), $locale);
+
+}
+
+
+function user_account_type_formatted($type) {
+
+    $list = [USER_FREE_ACCOUNT => tr('USER_FREE_ACCOUNT'), USER_PREMIUM_ACCOUNT => tr('USER_PREMIUM_ACCOUNT')];
+
+    return $list[$type] ?? tr('USER_FREE_ACCOUNT');
+
+}
+
+function withdraw_picture($amount_type = WALLET_AMOUNT_TYPE_ADD) {
+
+    $withdraw_picture = asset('images/withdraw_sent.svg');
+
+    return $withdraw_picture;
+
+}
+
+
+function withdrawal_status_formatted($status) {
+
+    $status_list = [WITHDRAW_INITIATED => tr('WITHDRAW_INITIATED'), WITHDRAW_PAID => tr('WITHDRAW_PAID'), WITHDRAW_ONHOLD => tr('WITHDRAW_ONHOLD'), WITHDRAW_DECLINED => tr('WITHDRAW_DECLINED'), WITHDRAW_CANCELLED => tr('WITHDRAW_CANCELLED')];
+
+    return isset($status_list[$status]) ? $status_list[$status] : tr('WITHDRAW_INITIATED');
 }
