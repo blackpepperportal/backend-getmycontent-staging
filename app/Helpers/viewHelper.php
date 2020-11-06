@@ -920,3 +920,11 @@ function get_post_path($user_id, $url) {
     return 'public/'.$folder_path.$filename;
 
 }
+
+function user_account_type_formatted($type) {
+
+    $list = [USER_FREE_ACCOUNT => tr('USER_FREE_ACCOUNT'), USER_PREMIUM_ACCOUNT => tr('USER_PREMIUM_ACCOUNT')];
+
+    return $list[$type] ?? tr('USER_FREE_ACCOUNT');
+
+}

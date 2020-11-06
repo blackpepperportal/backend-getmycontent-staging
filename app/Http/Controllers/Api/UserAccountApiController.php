@@ -1577,7 +1577,7 @@ class UserAccountApiController extends Controller
 
             Helper::custom_validator($request->all(), $rules, $custom_errors = []);
 
-            $user = \App\User::where('users.unique_id', $request->user_unique_id)->first();
+            $user = \App\User::OtherResponse()->where('users.unique_id', $request->user_unique_id)->first();
 
             if(!$user) {
                 throw new Exception(api_error(1002), 1002);

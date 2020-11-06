@@ -969,6 +969,8 @@ return [
 	"update_premium" => "Update Premium Account",
 	"followed_by_user"=>"You have One Follower",
     "user_follow_message"=>"User (:other_key) has been Following you",
+	"USER_FREE_ACCOUNT" => "Free",
+	"USER_PREMIUM_ACCOUNT" => "Premium",
 
 
 ]?>

@@ -14,23 +14,6 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $appends = ['user_id', 'is_notification', 'is_document_verified_formatted'];
-
-    public function getUserIdAttribute() {
-
-        return $this->id;
-    }
-
-    public function getIsNotificationAttribute() {
-
-        return $this->is_email_notification ? YES : NO;
-    }
-
-    public function getIsDocumentVerifiedFormattedAttribute() {
-
-        return user_document_status_formatted($this->is_document_verified);
-    }
-
     /**
      * The attributes that are mass assignable.
      *
@@ -58,6 +41,47 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = ['user_id', 'is_notification', 'is_document_verified_formatted', 'total_follwers', 'total_followings', 'user_account_type_formatted', 'total_posts'];
+
+    public function getUserIdAttribute() {
+
+        return $this->id;
+    }
+
+    public function getIsNotificationAttribute() {
+
+        return $this->is_email_notification ? YES : NO;
+    }
+
+    public function getIsDocumentVerifiedFormattedAttribute() {
+
+        return user_document_status_formatted($this->is_document_verified);
+    }
+
+    public function getTotalFollowersAttribute() {
+        
+        return $this->followers->count();
+
+    }
+
+    public function getTotalFollowingsAttribute() {
+        
+        return $this->followings->count();
+
+    }
+
+    public function getTotalPostsAttribute() {
+        
+        return $this->posts->count();
+
+    }
+
+    public function getUserAccountTypeFormattedAttribute() {
+        
+        return user_account_type_formatted($this->user_account_type);
+
+    }
+
     public function userBillingAccounts() {
 
         return $this->hasMany(UserBillingAccount::class, 'user_id');
@@ -76,6 +100,11 @@ class User extends Authenticatable
     public function orderPayments() {
 
         return $this->hasMany(OrderPayment::class,'user_id');
+    }
+
+    public function posts() {
+
+        return $this->hasMany(Post::class,'user_id');
     }
 
     public function postPayments() {
@@ -112,6 +141,22 @@ class User extends Authenticatable
     public function userSubscription() {
         
         return $this->hasOne(UserSubscription::class, 'user_id');
+    }
+
+    /**
+      * Get the UserCard record associated with the user.
+     */
+    public function followers() {
+        
+        return $this->hasMany(Follower::class, 'user_id');
+    }
+
+    /**
+      * Get the UserCard record associated with the user.
+     */
+    public function followings() {
+        
+        return $this->hasMany(Follower::class, 'follower_id');
     }
     
     /**
