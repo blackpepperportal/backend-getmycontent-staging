@@ -917,12 +917,12 @@ class PostsApiController extends Controller
 
             if($post_ids) {
 
-                $posts = \App\Post::whereIn('posts.id', $post_ids)->get();
+                $posts = \App\Post::with('postFiles')->Approved()->whereIn('posts.id', $post_ids)->get();
 
                 $posts = \App\Repositories\PostRepository::posts_list_response($posts, $request);
             }
 
-            $data['post_bookmarks'] = $posts ?? [];
+            $data['posts'] = $posts ?? [];
 
             $data['total'] = $total_query->count() ?? 0;
 
