@@ -773,9 +773,15 @@ return [
 	"today_revenue" => "Today Revenue",
 	"product_dashboard" => "Product Dashboard",
 	"recent_comments" => "Recent Comments",
-	
+
 	"no_result_found" => "No Results Found",
-	
+
+	'WITHDRAW_INITIATED' => 'Sent',
+	'WITHDRAW_PAID' => 'Paid',
+	'WITHDRAW_ONHOLD' => 'On Hold',
+	'WITHDRAW_DECLINED' => 'Declined',
+	'WITHDRAW_CANCELLED' => 'Cancelled',
+
 	'WALLET_PAYMENT_TYPE_ADD_TEXT' => 'Added to wallet',
 	'WALLET_PAYMENT_TYPE_PAID_TEXT' => 'Money sent from wallet',
 	'WALLET_PAYMENT_TYPE_CREDIT_TEXT' => 'Money credited to wallet',
