@@ -230,3 +230,7 @@ if(!defined('POSTS_VIDEO')) define('POSTS_VIDEO', 'video');
 if(!defined('POSTS_AUDIO')) define('POSTS_AUDIO', 'audio');
 if(!defined('POSTS_TEXT')) define('POSTS_TEXT', 'text');
 if(!defined('POSTS_LOCKED')) define('POSTS_LOCKED', 'locked');
+
+if(!defined('POSTS_PAYMENT_SUBSCRIPTION')) define('POSTS_PAYMENT_SUBSCRIPTION', 'subscription');
+
+if(!defined('POSTS_PAYMENT_PPV')) define('POSTS_PAYMENT_PPV', 'ppv');

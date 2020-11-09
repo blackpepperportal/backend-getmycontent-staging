@@ -980,5 +980,7 @@ return [
 	"post_comment_message"=>"User (:other_key) has Commented For your Post",
 	"user_tips_message"=>"You had received the tips amount(:other_key) from the user",
     "post_liked_by_user"=>"Your Post has been Liked by the user",
-    "n_a" => "N/A"
+    "n_a" => "N/A",
+    "unlock_post_text" => "UNLOCK POST FOR :other_key",
+    "unlock_subscription_text" => "UNLOCK POST FOR :other_key",
 ]?>

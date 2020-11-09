@@ -44,6 +44,8 @@ class PostRepository {
 
                         $post->unsetRelation('postLikes')->unsetRelation('postBookmarks')->unsetRelation('user');
 
+                        $post->payment_info = self::posts_user_payment_check($post, $request);
+
                         return $post;
                     });
 
@@ -83,5 +85,116 @@ class PostRepository {
         $post->unsetRelation('postLikes')->unsetRelation('postBookmarks')->unsetRelation('user');
 
         return $post;
+    
+    }
+
+    /**
+     * @method posts_user_payment_check()
+     *
+     * @uses Check the post payment status for each post
+     *
+     * @created vithya R
+     * 
+     * @updated vithya R
+     *
+     * @param object $request
+     *
+     * @return object $payment_details
+     */
+
+    public static function posts_user_payment_check($post, $request) {
+
+        $post_user = $post->user ?? [];
+
+        $data['is_user_needs_pay'] = NO;
+
+        $data['post_payment_type'] = $data['payment_text'] = "";
+
+        if(!$post_user) {
+
+            goto post_end;
+
+        }
+
+        $post_user_account_type = $post_user->user_account_type ?? USER_FREE_ACCOUNT;
+
+        $login_user = \App\User::find($request->id);
+
+        $post_payment_check = NO;
+
+        if($post_user_account_type == USER_FREE_ACCOUNT) {
+
+            if($post->is_paid_post && $post->amount > 0) {
+
+                $post_payment_check = YES;
+
+                goto post_payment_check;
+
+            }
+
+        } elseif ($post_user_account_type == USER_PREMIUM_ACCOUNT) {
+
+            // Check the post paid or normal post
+
+            if($post->is_paid_post && $post->amount > 0) {
+
+                $post_payment_check = YES;
+
+                goto post_payment_check;
+
+            }
+
+            // Check the user has subscribed for this post user plans
+
+            $user_subscription = \App\UserSubscription::where('user_id', $post_user->id)->first();
+
+            if($user_subscription) {
+
+                if($user_subscription->monthly_amount <= 0 && $user_subscription->yearly_amount <= 0) {
+
+                } else {
+
+                    $check_user_subscription_payment = \App\UserSubscriptionPayment::where('user_subscription_id', $user_subscription->id)->where('from_user_id', $request->id)->count();
+
+                    if(!$check_user_subscription_payment) {
+
+                        $data['is_user_needs_pay'] = YES;
+
+                        $data['post_payment_type'] = POST_PAYMENT_POST;
+
+                        $data['payment_text'] = tr('unlock_post_text', $post->amount_formatted);
+
+                    }
+                }
+
+            }
+
+        } else {
+
+        }
+
+        post_payment_check:
+
+        if($post_payment_check) {
+
+            // Check the user already paid
+
+            $post_payment = \App\PostPaymet::where('user_id', $request->id)->where('post_id', $post->post_id)->where('status', PAID)->count();
+
+            if(!$post_payment) {
+
+                $data['is_user_needs_pay'] = YES;
+
+                $data['post_payment_type'] = POST_PAYMENT_SUBSCRIPTION;
+
+                $data['payment_text'] = tr('unlock_subscription_text', $post->amount_formatted);
+            }
+        
+        }
+
+        post_end:
+
+        return object ($data);
+    
     }
 }
