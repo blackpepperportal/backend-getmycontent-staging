@@ -26,8 +26,8 @@ class BellNotificationSeeder extends Seeder
 		    ],
 		    [
 		        'key' => 'BN_USER_TIPS',
-		        'value' => Setting::get('frontend_url')."payments";
-		    ],
+		        'value' => Setting::get('frontend_url')."payments"
+		    ]
 		]);
     }
 }
