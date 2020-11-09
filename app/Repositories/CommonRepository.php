@@ -12,7 +12,7 @@ class CommonRepository {
      *
      * @method user_premium_account_check()
      *
-     * @uses To Upoad Product Pictures
+     * @uses premium account user 
      *
      * @created Bhawya
      *
@@ -65,5 +65,98 @@ class CommonRepository {
 
         }
     
+    }
+
+    /**
+     *
+     * @method follow_user()
+     *
+     * @uses Follow the user
+     *
+     * @created Bhawya
+     *
+     * @updated Bhawya
+     *
+     * @param 
+     *
+     * @return
+     */
+    
+    public static function follow_user($request, $user = []) {
+
+        try {
+
+            DB::beginTransaction();
+            
+            // Validation start
+            // Follower id
+            $rules = [
+                'user_id' => 'required|exists:users,id'
+            ];
+
+            $custom_errors = ['user_id' => api_error(135)];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors);
+            
+            // Validation end
+            if($request->id == $request->user_id) {
+
+                throw new Exception(api_error(136), 136);
+
+            }
+
+            $follow_user = User::where('id', $request->user_id)->first();
+
+            if(!$follow_user) {
+
+                throw new Exception(api_error(135), 135);
+            }
+
+
+            // Check the user already following the selected users
+            $follower = Follower::where('status', YES)->where('follower_id', $request->id)->where('user_id', $request->user_id)->first();
+
+            if($follower) {
+
+                throw new Exception(api_error(137), 137);
+
+            }
+
+            $follower = new Follower;
+
+            $follower->user_id = $request->user_id;
+
+            $follower->follower_id = $request->id;
+
+            $follower->status = DEFAULT_TRUE;
+
+            $follower->save();
+
+            DB::commit();
+
+            $job_data['follower'] = $follower;
+
+            $job_data['timezone'] = $this->timezone;
+
+            $this->dispatch(new FollowUserJob($job_data));
+
+            $data['user_id'] = $request->user_id;
+
+            $data['is_follow'] = NO;
+
+            $response = ['success' => true, 'message' => api_success(128,$follow_user->username ?? 'user'), 'code' => 128, 'data' => $data];
+
+            return (object) $response;
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            $response = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
+
+            return (object) $response;
+        
+        }
+
     }
 }

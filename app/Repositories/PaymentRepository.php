@@ -1116,6 +1116,8 @@ class PaymentRepository {
 
             self::user_subscription_payments_wallet_update($request, $user_subscription, $user_subscription_payment);
 
+            \App\Repositories\CommonRepository::follow_user($request);
+
             $response = ['success' => true, 'message' => 'paid', 'data' => ['user_type' => SUBSCRIBED_USER, 'payment_id' => $request->payment_id]];
 
             return response()->json($response, 200);
