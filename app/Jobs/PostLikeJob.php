@@ -59,7 +59,7 @@ class PostLikeJob implements ShouldQueue
           
             $data['message'] = $message;
 
-            $data['action_url'] = Setting::get('frontend_url')."/user/post_likes" ?? '';
+            $data['action_url'] = Setting::get('BN_USER_LIKE');
 
             $data['image'] = $post_like->User->picture ?? asset('placeholder.jpeg');
 

@@ -2097,6 +2097,40 @@ class UserAccountApiController extends Controller
     
     }
 
+    /** 
+     * @method bell_notifications_index()
+     *
+     * @uses Get the user notifications
+     *
+     * @created Vithya R
+     *
+     * @updated Vithya R
+     *
+     * @param object $request - User Id
+     *
+     * @return json response with user details
+     */
+
+    public function bell_notifications_index(Request $request) {
+
+        try {
+
+            $base_query = $total_query = \App\BellNotification::where('to_user_id', $request->id)->orderBy('created_at', 'desc');
+
+            $data['notifications'] = $base_query->skip($this->skip)->take($this->take)->get() ?? [];
+
+            $data['total'] = $total_query->count() ?? 0;
+
+            return $this->sendResponse($message = "", $success_code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
+    }
+
 
 
 }

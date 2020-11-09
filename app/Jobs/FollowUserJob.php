@@ -65,7 +65,7 @@ class FollowUserJob implements ShouldQueue
           
             $data['message'] = $message;
 
-            $data['action_url'] = Setting::get('frontend_url')."/user/followings" ?? '';
+            $data['action_url'] =  Setting::get('BN_USER_FOLLOWINGS');
 
             $data['image'] = $follower->userDetails->picture ?? asset('placeholder.jpeg');
 
@@ -73,15 +73,15 @@ class FollowUserJob implements ShouldQueue
 
             dispatch(new BellNotificationJob($data));
 
-            $user_details = User::where('id', $follower->user_id)->first();
+            $user = User::where('id', $follower->user_id)->first();
 
-            if (Setting::get('is_push_notification') == YES && $user_details) {
+            if (Setting::get('is_push_notification') == YES && $user) {
 
-                if($user_details->is_push_notification == YES && ($user_details->device_token != '')) {
+                if($user->is_push_notification == YES && ($user->device_token != '')) {
 
                     $push_data = ['action_url'=>$data['action_url']];
 
-                    \Notification::send($user_details->id, new \App\Notifications\PushNotification($title , $content, $push_data, $user_details->device_token));
+                    \Notification::send($user->id, new \App\Notifications\PushNotification($title , $content, $push_data, $user->device_token));
 
 
                 }

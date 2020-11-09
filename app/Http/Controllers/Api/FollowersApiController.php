@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Helpers\Helper;
+
 use App\Jobs\FollowUserJob;
+
 use DB, Log, Hash, Validator, Exception, Setting;
 
 use App\User, App\Follower;

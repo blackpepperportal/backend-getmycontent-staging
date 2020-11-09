@@ -65,7 +65,7 @@ class PostCommentJob implements ShouldQueue
           
             $data['message'] = $message;
 
-            $data['action_url'] = Setting::get('frontend_url')."/user/post_commets" ?? '';
+            $data['action_url'] = Setting::get('BN_USER_COMMENT');
 
             $data['image'] = $post_comment->user->picture ?? asset('placeholder.jpeg');
 

@@ -1263,17 +1263,31 @@ class PostsApiController extends Controller
                 throw new Exception(api_error(135), 135);
             }
 
-            $custom_request = new Request();
+            $check_fav_user = $fav_user = \App\FavUser::where('user_id', $request->id)->where('fav_user_id', $request->user_id)->first();
 
-            $custom_request->request->add(['user_id' => $request->id, 'fav_user_id' => $request->user_id]);
+            if(!$check_fav_user) {
 
-            $fav_user = \App\FavUser::updateOrCreate($custom_request->request->all());
+                $custom_request = new Request();
+
+                $custom_request->request->add(['user_id' => $request->id, 'fav_user_id' => $request->user_id]);
+
+                $fav_user = \App\FavUser::create($custom_request->request->all());
+
+                $code = 144;
+
+            } else {
+
+                $check_fav_user->delete();
+
+                $code = 145;
+
+            }
 
             DB::commit(); 
 
             $data = $fav_user;
 
-            return $this->sendResponse(api_success(144), 144, $data);
+            return $this->sendResponse(api_success($code), $code, $data);
             
         } catch(Exception $e){ 
 

@@ -60,23 +60,23 @@ class BellNotificationJob  implements ShouldQueue
 
             // Log::info($datas);
             
-            $bell_notification_details = new BellNotification;
+            $bell_notification = new BellNotification;
 
-            $bell_notification_details->from_user_id = $datas['from_user_id'];
+            $bell_notification->from_user_id = $datas['from_user_id'];
 
-            $bell_notification_details->to_user_id = $datas['to_user_id'];
+            $bell_notification->to_user_id = $datas['to_user_id'];
 
-            $bell_notification_details->image = $datas['image'];
+            $bell_notification->image = $datas['image'];
 
-            $bell_notification_details->subject = $datas['subject'];
+            $bell_notification->subject = $datas['subject'];
 
-            $bell_notification_details->message = $datas['message'];
+            $bell_notification->message = $datas['message'];
 
-            $bell_notification_details->action_url = $datas['action_url'];
+            $bell_notification->action_url = $datas['action_url'];
 
-            $bell_notification_details->is_read = BELL_NOTIFICATION_STATUS_UNREAD;
+            $bell_notification->is_read = BELL_NOTIFICATION_STATUS_UNREAD;
 
-            $bell_notification_details->save();
+            $bell_notification->save();
             
         } catch(Exception $e) {
 

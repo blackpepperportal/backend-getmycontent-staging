@@ -14,5 +14,6 @@ class DatabaseSeeder extends Seeder
         $this->call(DemoSeeder::class);
         $this->call(SettingSeeder::class);
         $this->call(PageDemoSeeder::class);
+        $this->call(BellNotificationSeeder::class);
     }
 }

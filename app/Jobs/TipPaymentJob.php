@@ -56,7 +56,7 @@ class TipPaymentJob implements ShouldQueue
           
             $data['message'] = $message;
 
-            $data['action_url'] = Setting::get('frontend_url')."/user/user_tips" ?? '';
+            $data['action_url'] = Setting::get('BN_USER_TIPS');
 
             $data['image'] = $user_tips->user->picture ?? asset('placeholder.jpeg');
 
