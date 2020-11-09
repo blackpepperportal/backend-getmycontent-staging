@@ -14,6 +14,8 @@ use App\User;
 
 use App\Repositories\PaymentRepository as PaymentRepo;
 
+use App\Repositories\CommonRepository as CommonRepo;
+
 class UserAccountApiController extends Controller
 {
  	protected $loginUser;
@@ -1587,7 +1589,7 @@ class UserAccountApiController extends Controller
 
             $user->share_link = Setting::get('frontend_url').'model-profile/'.$request->user_unique_id;
 
-            $user->payment_info = self::subscriptions_user_payment_check($user, $request);
+            $user->payment_info = CommonRepo::subscriptions_user_payment_check($user, $request);
 
             $data['user'] = $user;
 
