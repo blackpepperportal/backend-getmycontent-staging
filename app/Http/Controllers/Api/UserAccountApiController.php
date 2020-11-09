@@ -1585,15 +1585,15 @@ class UserAccountApiController extends Controller
                 throw new Exception(api_error(1002), 1002);
             }
 
-            $user->is_favuser = \App\FavUser::where('user_id', $request->id)->where('fav_user_id', $user->id)->count() ? YES : NO;
-
-            $user->share_link = Setting::get('frontend_url').'model-profile/'.$request->user_unique_id;
-
-            $user->payment_info = CommonRepo::subscriptions_user_payment_check($user, $request);
-
             $user->updated_formatted = common_date($user->updated_at, $this->timezone, 'd M Y');
 
             $data['user'] = $user;
+
+            $data['payment_info'] = CommonRepo::subscriptions_user_payment_check($user, $request);
+
+            $data['is_favuser'] = \App\FavUser::where('user_id', $request->id)->where('fav_user_id', $user->id)->count() ? YES : NO;
+
+            $data['share_link'] = Setting::get('frontend_url').'model-profile/'.$request->user_unique_id;
 
             $data['total_followers'] = \App\Follower::where('user_id', $request->user_id)->count();
 
