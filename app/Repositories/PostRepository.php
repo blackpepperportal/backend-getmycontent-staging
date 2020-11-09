@@ -160,7 +160,7 @@ class PostRepository {
 
                         $data['is_user_needs_pay'] = YES;
 
-                        $data['post_payment_type'] = POSTS_PAYMENT_POST;
+                        $data['post_payment_type'] = POSTS_PAYMENT_PPV;
 
                         $data['payment_text'] = tr('unlock_post_text', $post->amount_formatted);
 
