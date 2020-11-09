@@ -160,9 +160,9 @@ class PostRepository {
 
                         $data['is_user_needs_pay'] = YES;
 
-                        $data['post_payment_type'] = POSTS_PAYMENT_PPV;
+                        $data['post_payment_type'] = POSTS_PAYMENT_SUBSCRIPTION;
 
-                        $data['payment_text'] = tr('unlock_post_text', $post->amount_formatted);
+                        $data['payment_text'] = tr('unlock_subscription_text', $post->amount_formatted);
 
                     }
                 }
@@ -185,9 +185,9 @@ class PostRepository {
 
                 $data['is_user_needs_pay'] = YES;
 
-                $data['post_payment_type'] = POST_PAYMENT_SUBSCRIPTION;
+                $data['post_payment_type'] = POSTS_PAYMENT_PPV;
 
-                $data['payment_text'] = tr('unlock_subscription_text', $post->amount_formatted);
+                $data['payment_text'] = tr('unlock_post_text', $post->amount_formatted);
             }
         
         }
