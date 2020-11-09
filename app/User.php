@@ -227,19 +227,6 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeApproved($query) {
-
-        $query->where('users.status', USER_APPROVED)->where('is_email_verified', USER_EMAIL_VERIFIED);
-
-        return $query;
-
-    }
-
-    /**
-     * Scope a query to only include active users.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
     public function scopeCommonResponse($query) {
 
         return $query->select(
