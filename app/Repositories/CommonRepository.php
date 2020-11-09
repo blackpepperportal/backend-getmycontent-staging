@@ -159,4 +159,64 @@ class CommonRepository {
         }
 
     }
+
+    /**
+     * @method subscriptions_user_payment_check()
+     *
+     * @uses Check the post payment status for each post
+     *
+     * @created vithya R
+     * 
+     * @updated vithya R
+     *
+     * @param object $request
+     *
+     * @return object $payment_details
+     */
+
+    public static function subscriptions_user_payment_check($other_user, $request) {
+
+        $data['is_user_needs_pay'] = NO;
+
+        $data['payment_text'] = "";
+
+        $login_user = \App\User::find($request->id);
+
+        // Check the user already following
+        $follower = Follower::where('status', YES)->where('follower_id', $request->id)->where('user_id', $other_user->user_id)->first();
+
+        if(!$follower) {
+
+            $data['payment_text'] = tr('subscribe_for_free');
+
+        }
+
+        // Check the user has subscribed for this user plans
+
+        $user_subscription = \App\UserSubscription::where('user_id', $other_user->id)->first();
+
+        if($user_subscription) {
+
+            $data['subscription_info'] = $user_subscription;
+
+            if($user_subscription->monthly_amount <= 0 && $user_subscription->yearly_amount <= 0) {
+
+            } else {
+
+                $check_user_subscription_payment = \App\UserSubscriptionPayment::where('user_subscription_id', $user_subscription->id)->where('from_user_id', $request->id)->count();
+
+                if(!$check_user_subscription_payment) {
+
+                    $data['is_user_needs_pay'] = YES;
+
+                    $data['payment_text'] = tr('unlock_subscription_text', $user_subscription->amonthly_amount_formatted);
+
+                }
+            }
+
+        }
+
+        return (object)$data;
+    
+    }
 }

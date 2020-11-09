@@ -983,4 +983,5 @@ return [
     "n_a" => "N/A",
     "unlock_post_text" => "UNLOCK POST FOR :other_key",
     "unlock_subscription_text" => "UNLOCK POST FOR :other_key",
+    "subscribe_for_free" => "Subscribe for Free",
 ]?>

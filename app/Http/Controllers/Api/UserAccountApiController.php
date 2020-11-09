@@ -1583,6 +1583,12 @@ class UserAccountApiController extends Controller
                 throw new Exception(api_error(1002), 1002);
             }
 
+            $user->is_favuser = \App\FavUser::where('user_id', $request->id)->where('fav_user_id', $user->id)->count() ? YES : NO;
+
+            $user->share_link = Setting::get('frontend_url').'model-profile/'.$request->user_unique_id;
+
+            $user->payment_info = self::subscriptions_user_payment_check($user, $request);
+
             $data['user'] = $user;
 
             $data['total_followers'] = \App\Follower::where('user_id', $request->user_id)->count();
