@@ -40,11 +40,21 @@ class PostRepository {
 
                         $post->share_link = Setting::get('frontend_url')."/post/".$post->post_unique_id;
 
+                        $post->payment_info = self::posts_user_payment_check($post, $request);
+
+                        $is_user_needs_pay = $post->payment_info->data->is_user_needs_pay ?? NO; 
+
+                        $post->post_files = \App\PostFile::where('post_id', $post->post_id)->when($is_user_needs_pay == NO, function ($q) use ($is_user_needs_pay) {
+                                                    return $q->OriginalResponse();
+                                                })
+                                                ->when($is_user_needs_pay == YES, function($q) use ($is_user_needs_pay) {
+                                                    return $q->BlurResponse();
+                                                })->get();
+
                         $post->publish_time_formatted = common_date($post->publish_time, $request->timezone, 'M d');
 
                         $post->unsetRelation('postLikes')->unsetRelation('postBookmarks')->unsetRelation('user');
 
-                        $post->payment_info = self::posts_user_payment_check($post, $request);
 
                         return $post;
                     });

@@ -55,7 +55,7 @@ class PostsApiController extends Controller
 
             $follower_ids = get_follower_ids($request->id);
 
-            $base_query = $total_query = Post::Approved()->whereIn('posts.user_id', $follower_ids)->with('postFiles')->orderBy('posts.created_at', 'desc');
+            $base_query = $total_query = Post::Approved()->whereIn('posts.user_id', $follower_ids)->orderBy('posts.created_at', 'desc');
 
             $posts = $base_query->skip($this->skip)->take($this->take)->get();
 
