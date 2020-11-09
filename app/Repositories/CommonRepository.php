@@ -209,7 +209,7 @@ class CommonRepository {
 
                     $data['is_user_needs_pay'] = YES;
 
-                    $data['payment_text'] = tr('unlock_subscription_text', $user_subscription->amonthly_amount_formatted);
+                    $data['payment_text'] = tr('unlock_subscription_text', $user_subscription->monthly_amount_formatted);
 
                 }
             }

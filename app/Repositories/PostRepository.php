@@ -172,7 +172,7 @@ class PostRepository {
 
                         $data['post_payment_type'] = POSTS_PAYMENT_SUBSCRIPTION;
 
-                        $data['payment_text'] = tr('unlock_subscription_text', $post->amount_formatted);
+                        $data['payment_text'] = tr('unlock_subscription_text', $user_subscription->monthly_amount_formatted);
 
                     }
                 }
