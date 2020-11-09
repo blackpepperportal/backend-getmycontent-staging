@@ -114,7 +114,7 @@ class CommonRepository {
 
 
             // Check the user already following the selected users
-            $follower = Follower::where('status', YES)->where('follower_id', $request->id)->where('user_id', $request->user_id)->first();
+            $follower = \App\Follower::where('status', YES)->where('follower_id', $request->id)->where('user_id', $request->user_id)->first();
 
             if($follower) {
 
@@ -122,7 +122,7 @@ class CommonRepository {
 
             }
 
-            $follower = new Follower;
+            $follower = new \App\Follower;
 
             $follower->user_id = $request->user_id;
 
@@ -138,7 +138,7 @@ class CommonRepository {
 
             $job_data['timezone'] = $this->timezone;
 
-            $this->dispatch(new FollowUserJob($job_data));
+            $this->dispatch(new \App\Jobs\FollowUserJob($job_data));
 
             $data['user_id'] = $request->user_id;
 
@@ -183,7 +183,7 @@ class CommonRepository {
         $login_user = \App\User::find($request->id);
 
         // Check the user already following
-        $follower = Follower::where('status', YES)->where('follower_id', $request->id)->where('user_id', $other_user->user_id)->first();
+        $follower = \App\Follower::where('status', YES)->where('follower_id', $request->id)->where('user_id', $other_user->user_id)->first();
 
         if(!$follower) {
 
