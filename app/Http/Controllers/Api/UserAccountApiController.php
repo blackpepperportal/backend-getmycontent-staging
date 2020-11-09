@@ -2117,7 +2117,13 @@ class UserAccountApiController extends Controller
 
             $base_query = $total_query = \App\BellNotification::where('to_user_id', $request->id)->orderBy('created_at', 'desc');
 
-            $data['notifications'] = $base_query->skip($this->skip)->take($this->take)->get() ?? [];
+            $notifications = $base_query->skip($this->skip)->take($this->take)->get() ?? [];
+
+            foreach ($notifications as $key => $notification) {
+                $notification->updated_formatted = common_date($notification->updated_at, $this->timezone, 'd M Y');
+            }
+
+            $data['notifications'] = $notifications;
 
             $data['total'] = $total_query->count() ?? 0;
 
