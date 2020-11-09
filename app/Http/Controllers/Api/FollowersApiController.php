@@ -340,6 +340,13 @@ class FollowersApiController extends Controller
                     ->orderBy('chat_users.updated_at', 'desc')
                     ->get();
 
+            foreach ($chat_users as $key => $chat_user) {
+
+                $chat_user->message = ".....";
+
+                $chat_user->time_formatted = common_date($chat_user->created_at, $this->timezone, 'd M Y');
+            }
+
             $data['users'] = $chat_users ?? [];
 
             $data['total'] = $total_query->count() ?: 0;

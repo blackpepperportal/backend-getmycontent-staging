@@ -979,5 +979,6 @@ return [
 	"post_like_message"=>"Your Post has been Liked by the User (:other_key) ",
 	"post_comment_message"=>"User (:other_key) has Commented For your Post",
 	"user_tips_message"=>"You had received the tips amount(:other_key) from the user",
-    "post_liked_by_user"=>"Your Post has been Liked by the user"
+    "post_liked_by_user"=>"Your Post has been Liked by the user",
+    "n_a" => "N/A"
 ]?>
