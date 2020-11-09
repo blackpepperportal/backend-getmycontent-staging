@@ -194,7 +194,7 @@ class PostRepository {
 
         post_end:
 
-        return object ($data);
+        return (object)$data;
     
     }
 }
