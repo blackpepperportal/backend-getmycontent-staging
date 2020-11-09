@@ -607,6 +607,8 @@ class WalletApiController extends Controller
 
                         $value->cancel_btn_status = in_array($value->status, [WITHDRAW_INITIATED, WITHDRAW_ONHOLD]) ? YES : NO;
 
+                        $value->created = common_date($value->created_at, $this->timezone, 'd M Y');
+
                         return $value;
                     });
             

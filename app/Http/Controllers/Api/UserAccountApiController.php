@@ -2073,6 +2073,8 @@ class UserAccountApiController extends Controller
 
             $data['user_withdrawals_min_amount'] = Setting::get('user_withdrawals_min_amount', 10);
 
+            $data['user_withdrawals_min_amount_formatted'] = formatted_amount(Setting::get('user_withdrawals_min_amount', 10));
+
             $data['wallet'] = \App\UserWallet::where('user_id', $request->id)->first();
 
             return $this->sendResponse($message = "", $success_code = "", $data);

@@ -32,7 +32,7 @@ class ChatUser extends Model
 		return $this->fromUser->picture ?? asset('placeholder.jpeg');
 	}
 
-	public function getFromUserdisplaynameAttribute() {
+	public function getFromDisplaynameAttribute() {
 
 		return $this->fromUser->name ?? tr('n_a');
 	}
@@ -47,7 +47,7 @@ class ChatUser extends Model
 		return $this->toUser->picture ?? asset('placeholder.jpeg');
 	}
 
-	public function getToUserdisplaynameAttribute() {
+	public function getToDisplaynameAttribute() {
 
 		return $this->toUser->name ?? tr('n_a');
 	}

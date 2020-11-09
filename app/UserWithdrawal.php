@@ -10,7 +10,7 @@ class UserWithdrawal extends Model
 
     protected $fillable = ['user_id', 'requested_amount'];
 
-	protected $appends = ['user_withdrawal_id','user_withdrawal_unique_id', 'requested_amount_formatted', 'paid_amount_formatted', 'status_formatted', 'withdraw_picture', 'cancel_btn_status', 'billing_account_name'];
+	protected $appends = ['user_withdrawal_id','user_withdrawal_unique_id', 'requested_amount_formatted', 'paid_amount_formatted', 'status_formatted', 'withdraw_picture', 'billing_account_name'];
 
 	public function getUserWithdrawalIdAttribute() {
 
