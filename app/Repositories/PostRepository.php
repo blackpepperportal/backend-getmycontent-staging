@@ -175,7 +175,7 @@ class PostRepository {
 
         post_payment_check:
 
-        if($post_payment_check) {
+        if($post_payment_check == YES) {
 
             // Check the user already paid
 
