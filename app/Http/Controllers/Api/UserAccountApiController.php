@@ -1591,6 +1591,8 @@ class UserAccountApiController extends Controller
 
             $user->payment_info = CommonRepo::subscriptions_user_payment_check($user, $request);
 
+            $user->updated_formatted = common_date($user->updated_at, $this->timezone, 'd M Y');
+
             $data['user'] = $user;
 
             $data['total_followers'] = \App\Follower::where('user_id', $request->user_id)->count();
