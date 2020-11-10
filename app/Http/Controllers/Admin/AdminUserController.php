@@ -743,7 +743,7 @@ class AdminUserController extends Controller
      */
     public function user_documents_index(Request $request) {
 
-        $base_query = \App\User::orderBy('updated_at','desc');
+        $base_query = \App\User::whereHas('userDocuments')->orderBy('updated_at','desc');
         
         if($request->search_key) {
 
