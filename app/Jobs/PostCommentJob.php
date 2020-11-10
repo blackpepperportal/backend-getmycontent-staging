@@ -85,7 +85,27 @@ class PostCommentJob implements ShouldQueue
 
 
                 }
-            }            
+            }        
+            
+            
+            if (Setting::get('is_email_notification') == YES && $user_details) {
+               
+                $email_data['subject'] = tr('user_post_comment_message');
+               
+                $email_data['message'] = $message;
+
+                $email_data['page'] = "emails.posts.post_comment";
+
+                $email_data['email'] = $user_details->email;
+
+                $email_data['name'] = $user_details->name;
+
+                $email_data['data'] = $user_details;
+
+                dispatch(new SendEmailJob($email_data));
+
+
+            }
 
         } catch(Exception $e) {
 

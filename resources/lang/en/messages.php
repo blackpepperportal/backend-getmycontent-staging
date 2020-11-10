@@ -986,5 +986,7 @@ return [
 	"subscribe_for_free" => "Subscribe for Free",
 	"add_post"=>"Add Post",
 	"post_files"=>"Post Files",
-	"user_post_like_message"=>"Your Post has been Liked by the User"
+	"user_post_like_message"=>"Your Post has been Liked by the User",
+	"user_post_comment_message"=>"Your Post has received the comments",
+	"user_receive_tips_message"=>"User has Sent Tips Amount to You"
 ]?>

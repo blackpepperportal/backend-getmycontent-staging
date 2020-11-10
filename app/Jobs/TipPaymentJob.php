@@ -48,7 +48,7 @@ class TipPaymentJob implements ShouldQueue
 
             $from_user = User::find($user_tips->id);
 
-            $message = tr('user_tips_message', $user_tips->amount ?? '')." ".$from_user->name ?? ''; 
+            $message = tr('user_tips_message', formatted_amount($user_tips->amount ?? 0.00) )." ".$from_user->name ?? ''; 
 
             $data['from_user_id'] = $user_tips->id;
 
@@ -76,7 +76,29 @@ class TipPaymentJob implements ShouldQueue
 
 
                 }
-            }            
+            } 
+
+            if (Setting::get('is_email_notification') == YES && $user_details) {
+               
+                $email_data['subject'] = tr('user_receive_tips_message');
+               
+                $email_data['message'] = $message;
+
+                $email_data['page'] = "emails.posts.tip_payment";
+
+                $email_data['email'] = $user_details->email;
+
+                $email_data['name'] = $user_details->name;
+
+                $email_data['data'] = $user_details;
+
+                dispatch(new SendEmailJob($email_data));
+
+            }
+            
+            
+
+
 
         } catch(Exception $e) {
 
