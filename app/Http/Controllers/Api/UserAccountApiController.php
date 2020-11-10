@@ -1648,7 +1648,7 @@ class UserAccountApiController extends Controller
 
                 $type = $request->type;
 
-                $post_base_query = $post_base_query->whereHas('postFiles', function($q) use($type) {
+                $base_query = $base_query->whereHas('postFiles', function($q) use($type) {
                         $q->where('post_files.file_type', $type);
                     });
             }
