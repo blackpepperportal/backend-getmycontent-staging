@@ -395,6 +395,8 @@ class FollowersApiController extends Controller
 
             $data['messages'] = $chat_messages ?? [];
 
+            $data['user'] = $request->id == $request->from_user_id ? \App\User::find($request->to_user_id) : \App\User::find($request->to_user_id);
+
             $data['total'] = $total_query->count() ?: 0;
 
             return $this->sendResponse($message = "", $code = "", $data);
