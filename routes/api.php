@@ -22,16 +22,18 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     Route::get('get_settings_json', function () {
 
-        if(\File::isDirectory(public_path(SETTINGS_JSON))){
+        $settings_folder = storage_path('public/'.SETTINGS_JSON);
+
+        if(\File::isDirectory($settings_folder){
 
         } else {
 
-            \File::makeDirectory(public_path('default-json'), 0777, true, true);
+            \File::makeDirectory($settings_folder, 0777, true, true);
 
             \App\Helpers\Helper::settings_generate_json();
         }
 
-        $jsonString = file_get_contents(public_path(SETTINGS_JSON));
+        $jsonString = file_get_contents($settings_folder);
 
         $data = json_decode($jsonString, true);
 
