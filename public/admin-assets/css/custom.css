@@ -166,3 +166,7 @@ img {
 .custom-muted {
   color: #b1c1d8
 }
+
+.post-left{
+  padding-left: 0px;
+}

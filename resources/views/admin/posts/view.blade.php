@@ -6,12 +6,12 @@
 
 @section('breadcrumb')
 
-    
 
-    <li class="breadcrumb-item active"><a href="{{route('admin.posts.index')}}">{{tr('posts')}}</a>
-    </li>
 
-    <li class="breadcrumb-item">{{tr('view_posts')}}</li>
+<li class="breadcrumb-item active"><a href="{{route('admin.posts.index')}}">{{tr('posts')}}</a>
+</li>
+
+<li class="breadcrumb-item">{{tr('view_posts')}}</li>
 
 @endsection
 
@@ -27,21 +27,22 @@
 
                 <h4 class="card-title">{{ tr('view_posts') }}</h4>
                 <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                
+
             </div>
 
             <div class="card-body">
 
                 <div class="row">
 
+                
                     <div class="col-2">
 
-                        <img src="{{$post->user_picture ?? asset('placeholder.jpg')}}" class="post-image" alt="Card image" />
+                        <img src="{{$post->user->picture ?? asset('placeholder.jpg')}}" class="post-image" alt="Card image" />
 
                     </div>
 
                     <div class="col-4">
-                        
+
                         <h4 class="card-title">{{$post->user->name ?? "-"}}</h4>
 
                         <h6 class="card-subtitle text-muted">{{$post->user->email ?? "-"}}</h6>
@@ -53,6 +54,34 @@
 
                         <a href="{{route('admin.post.payments',['post_id'=>$post->id])}}" class="btn btn-purple">{{tr('payments')}}</a>
 
+                    </div>
+
+                    <div class="col-3"></div>
+                    
+                    <div class="col-3">
+
+                        <h4 class="card-title">{{tr('post')}}</h4><br>
+
+                        @if(Setting::get('is_demo_control_enabled') == YES)
+
+                        <a class="btn-sm btn-danger" href="javascript:void(0)">&nbsp;{{ tr('delete') }}</a>
+
+                        @else
+
+                        <a class="btn-sm btn-danger" onclick="return confirm(&quot;{{ tr('post_delete_confirmation' , $post->unique_id) }}&quot;);" href="{{ route('admin.posts.delete', ['post_id' => $post->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+
+                        @endif
+
+                        @if($post->status == APPROVED)
+
+                        <a class="btn-sm btn-secondary" href="{{  route('admin.posts.status' , ['post_id' => $post->id] )  }}" onclick="return confirm(&quot;{{ tr('post_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
+                        </a>
+
+                        @else
+
+                        <a class="btn-sm btn-success" href="{{ route('admin.posts.status' , ['post_id' => $post->id] ) }}">&nbsp;{{ tr('approve') }}</a>
+
+                        @endif
                     </div>
 
                 </div>
@@ -112,47 +141,22 @@
 
                 <div class="row">
 
-                    <div class="col-12">
 
-                        <h3 class="text-uppercase">{{tr('post')}}</h3>
 
-                        @if(Setting::get('is_demo_control_enabled') == YES)
-
-                            <a class="btn-sm btn-danger" href="javascript:void(0)">&nbsp;{{ tr('delete') }}</a> 
-
-                        @else
-
-                            <a class="btn-sm btn-danger" onclick="return confirm(&quot;{{ tr('post_delete_confirmation' , $post->unique_id) }}&quot;);" href="{{ route('admin.posts.delete', ['post_id' => $post->id] ) }}">&nbsp;{{ tr('delete') }}</a>
-
-                        @endif
-
-                        @if($post->status == APPROVED)
-
-                            <a class="btn-sm btn-secondary" href="{{  route('admin.posts.status' , ['post_id' => $post->id] )  }}" onclick="return confirm(&quot;{{ tr('post_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
-                            </a> 
-
-                        @else
-
-                            <a class="btn-sm btn-success" href="{{ route('admin.posts.status' , ['post_id' => $post->id] ) }}">&nbsp;{{ tr('approve') }}</a> 
-
-                        @endif
-                        <hr>
-                    </div>
-                   
                     <div class="col-6">
-                        
-                        <ul>
+
+                        <ul class="post-left">
                             <li class="text-uppercase">{{tr('unique_id')}} - {{$post->unique_id}}</li>
                             <hr>
 
                             <li>{{tr('publish_time')}} - {{common_date($post->publish_time , Auth::guard('admin')->user()->timezone)}}</li>
                             <hr>
 
-                            <li>{{tr('is_paid_post')}} -                    @if($post->is_paid_post)
+                            <li>{{tr('is_paid_post')}} - @if($post->is_paid_post)
                                 <span class="badge badge-success">{{tr('yes')}}</span>
-                            @else
+                                @else
                                 <span class="badge badge-danger">{{tr('no')}}</span>
-                            @endif
+                                @endif
                             </li>
                             <hr>
 
@@ -168,14 +172,14 @@
                             <li>{{tr('content')}}-{{$post->content}}</li>
                             <hr>
 
-                            <li>{{tr('status')}} - 
+                            <li>{{tr('status')}} -
 
                                 @if($post->status == APPROVED)
 
-                                    <span class="btn btn-success btn-sm">{{ tr('approved') }}</span> 
+                                <span class="btn btn-success btn-sm">{{ tr('approved') }}</span>
                                 @else
 
-                                    <span class="btn btn-warning btn-sm">{{ tr('declined') }}</span> 
+                                <span class="btn btn-warning btn-sm">{{ tr('declined') }}</span>
                                 @endif
                             </li>
                             <hr>
@@ -197,7 +201,6 @@
     </div>
 
 </div>
-  
-    
-@endsection
 
+
+@endsection
