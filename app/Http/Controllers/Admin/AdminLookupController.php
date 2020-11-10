@@ -525,6 +525,20 @@ class AdminLookupController extends Controller
             
             $static_page->section_type = $request->section_type ?: $static_page->section_type;
 
+            $unique_id = $request->type ?: $static_page->type;
+
+            // Dont change the below code. If any issue, get approval from vithya and change
+
+            if(!in_array($unique_id, ['about', 'privacy', 'terms', 'contact', 'help', 'faq'])) {
+
+                $unique_id = routefreestring($request->heading ?? rand());
+
+                $unique_id = in_array($unique_id, ['about', 'privacy', 'terms', 'contact', 'help', 'faq']) ? $unique_id : $unique_id;
+
+            }
+
+            $static_page->unique_id = $unique_id ?? rand();
+
             if($static_page->save()) {
 
                 DB::commit();

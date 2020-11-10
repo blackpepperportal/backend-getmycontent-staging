@@ -105,7 +105,7 @@ class CommonRepository {
 
             }
 
-            $follow_user = User::where('id', $request->user_id)->first();
+            $follow_user = \App\User::where('id', $request->user_id)->first();
 
             if(!$follow_user) {
 
@@ -136,9 +136,9 @@ class CommonRepository {
 
             $job_data['follower'] = $follower;
 
-            $job_data['timezone'] = $this->timezone;
+            $job_data['timezone'] = $request->timezone;
 
-            $this->dispatch(new \App\Jobs\FollowUserJob($job_data));
+            dispatch(new \App\Jobs\FollowUserJob($job_data));
 
             $data['user_id'] = $request->user_id;
 
@@ -146,11 +146,15 @@ class CommonRepository {
 
             $response = ['success' => true, 'message' => api_success(128,$follow_user->username ?? 'user'), 'code' => 128, 'data' => $data];
 
+            Log::info("Follow User".print_r($data, true));
+
             return (object) $response;
 
         } catch(Exception $e) {
 
             DB::rollback();
+
+            Log::info("error message".print_r($e->getMessage(), true));
 
             $response = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
 

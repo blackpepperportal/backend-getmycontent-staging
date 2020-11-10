@@ -544,21 +544,17 @@ class Helper {
             $sample_data[$setting->key] = $setting->value;
         }
 
-        $footer_first_section = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->get();
+        $static_page_ids1 = ['about', 'terms', 'privacy', 'contact'];
 
-        $footer_second_section = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->get();
+        $footer_pages1 = \App\StaticPage::whereIn('type', $static_page_ids1)->where('status', APPROVED)->get();
 
-        $footer_third_section = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->get();
+        $static_page_ids1 = ['help', 'faq', 'others'];
 
-        $footer_fourth_section = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->get();
+        $footer_pages2 = \App\StaticPage::whereIn('type', $static_page_ids1)->where('status', APPROVED)->skip(0)->take(4)->get();
 
-        $sample_data['footer_first_section'] = $footer_first_section;
+        $sample_data['footer_pages1'] = $footer_pages1;
 
-        $sample_data['footer_second_section'] = $footer_second_section;
-
-        $sample_data['footer_third_section'] = $footer_third_section;
-
-        $sample_data['footer_fourth_section'] = $footer_fourth_section;
+        $sample_data['footer_pages2'] = $footer_pages2;
 
         // Social logins
 
