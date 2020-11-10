@@ -546,11 +546,11 @@ class Helper {
 
         $static_page_ids1 = ['about', 'terms', 'privacy', 'contact'];
 
-        $footer_pages1 = Page::select('id as page_id', 'unique_id', 'type as page_type', 'heading')->whereIn('type', $static_page_ids1)->where('status', APPROVED)->get();
+        $footer_pages1 = \App\StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'heading')->whereIn('type', $static_page_ids1)->where('status', APPROVED)->get();
 
         $static_page_ids1 = ['help', 'faq', 'others'];
 
-        $footer_pages2 = Page::select('id as page_id', 'unique_id', 'type as page_type', 'heading')->whereIn('type', $static_page_ids1)->where('status', APPROVED)->skip(0)->take(4)->get();
+        $footer_pages2 = \App\StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'heading')->whereIn('type', $static_page_ids1)->where('status', APPROVED)->skip(0)->take(4)->get();
 
         $sample_data['footer_pages1'] = $footer_pages1;
 
