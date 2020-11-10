@@ -39,14 +39,14 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="user_name">{{ tr('first_name') }}*</label>
-                                            <input type="text" id="first_name" name="first_name" class="form-control" placeholder="{{ tr('first_name') }}" value="{{ $user->first_name ?: old('first_name') }}" required onkeydown="return alphaOnly(event);">
+                                            <input type="text" id="first_name" name="first_name" class="form-control" placeholder="{{ tr('first_name') }}" value="{{old('first_name') ?: $user->first_name}}" required onkeydown="return alphaOnly(event);">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="user_name">{{ tr('last_name') }}*</label>
-                                            <input type="text" id="last_name" name="last_name" class="form-control" placeholder="{{ tr('last_name') }}" value="{{ $user->last_name ?: old('last_name') }}" required onkeydown="return alphaOnly(event);">
+                                            <input type="text" id="last_name" name="last_name" class="form-control" placeholder="{{ tr('last_name') }}" value="{{old('last_name') ?: $user->last_name}}" required onkeydown="return alphaOnly(event);">
                                         </div>
                                     </div>
 

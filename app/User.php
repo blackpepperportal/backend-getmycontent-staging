@@ -304,7 +304,7 @@ class User extends Authenticatable
 
         static::updating(function($model) {
 
-            $model->attributes['first_name'] = $model->attributes['last_name'] = $model->attributes['name'];
+            // $model->attributes['first_name'] = $model->attributes['last_name'] = $model->attributes['name'];
 
         });
 

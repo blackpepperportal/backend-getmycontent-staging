@@ -557,6 +557,8 @@ class UserAccountApiController extends Controller
                 throw new Exception(api_error(1002) , 1002);
             }
 
+            $user->updated_formatted = common_date($user->updated_at, $this->timezone, 'd M Y');
+
             return $this->sendResponse($message = "", $success_code = "", $user);
 
         } catch(Exception $e) {
