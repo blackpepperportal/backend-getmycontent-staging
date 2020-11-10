@@ -136,9 +136,9 @@ class CommonRepository {
 
             $job_data['follower'] = $follower;
 
-            $job_data['timezone'] = $this->timezone;
+            $job_data['timezone'] = $request->timezone;
 
-            $this->dispatch(new \App\Jobs\FollowUserJob($job_data));
+            dispatch(new \App\Jobs\FollowUserJob($job_data));
 
             $data['user_id'] = $request->user_id;
 
