@@ -1644,6 +1644,15 @@ class UserAccountApiController extends Controller
 
             $base_query = $total_query = \App\Post::with('postFiles')->where('user_id', $user->id);
 
+            if($request->type != POSTS_ALL) {
+
+                $type = $request->type;
+
+                $post_base_query = $post_base_query->whereHas('postFiles', function($q) use($type) {
+                        $q->where('post_files.file_type', $type);
+                    });
+            }
+
             $posts = $base_query->skip($this->skip)->take($this->take)->orderBy('created_at', 'desc')->get();
 
             $posts = \App\Repositories\PostRepository::posts_list_response($posts, $request);
