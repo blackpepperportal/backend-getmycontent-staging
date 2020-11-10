@@ -24,6 +24,7 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         $settings_folder = storage_path('public/'.SETTINGS_JSON);
 
+
         if(\File::isDirectory($settings_folder)){
 
         } else {
@@ -33,7 +34,7 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
             \App\Helpers\Helper::settings_generate_json();
         }
 
-        $jsonString = file_get_contents($settings_folder);
+        $jsonString = file_get_contents(storage_path('app/public/'.SETTINGS_JSON));
 
         $data = json_decode($jsonString, true);
 
