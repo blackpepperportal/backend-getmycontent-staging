@@ -34,7 +34,7 @@
 
                 <div class="row">
 
-                
+
                     <div class="col-2">
 
                         <img src="{{$post->user->picture ?? asset('placeholder.jpg')}}" class="post-image" alt="Card image" />
@@ -57,7 +57,7 @@
                     </div>
 
                     <div class="col-3"></div>
-                    
+
                     <div class="col-3">
 
                         <h4 class="card-title">{{tr('post')}}</h4><br>
@@ -194,11 +194,53 @@
 
                 </div>
 
+
+                <hr>
+                <div class="row">
+
+
+                    <div class="col-2">
+
+                        @if(!$post_files->isEmpty())
+
+                        <h5 class="card-title">{{tr('post_files')}}</h5>
+                        @endif
+
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+
+
+                   @foreach($post_files as $i => $post_file)
+
+                    <div class="col-4">
+
+                        <h6 class="card-title">{{$post_file->unique_id}}</h6>
+
+                    </div>
+
+                    <div class="col-4">
+
+                        <a class="btn btn-primary btn-sm" target="_blank" href="{{ asset($post_file->file)}}">&nbsp;{{ tr('view') }}</a>
+
+                    </div>
+                    @endforeach
+                 
+                </div>
+
+
+
+
             </div>
 
         </div>
 
     </div>
+
+</div>
 
 </div>
 

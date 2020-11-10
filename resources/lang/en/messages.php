@@ -984,5 +984,7 @@ return [
     "unlock_post_text" => "UNLOCK POST FOR :other_key",
     "unlock_subscription_text" => "SUBSCRIBE FOR :other_key",
 	"subscribe_for_free" => "Subscribe for Free",
-	"add_post"=>"Add Post"
+	"add_post"=>"Add Post",
+	"post_files"=>"Post Files",
+	"user_post_like_message"=>"Your Post has been Liked by the User"
 ]?>
