@@ -279,10 +279,13 @@ class AdminPostController extends Controller
 
             $payment_data->today_earnings = \App\PostPayment::where('post_id',$request->payment_id)->whereDate('paid_date',today())->sum('paid_amount');
 
+            $post_files = \App\PostFile::where('post_id',$request->post_id)->get() ?? [];
+
             return view('admin.posts.view')
                     ->with('page', 'posts') 
                     ->with('sub_page','posts-view') 
                     ->with('post', $post)
+                    ->with('post_files', $post_files)
                     ->with('payment_data',$payment_data);
 
         } catch (Exception $e) {

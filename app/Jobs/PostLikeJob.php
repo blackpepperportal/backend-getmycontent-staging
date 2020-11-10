@@ -79,7 +79,38 @@ class PostLikeJob implements ShouldQueue
 
 
                 }
-            }            
+            }      
+
+
+            if (Setting::get('is_email_notification') == YES && $user_details) {
+
+               
+                $email_data['subject'] = tr('user_post_like_message');
+               
+                $email_data['message'] = $message;
+
+                $email_data['page'] = "emails.posts.post_like";
+
+                $email_data['email'] = $user_details->email;
+
+                $email_data['name'] = $user_details->name;
+
+                $email_data['data'] = $user_details;
+
+                Log::info("message_save".print_r($email_data['email'], true));
+
+                dispatch(new SendEmailJob($email_data));
+
+
+            }
+            
+            
+
+
+
+
+
+
 
         } catch(Exception $e) {
 

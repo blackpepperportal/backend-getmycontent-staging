@@ -1109,6 +1109,7 @@ class PostsApiController extends Controller
             $post = \App\Post::Approved()->find($request->post_id);
 
             if(!$post) {
+                
                 throw new Exception(api_error(139), 139);   
             }
 
