@@ -1566,7 +1566,15 @@ class PostsApiController extends Controller
 
                     DB::commit();
 
-                    $job_data['user_tips'] = $request->all();
+                    $user_tips = new \Illuminate\Http\Request();
+
+                    $user_tips->amount = $request->amount;
+
+                    $user_tips->user_id = $request->user_id;
+
+                    $user_tips->id = $request->id;
+
+                    $job_data['user_tips'] = $user_tips;
 
                     $job_data['timezone'] = $this->timezone;
         
