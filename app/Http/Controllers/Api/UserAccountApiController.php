@@ -1845,11 +1845,13 @@ class UserAccountApiController extends Controller
                     $user_subscription->user_id = $user->id;
 
                     $user_subscription->save();
+                    
+                } else {
 
-
+                    throw new Exception(api_error(155), 155);   
+ 
                 }
 
-                throw new Exception(api_error(155), 155);   
             }
 
             $check_user_payment = \App\UserSubscriptionPayment::UserPaid($request->id, $user->id)->first();
