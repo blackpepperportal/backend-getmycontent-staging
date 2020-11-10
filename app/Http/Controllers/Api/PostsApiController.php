@@ -1109,7 +1109,7 @@ class PostsApiController extends Controller
             $post = \App\Post::Approved()->find($request->post_id);
 
             if(!$post) {
-                
+
                 throw new Exception(api_error(139), 139);   
             }
 
@@ -1534,6 +1534,8 @@ class PostsApiController extends Controller
 
             if($wallet_payment_response->success) {
 
+                $request->request->add(['to_user_id' => $request->user_id]);
+
                 $payment_response = PaymentRepo::tips_payment_save($request)->getData();
 
                 if(!$payment_response->success) {
@@ -1563,6 +1565,20 @@ class PostsApiController extends Controller
                 if($to_user_payment_response->success) {
 
                     DB::commit();
+
+                    $user_tips = new \Illuminate\Http\Request();
+
+                    $user_tips->amount = $request->amount;
+
+                    $user_tips->user_id = $request->user_id;
+
+                    $user_tips->id = $request->id;
+
+                    $job_data['user_tips'] = $user_tips;
+
+                    $job_data['timezone'] = $this->timezone;
+        
+                    $this->dispatch(new \App\Jobs\TipPaymentJob($job_data));
 
                     return $this->sendResponse(api_success(140), 140, $payment_response->data ?? []);
 
