@@ -1837,6 +1837,18 @@ class UserAccountApiController extends Controller
             $user_subscription = $user->userSubscription;
 
             if(!$user_subscription) {
+
+                if($request->is_free == YES) {
+
+                    $user_subscription = new \App\UserSubscription;
+
+                    $user_subscription->user_id = $user->id;
+
+                    $user_subscription->save();
+
+
+                }
+
                 throw new Exception(api_error(155), 155);   
             }
 

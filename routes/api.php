@@ -230,7 +230,6 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     Route::post('unfollow_users','Api\FollowersApiController@unfollow_users');
 
-
     Route::post('other_profile','Api\UserAccountApiController@other_profile');
 
     Route::post('other_profile_posts','Api\UserAccountApiController@other_profile_posts');
