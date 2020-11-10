@@ -24,7 +24,7 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         $settings_folder = storage_path('public/'.SETTINGS_JSON);
 
-        if(\File::isDirectory($settings_folder){
+        if(\File::isDirectory($settings_folder)){
 
         } else {
 
