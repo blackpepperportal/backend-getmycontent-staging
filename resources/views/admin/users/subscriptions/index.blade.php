@@ -7,7 +7,7 @@
     <li class="breadcrumb-item"><a href="">{{ tr('payments') }}</a></li>
 
     <li class="breadcrumb-item active" aria-current="page">
-        <span>{{ tr('users_subscription_payment') }}</span>
+        <span>{{ tr('subscription_payments') }}</span>
     </li> 
            
 @endsection 
@@ -24,7 +24,7 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('users_subscription_payment') }}</h4>
+                    <h4 class="card-title">{{ tr('subscription_payments') }}</h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
                 </div>

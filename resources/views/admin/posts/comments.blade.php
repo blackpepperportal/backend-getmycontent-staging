@@ -32,7 +32,7 @@
 
                     <h4 class="card-title">
 
-                        {{ tr('comments_list') }}
+                        {{ tr('comments_list') }} - {{ $post->user->name ?? '-'}}
 
                     </h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
@@ -85,7 +85,6 @@
                                 <tr>
                                     <th>{{ tr('s_no') }}</th>
                                     <th>{{ tr('username') }}</th>
-                                    <th>{{ tr('post') }}</th>
                                     <th>{{ tr('comments') }}</th>
                                     <th>{{ tr('action') }}</th>
                                 </tr>
@@ -102,10 +101,7 @@
                                             {{ $post_comment->username ?? "-" }}
                                         </a>
                                     </td>
-                                    <td>
-                                        <a href="{{  route('admin.posts.view' , ['post_id' => $post_comment->post_id] )  }}">
-                                            {{ $post_comment->post->content ?? "-" }}
-                                        </a></td>
+                                   
 
                                         <td>
                                             {{ $post_comment->comment}}
