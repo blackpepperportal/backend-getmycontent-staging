@@ -214,7 +214,7 @@ public function subscription_payments_autorenewal(Request $request){
 
     }
 
-        /**
+    /**
      * @method chat_messages_save()
      * 
      * @uses - To save the chat message.
@@ -278,6 +278,36 @@ public function subscription_payments_autorenewal(Request $request){
         } catch(Exception $e) {
 
             DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+    
+    }
+
+    /**
+     * @method settings_generate_json()
+     * 
+     * @uses
+     *
+     * @created vidhya R
+     *
+     * @updated vidhya R
+     * 
+     * @param 
+     *
+     * @return No return response.
+     *
+     */
+
+    public function settings_generate_json(Request $request) {
+
+        try {
+
+            Helper::settings_generate_json();
+
+            return $this->sendResponse("", "", $data = []);
+
+        } catch(Exception $e) {
 
             return $this->sendError($e->getMessage(), $e->getCode());
         }

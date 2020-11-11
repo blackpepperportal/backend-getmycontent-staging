@@ -309,6 +309,7 @@ class Helper {
             case 601:
                 $string = tr('push_no_provider_available');
                 break;
+           
             default:
                 $string = "";
         }
@@ -543,21 +544,17 @@ class Helper {
             $sample_data[$setting->key] = $setting->value;
         }
 
-        $footer_first_section = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->get();
+        $static_page_ids1 = ['about', 'terms', 'privacy', 'contact'];
 
-        $footer_second_section = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->get();
+        $footer_pages1 = \App\StaticPage::whereIn('type', $static_page_ids1)->where('status', APPROVED)->get();
 
-        $footer_third_section = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->get();
+        $static_page_ids1 = ['help', 'faq', 'others'];
 
-        $footer_fourth_section = StaticPage::select('id as page_id', 'unique_id', 'type as page_type', 'title')->get();
+        $footer_pages2 = \App\StaticPage::whereIn('type', $static_page_ids1)->where('status', APPROVED)->skip(0)->take(4)->get();
 
-        $sample_data['footer_first_section'] = $footer_first_section;
+        $sample_data['footer_pages1'] = $footer_pages1;
 
-        $sample_data['footer_second_section'] = $footer_second_section;
-
-        $sample_data['footer_third_section'] = $footer_third_section;
-
-        $sample_data['footer_fourth_section'] = $footer_fourth_section;
+        $sample_data['footer_pages2'] = $footer_pages2;
 
         // Social logins
 
@@ -583,11 +580,11 @@ class Helper {
         Storage::disk('public')->put($folder_path_name, $data);
     }
 
-     /**
+    /**
      * @method upload_file
      */
     
-    public static function storage_upload_file($input_file, $folder_path = COMMON_FILE_PATH) {
+    public static function storage_upload_file($input_file, $folder_path = COMMON_FILE_PATH, $name = "") {
 
         if(!$input_file) {
 
@@ -595,7 +592,7 @@ class Helper {
 
         }
        
-        $name = Helper::file_name();
+        $name = $name ?: Helper::file_name();
 
         $ext = $input_file->getClientOriginalExtension();
 
@@ -623,7 +620,67 @@ class Helper {
 
         $storage_file_path = $folder_path.$file_name;
 
-        Storage::delete($storage_file_path);
+        $response = Storage::disk('public')->delete($storage_file_path);
+    }
+
+    /**
+     * @method upload_file
+     */
+    
+    public static function post_upload_file($input_file, $folder_path = COMMON_FILE_PATH, $name = "") {
+
+        if(!$input_file) {
+
+            return "";
+
+        }
+       
+        $name = $name ?: Helper::file_name();
+
+        $ext = $input_file->getClientOriginalExtension();
+
+        $file_name = $name.".".$ext;
+
+        $public_folder_path = "public/".$folder_path;
+
+        Storage::putFileAs($public_folder_path, $input_file, $file_name);
+
+        $storage_file_path = $folder_path.$file_name;
+
+        $url = asset(Storage::url($storage_file_path));
+    
+        return $url;
+
+    }
+
+    /**
+     * @method upload_file
+     */
+    
+    public static function generate_post_blur_file($url, $user_id) {
+
+        if(!$url) {
+
+            return "";
+
+        }
+
+        \File::makeDirectory(Storage::path('public/'.POST_BLUR_PATH.$user_id), 0777, true, true);
+
+        $storage_file_path = 'public/'.POST_PATH.$user_id.'/'.basename($url);
+
+        $output_file_path = 'public/'.POST_BLUR_PATH.$user_id.'/'.basename($url);
+
+        // create new Intervention Image
+        $img = \Image::make(Storage::path($storage_file_path));
+
+        // apply stronger blur
+        $img->blur(45)->save(Storage::path($output_file_path));
+       
+        $url = asset(Storage::url($output_file_path));
+    
+        return $url;
+
     }
 
     public static function is_you_following($logged_in_user_id, $other_user_id) {

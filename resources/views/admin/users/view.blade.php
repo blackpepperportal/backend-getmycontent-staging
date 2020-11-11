@@ -90,12 +90,12 @@
                                 
                                 <tr>
                                     <th>{{tr('login_type')}}</th>
-                                    <td>{{$user->login_by ?: tr('not_available')}}</td>
+                                    <td class="text-capitalize">{{$user->login_by ?: tr('not_available')}}</td>
                                 </tr>
 
                                 <tr>
                                     <th>{{tr('device_type')}}</th>
-                                    <td>{{$user->device_type ?: tr('not_available')}}</td>
+                                    <td class="text-capitalize">{{$user->device_type ?: tr('not_available')}}</td>
                                 </tr>
 
                                 <tr>
@@ -166,7 +166,7 @@
                                  <tr>
                                     <th>{{tr('user_wallet_balance')}}</th>
                                     <td>
-                                       {{$user->userWallets->remaining_formatted ?? "0.00"}}
+                                       {{$user->userWallets->remaining_formatted ?? formatted_amount(0.00)}}
                                     </td>
                                 </tr>
 

@@ -180,7 +180,8 @@ return [
         Akaunting\Setting\Provider::class,
         vidhyar2612\Enveditor\EnveditorServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class
+        Intervention\Image\ImageServiceProvider::class,
+        Benwilkins\FCM\FcmNotificationServiceProvider::class,
 
 
     ],
@@ -238,8 +239,9 @@ return [
         'Enveditor' => 'vidhyar2612\Enveditor\Facade',
         'Helper' => App\Helpers\Helper::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-        'Image' => Intervention\Image\Facades\Image::class
-
+        'Image' => Intervention\Image\Facades\Image::class,
+        'FCM'      => LaravelFCM\Facades\FCM::class,
+        'FCMGroup' => LaravelFCM\Facades\FCMGroup::class, // Optional
     ],
 
 ];

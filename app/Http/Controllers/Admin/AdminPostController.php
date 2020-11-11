@@ -190,7 +190,7 @@ class AdminPostController extends Controller
 
                 DB::commit(); 
 
-                return redirect(route('admin.posts.index'))->with('flash_success', tr('posts_create_succes'));
+                return redirect()->route('admin.posts.view',['post_id'=>$post->id])->with('flash_success', tr('posts_create_succes'));
 
             } 
 
@@ -265,7 +265,7 @@ class AdminPostController extends Controller
         try {
 
             $post = \App\Post::find($request->post_id);
-
+            
             if(!$post) { 
 
                 throw new Exception(tr('post_not_found'), 101);                
@@ -279,10 +279,13 @@ class AdminPostController extends Controller
 
             $payment_data->today_earnings = \App\PostPayment::where('post_id',$request->payment_id)->whereDate('paid_date',today())->sum('paid_amount');
 
+            $post_files = \App\PostFile::where('post_id',$request->post_id)->get() ?? [];
+
             return view('admin.posts.view')
                     ->with('page', 'posts') 
                     ->with('sub_page','posts-view') 
                     ->with('post', $post)
+                    ->with('post_files', $post_files)
                     ->with('payment_data',$payment_data);
 
         } catch (Exception $e) {
@@ -1083,9 +1086,13 @@ class AdminPostController extends Controller
 
         $post_comments = $base_query->paginate(10);
 
+        $post = $request->post_id ? \App\Post::find($request->post_id) : '';
+
         return view('admin.posts.comments')
-                ->with('page','post_comments')
+                ->with('page', 'posts')
+                ->with('sub_page', 'posts-view')
                 ->with('post_id', $request->post_id)
+                ->with('post', $post)
                 ->with('post_comments', $post_comments);
 
       

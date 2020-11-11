@@ -773,9 +773,15 @@ return [
 	"today_revenue" => "Today Revenue",
 	"product_dashboard" => "Product Dashboard",
 	"recent_comments" => "Recent Comments",
-	
+
 	"no_result_found" => "No Results Found",
-	
+
+	'WITHDRAW_INITIATED' => 'Sent',
+	'WITHDRAW_PAID' => 'Paid',
+	'WITHDRAW_ONHOLD' => 'On Hold',
+	'WITHDRAW_DECLINED' => 'Declined',
+	'WITHDRAW_CANCELLED' => 'Cancelled',
+
 	'WALLET_PAYMENT_TYPE_ADD_TEXT' => 'Added to wallet',
 	'WALLET_PAYMENT_TYPE_PAID_TEXT' => 'Money sent from wallet',
 	'WALLET_PAYMENT_TYPE_CREDIT_TEXT' => 'Money credited to wallet',
@@ -967,6 +973,20 @@ return [
 	"view_user_subscription_payment" => "View User Subscription Payment",
 	"user_amount" => "User Amount",
 	"update_premium" => "Update Premium Account",
-
-
+    "user_follow_message"=>"User (:other_key) has been Following you",
+	"USER_FREE_ACCOUNT" => "Free",
+	"USER_PREMIUM_ACCOUNT" => "Premium",
+	"post_like_message"=>"Your Post has been Liked by the User (:other_key) ",
+	"post_comment_message"=>"User (:other_key) has Commented For your Post",
+	"user_tips_message"=>"You had received the tips amount(:other_key) from the user",
+    "post_liked_by_user"=>"Your Post has been Liked by the user",
+    "n_a" => "N/A",
+    "unlock_post_text" => "UNLOCK POST FOR :other_key",
+    "unlock_subscription_text" => "SUBSCRIBE FOR :other_key",
+	"subscribe_for_free" => "Subscribe for Free",
+	"add_post"=>"Add Post",
+	"post_files"=>"Post Files",
+	"user_post_like_message"=>"Your Post has been Liked by the User",
+	"user_post_comment_message"=>"Your Post has received the comments",
+	"user_receive_tips_message"=>"User has Sent Tips Amount to You"
 ]?>

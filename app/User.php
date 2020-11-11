@@ -14,23 +14,6 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $appends = ['user_id', 'is_notification', 'is_document_verified_formatted'];
-
-    public function getUserIdAttribute() {
-
-        return $this->id;
-    }
-
-    public function getIsNotificationAttribute() {
-
-        return $this->is_email_notification ? YES : NO;
-    }
-
-    public function getIsDocumentVerifiedFormattedAttribute() {
-
-        return user_document_status_formatted($this->is_document_verified);
-    }
-
     /**
      * The attributes that are mass assignable.
      *
@@ -58,6 +41,79 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = ['user_id', 'is_notification', 'is_document_verified_formatted', 'total_followers', 'total_followings', 'user_account_type_formatted', 'total_posts', 'total_fav_users', 'total_bookmarks'];
+
+    public function getUserIdAttribute() {
+
+        return $this->id;
+    }
+
+    public function getIsNotificationAttribute() {
+
+        return $this->is_email_notification ? YES : NO;
+    }
+
+    public function getIsDocumentVerifiedFormattedAttribute() {
+
+        return user_document_status_formatted($this->is_document_verified);
+    }
+
+    public function getTotalFollowersAttribute() {
+
+        $count = $this->followers->count();
+
+        unset($this->followers);
+        
+        return $count;
+
+    }
+
+    public function getTotalFollowingsAttribute() {
+
+        $count = $this->followings->count();
+
+        unset($this->followings);
+        
+        return $count;
+
+    }
+
+    public function getTotalPostsAttribute() {
+        
+        $count = $this->posts->count();
+
+        unset($this->posts);
+        
+        return $count;
+
+    }
+
+    public function getTotalFavUsersAttribute() {
+        
+        $count = $this->favUsers->count();
+
+        unset($this->favUsers);
+        
+        return $count;
+
+    }
+
+    public function getTotalBookmarksAttribute() {
+        
+        $count = $this->postBookmarks->count();
+
+        unset($this->postBookmarks);
+        
+        return $count;
+
+    }
+
+    public function getUserAccountTypeFormattedAttribute() {
+        
+        return user_account_type_formatted($this->user_account_type);
+
+    }
+
     public function userBillingAccounts() {
 
         return $this->hasMany(UserBillingAccount::class, 'user_id');
@@ -76,6 +132,11 @@ class User extends Authenticatable
     public function orderPayments() {
 
         return $this->hasMany(OrderPayment::class,'user_id');
+    }
+
+    public function posts() {
+
+        return $this->hasMany(Post::class,'user_id');
     }
 
     public function postPayments() {
@@ -113,6 +174,27 @@ class User extends Authenticatable
         
         return $this->hasOne(UserSubscription::class, 'user_id');
     }
+
+    public function followers() {
+        
+        return $this->hasMany(Follower::class, 'user_id');
+    }
+
+    public function followings() {
+        
+        return $this->hasMany(Follower::class, 'follower_id');
+    }
+
+    
+    public function postBookmarks() {
+        
+        return $this->hasMany(PostBookmark::class, 'user_id');
+    }
+
+    public function favUsers() {
+        
+        return $this->hasMany(FavUser::class, 'user_id');
+    }
     
     /**
      * Scope a query to only include active users.
@@ -122,6 +204,19 @@ class User extends Authenticatable
     public function scopeApproved($query) {
 
         $query->where('users.status', USER_APPROVED)->where('is_email_verified', USER_EMAIL_VERIFIED);
+
+        return $query;
+
+    }
+
+    /**
+     * Scope a query to only include active users.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDocumentVerified($query) {
+
+        $query->where('users.is_document_verified', USER_DOCUMENT_APPROVED);
 
         return $query;
 
@@ -209,7 +304,7 @@ class User extends Authenticatable
 
         static::updating(function($model) {
 
-            $model->attributes['first_name'] = $model->attributes['last_name'] = $model->attributes['name'];
+            // $model->attributes['first_name'] = $model->attributes['last_name'] = $model->attributes['name'];
 
         });
 

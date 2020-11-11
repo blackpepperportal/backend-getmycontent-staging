@@ -749,7 +749,7 @@ class AdminRevenueController extends Controller
                 
             }
             
-            $user_withdrawal->status = WITHDRAW_REJECTED;
+            $user_withdrawal->status = WITHDRAW_DECLINED;
             
             if($user_withdrawal->save()) {
 

@@ -253,7 +253,7 @@
 
                     <li id="user-subscription-payments">
                         <a class="menu-item" href="{{route('admin.users_subscriptions.index')}}">
-                           {{tr('user_subscription_payments')}}
+                           {{tr('subscription_payments')}}
                         </a>
                     </li>
 

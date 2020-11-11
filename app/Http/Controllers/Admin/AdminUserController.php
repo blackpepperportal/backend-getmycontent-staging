@@ -338,6 +338,8 @@ class AdminUserController extends Controller
 
                     $user->is_email_verified = USER_EMAIL_VERIFIED;
 
+                    $user->user_account_type = $request->user_account_type;
+
                     $user->save();
 
                 }
@@ -741,7 +743,7 @@ class AdminUserController extends Controller
      */
     public function user_documents_index(Request $request) {
 
-        $base_query = \App\User::orderBy('updated_at','desc');
+        $base_query = \App\User::whereHas('userDocuments')->orderBy('updated_at','desc');
         
         if($request->search_key) {
 

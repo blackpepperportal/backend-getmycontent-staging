@@ -53,7 +53,6 @@ class VerificationApiController extends Controller
 
             $is_delete_edit_option = $this->loginUser->is_document_verified == USER_DOCUMENT_APPROVED ? NO : YES;
 
-
         	foreach ($documents as $key => $document) {
 
         		$is_user_uploaded = NO;
@@ -70,6 +69,10 @@ class VerificationApiController extends Controller
         	}
 
         	$data['documents'] = $documents;
+
+            $data['document_status_formatted'] = document_status_formatted($this->loginUser->is_document_verified ?? 0);
+
+            $data['is_document_verified'] = $this->loginUser->is_document_verified ?? 0;
 
             return $this->sendResponse($message = "", $success_code = "", $data);
 

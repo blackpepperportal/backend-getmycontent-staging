@@ -100,4 +100,8 @@ return [
 
     150 => 'Like removed',
 
+    151 => 'File uploaded',
+
+    152 => 'File deleted',
+
 ];

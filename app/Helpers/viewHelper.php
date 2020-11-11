@@ -875,11 +875,7 @@ function get_image_mime_type($image_path)
 }
 
 function get_post_file_type($file_url) {
-    $url = "http://domain/fotografo/admin/gallery_bg.php";
-    $keys = parse_url($url); // parse the url
-    $path = explode("/", $keys['path']); // splitting the path
-    $last = end($path); // get the value of the last element 
-
+    
     return 'image';
 
 }
@@ -903,4 +899,74 @@ function get_follower_ids($user_id) {
     $follower_ids = $follower_ids ? $follower_ids->toArray() : [];
 
     return $follower_ids;
+}
+
+function get_post_temp_path($user_id, $url) {
+
+    $filename = basename($url);
+
+    $folder_path = POST_TEMP_PATH.$user_id.'/';
+
+    return 'public/'.$folder_path.$filename;
+
+}
+
+function get_post_path($user_id, $url) {
+
+    $filename = basename($url);
+
+    $folder_path = POST_PATH.$user_id.'/';
+
+    return 'public/'.$folder_path.$filename;
+
+}
+
+
+function push_messages($key , $other_key = "" , $lang_path = "messages.") {
+
+
+    if (!\Session::has('locale')) {
+
+        $locale = \Session::put('locale', config('app.locale'));
+
+    }else {
+
+        $locale = \Session::get('locale');
+
+    }
+
+  return \Lang::choice('push-messages.'.$key, 0, Array('other_key' => $other_key), $locale);
+
+}
+
+
+function user_account_type_formatted($type) {
+
+    $list = [USER_FREE_ACCOUNT => tr('USER_FREE_ACCOUNT'), USER_PREMIUM_ACCOUNT => tr('USER_PREMIUM_ACCOUNT')];
+
+    return $list[$type] ?? tr('USER_FREE_ACCOUNT');
+
+}
+
+function withdraw_picture($amount_type = WALLET_AMOUNT_TYPE_ADD) {
+
+    $withdraw_picture = asset('images/withdraw_sent.svg');
+
+    return $withdraw_picture;
+
+}
+
+
+function withdrawal_status_formatted($status) {
+
+    $status_list = [WITHDRAW_INITIATED => tr('WITHDRAW_INITIATED'), WITHDRAW_PAID => tr('WITHDRAW_PAID'), WITHDRAW_ONHOLD => tr('WITHDRAW_ONHOLD'), WITHDRAW_DECLINED => tr('WITHDRAW_DECLINED'), WITHDRAW_CANCELLED => tr('WITHDRAW_CANCELLED')];
+
+    return isset($status_list[$status]) ? $status_list[$status] : tr('WITHDRAW_INITIATED');
+}
+
+function document_status_formatted($status) {
+
+    $status_list = [USER_DOCUMENT_NONE => tr('USER_DOCUMENT_NONE'), USER_DOCUMENT_PENDING => tr('USER_DOCUMENT_PENDING'), USER_DOCUMENT_APPROVED => tr('USER_DOCUMENT_APPROVED'), USER_DOCUMENT_DECLINED => tr('USER_DOCUMENT_DECLINED')];
+
+    return isset($status_list[$status]) ? $status_list[$status] : tr('USER_KYC_DOCUMENT_NONE');
 }

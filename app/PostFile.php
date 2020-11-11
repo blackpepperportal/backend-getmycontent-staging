@@ -8,7 +8,7 @@ class PostFile extends Model
 {
     protected $fillable = ['file', 'post_id'];
 
-    protected $hidden = ['deleted_at', 'id', 'unique_id'];
+    protected $hidden = ['deleted_at', 'id', 'unique_id', 'blur_file', 'file'];
 
 	protected $appends = ['post_file_id', 'post_file_unique_id'];
 
@@ -21,6 +21,35 @@ class PostFile extends Model
 
         return $this->unique_id;
     }
+
+    /**
+     * Scope a query to only include active users.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOriginalResponse($query) {
+
+        return $query->select(
+            'post_files.*',
+            'post_files.file as post_file',
+            );
+    
+    }
+
+    /**
+     * Scope a query to only include active users.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeBlurResponse($query) {
+
+        return $query->select(
+            'post_files.*',
+            'post_files.blur_file as post_file',
+            );
+    
+    }
+
 
     public static function boot() {
 

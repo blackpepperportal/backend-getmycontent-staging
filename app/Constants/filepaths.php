@@ -27,4 +27,10 @@ if(!defined('CATEGORY_FILE_PATH')) define('CATEGORY_FILE_PATH', 'uploads/categor
 
 if(!defined('SUPPORT_MEMBER_FILE_PATH')) define('SUPPORT_MEMBER_FILE_PATH', 'uploads/support_members/');
 
+if(!defined('POST_TEMP_PATH')) define('POST_TEMP_PATH', 'uploads/posts-temp/');
+
+if(!defined('POST_PATH')) define('POST_PATH', 'uploads/posts/');
+
+if(!defined('POST_BLUR_PATH')) define('POST_BLUR_PATH', 'uploads/blur-posts/');
+
 

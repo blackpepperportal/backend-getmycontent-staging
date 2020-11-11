@@ -2,7 +2,7 @@
 
 @section('title', tr('revenue_management')) 
 
-@section('content-header', tr('revenue_management')) 
+@section('content-header', tr('payments')) 
 
 @section('breadcrumb')
     

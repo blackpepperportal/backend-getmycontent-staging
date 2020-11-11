@@ -78,7 +78,7 @@
 
                                     <td>
                                         <a href="{{route('admin.user_wallets.view' , ['user_id' => $user->id])}}">
-                                            {{$user->userWallets->remaining_formatted ?? "0.00"}}
+                                            {{$user->userWallets->remaining_formatted ?? formatted_amount(0.00)}}
                                         </a>
                                     </td>
 

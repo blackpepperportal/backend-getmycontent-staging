@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 
 use App\Helpers\Helper;
 
+use App\Jobs\FollowUserJob;
+
 use DB, Log, Hash, Validator, Exception, Setting;
 
 use App\User, App\Follower;
@@ -52,9 +54,11 @@ class FollowersApiController extends Controller
 
         try {
 
-            $following_user_ids = Follower::where('follower_id', $request->id)->pluck('user_id');
+            $following_user_ids = Follower::where('follower_id', $request->id)->pluck('user_id')->toArray();
 
-            $base_query = $total_query = User::Approved()->OtherResponse()->whereNotIn('users.id', $following_user_ids)->orderBy('users.created_at', 'desc');
+            array_push($following_user_ids, $request->id);
+
+            $base_query = $total_query = User::DocumentVerified()->Approved()->OtherResponse()->whereNotIn('users.id', $following_user_ids)->orderBy('users.created_at', 'desc');
 
             $users = $base_query->skip($this->skip)->take($this->take)->get();
 
@@ -91,7 +95,7 @@ class FollowersApiController extends Controller
         try {
 
             DB::beginTransaction();
-
+            
             // Validation start
             // Follower id
             $rules = [
@@ -137,6 +141,12 @@ class FollowersApiController extends Controller
             $follower->save();
 
             DB::commit();
+
+            $job_data['follower'] = $follower;
+
+            $job_data['timezone'] = $this->timezone;
+
+            $this->dispatch(new FollowUserJob($job_data));
 
             $data['user_id'] = $request->user_id;
 
@@ -332,6 +342,13 @@ class FollowersApiController extends Controller
                     ->orderBy('chat_users.updated_at', 'desc')
                     ->get();
 
+            foreach ($chat_users as $key => $chat_user) {
+
+                $chat_user->message = ".....";
+
+                $chat_user->time_formatted = common_date($chat_user->created_at, $this->timezone, 'd M Y');
+            }
+
             $data['users'] = $chat_users ?? [];
 
             $data['total'] = $total_query->count() ?: 0;
@@ -367,16 +384,16 @@ class FollowersApiController extends Controller
             $base_query = $total_query = \App\ChatMessage::where(function($query) use ($request){
                         $query->where('chat_messages.from_user_id', 'LIKE', '%'.$request->from_user_id.'%');
                         $query->where('chat_messages.to_user_id', 'LIKE', '%'.$request->to_user_id.'%');
-                    })->where(function($query) use ($request){
+                    })->orWhere(function($query) use ($request){
                         $query->where('chat_messages.from_user_id', 'LIKE', '%'.$request->to_user_id.'%');
                         $query->where('chat_messages.to_user_id', 'LIKE', '%'.$request->from_user_id.'%');
                     });
 
-            $chat_messages = $base_query->skip($this->skip)->take($this->take)
-                    ->orderBy('chat_messages.updated_at', 'desc')
-                    ->get();
+            $chat_messages = $base_query->skip($this->skip)->take($this->take)->orderBy('chat_messages.updated_at', 'desc')->get();
 
             $data['messages'] = $chat_messages ?? [];
+
+            $data['user'] = $request->id == $request->from_user_id ? \App\User::find($request->to_user_id) : \App\User::find($request->to_user_id);
 
             $data['total'] = $total_query->count() ?: 0;
 

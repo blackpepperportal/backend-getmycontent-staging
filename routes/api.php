@@ -22,16 +22,19 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     Route::get('get_settings_json', function () {
 
-        if(\File::isDirectory(public_path(SETTINGS_JSON))){
+        $settings_folder = storage_path('public/'.SETTINGS_JSON);
+
+
+        if(\File::isDirectory($settings_folder)){
 
         } else {
 
-            \File::makeDirectory(public_path('default-json'), 0777, true, true);
+            \File::makeDirectory($settings_folder, 0777, true, true);
 
             \App\Helpers\Helper::settings_generate_json();
         }
 
-        $jsonString = file_get_contents(public_path(SETTINGS_JSON));
+        $jsonString = file_get_contents(storage_path('app/public/'.SETTINGS_JSON));
 
         $data = json_decode($jsonString, true);
 
@@ -80,6 +83,12 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
         Route::post('email_notification_update', 'Api\UserAccountApiController@is_email_notification_change');
 
         Route::post('notifications_status_update','Api\UserAccountApiController@notifications_status_update');
+
+        Route::post('lists_index','Api\UserAccountApiController@lists_index');
+        
+        Route::post('payments_index','Api\UserAccountApiController@payments_index');
+        
+        Route::post('bell_notifications_index','Api\UserAccountApiController@bell_notifications_index');
 
         // Cards management start
 
@@ -154,6 +163,21 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('subscription_payments_autorenewal','ApplicationController@subscription_payments_autorenewal');
 
+        // Withdrawls start
+
+        Route::post('withdrawals_index','Api\WalletApiController@user_withdrawals_index');
+        
+        Route::post('withdrawals_view','Api\WalletApiController@user_withdrawals_view');
+
+        Route::post('withdrawals_search','Api\WalletApiController@user_withdrawals_search');
+
+        Route::post('withdrawals_send_request','Api\WalletApiController@user_withdrawals_send_request');
+
+        Route::post('withdrawals_cancel_request','Api\WalletApiController@user_withdrawals_cancel_request');
+
+        Route::post('withdrawals_check','Api\WalletApiController@user_withdrawals_check');
+
+
     });
 
     Route::group(['middleware' => ['CheckDocumentVerify']], function() {
@@ -195,13 +219,16 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('posts_delete_for_owner','Api\PostsApiController@posts_delete_for_owner');
 
+        Route::post('post_files_upload','Api\PostsApiController@post_files_upload');
+
+        Route::post('post_files_remove','Api\PostsApiController@post_files_remove');
+
     });
 
 
     Route::post('follow_users','Api\FollowersApiController@follow_users');
 
     Route::post('unfollow_users','Api\FollowersApiController@unfollow_users');
-
 
     Route::post('other_profile','Api\UserAccountApiController@other_profile');
 

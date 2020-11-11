@@ -599,9 +599,18 @@ class WalletApiController extends Controller
 
         try {
 
-            $base_query = $total_query = \App\UserWithdrawal::where('user_id', $request->id);
+           $base_query = $total_query = \App\UserWithdrawal::where('user_id', $request->id);
 
             $history = $base_query->skip($this->skip)->take($this->take)->orderBy('created_at', 'desc')->get();
+
+            $history = $history->map(function ($value, $key) use ($request) {
+
+                        $value->cancel_btn_status = in_array($value->status, [WITHDRAW_INITIATED, WITHDRAW_ONHOLD]) ? YES : NO;
+
+                        $value->created = common_date($value->created_at, $this->timezone, 'd M Y');
+
+                        return $value;
+                    });
             
             $data['history'] = $history ?? [];
 

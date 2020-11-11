@@ -14,6 +14,8 @@ use App\User;
 
 use App\Repositories\PaymentRepository as PaymentRepo;
 
+use App\Repositories\CommonRepository as CommonRepo;
+
 class UserAccountApiController extends Controller
 {
  	protected $loginUser;
@@ -554,6 +556,8 @@ class UserAccountApiController extends Controller
 
                 throw new Exception(api_error(1002) , 1002);
             }
+
+            $user->updated_formatted = common_date($user->updated_at, $this->timezone, 'd M Y');
 
             return $this->sendResponse($message = "", $success_code = "", $user);
 
@@ -1577,13 +1581,21 @@ class UserAccountApiController extends Controller
 
             Helper::custom_validator($request->all(), $rules, $custom_errors = []);
 
-            $user = \App\User::where('users.unique_id', $request->user_unique_id)->first();
+            $user = \App\User::OtherResponse()->where('users.unique_id', $request->user_unique_id)->first();
 
             if(!$user) {
                 throw new Exception(api_error(1002), 1002);
             }
 
+            $user->updated_formatted = common_date($user->updated_at, $this->timezone, 'd M Y');
+
             $data['user'] = $user;
+
+            $data['payment_info'] = CommonRepo::subscriptions_user_payment_check($user, $request);
+
+            $data['is_favuser'] = \App\FavUser::where('user_id', $request->id)->where('fav_user_id', $user->id)->count() ? YES : NO;
+
+            $data['share_link'] = Setting::get('frontend_url').'model-profile/'.$request->user_unique_id;
 
             $data['total_followers'] = \App\Follower::where('user_id', $request->user_id)->count();
 
@@ -1627,13 +1639,22 @@ class UserAccountApiController extends Controller
             $user = \App\User::where('users.unique_id', $request->user_unique_id)->first();
 
             if(!$user) {
-                throw new Exception(api_error(1002), 1002);
+                throw new Exception(api_error(135), 135);
             }
 
             $base_query = $total_query = \App\Post::with('postFiles')->where('user_id', $user->id);
 
+            if($request->type != POSTS_ALL) {
+
+                $type = $request->type;
+
+                $base_query = $base_query->whereHas('postFiles', function($q) use($type) {
+                        $q->where('post_files.file_type', $type);
+                    });
+            }
+
             $posts = $base_query->skip($this->skip)->take($this->take)->orderBy('created_at', 'desc')->get();
-            
+
             $posts = \App\Repositories\PostRepository::posts_list_response($posts, $request);
 
             $data['posts'] = $posts ?? [];
@@ -1816,7 +1837,21 @@ class UserAccountApiController extends Controller
             $user_subscription = $user->userSubscription;
 
             if(!$user_subscription) {
-                throw new Exception(api_error(155), 155);   
+
+                if($request->is_free == YES) {
+
+                    $user_subscription = new \App\UserSubscription;
+
+                    $user_subscription->user_id = $user->id;
+
+                    $user_subscription->save();
+                    
+                } else {
+
+                    throw new Exception(api_error(155), 155);   
+ 
+                }
+
             }
 
             $check_user_payment = \App\UserSubscriptionPayment::UserPaid($request->id, $user->id)->first();
@@ -1986,6 +2021,147 @@ class UserAccountApiController extends Controller
         }
 
     }
+
+    /** 
+     * @method lists_index()
+     *
+     * @uses To display the user details based on user  id
+     *
+     * @created Bhawya N 
+     *
+     * @updated Bhawya N
+     *
+     * @param object $request - User Id
+     *
+     * @return json response with user details
+     */
+
+    public function lists_index(Request $request) {
+
+        try {
+
+            $user = User::firstWhere('id' , $request->id);
+
+            if(!$user) { 
+
+                throw new Exception(api_error(1002) , 1002);
+            }
+
+            $data = [];
+
+            $data['username'] = $user->username;
+
+            $data['name'] = $user->name;
+
+            $data['user_unique_id'] = $user->unique_id;
+
+            $data['user_id'] = $user->user_id;
+
+            $data['total_followers'] = $user->total_followers ?? 0;
+
+            $data['total_followings'] = $user->total_followings ?? 0;
+
+            $data['total_posts'] = $user->total_posts ?? 0;
+
+            $data['total_fav_users'] = $user->total_fav_users ?? 0;
+
+            $data['total_bookmarks'] = $user->total_bookmarks ?? 0;
+
+            return $this->sendResponse($message = "", $success_code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
+    }
+
+    /** 
+     * @method payments_index()
+     *
+     * @uses To display the user details based on user  id
+     *
+     * @created Bhawya N 
+     *
+     * @updated Bhawya N
+     *
+     * @param object $request - User Id
+     *
+     * @return json response with user details
+     */
+
+    public function payments_index(Request $request) {
+
+        try {
+
+            $user = User::firstWhere('id' , $request->id);
+
+            if(!$user) { 
+
+                throw new Exception(api_error(1002) , 1002);
+            }
+
+            $data = [];
+
+            $data['user'] = $user;
+
+            $data['user_withdrawals_min_amount'] = Setting::get('user_withdrawals_min_amount', 10);
+
+            $data['user_withdrawals_min_amount_formatted'] = formatted_amount(Setting::get('user_withdrawals_min_amount', 10));
+
+            $data['wallet'] = \App\UserWallet::where('user_id', $request->id)->first();
+
+            return $this->sendResponse($message = "", $success_code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
+    }
+
+    /** 
+     * @method bell_notifications_index()
+     *
+     * @uses Get the user notifications
+     *
+     * @created Vithya R
+     *
+     * @updated Vithya R
+     *
+     * @param object $request - User Id
+     *
+     * @return json response with user details
+     */
+
+    public function bell_notifications_index(Request $request) {
+
+        try {
+
+            $base_query = $total_query = \App\BellNotification::where('to_user_id', $request->id)->orderBy('created_at', 'desc');
+
+            $notifications = $base_query->skip($this->skip)->take($this->take)->get() ?? [];
+
+            foreach ($notifications as $key => $notification) {
+                $notification->updated_formatted = common_date($notification->updated_at, $this->timezone, 'd M Y');
+            }
+
+            $data['notifications'] = $notifications;
+
+            $data['total'] = $total_query->count() ?? 0;
+
+            return $this->sendResponse($message = "", $success_code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
+    }
+
 
 
 }

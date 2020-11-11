@@ -947,7 +947,7 @@ class PaymentRepository {
 
             $user_tip->post_id = $request->post_id ?: 0;
 
-            $user_tip->from_user_id = $request->id;
+            $user_tip->user_id = $request->id;
 
             $user_tip->to_user_id = $request->to_user_id;
 
@@ -1115,6 +1115,10 @@ class PaymentRepository {
             // Add to post user wallet
 
             self::user_subscription_payments_wallet_update($request, $user_subscription, $user_subscription_payment);
+
+            $request->request->add(['user_id' => $user_subscription->user_id]);
+
+            \App\Repositories\CommonRepository::follow_user($request);
 
             $response = ['success' => true, 'message' => 'paid', 'data' => ['user_type' => SUBSCRIBED_USER, 'payment_id' => $request->payment_id]];
 
