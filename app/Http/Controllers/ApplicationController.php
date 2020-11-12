@@ -20,15 +20,14 @@ use App\Repositories\PaymentRepository as PaymentRepo;
 
 class ApplicationController extends Controller
 {
-
     /**
      * @method static_pages_api()
      *
      * @uses to get the pages
      *
-     * @created Bhawya
+     * @created Vidhya R 
      *
-     * @updated Bhawya
+     * @edited Vidhya R
      *
      * @param - 
      *
@@ -37,26 +36,28 @@ class ApplicationController extends Controller
 
     public function static_pages_api(Request $request) {
 
+        $base_query = \App\StaticPage::where('status', APPROVED)->orderBy('title', 'asc');
+                                
         if($request->page_type) {
 
-            $static_page = StaticPage::where('type' , $request->page_type)
-                                ->where('status' , APPROVED)
-                                ->select('id as page_id' , 'title' , 'description','type as page_type', 'status' , 'created_at' , 'updated_at')
-                                ->first();
+            $static_pages = $base_query->where('type' , $request->page_type)->first();
 
-            $response_array = ['success' => true , 'data' => $static_page];
+        } elseif($request->page_id) {
+
+            $static_pages = $base_query->where('id' , $request->page_id)->first();
+
+        } elseif($request->unique_id) {
+
+            $static_pages = $base_query->where('unique_id' , $request->unique_id)->first();
 
         } else {
 
-            $static_pages = StaticPage::Approved()
-                ->orderBy('id' , 'asc')
-                ->orderBy('title', 'asc')
-                ->get();
-
-            $response_array = ['success' => true , 'data' => $static_pages ? $static_pages->toArray(): []];
+            $static_pages = $base_query->get();
 
         }
-        
+
+        $response_array = ['success' => true , 'data' => $static_pages ? $static_pages->toArray(): []];
+
         return response()->json($response_array , 200);
 
     }
