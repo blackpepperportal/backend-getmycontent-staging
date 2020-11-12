@@ -1819,7 +1819,7 @@ class UserAccountApiController extends Controller
     public function user_subscriptions_payment_by_stripe(Request $request) {
 
         try {
-
+            
             DB::beginTransaction();
 
             $rules = [
@@ -1830,6 +1830,7 @@ class UserAccountApiController extends Controller
             Helper::custom_validator($request->all(), $rules, $custom_errors = []);
 
             $user = \App\User::where('users.unique_id', $request->user_unique_id)->first();
+            
 
             if(!$user) {
                 throw new Exception(api_error(135), 135);
@@ -1838,7 +1839,7 @@ class UserAccountApiController extends Controller
             $user_subscription = $user->userSubscription;
 
             if(!$user_subscription) {
-
+                
                 if($request->is_free == YES) {
 
                     $user_subscription = new \App\UserSubscription;
@@ -1854,7 +1855,7 @@ class UserAccountApiController extends Controller
                 }
 
             }
-
+           
             $check_user_payment = \App\UserSubscriptionPayment::UserPaid($request->id, $user->id)->first();
 
             if($check_user_payment) {
@@ -1904,7 +1905,7 @@ class UserAccountApiController extends Controller
             $payment_response = PaymentRepo::user_subscription_payments_save($request, $user_subscription)->getData();
 
             if(!$payment_response->success) {
-
+                
                 throw new Exception($payment_response->error, $payment_response->error_code);
                 
             }

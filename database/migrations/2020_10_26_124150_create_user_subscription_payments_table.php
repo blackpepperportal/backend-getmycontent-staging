@@ -30,6 +30,8 @@ class CreateUserSubscriptionPaymentsTable extends Migration
             $table->text('cancel_reason')->nullable("");
             $table->integer('plan')->default(1);
             $table->string('plan_type')->default(PLAN_TYPE_MONTH);
+            $table->float('admin_amount')->default(0.00);
+            $table->float('user_amount')->default(0.00);
             $table->softDeletes();
             $table->timestamps();
         });
