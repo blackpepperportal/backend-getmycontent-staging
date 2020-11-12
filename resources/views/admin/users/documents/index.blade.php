@@ -1,8 +1,8 @@
-@extends('layouts.admin') 
+@extends('layouts.admin')
 
-@section('title', tr('users')) 
+@section('title', tr('users'))
 
-@section('content-header', tr('users')) 
+@section('content-header', tr('users'))
 
 @section('breadcrumb')
 
@@ -12,7 +12,7 @@
 
 <li class="breadcrumb-item active">{{ tr('documents') }}</li>
 
-@endsection 
+@endsection
 
 @section('content')
 
@@ -29,7 +29,7 @@
                     <h4 class="card-title">{{ tr('verification_documents') }}</h4>
 
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                    
+
                 </div>
 
                 <div class="card-content collapse show">
@@ -39,7 +39,7 @@
                         @include('admin.users.documents._search')
 
                         <table class="table table-striped table-bordered sourced-data">
-                            
+
                             <thead>
                                 <tr>
                                     <th>{{tr('s_no')}}</th>
@@ -50,55 +50,61 @@
                                     <th>{{tr('action')}}</th>
                                 </tr>
                             </thead>
-                           
+
                             <tbody>
 
                                 @foreach($users as $i => $user)
-                               
+
                                 <tr>
                                     <td>{{$i+$users->firstItem()}}</td>
 
                                     <td>
                                         <a href="{{route('admin.users.view' , ['user_id' => $user->id])}}">
-                                        {{ $user->name  ?? "-" }}
+                                            {{ $user->name  ?? "-" }}
                                         </a>
                                     </td>
 
                                     <td>
                                         {{$user->email}}
-                                        <span><h6>{{$user->mobile?: tr('not_available')}}</h6></span>
+                                        <span>
+                                            <h6>{{$user->mobile?: tr('not_available')}}</h6>
+                                        </span>
                                     </td>
 
-                                    <td>{{$user->userDocuments->count()}}
+                                    <td>
+                                        <a class="btn btn-outline-pink" href="{{route('admin.user_documents.view', ['user_id' => $user->id])}}">
+                                            {{$user->userDocuments->count()}}
+                                        </a>
+                                    </td>
 
                                     <td>
                                         @if($user->status == YES)
-                                            <span class="text-success">{{tr('approved')}}</span>
+                                        <span class="text-success">{{tr('approved')}}</span>
                                         @else
-                                            <span class="text-danger">{{tr('declined')}}</span>
+                                        <span class="text-danger">{{tr('declined')}}</span>
 
                                         @endif
-                                    
+
                                     </td>
 
                                     <td>
 
                                         @if($user->documents_count > 0 )
 
-                                            <a class="btn btn-success" href="{{route('admin.user_documents.verify', ['user_id' => $user->user_id])}}" onclick="return confirm(&quot;{{tr('user_document_verify_confirmation')}}&quot;);">
-                                                {{tr('verify')}}
-                                            </a>
+                                        <a class="btn btn-success" href="{{route('admin.user_documents.verify', ['user_id' => $user->user_id])}}" onclick="return confirm(&quot;{{tr('user_document_verify_confirmation')}}&quot;);">
+                                            {{tr('verify')}}
+                                        </a>
 
-                                            <a class="btn btn-outline-pink" href="{{route('admin.user_documents.view', ['user_id' => $user->id])}}">
-                                                {{ tr('view_all_documents') }}
-                                            </a>
+                                        <a class="btn btn-outline-pink" href="{{route('admin.user_documents.view', ['user_id' => $user->id])}}">
+                                            {{ tr('view_all_documents') }}
+                                        </a>
                                         @else
 
-                                            <a class="btn btn-success" href="#" onClick="alert(&quot;{{tr('user_documents_empty')}}&quot;)">
-                                                {{tr('verify')}}
-                                            </a>
+                                        <a class="btn btn-success" href="#" onClick="alert(&quot;{{tr('user_documents_empty')}}&quot;)">
+                                            {{tr('verify')}}
+                                        </a>
                                         @endif
-                                    
+
                                     </td>
 
                                 </tr>
@@ -106,7 +112,7 @@
                                 @endforeach
 
                             </tbody>
-                        
+
                         </table>
 
                         <div class="pull-right" id="paglink">{{ $users->appends(request()->input())->links() }}</div>
