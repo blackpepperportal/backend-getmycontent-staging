@@ -41,8 +41,8 @@
 
                                 <div class="card-title text-primary">{{tr('address_details')}}
 
-                                - <a href="{{ route('admin.users.view', ['user_id' => $order_details->user_id])}}">
-                                {{ $order_details->userDetails->name ?? "-"}}
+                                - <a href="{{ route('admin.users.view', ['user_id' => $order->user_id])}}">
+                                {{ $order->userDetails->name ?? "-"}}
                                 </a>
 
                                 </div>
@@ -53,32 +53,32 @@
                                        
                                         <tr>
                                             <td>{{ tr('delivery_address_name')}} </td>
-                                            <td>{{ $order_details->deliveryAddressDetails->name ?? "-"}}</td>
+                                            <td>{{ $order->deliveryAddressDetails->name ?? "-"}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{tr('delivery_address')}}</td>
-                                            <td>{{$order_details->deliveryAddressDetails->address ?? "-"}}</td>
+                                            <td>{{$order->deliveryAddressDetails->address ?? "-"}}</td>
                                         </tr>
                                         
                                         <tr>
                                             <td>{{tr('pincode')}}</td>
-                                            <td>{{$order_details->deliveryAddressDetails->pincode ?? "-"}}</td>
+                                            <td>{{$order->deliveryAddressDetails->pincode ?? "-"}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{tr('state')}}</td>
-                                            <td>{{$order_details->deliveryAddressDetails->state ?? "-"}}</td>
+                                            <td>{{$order->deliveryAddressDetails->state ?? "-"}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{tr('landmark')}}</td>
-                                            <td>{{$order_details->deliveryAddressDetails->landmark ?? "-"}}</td>
+                                            <td>{{$order->deliveryAddressDetails->landmark ?? "-"}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{tr('contact_number')}}</td>
-                                            <td>{{$order_details->deliveryAddressDetails->contact_number ?? "-"}}</td>
+                                            <td>{{$order->deliveryAddressDetails->contact_number ?? "-"}}</td>
                                         </tr>
 
                                     </tbody>
@@ -97,28 +97,28 @@
 
                                         <tr>
                                             <td>{{ tr('unique_id')}} </td>
-                                            <td class="text-uppercase">{{ $order_details->unique_id}}</td>
+                                            <td class="text-uppercase">{{ $order->unique_id}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('delivery_address')}} </td>
-                                            <td>{{ $order_details->deliveryAddressDetails->name ?? "-"}}</td>
+                                            <td>{{ $order->deliveryAddressDetails->name ?? "-"}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('total_products')}} </td>
-                                            <td>{{ $order_details->total_products}}</td>
+                                            <td>{{ $order->total_products}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('sub_total') }}</td>
-                                            <td>{{ $order_details->sub_total_formatted}}</td>
+                                            <td>{{ $order->sub_total_formatted}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{tr('status')}}</td>
                                             <td>
-                                                @switch($order_details->status)
+                                                @switch($order->status)
 
                                                     @case(SORT_BY_ORDER_CANCELLED)
                                                         <span class="badge bg-danger">{{tr('cancelled')}}</span>
@@ -139,12 +139,12 @@
 
                                         <tr>
                                             <td>{{ tr('tax_price') }}</td>
-                                            <td>{{ $order_details->tax_price_formatted}}</td>
+                                            <td>{{ $order->tax_price_formatted}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('total') }}</td>
-                                            <td>{{$order_details->total_formatted}}</td>
+                                            <td>{{$order->total_formatted}}</td>
                                         </tr>
                                         
                                     </tbody>

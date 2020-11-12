@@ -778,12 +778,15 @@ class AdminPostController extends Controller
 
             $order_payment = \App\OrderPayment::where('order_id',$order->id)->first();
 
+            $order = \App\Order::firstWhere('id',$request->order_id);
+
             return view('admin.orders.view')
                         ->with('page','orders')
                         ->with('sub_page','orders-view')
                         ->with('order', $order)
                         ->with('order_products', $order_products)
-                        ->with('order_payment', $order_payment);
+                        ->with('order_payment', $order_payment)
+                        ->with('order', $order);
 
         } catch(Exception $e) {
 
