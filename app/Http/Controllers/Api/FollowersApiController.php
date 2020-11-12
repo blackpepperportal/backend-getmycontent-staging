@@ -384,16 +384,16 @@ class FollowersApiController extends Controller
             $base_query = $total_query = \App\ChatMessage::where(function($query) use ($request){
                         $query->where('chat_messages.from_user_id', 'LIKE', '%'.$request->from_user_id.'%');
                         $query->where('chat_messages.to_user_id', 'LIKE', '%'.$request->to_user_id.'%');
-                    })->where(function($query) use ($request){
+                    })->orWhere(function($query) use ($request){
                         $query->where('chat_messages.from_user_id', 'LIKE', '%'.$request->to_user_id.'%');
                         $query->where('chat_messages.to_user_id', 'LIKE', '%'.$request->from_user_id.'%');
                     });
 
-            $chat_messages = $base_query->skip($this->skip)->take($this->take)
-                    ->orderBy('chat_messages.updated_at', 'desc')
-                    ->get();
+            $chat_messages = $base_query->skip($this->skip)->take($this->take)->orderBy('chat_messages.updated_at', 'desc')->get();
 
             $data['messages'] = $chat_messages ?? [];
+
+            $data['user'] = $request->id == $request->from_user_id ? \App\User::find($request->to_user_id) : \App\User::find($request->to_user_id);
 
             $data['total'] = $total_query->count() ?: 0;
 

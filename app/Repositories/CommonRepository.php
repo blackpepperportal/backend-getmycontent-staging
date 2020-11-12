@@ -191,6 +191,8 @@ class CommonRepository {
 
         if(!$follower) {
 
+            $data['is_user_needs_pay'] = YES;
+
             $data['payment_text'] = tr('subscribe_for_free');
 
         }

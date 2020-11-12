@@ -1645,6 +1645,15 @@ class UserAccountApiController extends Controller
 
             $base_query = $total_query = \App\Post::with('postFiles')->where('user_id', $user->id);
 
+            if($request->type != POSTS_ALL) {
+
+                $type = $request->type;
+
+                $base_query = $base_query->whereHas('postFiles', function($q) use($type) {
+                        $q->where('post_files.file_type', $type);
+                    });
+            }
+
             $posts = $base_query->skip($this->skip)->take($this->take)->orderBy('created_at', 'desc')->get();
 
             $posts = \App\Repositories\PostRepository::posts_list_response($posts, $request);
@@ -1829,7 +1838,21 @@ class UserAccountApiController extends Controller
             $user_subscription = $user->userSubscription;
 
             if(!$user_subscription) {
-                throw new Exception(api_error(155), 155);   
+
+                if($request->is_free == YES) {
+
+                    $user_subscription = new \App\UserSubscription;
+
+                    $user_subscription->user_id = $user->id;
+
+                    $user_subscription->save();
+                    
+                } else {
+
+                    throw new Exception(api_error(155), 155);   
+ 
+                }
+
             }
 
             $check_user_payment = \App\UserSubscriptionPayment::UserPaid($request->id, $user->id)->first();
