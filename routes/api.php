@@ -62,8 +62,8 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     Route::any('static_pages_web', 'ApplicationController@static_pages_web');
 
-    Route::get('pages/list', 'ApplicationController@static_pages_api');
-    
+    Route::any('pages/list', 'ApplicationController@static_pages_api');
+
     Route::group(['middleware' => 'UserApiVal'] , function() {
 
         Route::post('profile','Api\UserAccountApiController@profile');
