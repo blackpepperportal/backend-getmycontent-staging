@@ -14,11 +14,16 @@ class StaticPage extends Model
      */
     protected $hidden = ['id'];
 
-    protected $appends = ['static_page_id','page_type'];
+    protected $appends = ['static_page_id','page_type', 'static_page_unique_id'];
 
     public function getStaticPageIdAttribute() {
 
         return $this->id;
+    }
+
+    public function getStaticPageUniqueIdAttribute() {
+
+        return $this->unique_id;
     }
 
     public function getPageTypeAttribute() {
