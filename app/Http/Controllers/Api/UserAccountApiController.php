@@ -86,7 +86,7 @@ class UserAccountApiController extends Controller
                 $rules = [
                         'first_name' => 'required|max:255|min:2',
                         'last_name' => 'required|max:255|min:1',
-                        'email' => 'required|email|max:255|min:2',
+                        'email' => 'required|email|regex:/(.+)@(.+)\.(.+)/i|max:255|min:2',
                         'password' => 'required|min:6',
                         'picture' => 'mimes:jpeg,jpg,bmp,png',
                     ];
@@ -99,7 +99,8 @@ class UserAccountApiController extends Controller
                 Helper::custom_validator($request->all(), $rules);
 
             }
-
+             
+            
             $user = User::firstWhere('email' , $request->email);
 
             $send_email = NO;
@@ -593,7 +594,7 @@ class UserAccountApiController extends Controller
             $rules = [
                     'first_name' => 'nullable|max:255',
                     'last_name' => 'nullable|max:255',
-                    'email' => 'email|unique:users,email,'.$request->id.'|max:255',
+                    'email' => 'email|unique:users,email,'.$request->id.'|regex:/(.+)@(.+)\.(.+)/i|max:255',
                     'username' => 'nullable|unique:users,username,'.$request->id.'|max:255',
                     'mobile' => 'nullable|digits_between:6,13',
                     'picture' => 'nullable|mimes:jpeg,bmp,png',

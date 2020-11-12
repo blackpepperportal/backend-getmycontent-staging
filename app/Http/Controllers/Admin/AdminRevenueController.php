@@ -12,6 +12,8 @@ use DB, Hash, Setting, Auth, Validator, Exception, Enveditor;
 
 use App\Jobs\SendEmailJob;
 
+use Carbon\Carbon;
+
 class AdminRevenueController extends Controller
 {
 	/**
@@ -892,6 +894,13 @@ class AdminRevenueController extends Controller
                                 return $query->where('users.name','LIKE','%'.$search_key.'%');
                                 
                             })->orWhere('subscription_payments.payment_id','LIKE','%'.$search_key.'%');
+        }
+
+
+        if($request->today_revenue){
+
+            $base_query = $base_query->whereDate('subscription_payments.created_at', Carbon::today());
+
         }
 
         $subscription_payments = $base_query->paginate(10);

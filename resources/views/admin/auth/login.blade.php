@@ -36,7 +36,13 @@
 
                             <fieldset class="form-group position-relative has-icon-left">
                                 
-                                <input type="email" class="form-control" id="user-name" required placeholder="{{tr('email_address')}}" value="{{old('email') ?: Setting::get('demo_admin_email')}}" name="email">
+                                <input type="email" class="form-control" id="user-name" required placeholder="{{tr('email_address')}}" value="{{old('email') ?: Setting::get('demo_admin_email')}}" name="email"
+                                
+                                pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"
+                                            oninvalid="this.setCustomValidity(&quot;{{ tr('email_validate') }}&quot;)"
+                                             oninput="this.setCustomValidity('')"
+                                
+                                >
                                 
                                 <div class="form-control-position">
                                     <i class="ft-user"></i>
