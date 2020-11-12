@@ -20,15 +20,14 @@ use App\Repositories\PaymentRepository as PaymentRepo;
 
 class ApplicationController extends Controller
 {
-
     /**
      * @method static_pages_api()
      *
      * @uses to get the pages
      *
-     * @created Bhawya
+     * @created Vidhya R 
      *
-     * @updated Bhawya
+     * @edited Vidhya R
      *
      * @param - 
      *
@@ -39,7 +38,7 @@ class ApplicationController extends Controller
 
         if($request->page_type) {
 
-            $static_page = StaticPage::where('type' , $request->page_type)
+            $static_page = Page::where('type' , $request->page_type)
                                 ->where('status' , APPROVED)
                                 ->select('id as page_id' , 'title' , 'description','type as page_type', 'status' , 'created_at' , 'updated_at')
                                 ->first();
@@ -48,15 +47,15 @@ class ApplicationController extends Controller
 
         } else {
 
-            $static_pages = StaticPage::Approved()
-                ->orderBy('id' , 'asc')
-                ->orderBy('title', 'asc')
-                ->get();
+            $static_pages = Page::where('status' , APPROVED)->orderBy('id' , 'asc')
+                                ->select('id as page_id' , 'title' , 'description','type as page_type', 'status' , 'created_at' , 'updated_at')
+                                ->orderBy('title', 'asc')
+                                ->get();
 
             $response_array = ['success' => true , 'data' => $static_pages ? $static_pages->toArray(): []];
 
         }
-        
+
         return response()->json($response_array , 200);
 
     }
