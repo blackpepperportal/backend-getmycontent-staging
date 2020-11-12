@@ -687,12 +687,28 @@ class AdminUserController extends Controller
      */
      public function user_followers(Request $request) {
 
+      try {
+
+        $user = \App\User::find($request->follower_id);
+
+        if(!$user) {
+
+            throw new Exception(tr('user_not_found'));
+        }
+
         $user_followers = \App\Follower::where('follower_id',$request->follower_id)->paginate($this->take);
-        
+
         return view('admin.users.followers')
                 ->with('page', 'users')
                 ->with('sub_page', 'users-view')
-                ->with('user_followers', $user_followers);
+                ->with('user_followers', $user_followers)
+                ->with('user', $user);
+
+        } catch(Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }
      }
 
     /**
@@ -709,6 +725,8 @@ class AdminUserController extends Controller
      * @return view page
      */
      public function user_followings(Request $request) {
+      
+      try{
 
         $user = \App\User::find($request->user_id);
 
@@ -725,6 +743,12 @@ class AdminUserController extends Controller
                 ->with('sub_page','users-view')
                 ->with('followings', $followings)
                 ->with('user', $user);
+
+        } catch(Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }
        
     }
 
