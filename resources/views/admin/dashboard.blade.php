@@ -3,7 +3,7 @@
 @section('content-header', tr('dashboard'))
 
 @section('breadcrumb')
-    
+
 <li class="breadcrumb-item active">{{tr('dashboard')}}</li>
 
 @endsection
@@ -28,7 +28,9 @@
 
                         <div class="p-1 media-body">
                             <h5>{{tr('total_users')}}</h5>
-                            <h5 class="text-bold-400 mb-2">{{$data->total_users}}</h5>
+                            <h5 class="text-bold-400 mb-2">
+                                <a href="{{route('admin.users.index')}}">{{$data->total_users}}</a>
+                            </h5>
                         </div>
 
                     </div>
@@ -53,7 +55,11 @@
 
                         <div class="p-1 media-body">
                             <h5>{{tr('premium_users')}}</h5>
-                            <h5 class="text-bold-400 mb-2">{{$data->total_premium_users}}</h5>
+                            <h5 class="text-bold-400 mb-2">
+                                <a href="{{route('admin.users.index', ['account_type' => USER_PREMIUM_ACCOUNT])}}">
+                                    {{$data->total_premium_users}}
+                                </a>
+                            </h5>
                         </div>
 
                     </div>
@@ -78,7 +84,11 @@
 
                         <div class="p-1 media-body">
                             <h5>{{tr('posts')}}</h5>
-                            <h5 class="text-bold-400 mb-2">{{$data->total_posts}}</h5>
+                            <h5 class="text-bold-400 mb-2">
+                                <a href="{{route('admin.posts.index')}}">
+                                    {{$data->total_posts}}
+                                </a>
+                            </h5>
                         </div>
 
                     </div>
@@ -103,7 +113,11 @@
 
                         <div class="p-1 media-body">
                             <h5>{{tr('revenue')}}</h5>
-                            <h5 class="text-bold-500 mb-2">{{formatted_amount($data->total_revenue)}}</h5>
+                            <h5 class="text-bold-500 mb-2">
+                                <a href="{{route('admin.subscription_payments.index')}}">
+                                    {{formatted_amount($data->total_revenue)}}
+                                </a>
+                            </h5>
                         </div>
 
                     </div>
@@ -117,7 +131,7 @@
     </div>
 
     <div class="row match-height margin-top">
-        
+
         <div class="col-xl-12 col-lg-12">
 
             <div class="card">
@@ -178,44 +192,44 @@
                     </div>
 
                     @forelse($data->recent_users as $i => $user_details)
-                    
-                        <a href="{{ route('admin.users.view', ['user_id' => $user_details->id])}}" class="nav-link">
 
-                            <div class="wrapper d-flex align-items-center py-2 border-bottom">
-                                
-                                <img class="img-sm rounded-circle" src="{{ $user_details->picture }}" alt="profile">
+                    <a href="{{ route('admin.users.view', ['user_id' => $user_details->id])}}" class="nav-link">
 
-                                <div class="wrapper ml-3">
-                                    <h6 class="ml-1 mb-1">
-                                        {{$user_details->name}} 
-                                    </h6>
+                        <div class="wrapper d-flex align-items-center py-2 border-bottom">
 
-                                    <small class="text-muted mb-0">
-                                        <i class="icon icon-envelope-open mr-1"></i>
-                                        {{ $user_details->email }}
-                                        
-                                    </small>
-                                    <br>
+                            <img class="img-sm rounded-circle" src="{{ $user_details->picture }}" alt="profile">
 
-                                </div>
-                                
-                                <small class="text-muted ml-auto">{{$user_details->created_at->diffForHumans()}}</small>
+                            <div class="wrapper ml-3">
+                                <h6 class="ml-1 mb-1">
+                                    {{$user_details->name}}
+                                </h6>
+
+                                <small class="text-muted mb-0">
+                                    <i class="icon icon-envelope-open mr-1"></i>
+                                    {{ $user_details->email }}
+
+                                </small>
+                                <br>
+
                             </div>
-                        </a>
+
+                            <small class="text-muted ml-auto">{{$user_details->created_at->diffForHumans()}}</small>
+                        </div>
+                    </a>
 
                     @empty
-                        <p align="center">
-                            <a href="{{route('admin.content_creators.index')}}" class="text-uppercase btn btn-success btn-xs">
-                                {{tr('view_all')}}
-                            </a>
-                        </p>
+                    <p align="center">
+                        <a href="{{route('admin.content_creators.index')}}" class="text-uppercase btn btn-success btn-xs">
+                            {{tr('view_all')}}
+                        </a>
+                    </p>
                     @endforelse
 
                     @if($data->recent_users->count() > 10)
 
-                        <p align="center">
-                            <a href="{{route('admin.users.index')}}" class="text-uppercase btn btn-success btn-xs wrapper">{{tr('view_all')}}</a>
-                        </p>
+                    <p align="center">
+                        <a href="{{route('admin.users.index')}}" class="text-uppercase btn btn-success btn-xs wrapper">{{tr('view_all')}}</a>
+                    </p>
 
                     @endif
 
@@ -236,60 +250,60 @@
                         <div class="d-flex justify-content-between">
 
                             <h4 class="card-title">{{tr('recent_premium_users')}}</h4>
-                            
+
                         </div>
 
                     </div>
 
                     @forelse($data->recent_premium_users as $i => $recent_premium_user)
 
-                        <a href="{{ route('admin.users.view', ['provider_id' => $recent_premium_user->id])}}" class="nav-link">
+                    <a href="{{ route('admin.users.view', ['provider_id' => $recent_premium_user->id])}}" class="nav-link">
 
-                            <div class="list d-flex align-items-center border-bottom py-2">
+                        <div class="list d-flex align-items-center border-bottom py-2">
 
-                                <img class="img-sm rounded-circle" src="{{ $recent_premium_user->picture ?: asset('placeholder.jpg')}}" alt="">
+                            <img class="img-sm rounded-circle" src="{{ $recent_premium_user->picture ?: asset('placeholder.jpg')}}" alt="">
 
-                                <div class="wrapper w-100 ml-3">
+                            <div class="wrapper w-100 ml-3">
 
-                                    <p class="mb-0"><b>{{$recent_premium_user->name}} </b></p>
+                                <p class="mb-0"><b>{{$recent_premium_user->name}} </b></p>
 
-                                    <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center">
 
-                                        <div class="d-flex align-items-center">
-                                            <i class="icon icon-envelope-open text-muted mr-1"></i>
+                                    <div class="d-flex align-items-center">
+                                        <i class="icon icon-envelope-open text-muted mr-1"></i>
 
-                                            <p class="mb-0 text-muted">{{$recent_premium_user->email}}</p>
-                                        </div>
-
-                                        <small class="text-muted ml-auto">{{$recent_premium_user->created_at->diffForHumans()}}</small>
+                                        <p class="mb-0 text-muted">{{$recent_premium_user->email}}</p>
                                     </div>
-                              
+
+                                    <small class="text-muted ml-auto">{{$recent_premium_user->created_at->diffForHumans()}}</small>
                                 </div>
-                           
+
                             </div>
-                                                    
-                        </a>
+
+                        </div>
+
+                    </a>
 
                     @empty
-                        <div class="text-center m-5">
-                            <h2 class="text-muted">
-                                <i class="fa fa-inbox"></i>
-                            </h2>
-                            <p>{{tr('no_result_found')}}</p> 
-                        </div>
+                    <div class="text-center m-5">
+                        <h2 class="text-muted">
+                            <i class="fa fa-inbox"></i>
+                        </h2>
+                        <p>{{tr('no_result_found')}}</p>
+                    </div>
                     @endforelse
 
-                     @if($data->recent_premium_users->count() > 10)
-                        <p align="center">
-                            <a href="{{route('admin.content_creators.index')}}" class="text-uppercase btn btn-success btn-xs">
-                                {{tr('view_all')}}
-                            </a>
-                        </p>
+                    @if($data->recent_premium_users->count() > 10)
+                    <p align="center">
+                        <a href="{{route('admin.content_creators.index')}}" class="text-uppercase btn btn-success btn-xs">
+                            {{tr('view_all')}}
+                        </a>
+                    </p>
                     @endif
                 </div>
 
             </div>
-        
+
         </div>
 
     </div>
@@ -300,14 +314,13 @@
 @endsection
 
 @section('scripts')
-  
-  <script src="{{asset('admin-assets/vendors/js/charts/raphael-min.js')}}" type="text/javascript"></script>
 
-  <script src="{{asset('admin-assets/vendors/js/charts/morris.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('admin-assets/vendors/js/charts/raphael-min.js')}}" type="text/javascript"></script>
 
-  <script type="text/javascript">
+<script src="{{asset('admin-assets/vendors/js/charts/morris.min.js')}}" type="text/javascript"></script>
 
-    $(window).on("load", function () {
+<script type="text/javascript">
+    $(window).on("load", function() {
 
         $("#recent-buyers").perfectScrollbar({
 
@@ -315,16 +328,15 @@
 
         });
 
-        var e = [<?php foreach ($data->analytics->last_x_days_revenues as $key => $value)       {
-                        echo '"'.$value->formatted_month.'"'.',';
-                    } 
+        var e = [<?php foreach ($data->analytics->last_x_days_revenues as $key => $value) {
+                        echo '"' . $value->formatted_month . '"' . ',';
+                    }
                     ?>];
 
         Morris.Area({
 
             element: "products-sales",
-            data: [
-            {
+            data: [{
                 month: "2017-01",
                 electronics: 0,
                 apparel: 0,
@@ -388,10 +400,10 @@
             xkey: "month",
             ykeys: ["electronics", "apparel", "decor"],
             labels: ["Electronics", "Apparel", "Decor"],
-            xLabelFormat: function (r) {
+            xLabelFormat: function(r) {
                 return e[r.getMonth()]
             },
-            dateFormat: function (r) {
+            dateFormat: function(r) {
                 return e[new Date(r).getMonth()]
             },
             behaveLikeLine: !0,
@@ -409,6 +421,6 @@
             lineColors: ["#00B5B8", "#FA8E57", "#F25E75"]
         })
     });
-  </script>
+</script>
 
 @endsection
