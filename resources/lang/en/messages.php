@@ -989,5 +989,6 @@ return [
 	"user_post_like_message"=>"Your Post has been Liked by the User",
 	"user_post_comment_message"=>"Your Post has received the comments",
 	"user_receive_tips_message"=>"User has Sent Tips Amount to You",
-	"email_validate"=>"Enter Valid Email Format"
+	"email_validate"=>"Enter Valid Email Format",
+	"follow_message"=>"You have One Follower"
 ]?>

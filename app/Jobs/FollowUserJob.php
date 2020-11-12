@@ -81,11 +81,31 @@ class FollowUserJob implements ShouldQueue
 
                     $push_data = ['action_url'=>$data['action_url']];
 
+                     Log::info("Device Token".print_r($user->device_token, true));
+
                     \Notification::send($user->id, new \App\Notifications\PushNotification($title , $content, $push_data, $user->device_token));
 
 
                 }
-            }            
+            }  
+            
+            if (Setting::get('is_email_notification') == YES && $user) {
+               
+                $email_data['subject'] = tr('follow_message');
+               
+                $email_data['message'] = $message;
+
+                $email_data['page'] = "emails.users.follow-user";
+
+                $email_data['email'] = $user->email;
+
+                $email_data['name'] = $user->name;
+
+                $email_data['data'] = $user;
+
+                dispatch(new SendEmailJob($email_data));
+
+            }
 
         } catch(Exception $e) {
 
