@@ -53,11 +53,11 @@
                                 <tr>
                                     <td>{{ $i+$user_withdrawals->firstItem() }}</td>
 
-                                    <td>{{ $user_withdrawal->payment_id}}</td>
+                                    <td>{{ $user_withdrawal->payment_id ?: '-'}}</td>
 
                                     <td>
                                         <a href="{{  route('admin.users.view' , ['user_id' => $user_withdrawal->user_id] )  }}">
-                                            {{ $user_withdrawal->userDetails->name ?? "-" }}
+                                            {{ $user_withdrawal->user->name ?? "-" }}
                                         </a>
                                     </td>
 
