@@ -643,8 +643,8 @@ function last_x_months_data($months) {
     $start  = new \DateTime('-6 month', new \DateTimeZone('UTC'));
     
     $period = new \DatePeriod($start, new \DateInterval('P1M'), $months);
-    
-    $dates = $last_x_days_revenues = [];
+   
+    $dates = $last_x_days_revenues = $last_x_days_posts = [];
 
     foreach ($period as $date) {
 
@@ -652,11 +652,12 @@ function last_x_months_data($months) {
 
         $formatted_month = $date->format('Y-m');
 
-        $last_x_days_data = new \stdClass;
+        $last_x_days_data = $last_x_days_post_data = new \stdClass;
 
         $last_x_days_data->month= $current_month;
 
         $last_x_days_data->formatted_month = $formatted_month;
+
 
         $month = $date->format('m');
       
@@ -672,12 +673,18 @@ function last_x_months_data($months) {
 
         $last_x_days_data->post_earnings = $last_x_days_post_earnings ?: 0.00;
 
+        $last_x_days_data->no_of_posts  = \App\Post::whereYear('created_at',$date->format('Y'))->whereMonth('created_at', '=', $month)->count();
+
+        $last_x_days_data->month = $month;
+
         array_push($last_x_days_revenues, $last_x_days_data);
+
 
     }
     
     $data->last_x_days_revenues = $last_x_days_revenues;
-    
+
+
     return $data;  
 }
 

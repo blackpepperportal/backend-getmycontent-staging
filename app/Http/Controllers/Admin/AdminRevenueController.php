@@ -62,6 +62,20 @@ class AdminRevenueController extends Controller
         $data->recent_premium_users = \App\User::where('user_account_type', USER_PREMIUM_ACCOUNT)->orderBy('id' , 'desc')->skip($this->skip)->take(TAKE_COUNT)->get(); 
 
         $data->analytics = last_x_months_data(12);
+
+        $posts_data = array();
+
+        $posts = $data->analytics->last_x_days_revenues ?? [];
+
+        foreach($posts as $key=>$date){
+           
+            $posts_data[$key]['month'] = $date->formatted_month; 
+
+            $posts_data[$key]['no_of_posts'] = $date->no_of_posts; 
+
+        }
+
+        $data->posts_data = $posts_data;
         
         return view('admin.dashboard')
                     ->with('page' , 'dashboard')
