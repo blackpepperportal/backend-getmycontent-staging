@@ -61,7 +61,7 @@
                                             <label for="email">{{tr('email')}}*</label>
                                             <input type="email" id="email" name="email" class="form-control" placeholder="E-mail" value="{{ $user->email ?: old('email') }}" required pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"
                                               oninvalid="this.setCustomValidity(&quot;{{ tr('email_validate') }}&quot;)"
-                                             oninput="this.setCustomValidity('')"
+                                              oninput="this.setCustomValidity('')"
                                             
                                             >
                                         </div>

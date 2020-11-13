@@ -599,14 +599,14 @@ class AdminRevenueController extends Controller
 
             $search_key = $request->search_key;
 
-            $base_query = $base_query->whereHas('userDetails',function($query) use($search_key){
+            $base_query = $base_query->whereHas('user',function($query) use($search_key){
 
                 return $query->where('users.name','LIKE','%'.$search_key.'%');
 
             })->orWhere('user_withdrawals.payment_id','LIKE','%'.$search_key.'%');
         }
 
-        if($request->status) {
+        if($request->has('status')) {
 
             $base_query = $base_query->where('user_withdrawals.status',$request->status);
         }
