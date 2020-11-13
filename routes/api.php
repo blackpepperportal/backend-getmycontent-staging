@@ -297,4 +297,5 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
     Route::post('chat_users','Api\FollowersApiController@chat_users');
 
     Route::post('chat_messages','Api\FollowersApiController@chat_messages')->middleware(['CheckEmailVerify']);
+
 });

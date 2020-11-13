@@ -88,9 +88,7 @@ class ApplicationController extends Controller
 
     }
 
-
-
-/**
+    /**
      * @method subscription_payments_autorenewal()
      *
      * @uses to get the pages
@@ -105,7 +103,7 @@ class ApplicationController extends Controller
      */
 
 
-public function subscription_payments_autorenewal(Request $request){
+    public function subscription_payments_autorenewal(Request $request){
 
         try {
 

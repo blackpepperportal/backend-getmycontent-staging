@@ -519,7 +519,7 @@ class Helper {
         }
     }
 
-     /**
+    /**
      * @method settings_generate_json()
      *
      * @uses used to update settings.json file with updated details.
@@ -578,6 +578,7 @@ class Helper {
         $folder_path_name = 'default-json/settings.json';
 
         Storage::disk('public')->put($folder_path_name, $data);
+    
     }
 
     /**
