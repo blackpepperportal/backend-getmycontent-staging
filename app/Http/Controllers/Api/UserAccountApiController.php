@@ -629,6 +629,8 @@ class UserAccountApiController extends Controller
                 $user->email = $request->email;
             }
 
+            $user->about = $request->about ?: $user->about;
+
             $user->mobile = $request->mobile ?: $user->mobile;
 
             $user->gender = $request->gender ?: $user->gender;
