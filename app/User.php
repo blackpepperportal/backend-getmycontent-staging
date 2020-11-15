@@ -41,7 +41,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = ['user_id', 'is_notification', 'is_document_verified_formatted', 'total_followers', 'total_followings', 'user_account_type_formatted', 'total_posts', 'total_fav_users', 'total_bookmarks'];
+    protected $appends = ['user_id', 'is_notification', 'is_document_verified_formatted', 'total_followers', 'total_followings', 'user_account_type_formatted', 'total_posts', 'total_fav_users', 'total_bookmarks', 'is_subscription_enabled'];
 
     public function getUserIdAttribute() {
 
@@ -51,6 +51,15 @@ class User extends Authenticatable
     public function getIsNotificationAttribute() {
 
         return $this->is_email_notification ? YES : NO;
+    }
+
+    public function getIsSubscriptionEnabledAttribute() {
+
+        if($this->is_document_verified && $this->has('userBillingAccounts') && $this->is_email_verified) {
+            return YES;
+        }
+
+        return NO;
     }
 
     public function getIsDocumentVerifiedFormattedAttribute() {
