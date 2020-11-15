@@ -601,8 +601,8 @@ class UserAccountApiController extends Controller
                     'email' => 'email|unique:users,email,'.$request->id.'|regex:/(.+)@(.+)\.(.+)/i|max:255',
                     'username' => 'nullable|unique:users,username,'.$request->id.'|max:255',
                     'mobile' => 'nullable|digits_between:6,13',
-                    'picture' => 'nullable|mimes:jpeg,bmp,png',
-                    'cover' => 'nullable|mimes:jpeg,bmp,png',
+                    'picture' => 'nullable|mimes:jpeg,jpg,bmp,png',
+                    'cover' => 'nullable|mimes:jpeg,jpg,bmp,png',
                     'gender' => 'nullable|in:male,female,others',
                     'device_token' => '',
             ];
