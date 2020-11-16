@@ -305,7 +305,13 @@
 
                             <div class="col-3">
 
-                            <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" href="{{ route('admin.user_wallets.view', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('wallets') }}</a>
+                                <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" href="{{ route('admin.user_wallets.view', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('wallets') }}</a>
+
+                            </div>
+
+                            <div class="col-3">
+
+                                <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" href="{{ route('admin.user_withdrawals', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('withdrawals') }}</a>
 
                             </div>
 

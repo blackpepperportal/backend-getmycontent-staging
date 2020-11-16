@@ -616,10 +616,20 @@ class AdminRevenueController extends Controller
             $base_query = $base_query->where('user_withdrawals.status',$request->status);
         }
 
-        $user_withdrawals = $base_query->paginate(10);
+
+        if($request->user_id) {
+
+            $base_query = $base_query->where('user_withdrawals.user_id',$request->user_id);
+        }
+
+
+        $user = \App\User::find($request->user_id)??'';
+
+        $user_withdrawals = $base_query->paginate($this->take);
        
         return view('admin.user_withdrawals.index')
                 ->with('page', 'content_creator-withdrawals')
+                ->with('user', $user)
                 ->with('user_withdrawals', $user_withdrawals);
 
     }
