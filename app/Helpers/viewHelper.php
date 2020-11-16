@@ -654,6 +654,8 @@ function last_x_months_data($months) {
 
         $last_x_days_data =  new \stdClass;
 
+        $last_x_days_posts_data =  new \stdClass;
+
         $last_x_days_data->month= $current_month;
 
         $last_x_days_data->formatted_month = $formatted_month;
@@ -672,17 +674,19 @@ function last_x_months_data($months) {
 
         $last_x_days_data->post_earnings = $last_x_days_post_earnings ?: 0.00;
 
-        $last_x_days_data->no_of_posts  = \App\Post::whereYear('created_at',$date->format('Y'))->whereMonth('created_at', '=', $month)->count();
+        $last_x_days_posts_data->no_of_posts  = \App\Post::whereYear('created_at',$date->format('Y'))->whereMonth('created_at', '=', $month)->count();
 
-        $last_x_days_data->month = $month;
+        $last_x_days_posts_data->month = $formatted_month;
 
         array_push($last_x_days_revenues, $last_x_days_data);
 
+        array_push($last_x_days_posts, $last_x_days_posts_data);
 
     }
     
     $data->last_x_days_revenues = $last_x_days_revenues;
-
+    
+    $data->last_x_days_posts = $last_x_days_posts;
 
     return $data;  
 }

@@ -63,19 +63,10 @@ class AdminRevenueController extends Controller
 
         $data->analytics = last_x_months_data(12);
 
-        $posts_data = array();
+        $posts = collect($data->analytics->last_x_days_posts) ?? [];
 
-        $posts = $data->analytics->last_x_days_revenues ?? [];
+        $data->posts_data = $posts;
 
-        foreach($posts as $key=>$date){
-           
-            $posts_data[$key]['month'] = $date->formatted_month; 
-
-            $posts_data[$key]['no_of_posts'] = $date->no_of_posts; 
-
-        }
-
-        $data->posts_data = $posts_data;
         
         return view('admin.dashboard')
                     ->with('page' , 'dashboard')
