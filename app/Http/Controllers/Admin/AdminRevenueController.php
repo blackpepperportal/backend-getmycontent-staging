@@ -55,7 +55,7 @@ class AdminRevenueController extends Controller
 
         $data->total_posts = \App\Post::count();
 
-        $data->total_revenue = \App\SubscriptionPayment::where('status', PAID)->sum('subscription_payments.amount');
+        $data->total_revenue = \App\UserSubscriptionPayment::where('status', PAID)->sum('user_subscription_payments.amount');
 
         $data->recent_users= \App\User::orderBy('id' , 'desc')->skip($this->skip)->take(TAKE_COUNT)->get();
 

@@ -652,12 +652,11 @@ function last_x_months_data($months) {
 
         $formatted_month = $date->format('Y-m');
 
-        $last_x_days_data = $last_x_days_post_data = new \stdClass;
+        $last_x_days_data =  new \stdClass;
 
         $last_x_days_data->month= $current_month;
 
         $last_x_days_data->formatted_month = $formatted_month;
-
 
         $month = $date->format('m');
       

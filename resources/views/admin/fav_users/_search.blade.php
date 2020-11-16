@@ -1,4 +1,4 @@
-  <form method="GET" action="{{route('admin.fav_users.index')}}">
+  <form method="GET" action="{{route('admin.fav_users.index')}}" class="form-bottom">
 
     <div class="row">
 

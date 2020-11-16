@@ -1177,6 +1177,9 @@ class AdminPostController extends Controller
             });
 
         }
+
+        $user = \App\User::find($request->user_id)??'';
+
         if($request->user_id){
             $base_query->where('user_id', $request->user_id);
         }
@@ -1185,6 +1188,7 @@ class AdminPostController extends Controller
 
         return view('admin.fav_users.index')
                     ->with('page','fav_users')
+                    ->with('user',$user)
                     ->with('fav_users',$fav_users);
     }
 

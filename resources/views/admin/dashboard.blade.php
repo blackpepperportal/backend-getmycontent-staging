@@ -114,7 +114,7 @@
                         <div class="p-1 media-body">
                             <h5>{{tr('revenue')}}</h5>
                             <h5 class="text-bold-500 mb-2">
-                                <a href="{{route('admin.subscription_payments.index')}}">
+                                <a href="{{route('admin.users_subscriptions.index')}}">
                                     {{formatted_amount($data->total_revenue)}}
                                 </a>
                             </h5>

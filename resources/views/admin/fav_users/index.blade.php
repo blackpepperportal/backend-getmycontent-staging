@@ -10,7 +10,7 @@
     <a href="{{route('admin.users.index')}}">{{ tr('users') }}</a>
 </li>
     
-<li class="breadcrumb-item">{{ tr('favorite_users_list') }}</li>
+<li class="breadcrumb-item">{{ tr('view_favourite_users') }}</li>
 
 @endsection 
 
@@ -26,7 +26,9 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('favorite_users_list') }}</h4>
+                    <h4 class="card-title">{{ tr('view_favourite_users') }} - <a href="{{ route('admin.users.view',['user_id'=>$user->id ?? '']) }}">{{$user->name}}</a>
+                    
+                    </h4>
 
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                     
