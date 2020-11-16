@@ -82,7 +82,7 @@
 
                                                 @else
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('fav_user_delete_confirmation' , $fav_user->fav_user_id) }}&quot;);" href="{{ route('admin.fav_users.delete', ['fav_user_id' => $fav_user->fav_user_id,'user_id' => $fav_user->user_id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('fav_user_delete_confirmation' , $fav_user->favUser->name ?? '') }}&quot;);" href="{{ route('admin.fav_users.delete', ['fav_user_id' => $fav_user->fav_user_id,'user_id' => $fav_user->user_id] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 

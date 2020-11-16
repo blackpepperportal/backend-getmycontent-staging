@@ -1168,6 +1168,7 @@ class AdminPostController extends Controller
         $base_query = \App\FavUser::Approved()->orderBy('fav_users.created_at', 'desc');
 
         if($request->search_key) {
+
             $search_key = $request->search_key;
 
             $base_query = $base_query->whereHas('user',function($query) use($search_key){
@@ -1181,6 +1182,7 @@ class AdminPostController extends Controller
         $user = \App\User::find($request->user_id)??'';
 
         if($request->user_id){
+
             $base_query->where('user_id', $request->user_id);
         }
 
