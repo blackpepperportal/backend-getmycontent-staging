@@ -63,9 +63,10 @@ class AdminRevenueController extends Controller
 
         $data->analytics = last_x_months_data(12);
 
-        $posts = collect($data->analytics->last_x_days_posts) ?? [];
+        $posts = last_x_months_posts(12) ?? [];
 
-        $data->posts_data = $posts;
+        $data->posts_data = $posts->last_x_months_posts;
+
 
         
         return view('admin.dashboard')
