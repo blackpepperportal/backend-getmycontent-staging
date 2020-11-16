@@ -38,7 +38,7 @@ class UsersExport implements FromView
 
                 $status = $this->status;
 
-                switch ($this->status) {
+                switch ($status) {
 
                     case SORT_BY_APPROVED:
                     $base_query = $base_query->where('users.status', USER_APPROVED);
