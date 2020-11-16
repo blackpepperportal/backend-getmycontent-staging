@@ -78,7 +78,7 @@ io.on('connection', function (socket) {
 
         var sent_status = socket.broadcast.to(receiver).emit('message', data);
 
-        url = chat_save_url+'api/user/chat_messages/save?sender_user_id='+data.sender_user_id
+        url = chat_save_url+'api/user/chat_messages/save?from_user_id='+data.from_user_id
         +'&to_user_id='+data.to_user_id
         +'&message='+data.message;
 
