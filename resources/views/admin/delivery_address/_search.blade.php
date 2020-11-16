@@ -1,4 +1,4 @@
-  <form method="GET" action="{{route('admin.delivery_address.index')}}">
+  <form method="GET" action="{{route('admin.delivery_address.index')}}" class="form-bottom">
 
     <div class="row">
 

@@ -114,7 +114,7 @@
                         <div class="p-1 media-body">
                             <h5>{{tr('revenue')}}</h5>
                             <h5 class="text-bold-500 mb-2">
-                                <a href="{{route('admin.subscription_payments.index')}}">
+                                <a href="{{route('admin.users_subscriptions.index')}}">
                                     {{formatted_amount($data->total_revenue)}}
                                 </a>
                             </h5>
@@ -336,76 +336,10 @@
         Morris.Area({
 
             element: "products-sales",
-            data: [{
-                month: "2017-01",
-                electronics: 0,
-                apparel: 0,
-                decor: 0
-            }, {
-                month: "2017-02",
-                electronics: 0,
-                apparel: 200,
-                decor: 0
-            }, {
-                month: "2017-03",
-                electronics: 0,
-                apparel: 0,
-                decor: 0
-            }, {
-                month: "2017-04",
-                electronics: 0,
-                apparel: 190,
-                decor: 0
-            }, {
-                month: "2017-05",
-                electronics: 0,
-                apparel: 25,
-                decor: 80
-            }, {
-                month: "2017-06",
-                electronics: 0,
-                apparel: 150,
-                decor: 0
-            }, {
-                month: "2017-07",
-                electronics: 0,
-                apparel: 0,
-                decor: 0
-            }, {
-                month: "2017-08",
-                electronics: 80,
-                apparel: 0,
-                decor: 0
-            }, {
-                month: "2017-09",
-                electronics: 0,
-                apparel: 0,
-                decor: 0
-            }, {
-                month: "2017-10",
-                electronics: 0,
-                apparel: 0,
-                decor: 150
-            }, {
-                month: "2017-11",
-                electronics: 300,
-                apparel: 0,
-                decor: 0
-            }, {
-                month: "2017-12",
-                electronics: 0,
-                apparel: 0,
-                decor: 0
-            }],
+            data: <?php print_r(json_encode($data->posts_data));?>,
             xkey: "month",
-            ykeys: ["electronics", "apparel", "decor"],
-            labels: ["Electronics", "Apparel", "Decor"],
-            xLabelFormat: function(r) {
-                return e[r.getMonth()]
-            },
-            dateFormat: function(r) {
-                return e[new Date(r).getMonth()]
-            },
+            ykeys: ["no_of_posts"],
+            labels: ["No of Posts"],
             behaveLikeLine: !0,
             ymax: 300,
             resize: !0,

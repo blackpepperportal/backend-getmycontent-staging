@@ -91,7 +91,7 @@
                                     </div>
                                     <div class="p-2 bg-gradient-x-danger white media-body">
                                         <h5>{{tr('total_tips')}}</h5>
-                                        <h5 class="text-bold-400 mb-0">{{$number_of_tips}}</h5>
+                                        <h5 class="text-bold-400 mb-0">{{formatted_amount($number_of_tips ?? 0.00)}}</h5>
                                     </div>
                                 </div>
                             </div>

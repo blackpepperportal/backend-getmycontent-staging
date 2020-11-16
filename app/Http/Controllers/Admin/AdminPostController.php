@@ -825,15 +825,19 @@ class AdminPostController extends Controller
             ->orWhere('delivery_addresses.state','LIKE','%'.$search_key.'%'); 
         }
 
+
+        $user = \App\User::find($request->user_id) ?? '';
+
         if($request->user_id) {
 
             $base_query = $base_query->where('user_id',$request->user_id);
         }
 
-        $delivery_addresses = $base_query->paginate(10);
+        $delivery_addresses = $base_query->paginate($this->take);
 
         return view('admin.delivery_address.index')
                     ->with('page','delivery-address')
+                    ->with('user',$user)
                     ->with('delivery_addresses',$delivery_addresses);
     }
 
@@ -953,6 +957,9 @@ class AdminPostController extends Controller
 
         }
 
+        
+        $user = \App\User::find($request->user_id) ?? '';
+
         if($request->user_id) {
 
             $base_query = $base_query->where('user_id',$request->user_id);
@@ -963,6 +970,7 @@ class AdminPostController extends Controller
         return view('admin.bookmarks.index')
                     ->with('page','post_bookmarks')
                     ->with('sub_page','users-view')
+                    ->with('user',$user)
                     ->with('post_bookmarks',$post_bookmarks);
     }
 
@@ -1168,6 +1176,7 @@ class AdminPostController extends Controller
         $base_query = \App\FavUser::Approved()->orderBy('fav_users.created_at', 'desc');
 
         if($request->search_key) {
+
             $search_key = $request->search_key;
 
             $base_query = $base_query->whereHas('user',function($query) use($search_key){
@@ -1177,7 +1186,11 @@ class AdminPostController extends Controller
             });
 
         }
+
+        $user = \App\User::find($request->user_id)??'';
+
         if($request->user_id){
+
             $base_query->where('user_id', $request->user_id);
         }
 
@@ -1185,6 +1198,7 @@ class AdminPostController extends Controller
 
         return view('admin.fav_users.index')
                     ->with('page','fav_users')
+                    ->with('user',$user)
                     ->with('fav_users',$fav_users);
     }
 
@@ -1255,6 +1269,7 @@ class AdminPostController extends Controller
         $base_query = \App\PostLike::Approved()->orderBy('post_likes.created_at', 'desc');
 
         if($request->search_key) {
+
             $search_key = $request->search_key;
 
             $base_query = $base_query->whereHas('postUser',function($query) use($search_key){
@@ -1264,15 +1279,19 @@ class AdminPostController extends Controller
             });
         }
 
+        $user = \App\User::find($request->user_id) ?? '';
+
         if($request->user_id){
+
             $base_query->where('user_id', $request->user_id);
         }
 
-        $post_likes = $base_query->paginate(10);
+        $post_likes = $base_query->paginate($this->take);
 
         return view('admin.post_likes.index')
                     ->with('page','post_likes')
                     ->with('user_id',$request->user_id)
+                    ->with('user',$user)
                     ->with('post_likes',$post_likes); 
      }
 

@@ -6,11 +6,14 @@
 
 @section('breadcrumb')
  
+
+@if(!isset($title))
 <li class="breadcrumb-item active">
     <a href="{{route('admin.users.index')}}">{{ tr('users') }}</a>
 </li>
+@endif
 
-<li class="breadcrumb-item">{{tr('view_users')}}</li>
+<li class="breadcrumb-item">{{$title ?? tr('view_users')}}</li>
 
 @endsection
 
@@ -171,6 +174,9 @@
 
 
                                                 <a class="dropdown-item" href="{{ route('admin.post_likes.index', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('liked_posts') }}</a>
+
+                                                <a class="dropdown-item" href="{{ route('admin.user_wallets.view', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('wallets') }}</a>
+
 
                                                 
                                             </div>

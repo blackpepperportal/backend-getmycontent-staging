@@ -32,11 +32,11 @@
                 placeholder="{{tr('user_withdrawals_search_placeholder')}}"> <span class="input-group-btn">
                 &nbsp
 
-                <button type="submit" class="btn btn-default">
+                <button type="submit" class="btn btn-default reset-btn">
                    <i class="fa fa-search" aria-hidden="true"></i>
                 </button>
                 
-                <a class="btn btn-default" href="{{route('admin.user_withdrawals')}}"><i class="fa fa-eraser" aria-hidden="true"></i>
+                <a class="btn btn-default reset-btn" href="{{route('admin.user_withdrawals')}}"><i class="fa fa-eraser" aria-hidden="true"></i>
                 </a>
                    
                 </span>
