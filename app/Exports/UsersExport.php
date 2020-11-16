@@ -15,7 +15,7 @@ class UsersExport implements FromView
         $this->search_key = $request->search_key;
         $this->status = $request->status;
         $this->account_type = $request->account_type;
-
+       
     }
 
 
@@ -36,6 +36,8 @@ class UsersExport implements FromView
 
             if($this->status) {
 
+                $status = $this->status;
+
                 switch ($this->status) {
 
                     case SORT_BY_APPROVED:
@@ -52,7 +54,7 @@ class UsersExport implements FromView
 
                     case SORT_BY_DOCUMENT_VERIFIED:
 
-                    $base_query =  $base_query->whereHas('userDocuments', function($q) use ($request) {
+                    $base_query =  $base_query->whereHas('userDocuments', function($q) use ($status) {
                         return $q->where('user_documents.is_verified',USER_DOCUMENT_VERIFIED);
                     });
                     break;

@@ -17,10 +17,10 @@
                 &nbsp
 
                 <button type="submit" class="btn btn-default">
-                   <a href=""><i class="fa fa-search" aria-hidden="true"></i></a>
+                   <i class="fa fa-search" aria-hidden="true"></i>
                 </button>
                 
-                <button class="btn btn-default"><a  href="{{route('admin.post.payments')}}"><i class="fa fa-eraser" aria-hidden="true"></i></button>
+                <a  href="{{route('admin.post.payments')}}"><i class="fa fa-eraser" aria-hidden="true"></i>
                 </a>
                    
                 </span>
