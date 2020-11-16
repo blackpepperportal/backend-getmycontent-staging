@@ -15,7 +15,6 @@ var SSL_CERTIFICATE = process.env.SSL_CERTIFICATE;
 if( SSL_KEY && SSL_CERTIFICATE) {
 
     var https = require('https');
-
     var server = https.createServer({ 
                     key: fs.readFileSync(SSL_KEY),
                     cert: fs.readFileSync(SSL_CERTIFICATE) 
@@ -31,10 +30,7 @@ if( SSL_KEY && SSL_CERTIFICATE) {
     server.listen(port);   
 }
 
-
-
 var io = require('socket.io')(server);
-
 
 io.on('connection', function (socket) {
 

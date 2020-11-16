@@ -65,6 +65,8 @@ class PostsApiController extends Controller
 
             $data['total'] = $total_query->count() ?? 0;
 
+            $data['user'] = $this->loginUser;
+
             return $this->sendResponse($message = '' , $code = '', $data);
 
         } catch(Exception $e) {

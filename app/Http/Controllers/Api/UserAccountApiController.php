@@ -560,6 +560,10 @@ class UserAccountApiController extends Controller
 
             $user->updated_formatted = common_date($user->updated_at, $this->timezone, 'd M Y');
 
+            $user->monthly_amount = $user->userSubscription->monthly_amount ?? 0.00;
+
+            $user->yearly_amount = $user->userSubscription->yearly_amount ?? 0.00;
+
             return $this->sendResponse($message = "", $success_code = "", $user);
 
         } catch(Exception $e) {
@@ -597,8 +601,8 @@ class UserAccountApiController extends Controller
                     'email' => 'email|unique:users,email,'.$request->id.'|regex:/(.+)@(.+)\.(.+)/i|max:255',
                     'username' => 'nullable|unique:users,username,'.$request->id.'|max:255',
                     'mobile' => 'nullable|digits_between:6,13',
-                    'picture' => 'nullable|mimes:jpeg,bmp,png',
-                    'cover' => 'nullable|mimes:jpeg,bmp,png',
+                    'picture' => 'nullable|mimes:jpeg,jpg,bmp,png',
+                    'cover' => 'nullable|mimes:jpeg,jpg,bmp,png',
                     'gender' => 'nullable|in:male,female,others',
                     'device_token' => '',
             ];
@@ -628,6 +632,8 @@ class UserAccountApiController extends Controller
 
                 $user->email = $request->email;
             }
+
+            $user->about = $request->about ?: $user->about;
 
             $user->mobile = $request->mobile ?: $user->mobile;
 
@@ -2112,7 +2118,7 @@ class UserAccountApiController extends Controller
 
             $data['user_withdrawals_min_amount_formatted'] = formatted_amount(Setting::get('user_withdrawals_min_amount', 10));
 
-            $data['wallet'] = \App\UserWallet::where('user_id', $request->id)->first();
+            $data['user_wallet'] = \App\UserWallet::where('user_id', $request->id)->first();
 
             return $this->sendResponse($message = "", $success_code = "", $data);
 
