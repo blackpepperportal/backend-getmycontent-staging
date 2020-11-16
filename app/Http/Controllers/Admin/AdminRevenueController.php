@@ -63,12 +63,8 @@ class AdminRevenueController extends Controller
 
         $data->analytics = last_x_months_data(12);
 
-        $posts = last_x_months_posts(12) ?? [];
+        $data->posts_data = last_x_months_posts(12) ?? [];
 
-        $data->posts_data = $posts->last_x_months_posts;
-
-
-        
         return view('admin.dashboard')
                     ->with('page' , 'dashboard')
                     ->with('data', $data);
@@ -778,7 +774,7 @@ class AdminRevenueController extends Controller
 
                 dispatch(new SendEmailJob($email_data));
 
-                return redirect()->back()->with('flash_success',tr('user_withdrawal_cancelled'));
+                return redirect()->back()->with('flash_success',tr('user_withdrawal_rejected'));
             }
 
         } catch(Exception $e) {

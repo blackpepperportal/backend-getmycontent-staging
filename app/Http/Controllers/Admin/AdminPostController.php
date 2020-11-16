@@ -833,7 +833,7 @@ class AdminPostController extends Controller
             $base_query = $base_query->where('user_id',$request->user_id);
         }
 
-        $delivery_addresses = $base_query->paginate(10);
+        $delivery_addresses = $base_query->paginate($this->take);
 
         return view('admin.delivery_address.index')
                     ->with('page','delivery-address')

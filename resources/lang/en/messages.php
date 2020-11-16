@@ -715,7 +715,7 @@ return [
 	"payment_success" => "Payment completed successfully!!",
 	"user_withdrawal_not_found" => "The withdrawal details not found",
 	"amount_is_greater_than_requested_amount" => "Amount is greater than requested amount",
-	"user_withdrawal_cancelled" => "The withdrawal Rejected successfully!!",
+	"user_withdrawal_cancelled" => "The withdrawal cancelled successfully!!",
 	"rejected" => "Rejected",
 	"document_file_back" => "Document File Back",
 	"document_file_front" => "Document File Front",
@@ -992,5 +992,6 @@ return [
 	"email_validate"=>"Enter Valid Email Format",
 	"follow_message"=>"You have One Follower",
 	"follow"=>"Follow",
-	"view_favourite_users"=>"View Favourite Users"
+	"view_favourite_users"=>"View Favourite Users",
+	"user_withdrawal_rejected" => "The withdrawal rejected successfully!!",
 ]?>

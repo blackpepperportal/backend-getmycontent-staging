@@ -1007,8 +1007,6 @@ function last_x_months_posts($months) {
 
     }
     
-    $data->last_x_months_posts = $last_x_months_posts;
-    
-    return $data;   
+    return $last_x_months_posts;   
 
 }
