@@ -118,6 +118,8 @@ class AdminRevenueController extends Controller
                             })->orWhere('post_payments.payment_id','LIKE','%'.$search_key.'%');
         }
 
+        $user = \App\User::find($request->user_id) ?? '';
+
         if($request->user_id) {
 
             $base_query  = $base_query->where('user_id',$request->user_id);
@@ -128,6 +130,7 @@ class AdminRevenueController extends Controller
         return view('admin.posts.payments')
                 ->with('page','payments')
                 ->with('sub_page','post-payments')
+                ->with('user',$user)
                 ->with('post_payments',$post_payments);
     }
 

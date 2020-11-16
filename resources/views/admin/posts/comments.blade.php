@@ -32,7 +32,7 @@
 
                     <h4 class="card-title">
 
-                        {{ tr('comments_list') }} - {{ $post->user->name ?? '-'}}
+                        {{ tr('comments_list') }} - <a href="{{route('admin.users.view',['user_id'=>$post->user->id ?? ''])}}">{{ $post->user->name ?? '-'}}</a>
 
                     </h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>

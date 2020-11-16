@@ -15,8 +15,8 @@
             <input type="text" class="form-control" name="search_key" value="{{Request::get('search_key')??''}}" placeholder="{{tr('users_search_placeholder')}}"> <span class="input-group-btn">
                 &nbsp
 
-                <button type="submit" class="btn btn-default">
-                    <a href=""><i class="fa fa-search" aria-hidden="true"></i></a>
+                <button type="submit" class="btn btn-default reset-btn">
+                    <i class="fa fa-search" aria-hidden="true"></i>
                 </button>
 
                 <a href="{{route('admin.user_documents.index')}}" class="btn btn-default reset-btn">

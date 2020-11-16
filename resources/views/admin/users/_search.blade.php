@@ -35,8 +35,8 @@
                 <span class="input-group-btn">
                     &nbsp
 
-                    <button type="submit" class="btn btn-default">
-                        <a href=""><i class="fa fa-search" aria-hidden="true"></i></a>
+                    <button type="submit" class="btn btn-default reset-btn">
+                        <i class="fa fa-search" aria-hidden="true"></i>
                     </button>
 
                     <a href="{{route('admin.users.index')}}" class="btn btn-default reset-btn">
