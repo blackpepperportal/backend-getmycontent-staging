@@ -204,6 +204,21 @@ class User extends Authenticatable
         
         return $this->hasMany(FavUser::class, 'user_id');
     }
+
+    public function postLikes() {
+
+        return $this->hasMany(PostLike::class,'user_id');
+    }
+
+    public function postAlbums() {
+
+        return $this->hasMany(PostAlbum::class,'user_id');
+    }
+
+    public function postComments() {
+
+        return $this->hasMany(PostComment::class,'user_id');
+    }
     
     /**
      * Scope a query to only include active users.
@@ -336,6 +351,12 @@ class User extends Authenticatable
             $model->userDocuments()->delete();
             
             $model->userBillingAccounts()->delete();
+
+            $model->postLikes()->delete();
+
+            $model->postAlbums()->delete();
+
+            $model->postComments()->delete();
         });
 
     }
