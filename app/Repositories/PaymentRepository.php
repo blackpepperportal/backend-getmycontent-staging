@@ -727,7 +727,7 @@ class PaymentRepository {
 
             $user->expiry_date = $expiry_date;
 
-            $user->no_of_days = 0;
+            $user->no_of_days = total_days($expiry_date);
 
             $user->save();
         
