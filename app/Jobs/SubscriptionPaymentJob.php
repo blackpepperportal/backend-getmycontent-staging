@@ -43,7 +43,7 @@ class SubscriptionPaymentJob implements ShouldQueue
 
             $current_timestamp = \Carbon\Carbon::now()->toDateTimeString();
 
-            $subscription_payments = \App\UserSubscriptionPayment::where('is_current_subscription',1)->where('expiry_date','<', $current_timestamp)->get();
+            $subscription_payments = \App\UserSubscriptionPayment::where('is_current_subscription',YES)->where('expiry_date','<', $current_timestamp)->get();
 
             if($subscription_payments->isEmpty()) {
 

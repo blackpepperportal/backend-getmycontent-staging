@@ -611,8 +611,6 @@ class PaymentRepository {
                 'customer' => $request->customer_id,
             ];
 
-            Log::info("charge_array".print_r($charge_array , true));
-
             $stripe_payment_response =  \Stripe\Charge::create($charge_array);
 
             $payment_data = [
