@@ -189,7 +189,7 @@ class PostRepository {
 
             // Check the user already paid
 
-            $post_payment = \App\PostPaymet::where('user_id', $request->id)->where('post_id', $post->post_id)->where('status', PAID)->count();
+            $post_payment = \App\PostPayment::where('user_id', $request->id)->where('post_id', $post->post_id)->where('status', PAID)->count();
 
             if(!$post_payment) {
 
