@@ -426,7 +426,7 @@ class FollowersApiController extends Controller
 
         try {
 
-            $base_query = $total_query = Follower::CommonResponse()->where('users.status',APPROVED)->where('user_id', $request->id);
+            $base_query = $total_query = Follower::CommonResponse()->where('followers.status',FOLLOWER_ACTIVE)->where('user_id', $request->id);
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
@@ -475,7 +475,7 @@ class FollowersApiController extends Controller
 
         try {
 
-            $base_query = $total_query = Follower::CommonResponse()->where('users.status',DECLINED)->where('user_id', $request->id);
+            $base_query = $total_query = Follower::CommonResponse()->where('followers.status',FOLLOWER_EXPIRED)->where('user_id', $request->id);
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
