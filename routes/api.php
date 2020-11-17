@@ -223,6 +223,12 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('post_files_remove','Api\PostsApiController@post_files_remove');
 
+        
+        Route::post('active_followers', 'Api\FollowersApiController@active_followers');
+
+        Route::post('expired_followers', 'Api\FollowersApiController@expired_followers');
+
+
     });
 
 
