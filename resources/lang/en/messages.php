@@ -994,4 +994,7 @@ return [
 	"follow"=>"Follow",
 	"view_favourite_users"=>"View Favourite Users",
 	"user_withdrawal_rejected" => "The withdrawal rejected successfully!!",
+	"months"=>"Months",	
+	"month"=>"Month"
+
 ]?>

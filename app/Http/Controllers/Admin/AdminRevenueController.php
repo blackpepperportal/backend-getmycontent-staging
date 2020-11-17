@@ -262,7 +262,7 @@ class AdminRevenueController extends Controller
 
         $data->post_payments = \App\PostPayment::where('status',PAID)->sum('paid_amount');
 
-        $data->subscription_payments = \App\SubscriptionPayment::where('status',PAID)->sum('amount');
+        $data->subscription_payments = \App\UserSubscriptionPayment::where('status',PAID)->sum('amount');
 
         $data->total_payments =  $data->order_payments + $data->post_payments + $data->subscription_payments;
 

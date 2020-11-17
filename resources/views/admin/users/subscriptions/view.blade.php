@@ -66,7 +66,7 @@
 
                                         <tr>
                                             <td>{{ tr('plan')}} </td>
-                                            <td>{{ $user_subscription_payment->plan}}</td>
+                                            <td>{{ $user_subscription_payment->plan_text_formatted ?? ''}}</td>
                                         </tr>
 
                                         <tr>
@@ -87,12 +87,6 @@
                                          <tr>
                                             <td>{{ tr('payment_mode')}} </td>
                                             <td>{{ $user_subscription_payment->payment_mode}}</td>
-                                        </tr>
-                                        
-
-                                        <tr>
-                                            <td>{{ tr('plan')}} </td>
-                                            <td>{{ $user_subscription_payment->plan}}</td>
                                         </tr>
 
 
@@ -153,7 +147,7 @@
 
                                         <tr>
                                             <td>{{ tr('cancel_reason') }}</td>
-                                            <td>{{ $user_subscription_payment->cancel_reason}}</td>
+                                            <td>{{ $user_subscription_payment->cancel_reason ?: tr('not_available')}}</td>
                                         </tr>
 
                                         <tr>

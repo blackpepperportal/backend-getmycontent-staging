@@ -1010,3 +1010,24 @@ function last_x_months_posts($months) {
     return $last_x_months_posts;   
 
 }
+
+
+/**
+ * @method last_x_months_posts()
+ *
+ * @uses used to get the plan text
+ * 
+ * @created Ganesh
+ *
+ * @updated Ganesh
+ * 
+ */
+
+
+function plan_text($plan, $plan_type = PLAN_TYPE_MONTH) {
+    
+    $plan_type_text = $plan <= 1 ? tr($plan_type) : tr($plan_type)."s";
+    
+   return  $plan_text = $plan." ".$plan_type_text;
+
+}

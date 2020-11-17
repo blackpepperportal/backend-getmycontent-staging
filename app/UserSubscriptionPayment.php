@@ -8,7 +8,7 @@ class UserSubscriptionPayment extends Model
 {
 	 protected $hidden = ['id','unique_id'];
 
-	protected $appends = ['user_subscription_payment_id','user_subscription_payment_unique_id', 'from_username', 'from_user_picture', 'from_user_unique_id', 'to_username', 'to_user_picture', 'to_user_unique_id', 'amount_formatted'];
+	protected $appends = ['user_subscription_payment_id','user_subscription_payment_unique_id', 'from_username', 'from_user_picture', 'from_user_unique_id', 'to_username', 'to_user_picture', 'to_user_unique_id', 'amount_formatted','plan_text_formatted'];
 	
 	public function getUserSubscriptionPaymentIdAttribute() {
 
@@ -63,6 +63,11 @@ class UserSubscriptionPayment extends Model
     public function toUser() {
 
     	return $this->belongsTo(User::class, 'to_user_id');
+    }
+
+    public function getPlanTextFormattedAttribute() {
+
+        return plan_text($this->plan,$this->plan_type);
     }
 
     /**

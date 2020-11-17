@@ -108,7 +108,7 @@
                                                 <div class="media-body text-left w-100">
                                                     <h3 class="info">{{formatted_amount($data->subscription_payments)}}</h3>
                                                     <span>
-                                                    <a href="{{route('admin.subscription_payments.index')}}">
+                                                    <a href="{{route('admin.users_subscriptions.index')}}">
                                                     {{tr('subscription_payments')}}
                                                     </a>
                                                     </span>

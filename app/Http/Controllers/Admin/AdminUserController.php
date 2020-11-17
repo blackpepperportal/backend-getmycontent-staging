@@ -946,7 +946,7 @@ class AdminUserController extends Controller
         try {
        
             $user_subscription_payment = \App\UserSubscriptionPayment::find($request->subscription_id);
-
+             
              if(!$user_subscription_payment) { 
 
                 throw new Exception(tr('user_subscription_payment_not_found'), 101);                
