@@ -590,7 +590,7 @@ class PaymentRepository {
         try {
 
             // Check stripe configuration
-        
+
             $stripe_secret_key = Setting::get('stripe_secret_key');
 
             if(!$stripe_secret_key) {
@@ -727,7 +727,7 @@ class PaymentRepository {
 
             $user->expiry_date = $expiry_date;
 
-            $user->no_of_days = total_days($expiry_date);
+            $user->no_of_days = 0;
 
             $user->save();
         
