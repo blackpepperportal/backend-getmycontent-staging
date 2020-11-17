@@ -42,9 +42,9 @@ class PostRepository {
 
                         $post->payment_info = self::posts_user_payment_check($post, $request);
 
-                        $is_user_needs_pay = $post->payment_info->data->is_user_needs_pay ?? NO; 
+                        $is_user_needs_pay = $post->payment_info->is_user_needs_pay ?? NO; 
 
-                        $post->post_files = \App\PostFile::where('post_id', $post->post_id)->when($is_user_needs_pay == NO, function ($q) use ($is_user_needs_pay) {
+                        $post->postFiles = \App\PostFile::where('post_id', $post->post_id)->when($is_user_needs_pay == NO, function ($q) use ($is_user_needs_pay) {
                                                     return $q->OriginalResponse();
                                                 })
                                                 ->when($is_user_needs_pay == YES, function($q) use ($is_user_needs_pay) {
