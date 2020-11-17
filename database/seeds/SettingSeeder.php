@@ -218,11 +218,7 @@ class SettingSeeder extends Seeder
 			[
 		        'key' => 'admin_commission',
 		        'value' => 20
-			],
-			[
-		        'key' => 'chat_socket_url',
-		        'value' => ''
-			],
+			]
 
 		]);
 

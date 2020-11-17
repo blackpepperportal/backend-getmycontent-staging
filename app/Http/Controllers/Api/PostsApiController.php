@@ -264,7 +264,7 @@ class PostsApiController extends Controller
             DB::begintransaction();
 
             $rules = [
-                'content' => 'required|max:191',
+                'content' => 'required',
                 'publish_time' => 'nullable',
                 'amount' => 'nullable|min:0',
                 'files' => 'nullable'
