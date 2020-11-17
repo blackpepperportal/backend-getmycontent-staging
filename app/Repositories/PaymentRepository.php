@@ -611,6 +611,7 @@ class PaymentRepository {
                 'customer' => $request->customer_id,
             ];
 
+            Log::info("charge_array".print_r($charge_array , true));
 
             $stripe_payment_response =  \Stripe\Charge::create($charge_array);
 
@@ -1153,7 +1154,7 @@ class PaymentRepository {
         try {
 
             // Check stripe configuration
-        
+
             $stripe_secret_key = Setting::get('stripe_secret_key');
 
             if(!$stripe_secret_key) {
@@ -1225,6 +1226,7 @@ class PaymentRepository {
                 'amount_type' => WALLET_AMOUNT_TYPE_ADD,
                 'payment_id' => $user_subscription_payment->payment_id
             ];
+
 
             $to_user_request = new \Illuminate\Http\Request();
 

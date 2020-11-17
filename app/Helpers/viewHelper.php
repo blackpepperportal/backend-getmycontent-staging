@@ -1031,3 +1031,15 @@ function plan_text($plan, $plan_type = PLAN_TYPE_MONTH) {
    return  $plan_text = $plan." ".$plan_type_text;
 
 }
+
+function generate_payment_id() {
+
+    $payment_id = time();
+
+    $payment_id .= rand();
+
+    $payment_id = sha1($payment_id);
+
+    return strtoupper($payment_id);
+
+}

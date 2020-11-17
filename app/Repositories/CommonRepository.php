@@ -97,7 +97,7 @@ class CommonRepository {
             $custom_errors = ['user_id' => api_error(135)];
 
             Helper::custom_validator($request->all(), $rules, $custom_errors);
-            
+
             // Validation end
             if($request->id == $request->user_id) {
 

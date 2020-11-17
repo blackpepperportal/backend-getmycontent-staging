@@ -8,11 +8,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-use App\SubscriptionPayment;
-
-use App\User;
-
-use App\Subscription;
 
 use App\Repositories\PaymentRepository as PaymentRepo;
 
@@ -48,7 +43,7 @@ class SubscriptionPaymentJob implements ShouldQueue
 
             $current_timestamp = \Carbon\Carbon::now()->toDateTimeString();
 
-            $subscription_payments = SubscriptionPayment::where('is_current_subscription',1)->where('expiry_date','<', $current_timestamp)->get();
+            $subscription_payments = \App\UserSubscriptionPayment::where('is_current_subscription',1)->where('expiry_date','<', $current_timestamp)->get();
 
             if($subscription_payments->isEmpty()) {
 
@@ -60,13 +55,13 @@ class SubscriptionPaymentJob implements ShouldQueue
 
             foreach ($subscription_payments as $subscription_payment){
 
-                $user = User::where('id',  $subscription_payment->user_id)->first();
+                $user = \App\User::where('id',  $subscription_payment->from_user_id)->first();
 
                 if ($user){
                     
                     // Check the subscription is available
 
-                    $subscription = Subscription::Approved()->firstWhere('id',  $subscription_payment->subscription_id);
+                    $subscription = \App\UserSubscription::Approved()->firstWhere('id',  $subscription_payment->user_subscription_id);
 
                     if(!$subscription) {
 
@@ -83,9 +78,11 @@ class SubscriptionPaymentJob implements ShouldQueue
 
                     }
 
-                    $total = $user_pay_amount = $subscription->amount;
+                    $subscription_amount = $subscription_payment->plan_type == PLAN_TYPE_MONTH ? $subscription->monthly_amount : $subscription->yearly_amount;
 
-                    $card = \App\UserCard::where('user_id', $subscription->id)->firstWhere('is_default', YES);
+                    $total = $user_pay_amount = $subscription_amount;
+
+                    $card = \App\UserCard::where('user_id', $subscription->user_id)->firstWhere('is_default', YES);
 
                     if(!$card) {
 
@@ -105,7 +102,7 @@ class SubscriptionPaymentJob implements ShouldQueue
                      $payment->paid_amount = $card->paid_amount;
 
                    
-                    $card_payment_response = PaymentRepo::subscriptions_payment_by_stripe($payment, $subscription)->getData();
+                    $card_payment_response = PaymentRepo::user_subscriptions_payment_by_stripe($payment, $subscription)->getData();
 
                     if($card_payment_response->success == false) {
 
@@ -115,7 +112,11 @@ class SubscriptionPaymentJob implements ShouldQueue
 
                      $card_payment_data = $card_payment_response->data;
 
-                     $payment->id = $user->id;
+                     $payment = new \Illuminate\Http\Request();
+
+                     $payment->id = $subscription_payment->from_user_id;
+
+                     $payment->user_id = $subscription_payment->to_user_id;
 
                      $payment->paid_amount = $card_payment_data->paid_amount;
 
@@ -125,18 +126,21 @@ class SubscriptionPaymentJob implements ShouldQueue
 
                      $payment->paid_status = $card_payment_data->paid_status;
 
+                     $payment->plan_type = $subscription_payment->plan_type;
 
-                    $payment_response = PaymentRepo::subscriptions_payment_save($payment, $subscription)->getData();
+
+
+                    $payment_response = PaymentRepo::user_subscription_payments_save($payment, $subscription)->getData();
 
                     if($payment_response->success) {
 
                         // Change old status to expired
 
-                        SubscriptionPayment::where('id', $subscription_payment->id)->update(['is_current_subscription' => 0]);
+                        \App\UserSubscriptionPayment::where('id', $subscription_payment->id)->update(['is_current_subscription' => 0]);
 
                         // Change new is_current_subscription to 1 
 
-                        SubscriptionPayment::where('payment_id', $payment_response->data->payment_id)->update(['is_current_subscription' => 1]);
+                        \App\UserSubscriptionPayment::where('payment_id', $payment_response->data->payment_id)->update(['is_current_subscription' => 1]);
 
                         Log::info("Subscription Payment Success");
 

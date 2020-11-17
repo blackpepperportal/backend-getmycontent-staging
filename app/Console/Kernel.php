@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
 
            $schedule->command('PublishPost:cron')->hourly();
 
-           $schedule->command('SubscriptionPayment:cron')->hourly();
+           $schedule->command('SubscriptionPayment:cron')->daily();
 
     }
 
