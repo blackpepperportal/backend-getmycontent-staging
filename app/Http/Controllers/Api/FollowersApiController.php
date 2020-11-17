@@ -391,6 +391,11 @@ class FollowersApiController extends Controller
 
             $chat_messages = $base_query->skip($this->skip)->take($this->take)->orderBy('chat_messages.updated_at', 'desc')->get();
 
+            foreach ($chat_messages as $key => $value) {
+                
+                $value->created = $value->created_at->diffForHumans() ?? "";
+            }
+
             $data['messages'] = $chat_messages ?? [];
 
             $data['user'] = $request->id == $request->from_user_id ? \App\User::find($request->to_user_id) : \App\User::find($request->to_user_id);

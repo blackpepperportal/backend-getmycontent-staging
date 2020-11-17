@@ -185,7 +185,7 @@ class PostsApiController extends Controller
 
         try {
 
-            $base_query = $total_query = Post::with('postFiles')->orderBy('posts.created_at', 'desc');
+            $base_query = $total_query = Post::where('user_id', $request->id)->with('postFiles')->orderBy('posts.created_at', 'desc');
 
             $posts = $base_query->skip($this->skip)->take($this->take)->get();
 
