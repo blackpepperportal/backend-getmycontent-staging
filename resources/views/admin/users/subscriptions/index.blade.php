@@ -60,7 +60,7 @@
 
                                         <td><a href="{{route('admin.users.view' , ['user_id' => $subscription->to_user_id])}}"> {{ $subscription->to_username }}</a></td>
 
-                                        <td>{{ $subscription->plan }}</td>
+                                        <td>{{ $subscription->plan_text_formatted }}</td>
 
                                         <td>{{ $subscription->amount_formatted }}</td>
 

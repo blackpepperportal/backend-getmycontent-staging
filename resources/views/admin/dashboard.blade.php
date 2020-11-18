@@ -187,7 +187,15 @@
 
                             <h4 class="card-title">{{tr('recent_users')}}</h4>
 
+                            <div class="col text-right">
+                                @if($data->recent_users->count() > 5)
+                                <a href="{{route('admin.users.index')}}" class="btn btn-sm btn-primary">{{tr('view_all')}}</a>
+                                @endif
+                            </div>
+
                         </div>
+
+
 
                     </div>
 
@@ -250,6 +258,10 @@
                         <div class="d-flex justify-content-between">
 
                             <h4 class="card-title">{{tr('recent_premium_users')}}</h4>
+
+                            @if($data->recent_premium_users->count() > 0)
+                            <a href="{{route('admin.users.index',['account_type'=>YES])}}" class="btn btn-sm btn-primary">{{tr('view_all')}}</a>
+                            @endif
 
                         </div>
 
@@ -336,7 +348,7 @@
         Morris.Area({
 
             element: "products-sales",
-            data: <?php print_r(json_encode($data->posts_data));?>,
+            data: <?php print_r(json_encode($data->posts_data)); ?>,
             xkey: "month",
             ykeys: ["no_of_posts"],
             labels: ["No of Posts"],
