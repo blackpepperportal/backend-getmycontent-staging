@@ -140,7 +140,7 @@
 
                                                 <a class="dropdown-item" href="{{ route('admin.users.edit', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('edit') }}</a>
 
-                                                <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('user_delete_confirmation' , $user->name) }}&quot;);" href="{{ route('admin.users.delete', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('user_delete_confirmation' , $user->name) }}&quot;);" href="{{ route('admin.users.delete', ['user_id' => $user->id,'page'=>request()->input('page')] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 

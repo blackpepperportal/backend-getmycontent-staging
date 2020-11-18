@@ -998,6 +998,11 @@ return [
 	"month"=>"Month",
 	"document_verify_message" => "Your Document Verification has been  (:other_key) by admin!!",
 	"user_document_verification" => "Document Verification from ",
+	"user_email_verification" => "Email Verification from ",
+	"email_verify_message" => "Your Email has been  (:other_key) by admin!!",
+	"user_account_upgrade" => "Account has been upgraded to Premium Account!!",
+	"account_upgrade_message" => "User (:other_key) Your Account has been upgraded to Premium Account!!",
+
 
 
 ]?>

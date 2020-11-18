@@ -101,7 +101,7 @@ class AdminUserController extends Controller
             $base_query = $base_query->where('users.user_account_type', $request->account_type);
 
         } 
-
+      
         $users = $base_query->paginate($this->take);
 
         return view('admin.users.index')
@@ -445,6 +445,19 @@ class AdminUserController extends Controller
 
                 }
 
+                $email_data['subject'] = tr('user_account_upgrade').' '.Setting::get('site_name');
+
+                $email_data['email']  = $user->email ?? "-";
+
+                $email_data['name']  = $user->name ?? "-";
+
+                $email_data['page'] = "emails.users.account-upgrade";
+
+                $email_data['message'] = tr('account_upgrade_message', $user->name ?? ''); 
+
+                $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+
+
                 DB::commit(); 
 
                 return redirect()->back()->with('flash_success',tr('user_upgrade_account',$user->name));
@@ -533,7 +546,7 @@ class AdminUserController extends Controller
 
                 DB::commit();
 
-                return redirect()->route('admin.users.index')->with('flash_success',tr('user_deleted_success'));   
+                return redirect()->route('admin.users.index',['page'=>$request->page])->with('flash_success',tr('user_deleted_success'));   
 
             } 
             
@@ -652,6 +665,20 @@ class AdminUserController extends Controller
             $user->is_email_verified = $user->is_email_verified ? USER_EMAIL_NOT_VERIFIED : USER_EMAIL_VERIFIED;
 
             if($user->save()) {
+
+                $status_message = $user->is_email_verified ? tr('approved'):tr('declined');
+
+                $email_data['subject'] = tr('user_email_verification').' '.Setting::get('site_name');
+
+                $email_data['email']  = $user->email ?? "-";
+
+                $email_data['name']  = $user->name ?? "-";
+
+                $email_data['page'] = "emails.users.email-verify";
+
+                $email_data['message'] = tr('email_verify_message', $status_message); 
+
+                $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
                 DB::commit();
 
