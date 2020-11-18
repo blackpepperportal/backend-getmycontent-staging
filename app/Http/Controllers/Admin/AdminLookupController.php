@@ -347,7 +347,7 @@ class AdminLookupController extends Controller
 
     public function static_pages_index() {
 
-        $static_pages = \App\StaticPage::orderBy('updated_at' , 'desc')->paginate(10);
+        $static_pages = \App\StaticPage::orderBy('updated_at' , 'desc')->paginate($this->take);
 
         return view('admin.static_pages.index')
                     ->with('page', 'static_pages')
@@ -593,7 +593,7 @@ class AdminLookupController extends Controller
 
                 DB::commit();
 
-                return redirect()->route('admin.static_pages.index')->with('flash_success', tr('static_page_deleted_success')); 
+                return redirect()->route('admin.static_pages.index',['page'=>$request->page])->with('flash_success', tr('static_page_deleted_success')); 
 
             } 
 
