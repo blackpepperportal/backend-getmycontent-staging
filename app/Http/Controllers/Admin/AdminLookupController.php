@@ -264,7 +264,7 @@ class AdminLookupController extends Controller
 
                 DB::commit();
 
-                return redirect()->route('admin.documents.index')->with('flash_success',tr('document_deleted_success'));   
+                return redirect()->route('admin.documents.index',['page'=>$request->page])->with('flash_success',tr('document_deleted_success'));   
 
             } 
             
@@ -705,7 +705,7 @@ class AdminLookupController extends Controller
      */
     public function faqs_index() {
        
-        $faqs = \App\Faq::orderBy('created_at','desc')->paginate($this->take);
+        $faqs = \App\Faq::orderBy('created_at','desc')->paginate(10);
 
         return view('admin.faqs.index')
                     ->with('main_page','faqs-crud')
@@ -909,7 +909,7 @@ class AdminLookupController extends Controller
 
                 DB::commit();
 
-                return redirect()->route('admin.subscriptions.index')->with('flash_success',tr('faq_deleted_success'));   
+                return redirect()->route('admin.faqs.index',['page'=>$request->page])->with('flash_success',tr('faq_deleted_success'));   
 
             } 
             

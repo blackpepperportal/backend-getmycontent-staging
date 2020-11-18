@@ -326,7 +326,7 @@ class AdminPostController extends Controller
 
                 DB::commit();
 
-                return redirect()->route('admin.posts.index')->with('flash_success', tr('post_deleted_success'));   
+                return redirect()->route('admin.posts.index',['page'=>$request->page])->with('flash_success', tr('post_deleted_success'));   
 
             } 
 
