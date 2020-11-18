@@ -872,7 +872,9 @@ class AdminUserController extends Controller
 
                 DB::commit();
 
-                $email_data['subject'] = tr('user_document_verification' , Setting::get('site_name'));
+                $status_message = $user->is_document_verified ? tr('approved'):tr('declined');
+
+                $email_data['subject'] = tr('user_document_verification').' '.Setting::get('site_name');
 
                 $email_data['email']  = $user->email ?? "-";
 
@@ -880,7 +882,9 @@ class AdminUserController extends Controller
 
                 $email_data['page'] = "emails.users.document-verify";
 
-                // $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+                $email_data['message'] = tr('document_verify_message', $status_message); 
+
+                $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
                 $message = $user->is_document_verified ? tr('user_document_verify_success') : tr('user_document_unverify_success');
 

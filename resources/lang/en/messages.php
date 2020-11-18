@@ -995,6 +995,9 @@ return [
 	"view_favourite_users"=>"View Favourite Users",
 	"user_withdrawal_rejected" => "The withdrawal rejected successfully!!",
 	"months"=>"Months",	
-	"month"=>"Month"
+	"month"=>"Month",
+	"document_verify_message" => "Your Document Verification has been  (:other_key) by admin!!",
+	"user_document_verification" => "Document Verification from ",
+
 
 ]?>
