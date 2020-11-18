@@ -259,7 +259,7 @@
 
                             <h4 class="card-title">{{tr('recent_premium_users')}}</h4>
 
-                            @if($data->recent_premium_users->count() > 0)
+                            @if($data->recent_premium_users->count() > 5)
                             <a href="{{route('admin.users.index',['account_type'=>YES])}}" class="btn btn-sm btn-primary">{{tr('view_all')}}</a>
                             @endif
 

@@ -946,9 +946,27 @@ class AdminUserController extends Controller
      * @return return view page
      *
      */
-    public function user_subscription_payments() {
+    public function user_subscription_payments(Request $request) {
        
-        $user_subscriptions = \App\UserSubscriptionPayment::orderBy('updated_at','desc')->paginate(10);
+        $base_query = \App\UserSubscriptionPayment::orderBy('updated_at','desc');
+
+        $search_key = $request->search_key;
+
+        if($search_key) {
+
+            $base_query = $base_query
+                        ->whereHas('fromUser',function($query) use($search_key) {
+
+                            return $query->where('users.name','LIKE','%'.$search_key.'%');
+
+                        })->orwhereHas('toUser',function($query) use($search_key) {
+                            
+                            return $query->where('users.name','LIKE','%'.$search_key.'%');
+                        });
+        }
+
+        $user_subscriptions = $base_query->paginate(10);
+
 
         return view('admin.users.subscriptions.index')
                     ->with('page', 'user_subscriptions')
