@@ -35,6 +35,11 @@ class ChatMessage extends Model
 		return $this->fromUser->name ?? tr('n_a');
 	}
 
+	public function getFromUserUniqueIdAttribute() {
+
+		return $this->fromUser->unique_id ?? '';
+	}
+
 	public function getToUsernameAttribute() {
 
 		return $this->toUser->username ?? tr('n_a');
@@ -48,6 +53,11 @@ class ChatMessage extends Model
 	public function getToDisplaynameAttribute() {
 
 		return $this->toUser->name ?? tr('n_a');
+	}
+
+	public function getToUserUniqueIdAttribute() {
+
+		return $this->toUser->unique_id ?? '';
 	}
 
 	public function fromUser() {
