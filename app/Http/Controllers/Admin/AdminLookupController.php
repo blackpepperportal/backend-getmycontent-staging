@@ -45,7 +45,7 @@ class AdminLookupController extends Controller
      */
     public function documents_index(Request $request) {
 
-        $documents = \App\Document::orderBy('created_at', 'desc')->paginate(10);
+        $documents = \App\Document::orderBy('created_at', 'desc')->paginate($this->take);
 
         return view('admin.documents.index')
                     ->with('page','documents')
@@ -705,7 +705,7 @@ class AdminLookupController extends Controller
      */
     public function faqs_index() {
        
-        $faqs = \App\Faq::orderBy('created_at','desc')->paginate(10);
+        $faqs = \App\Faq::orderBy('created_at','desc')->paginate($this->take);
 
         return view('admin.faqs.index')
                     ->with('main_page','faqs-crud')
