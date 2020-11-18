@@ -8,7 +8,7 @@ class ChatMessage extends Model
 {
     protected $hidden = ['id','unique_id'];
 
-	protected $appends = ['chat_message_id', 'chat_message_unique_id', 'from_username', 'from_displayname', 'from_userpicture', 'to_username', 'to_displayname', 'to_userpicture'];
+	protected $appends = ['chat_message_id', 'chat_message_unique_id', 'from_username', 'from_displayname', 'from_userpicture', 'from_user_unique_id', 'to_username', 'to_displayname', 'to_userpicture', 'to_user_unique_id'];
 
 	public function getChatMessageIdAttribute() {
 
