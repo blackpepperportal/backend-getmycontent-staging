@@ -108,7 +108,7 @@
 
                                                 @else
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('delivery_address_delete_confirmation' , $delivery_address_details->name) }}&quot;);" href="{{ route('admin.delivery_address.delete', ['delivery_address_id' => $delivery_address_details->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('delivery_address_delete_confirmation' , $delivery_address_details->name) }}&quot;);" href="{{ route('admin.delivery_address.delete', ['delivery_address_id' => $delivery_address_details->id,'page'=>request()->input('page')] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 

@@ -130,4 +130,6 @@ return [
     160 => 'Upload the documents for verification',
 
     161 => 'Add bank account details',
+
+    162 => 'Already chat has been saved between the users'
 ];

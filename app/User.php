@@ -219,6 +219,11 @@ class User extends Authenticatable
 
         return $this->hasMany(PostComment::class,'user_id');
     }
+
+    public function userTips() {
+
+        return $this->hasMany(UserTip::class,'user_id');
+    }
     
     /**
      * Scope a query to only include active users.
@@ -357,6 +362,9 @@ class User extends Authenticatable
             $model->postAlbums()->delete();
 
             $model->postComments()->delete();
+
+            $model->userTips()->delete();
+            
         });
 
     }

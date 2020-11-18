@@ -101,7 +101,7 @@ class AdminUserController extends Controller
             $base_query = $base_query->where('users.user_account_type', $request->account_type);
 
         } 
-
+      
         $users = $base_query->paginate($this->take);
 
         return view('admin.users.index')
@@ -445,6 +445,19 @@ class AdminUserController extends Controller
 
                 }
 
+                $email_data['subject'] = tr('user_account_upgrade').' '.Setting::get('site_name');
+
+                $email_data['email']  = $user->email ?? "-";
+
+                $email_data['name']  = $user->name ?? "-";
+
+                $email_data['page'] = "emails.users.account-upgrade";
+
+                $email_data['message'] = tr('account_upgrade_message', $user->name ?? ''); 
+
+                $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+
+
                 DB::commit(); 
 
                 return redirect()->back()->with('flash_success',tr('user_upgrade_account',$user->name));
@@ -533,7 +546,7 @@ class AdminUserController extends Controller
 
                 DB::commit();
 
-                return redirect()->route('admin.users.index')->with('flash_success',tr('user_deleted_success'));   
+                return redirect()->route('admin.users.index',['page'=>$request->page])->with('flash_success',tr('user_deleted_success'));   
 
             } 
             
@@ -652,6 +665,20 @@ class AdminUserController extends Controller
             $user->is_email_verified = $user->is_email_verified ? USER_EMAIL_NOT_VERIFIED : USER_EMAIL_VERIFIED;
 
             if($user->save()) {
+
+                $status_message = $user->is_email_verified ? tr('approved'):tr('declined');
+
+                $email_data['subject'] = tr('user_email_verification').' '.Setting::get('site_name');
+
+                $email_data['email']  = $user->email ?? "-";
+
+                $email_data['name']  = $user->name ?? "-";
+
+                $email_data['page'] = "emails.users.email-verify";
+
+                $email_data['message'] = tr('email_verify_message', $status_message); 
+
+                $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
                 DB::commit();
 
@@ -872,7 +899,9 @@ class AdminUserController extends Controller
 
                 DB::commit();
 
-                $email_data['subject'] = tr('user_document_verification' , Setting::get('site_name'));
+                $status_message = $user->is_document_verified ? tr('approved'):tr('declined');
+
+                $email_data['subject'] = tr('user_document_verification').' '.Setting::get('site_name');
 
                 $email_data['email']  = $user->email ?? "-";
 
@@ -880,7 +909,9 @@ class AdminUserController extends Controller
 
                 $email_data['page'] = "emails.users.document-verify";
 
-                // $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+                $email_data['message'] = tr('document_verify_message', $status_message); 
+
+                $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
                 $message = $user->is_document_verified ? tr('user_document_verify_success') : tr('user_document_unverify_success');
 
@@ -946,7 +977,7 @@ class AdminUserController extends Controller
         try {
        
             $user_subscription_payment = \App\UserSubscriptionPayment::find($request->subscription_id);
-
+             
              if(!$user_subscription_payment) { 
 
                 throw new Exception(tr('user_subscription_payment_not_found'), 101);                

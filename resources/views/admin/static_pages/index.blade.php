@@ -94,7 +94,7 @@
                                                         </a>
 
                                                         <a class="dropdown-item" 
-                                                        onclick="return confirm(&quot;{{tr('static_page_delete_confirmation' , $static_page->title)}}&quot;);" href="{{ route('admin.static_pages.delete', ['static_page_id' => $static_page->id] ) }}" >
+                                                        onclick="return confirm(&quot;{{tr('static_page_delete_confirmation' , $static_page->title)}}&quot;);" href="{{ route('admin.static_pages.delete', ['static_page_id' => $static_page->id,'page'=>request()->input('page')] ) }}" >
                                                             {{ tr('delete') }}
                                                         </a>
 
@@ -137,6 +137,8 @@
                             </tbody>
                         
                         </table>
+
+                        <div class="pull-right" id="paglink">{{ $static_pages->appends(request()->input())->links() }}</div>
 
                     </div>
 

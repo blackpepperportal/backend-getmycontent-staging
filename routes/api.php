@@ -64,6 +64,9 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     Route::any('static_pages', 'ApplicationController@static_pages_api');
 
+    Route::post('chat_users_save', 'Api\UserAccountApiController@chat_users_save');
+
+
     Route::group(['middleware' => 'UserApiVal'] , function() {
 
         Route::post('profile','Api\UserAccountApiController@profile');

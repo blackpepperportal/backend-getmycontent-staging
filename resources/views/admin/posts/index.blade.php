@@ -128,7 +128,7 @@
 
                                                 @else
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('post_delete_confirmation' , $post->unique_id) }}&quot;);" href="{{ route('admin.posts.delete', ['post_id' => $post->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('post_delete_confirmation' , $post->unique_id) }}&quot;);" href="{{ route('admin.posts.delete', ['post_id' => $post->id,'page'=>request()->input('page')] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 

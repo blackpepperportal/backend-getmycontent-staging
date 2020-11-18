@@ -2171,5 +2171,63 @@ class UserAccountApiController extends Controller
     }
 
 
+    /**
+     * @method chat_users_save()
+     * 
+     * @uses - To save the chat users.
+     *
+     * @created Ganesh
+     *
+     * @updated Ganesh
+     * 
+     * @param 
+     *
+     * @return No return response.
+     *
+     */
+
+    public function chat_users_save(Request $request) {
+
+        try {
+
+            $rules = [
+                'from_user_id' => 'required|exists:users,id',
+                'to_user_id' => 'required|exists:users,id',
+            ];
+
+
+            Helper::custom_validator($request->all(), $rules);
+
+            DB::beginTransaction();
+
+            $chat_user = \App\ChatUser::where('from_user_id', $request->from_user_id)->where('to_user_id', $request->to_user_id)->first();
+
+            if($chat_user) {
+
+                throw new Exception(api_error(162) , 162);
+            }
+
+            $chat_user = new \App\ChatUser();
+
+            $chat_user->from_user_id = $request->from_user_id;
+
+            $chat_user->to_user_id = $request->to_user_id;
+            
+            $chat_user->save();
+
+            DB::commit();
+
+            return $this->sendResponse("", "", $chat_user);
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+    
+    }
+
+
 
 }

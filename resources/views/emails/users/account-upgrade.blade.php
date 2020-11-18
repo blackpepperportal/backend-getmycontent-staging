@@ -122,7 +122,7 @@
                                                     <tr>
                                                         <td style="width:64px;">
 
-                                                            <img height="auto" src="{{Setting::get('site_logo')}}" style="border:0;display:block;outline:none;text-decoration:none;width:100%;" width="64" />
+                                                            <img height="auto" src="{{Setting::get('site_logo') ?? ''}}" style="border:0;display:block;outline:none;text-decoration:none;width:100%;" width="64" />
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -140,18 +140,10 @@
                                                 <h3>{{tr('hello')}} {{$data['name']}}</h3>  
                                                 <br>
 
-                                                <b>{{tr('product_name')}} - {{$data['product_name']}}</b>
+                                                <b>{{ $data['message']}}</b>
                                                 <br>
 
-                                                @if($data['status'] ==  tr('approved'))
-
-                                                    {{tr('above_product_approved_by_admin')}}!!
-
-                                                @else
-
-                                                    {{tr('above_product_declined_by_admin')}}!! 
-                                                    
-                                                @endif
+                                              
                                                 
                                             </div>
 

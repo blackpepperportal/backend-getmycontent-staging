@@ -20,7 +20,7 @@
 
 @endif
 
-<li class="breadcrumb-item">{{tr('followers')}}</li>
+<li class="breadcrumb-item">{{tr('following')}}</li>
 
 @endsection 
 
@@ -37,7 +37,7 @@
                 <div class="card-header border-bottom border-gray">
 
                     <h4 class="card-title">
-                        {{ tr('followers') }} - 
+                        {{ tr('following') }} - 
                         <a href="{{route('admin.users.view',['user_id' => $user->id])}}">{{$user->name ?? "-"}}</a> 
                     </h4>
                     <a class="heading-elements-toggle">

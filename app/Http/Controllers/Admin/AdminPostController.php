@@ -326,7 +326,7 @@ class AdminPostController extends Controller
 
                 DB::commit();
 
-                return redirect()->route('admin.posts.index')->with('flash_success', tr('post_deleted_success'));   
+                return redirect()->route('admin.posts.index',['page'=>$request->page])->with('flash_success', tr('post_deleted_success'));   
 
             } 
 
@@ -897,7 +897,7 @@ class AdminPostController extends Controller
     public function delivery_address_delete(Request $request) {
 
         try {
-
+            
             DB::begintransaction();
 
             $delivery_address = \App\DeliveryAddress::find($request->delivery_address_id);
@@ -911,7 +911,7 @@ class AdminPostController extends Controller
 
                 DB::commit();
 
-                return redirect()->route('admin.delivery_address.index')->with('flash_success',tr('delivery_address_deleted_success'));   
+                return redirect()->route('admin.delivery_address.index',['user_id'=>$delivery_address->user_id,'page'=>$request->page])->with('flash_success',tr('delivery_address_deleted_success'));   
 
             } 
 
@@ -965,7 +965,7 @@ class AdminPostController extends Controller
             $base_query = $base_query->where('user_id',$request->user_id);
         }
 
-        $post_bookmarks = $base_query->paginate(10);
+        $post_bookmarks = $base_query->paginate($this->take);
 
         return view('admin.bookmarks.index')
                     ->with('page','post_bookmarks')
@@ -1007,7 +1007,7 @@ class AdminPostController extends Controller
 
                 DB::commit();
 
-                return redirect()->back()->with('flash_success',tr('bookmark_deleted_success'));   
+                return redirect()->route('admin.bookmarks.index',['page'=>$request->page,'user_id'=>$post_bookmark->user_id])->with('flash_success',tr('bookmark_deleted_success'));   
 
             } 
 

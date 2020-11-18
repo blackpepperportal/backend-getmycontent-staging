@@ -8,7 +8,7 @@
     <a href="{{route('admin.users.index')}}">{{ tr('users') }}</a>
 </li>
 
-<li class="breadcrumb-item">{{tr('followers')}}</li>
+<li class="breadcrumb-item">{{tr('followings')}}</li>
 
 @endsection 
 
