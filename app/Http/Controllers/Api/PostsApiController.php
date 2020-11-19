@@ -941,11 +941,14 @@ class PostsApiController extends Controller
                 $posts = $post_base_query->get();
 
                 $posts = \App\Repositories\PostRepository::posts_list_response($posts, $request);
+
+                $total = $total_query->count() ?? 0;
+
             }
 
             $data['posts'] = $posts ?? [];
 
-            $data['total'] = $total_query->count() ?? 0;
+            $data['total'] = $total ?? 0;
 
             return $this->sendResponse($message = '' , $code = '', $data);
         
