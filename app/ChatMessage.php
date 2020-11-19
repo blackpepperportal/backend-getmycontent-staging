@@ -8,7 +8,7 @@ class ChatMessage extends Model
 {
     protected $hidden = ['id','unique_id'];
 
-	protected $appends = ['chat_message_id', 'chat_message_unique_id', 'from_username', 'from_displayname', 'from_userpicture', 'to_username', 'to_displayname', 'to_userpicture'];
+	protected $appends = ['chat_message_id', 'chat_message_unique_id', 'from_username', 'from_displayname', 'from_userpicture', 'from_user_unique_id', 'to_username', 'to_displayname', 'to_userpicture', 'to_user_unique_id'];
 
 	public function getChatMessageIdAttribute() {
 
@@ -35,6 +35,11 @@ class ChatMessage extends Model
 		return $this->fromUser->name ?? tr('n_a');
 	}
 
+	public function getFromUserUniqueIdAttribute() {
+
+		return $this->fromUser->unique_id ?? '';
+	}
+
 	public function getToUsernameAttribute() {
 
 		return $this->toUser->username ?? tr('n_a');
@@ -48,6 +53,11 @@ class ChatMessage extends Model
 	public function getToDisplaynameAttribute() {
 
 		return $this->toUser->name ?? tr('n_a');
+	}
+
+	public function getToUserUniqueIdAttribute() {
+
+		return $this->toUser->unique_id ?? '';
 	}
 
 	public function fromUser() {

@@ -919,7 +919,7 @@ class PostsApiController extends Controller
 
            // Check the subscription is available
 
-            $base_query = $total_query = \App\PostBookmark::where('user_id', $request->id)->Approved()->orderBy('post_bookmarks.created_at', 'desc');
+            $base_query = \App\PostBookmark::where('user_id', $request->id)->Approved()->orderBy('post_bookmarks.created_at', 'desc');
 
             $post_ids = $base_query->skip($this->skip)->take($this->take)->pluck('post_id');
 
@@ -927,7 +927,7 @@ class PostsApiController extends Controller
 
             if($post_ids) {
 
-                $post_base_query = \App\Post::with('postFiles')->Approved()->whereIn('posts.id', $post_ids)->orderBy('posts.created_at', 'desc');
+                $post_base_query = $total_query = \App\Post::with('postFiles')->Approved()->whereIn('posts.id', $post_ids)->orderBy('posts.created_at', 'desc');
 
                 if($request->type != POSTS_ALL) {
 
