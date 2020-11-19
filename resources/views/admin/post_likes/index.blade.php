@@ -82,7 +82,7 @@
 
                                                 @else
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('post_delete_confirmation') }}&quot;);" href="{{ route('admin.post_likes.delete', ['post_like_id' => $post_like->id,'user_id' => $post_like->user_id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('post_delete_confirmation') }}&quot;);" href="{{ route('admin.post_likes.delete', ['post_like_id' => $post_like->id,'user_id' => $post_like->user_id,'page'=>request()->input('page')] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 

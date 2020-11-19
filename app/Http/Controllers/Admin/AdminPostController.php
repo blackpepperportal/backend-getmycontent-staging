@@ -1329,7 +1329,7 @@ class AdminPostController extends Controller
 
                 DB::commit();
 
-                return redirect()->back()->with('flash_success',tr('like_post_deleted'));   
+                return redirect()->route('admin.post_likes.index',['user_id'=>$request->user_id ?? '','page'=>$request->page])->with('flash_success',tr('like_post_deleted'));   
 
             } 
 

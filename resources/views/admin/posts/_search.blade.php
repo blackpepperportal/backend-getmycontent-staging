@@ -35,11 +35,11 @@
                 placeholder="{{tr('post_search_placeholder')}}"> <span class="input-group-btn">
                 &nbsp
 
-                <button type="submit" class="btn btn-default">
-                   <a href=""><i class="fa fa-search" aria-hidden="true"></i></a>
+                <button type="submit" class="btn btn-default reset-btn">
+                  <i class="fa fa-search" aria-hidden="true"></i>
                 </button>
                 
-                <button class="btn btn-default"><a  href="{{route('admin.posts.index')}}"><i class="fa fa-eraser" aria-hidden="true"></i></button>
+               <a class="btn btn-default reset-btn" href="{{route('admin.posts.index')}}"><i class="fa fa-eraser" aria-hidden="true"></i>
                 </a>
                    
                 </span>

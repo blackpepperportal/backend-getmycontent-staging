@@ -1,4 +1,4 @@
-  <form method="GET" action="{{route('admin.post_likes.index')}}">
+  <form method="GET" action="{{route('admin.post_likes.index')}}" class="form-bottom">
 
     <div class="row">
 
