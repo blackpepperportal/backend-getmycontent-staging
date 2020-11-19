@@ -26,6 +26,8 @@ class CreatePostPaymentsTable extends Migration
             $table->dateTime('paid_date')->nullable();
             $table->tinyInteger('is_failed')->default(0);
             $table->tinyInteger('failed_reason')->default(0);
+            $table->float('admin_amount')->default(0.00);
+            $table->float('user_amount')->default(0.00);
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
