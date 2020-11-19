@@ -44,7 +44,7 @@ class PostFile extends Model
     public function scopeBlurResponse($query) {
 
         return $query->select(
-            'post_files.id',
+            'post_files.*',
             'post_files.blur_file as post_file',
             );
     

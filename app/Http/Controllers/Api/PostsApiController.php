@@ -1259,7 +1259,7 @@ class PostsApiController extends Controller
             
             DB::begintransaction();
 
-            $rules = ['user_id' => 'nullable|exists:posts,id'];
+            $rules = ['user_id' => 'required|exists:users,id'];
 
             $custom_errors = ['user_id.required' => api_error(146)];
 
