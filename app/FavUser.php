@@ -10,7 +10,7 @@ class FavUser extends Model
 
     protected $hidden = ['id', 'unique_id'];
 
-	protected $appends = ['fav_user_id', 'fav_user_unique_id', 'username', 'user_picture', 'fav_username', 'fav_user_picture'];
+	protected $appends = ['fav_user_id', 'fav_user_unique_id', 'username', 'user_picture'];
 	
 	public function getFavUserIdAttribute() {
 
@@ -24,20 +24,10 @@ class FavUser extends Model
 
 	public function getUsernameAttribute() {
 
-		return $this->user->name ?? "";
-	}
-
-	public function getUserPictureAttribute() {
-
-		return $this->user->picture ?? "";
-	}
-
-	public function getFavUsernameAttribute() {
-
 		return $this->favUser->name ?? "";
 	}
 
-	public function getFavUserPictureAttribute() {
+	public function getUserPictureAttribute() {
 
 		return $this->favUser->picture ?? "";
 	}

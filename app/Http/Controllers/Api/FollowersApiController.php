@@ -253,6 +253,8 @@ class FollowersApiController extends Controller
 
                 $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
 
+                $follower->user = $follower->
+
             }
 
             $data['followers'] = $followers;
