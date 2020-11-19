@@ -19,7 +19,6 @@ class AddRevenueFieldsToTables extends Migration
         });
 
         Schema::table('user_subscription_payments', function (Blueprint $table) {
-            $table->integer('user_subscription_id')->after('unique_id');
             $table->float('admin_amount')->after('amount')->default(0.00);
             $table->float('user_amount')->after('admin_amount')->default(0.00);
         });
@@ -38,7 +37,6 @@ class AddRevenueFieldsToTables extends Migration
         });
 
         Schema::table('user_subscription_payments', function (Blueprint $table) {
-            $table->dropColumn('user_subscription_id');
             $table->dropColumn('admin_amount');
             $table->dropColumn('user_amount');
         });
