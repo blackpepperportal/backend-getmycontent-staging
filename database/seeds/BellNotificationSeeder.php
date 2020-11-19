@@ -14,19 +14,19 @@ class BellNotificationSeeder extends Seeder
         DB::table('settings')->insert([
     		[
 		        'key' => 'BN_USER_FOLLOWINGS',
-		        'value' => \Setting::get('frontend_url')."fans"
+		        'value' => \Setting::get('frontend_url', "")."fans"
 		    ],
 		    [
 		        'key' => 'BN_USER_COMMENT',
-		        'value' => Setting::get('frontend_url')
+		        'value' => Setting::get('frontend_url', "")
 		    ],
 		    [
 		        'key' => 'BN_USER_LIKE',
-		        'value' => Setting::get('frontend_url')
+		        'value' => Setting::get('frontend_url', "")
 		    ],
 		    [
 		        'key' => 'BN_USER_TIPS',
-		        'value' => Setting::get('frontend_url')."payments"
+		        'value' => Setting::get('frontend_url', "")."payments"
 		    ]
 		]);
     }

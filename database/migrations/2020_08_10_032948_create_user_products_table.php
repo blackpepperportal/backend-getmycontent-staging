@@ -21,7 +21,7 @@ class CreateUserProductsTable extends Migration
             $table->integer('sub_category_id');
             $table->string('name');
             $table->text('description');
-            $table->string('picture')->default(asset('product-placeholder.jpg'));
+            $table->string('picture')->default(asset('product-placeholder.jpeg'));
             $table->float('quantity')->default(0.00);
             $table->float('price')->default(0.00);
             $table->float('delivery_price')->default(0.00);

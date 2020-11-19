@@ -23,7 +23,7 @@ class CreateSupportMembersTable extends Migration
             $table->string('username')->unique()->nullable();
             $table->string('email')->unique();
             $table->text('about')->nullable();
-            $table->string('picture')->default(asset('placeholder.jpg'));
+            $table->string('picture')->default(asset('placeholder.jpeg'));
             $table->string('password');
             $table->string('mobile');
             $table->string('address')->default('');
