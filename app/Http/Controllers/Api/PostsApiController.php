@@ -312,9 +312,10 @@ class PostsApiController extends Controller
 
                         $post_file->file = \Storage::url($file_path);
 
-                        $post_file->blur_file = \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->id);
-
                         $post_file->file_type =  pathinfo($file,PATHINFO_EXTENSION);
+
+                        $post_file->blur_file = $post_file->file_type != "mp4" ? \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->id) : "";
+
 
                         $post_file->save();
 
