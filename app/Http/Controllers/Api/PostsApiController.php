@@ -267,7 +267,7 @@ class PostsApiController extends Controller
                 'content' => 'required',
                 'publish_time' => 'nullable',
                 'amount' => 'nullable|min:0',
-                'files' => 'nullable'
+                'post_files' => 'nullable'
             ];
 
             Helper::custom_validator($request->all(),$rules);
@@ -284,11 +284,6 @@ class PostsApiController extends Controller
 
             $post->publish_time = date('Y-m-d H:i:s', strtotime($publish_time));
 
-            $amount = $request->amount ?: ($post->amount ?? 0);
-
-            $post->amount = $amount;
-
-            $post->is_paid_post = $amount > 0 ? YES : NO;
 
             if($post->save()) {
 
@@ -296,30 +291,41 @@ class PostsApiController extends Controller
 
                     $files = explode(',', $request->post_files);
 
-                    foreach ($files as $key => $file) {
+                    foreach ($files as $key => $post_file_id) {
 
-                        $file_input = ['post_id' => $post->id, 'file' => $file];
+                        // $file_input = ['post_id' => $post->id, 'file' => $file];
 
-                        $post_file = \App\PostFile::create($file_input);
+                        $post_file = \App\PostFile::find($post_file_id);
 
-                        $old_path = get_post_temp_path($request->id, $file);
+                        $post_file->post_id = $post->id;
 
-                        $new_path = get_post_path($request->id, $file);
+                        // $old_path = get_post_temp_path($request->id, $file);
 
-                        $move = \Storage::move($old_path, $new_path);
+                        // $new_path = get_post_path($request->id, $file);
 
-                        $file_path = POST_PATH.$request->id.'/'.basename($file);
+                        // $move = \Storage::move($old_path, $new_path);
 
-                        $post_file->file = \Storage::url($file_path);
+                        // $file_path = POST_PATH.$request->id.'/'.basename($file);
 
-                        $post_file->blur_file = \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->id);
+                        // $post_file->file = \Storage::url($file_path);
 
-                        $post_file->file_type =  pathinfo($file,PATHINFO_EXTENSION);
+                        // $post_file->file_type =  pathinfo($file,PATHINFO_EXTENSION);
+
+                        // $post_file->blur_file = $post_file->file_type != "mp4" ? \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->id) : "";
+
 
                         $post_file->save();
 
 
                     }
+
+                    $amount = $request->amount ?: ($post->amount ?? 0);
+
+                    $post->amount = $amount;
+
+                    $post->is_paid_post = $amount > 0 ? YES : NO;
+
+                    $post->save();
                 }
 
                 DB::commit(); 
@@ -367,13 +373,33 @@ class PostsApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $filename = rand(1,1000000).'-temp-post-'.$request->file_type;
+            $filename = rand(1,1000000).'-post-'.$request->file_type;
 
-            $folder_path = POST_TEMP_PATH.$request->id.'/';
+            $folder_path = POST_PATH.$request->id.'/';
 
-            $post_file = Helper::post_upload_file($request->file, $folder_path, $filename);
+            $post_file_url = Helper::post_upload_file($request->file, $folder_path, $filename);
 
-            $data['file'] = $post_file;
+            if($post_file_url) {
+
+                $post_file = new \App\PostFile;
+
+                $post_file->user_id = $request->id;
+
+                $post_file->post_id = 0;
+
+                $post_file->file = $post_file_url;
+
+                $post_file->file_type = $request->file_type;
+
+                $post_file->blur_file = $request->file_type == "image" ? \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->id) : Setting::get('post_video_placeholder');
+
+                $post_file->save();
+
+            }
+
+            $data['file'] = $post_file_url;
+
+            $data['post_file'] = $post_file;
 
             return $this->sendResponse(api_success(151), 151, $data);
 

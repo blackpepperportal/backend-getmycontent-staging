@@ -209,11 +209,6 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('user_product_pictures_delete','Api\UserProductApiController@user_product_pictures_delete');
 
-        // Followers and Followings list for content creators
-        Route::post('followers', 'Api\FollowersApiController@followers');
-
-        Route::post('followings', 'Api\FollowersApiController@followings');
-
         Route::post('posts_for_owner','Api\PostsApiController@posts_for_owner');
 
         Route::post('posts_save_for_owner','Api\PostsApiController@posts_save_for_owner')->middleware(['CheckEmailVerify']);
@@ -226,18 +221,29 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('post_files_remove','Api\PostsApiController@post_files_remove');
 
-        
+    });
+
+    Route::group(['middleware' => ['UserApiVal']], function() {
+
+        // Followers and Followings list for content creators
+        Route::post('followers', 'Api\FollowersApiController@followers');
+
+        Route::post('followings', 'Api\FollowersApiController@followings');
+
         Route::post('active_followers', 'Api\FollowersApiController@active_followers');
 
         Route::post('expired_followers', 'Api\FollowersApiController@expired_followers');
 
+        Route::post('active_followings', 'Api\FollowersApiController@active_followings');
+
+        Route::post('expired_followings', 'Api\FollowersApiController@expired_followings');
+
+
+        Route::post('follow_users','Api\FollowersApiController@follow_users');
+
+        Route::post('unfollow_users','Api\FollowersApiController@unfollow_users');
 
     });
-
-
-    Route::post('follow_users','Api\FollowersApiController@follow_users');
-
-    Route::post('unfollow_users','Api\FollowersApiController@unfollow_users');
 
     Route::post('other_profile','Api\UserAccountApiController@other_profile');
 
