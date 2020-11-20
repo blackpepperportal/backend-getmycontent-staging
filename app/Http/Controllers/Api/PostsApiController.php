@@ -284,11 +284,6 @@ class PostsApiController extends Controller
 
             $post->publish_time = date('Y-m-d H:i:s', strtotime($publish_time));
 
-            $amount = $request->amount ?: ($post->amount ?? 0);
-
-            $post->amount = $amount;
-
-            $post->is_paid_post = $amount > 0 ? YES : NO;
 
             if($post->save()) {
 
@@ -323,6 +318,14 @@ class PostsApiController extends Controller
 
 
                     }
+
+                    $amount = $request->amount ?: ($post->amount ?? 0);
+
+                    $post->amount = $amount;
+
+                    $post->is_paid_post = $amount > 0 ? YES : NO;
+
+                    $post->save();
                 }
 
                 DB::commit(); 
