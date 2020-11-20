@@ -8,7 +8,7 @@ class PostFile extends Model
 {
     protected $fillable = ['file', 'post_id'];
 
-    protected $hidden = ['deleted_at', 'id', 'unique_id', 'blur_file', 'file'];
+    protected $hidden = ['deleted_at', 'id', 'unique_id', 'file'];
 
 	protected $appends = ['post_file_id', 'post_file_unique_id'];
 
