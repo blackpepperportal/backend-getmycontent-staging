@@ -689,6 +689,10 @@ class UserAccountApiController extends Controller
 
                     $user_subscription->save();
 
+                    $user->user_account_type = USER_PREMIUM_ACCOUNT;
+
+                    $user->save();
+
                     DB::commit();
 
                 }
