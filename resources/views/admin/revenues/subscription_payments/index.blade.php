@@ -74,7 +74,7 @@
                                         {{ $subscription_payment->amount_formatted}}
                                     </td>
 
-                                    <td><span class="text-danger">{{common_date($subscription_payment->expiry_time , Auth::guard('admin')->user()->timezone)}}</span></td>
+                                    <td><span class="text-danger">{{common_date($subscription_payment->expiry_date , Auth::guard('admin')->user()->timezone)}}</span></td>
 
                                     <td>
                                         @if($subscription_payment->status == APPROVED)

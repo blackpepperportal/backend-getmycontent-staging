@@ -1,8 +1,8 @@
-@extends('layouts.admin') 
+@extends('layouts.admin')
 
-@section('title', tr('comments_list')) 
+@section('title', tr('comments_list'))
 
-@section('content-header', tr('comments_list')) 
+@section('content-header', tr('comments_list'))
 
 @section('breadcrumb')
 
@@ -16,7 +16,7 @@
     {{tr('comments_list')}}
 </li>
 
-@endsection 
+@endsection
 
 @section('content')
 
@@ -32,7 +32,7 @@
 
                     <h4 class="card-title">
 
-                        {{ tr('comments_list') }} - {{ $post->user->name ?? '-'}}
+                        {{ tr('comments_list') }} - <a href="{{route('admin.users.view',['user_id'=>$post->user->id ?? ''])}}">{{ $post->user->name ?? '-'}}</a>
 
                     </h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
@@ -46,26 +46,27 @@
 
                             <div class="row">
 
-                                <input type="hidden" name="post_id" value="{{$post_id}}">
+                            
+                            <input type="hidden" name="post_id" value="{{$post_id}}">
 
-                                <div class="col-xs-12 col-sm-12 col-lg-2 col-md-6 resp-mrg-btm-md">
-                                   
+                                <div class="col-6">
+                                    @if(Request::has('search_key'))
+                                    <p class="text-muted">{{tr('search_results_for')}}<b>{{Request::get('search_key')}}</b></p>
+                                    @endif
                                 </div>
 
+                                <div class="col-6">
 
-                                <div class="col-xs-12 col-sm-12 col-lg-6 col-md-12 mx-auto">
+                                    <div class="input-group">
 
-                                    <div class="input-group form-margin-left-sm">
-
-                                        <input type="text" class="form-control" name="search_key"
-                                        placeholder="{{tr('comment_search_placeholder')}}"> <span class="input-group-btn">
+                                        <input type="text" class="form-control" name="search_key" placeholder="{{tr('comment_search_placeholder')}}"> <span class="input-group-btn">
                                             &nbsp
 
                                             <button type="submit" class="btn btn-default">
                                                 <a href=""><i class="fa fa-search" aria-hidden="true"></i></a>
                                             </button>
 
-                                            <button class="btn btn-default"><a  href="{{route('admin.posts.comments')}}"><i class="fa fa-eraser" aria-hidden="true"></i></button>
+                                            <button class="btn btn-default"><a href="{{route('admin.posts.comments')}}"><i class="fa fa-eraser" aria-hidden="true"></i></button>
                                             </a>
 
                                         </span>
@@ -75,6 +76,7 @@
                                 </div>
 
                             </div>
+
 
                         </form>
                         <br>
@@ -101,53 +103,51 @@
                                             {{ $post_comment->username ?? "-" }}
                                         </a>
                                     </td>
-                                   
-
-                                        <td>
-                                            {{ $post_comment->comment}}
-                                        </td>
 
 
-
-                                        <td>
-
-                                            <div class="btn-group" role="group">
-
-                                                <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ft-settings icon-left"></i> {{ tr('action') }}</button>
-
-                                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-
-
-                                                    @if(Setting::get('is_demo_control_enabled') == YES)
+                                    <td>
+                                        {{ $post_comment->comment}}
+                                    </td>
 
 
 
-                                                    <a class="dropdown-item" href="javascript:void(0)">&nbsp;{{ tr('delete') }}</a> 
+                                    <td>
 
-                                                    @else
+                                        <div class="btn-group" role="group">
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('post_comment_delete_confirmation') }}&quot;);" href="{{ route('admin.post_comment.delete', ['comment_id' => $post_comment->id, 'post_id' => $post_comment->post_id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                            <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ft-settings icon-left"></i> {{ tr('action') }}</button>
 
-                                                    @endif
+                                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
 
-                                                </div>
+                                                @if(Setting::get('is_demo_control_enabled') == YES)
+
+
+
+                                                <a class="dropdown-item" href="javascript:void(0)">&nbsp;{{ tr('delete') }}</a>
+
+                                                @else
+
+                                                <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('post_comment_delete_confirmation') }}&quot;);" href="{{ route('admin.post_comment.delete', ['comment_id' => $post_comment->id, 'post_id' => $post_comment->post_id] ) }}">&nbsp;{{ tr('delete') }}</a>
+
+                                                @endif
+
 
                                             </div>
 
-                                        </td>
+                                        </div>
 
-                                    </tr>
+                                    </td>
 
-                                    @endforeach
+                                </tr>
 
-                                </tbody>
+                                @endforeach
 
-                            </table>
+                            </tbody>
 
-                            <div class="pull-right" id="paglink">{{ $post_comments->appends(request()->input())->links() }}</div>
+                        </table>
 
-                        </div>
+                        <div class="pull-right" id="paglink">{{ $post_comments->appends(request()->input())->links() }}</div>
 
                     </div>
 
@@ -157,6 +157,8 @@
 
         </div>
 
-    </section>
+    </div>
 
-    @endsection
+</section>
+
+@endsection

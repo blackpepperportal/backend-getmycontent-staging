@@ -86,7 +86,7 @@ class UserAccountApiController extends Controller
                 $rules = [
                         'first_name' => 'required|max:255|min:2',
                         'last_name' => 'required|max:255|min:1',
-                        'email' => 'required|email|max:255|min:2',
+                        'email' => 'required|email|regex:/(.+)@(.+)\.(.+)/i|max:255|min:2',
                         'password' => 'required|min:6',
                         'picture' => 'mimes:jpeg,jpg,bmp,png',
                     ];
@@ -99,7 +99,8 @@ class UserAccountApiController extends Controller
                 Helper::custom_validator($request->all(), $rules);
 
             }
-
+             
+            
             $user = User::firstWhere('email' , $request->email);
 
             $send_email = NO;
@@ -559,6 +560,10 @@ class UserAccountApiController extends Controller
 
             $user->updated_formatted = common_date($user->updated_at, $this->timezone, 'd M Y');
 
+            $user->monthly_amount = $user->userSubscription->monthly_amount ?? 0.00;
+
+            $user->yearly_amount = $user->userSubscription->yearly_amount ?? 0.00;
+
             return $this->sendResponse($message = "", $success_code = "", $user);
 
         } catch(Exception $e) {
@@ -593,11 +598,11 @@ class UserAccountApiController extends Controller
             $rules = [
                     'first_name' => 'nullable|max:255',
                     'last_name' => 'nullable|max:255',
-                    'email' => 'email|unique:users,email,'.$request->id.'|max:255',
+                    'email' => 'email|unique:users,email,'.$request->id.'|regex:/(.+)@(.+)\.(.+)/i|max:255',
                     'username' => 'nullable|unique:users,username,'.$request->id.'|max:255',
                     'mobile' => 'nullable|digits_between:6,13',
-                    'picture' => 'nullable|mimes:jpeg,bmp,png',
-                    'cover' => 'nullable|mimes:jpeg,bmp,png',
+                    'picture' => 'nullable|mimes:jpeg,jpg,bmp,png',
+                    'cover' => 'nullable|mimes:jpeg,jpg,bmp,png',
                     'gender' => 'nullable|in:male,female,others',
                     'device_token' => '',
             ];
@@ -627,6 +632,8 @@ class UserAccountApiController extends Controller
 
                 $user->email = $request->email;
             }
+
+            $user->about = $request->about ?: $user->about;
 
             $user->mobile = $request->mobile ?: $user->mobile;
 
@@ -1818,7 +1825,7 @@ class UserAccountApiController extends Controller
     public function user_subscriptions_payment_by_stripe(Request $request) {
 
         try {
-
+            
             DB::beginTransaction();
 
             $rules = [
@@ -1829,6 +1836,7 @@ class UserAccountApiController extends Controller
             Helper::custom_validator($request->all(), $rules, $custom_errors = []);
 
             $user = \App\User::where('users.unique_id', $request->user_unique_id)->first();
+            
 
             if(!$user) {
                 throw new Exception(api_error(135), 135);
@@ -1837,7 +1845,7 @@ class UserAccountApiController extends Controller
             $user_subscription = $user->userSubscription;
 
             if(!$user_subscription) {
-
+                
                 if($request->is_free == YES) {
 
                     $user_subscription = new \App\UserSubscription;
@@ -1853,7 +1861,7 @@ class UserAccountApiController extends Controller
                 }
 
             }
-
+           
             $check_user_payment = \App\UserSubscriptionPayment::UserPaid($request->id, $user->id)->first();
 
             if($check_user_payment) {
@@ -1903,7 +1911,7 @@ class UserAccountApiController extends Controller
             $payment_response = PaymentRepo::user_subscription_payments_save($request, $user_subscription)->getData();
 
             if(!$payment_response->success) {
-
+                
                 throw new Exception($payment_response->error, $payment_response->error_code);
                 
             }
@@ -2110,7 +2118,7 @@ class UserAccountApiController extends Controller
 
             $data['user_withdrawals_min_amount_formatted'] = formatted_amount(Setting::get('user_withdrawals_min_amount', 10));
 
-            $data['wallet'] = \App\UserWallet::where('user_id', $request->id)->first();
+            $data['user_wallet'] = \App\UserWallet::where('user_id', $request->id)->first();
 
             return $this->sendResponse($message = "", $success_code = "", $data);
 
@@ -2158,6 +2166,64 @@ class UserAccountApiController extends Controller
 
             return $this->sendError($e->getMessage(), $e->getCode());
 
+        }
+    
+    }
+
+
+    /**
+     * @method chat_users_save()
+     * 
+     * @uses - To save the chat users.
+     *
+     * @created Ganesh
+     *
+     * @updated Ganesh
+     * 
+     * @param 
+     *
+     * @return No return response.
+     *
+     */
+
+    public function chat_users_save(Request $request) {
+
+        try {
+
+            $rules = [
+                'from_user_id' => 'required|exists:users,id',
+                'to_user_id' => 'required|exists:users,id',
+            ];
+
+
+            Helper::custom_validator($request->all(), $rules);
+
+            DB::beginTransaction();
+
+            $chat_user = \App\ChatUser::where('from_user_id', $request->from_user_id)->where('to_user_id', $request->to_user_id)->first();
+
+            if($chat_user) {
+
+                throw new Exception(api_error(162) , 162);
+            }
+
+            $chat_user = new \App\ChatUser();
+
+            $chat_user->from_user_id = $request->from_user_id;
+
+            $chat_user->to_user_id = $request->to_user_id;
+            
+            $chat_user->save();
+
+            DB::commit();
+
+            return $this->sendResponse("", "", $chat_user);
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
         }
     
     }

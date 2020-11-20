@@ -65,6 +65,8 @@ class PostsApiController extends Controller
 
             $data['total'] = $total_query->count() ?? 0;
 
+            $data['user'] = $this->loginUser;
+
             return $this->sendResponse($message = '' , $code = '', $data);
 
         } catch(Exception $e) {
@@ -183,7 +185,7 @@ class PostsApiController extends Controller
 
         try {
 
-            $base_query = $total_query = Post::with('postFiles')->orderBy('posts.created_at', 'desc');
+            $base_query = $total_query = Post::where('user_id', $request->id)->with('postFiles')->orderBy('posts.created_at', 'desc');
 
             $posts = $base_query->skip($this->skip)->take($this->take)->get();
 
@@ -262,7 +264,7 @@ class PostsApiController extends Controller
             DB::begintransaction();
 
             $rules = [
-                'content' => 'required|max:191',
+                'content' => 'required',
                 'publish_time' => 'nullable',
                 'amount' => 'nullable|min:0',
                 'files' => 'nullable'
@@ -917,7 +919,7 @@ class PostsApiController extends Controller
 
            // Check the subscription is available
 
-            $base_query = $total_query = \App\PostBookmark::where('user_id', $request->id)->Approved()->orderBy('post_bookmarks.created_at', 'desc');
+            $base_query = \App\PostBookmark::where('user_id', $request->id)->Approved()->orderBy('post_bookmarks.created_at', 'desc');
 
             $post_ids = $base_query->skip($this->skip)->take($this->take)->pluck('post_id');
 
@@ -925,7 +927,7 @@ class PostsApiController extends Controller
 
             if($post_ids) {
 
-                $post_base_query = \App\Post::with('postFiles')->Approved()->whereIn('posts.id', $post_ids)->orderBy('posts.created_at', 'desc');
+                $post_base_query = $total_query = \App\Post::with('postFiles')->Approved()->whereIn('posts.id', $post_ids)->orderBy('posts.created_at', 'desc');
 
                 if($request->type != POSTS_ALL) {
 
@@ -939,11 +941,14 @@ class PostsApiController extends Controller
                 $posts = $post_base_query->get();
 
                 $posts = \App\Repositories\PostRepository::posts_list_response($posts, $request);
+
+                $total = $total_query->count() ?? 0;
+
             }
 
             $data['posts'] = $posts ?? [];
 
-            $data['total'] = $total_query->count() ?? 0;
+            $data['total'] = $total ?? 0;
 
             return $this->sendResponse($message = '' , $code = '', $data);
         
@@ -1254,7 +1259,7 @@ class PostsApiController extends Controller
             
             DB::begintransaction();
 
-            $rules = ['user_id' => 'nullable|exists:posts,id'];
+            $rules = ['user_id' => 'required|exists:users,id'];
 
             $custom_errors = ['user_id.required' => api_error(146)];
 

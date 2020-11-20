@@ -26,8 +26,10 @@ class Follower extends Model
 				'users.id as user_id',
 	            'users.unique_id as user_unique_id',
                 'users.username',
+                'users.name',
 	            'users.email as email',
 	            'users.picture as picture',
+                'users.cover as cover',
                 'followers.follower_id',
                 'followers.created_at',
                 'followers.updated_at'
@@ -45,5 +47,4 @@ class Follower extends Model
         return $this->belongsTo(User::class,'user_id');
     }
 
-    
 }

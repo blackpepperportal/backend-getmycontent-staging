@@ -62,8 +62,11 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     Route::any('static_pages_web', 'ApplicationController@static_pages_web');
 
-    Route::get('pages/list', 'ApplicationController@static_pages_api');
-    
+    Route::any('static_pages', 'ApplicationController@static_pages_api');
+
+    Route::post('chat_users_save', 'Api\UserAccountApiController@chat_users_save');
+
+
     Route::group(['middleware' => 'UserApiVal'] , function() {
 
         Route::post('profile','Api\UserAccountApiController@profile');
@@ -223,6 +226,12 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('post_files_remove','Api\PostsApiController@post_files_remove');
 
+        
+        Route::post('active_followers', 'Api\FollowersApiController@active_followers');
+
+        Route::post('expired_followers', 'Api\FollowersApiController@expired_followers');
+
+
     });
 
 
@@ -297,4 +306,5 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
     Route::post('chat_users','Api\FollowersApiController@chat_users');
 
     Route::post('chat_messages','Api\FollowersApiController@chat_messages')->middleware(['CheckEmailVerify']);
+
 });

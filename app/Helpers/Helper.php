@@ -519,7 +519,7 @@ class Helper {
         }
     }
 
-     /**
+    /**
      * @method settings_generate_json()
      *
      * @uses used to update settings.json file with updated details.
@@ -578,6 +578,7 @@ class Helper {
         $folder_path_name = 'default-json/settings.json';
 
         Storage::disk('public')->put($folder_path_name, $data);
+    
     }
 
     /**
@@ -675,7 +676,7 @@ class Helper {
         $img = \Image::make(Storage::path($storage_file_path));
 
         // apply stronger blur
-        $img->blur(45)->save(Storage::path($output_file_path));
+        $img->blur(70)->save(Storage::path($output_file_path));
        
         $url = asset(Storage::url($output_file_path));
     

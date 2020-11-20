@@ -26,7 +26,7 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('bookmarks') }}</h4>
+                    <h4 class="card-title">{{ tr('bookmarks') }} - <a href="{{route('admin.users.view',['user_id'=>$user->id ?? ''])}}">{{$user->name ?? ''}}</a></h4>
 
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                     
@@ -85,7 +85,7 @@
 
                                                 @else
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('bookmark_delete_confirmation' , $post_bookmark->post->content) }}&quot;);" href="{{ route('admin.bookmarks.delete', ['post_bookmark_id' => $post_bookmark->id, 'user_id' => $post_bookmark->user_id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('bookmark_delete_confirmation' , $post_bookmark->post->content ?? '') }}&quot;);" href="{{ route('admin.bookmarks.delete', ['post_bookmark_id' => $post_bookmark->id, 'user_id' => $post_bookmark->user_id,'page'=>request()->input('page')] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 

@@ -234,3 +234,8 @@ if(!defined('POSTS_LOCKED')) define('POSTS_LOCKED', 'locked');
 if(!defined('POSTS_PAYMENT_SUBSCRIPTION')) define('POSTS_PAYMENT_SUBSCRIPTION', 'subscription');
 
 if(!defined('POSTS_PAYMENT_PPV')) define('POSTS_PAYMENT_PPV', 'ppv');
+
+
+if(!defined('FOLLOWER_ACTIVE')) define('FOLLOWER_ACTIVE', 1);
+
+if(!defined('FOLLOWER_EXPIRED')) define('FOLLOWER_EXPIRED', 0);

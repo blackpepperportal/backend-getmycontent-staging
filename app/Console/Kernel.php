@@ -14,6 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
+        Commands\PublishPostCron::class,
+        Commands\SubscriptionPaymentCron::class,
     ];
 
     /**
@@ -25,6 +27,11 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+
+           $schedule->command('PublishPost:cron')->hourly();
+
+           $schedule->command('SubscriptionPayment:cron')->daily();
+
     }
 
     /**

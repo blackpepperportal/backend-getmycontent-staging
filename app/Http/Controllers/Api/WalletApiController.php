@@ -64,6 +64,10 @@ class WalletApiController extends Controller
 
             $data['user_wallet'] = $user_wallet;
 
+            $data['user_withdrawals_min_amount'] = Setting::get('user_withdrawals_min_amount', 10);
+
+            $data['user_withdrawals_min_amount_formatted'] = formatted_amount(Setting::get('user_withdrawals_min_amount', 10));
+
             return $this->sendResponse($message = "", $code = "", $data);
 
         } catch(Exception $e) {

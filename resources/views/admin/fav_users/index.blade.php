@@ -10,7 +10,7 @@
     <a href="{{route('admin.users.index')}}">{{ tr('users') }}</a>
 </li>
     
-<li class="breadcrumb-item">{{ tr('favorite_users_list') }}</li>
+<li class="breadcrumb-item">{{ tr('view_favourite_users') }}</li>
 
 @endsection 
 
@@ -26,7 +26,9 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('favorite_users_list') }}</h4>
+                    <h4 class="card-title">{{ tr('view_favourite_users') }} - <a href="{{ route('admin.users.view',['user_id'=>$user->id ?? '']) }}">{{$user->name}}</a>
+                    
+                    </h4>
 
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                     
@@ -80,7 +82,7 @@
 
                                                 @else
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('fav_user_delete_confirmation' , $fav_user->fav_user_id) }}&quot;);" href="{{ route('admin.fav_users.delete', ['fav_user_id' => $fav_user->fav_user_id,'user_id' => $fav_user->user_id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('fav_user_delete_confirmation' , $fav_user->favUser->name ?? '') }}&quot;);" href="{{ route('admin.fav_users.delete', ['fav_user_id' => $fav_user->fav_user_id,'user_id' => $fav_user->user_id] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 

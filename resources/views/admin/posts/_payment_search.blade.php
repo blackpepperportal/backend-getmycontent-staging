@@ -1,4 +1,4 @@
-<form method="GET" action="{{route('admin.post.payments')}}">
+<form method="GET" action="{{route('admin.post.payments')}}" class="form-bottom">
 
     <div class="row">
 
@@ -16,11 +16,11 @@
                 placeholder="{{tr('post__payment_search_placeholder')}}"> <span class="input-group-btn">
                 &nbsp
 
-                <button type="submit" class="btn btn-default">
-                   <a href=""><i class="fa fa-search" aria-hidden="true"></i></a>
+                <button type="submit" class="btn btn-default reset-btn">
+                   <i class="fa fa-search" aria-hidden="true"></i>
                 </button>
                 
-                <button class="btn btn-default"><a  href="{{route('admin.post.payments')}}"><i class="fa fa-eraser" aria-hidden="true"></i></button>
+                <a  href="{{route('admin.post.payments')}}" class="btn btn-default reset-btn"><i class="fa fa-eraser" aria-hidden="true"></i>
                 </a>
                    
                 </span>

@@ -988,5 +988,21 @@ return [
 	"post_files"=>"Post Files",
 	"user_post_like_message"=>"Your Post has been Liked by the User",
 	"user_post_comment_message"=>"Your Post has received the comments",
-	"user_receive_tips_message"=>"User has Sent Tips Amount to You"
+	"user_receive_tips_message"=>"User has Sent Tips Amount to You",
+	"email_validate"=>"Enter Valid Email Format",
+	"follow_message"=>"You have One Follower",
+	"follow"=>"Follow",
+	"view_favourite_users"=>"View Favourite Users",
+	"user_withdrawal_rejected" => "The withdrawal rejected successfully!!",
+	"months"=>"Months",	
+	"month"=>"Month",
+	"document_verify_message" => "Your Document Verification has been  (:other_key) by admin!!",
+	"user_document_verification" => "Document Verification from ",
+	"user_email_verification" => "Email Verification from ",
+	"email_verify_message" => "Your Email has been  (:other_key) by admin!!",
+	"user_account_upgrade" => "Account has been upgraded to Premium Account!!",
+	"account_upgrade_message" => "User (:other_key) Your Account has been upgraded to Premium Account!!",
+    "following"=>"Following"
+
+
 ]?>

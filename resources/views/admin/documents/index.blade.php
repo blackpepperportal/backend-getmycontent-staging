@@ -105,7 +105,7 @@
 
                                                     <a class="dropdown-item" href="{{ route('admin.documents.edit', ['document_id' => $document->id] ) }}">&nbsp;{{ tr('edit') }}</a>
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('document_delete_confirmation' , $document->name) }}&quot;);" href="{{ route('admin.documents.delete', ['document_id' => $document->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('document_delete_confirmation' , $document->name) }}&quot;);" href="{{ route('admin.documents.delete', ['document_id' => $document->id,'page'=>request()->input('page')] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 

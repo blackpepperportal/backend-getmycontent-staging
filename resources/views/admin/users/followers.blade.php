@@ -20,7 +20,7 @@
 
 @endif
 
-<li class="breadcrumb-item">{{tr('followers')}}</li>
+<li class="breadcrumb-item">{{tr('following')}}</li>
 
 @endsection 
 
@@ -37,7 +37,7 @@
                 <div class="card-header border-bottom border-gray">
 
                     <h4 class="card-title">
-                        {{ tr('followers') }} - 
+                        {{ tr('following') }} - 
                         <a href="{{route('admin.users.view',['user_id' => $user->id])}}">{{$user->name ?? "-"}}</a> 
                     </h4>
                     <a class="heading-elements-toggle">
@@ -64,10 +64,10 @@
                            
                             <tbody>
 
-                                @foreach($followers as $i => $follwer)
+                                @foreach($user_followers as $i => $follwer)
 
                                 <tr>
-                                    <td>{{ $i+$followers->firstItem() }}</td>
+                                    <td>{{ $i+$user_followers->firstItem() }}</td>
 
                                     <td>
                                         <a href="{{  route('admin.users.view' , ['user_id' => $follwer->follower_id] )  }}">
@@ -101,7 +101,7 @@
                         
                         </table>
 
-                        <div class="pull-right" id="paglink">{{ $followers->appends(request()->input())->links() }}
+                        <div class="pull-right" id="paglink">{{ $user_followers->appends(request()->input())->links() }}
                         </div>
 
                     </div>

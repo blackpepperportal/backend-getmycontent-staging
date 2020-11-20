@@ -8,7 +8,7 @@
     <a href="{{route('admin.users.index')}}">{{ tr('users') }}</a>
 </li>
 
-<li class="breadcrumb-item">{{tr('followers')}}</li>
+<li class="breadcrumb-item">{{tr('followings')}}</li>
 
 @endsection 
 
@@ -58,13 +58,13 @@
                                     <td>{{ $i+$followings->firstItem() }}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.users.view' , ['content_creator_id' => $following->user_id] )  }}">
+                                        <a href="{{  route('admin.users.view' , ['user_id' => $following->user_id] )  }}">
                                         {{ $following->userDetails->name ?? "-" }}
                                         </a>
                                     </td>
 
                                     <td>
-                                        <a href="{{  route('admin.users.view' , ['content_creator_id' => $following->follower_id] )  }}">
+                                        <a href="{{  route('admin.users.view' , ['user_id' => $following->follower_id] )  }}">
                                         {{ $following->followerDetails->name ?? "-"}}
                                         </a>
                                     </td>

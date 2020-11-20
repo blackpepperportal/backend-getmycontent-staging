@@ -140,18 +140,10 @@
                                                 <h3>{{tr('hello')}} {{$data['name']}}</h3>  
                                                 <br>
 
-                                                <b>{{tr('product_name')}} - {{$data['product_name']}}</b>
+                                                <b>{{ $data['message']}}</b>
                                                 <br>
 
-                                                @if($data['status'] ==  tr('approved'))
-
-                                                    {{tr('above_product_approved_by_admin')}}!!
-
-                                                @else
-
-                                                    {{tr('above_product_declined_by_admin')}}!! 
-                                                    
-                                                @endif
+                                              
                                                 
                                             </div>
 

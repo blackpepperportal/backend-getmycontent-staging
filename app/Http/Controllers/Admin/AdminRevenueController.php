@@ -12,6 +12,8 @@ use DB, Hash, Setting, Auth, Validator, Exception, Enveditor;
 
 use App\Jobs\SendEmailJob;
 
+use Carbon\Carbon;
+
 class AdminRevenueController extends Controller
 {
 	/**
@@ -53,14 +55,16 @@ class AdminRevenueController extends Controller
 
         $data->total_posts = \App\Post::count();
 
-        $data->total_revenue = \App\SubscriptionPayment::where('status', PAID)->sum('subscription_payments.amount');
+        $data->total_revenue = \App\UserSubscriptionPayment::where('status', PAID)->sum('user_subscription_payments.amount');
 
         $data->recent_users= \App\User::orderBy('id' , 'desc')->skip($this->skip)->take(TAKE_COUNT)->get();
 
         $data->recent_premium_users = \App\User::where('user_account_type', USER_PREMIUM_ACCOUNT)->orderBy('id' , 'desc')->skip($this->skip)->take(TAKE_COUNT)->get(); 
 
         $data->analytics = last_x_months_data(12);
-        
+
+        $data->posts_data = last_x_months_posts(12) ?? [];
+
         return view('admin.dashboard')
                     ->with('page' , 'dashboard')
                     ->with('data', $data);
@@ -102,6 +106,8 @@ class AdminRevenueController extends Controller
                             })->orWhere('post_payments.payment_id','LIKE','%'.$search_key.'%');
         }
 
+        $user = \App\User::find($request->user_id) ?? '';
+
         if($request->user_id) {
 
             $base_query  = $base_query->where('user_id',$request->user_id);
@@ -112,6 +118,7 @@ class AdminRevenueController extends Controller
         return view('admin.posts.payments')
                 ->with('page','payments')
                 ->with('sub_page','post-payments')
+                ->with('user',$user)
                 ->with('post_payments',$post_payments);
     }
 
@@ -255,7 +262,7 @@ class AdminRevenueController extends Controller
 
         $data->post_payments = \App\PostPayment::where('status',PAID)->sum('paid_amount');
 
-        $data->subscription_payments = \App\SubscriptionPayment::where('status',PAID)->sum('amount');
+        $data->subscription_payments = \App\UserSubscriptionPayment::where('status',PAID)->sum('amount');
 
         $data->total_payments =  $data->order_payments + $data->post_payments + $data->subscription_payments;
 
@@ -597,22 +604,32 @@ class AdminRevenueController extends Controller
 
             $search_key = $request->search_key;
 
-            $base_query = $base_query->whereHas('userDetails',function($query) use($search_key){
+            $base_query = $base_query->whereHas('user',function($query) use($search_key){
 
                 return $query->where('users.name','LIKE','%'.$search_key.'%');
 
             })->orWhere('user_withdrawals.payment_id','LIKE','%'.$search_key.'%');
         }
 
-        if($request->status) {
+        if($request->has('status')) {
 
             $base_query = $base_query->where('user_withdrawals.status',$request->status);
         }
 
-        $user_withdrawals = $base_query->paginate(10);
+
+        if($request->user_id) {
+
+            $base_query = $base_query->where('user_withdrawals.user_id',$request->user_id);
+        }
+
+
+        $user = \App\User::find($request->user_id)??'';
+
+        $user_withdrawals = $base_query->paginate($this->take);
        
         return view('admin.user_withdrawals.index')
                 ->with('page', 'content_creator-withdrawals')
+                ->with('user', $user)
                 ->with('user_withdrawals', $user_withdrawals);
 
     }
@@ -767,7 +784,7 @@ class AdminRevenueController extends Controller
 
                 dispatch(new SendEmailJob($email_data));
 
-                return redirect()->back()->with('flash_success',tr('user_withdrawal_cancelled'));
+                return redirect()->back()->with('flash_success',tr('user_withdrawal_rejected'));
             }
 
         } catch(Exception $e) {
@@ -892,6 +909,13 @@ class AdminRevenueController extends Controller
                                 return $query->where('users.name','LIKE','%'.$search_key.'%');
                                 
                             })->orWhere('subscription_payments.payment_id','LIKE','%'.$search_key.'%');
+        }
+
+
+        if($request->today_revenue){
+
+            $base_query = $base_query->whereDate('subscription_payments.created_at', Carbon::today());
+
         }
 
         $subscription_payments = $base_query->paginate(10);

@@ -101,7 +101,7 @@ class AdminUserController extends Controller
             $base_query = $base_query->where('users.user_account_type', $request->account_type);
 
         } 
-
+      
         $users = $base_query->paginate($this->take);
 
         return view('admin.users.index')
@@ -445,6 +445,19 @@ class AdminUserController extends Controller
 
                 }
 
+                $email_data['subject'] = tr('user_account_upgrade').' '.Setting::get('site_name');
+
+                $email_data['email']  = $user->email ?? "-";
+
+                $email_data['name']  = $user->name ?? "-";
+
+                $email_data['page'] = "emails.users.account-upgrade";
+
+                $email_data['message'] = tr('account_upgrade_message', $user->name ?? ''); 
+
+                $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+
+
                 DB::commit(); 
 
                 return redirect()->back()->with('flash_success',tr('user_upgrade_account',$user->name));
@@ -533,7 +546,7 @@ class AdminUserController extends Controller
 
                 DB::commit();
 
-                return redirect()->route('admin.users.index')->with('flash_success',tr('user_deleted_success'));   
+                return redirect()->route('admin.users.index',['page'=>$request->page])->with('flash_success',tr('user_deleted_success'));   
 
             } 
             
@@ -653,6 +666,20 @@ class AdminUserController extends Controller
 
             if($user->save()) {
 
+                $status_message = $user->is_email_verified ? tr('approved'):tr('declined');
+
+                $email_data['subject'] = tr('user_email_verification').' '.Setting::get('site_name');
+
+                $email_data['email']  = $user->email ?? "-";
+
+                $email_data['name']  = $user->name ?? "-";
+
+                $email_data['page'] = "emails.users.email-verify";
+
+                $email_data['message'] = tr('email_verify_message', $status_message); 
+
+                $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+
                 DB::commit();
 
                 $message = $user->is_email_verified ? tr('user_verify_success') : tr('user_unverify_success');
@@ -687,12 +714,28 @@ class AdminUserController extends Controller
      */
      public function user_followers(Request $request) {
 
+      try {
+
+        $user = \App\User::find($request->follower_id);
+
+        if(!$user) {
+
+            throw new Exception(tr('user_not_found'));
+        }
+
         $user_followers = \App\Follower::where('follower_id',$request->follower_id)->paginate($this->take);
-        
+
         return view('admin.users.followers')
                 ->with('page', 'users')
                 ->with('sub_page', 'users-view')
-                ->with('user_followers', $user_followers);
+                ->with('user_followers', $user_followers)
+                ->with('user', $user);
+
+        } catch(Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }
      }
 
     /**
@@ -709,6 +752,8 @@ class AdminUserController extends Controller
      * @return view page
      */
      public function user_followings(Request $request) {
+      
+      try{
 
         $user = \App\User::find($request->user_id);
 
@@ -725,6 +770,12 @@ class AdminUserController extends Controller
                 ->with('sub_page','users-view')
                 ->with('followings', $followings)
                 ->with('user', $user);
+
+        } catch(Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }
        
     }
 
@@ -848,7 +899,9 @@ class AdminUserController extends Controller
 
                 DB::commit();
 
-                $email_data['subject'] = tr('user_document_verification' , Setting::get('site_name'));
+                $status_message = $user->is_document_verified ? tr('approved'):tr('declined');
+
+                $email_data['subject'] = tr('user_document_verification').' '.Setting::get('site_name');
 
                 $email_data['email']  = $user->email ?? "-";
 
@@ -856,7 +909,9 @@ class AdminUserController extends Controller
 
                 $email_data['page'] = "emails.users.document-verify";
 
-                // $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+                $email_data['message'] = tr('document_verify_message', $status_message); 
+
+                $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
                 $message = $user->is_document_verified ? tr('user_document_verify_success') : tr('user_document_unverify_success');
 
@@ -891,9 +946,27 @@ class AdminUserController extends Controller
      * @return return view page
      *
      */
-    public function user_subscription_payments() {
+    public function user_subscription_payments(Request $request) {
        
-        $user_subscriptions = \App\UserSubscriptionPayment::orderBy('updated_at','desc')->paginate(10);
+        $base_query = \App\UserSubscriptionPayment::orderBy('updated_at','desc');
+
+        $search_key = $request->search_key;
+
+        if($search_key) {
+
+            $base_query = $base_query
+                        ->whereHas('fromUser',function($query) use($search_key) {
+
+                            return $query->where('users.name','LIKE','%'.$search_key.'%');
+
+                        })->orwhereHas('toUser',function($query) use($search_key) {
+                            
+                            return $query->where('users.name','LIKE','%'.$search_key.'%');
+                        });
+        }
+
+        $user_subscriptions = $base_query->paginate(10);
+
 
         return view('admin.users.subscriptions.index')
                     ->with('page', 'user_subscriptions')
@@ -922,7 +995,7 @@ class AdminUserController extends Controller
         try {
        
             $user_subscription_payment = \App\UserSubscriptionPayment::find($request->subscription_id);
-
+             
              if(!$user_subscription_payment) { 
 
                 throw new Exception(tr('user_subscription_payment_not_found'), 101);                

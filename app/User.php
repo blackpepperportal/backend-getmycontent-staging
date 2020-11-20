@@ -41,16 +41,30 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = ['user_id', 'is_notification', 'is_document_verified_formatted', 'total_followers', 'total_followings', 'user_account_type_formatted', 'total_posts', 'total_fav_users', 'total_bookmarks'];
+    protected $appends = ['user_id', 'user_unique_id', 'is_notification', 'is_document_verified_formatted', 'total_followers', 'total_followings', 'user_account_type_formatted', 'total_posts', 'total_fav_users', 'total_bookmarks', 'is_subscription_enabled', 'share_link'];
 
     public function getUserIdAttribute() {
 
         return $this->id;
     }
 
+    public function getUserUniqueIdAttribute() {
+
+        return $this->unique_id;
+    }
+
     public function getIsNotificationAttribute() {
 
         return $this->is_email_notification ? YES : NO;
+    }
+
+    public function getIsSubscriptionEnabledAttribute() {
+
+        if($this->is_document_verified && $this->has('userBillingAccounts') && $this->is_email_verified) {
+            return YES;
+        }
+
+        return NO;
     }
 
     public function getIsDocumentVerifiedFormattedAttribute() {
@@ -65,6 +79,14 @@ class User extends Authenticatable
         unset($this->followers);
         
         return $count;
+
+    }
+
+    public function getShareLinkAttribute() {
+
+        $share_link = \Setting::get('frontend_url').'model-profile/'.$this->unique_id;
+        
+        return $share_link;
 
     }
 
@@ -194,6 +216,26 @@ class User extends Authenticatable
     public function favUsers() {
         
         return $this->hasMany(FavUser::class, 'user_id');
+    }
+
+    public function postLikes() {
+
+        return $this->hasMany(PostLike::class,'user_id');
+    }
+
+    public function postAlbums() {
+
+        return $this->hasMany(PostAlbum::class,'user_id');
+    }
+
+    public function postComments() {
+
+        return $this->hasMany(PostComment::class,'user_id');
+    }
+
+    public function userTips() {
+
+        return $this->hasMany(UserTip::class,'user_id');
     }
     
     /**
@@ -327,6 +369,15 @@ class User extends Authenticatable
             $model->userDocuments()->delete();
             
             $model->userBillingAccounts()->delete();
+
+            $model->postLikes()->delete();
+
+            $model->postAlbums()->delete();
+
+            $model->postComments()->delete();
+
+            $model->userTips()->delete();
+            
         });
 
     }

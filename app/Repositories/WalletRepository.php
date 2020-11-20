@@ -95,7 +95,7 @@ class WalletRepository {
 
             $value->username = $user->name ?? "-";
 
-            $value->user_picture = $user->picture ?? asset('placeholder.jpg');
+            $value->user_picture = $user->picture ?? asset('placeholder.jpeg');
 
             $value->cancel_btn_status = $cancel_btn_status; 
 

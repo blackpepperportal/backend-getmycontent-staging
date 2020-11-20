@@ -22,7 +22,13 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('user_withdrawals') }}</h4>
+                    <h4 class="card-title">{{ tr('user_withdrawals')}}  
+                    @if($user)
+                    - 
+                    <a href="{{route('admin.users.view',['user_id'=>$user->id ?? ''])}}">{{$user->name ?? ''}}</a>
+
+                    @endif
+                    </h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
                 </div>
@@ -41,6 +47,7 @@
                                     <th>{{ tr('payment_id') }}</th>
                                     <th>{{ tr('content_creator') }}</th>
                                     <th>{{ tr('requested_amount') }}</th>
+                                    <th>{{ tr('payment_mode') }}</th>
                                     <th>{{ tr('paid_amount') }}</th>
                                     <th>{{ tr('status') }}</th>
                                     <th>{{ tr('action')}}</th>
@@ -53,19 +60,25 @@
                                 <tr>
                                     <td>{{ $i+$user_withdrawals->firstItem() }}</td>
 
-                                    <td>{{ $user_withdrawal->payment_id}}</td>
+                                    <td>{{ $user_withdrawal->payment_id ?: '-'}}</td>
 
                                     <td>
                                         <a href="{{  route('admin.users.view' , ['user_id' => $user_withdrawal->user_id] )  }}">
-                                            {{ $user_withdrawal->userDetails->name ?? "-" }}
+                                            {{ $user_withdrawal->user->name ?? "-" }}
                                         </a>
                                     </td>
 
                                     <td>{{ $user_withdrawal->requested_amount_formatted }}</td>
 
                                     <td>
+                                        {{ $user_withdrawal->payment_mode}}
+                                    </td>
+
+                                    <td>
                                         {{ $user_withdrawal->paid_amount_formatted}}
                                     </td>
+
+                                   
 
                                     <td>
                                         @if($user_withdrawal->status == WITHDRAW_PAID)
@@ -149,7 +162,7 @@
             <div class="modal-header">
 
                 <h4 class="modal-title pull-left">
-                    <a href="{{route('admin.users.view' , ['user_id' => $withdrawal_details->user_id])}}"> {{ $withdrawal_details->userDetails->name ?? tr('user_details_not_avail')}}
+                    <a href="{{route('admin.users.view' , ['user_id' => $withdrawal_details->user_id])}}"> {{ $withdrawal_details->user->name ?? tr('user_details_not_avail')}}
                     </a>
                 </h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>

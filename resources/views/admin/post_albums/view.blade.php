@@ -31,7 +31,7 @@
             <div class="text-center">
 
                 <div class="card-body">
-                    <img src="{{$post_album->userDetails->picture ?? asset('placeholder.jpg')}}" class="rounded-circle height-100" alt="Card image" />
+                    <img src="{{$post_album->userDetails->picture ?? asset('placeholder.jpeg')}}" class="rounded-circle height-100" alt="Card image" />
                 </div>
 
                 <div class="card-body">

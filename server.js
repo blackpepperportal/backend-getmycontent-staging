@@ -15,7 +15,6 @@ var SSL_CERTIFICATE = process.env.SSL_CERTIFICATE;
 if( SSL_KEY && SSL_CERTIFICATE) {
 
     var https = require('https');
-
     var server = https.createServer({ 
                     key: fs.readFileSync(SSL_KEY),
                     cert: fs.readFileSync(SSL_CERTIFICATE) 
@@ -31,10 +30,7 @@ if( SSL_KEY && SSL_CERTIFICATE) {
     server.listen(port);   
 }
 
-
-
 var io = require('socket.io')(server);
-
 
 io.on('connection', function (socket) {
 
@@ -82,7 +78,7 @@ io.on('connection', function (socket) {
 
         var sent_status = socket.broadcast.to(receiver).emit('message', data);
 
-        url = chat_save_url+'api/user/chat_messages/save?sender_user_id='+data.sender_user_id
+        url = chat_save_url+'api/user/chat_messages/save?from_user_id='+data.from_user_id
         +'&to_user_id='+data.to_user_id
         +'&message='+data.message;
 

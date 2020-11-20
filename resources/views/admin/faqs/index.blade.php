@@ -91,7 +91,7 @@
 
                                                     <a class="dropdown-item" href="{{ route('admin.faqs.edit', ['faq_id' => $faq->id] ) }}">&nbsp;{{ tr('edit') }}</a>
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('faq_delete_confirmation' , $faq->question) }}&quot;);" href="{{ route('admin.faqs.delete', ['faq_id' => $faq->id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('faq_delete_confirmation' , $faq->question) }}&quot;);" href="{{ route('admin.faqs.delete', ['faq_id' => $faq->id,'page'=>request()->input('page')] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 

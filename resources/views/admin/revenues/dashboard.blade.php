@@ -45,7 +45,10 @@
 
                                                 <div class="media-body text-left w-100">
                                                     <h3 class="primary">{{formatted_amount($data->post_payments)}}</h3>
-                                                    <span>{{tr('post_payments')}}</span>
+                                                    <span>
+                                                    <a href="{{route('admin.post.payments')}}">{{tr('post_payments')}}
+                                                    </a>
+                                                    </span>
                                                 </div>
 
                                                 <div class="media-right media-middle">
@@ -104,7 +107,11 @@
 
                                                 <div class="media-body text-left w-100">
                                                     <h3 class="info">{{formatted_amount($data->subscription_payments)}}</h3>
-                                                    <span>{{tr('subscription_payments')}}</span>
+                                                    <span>
+                                                    <a href="{{route('admin.users_subscriptions.index')}}">
+                                                    {{tr('subscription_payments')}}
+                                                    </a>
+                                                    </span>
                                                 </div>
 
                                                 <div class="media-right media-middle">

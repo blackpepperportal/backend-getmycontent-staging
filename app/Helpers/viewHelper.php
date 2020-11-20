@@ -643,7 +643,7 @@ function last_x_months_data($months) {
     $start  = new \DateTime('-6 month', new \DateTimeZone('UTC'));
     
     $period = new \DatePeriod($start, new \DateInterval('P1M'), $months);
-    
+   
     $dates = $last_x_days_revenues = [];
 
     foreach ($period as $date) {
@@ -652,7 +652,7 @@ function last_x_months_data($months) {
 
         $formatted_month = $date->format('Y-m');
 
-        $last_x_days_data = new \stdClass;
+        $last_x_days_data =  new \stdClass;
 
         $last_x_days_data->month= $current_month;
 
@@ -969,4 +969,77 @@ function document_status_formatted($status) {
     $status_list = [USER_DOCUMENT_NONE => tr('USER_DOCUMENT_NONE'), USER_DOCUMENT_PENDING => tr('USER_DOCUMENT_PENDING'), USER_DOCUMENT_APPROVED => tr('USER_DOCUMENT_APPROVED'), USER_DOCUMENT_DECLINED => tr('USER_DOCUMENT_DECLINED')];
 
     return isset($status_list[$status]) ? $status_list[$status] : tr('USER_KYC_DOCUMENT_NONE');
+}
+
+/**
+ * @method last_x_months_posts()
+ *
+ * @uses used to get no.of.posts for the month
+ * 
+ * @created Ganesh
+ *
+ * @updated Ganesh
+ * 
+ */
+
+
+function last_x_months_posts($months) {
+
+    $data = new \stdClass;
+
+    $start  = new \DateTime('-6 month', new \DateTimeZone('UTC'));
+    
+    $period = new \DatePeriod($start, new \DateInterval('P1M'), $months);
+   
+    $dates = $last_x_months_posts = [];
+
+    foreach ($period as $date) {
+
+        $formatted_month = $date->format('Y-m');
+
+        $last_x_months_posts_data =  new \stdClass;
+
+        $last_x_months_posts_data->no_of_posts  = \App\Post::whereYear('created_at',$date->format('Y'))->whereMonth('created_at', '=', $date->format('m'))->count();
+
+        $last_x_months_posts_data->month = $formatted_month;
+
+        array_push($last_x_months_posts, $last_x_months_posts_data);
+
+    }
+    
+    return $last_x_months_posts;   
+
+}
+
+
+/**
+ * @method last_x_months_posts()
+ *
+ * @uses used to get the plan text
+ * 
+ * @created Ganesh
+ *
+ * @updated Ganesh
+ * 
+ */
+
+
+function plan_text($plan, $plan_type = PLAN_TYPE_MONTH) {
+    
+    $plan_type_text = $plan <= 1 ? tr($plan_type) : tr($plan_type)."s";
+    
+   return  $plan_text = $plan." ".$plan_type_text;
+
+}
+
+function generate_payment_id() {
+
+    $payment_id = time();
+
+    $payment_id .= rand();
+
+    $payment_id = sha1($payment_id);
+
+    return strtoupper($payment_id);
+
 }
