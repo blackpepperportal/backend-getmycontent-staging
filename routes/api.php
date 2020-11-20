@@ -234,6 +234,10 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('expired_followers', 'Api\FollowersApiController@expired_followers');
 
+        Route::post('active_followings', 'Api\FollowersApiController@active_followings');
+
+        Route::post('expired_followings', 'Api\FollowersApiController@expired_followings');
+
 
         Route::post('follow_users','Api\FollowersApiController@follow_users');
 
