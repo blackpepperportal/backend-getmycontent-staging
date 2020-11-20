@@ -24,7 +24,7 @@ class PageDemoSeeder extends Seeder
     				DB::table('static_pages')->insert([
     	         		[
     				        'unique_id' => $value,
-                            'heading' => $value,
+                            'title' => $value,
     				        'description' => $value,
     				        'type' => $value,
     				        'created_at' => date('Y-m-d H:i:s'),
