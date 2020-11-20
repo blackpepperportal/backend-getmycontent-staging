@@ -372,9 +372,23 @@ class PostsApiController extends Controller
 
             $folder_path = POST_TEMP_PATH.$request->id.'/';
 
-            $post_file = Helper::post_upload_file($request->file, $folder_path, $filename);
+            $post_file_url = Helper::post_upload_file($request->file, $folder_path, $filename);
 
-            $data['file'] = $post_file;
+            if($post_file_url) {
+
+                $post_file = new \App\PostFile;
+
+                $post_file->user_id = $request->id;
+
+                $post_file->post_file = $post_file_url;
+
+                $post_file->file_type = $request->file_type;
+
+                $post_file->blur_file = $request->file_type != "video" ? \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->id) : Setting::get('post_video_placeholder');
+
+            }
+
+            $data['file'] = $post_file_url;
 
             return $this->sendResponse(api_success(151), 151, $data);
 
