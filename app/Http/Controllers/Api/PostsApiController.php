@@ -298,7 +298,7 @@ class PostsApiController extends Controller
 
                     foreach ($files as $key => $post_file_id) {
 
-                        $file_input = ['post_id' => $post->id, 'file' => $file];
+                        // $file_input = ['post_id' => $post->id, 'file' => $file];
 
                         $post_file = \App\PostFile::find($post_file_id);
 
