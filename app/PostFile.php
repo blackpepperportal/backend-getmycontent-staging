@@ -63,8 +63,6 @@ class PostFile extends Model
 
             $model->attributes['unique_id'] = "PF"."-".$model->attributes['id']."-".uniqid();
 
-            $model->file_type = get_post_file_type($model->attributes['file']);
-
             $model->save();
         
         });
