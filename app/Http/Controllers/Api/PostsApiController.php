@@ -382,7 +382,7 @@ class PostsApiController extends Controller
 
                 $post_file->user_id = $request->id;
 
-                $post_file->post_file = $post_file_url;
+                $post_file->file = $post_file_url;
 
                 $post_file->file_type = $request->file_type;
 
