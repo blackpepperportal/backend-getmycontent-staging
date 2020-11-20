@@ -189,6 +189,8 @@ class PostsApiController extends Controller
 
             $posts = $base_query->skip($this->skip)->take($this->take)->get();
 
+            $posts = \App\Repositories\PostRepository::posts_list_response($posts, $request);
+
             $data['posts'] = $posts ?? [];
 
             $data['total'] = $total_query->count() ?? 0;
