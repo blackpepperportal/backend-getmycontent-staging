@@ -11,20 +11,20 @@ class PageDemoSeeder extends Seeder
      */
     public function run()
     {
-        if(Schema::hasTable('pages')) {
+        if(Schema::hasTable('static_pages')) {
 
         	$static_pages = json_decode(json_encode(['about' , 'contact' , 'privacy' , 'terms' , 'help']));
 
         	foreach ($static_pages as $key => $value) {
 
-    			$page_details = DB::table('pages')->where('type' ,$value)->count();
+    			$page_details = DB::table('static_pages')->where('type' ,$value)->count();
 
     			if(!$page_details) {
 
-    				DB::table('pages')->insert([
+    				DB::table('static_pages')->insert([
     	         		[
     				        'unique_id' => $value,
-                            'heading' => $value,
+                            'title' => $value,
     				        'description' => $value,
     				        'type' => $value,
     				        'created_at' => date('Y-m-d H:i:s'),

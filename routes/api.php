@@ -48,7 +48,7 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 	 *
 	 */
 
-    Route::post('chat_messages_save', 'Api\UserAccountApiController@chat_messages_save');
+    Route::any('chat_messages_save', 'ApplicationController@chat_messages_save');
 
     Route::post('register','Api\UserAccountApiController@register');
     
@@ -212,11 +212,6 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('user_product_pictures_delete','Api\UserProductApiController@user_product_pictures_delete');
 
-        // Followers and Followings list for content creators
-        Route::post('followers', 'Api\FollowersApiController@followers');
-
-        Route::post('followings', 'Api\FollowersApiController@followings');
-
         Route::post('posts_for_owner','Api\PostsApiController@posts_for_owner');
 
         Route::post('posts_save_for_owner','Api\PostsApiController@posts_save_for_owner')->middleware(['CheckEmailVerify']);
@@ -229,18 +224,29 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('post_files_remove','Api\PostsApiController@post_files_remove');
 
-        
+    });
+
+    Route::group(['middleware' => ['UserApiVal']], function() {
+
+        // Followers and Followings list for content creators
+        Route::post('followers', 'Api\FollowersApiController@followers');
+
+        Route::post('followings', 'Api\FollowersApiController@followings');
+
         Route::post('active_followers', 'Api\FollowersApiController@active_followers');
 
         Route::post('expired_followers', 'Api\FollowersApiController@expired_followers');
 
+        Route::post('active_followings', 'Api\FollowersApiController@active_followings');
+
+        Route::post('expired_followings', 'Api\FollowersApiController@expired_followings');
+
+
+        Route::post('follow_users','Api\FollowersApiController@follow_users');
+
+        Route::post('unfollow_users','Api\FollowersApiController@unfollow_users');
 
     });
-
-
-    Route::post('follow_users','Api\FollowersApiController@follow_users');
-
-    Route::post('unfollow_users','Api\FollowersApiController@unfollow_users');
 
     Route::post('other_profile','Api\UserAccountApiController@other_profile');
 
@@ -263,7 +269,9 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     Route::post('posts_view_for_others','Api\PostsApiController@posts_view_for_others');
 
-    Route::post('user_suggestions','Api\FollowersApiController@user_suggestions');
+    Route::post('users_search', 'Api\FollowersApiController@users_search');
+
+    Route::post('user_suggestions', 'Api\FollowersApiController@user_suggestions');
 
     Route::post('posts_payment_by_wallet','Api\PostsApiController@posts_payment_by_wallet');
 
@@ -277,6 +285,10 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
 
     Route::post('post_bookmarks','Api\PostsApiController@post_bookmarks');
+
+    Route::post('post_bookmarks_photos','Api\PostsApiController@post_bookmarks_photos');
+
+    Route::post('post_bookmarks_videos','Api\PostsApiController@post_bookmarks_videos');
 
     Route::post('post_bookmarks_save','Api\PostsApiController@post_bookmarks_save');
     

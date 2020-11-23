@@ -372,7 +372,7 @@
             
             </li>
 
-            <li class="nav-item" id="faqs">
+            <!--- <li class="nav-item" id="faqs">
                 <a href="{{route('admin.faqs.index')}}">
                     <i class="fa fa-question-circle" aria-hidden="true"></i>
                     <span class="menu-title" data-i18n="">{{tr('faqs')}}</span>
@@ -390,7 +390,7 @@
                     </li>
                 </ul>            
             
-            </li>
+            </li> -->
 
             <li class="nav-item" id="static_pages">
                 <a href="{{route('admin.static_pages.index')}}">

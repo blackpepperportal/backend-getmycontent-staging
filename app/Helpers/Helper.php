@@ -548,9 +548,9 @@ class Helper {
 
         $footer_pages1 = \App\StaticPage::whereIn('type', $static_page_ids1)->where('status', APPROVED)->get();
 
-        $static_page_ids1 = ['help', 'faq', 'others'];
+        $static_page_ids2 = ['help', 'faq', 'others'];
 
-        $footer_pages2 = \App\StaticPage::whereIn('type', $static_page_ids1)->where('status', APPROVED)->skip(0)->take(4)->get();
+        $footer_pages2 = \App\StaticPage::whereIn('type', $static_page_ids2)->where('status', APPROVED)->skip(0)->take(4)->get();
 
         $sample_data['footer_pages1'] = $footer_pages1;
 
@@ -676,7 +676,7 @@ class Helper {
         $img = \Image::make(Storage::path($storage_file_path));
 
         // apply stronger blur
-        $img->blur(70)->save(Storage::path($output_file_path));
+        $img->blur(100)->save(Storage::path($output_file_path));
        
         $url = asset(Storage::url($output_file_path));
     
@@ -687,6 +687,13 @@ class Helper {
     public static function is_you_following($logged_in_user_id, $other_user_id) {
 
         $check = \App\Follower::where('user_id', $other_user_id)->where('follower_id', $logged_in_user_id)->count();
+
+        return $check ? YES : NO;
+    }
+
+    public static function is_fav_user($logged_in_user_id, $other_user_id) {
+
+        $check = \App\FavUser::where('user_id', $logged_in_user_id)->where('fav_user_id', $other_user_id)->count();
 
         return $check ? YES : NO;
     }

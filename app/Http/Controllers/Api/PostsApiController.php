@@ -189,6 +189,8 @@ class PostsApiController extends Controller
 
             $posts = $base_query->skip($this->skip)->take($this->take)->get();
 
+            $posts = \App\Repositories\PostRepository::posts_list_response($posts, $request);
+
             $data['posts'] = $posts ?? [];
 
             $data['total'] = $total_query->count() ?? 0;
@@ -267,7 +269,7 @@ class PostsApiController extends Controller
                 'content' => 'required',
                 'publish_time' => 'nullable',
                 'amount' => 'nullable|min:0',
-                'files' => 'nullable'
+                'post_files' => 'nullable'
             ];
 
             Helper::custom_validator($request->all(),$rules);
@@ -284,11 +286,6 @@ class PostsApiController extends Controller
 
             $post->publish_time = date('Y-m-d H:i:s', strtotime($publish_time));
 
-            $amount = $request->amount ?: ($post->amount ?? 0);
-
-            $post->amount = $amount;
-
-            $post->is_paid_post = $amount > 0 ? YES : NO;
 
             if($post->save()) {
 
@@ -296,30 +293,41 @@ class PostsApiController extends Controller
 
                     $files = explode(',', $request->post_files);
 
-                    foreach ($files as $key => $file) {
+                    foreach ($files as $key => $post_file_id) {
 
-                        $file_input = ['post_id' => $post->id, 'file' => $file];
+                        // $file_input = ['post_id' => $post->id, 'file' => $file];
 
-                        $post_file = \App\PostFile::create($file_input);
+                        $post_file = \App\PostFile::find($post_file_id);
 
-                        $old_path = get_post_temp_path($request->id, $file);
+                        $post_file->post_id = $post->id;
 
-                        $new_path = get_post_path($request->id, $file);
+                        // $old_path = get_post_temp_path($request->id, $file);
 
-                        $move = \Storage::move($old_path, $new_path);
+                        // $new_path = get_post_path($request->id, $file);
 
-                        $file_path = POST_PATH.$request->id.'/'.basename($file);
+                        // $move = \Storage::move($old_path, $new_path);
 
-                        $post_file->file = \Storage::url($file_path);
+                        // $file_path = POST_PATH.$request->id.'/'.basename($file);
 
-                        $post_file->blur_file = \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->id);
+                        // $post_file->file = \Storage::url($file_path);
 
-                        $post_file->file_type =  pathinfo($file,PATHINFO_EXTENSION);
+                        // $post_file->file_type =  pathinfo($file,PATHINFO_EXTENSION);
+
+                        // $post_file->blur_file = $post_file->file_type != "mp4" ? \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->id) : "";
+
 
                         $post_file->save();
 
 
                     }
+
+                    $amount = $request->amount ?: ($post->amount ?? 0);
+
+                    $post->amount = $amount;
+
+                    $post->is_paid_post = $amount > 0 ? YES : NO;
+
+                    $post->save();
                 }
 
                 DB::commit(); 
@@ -367,13 +375,33 @@ class PostsApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $filename = rand(1,1000000).'-temp-post-'.$request->file_type;
+            $filename = rand(1,1000000).'-post-'.$request->file_type;
 
-            $folder_path = POST_TEMP_PATH.$request->id.'/';
+            $folder_path = POST_PATH.$request->id.'/';
 
-            $post_file = Helper::post_upload_file($request->file, $folder_path, $filename);
+            $post_file_url = Helper::post_upload_file($request->file, $folder_path, $filename);
 
-            $data['file'] = $post_file;
+            if($post_file_url) {
+
+                $post_file = new \App\PostFile;
+
+                $post_file->user_id = $request->id;
+
+                $post_file->post_id = 0;
+
+                $post_file->file = $post_file_url;
+
+                $post_file->file_type = $request->file_type;
+
+                $post_file->blur_file = $request->file_type == "image" ? \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->id) : Setting::get('post_video_placeholder');
+
+                $post_file->save();
+
+            }
+
+            $data['file'] = $post_file_url;
+
+            $data['post_file'] = $post_file;
 
             return $this->sendResponse(api_success(151), 151, $data);
 
@@ -958,6 +986,120 @@ class PostsApiController extends Controller
         }
 
     }
+    
+    /**
+     * @method post_bookmarks_photo()
+     * 
+     * @uses list of bookmarks
+     *
+     * @created Vithya R 
+     *
+     * @updated Vithya R
+     *
+     * @param object $request
+     *
+     * @return json with boolean output
+     */
+
+    public function post_bookmarks_photos(Request $request) {
+
+        try {
+
+           // Check the subscription is available
+
+            $base_query = \App\PostBookmark::where('user_id', $request->id)->Approved()->orderBy('post_bookmarks.created_at', 'desc');
+
+            $post_ids = $base_query->skip($this->skip)->take($this->take)->pluck('post_id');
+
+            $post_ids = $post_ids ? $post_ids->toArray() : [];
+
+            if($post_ids) {
+
+                $post_base_query = $total_query = \App\Post::with('postFiles')->Approved()->whereIn('posts.id', $post_ids)->orderBy('posts.created_at', 'desc');
+
+                $type = POSTS_IMAGE;
+
+                $post_base_query = $post_base_query->whereHas('postFiles', function($q) use($type) {
+                        $q->where('post_files.file_type', POSTS_IMAGE);
+                    });
+
+                $posts = $post_base_query->get();
+
+                $posts = \App\Repositories\PostRepository::posts_list_response($posts, $request);
+
+                $total = $total_query->count() ?? 0;
+
+            }
+
+            $data['posts'] = $posts ?? [];
+
+            $data['total'] = $total ?? 0;
+
+            return $this->sendResponse($message = '' , $code = '', $data);
+        
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+
+    }
+
+    /**
+     * @method post_bookmarks_videos()
+     * 
+     * @uses list of bookmarks
+     *
+     * @created Vithya R 
+     *
+     * @updated Vithya R
+     *
+     * @param object $request
+     *
+     * @return json with boolean output
+     */
+
+    public function post_bookmarks_videos(Request $request) {
+
+        try {
+
+           // Check the subscription is available
+
+            $base_query = \App\PostBookmark::where('user_id', $request->id)->Approved()->orderBy('post_bookmarks.created_at', 'desc');
+
+            $post_ids = $base_query->skip($this->skip)->take($this->take)->pluck('post_id');
+
+            $post_ids = $post_ids ? $post_ids->toArray() : [];
+
+            if($post_ids) {
+
+                $post_base_query = $total_query = \App\Post::with('postFiles')->Approved()->whereIn('posts.id', $post_ids)->orderBy('posts.created_at', 'desc');
+
+                $type = POSTS_VIDEO;
+
+                $post_base_query = $post_base_query->whereHas('postFiles', function($q) use($type) {
+                        $q->where('post_files.file_type', POSTS_VIDEO);
+                    });
+
+                $posts = $post_base_query->get();
+
+                $posts = \App\Repositories\PostRepository::posts_list_response($posts, $request);
+
+                $total = $total_query->count() ?? 0;
+
+            }
+
+            $data['posts'] = $posts ?? [];
+
+            $data['total'] = $total ?? 0;
+
+            return $this->sendResponse($message = '' , $code = '', $data);
+        
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+
+    }
 
     /**
      * @method post_bookmarks_save()
@@ -1259,7 +1401,7 @@ class PostsApiController extends Controller
             
             DB::begintransaction();
 
-            $rules = ['user_id' => 'nullable|exists:posts,id'];
+            $rules = ['user_id' => 'required|exists:users,id'];
 
             $custom_errors = ['user_id.required' => api_error(146)];
 

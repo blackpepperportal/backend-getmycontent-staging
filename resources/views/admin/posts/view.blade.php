@@ -37,7 +37,7 @@
 
                     <div class="col-2">
 
-                        <img src="{{$post->user->picture ?? asset('placeholder.jpg')}}" class="post-image" alt="Card image" />
+                        <img src="{{$post->user->picture ?? asset('placeholder.jpeg')}}" class="post-image" alt="Card image" />
 
                     </div>
 

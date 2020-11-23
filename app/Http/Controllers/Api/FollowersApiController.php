@@ -76,6 +76,51 @@ class FollowersApiController extends Controller
 
     }
 
+
+    /** 
+     * @method users_search()
+     *
+     * @uses Follow users & content creators
+     *
+     * @created Bhawya
+     *
+     * @updated Bhawya
+     *
+     * @param
+     * 
+     * @return JSON response
+     *
+     */
+    public function users_search(Request $request) {
+
+        try {
+
+            // validation start
+
+            $rules = ['key' => 'required'];
+            
+            $custom_errors = ['key.required' => 'Please enter the username'];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors);
+
+            $base_query = $total_query = User::Approved()->OtherResponse()->where('users.name', 'like', "%".$request->key."%")->orderBy('users.created_at', 'desc');
+
+            $users = $base_query->skip($this->skip)->take($this->take)->get();
+
+            $data['users'] = $users;
+
+            $data['total'] = $total_query->count() ?? 0;
+
+            return $this->sendResponse($message = "", $code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+
+    }
+
     /** 
      * @method follow_users()
      *
@@ -253,6 +298,8 @@ class FollowersApiController extends Controller
 
                 $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
 
+                $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
+
             }
 
             $data['followers'] = $followers;
@@ -301,6 +348,8 @@ class FollowersApiController extends Controller
                 $follower->show_follow = $is_you_following ? HIDE : SHOW;
 
                 $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
+
+                $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
 
             }
 
@@ -445,6 +494,8 @@ class FollowersApiController extends Controller
 
                 $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
 
+                $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
+
             }
 
             $data['followers'] = $followers;
@@ -494,6 +545,106 @@ class FollowersApiController extends Controller
 
                 $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
 
+                $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
+            }
+
+            $data['followers'] = $followers;
+
+            $data['total'] = $total_query->count() ?: 0;
+
+            return $this->sendResponse($message = "", $code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+
+    }
+
+    /** 
+     * @method active_followings()
+     *
+     * @uses Active Followers List
+     *
+     * @created Ganesh
+     *
+     * @updated Ganesh
+     *
+     * @param
+     * 
+     * @return JSON response
+     *
+     */
+    public function active_followings(Request $request) {
+
+        try {
+
+            $base_query = $total_query = Follower::CommonResponse()->where('follower_id', $request->id)->where('followers.status', YES);
+
+            $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
+
+            foreach ($followers as $key => $follower) {
+
+                $follower->is_owner = $request->id == $follower->follower_id ? YES : NO;
+
+                $is_you_following = Helper::is_you_following($request->id, $follower->user_id);
+
+                $follower->show_follow = $is_you_following ? HIDE : SHOW;
+
+                $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
+
+                $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
+
+            }
+
+            $data['followers'] = $followers;
+
+            $data['total'] = $total_query->count() ?: 0;
+
+            return $this->sendResponse($message = "", $code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+
+    }
+
+    /** 
+     * @method expired_followings()
+     *
+     * @uses Expired Followers List
+     *
+     * @created Ganesh
+     *
+     * @updated Ganesh
+     *
+     * @param
+     * 
+     * @return JSON response
+     *
+     */
+    public function expired_followings(Request $request) {
+
+        try {
+
+            $base_query = $total_query = Follower::CommonResponse()->where('follower_id', $request->id)->where('followers.status', NO);
+
+            $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
+
+            foreach ($followers as $key => $follower) {
+
+                $follower->is_owner = $request->id == $follower->follower_id ? YES : NO;
+
+                $is_you_following = Helper::is_you_following($request->id, $follower->user_id);
+
+                $follower->show_follow = $is_you_following ? HIDE : SHOW;
+
+                $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
+
+                $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
             }
 
             $data['followers'] = $followers;

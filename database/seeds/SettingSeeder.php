@@ -218,6 +218,10 @@ class SettingSeeder extends Seeder
 			[
 		        'key' => 'admin_commission',
 		        'value' => 20
+			],
+			[
+		        'key' => 'post_video_placeholder',
+		        'value' => asset('images/post_video_placeholder.jpg')
 			]
 
 		]);

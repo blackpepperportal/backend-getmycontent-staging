@@ -273,7 +273,7 @@
 
                         <div class="list d-flex align-items-center border-bottom py-2">
 
-                            <img class="img-sm rounded-circle" src="{{ $recent_premium_user->picture ?: asset('placeholder.jpg')}}" alt="">
+                            <img class="img-sm rounded-circle" src="{{ $recent_premium_user->picture ?: asset('placeholder.jpeg')}}" alt="">
 
                             <div class="wrapper w-100 ml-3">
 

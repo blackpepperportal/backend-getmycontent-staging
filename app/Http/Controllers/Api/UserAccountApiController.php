@@ -754,6 +754,10 @@ class UserAccountApiController extends Controller
 
                     $user_subscription->save();
 
+                    $user->user_account_type = USER_PREMIUM_ACCOUNT;
+
+                    $user->save();
+
                     DB::commit();
 
                 }
@@ -2269,16 +2273,17 @@ class UserAccountApiController extends Controller
 
             if($chat_user) {
 
-                throw new Exception(api_error(162) , 162);
+                // throw new Exception(api_error(162) , 162);
+            } else {
+
+                $chat_user = new \App\ChatUser();
+
+                $chat_user->from_user_id = $request->from_user_id;
+
+                $chat_user->to_user_id = $request->to_user_id;
+                
+                $chat_user->save();
             }
-
-            $chat_user = new \App\ChatUser();
-
-            $chat_user->from_user_id = $request->from_user_id;
-
-            $chat_user->to_user_id = $request->to_user_id;
-            
-            $chat_user->save();
 
             DB::commit();
 
