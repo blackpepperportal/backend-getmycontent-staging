@@ -266,7 +266,9 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     Route::post('posts_view_for_others','Api\PostsApiController@posts_view_for_others');
 
-    Route::post('user_suggestions','Api\FollowersApiController@user_suggestions');
+    Route::post('users_search', 'Api\FollowersApiController@users_search');
+
+    Route::post('user_suggestions', 'Api\FollowersApiController@user_suggestions');
 
     Route::post('posts_payment_by_wallet','Api\PostsApiController@posts_payment_by_wallet');
 
@@ -282,7 +284,7 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
     Route::post('post_bookmarks','Api\PostsApiController@post_bookmarks');
 
     Route::post('post_bookmarks_photos','Api\PostsApiController@post_bookmarks_photos');
-    
+
     Route::post('post_bookmarks_videos','Api\PostsApiController@post_bookmarks_videos');
 
     Route::post('post_bookmarks_save','Api\PostsApiController@post_bookmarks_save');

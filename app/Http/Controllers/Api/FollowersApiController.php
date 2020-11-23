@@ -76,6 +76,51 @@ class FollowersApiController extends Controller
 
     }
 
+
+    /** 
+     * @method users_search()
+     *
+     * @uses Follow users & content creators
+     *
+     * @created Bhawya
+     *
+     * @updated Bhawya
+     *
+     * @param
+     * 
+     * @return JSON response
+     *
+     */
+    public function users_search(Request $request) {
+
+        try {
+
+            // validation start
+
+            $rules = ['key' => 'required'];
+            
+            $custom_errors = ['key.required' => 'Please enter the username'];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors);
+
+            $base_query = $total_query = User::DocumentVerified()->Approved()->OtherResponse()->where('users.name', 'like', "%".$request->key."%")->orderBy('users.created_at', 'desc');
+
+            $users = $base_query->skip($this->skip)->take($this->take)->get();
+
+            $data['users'] = $users;
+
+            $data['total'] = $total_query->count() ?? 0;
+
+            return $this->sendResponse($message = "", $code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+
+    }
+
     /** 
      * @method follow_users()
      *
