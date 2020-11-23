@@ -4,9 +4,9 @@
 <head>
 
     <title>{{Setting::get('site_name')}}</title>
-   
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -56,18 +56,19 @@
             margin: 13px 0;
         }
     </style>
-   
+
     <style type="text/css">
         @media only screen and (max-width:480px) {
             @-ms-viewport {
                 width: 320px;
             }
+
             @viewport {
                 width: 320px;
             }
         }
     </style>
-    
+
     <style type="text/css">
         @media only screen and (min-width:480px) {
             .mj-column-per-100 {
@@ -92,7 +93,7 @@
                     <tr>
 
                         <td style="border-bottom:#333957 solid 5px;direction:ltr;font-size:0px;padding:20px 0;text-align:center;vertical-align:top;">
-                           
+
                         </td>
 
                     </tr>
@@ -109,7 +110,7 @@
                 <tbody>
                     <tr>
                         <td style="border:#dddddd solid 1px;border-top:0px;direction:ltr;font-size:0px;padding:20px 0;text-align:center;vertical-align:top;">
-                    
+
                             <div class="mj-column-per-100 outlook-group-fix" style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:bottom;width:100%;">
 
                                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:bottom;" width="100%">
@@ -137,16 +138,18 @@
                                             <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:22px;text-align:left;color:#555;">
                                                 <br></br>
 
-                                                <h3>{{tr('hello')}} {{$data['name']}}</h3>  
-                                                <br>
+                                                <h3>{{tr('hello')}} {{$data['name']}}</h3>
+                                                <p>{{tr('reset_password_tag')}} <strong></strong></p>
 
-                                                <b>{{tr('user_forgot_email_title')}} : {{$data['password']}}.</b>
-                                                <br>
 
-                                              
-                                                
                                             </div>
 
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td align="center">
+                                            <a href="{{$data['url']}}" class="f-fallback button button--green" target="_blank">{{tr('reset_password')}}</a>
                                         </td>
                                     </tr>
 
@@ -155,7 +158,7 @@
 
                                             <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:14px;line-height:20px;text-align:left;color:#525252;">
                                                 Best regards,<br><br>{{Setting::get('site_name')}}<br>{{Setting::get('tag_name')}}<br>
-                                                
+
                                             </div>
 
                                         </td>
@@ -181,7 +184,7 @@
                 <tbody>
                     <tr>
                         <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;vertical-align:top;">
-                         
+
                             <div class="mj-column-per-100 outlook-group-fix" style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:bottom;width:100%;">
 
                                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
@@ -195,7 +198,7 @@
                                                         <td align="center" style="font-size:0px;padding:0;word-break:break-word;">
 
                                                             <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:300;line-height:1;text-align:center;color:#575757;">
-                                                               {{tr('you_are_receiving_mails_from')}} {{Setting::get('site_name')}}
+                                                                {{tr('you_are_receiving_mails_from')}} {{Setting::get('site_name')}}
                                                             </div>
 
                                                         </td>

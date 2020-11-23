@@ -56,6 +56,9 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     Route::post('forgot_password', 'Api\UserAccountApiController@forgot_password');
 
+    Route::post('reset_password', 'Api\UserAccountApiController@reset_password');
+
+
     Route::post('regenerate_email_verification_code', 'Api\UserAccountApiController@regenerate_email_verification_code');
 
     Route::post('verify_email', 'Api\UserAccountApiController@verify_email');

@@ -104,4 +104,6 @@ return [
 
     152 => 'File deleted',
 
+    153 => 'Password Changed Successfully'
+
 ];

@@ -1004,6 +1004,9 @@ return [
 	"account_upgrade_message" => "User (:other_key) Your Account has been upgraded to Premium Account!!",
     "following"=>"Following",
 	"user_forgot_email_title" => "Your new password",
+	"reset_password_tag"=>"You recently requested to reset your password for your  account.",
+	"reset_password"=>"Reset Password",
+	"reset_password_title" => "Reset Password - (:other_key)",
 
 
 ]?>
