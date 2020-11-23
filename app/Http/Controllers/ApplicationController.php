@@ -235,8 +235,8 @@ class ApplicationController extends Controller
             Log::info("message_save".print_r($request->all() , true));
 
             $rules = [
-                'from_user_id' => 'required|users:exists,id',
-                'to_user_id' => 'required|users:exists,id',
+                'from_user_id' => 'required|exists:users,id',
+                'to_user_id' => 'required|exists:users,id',
                 'message' => 'required',
             ];
 

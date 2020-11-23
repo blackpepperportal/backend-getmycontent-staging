@@ -691,6 +691,13 @@ class Helper {
         return $check ? YES : NO;
     }
 
+    public static function is_fav_user($logged_in_user_id, $other_user_id) {
+
+        $check = \App\FavUser::where('user_id', $logged_in_user_id)->where('fav_user_id', $other_user_id)->count();
+
+        return $check ? YES : NO;
+    }
+
 }
 
 

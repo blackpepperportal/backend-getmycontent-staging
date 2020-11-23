@@ -253,6 +253,8 @@ class FollowersApiController extends Controller
 
                 $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
 
+                $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
+
             }
 
             $data['followers'] = $followers;
@@ -301,6 +303,8 @@ class FollowersApiController extends Controller
                 $follower->show_follow = $is_you_following ? HIDE : SHOW;
 
                 $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
+
+                $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
 
             }
 
@@ -445,6 +449,8 @@ class FollowersApiController extends Controller
 
                 $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
 
+                $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
+
             }
 
             $data['followers'] = $followers;
@@ -494,6 +500,7 @@ class FollowersApiController extends Controller
 
                 $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
 
+                $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
             }
 
             $data['followers'] = $followers;
@@ -541,6 +548,8 @@ class FollowersApiController extends Controller
                 $follower->show_follow = $is_you_following ? HIDE : SHOW;
 
                 $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
+
+                $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
 
             }
 
@@ -590,6 +599,7 @@ class FollowersApiController extends Controller
 
                 $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
 
+                $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
             }
 
             $data['followers'] = $followers;
