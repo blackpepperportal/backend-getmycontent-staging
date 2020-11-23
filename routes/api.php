@@ -281,6 +281,10 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     Route::post('post_bookmarks','Api\PostsApiController@post_bookmarks');
 
+    Route::post('post_bookmarks_photos','Api\PostsApiController@post_bookmarks_photos');
+    
+    Route::post('post_bookmarks_videos','Api\PostsApiController@post_bookmarks_videos');
+
     Route::post('post_bookmarks_save','Api\PostsApiController@post_bookmarks_save');
     
     Route::post('post_bookmarks_delete','Api\PostsApiController@post_bookmarks_delete');

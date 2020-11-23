@@ -986,6 +986,116 @@ class PostsApiController extends Controller
         }
 
     }
+    
+    /**
+     * @method post_bookmarks_photo()
+     * 
+     * @uses list of bookmarks
+     *
+     * @created Vithya R 
+     *
+     * @updated Vithya R
+     *
+     * @param object $request
+     *
+     * @return json with boolean output
+     */
+
+    public function post_bookmarks_photos(Request $request) {
+
+        try {
+
+           // Check the subscription is available
+
+            $base_query = \App\PostBookmark::where('user_id', $request->id)->Approved()->orderBy('post_bookmarks.created_at', 'desc');
+
+            $post_ids = $base_query->skip($this->skip)->take($this->take)->pluck('post_id');
+
+            $post_ids = $post_ids ? $post_ids->toArray() : [];
+
+            if($post_ids) {
+
+                $post_base_query = $total_query = \App\Post::with('postFiles')->Approved()->whereIn('posts.id', $post_ids)->orderBy('posts.created_at', 'desc');
+
+                $post_base_query = $post_base_query->whereHas('postFiles', function($q) use($type) {
+                        $q->where('post_files.file_type', POSTS_IMAGE);
+                    });
+
+                $posts = $post_base_query->get();
+
+                $posts = \App\Repositories\PostRepository::posts_list_response($posts, $request);
+
+                $total = $total_query->count() ?? 0;
+
+            }
+
+            $data['posts'] = $posts ?? [];
+
+            $data['total'] = $total ?? 0;
+
+            return $this->sendResponse($message = '' , $code = '', $data);
+        
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+
+    }
+
+    /**
+     * @method post_bookmarks_videos()
+     * 
+     * @uses list of bookmarks
+     *
+     * @created Vithya R 
+     *
+     * @updated Vithya R
+     *
+     * @param object $request
+     *
+     * @return json with boolean output
+     */
+
+    public function post_bookmarks_videos(Request $request) {
+
+        try {
+
+           // Check the subscription is available
+
+            $base_query = \App\PostBookmark::where('user_id', $request->id)->Approved()->orderBy('post_bookmarks.created_at', 'desc');
+
+            $post_ids = $base_query->skip($this->skip)->take($this->take)->pluck('post_id');
+
+            $post_ids = $post_ids ? $post_ids->toArray() : [];
+
+            if($post_ids) {
+
+                $post_base_query = $total_query = \App\Post::with('postFiles')->Approved()->whereIn('posts.id', $post_ids)->orderBy('posts.created_at', 'desc');
+
+                $post_base_query = $post_base_query->whereHas('postFiles', function($q) use($type) {
+                        $q->where('post_files.file_type', POSTS_VIDEO);
+                    });
+
+                $posts = $post_base_query->get();
+
+                $posts = \App\Repositories\PostRepository::posts_list_response($posts, $request);
+
+                $total = $total_query->count() ?? 0;
+
+            }
+
+            $data['posts'] = $posts ?? [];
+
+            $data['total'] = $total ?? 0;
+
+            return $this->sendResponse($message = '' , $code = '', $data);
+        
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+
+    }
 
     /**
      * @method post_bookmarks_save()
