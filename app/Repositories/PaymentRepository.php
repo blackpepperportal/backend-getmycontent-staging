@@ -839,6 +839,8 @@ class PaymentRepository {
 
             $post_payment->user_amount = $user_amount ?? 0.00;
 
+            $post_payment->paid_date = date('Y-m-d H:i:s');
+
             $post_payment->status = PAID;
 
             $post_payment->save();

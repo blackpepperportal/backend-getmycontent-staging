@@ -15,11 +15,11 @@
 
                 <option class="select-color" value="">{{tr('select_status')}}</option>
 
-                <option class="select-color" value="{{WITHDRAW_INITIATED}}" @if(Request::get('status') == WITHDRAW_INITIATED) selected  @endif>{{tr('initiated')}}</option>
+                <option class="select-color" value="{{WITHDRAW_INITIATED}}" @if(Request::get('status') == WITHDRAW_INITIATED && Request::get('status') !='') selected  @endif>{{tr('initiated')}}</option>
 
-                <option class="select-color" value="{{WITHDRAW_PAID}}" @if(Request::get('status') == WITHDRAW_PAID) selected  @endif>{{tr('paid')}}</option>
+                <option class="select-color" value="{{WITHDRAW_PAID}}" @if(Request::get('status') == WITHDRAW_PAID && Request::get('status') !='') selected  @endif>{{tr('paid')}}</option>
 
-                <option class="select-color" value="{{WITHDRAW_DECLINED}}" @if(Request::get('status') == WITHDRAW_DECLINED) selected  @endif>{{tr('rejected')}}</option>
+                <option class="select-color" value="{{WITHDRAW_DECLINED}}" @if(Request::get('status') == WITHDRAW_DECLINED && Request::get('status') !='') selected  @endif>{{tr('rejected')}}</option>
 
             </select>
         </div>

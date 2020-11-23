@@ -150,6 +150,8 @@
             $('#DataTables_Table_0_filter').hide();
 
                 $('#DataTables_Table_0_filter').hide();
+
+                $('#DataTables_Table_0_info').hide();
                 
              },100),
 

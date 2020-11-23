@@ -276,6 +276,7 @@ class AdminRevenueController extends Controller
 
         $data->analytics = revenue_graph(6);
         
+        
         return view('admin.revenues.dashboard')
                     ->with('page' , 'revenue-dashboard')
                     ->with('data', $data);

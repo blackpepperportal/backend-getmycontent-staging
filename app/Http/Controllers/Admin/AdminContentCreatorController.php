@@ -636,7 +636,7 @@ class AdminContentCreatorController extends Controller
 
             }
 
-            $user_wallet_payments = \App\UserWalletPayment::where('user_id',$user_wallet->user_id)->paginate(10);
+            $user_wallet_payments = \App\UserWalletPayment::where('requested_amount','>',0)->where('user_id',$user_wallet->user_id)->paginate(10);
                    
             return view('admin.user_wallets.view')
                         ->with('page', 'user_wallets') 
