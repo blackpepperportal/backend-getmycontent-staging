@@ -48,7 +48,7 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 	 *
 	 */
 
-    Route::post('chat_messages_save', 'Api\UserAccountApiController@chat_messages_save');
+    Route::any('chat_messages_save', 'Api\UserAccountApiController@chat_messages_save');
 
     Route::post('register','Api\UserAccountApiController@register');
     

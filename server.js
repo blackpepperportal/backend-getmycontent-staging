@@ -70,12 +70,14 @@ io.on('connection', function (socket) {
 
         console.log("send message Start");
 
+        console.log("ON message", data);
+
         if(data.loggedin_user_id == data.from_user_id) {
 
             var receiver = "user_id_"+data.to_user_id+"_to_user_id_"+data.from_user_id;
 
         } else {
-            
+
             var receiver = "user_id_"+data.from_user_id+"_to_user_id_"+data.to_user_id;
         }
 
