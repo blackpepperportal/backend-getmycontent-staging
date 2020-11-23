@@ -1017,6 +1017,8 @@ class PostsApiController extends Controller
 
                 $post_base_query = $total_query = \App\Post::with('postFiles')->Approved()->whereIn('posts.id', $post_ids)->orderBy('posts.created_at', 'desc');
 
+                $type = POSTS_IMAGE;
+
                 $post_base_query = $post_base_query->whereHas('postFiles', function($q) use($type) {
                         $q->where('post_files.file_type', POSTS_IMAGE);
                     });
@@ -1071,6 +1073,8 @@ class PostsApiController extends Controller
             if($post_ids) {
 
                 $post_base_query = $total_query = \App\Post::with('postFiles')->Approved()->whereIn('posts.id', $post_ids)->orderBy('posts.created_at', 'desc');
+
+                $type = POSTS_VIDEO;
 
                 $post_base_query = $post_base_query->whereHas('postFiles', function($q) use($type) {
                         $q->where('post_files.file_type', POSTS_VIDEO);
