@@ -1002,7 +1002,8 @@ return [
 	"email_verify_message" => "Your Email has been  (:other_key) by admin!!",
 	"user_account_upgrade" => "Account has been upgraded to Premium Account!!",
 	"account_upgrade_message" => "User (:other_key) Your Account has been upgraded to Premium Account!!",
-    "following"=>"Following"
+    "following"=>"Following",
+	"user_forgot_email_title" => "Your new password",
 
 
 ]?>

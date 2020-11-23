@@ -192,9 +192,11 @@ class UserAccountApiController extends Controller
 
                         $email_data['email'] = $user->email;
 
+                        $email_data['name'] = $user->name;
+
                         $email_data['verification_code'] = $user->verification_code;
 
-                        // $this->dispatch(new SendEmailJob($email_data));
+                        $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
                     }
 
@@ -433,9 +435,11 @@ class UserAccountApiController extends Controller
 
             $email_data['password'] = $new_password;
 
+            $email_data['name'] = $user->name;
+
             $email_data['page'] = "emails.users.forgot-password";
 
-            // $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+            $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
             if(!$user->save()) {
 
