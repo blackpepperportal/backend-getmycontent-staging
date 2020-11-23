@@ -452,8 +452,6 @@ class UserAccountApiController extends Controller
 
             DB::commit();
 
-            DB::commit();
-
             return $this->sendResponse(api_success(102), $success_code = 102, $data = []);
 
         } catch(Exception $e) {
