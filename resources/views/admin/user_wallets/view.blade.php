@@ -140,7 +140,7 @@
 
 					@else
                        
-					   <tr colspan="8" class="text-center"><td><h4>No Records Found</h4></td></tr>
+					   <tr colspan="8" class="text-center"><td><h4>{{tr('no_results_found')}}</h4></td></tr>
 
 					@endif
 
