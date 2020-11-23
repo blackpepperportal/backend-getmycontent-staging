@@ -103,7 +103,7 @@ class FollowersApiController extends Controller
 
             Helper::custom_validator($request->all(), $rules, $custom_errors);
 
-            $base_query = $total_query = User::DocumentVerified()->Approved()->OtherResponse()->where('users.name', 'like', "%".$request->key."%")->orderBy('users.created_at', 'desc');
+            $base_query = $total_query = User::Approved()->OtherResponse()->where('users.name', 'like', "%".$request->key."%")->orderBy('users.created_at', 'desc');
 
             $users = $base_query->skip($this->skip)->take($this->take)->get();
 
