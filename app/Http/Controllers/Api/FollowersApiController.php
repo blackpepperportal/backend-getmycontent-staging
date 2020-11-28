@@ -351,7 +351,7 @@ class FollowersApiController extends Controller
 
                 $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
 
-                $follower->user = \App\User::OtherResponse()->find($follower->user_id);
+                $follower->user = \App\User::OtherResponse()->find($follower->user_id) ?? [];
 
             }
 
@@ -598,7 +598,7 @@ class FollowersApiController extends Controller
 
                 $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
 
-                $follower->user = \App\User::OtherResponse()->find($follower->user_id);
+                $follower->user = \App\User::OtherResponse()->find($follower->user_id) ?? [];
 
             }
 
@@ -650,7 +650,7 @@ class FollowersApiController extends Controller
 
                 $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
 
-                $follower->user = \App\User::OtherResponse()->find($follower->user_id);
+                $follower->user = \App\User::OtherResponse()->find($follower->user_id) ?? [];
             }
 
             $data['followers'] = $followers;
