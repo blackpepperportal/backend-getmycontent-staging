@@ -10,7 +10,7 @@
     <a href="{{ route('admin.users.index') }}">{{ tr('users') }}</a>
 </li>
 
-<li class="breadcrumb-item active">{{ tr('documents') }}</li>
+<li class="breadcrumb-item active">{{ tr('verification_documents') }}</li>
 
 @endsection
 

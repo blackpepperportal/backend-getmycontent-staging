@@ -5,6 +5,9 @@
 @section('content-header', tr('revenue_management'))
 
 @section('breadcrumb')
+<li class="breadcrumb-item active">
+    <a href="{{route('admin.user_withdrawals')}}">{{ tr('revenue_management') }}</a>
+</li>
 
 <li class="breadcrumb-item">{{ tr('user_withdrawals') }}</a></li>
 

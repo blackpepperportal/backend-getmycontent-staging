@@ -131,5 +131,8 @@ return [
 
     161 => 'Add bank account details',
 
-    162 => 'Already chat has been saved between the users'
+    162 => 'Already chat has been saved between the users',
+
+    163 =>  'Invalid Token'
+
 ];

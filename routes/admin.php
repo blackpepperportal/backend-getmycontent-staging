@@ -204,9 +204,9 @@ Route::group(['middleware' => 'web'], function() {
         
         //user wallet route start
 
-        Route::get('user_wallets' , 'Admin\AdminContentCreatorController@user_wallets_index')->name('user_wallets.index');
+        Route::get('user_wallets' , 'Admin\AdminRevenueController@user_wallets_index')->name('user_wallets.index');
 
-        Route::get('user_wallets/view', 'Admin\AdminContentCreatorController@user_wallets_view')->name('user_wallets.view');
+        Route::get('user_wallets/view', 'Admin\AdminRevenueController@user_wallets_view')->name('user_wallets.view');
 
         //user wallet route end
 

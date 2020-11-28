@@ -107,6 +107,8 @@
                 </thead>
                
                 <tbody>
+                   
+				   @if($user_wallet_payments->isNotEmpty())
 
                     @foreach($user_wallet_payments as $i => $stardom_wallet_payment_details)
                     <tr>
@@ -135,6 +137,12 @@
                     </tr>
 
                     @endforeach
+
+					@else
+                       
+					   <tr colspan="8" class="text-center"><td><h4>{{tr('no_results_found')}}</h4></td></tr>
+
+					@endif
 
                 </tbody>
             

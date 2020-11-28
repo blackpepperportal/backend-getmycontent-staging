@@ -14,6 +14,8 @@ use App\Jobs\SendEmailJob;
 
 use App\Jobs\PublishPostJob;
 
+use Carbon\Carbon;
+
 class AdminPostController extends Controller
 {
     /**
@@ -179,7 +181,7 @@ class AdminPostController extends Controller
             $post->is_published = $request->publish_type;
 
             $publish_time = $request->publish_time ?: date('Y-m-d H:i:s');
-
+          
             $post->publish_time = date('Y-m-d H:i:s', strtotime($publish_time));
 
             $post->amount = $request->amount?? 0;

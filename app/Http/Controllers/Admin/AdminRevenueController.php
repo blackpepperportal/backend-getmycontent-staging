@@ -276,6 +276,7 @@ class AdminRevenueController extends Controller
 
         $data->analytics = revenue_graph(6);
         
+        
         return view('admin.revenues.dashboard')
                     ->with('page' , 'revenue-dashboard')
                     ->with('data', $data);
@@ -962,6 +963,94 @@ class AdminRevenueController extends Controller
 
             return redirect()->back()->with('flash_error', $e->getMessage());
         }
+    }
+
+
+    /**
+     * @method user_wallets_index()
+     *
+     * @uses Display the lists of stardom users
+     *
+     * @created Akshata
+     *
+     * @updated
+     *
+     * @param -
+     *
+     * @return view page 
+     */
+    public function user_wallets_index(Request $request) {
+
+        $base_query = \App\UserWallet::orderBy('created_at','DESC');
+
+        if($request->search_key) {
+
+            $search_key = $request->search_key;
+
+            $base_query =  $base_query
+
+                ->whereHas('user', function($q) use ($search_key) {
+
+                    return $q->Where('users.name','LIKE','%'.$search_key.'%');
+
+                })->orWhere('user_wallets.unique_id','LIKE','%'.$search_key.'%');
+                        
+        }
+
+        if($request->user_id) {
+
+            $base_query = $base_query->where('user_id',$request->user_id);
+        }
+
+        $user_wallets = $base_query->paginate(10);
+
+        return view('admin.user_wallets.index')
+                    ->with('page','user_wallets')
+                    ->with('user_wallets' , $user_wallets);
+    }
+
+    /**
+     * @method user_wallets_view()
+     *
+     * @uses display the transaction details of the perticulor stardom
+     *
+     * @created Akshata 
+     *
+     * @updated 
+     *
+     * @param object $request - stardom_wallet_id
+     * 
+     * @return View page
+     *
+     */
+    public function user_wallets_view(Request $request) {
+       
+        try {
+            
+            $user_wallet = \App\UserWallet::where('user_id',$request->user_id)->first();
+           
+            if(!$user_wallet) { 
+
+                $user_wallet = new \App\UserWallet;
+
+                $user_wallet->user_id = $request->user_id;
+
+                $user_wallet->save();
+
+            }
+
+            $user_wallet_payments = \App\UserWalletPayment::where('requested_amount','>',0)->where('user_id',$user_wallet->user_id)->paginate(10);
+                   
+            return view('admin.user_wallets.view')
+                        ->with('page', 'user_wallets') 
+                        ->with('user_wallet', $user_wallet)
+                        ->with('user_wallet_payments', $user_wallet_payments);
+            
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+        }
+    
     }
 
 }

@@ -1002,7 +1002,12 @@ return [
 	"email_verify_message" => "Your Email has been  (:other_key) by admin!!",
 	"user_account_upgrade" => "Account has been upgraded to Premium Account!!",
 	"account_upgrade_message" => "User (:other_key) Your Account has been upgraded to Premium Account!!",
-    "following"=>"Following"
+    "following"=>"Following",
+	"user_forgot_email_title" => "Your new password",
+	"reset_password_tag"=>"You recently requested to reset your password for your  account.",
+	"reset_password"=>"Reset Password",
+	"reset_password_title" => "Reset Password - (:other_key)",
+	"no_results_found"=>"No Results Found"
 
 
 ]?>

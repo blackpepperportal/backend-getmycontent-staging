@@ -16,6 +16,9 @@ use App\Repositories\PaymentRepository as PaymentRepo;
 
 use App\Repositories\CommonRepository as CommonRepo;
 
+use Carbon\Carbon;
+
+
 class UserAccountApiController extends Controller
 {
  	protected $loginUser;
@@ -192,9 +195,11 @@ class UserAccountApiController extends Controller
 
                         $email_data['email'] = $user->email;
 
+                        $email_data['name'] = $user->name;
+
                         $email_data['verification_code'] = $user->verification_code;
 
-                        // $this->dispatch(new SendEmailJob($email_data));
+                        $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
                     }
 
@@ -423,25 +428,27 @@ class UserAccountApiController extends Controller
                 throw new Exception(api_error(1000), 1000);
             }
 
-            $new_password = Helper::generate_password();
+            $token = app('auth.password.broker')->createToken($user);
 
-            $user->password = Hash::make($new_password);
+            \App\PasswordReset::where('email', $user->email)->delete();
 
-            $email_data['subject'] = tr('user_forgot_email_title' , Setting::get('site_name'));
+            \App\PasswordReset::insert([
+                'email'=>$user->email,
+                'token'=>$token,
+                'created_at'=>Carbon::now()
+            ]);
+
+            $email_data['subject'] = tr('reset_password_title' , Setting::get('site_name'));
 
             $email_data['email']  = $user->email;
 
-            $email_data['password'] = $new_password;
+            $email_data['name']  = $user->name;
 
             $email_data['page'] = "emails.users.forgot-password";
 
-            // $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
-
-            if(!$user->save()) {
-
-                throw new Exception(api_error(103));
-
-            }
+            $email_data['url'] = Setting::get('frontend_url')."/resetpassword/".$token;
+            
+            $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
             DB::commit();
 
@@ -455,6 +462,64 @@ class UserAccountApiController extends Controller
         }
     
     }
+
+
+    /**
+     * @method reset_password()
+     *
+     * @uses To reset the password
+     *
+     * @created Ganesh
+     *
+     * @updated Ganesh
+     *
+     * @param object $request - Email id
+     *
+     * @return send mail to the valid user
+     */
+    
+    public function reset_password(Request $request) {
+
+        try {
+
+            $rules = [
+                'password' => 'required|confirmed|min:6',
+                'token' => 'required|string',
+                'password_confirmation'=>'required'
+            ]; 
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors =[]);
+
+            DB::beginTransaction();
+
+            $password_reset = \App\PasswordReset::where('token', $request->token)->first();
+
+            if(!$password_reset){
+
+                throw new Exception(api_error(163), 163);
+            }
+            
+            $user = User::where('email', $password_reset->email)->first();
+
+            $user->password = \Hash::make($request->password);
+
+            $user->save();
+
+            \App\PasswordReset::where('email', $user->email) ->delete();
+
+            DB::commit();
+
+            return $this->sendResponse(api_success(153), $success_code = 153, $data = []);
+
+        } catch(Exception $e) {
+
+             DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+
+
+   }
 
     /**
      * @method change_password()
