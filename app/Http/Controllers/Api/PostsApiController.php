@@ -1134,7 +1134,7 @@ class PostsApiController extends Controller
 
                 $post_bookmark = \App\PostBookmark::destroy($check_post_bookmark->id);
 
-                $code = 142;
+                $code = 154;
 
             } else {
 
@@ -1195,7 +1195,7 @@ class PostsApiController extends Controller
 
             $data = $post_bookmark;
 
-            return $this->sendResponse(api_success(142), 142, $data);
+            return $this->sendResponse(api_success(154), 154, $data);
             
         } catch(Exception $e){ 
 
