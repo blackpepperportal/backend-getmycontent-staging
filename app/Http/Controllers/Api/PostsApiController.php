@@ -1126,17 +1126,33 @@ class PostsApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules, $custom_errors);
 
-            $custom_request = new Request();
+            $check_post_bookmark = \App\PostBookmark::where('user_id' => $request->id)->where('post_id' => $request->post_id)->first();
 
-            $custom_request->request->add(['user_id' => $request->id, 'post_id' => $request->post_id]);
+            // Check the bookmark already exists 
 
-            $post_bookmark = \App\PostBookmark::updateOrCreate($custom_request->request->all());
+            if($check_post_bookmark) {
+
+                $post_bookmark = \App\PostBookmark::destroy($check_post_bookmark->id);
+
+                $code = 142;
+
+            } else {
+
+                $custom_request = new Request();
+
+                $custom_request->request->add(['user_id' => $request->id, 'post_id' => $request->post_id]);
+
+                $post_bookmark = \App\PostBookmark::updateOrCreate($custom_request->request->all());
+
+                $code = 143;
+
+            }
 
             DB::commit(); 
 
             $data = $post_bookmark;
 
-            return $this->sendResponse(api_success(143), 143, $data);
+            return $this->sendResponse(api_success($code), $code, $data);
             
         } catch(Exception $e){ 
 
