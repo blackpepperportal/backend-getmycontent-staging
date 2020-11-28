@@ -23,8 +23,8 @@ class Follower extends Model
 
         return $query->leftJoin('users' , 'users.id' ,'=' , 'followers.follower_id')
 			->select(
-				'users.id as user_id',
-	            'users.unique_id as user_unique_id',
+				'users.id as u_id',
+	            'users.unique_id as u_unique_id',
                 'users.username',
                 'users.name',
 	            'users.email as email',
