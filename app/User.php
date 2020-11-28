@@ -378,6 +378,10 @@ class User extends Authenticatable
 
             $model->userTips()->delete();
             
+            foreach ($model->posts as $key => $post) {
+                $post->delete();
+            }
+            
         });
 
     }
