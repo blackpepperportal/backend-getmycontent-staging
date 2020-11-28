@@ -30,6 +30,7 @@ class Follower extends Model
 	            'users.email as email',
 	            'users.picture as picture',
                 'users.cover as cover',
+                'followers.user_id',
                 'followers.follower_id',
                 'followers.created_at',
                 'followers.updated_at'
