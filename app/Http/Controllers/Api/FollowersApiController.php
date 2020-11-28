@@ -335,7 +335,7 @@ class FollowersApiController extends Controller
 
         try {
 
-            $base_query = $total_query = Follower::with('follower')->CommonResponse()->where('follower_id', $request->id);
+            $base_query = $total_query = Follower::CommonResponse()->where('follower_id', $request->id);
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
@@ -350,6 +350,8 @@ class FollowersApiController extends Controller
                 $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
 
                 $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
+
+                $follower->user = \App\User::OtherResponse()->find($follower->user_id);
 
             }
 
@@ -580,7 +582,7 @@ class FollowersApiController extends Controller
 
         try {
 
-            $base_query = $total_query = Follower::with('follower')->CommonResponse()->where('follower_id', $request->id)->where('followers.status', YES);
+            $base_query = $total_query = Follower::CommonResponse()->where('follower_id', $request->id)->where('followers.status', YES);
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
@@ -595,6 +597,8 @@ class FollowersApiController extends Controller
                 $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
 
                 $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
+
+                $follower->user = \App\User::OtherResponse()->find($follower->user_id);
 
             }
 
@@ -630,7 +634,7 @@ class FollowersApiController extends Controller
 
         try {
 
-            $base_query = $total_query = Follower::with('follower')->CommonResponse()->where('follower_id', $request->id)->where('followers.status', NO);
+            $base_query = $total_query = Follower::CommonResponse()->where('follower_id', $request->id)->where('followers.status', NO);
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
@@ -645,6 +649,8 @@ class FollowersApiController extends Controller
                 $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
 
                 $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
+
+                $follower->user = \App\User::OtherResponse()->find($follower->user_id);
             }
 
             $data['followers'] = $followers;
