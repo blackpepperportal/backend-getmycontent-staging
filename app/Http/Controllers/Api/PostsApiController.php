@@ -1126,7 +1126,7 @@ class PostsApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules, $custom_errors);
 
-            $check_post_bookmark = \App\PostBookmark::where('user_id' => $request->id)->where('post_id' => $request->post_id)->first();
+            $check_post_bookmark = \App\PostBookmark::where('user_id', $request->id)->where('post_id', $request->post_id)->first();
 
             // Check the bookmark already exists 
 
