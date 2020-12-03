@@ -56,11 +56,11 @@
                                         <td>{{$i+$user_subscriptions->firstItem()}}</td>
 
                                         <td>
-                                            <a href="{{route('admin.users.view' , ['user_id' => $subscription->from_user_id])}}"> {{ $subscription->from_username }}
+                                            <a href="{{route('admin.users.view' , ['user_id' => $subscription->from_user_id])}}"> {{ $subscription->from_username ?:tr('not_available')}}
                                             </a>
                                         </td>
 
-                                        <td><a href="{{route('admin.users.view' , ['user_id' => $subscription->to_user_id])}}"> {{ $subscription->to_username }}</a></td>
+                                        <td><a href="{{route('admin.users.view' , ['user_id' => $subscription->to_user_id])}}"> {{ $subscription->to_username ?:tr('not_available') }}</a></td>
 
                                         <td>{{ $subscription->plan_text_formatted }}</td>
 

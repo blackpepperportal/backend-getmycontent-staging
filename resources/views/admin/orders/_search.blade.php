@@ -1,6 +1,6 @@
 <form method="GET" action="{{route('admin.orders.index')}}">
 
-    <div class="row">
+    <div class="row search-form">
 
         <div class="col-xs-12 col-sm-12 col-lg-3 col-md-6 resp-mrg-btm-md">
             @if(Request::has('search_key'))
@@ -49,4 +49,4 @@
 
     </div>
 
-</form>
+</form></br>

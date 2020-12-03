@@ -11,7 +11,7 @@
 
             <div class="input-group">
 
-                <input type="text" class="form-control" name="search_key" value="{{Request::get('search_key')??''}}" placeholder="{{tr('users_search_placeholder')}}"> 
+                <input type="text" class="form-control" name="search_key" value="{{Request::get('search_key')??''}}" placeholder="{{tr('user_subscriptions_search_placeholder')}}"> 
 
                 <span class="input-group-btn">
                     &nbsp

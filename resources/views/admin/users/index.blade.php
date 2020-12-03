@@ -74,7 +74,7 @@
                                     </td>
 
                                     <td>{{ $user->email }}<br>
-                                        <span class="custom-muted">{{ $user->mobile ?: "-" }}</span>
+                                        <span class="custom-muted">{{ $user->mobile ?: tr('not_available') }}</span>
                                     </td>
 
                                     <td>

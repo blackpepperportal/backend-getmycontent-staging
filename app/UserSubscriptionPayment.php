@@ -8,7 +8,7 @@ class UserSubscriptionPayment extends Model
 {
 	 protected $hidden = ['id','unique_id'];
 
-	protected $appends = ['user_subscription_payment_id','user_subscription_payment_unique_id', 'from_username', 'from_user_picture', 'from_user_unique_id', 'to_username', 'to_user_picture', 'to_user_unique_id', 'amount_formatted','plan_text_formatted'];
+	protected $appends = ['user_subscription_payment_id','user_subscription_payment_unique_id', 'from_username', 'from_user_picture', 'from_user_unique_id', 'to_username', 'to_user_picture', 'to_user_unique_id', 'amount_formatted','plan_text_formatted','admin_amount_formatted','user_amount_formatted'];
 	
 	public function getUserSubscriptionPaymentIdAttribute() {
 
@@ -69,6 +69,18 @@ class UserSubscriptionPayment extends Model
 
         return plan_text($this->plan,$this->plan_type);
     }
+
+    public function getAdminAmountFormattedAttribute() {
+
+    	return formatted_amount($this->admin_amount);
+    }
+
+
+    public function getUserAmountFormattedAttribute() {
+
+    	return formatted_amount($this->user_amount);
+    }
+
 
     /**
      * Scope a query to only include active users.
