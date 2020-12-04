@@ -53,7 +53,7 @@
                                             <td>{{ tr('from_username')}} </td>
                                             <td>
                                                 <a href="{{route('admin.users.view',['user_id'=>$user_subscription_payment->from_user_id ?? ''])}}">
-                                                    {{ $user_subscription_payment->from_username}}
+                                                    {{ $user_subscription_payment->from_username ?: tr('not_available')}}
                                                 </a>
                                             </td>
                                         </tr>
@@ -62,7 +62,7 @@
                                             <td>{{ tr('to_username')}} </td>
                                             <td>
                                                 <a href="{{route('admin.users.view',['user_id'=>$user_subscription_payment->to_user_id ?? ''])}}">
-                                                    {{ $user_subscription_payment->to_username}}
+                                                    {{ $user_subscription_payment->to_username ?: tr('not_available')}}
                                                 </a>
 
                                             </td>
@@ -85,12 +85,12 @@
 
                                         <tr>
                                             <td>{{ tr('admin_amount')}} </td>
-                                            <td>{{ $user_subscription_payment->admin_amount}}</td>
+                                            <td>{{ $user_subscription_payment->admin_amount_formatted}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('user_amount')}} </td>
-                                            <td>{{ $user_subscription_payment->user_amount}}</td>
+                                            <td>{{ $user_subscription_payment->user_amount_formatted}}</td>
                                         </tr>
 
                                         <tr>
