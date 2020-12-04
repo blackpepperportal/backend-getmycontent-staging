@@ -1302,7 +1302,7 @@ class UserAccountApiController extends Controller
 
             $email_data['verification_code'] = $user->verification_code;
 
-            // $this->dispatch(new SendEmailJob($email_data));
+            $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
             DB::commit();
 

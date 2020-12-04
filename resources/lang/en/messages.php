@@ -1034,5 +1034,7 @@ return [
 	"posts_approve_failed"=>"Approve posts  failed!!",
 	"posts_decline_failed"=>"Decline posts failed!!",
 	"posts_action_is_empty"=>"Posts or Action not selected",
+	"regenerate_verification_code_tag"=>"You recently requested to regenrate the verification code.",
+	"verification_code"=>"Verification Code"
 
 ]?>
