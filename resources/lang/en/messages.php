@@ -1010,7 +1010,18 @@ return [
 	"no_results_found"=>"No Results Found",
 	"user_subscriptions_search_placeholder"=>"Search by UserName",
 	"configuration_settings"=>"Configuration Settings",
-	"chat_socket_url"=>"Chat Socket Url"
+	"chat_socket_url"=>"Chat Socket Url",
 
+
+	"bulk_action" => "Bulk Action",
+	"admin_users_delete_success"	=>	"User's deleted successfully",
+	"admin_users_approve_success"=>"User's has been approved successfully",
+	"admin_users_decline_success"=>"User's has been declined successfully",
+	"admin_users_delete_confirmation"=>"Once you have deleted this account, the users  will no longer be able to log in to the site or apps. This action cannot be undo.",
+    "admin_users_decline_confirmation" => "Do you want decline this users",
+	"admin_users_approve_confirmation" => "Do you want approve this users",
+	"users_approve_failed"=>"Approve users  failed!!",
+	"users_decline_failed"=>"Decline users failed!!",
+	"user_action_is_empty"=>"Users or Action not selected",
 
 ]?>

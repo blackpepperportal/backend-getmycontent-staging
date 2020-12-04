@@ -700,6 +700,86 @@ class AdminUserController extends Controller
     
     }
 
+
+     /**
+     * @method users_bulk_action()
+     * 
+     * @uses To delete,approve,decline multiple users
+     *
+     * @created Ganesh
+     *
+     * @updated 
+     *
+     * @param 
+     *
+     * @return success/failure message
+     */
+    public function users_bulk_action(Request $request) {
+
+        try {
+            
+            $action_name = $request->action_name ;
+
+            $user_ids = explode(',', $request->selected_users);
+
+            if (!$user_ids && !$action_name) {
+
+                throw new Exception(tr('user_action_is_empty'));
+
+            }
+
+            DB::beginTransaction();
+
+            if($action_name == 'bulk_delete'){
+
+                $user = \App\User::whereIn('id', $user_ids)->delete();
+
+                if ($user) {
+
+                    DB::commit();
+
+                    return redirect()->back()->with('flash_success',tr('admin_users_delete_success'));
+
+                }
+
+                throw new Exception(tr('user_delete_failed'));
+
+            }elseif($action_name == 'bulk_approve'){
+
+                $user =  \App\User::whereIn('id', $user_ids)->update(['status' => USER_APPROVED]);
+
+                if ($user) {
+
+                    DB::commit();
+
+                    return back()->with('flash_success',tr('admin_users_approve_success'))->with('bulk_action','true');
+                }
+
+                throw new Exception(tr('users_approve_failed'));  
+
+            }elseif($action_name == 'bulk_decline'){
+                
+                $user =  \App\User::whereIn('id', $user_ids)->update(['status' => USER_DECLINED]);
+
+                if ($user) {
+                    
+                    DB::commit();
+
+                    return back()->with('flash_success',tr('admin_users_decline_success'))->with('bulk_action','true');
+                }
+
+                throw new Exception(tr('users_decline_failed')); 
+            }
+
+        }catch( Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error',$e->getMessage());
+        }
+
+    }
+
      /**
      * @method user_followers()
      *
