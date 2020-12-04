@@ -61,7 +61,7 @@
                                             <label for="page">
                                                 {{tr('upload_files')}}
                                             </label>
-                                            <input type="file" class="form-control" name="post_files[]" accept="image/*,video/*"multiple />
+                                            <input type="file" class="form-control" name="post_files" accept="image/*,video/*"multiple />
                                         </div>
 
                                     </div>
