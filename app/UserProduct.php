@@ -18,7 +18,7 @@ class UserProduct extends Model
         return formatted_amount($this->price);
     }
 
-    public function userDetails(){
+    public function user(){
 
     	return $this->belongsTo(User::class,'user_id');
     }
@@ -49,7 +49,7 @@ class UserProduct extends Model
 
         static::deleting(function ($model) {
 
-            Helper::delete_file($model->picture, PRODUCT_FILE_PATH);
+            Helper::storage_upload_file($model->picture, PRODUCT_FILE_PATH);
 
             $model->userProductPictures()->delete();
 

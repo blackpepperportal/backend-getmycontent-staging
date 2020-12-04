@@ -54,28 +54,30 @@
                            
                             <tbody>
 
-                                @foreach($order_payments as $i => $order_payment_details)
+                                @foreach($order_payments as $i => $order_payment)
 
                                     <tr>
                                         <td>{{ $i + 1 }}</td>
 
-                                        <td><a href="{{route('admin.orders.view',['order_id' => $order_payment_details->order_id])}}">{{$order_payment_details->unique_id}}</a></td>
+                                        <td><a href="{{route('admin.orders.view',['order_id' => $order_payment->order_id])}}">{{$order_payment->unique_id}}</a></td>
 
                                         <td>
-                                            {{ $order_payment_details->payment_id }}
+                                            {{ $order_payment->payment_id }}
                                         </td>
-
-                                        <td><a href="{{route('admin.users.view',['user_id' => $order_payment_details->user_id])}}">{{ $order_payment_details->userDetails->name ?? "-" }}</a></span></td>
 
                                         <td>
-                                            {{ $order_payment_details->delivery_price_formatted}}
+                                            <a href="{{route('admin.users.view',['user_id' => $order_payment->user_id])}}">{{$order_payment->user->name ?? "-"}}</a>
                                         </td>
 
-                                        <td>{{$order_payment_details->sub_total_formatted}}</td>
+                                        <td>
+                                            {{ $order_payment->delivery_price_formatted}}
+                                        </td>
 
-                                        <td>{{$order_payment_details->total_formatted}}</td>
+                                        <td>{{$order_payment->sub_total_formatted}}</td>
 
-                                        <td><a class="btn btn-primary" href="{{route('admin.order.payments.view',['order_payment_id' => $order_payment_details->id])}}">{{tr('view')}}</a></td>
+                                        <td>{{$order_payment->total_formatted}}</td>
+
+                                        <td><a class="btn btn-primary" href="{{route('admin.order.payments.view',['order_payment_id' => $order_payment->id])}}">{{tr('view')}}</a></td>
 
                                     </tr>
 

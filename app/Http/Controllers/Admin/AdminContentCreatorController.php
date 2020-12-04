@@ -538,9 +538,9 @@ class AdminContentCreatorController extends Controller
 
                 $email_data['subject'] = tr('stardom_document_verification' , Setting::get('site_name'));
 
-                $email_data['email']  = $stardom_document->userDetails->email ?? "-";
+                $email_data['email']  = $stardom_document->user->email ?? "-";
 
-                $email_data['name']  = $stardom_document->userDetails->name ?? "-";
+                $email_data['name']  = $stardom_document->user->name ?? "-";
 
                 $email_data['page'] = "emails.users.document-verify";
 

@@ -67,7 +67,7 @@ class FollowUserJob implements ShouldQueue
 
             $data['action_url'] =  Setting::get('BN_USER_FOLLOWINGS');
 
-            $data['image'] = $follower->userDetails->picture ?? asset('placeholder.jpeg');
+            $data['image'] = $follower->user->picture ?? asset('placeholder.jpeg');
 
             $data['subject'] = $content;
 

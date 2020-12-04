@@ -199,38 +199,43 @@
 
                     </div>
 
-                    @forelse($data->recent_users as $i => $user_details)
+                    @forelse($data->recent_users as $i => $user)
 
-                    <a href="{{ route('admin.users.view', ['user_id' => $user_details->id])}}" class="nav-link">
+                        <a href="{{ route('admin.users.view', ['user_id' => $user->id])}}" class="nav-link">
 
-                        <div class="wrapper d-flex align-items-center py-2 border-bottom">
+                            <div class="wrapper d-flex align-items-center py-2 border-bottom">
 
-                            <img class="img-sm rounded-circle" src="{{ $user_details->picture }}" alt="profile">
+                                <img class="img-sm rounded-circle" src="{{ $user->picture }}" alt="profile">
 
-                            <div class="wrapper ml-3">
-                                <h6 class="ml-1 mb-1">
-                                    {{$user_details->name}}
-                                </h6>
+                                <div class="wrapper ml-3">
+                                    <h6 class="ml-1 mb-1">
+                                        {{$user->name}}
+                                    </h6>
 
-                                <small class="text-muted mb-0">
-                                    <i class="icon icon-envelope-open mr-1"></i>
-                                    {{ $user_details->email }}
+                                    <small class="text-muted mb-0">
+                                        <i class="icon icon-envelope-open mr-1"></i>
+                                        {{ $user->email }}
 
-                                </small>
-                                <br>
+                                    </small>
+                                    <br>
 
+                                </div>
+
+                                <small class="text-muted ml-auto">{{$user->created_at->diffForHumans()}}</small>
                             </div>
-
-                            <small class="text-muted ml-auto">{{$user_details->created_at->diffForHumans()}}</small>
-                        </div>
-                    </a>
+                        
+                        </a>
 
                     @empty
-                    <p align="center">
-                        <a href="{{route('admin.content_creators.index')}}" class="text-uppercase btn btn-success btn-xs">
-                            {{tr('view_all')}}
-                        </a>
-                    </p>
+
+                        <div class="text-center m-5">
+                            <h2 class="text-muted">
+                                <i class="fa fa-inbox"></i>
+                            </h2>
+                            <p>{{tr('no_result_found')}}</p>
+                        </div>
+
+                        
                     @endforelse
 
                     @if($data->recent_users->count() > 10)
@@ -307,7 +312,7 @@
 
                     @if($data->recent_premium_users->count() > 10)
                     <p align="center">
-                        <a href="{{route('admin.content_creators.index')}}" class="text-uppercase btn btn-success btn-xs">
+                        <a href="{{route('admin.users.index', ['account_type' => USER_PREMIUM_ACCOUNT])}}" class="text-uppercase btn btn-success btn-xs">
                             {{tr('view_all')}}
                         </a>
                     </p>

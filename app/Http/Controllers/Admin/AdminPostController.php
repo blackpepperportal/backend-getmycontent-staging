@@ -154,7 +154,8 @@ class AdminPostController extends Controller
     public function posts_save(Request $request) {
         
         try {
-
+            
+            
             DB::begintransaction();
 
             $rules = [
@@ -190,6 +191,31 @@ class AdminPostController extends Controller
 
             if($post->save()) {
 
+                if($request->has('post_files')){
+
+                    $post_file = \App\PostFile::where('post_id',$post->id)->first() ?? new \App\PostFile();
+
+                    $filename = rand(1,1000000).'-post-'.$request->file_type ?? 'image';
+
+                    $folder_path = POST_PATH.$post->user_id.'/';
+
+                    $post_file_url = Helper::post_upload_file($request->post_files, $folder_path, $filename);
+
+                    if($post_file_url) {
+
+                        $post_file->post_id = $post->id;
+
+                        $post_file->file = $post_file_url;
+
+                        $post_file->file_type = 'image';
+
+                        $post_file->blur_file = \App\Helpers\Helper::generate_post_blur_file($post_file->file, $post->user_id);
+                        
+                        $post_file->save();
+
+                    }
+
+                }
                 DB::commit(); 
 
                 return redirect()->route('admin.posts.view',['post_id'=>$post->id])->with('flash_success', tr('posts_create_succes'));
@@ -716,7 +742,7 @@ class AdminPostController extends Controller
             $search_key = $request->search_key;
 
             $base_query = $base_query
-                            ->whereHas('userDetails',function($query) use($search_key) {
+                            ->whereHas('user',function($query) use($search_key) {
 
                                 return $query->where('users.name','LIKE','%'.$search_key.'%');
 
@@ -818,7 +844,7 @@ class AdminPostController extends Controller
 
             $search_key = $request->search_key;
 
-            $base_query = $base_query->whereHas('userDetails',function($query) use($search_key){
+            $base_query = $base_query->whereHas('user',function($query) use($search_key){
 
                 return $query->where('users.name','LIKE','%'.$search_key.'%');
 

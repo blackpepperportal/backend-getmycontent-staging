@@ -69,7 +69,7 @@
                                     </td>
 
                                     <td> 
-                                        <a href="{{  route('admin.users.view' , ['user_id' => $user_product->user_id] )  }}">{{ $user_product->userDetails->name ?? "-"}}
+                                        <a href="{{  route('admin.users.view' , ['user_id' => $user_product->user_id] )  }}">{{ $user_product->user->name ?? "-"}}
                                         </a>
                                     </td>
 

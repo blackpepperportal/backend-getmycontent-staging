@@ -1007,7 +1007,8 @@ return [
 	"reset_password_tag"=>"You recently requested to reset your password for your  account.",
 	"reset_password"=>"Reset Password",
 	"reset_password_title" => "Reset Password - (:other_key)",
-	"no_results_found"=>"No Results Found"
+	"no_results_found"=>"No Results Found",
+	"user_subscriptions_search_placeholder"=>"Search by UserName"
 
 
 ]?>

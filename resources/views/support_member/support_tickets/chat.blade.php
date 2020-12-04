@@ -47,7 +47,7 @@
 
                         <div class="users-list-padding media-list">
 
-                        @foreach($support_chats as $support_chat_details)
+                        @foreach($support_chats as $support_chat)
                       
                             <a href="#" class="media border-0">
 
@@ -55,7 +55,7 @@
 
                                    <span class="avatar avatar-md avatar-busy">
 
-                                       <img class="media-object rounded-circle" src="{{$support_chat_details->userDetails->picture ?? asset('placeholder.jpeg')}}"
+                                       <img class="media-object rounded-circle" src="{{$support_chat->user->picture ?? asset('placeholder.jpeg')}}"
                                           alt="User Image">
                                        <i></i>
 
@@ -65,14 +65,14 @@
 
                                 <div class="media-body w-100">
 
-                                   <h6 class="list-group-item-heading"> {{$support_chat_details->userDetails->name ?? "-"}}
-                                      <span class="font-small-3 float-right primary">{{date('H:i A',strtotime($support_chat_details->updated_at))}}</span>
+                                   <h6 class="list-group-item-heading"> {{$support_chat->user->name ?? "-"}}
+                                      <span class="font-small-3 float-right primary">{{date('H:i A',strtotime($support_chat->updated_at))}}</span>
                                   
                                    </h6>
 
-                                   <p class="list-group-item-text text-muted mb-0"><i class="ft-check primary font-small-2"></i> {{$support_chat_details->message}}
+                                   <p class="list-group-item-text text-muted mb-0"><i class="ft-check primary font-small-2"></i> {{$support_chat->message}}
                                       <span class="float-right primary">
-                                      <span class="badge badge-pill badge-primary">{{$support_chat_details->created_at->diffForHumans()}}</span>
+                                      <span class="badge badge-pill badge-primary">{{$support_chat->created_at->diffForHumans()}}</span>
                                       </span>
                                    </p>
 

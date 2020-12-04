@@ -18,7 +18,7 @@ class CreateChatUsersTable extends Migration
             $table->string('unique_id')->default(rand());
             $table->integer('from_user_id');
             $table->integer('to_user_id');
-            $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }

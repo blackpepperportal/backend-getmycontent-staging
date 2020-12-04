@@ -44,7 +44,7 @@
                                         <div class="media">
                                       
                                             <div class="media-body w-100">
-                                                <h6 class="media-heading mb-0">{{$delivery_address_details->userDetails->name ?? "-"}}</h6>
+                                                <h6 class="media-heading mb-0">{{$delivery_address_details->user->name ?? "-"}}</h6>
                                                 <p class="font-small-2 mb-0 text-muted">{{tr('delivery_address_user')}}</p>
                                             </div>
 

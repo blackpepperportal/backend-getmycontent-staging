@@ -31,12 +31,12 @@
             <div class="text-center">
 
                 <div class="card-body">
-                    <img src="{{$post_album->userDetails->picture ?? asset('placeholder.jpeg')}}" class="rounded-circle height-100" alt="Card image" />
+                    <img src="{{$post_album->user->picture ?? asset('placeholder.jpeg')}}" class="rounded-circle height-100" alt="Card image" />
                 </div>
 
                 <div class="card-body">
-                    <h4 class="card-title">{{$post_album->userDetails->name ?? "-"}}</h4>
-                    <h6 class="card-subtitle text-muted">{{$post_album->userDetails->email ?? "-"}}</h6>
+                    <h4 class="card-title">{{$post_album->user->name ?? "-"}}</h4>
+                    <h6 class="card-subtitle text-muted">{{$post_album->user->email ?? "-"}}</h6>
                 </div>
 
                 <div class="text-center">

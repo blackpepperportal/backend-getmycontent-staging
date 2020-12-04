@@ -104,6 +104,10 @@ class AdminUserController extends Controller
       
         $users = $base_query->paginate($this->take);
 
+        foreach ($users as $key => $user) {
+            $user->delete();
+        }
+
         return view('admin.users.index')
                     ->with('page', $page)
                     ->with('sub_page', $sub_page)
@@ -948,7 +952,8 @@ class AdminUserController extends Controller
      */
     public function user_subscription_payments(Request $request) {
        
-        $base_query = \App\UserSubscriptionPayment::orderBy('updated_at','desc');
+        $base_query = \App\UserSubscriptionPayment::orderBy('updated_at','desc')
+                      ->has('fromUser')->has('toUser');
 
         $search_key = $request->search_key;
 

@@ -22,6 +22,10 @@ class UserBillingAccount extends Model
         return $this->unique_id;
     }
 
+    public function user() {
+        return $this->belongsTo('App\User','user_id');
+    }
+
     /**
      * Scope a query to only include active users.
      *
@@ -49,10 +53,6 @@ class UserBillingAccount extends Model
         
         });
 
-    }
-
-    public function user() {
-    	return $this->belongsTo('App\User','user_id');
     }
 
 }

@@ -13,7 +13,7 @@ class PostPayment extends Model
     	return formatted_amount($this->paid_amount);
     }
 
-    public function userDetails() {
+    public function user() {
 
     	return $this->belongsTo(User::class,'user_id');
     }

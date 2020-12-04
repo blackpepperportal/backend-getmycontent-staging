@@ -29,7 +29,7 @@ class OrderPayment extends Model
     	return formatted_amount($this->delivery_price);
     }
 
-    public function userDetails() {
+    public function user() {
 
         return $this->belongsTo(User::class,'user_id');
     }

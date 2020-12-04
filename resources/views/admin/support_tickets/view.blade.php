@@ -45,7 +45,7 @@
 
                             <tr>
                                 <th>{{tr('user_name')}}</th>
-                                <td>{{$support_ticket->userDetails->name ?? "-"}}</td>
+                                <td>{{$support_ticket->user->name ?? "-"}}</td>
                             </tr>
 
                             <tr>
