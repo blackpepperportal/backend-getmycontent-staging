@@ -48,13 +48,16 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 	 *
 	 */
 
-    Route::post('chat_messages_save', 'Api\UserAccountApiController@chat_messages_save');
+    Route::any('chat_messages_save', 'ApplicationController@chat_messages_save');
 
     Route::post('register','Api\UserAccountApiController@register');
     
     Route::post('login','Api\UserAccountApiController@login');
 
     Route::post('forgot_password', 'Api\UserAccountApiController@forgot_password');
+
+    Route::post('reset_password', 'Api\UserAccountApiController@reset_password');
+
 
     Route::post('regenerate_email_verification_code', 'Api\UserAccountApiController@regenerate_email_verification_code');
 
@@ -266,7 +269,9 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     Route::post('posts_view_for_others','Api\PostsApiController@posts_view_for_others');
 
-    Route::post('user_suggestions','Api\FollowersApiController@user_suggestions');
+    Route::post('users_search', 'Api\FollowersApiController@users_search');
+
+    Route::post('user_suggestions', 'Api\FollowersApiController@user_suggestions');
 
     Route::post('posts_payment_by_wallet','Api\PostsApiController@posts_payment_by_wallet');
 
@@ -280,6 +285,10 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
 
     Route::post('post_bookmarks','Api\PostsApiController@post_bookmarks');
+
+    Route::post('post_bookmarks_photos','Api\PostsApiController@post_bookmarks_photos');
+
+    Route::post('post_bookmarks_videos','Api\PostsApiController@post_bookmarks_videos');
 
     Route::post('post_bookmarks_save','Api\PostsApiController@post_bookmarks_save');
     

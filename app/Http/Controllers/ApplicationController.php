@@ -235,8 +235,8 @@ class ApplicationController extends Controller
             Log::info("message_save".print_r($request->all() , true));
 
             $rules = [
-                'from_user_id' => 'required|users:exists,id',
-                'to_user_id' => 'required|users:exists,id',
+                'from_user_id' => 'required|exists:users,id',
+                'to_user_id' => 'required|exists:users,id',
                 'message' => 'required',
             ];
 
@@ -244,21 +244,29 @@ class ApplicationController extends Controller
             
             $message = $request->message;
 
-            $from_chat_user = \App\ChatUser::where('from_user_id', $request->from_user_id)->where('to_user_id', $request->to_user_id)->first();
+            $from_chat_user_inputs = ['from_user_id' => $request->from_user_id, 'to_user_id' => $request->to_user_id];
 
-            if(!$from_chat_user) {
+            $from_chat_user = \App\ChatUser::updateOrCreate($from_chat_user_inputs);
 
-                $chat_user = \App\ChatUser::create(['from_user_id' => $request->from_user_id, 'to_user_id' => $request->to_user_id]);
+            $to_chat_user_inputs = ['from_user_id' => $request->to_user_id, 'to_user_id' => $request->from_user_id];
 
-            }
+            $to_chat_user = \App\ChatUser::updateOrCreate($to_chat_user_inputs);
 
-            $to_chat_user = \App\ChatUser::where('from_user_id', $request->to_user_id)->where('to_user_id', $request->from_user_id)->first();
+            // $from_chat_user = \App\ChatUser::where('from_user_id', $request->from_user_id)->where('to_user_id', $request->to_user_id)->first();
 
-            if(!$to_chat_user) {
+            // if(!$from_chat_user) {
 
-                $chat_user = \App\ChatUser::create(['from_user_id' => $request->from_user_id, 'to_user_id' => $request->to_user_id]);
+            //     $chat_user = \App\ChatUser::createor(['from_user_id' => $request->from_user_id, 'to_user_id' => $request->to_user_id]);
 
-            }
+            // }
+
+            // $to_chat_user = \App\ChatUser::where('from_user_id', $request->to_user_id)->where('to_user_id', $request->from_user_id)->first();
+
+            // if(!$to_chat_user) {
+
+            //     $chat_user = \App\ChatUser::create(['from_user_id' => $request->from_user_id, 'to_user_id' => $request->to_user_id]);
+
+            // }
 
             $chat_message = new \App\ChatMessage;
 

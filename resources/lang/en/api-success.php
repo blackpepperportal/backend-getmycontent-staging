@@ -82,13 +82,13 @@ return [
 
     141 => 'Added comment',
 
-    142 => 'Comment Removed',
+    142 => 'The comment removed',
 
-    143 => 'Added to Bookmark',
+    143 => 'Added to bookmarks',
 
     144 => 'Added to favourite list',
 
-    145 => 'Removed from favourite list',
+    145 => 'Removed from favourites.',
 
     146 => 'Thanks for the tips',
 
@@ -103,5 +103,10 @@ return [
     151 => 'File uploaded',
 
     152 => 'File deleted',
+
+    153 => 'Password Changed Successfully',
+
+    154 => 'Removed from bookmarks',
+
 
 ];

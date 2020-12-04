@@ -6,7 +6,11 @@
 
 @section('breadcrumb')
 
-<li class="breadcrumb-item active">{{tr('wallets')}}</li>
+<li class="breadcrumb-item active">
+    <a href="{{route('admin.user_wallets.index')}}">{{ tr('revenue_management') }}</a>
+</li>
+
+<li class="breadcrumb-item ">{{tr('wallets')}}</li>
 
 @endsection 
 

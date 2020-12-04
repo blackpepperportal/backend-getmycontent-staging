@@ -189,6 +189,8 @@ class PostsApiController extends Controller
 
             $posts = $base_query->skip($this->skip)->take($this->take)->get();
 
+            $posts = \App\Repositories\PostRepository::posts_list_response($posts, $request);
+
             $data['posts'] = $posts ?? [];
 
             $data['total'] = $total_query->count() ?? 0;
@@ -984,6 +986,120 @@ class PostsApiController extends Controller
         }
 
     }
+    
+    /**
+     * @method post_bookmarks_photo()
+     * 
+     * @uses list of bookmarks
+     *
+     * @created Vithya R 
+     *
+     * @updated Vithya R
+     *
+     * @param object $request
+     *
+     * @return json with boolean output
+     */
+
+    public function post_bookmarks_photos(Request $request) {
+
+        try {
+
+           // Check the subscription is available
+
+            $base_query = \App\PostBookmark::where('user_id', $request->id)->Approved()->orderBy('post_bookmarks.created_at', 'desc');
+
+            $post_ids = $base_query->skip($this->skip)->take($this->take)->pluck('post_id');
+
+            $post_ids = $post_ids ? $post_ids->toArray() : [];
+
+            if($post_ids) {
+
+                $post_base_query = $total_query = \App\Post::with('postFiles')->Approved()->whereIn('posts.id', $post_ids)->orderBy('posts.created_at', 'desc');
+
+                $type = POSTS_IMAGE;
+
+                $post_base_query = $post_base_query->whereHas('postFiles', function($q) use($type) {
+                        $q->where('post_files.file_type', POSTS_IMAGE);
+                    });
+
+                $posts = $post_base_query->get();
+
+                $posts = \App\Repositories\PostRepository::posts_list_response($posts, $request);
+
+                $total = $total_query->count() ?? 0;
+
+            }
+
+            $data['posts'] = $posts ?? [];
+
+            $data['total'] = $total ?? 0;
+
+            return $this->sendResponse($message = '' , $code = '', $data);
+        
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+
+    }
+
+    /**
+     * @method post_bookmarks_videos()
+     * 
+     * @uses list of bookmarks
+     *
+     * @created Vithya R 
+     *
+     * @updated Vithya R
+     *
+     * @param object $request
+     *
+     * @return json with boolean output
+     */
+
+    public function post_bookmarks_videos(Request $request) {
+
+        try {
+
+           // Check the subscription is available
+
+            $base_query = \App\PostBookmark::where('user_id', $request->id)->Approved()->orderBy('post_bookmarks.created_at', 'desc');
+
+            $post_ids = $base_query->skip($this->skip)->take($this->take)->pluck('post_id');
+
+            $post_ids = $post_ids ? $post_ids->toArray() : [];
+
+            if($post_ids) {
+
+                $post_base_query = $total_query = \App\Post::with('postFiles')->Approved()->whereIn('posts.id', $post_ids)->orderBy('posts.created_at', 'desc');
+
+                $type = POSTS_VIDEO;
+
+                $post_base_query = $post_base_query->whereHas('postFiles', function($q) use($type) {
+                        $q->where('post_files.file_type', POSTS_VIDEO);
+                    });
+
+                $posts = $post_base_query->get();
+
+                $posts = \App\Repositories\PostRepository::posts_list_response($posts, $request);
+
+                $total = $total_query->count() ?? 0;
+
+            }
+
+            $data['posts'] = $posts ?? [];
+
+            $data['total'] = $total ?? 0;
+
+            return $this->sendResponse($message = '' , $code = '', $data);
+        
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+
+    }
 
     /**
      * @method post_bookmarks_save()
@@ -1010,17 +1126,33 @@ class PostsApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules, $custom_errors);
 
-            $custom_request = new Request();
+            $check_post_bookmark = \App\PostBookmark::where('user_id', $request->id)->where('post_id', $request->post_id)->first();
 
-            $custom_request->request->add(['user_id' => $request->id, 'post_id' => $request->post_id]);
+            // Check the bookmark already exists 
 
-            $post_bookmark = \App\PostBookmark::updateOrCreate($custom_request->request->all());
+            if($check_post_bookmark) {
+
+                $post_bookmark = \App\PostBookmark::destroy($check_post_bookmark->id);
+
+                $code = 154;
+
+            } else {
+
+                $custom_request = new Request();
+
+                $custom_request->request->add(['user_id' => $request->id, 'post_id' => $request->post_id]);
+
+                $post_bookmark = \App\PostBookmark::updateOrCreate($custom_request->request->all());
+
+                $code = 143;
+
+            }
 
             DB::commit(); 
 
             $data = $post_bookmark;
 
-            return $this->sendResponse(api_success(143), 143, $data);
+            return $this->sendResponse(api_success($code), $code, $data);
             
         } catch(Exception $e){ 
 
@@ -1063,7 +1195,7 @@ class PostsApiController extends Controller
 
             $data = $post_bookmark;
 
-            return $this->sendResponse(api_success(142), 142, $data);
+            return $this->sendResponse(api_success(154), 154, $data);
             
         } catch(Exception $e){ 
 

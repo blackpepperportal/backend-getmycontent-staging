@@ -468,7 +468,7 @@ class WalletApiController extends Controller
             $user_wallet = \App\UserWallet::firstWhere('user_id', $request->id);
 
             $remaining = $user_wallet->remaining ?? 0;
-
+            
             if($remaining < $request->amount) {
                 throw new Exception(api_error(131), 131);    
             }
