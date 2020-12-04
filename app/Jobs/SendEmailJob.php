@@ -13,8 +13,9 @@ use Exception;
 
 use App\Mail\SendEmail;
 
-use Log;
+use DB, Hash, Setting, Auth, Validator, Enveditor,Log;
 
+use Mailgun\Mailgun;
 
 class SendEmailJob implements ShouldQueue
 {
@@ -52,9 +53,38 @@ class SendEmailJob implements ShouldQueue
             
             $mail_model = new SendEmail($this->email_data);
 
-            \Mail::queue($mail_model);
+            $isValid = 1;
 
-            Log::info("EmailJob Success");
+            Log::info("mailer - ".Setting::get('MAILGUN_DOMAIN'));
+
+
+            if(envfile('MAIL_MAILER') == 'mailgun' && Setting::get('MAILGUN_DOMAIN')) {
+
+                Log::info("isValid - START");
+
+                # Instantiate the client.
+
+                $email_address = Mailgun::create(Setting::get('MAILGUN_SECRET'));
+
+                $validateAddress = $this->email_data['email'];
+
+                # Issue the call to the client.
+
+                $result =  $email_address->domains()->verify($validateAddress);
+                // // # is_valid is 0 or 1
+
+                $isValid = $result->http_response_body->is_valid;
+
+                Log::info("isValid FINAL STATUS - ".$isValid);
+
+            }
+
+            if($isValid) {
+
+                \Mail::queue($mail_model);
+
+                Log::info("EmailJob Success");
+            }
 
         } catch(Exception $e) {
 

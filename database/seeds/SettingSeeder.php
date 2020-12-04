@@ -222,7 +222,7 @@ class SettingSeeder extends Seeder
 			[
 		        'key' => 'post_video_placeholder',
 		        'value' => asset('images/post_video_placeholder.jpg')
-			],
+			]
 
 		]);
 

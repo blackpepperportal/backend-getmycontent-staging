@@ -457,6 +457,8 @@ hr {
 
                                 <input type="text" class="form-control" id="MAIL_PORT" name="MAIL_PORT" placeholder="Enter {{tr('MAIL_PORT')}}" value="{{old('MAIL_PORT') ?: $env_values['MAIL_PORT']}}">
                             </div>
+
+
                         </div>
 
                         <div class="col-md-6">
