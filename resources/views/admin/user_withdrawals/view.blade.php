@@ -26,7 +26,7 @@
 
             <div class="card-header border-bottom border-gray">
 
-                <h4 class="card-title">{{ tr('view_user_withdrawals') }} - <a href="{{route('admin.users.view',['user_id' => $user_withdrawal->user_id])}}">{{$user_withdrawal->userDetails->name ?? "-"}}</a>	</h4>
+                <h4 class="card-title">{{ tr('view_user_withdrawals') }} - <a href="{{route('admin.users.view',['user_id' => $user_withdrawal->user_id])}}">{{$user_withdrawal->user->name ?? "-"}}</a>	</h4>
                 <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                 
             </div>
@@ -48,7 +48,7 @@
 
                                 <tr>
                                     <td>{{ tr('user') }}</td>
-                                    <td><a href="{{route('admin.users.view',['user_id'=>$user_withdrawal->user_id])}}">{{$user_withdrawal->userDetails->name ?? "-"}}</a></td>
+                                    <td><a href="{{route('admin.users.view',['user_id'=>$user_withdrawal->user_id])}}">{{$user_withdrawal->user->name ?? "-"}}</a></td>
                                 </tr>
 
                                 <tr>
@@ -62,7 +62,7 @@
                             	</tr>
                                 <tr>
                                 	<td>{{tr('email')}}</td>
-                                	<td>{{$user_withdrawal->userDetails->email ?? "-"}}</td>
+                                	<td>{{$user_withdrawal->user->email ?? "-"}}</td>
                                 </tr>
 
                                 <tr>

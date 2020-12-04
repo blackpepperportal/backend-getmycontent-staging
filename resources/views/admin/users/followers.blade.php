@@ -77,7 +77,7 @@
 
                                     <td>
                                         <a href="{{  route('admin.users.view' , ['user_id' => $follwer->user_id] )  }}">
-                                        {{ $follwer->userDetails->name ?? "-" }}
+                                        {{ $follwer->user->name ?? "-" }}
                                         </a>
                                     </td>
 

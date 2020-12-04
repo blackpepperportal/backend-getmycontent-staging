@@ -23,7 +23,7 @@ class Order extends Model
     	return formatted_amount($this->sub_total);
     }
 
-    public function userDetails() {
+    public function user() {
 
     	return $this->belongsTo(User::class,'user_id');
     } 
@@ -38,6 +38,11 @@ class Order extends Model
         return $this->hasMany(OrderProduct::class, 'order_id');
     }
 
+    public function orderPayments() {
+
+        return $this->hasMany(OrderPayment::class, 'order_id');
+    }
+
     public static function boot() {
 
         parent::boot();
@@ -45,6 +50,8 @@ class Order extends Model
         static::deleting(function ($model) {
 
             $model->orderProducts()->delete();
+
+            $model->orderPayments()->delete();
 
         });
 

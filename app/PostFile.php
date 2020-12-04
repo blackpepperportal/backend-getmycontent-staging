@@ -67,5 +67,15 @@ class PostFile extends Model
         
         });
 
+        static::deleting(function($model) {
+        
+            Helper::storage_delete_file($model->file, POST_TEMP_PATH);
+
+            Helper::storage_delete_file($model->file, POST_PATH);
+
+            Helper::storage_delete_file($model->blur_file, POST_BLUR_PATH);
+
+        });
+
     }
 }

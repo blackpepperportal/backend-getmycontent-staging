@@ -42,7 +42,7 @@
                                 <div class="card-title text-primary">{{tr('address_details')}}
 
                                 - <a href="{{ route('admin.users.view', ['user_id' => $order->user_id])}}">
-                                {{ $order->userDetails->name ?? "-"}}
+                                {{ $order->user->name ?? "-"}}
                                 </a>
 
                                 </div>
@@ -248,7 +248,7 @@
                                 
                                 <tr>
                                     <td>{{tr('user')}}</td>
-                                    <td><a href="{{route('admin.users.view',['user_id' => $order_payment_details->user_id ?? 0])}}">{{ $order_payment_details->userDetails->name ?? "-" }}</a></td>
+                                    <td><a href="{{route('admin.users.view',['user_id' => $order_payment_details->user_id ?? 0])}}">{{ $order_payment_details->user->name ?? "-" }}</a></td>
                                 </tr>
 
                                 <tr>

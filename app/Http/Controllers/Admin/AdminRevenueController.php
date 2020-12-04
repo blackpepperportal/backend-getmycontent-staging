@@ -99,7 +99,7 @@ class AdminRevenueController extends Controller
             $search_key = $request->search_key;
 
             $base_query = $base_query
-                            ->whereHas('userDetails',function($query) use($search_key){
+                            ->whereHas('user',function($query) use($search_key){
 
                                 return $query->where('users.name','LIKE','%'.$search_key.'%');
                                 
@@ -188,7 +188,7 @@ class AdminRevenueController extends Controller
             $search_key = $request->search_key;
 
             $base_query = $base_query
-                            ->whereHas('userDetails',function($query) use($search_key){
+                            ->whereHas('user',function($query) use($search_key){
 
                                 return $query->where('users.name','LIKE','%'.$search_key.'%');
                             })->orWhere('order_payments.payment_id','LIKE','%'.$search_key.'%');
@@ -718,9 +718,9 @@ class AdminRevenueController extends Controller
 
                 $email_data['page'] = "emails.users.withdrawals-approve";
     
-                $email_data['data'] = $user_withdrawal->userDetails;
+                $email_data['data'] = $user_withdrawal->user;
     
-                $email_data['email'] = $user_withdrawal->userDetails->email ?? '';
+                $email_data['email'] = $user_withdrawal->user->email ?? '';
 
                 $email_data['message'] = tr('user_withdraw_paid_description');
 
@@ -777,9 +777,9 @@ class AdminRevenueController extends Controller
 
                 $email_data['page'] = "emails.users.withdrawals-decline";
     
-                $email_data['data'] = $user_withdrawal->userDetails;
+                $email_data['data'] = $user_withdrawal->user;
     
-                $email_data['email'] = $user_withdrawal->userDetails->email ?? '';
+                $email_data['email'] = $user_withdrawal->user->email ?? '';
 
                 $email_data['message'] = tr('user_withdraw_decline_description');
 

@@ -60,7 +60,7 @@
 
                                     <td>
                                     
-                                        {{ $support_ticket->userDetails->name ?? "-" }}
+                                        {{ $support_ticket->user->name ?? "-" }}
                                     
                                     </td>
 

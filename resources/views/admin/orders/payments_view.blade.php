@@ -46,40 +46,40 @@
                                         <tr>
                                             <td>{{ tr('user')}} </td>
                                             <td>
-                                                <a href="{{ route('admin.users.view', ['user_id' => $order_payment_details->user_id])}}">
-                                                {{ $order_payment_details->userDetails->name ?? "-"}}
+                                                <a href="{{ route('admin.users.view', ['user_id' => $order_payment->user_id])}}">
+                                                {{ $order_payment->user->name ?? "-"}}
                                                 </a>
                                             </td>
                                         </tr> 
 
                                         <tr>
                                             <td>{{ tr('unique_id')}} </td>
-                                            <td class="text-uppercase">{{ $order_payment_details->unique_id}}</td>
+                                            <td class="text-uppercase">{{ $order_payment->unique_id}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('payment_id')}} </td>
-                                            <td>{{ $order_payment_details->payment_id}}</td>
+                                            <td>{{ $order_payment->payment_id}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('payment_mode')}} </td>
-                                            <td>{{ $order_payment_details->payment_mode}}</td>
+                                            <td>{{ $order_payment->payment_mode}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('total')}} </td>
-                                            <td>{{ $order_payment_details->total_formatted}}</td>
+                                            <td>{{ $order_payment->total_formatted}}</td>
                                         </tr> 
 
                                         <tr>
                                             <td>{{ tr('sub_total') }}</td>
-                                            <td>{{ $order_payment_details->sub_total_formatted}}</td>
+                                            <td>{{ $order_payment->sub_total_formatted}}</td>
                                         </tr>
 
                                          <tr>
                                             <td>{{tr('delivery_price')}}</td>
-                                            <td>{{$order_payment_details->delivery_price_formatted}}</td>
+                                            <td>{{$order_payment->delivery_price_formatted}}</td>
                                         </tr>
                                     </tbody>
 
@@ -95,18 +95,18 @@
 
                                         <tr>
                                             <td>{{tr('tax_price')}}</td>
-                                            <td>{{$order_payment_details->tax_price_formatted}}</td>
+                                            <td>{{$order_payment->tax_price_formatted}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('paid_date') }}</td>
-                                            <td>{{common_date($order_payment_details->paid_date , Auth::guard('admin')->user()->timezone)}}</td>
+                                            <td>{{common_date($order_payment->paid_date , Auth::guard('admin')->user()->timezone)}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('status') }}</td>
                                             <td>
-                                                @if($order_payment_details->status ==YES)
+                                                @if($order_payment->status ==YES)
 
                                                     <span class="badge bg-success">{{tr('yes')}}</span>
 
@@ -120,7 +120,7 @@
                                         <tr>
                                             <td>{{ tr('is_failed') }}</td>
                                             <td>
-                                                @if($order_payment_details->is_failed ==YES)
+                                                @if($order_payment->is_failed ==YES)
 
                                                     <span class="badge bg-success">{{tr('yes')}}</span>
 
@@ -133,17 +133,17 @@
 
                                         <tr>
                                             <td>{{ tr('failed_reason') }}</td>
-                                            <td>{{ $order_payment_details->failed_reason}}</td>
+                                            <td>{{ $order_payment->failed_reason}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('created_at') }}</td>
-                                            <td>{{common_date($order_payment_details->created_at , Auth::guard('admin')->user()->timezone)}}</td>
+                                            <td>{{common_date($order_payment->created_at , Auth::guard('admin')->user()->timezone)}}</td>
                                         </tr>
 
                                         <tr>
                                             <td>{{ tr('updated_at') }}</td>
-                                            <td>{{common_date($order_payment_details->updated_at , Auth::guard('admin')->user()->timezone)}}</td>
+                                            <td>{{common_date($order_payment->updated_at , Auth::guard('admin')->user()->timezone)}}</td>
                                         </tr>
 
                                     </tbody>

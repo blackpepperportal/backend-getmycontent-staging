@@ -71,6 +71,11 @@ class UserSubscription extends Model
 	   return $this->belongsTo(User::class, 'user_id');
 	}
 
+	public function userSubscriptioPayments() {
+
+	   return $this->belongsTo(UserSubscriptioPayment::class, 'user_subscription_id');
+	}
+
 	/**
      * Scope a query to only include active users.
      *
@@ -97,6 +102,12 @@ class UserSubscription extends Model
             $model->attributes['unique_id'] = "US-".$model->attributes['id']."-".uniqid();
 
             $model->save();
+        
+        });
+
+        static::deleting(function($model) {
+
+            $model->userSubscriptioPayments()->delete();
         
         });
     }

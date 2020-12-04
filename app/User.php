@@ -237,6 +237,21 @@ class User extends Authenticatable
 
         return $this->hasMany(UserTip::class,'user_id');
     }
+
+    public function supportTickets() {
+
+        return $this->hasMany(SupportTicket::class,'user_id');
+    }
+
+    public function fromUserSubscriptionPayments() {
+
+        return $this->hasMany(UserSubscriptionPayment::class,'from_user_id');
+    }
+    
+    public function toUserSubscriptionPayments() {
+
+        return $this->hasMany(UserSubscriptionPayment::class,'to_user_id');
+    }
     
     /**
      * Scope a query to only include active users.
@@ -352,20 +367,10 @@ class User extends Authenticatable
 
         static::deleting(function ($model){
 
-            Helper::delete_file($model->picture , PROFILE_PATH_USER);
+            Helper::storage_delete_file($model->picture, PROFILE_PATH_USER);
 
-            $model->deliveryAddresses()->delete();
+            $model->userCards()->delete();
 
-            $model->orders()->delete();
-
-            $model->orderPayments()->delete();
-
-            $model->postPayments()->delete();
-
-            $model->userWallets()->delete();
-            
-            $model->userWithdrawals()->delete();
-            
             $model->userDocuments()->delete();
             
             $model->userBillingAccounts()->delete();
@@ -381,6 +386,38 @@ class User extends Authenticatable
             foreach ($model->posts as $key => $post) {
                 $post->delete();
             }
+
+            $model->postPayments()->delete();
+
+            foreach ($model->orders as $key => $order) {
+                $order->delete();
+            }
+
+            $model->deliveryAddresses()->delete();
+
+            $model->userWallets()->delete();
+            
+            $model->userWithdrawals()->delete();
+
+            $model->followers()->delete();
+
+            $model->followings()->delete();
+
+            $model->postBookmarks()->delete();
+
+            $model->favUsers()->delete();
+            
+            $model->userSubscription()->delete();
+            
+            $model->supportTickets()->delete();
+
+            $model->fromUserSubscriptionPayments()->delete();
+            
+            $model->toUserSubscriptionPayments()->delete();
+
+            \App\ChatUser::where('from_user_id', $model->id)->orWhere('to_user_id', $model->id)->delete();
+
+            \App\ChatMessage::where('from_user_id', $model->id)->orWhere('to_user_id', $model->id)->delete();
             
         });
 

@@ -22,7 +22,7 @@ class UserDocument extends Model
         return $this->unique_id;
     }
 
-    public function userDetails() {
+    public function user() {
 
     	return $this->belongsTo(User::class, 'user_id');
     }

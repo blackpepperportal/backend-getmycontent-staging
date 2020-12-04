@@ -55,7 +55,7 @@ class SupportMember extends Authenticatable
 
         static::deleting(function ($model){
 
-            Helper::delete_file($model->picture, COMMON_FILE_PATH);
+            Helper::storage_upload_file($model->picture, SUPPORT_MEMBER_FILE_PATH);
 
         });
 

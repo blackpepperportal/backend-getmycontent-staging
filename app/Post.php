@@ -98,6 +98,11 @@ class Post extends Model
 	   return $this->hasMany(PostBookmark::class, 'post_id');
 	}
 
+	public function postPayments() {
+
+	   return $this->hasMany(PostPayment::class, 'post_id');
+	}
+
 	/**
      * Scope a query to only include active users.
      *
@@ -138,6 +143,20 @@ class Post extends Model
 
             $model->save();
         
+        });
+
+        static::deleting(function ($model){
+
+            $model->postLikes()->delete();
+
+            $model->postComments()->delete();
+
+            $model->postPayments()->delete();
+
+            $model->postBookmarks()->delete();
+
+            $model->postFiles()->delete();
+            
         });
 
     }

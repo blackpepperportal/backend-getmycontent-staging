@@ -73,7 +73,7 @@
                                 <tr>
                                     <th>{{tr('content_creator_name')}}</th>
 
-                                    <td><a href="{{route('admin.users.view',['user_id' => $user_product->user_id])}}">{{$user_product->userDetails->name ?? "-"}}</a></td>
+                                    <td><a href="{{route('admin.users.view',['user_id' => $user_product->user_id])}}">{{$user_product->user->name ?? "-"}}</a></td>
                                 </tr>
 
                                 <tr>
