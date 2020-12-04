@@ -1008,7 +1008,9 @@ return [
 	"reset_password"=>"Reset Password",
 	"reset_password_title" => "Reset Password - (:other_key)",
 	"no_results_found"=>"No Results Found",
-	"user_subscriptions_search_placeholder"=>"Search by UserName"
+	"user_subscriptions_search_placeholder"=>"Search by UserName",
+	"configuration_settings"=>"Configuration Settings",
+	"chat_socket_url"=>"Chat Socket Url"
 
 
 ]?>
