@@ -23,18 +23,29 @@ class Follower extends Model
 
         return $query->leftJoin('users' , 'users.id' ,'=' , 'followers.follower_id')
 			->select(
-				'users.id as user_id',
-	            'users.unique_id as user_unique_id',
+				'users.id as u_id',
+	            'users.unique_id as u_unique_id',
                 'users.username',
                 'users.name',
 	            'users.email as email',
 	            'users.picture as picture',
                 'users.cover as cover',
+                'followers.user_id',
                 'followers.follower_id',
                 'followers.created_at',
                 'followers.updated_at'
             );
     
+    }
+
+    public function follower() {
+
+        return $this->belongsTo(User::class,'follower_id');
+    }
+
+    public function user() {
+
+        return $this->belongsTo(User::class,'user_id');
     }
 
     public function followerDetails() {
