@@ -17,6 +17,8 @@ use DB, Hash, Setting, Auth, Validator, Enveditor,Log;
 
 use Mailgun\Mailgun;
 
+
+
 class SendEmailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -58,7 +60,8 @@ class SendEmailJob implements ShouldQueue
             Log::info("mailer - ".Setting::get('MAILGUN_DOMAIN'));
 
 
-            if(envfile('MAIL_MAILER') == 'mailgun' && Setting::get('MAILGUN_DOMAIN')) {
+            if(envfile('MAIL_MAILER') == 'mailgun' && Setting::get('MAILGUN_PUBLIC_KEY')!='') {
+
 
                 Log::info("isValid - START");
 
@@ -67,6 +70,7 @@ class SendEmailJob implements ShouldQueue
                 $email_address = Mailgun::create(Setting::get('MAILGUN_SECRET'));
 
                 $validateAddress = $this->email_data['email'];
+
 
                 # Issue the call to the client.
 

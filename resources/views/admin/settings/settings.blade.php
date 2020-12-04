@@ -503,14 +503,19 @@ hr {
 
                             <div class="col-md-12">
 
+                               <div class="form-group">
+                                    <label for="MAILGUN_DOMAIN">{{ tr('MAILGUN_PUBLIC_KEY') }}</label>
+                                    <input type="text" class="form-control" value="{{ old('MAILGUN_PUBLIC_KEY') ?: ($env_values['MAILGUN_PUBLIC_KEY'] ?? '' )  }}" name="MAILGUN_PUBLIC_KEY" id="MAILGUN_PUBLIC_KEY" placeholder="{{ tr('MAILGUN_PUBLIC_KEY') }}">
+                                </div>
+
                                 <div class="form-group">
                                     <label for="MAILGUN_DOMAIN">{{ tr('MAILGUN_DOMAIN') }}</label>
-                                    <input type="text" class="form-control" value="{{ old('MAILGUN_DOMAIN') ?: $env_values['MAILGUN_DOMAIN']  }}" name="MAILGUN_DOMAIN" id="MAILGUN_DOMAIN" placeholder="{{ tr('MAILGUN_DOMAIN') }}">
+                                    <input type="text" class="form-control" value="{{ old('MAILGUN_DOMAIN') ?: ($env_values['MAILGUN_DOMAIN'] ?? '')  }}" name="MAILGUN_DOMAIN" id="MAILGUN_DOMAIN" placeholder="{{ tr('MAILGUN_DOMAIN') }}">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="MAILGUN_SECRET">{{ tr('MAILGUN_SECRET') }}</label>
-                                    <input type="text" class="form-control" name="MAILGUN_SECRET" id="MAILGUN_SECRET" placeholder="{{ tr('MAILGUN_SECRET') }}" value="{{old('MAILGUN_SECRET') ?: $env_values['MAILGUN_SECRET'] }}">
+                                    <input type="text" class="form-control" name="MAILGUN_SECRET" id="MAILGUN_SECRET" placeholder="{{ tr('MAILGUN_SECRET') }}" value="{{old('MAILGUN_SECRET') ?: ($env_values['MAILGUN_SECRET'] ?? '') }}">
                                 </div>
 
                             </div>

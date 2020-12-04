@@ -296,6 +296,7 @@ return [
 	"MAIL_ENCRYPTION" => "MAIL ENCRYPTION",
 	"MAIL_FROM_ADDRESS" => "MAIL FROM ADDRESS",
 	"MAIL_FROM_NAME" => "MAIL FROM NAME",
+	"MAILGUN_PUBLIC_KEY"=>"MAILGUN PUBLIC KEY",
 
 	"MAIL_MAILER_note" => "Supported - 'smtp', 'mailgun'",
 	"mail_host_note" => "Ex- 'smtp.gmail.com', 'smtp.mailgun.org'",
