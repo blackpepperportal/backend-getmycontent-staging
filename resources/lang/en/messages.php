@@ -1024,4 +1024,14 @@ return [
 	"users_decline_failed"=>"Decline users failed!!",
 	"user_action_is_empty"=>"Users or Action not selected",
 
+	"admin_posts_delete_success"	=>	"Posts deleted successfully",
+	"admin_posts_approve_success"=>"Posts has been approved successfully",
+	"admin_posts_decline_success"=>"Posts has been declined successfully",
+	"admin_posts_delete_confirmation"=>"Once you have deleted this post, the post  will no longer be available. This action cannot be undo.",
+    "admin_posts_decline_confirmation" => "Do you want decline this posts",
+	"admin_posts_approve_confirmation" => "Do you want approve this posts",
+	"posts_approve_failed"=>"Approve posts  failed!!",
+	"posts_decline_failed"=>"Decline posts failed!!",
+	"posts_action_is_empty"=>"Posts or Action not selected",
+
 ]?>

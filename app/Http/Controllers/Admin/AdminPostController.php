@@ -1373,4 +1373,84 @@ class AdminPostController extends Controller
     }
 
 
+    /**
+     * @method posts_bulk_action()
+     * 
+     * @uses To delete,approve,decline multiple posts
+     *
+     * @created Ganesh
+     *
+     * @updated 
+     *
+     * @param 
+     *
+     * @return success/failure message
+     */
+    public function posts_bulk_action(Request $request) {
+
+        try {
+            
+            $action_name = $request->action_name ;
+
+            $post_ids = explode(',', $request->selected_posts);
+
+            if (!$post_ids && !$action_name) {
+
+                throw new Exception(tr('posts_action_is_empty'));
+
+            }
+
+            DB::beginTransaction();
+
+            if($action_name == 'bulk_delete'){
+
+                $post = \App\Post::whereIn('id', $post_ids)->delete();
+
+                if ($post) {
+
+                    DB::commit();
+
+                    return redirect()->back()->with('flash_success',tr('admin_posts_delete_success'));
+
+                }
+
+                throw new Exception(tr('posts_delete_failed'));
+
+            }elseif($action_name == 'bulk_approve'){
+
+                $post =  \App\Post::whereIn('id', $post_ids)->update(['status' => APPROVED]);
+
+                if ($post) {
+
+                    DB::commit();
+
+                    return back()->with('flash_success',tr('admin_posts_approve_success'))->with('bulk_action','true');
+                }
+
+                throw new Exception(tr('posts_approve_failed'));  
+
+            }elseif($action_name == 'bulk_decline'){
+                
+                $post =  \App\Post::whereIn('id', $post_ids)->update(['status' => DECLINED]);
+
+                if ($post) {
+                    
+                    DB::commit();
+
+                    return back()->with('flash_success',tr('admin_posts_decline_success'))->with('bulk_action','true');
+                }
+
+                throw new Exception(tr('posts_decline_failed')); 
+            }
+
+        }catch( Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error',$e->getMessage());
+        }
+
+    }
+
+
 }

@@ -140,6 +140,7 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('post_comments/delete','Admin\AdminPostController@post_comment_delete')->name('post_comment.delete');
 
+        Route::post('/posts/bulk_action', 'Admin\AdminPostController@posts_bulk_action')->name('posts.bulk_action');
 
 
         //posts end
