@@ -55,7 +55,7 @@ class InvoiceMailJob implements ShouldQueue
 
             $isValid = 1;
 
-            Log::info("mailer - ".Setting::get('MAILGUN_DOMAIN'));
+            // Log::info("mailer - ".Setting::get('MAILGUN_DOMAIN'));
 
             if(envfile('MAIL_MAILER') == 'mailgun' && Setting::get('MAILGUN_PUBLIC_KEY')!='') {
 

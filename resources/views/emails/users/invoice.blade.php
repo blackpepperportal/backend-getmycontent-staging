@@ -443,7 +443,7 @@
 </head>
 
 <body>
-    <span class="preheader">This is an invoice for your purchase on {{common_date($data['post_payments']['paid_date'], Auth::guard('admin')->user()->timezone, 'd M Y')}}.</span>
+    <span class="preheader"></span>
     <table class="email-wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation">
         <tr>
             <td align="center">
@@ -461,7 +461,7 @@
                                 <tr>
                                     <td class="content-cell">
                                         <div class="f-fallback">
-                                            <h1>Hi {{$data['user']['name']}},</h1>
+                                            <h1>{{tr('hi')}} {{$data['user']['name']}},</h1>
                                             <p>{{ tr('invoice_tag', Setting::get('site_name')) }}</p>
                                             <table class="attributes" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                                                 <tr>
@@ -557,7 +557,7 @@
                                     <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
 
                                         <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:14px;line-height:20px;text-align:left;color:#525252;">
-                                            Best regards,<br><br>{{Setting::get('site_name')}}<br>{{Setting::get('tag_name')}}<br>
+                                            {{tr('best_regards')}} ,<br><br>{{Setting::get('site_name')}}<br>{{Setting::get('tag_name')}}<br>
 
                                         </div>
 

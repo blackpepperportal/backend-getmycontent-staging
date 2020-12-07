@@ -1477,10 +1477,15 @@ class AdminPostController extends Controller
 
             if(!$post_payment) {
 
-                throw new Exception(tr('request_not_found'), 101);
+                throw new Exception(tr('post_payment_not_found'), 101);
             }
 
             $user = \App\User::find($post_payment->user_id);
+
+            if(!$user) {
+
+                throw new Exception(tr('user_not_found'), 101);
+            }
 
             $email_data = [];
 
@@ -1490,7 +1495,7 @@ class AdminPostController extends Controller
 
             $email_data['posts'] = $post_payment->postDetails ?? '';
 
-            $email_data['subject'] =  Setting::get('site_name').' '."Your Invoice for the Post payments";
+            $email_data['subject'] =  tr('post_invoice_message')." ".Setting::get('site_name');
 
             $email_data['page'] = "emails.users.invoice";
 

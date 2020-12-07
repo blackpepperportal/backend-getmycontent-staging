@@ -1042,6 +1042,9 @@ return [
 	"amount"=>"Amount",
 	"total"=>"Total",
 	"description"=>"Description",
-	"date"=>"Date"
+	"date"=>"Date",
+	"post_payment_not_found"=>"Post Payment Details Not Found",
+	"post_invoice_message"=>"Your Invoice for the Post Payments",
+	"hi"=>"Hi"
 
 ]?>
