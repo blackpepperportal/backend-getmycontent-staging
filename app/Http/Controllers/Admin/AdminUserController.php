@@ -222,7 +222,7 @@ class AdminUserController extends Controller
                 'mobile' => $request->mobile ? 'digits_between:6,13' : '',
                 'picture' => 'mimes:jpg,png,jpeg',
                 'user_id' => 'exists:users,id|nullable',
-                'cover' => 'nullable|mimes:jpeg,bmp,png',
+                'cover' => 'nullable|mimes:jpeg,bmp,png,jpg',
                 'gender' => 'nullable|in:male,female,others',
             ];
 
