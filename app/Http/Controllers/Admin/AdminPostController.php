@@ -1453,4 +1453,62 @@ class AdminPostController extends Controller
     }
 
 
+
+    /**
+     * @method requests_send_invoice_to_user
+     *
+     * @uses to send user invoice request details based on request id
+     *
+     * @created Sakthi
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return view page
+     *
+     **/
+    
+    public function post_payments_send_invoice(Request $request) {
+
+        try {
+
+            $post_payment = \App\PostPayment::where('id', $request->post_payment_id)->first();
+
+            if(!$post_payment) {
+
+                throw new Exception(tr('request_not_found'), 101);
+            }
+
+            $user = \App\User::find($post_payment->user_id);
+
+            $email_data = [];
+
+            $email_data['post_payments'] =  $post_payment ?? "";
+
+            $email_data['user'] = $user ?? '';
+
+            $email_data['posts'] = $post_payment->postDetails ?? '';
+
+            $email_data['subject'] =  Setting::get('site_name').' '."Your Invoice for the Post payments";
+
+            $email_data['page'] = "emails.users.invoice";
+
+            $email_data['email'] = $user->email ?? '';
+
+            $email_data['data'] = $email_data;
+
+            $this->dispatch(new \App\Jobs\InvoiceMailJob($email_data));
+
+            return redirect()->back()->with('flash_success',tr('invoice_mail_sent_success'));
+
+        } catch(Exception $e) {
+
+            return redirect()->route('admin.post_payments.index')->with('flash_error', $e->getMessage());
+
+        }
+
+    }
+
+
 }

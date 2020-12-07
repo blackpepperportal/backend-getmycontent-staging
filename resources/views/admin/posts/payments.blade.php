@@ -89,6 +89,9 @@
                                         
                                     <td>
                                        <a href="{{route('admin.post.payments.view',['post_payment_id' => $post_payment->id])}}" class="btn btn-primary">{{tr('view')}}</a>
+                                   
+                                       <a href="{{route('admin.post_payments.send_invoice',['post_payment_id' => $post_payment->id])}}" class="btn btn-primary"><i class="fa fa-envelope"></i>&nbsp;{{tr('send_invoice')}}</a>
+
                                     </td>
 
                                 </tr>

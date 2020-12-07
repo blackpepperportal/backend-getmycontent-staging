@@ -1035,6 +1035,12 @@ return [
 	"posts_decline_failed"=>"Decline posts failed!!",
 	"posts_action_is_empty"=>"Posts or Action not selected",
 	"regenerate_verification_code_tag"=>"You recently requested to regenrate the verification code.",
-	"verification_code"=>"Verification Code"
+	"verification_code"=>"Verification Code",
+	"invoice_mail_sent_success" => 'Invoice mail has been sent successfully ..!',
+	"send_invoice"=>"Send Invoice",
+	"invoice_tag"=>"Thanks for using :other_key. This is an invoice for your recent purchase.",
+	"amount"=>"Amount",
+	"total"=>"Total",
+	"description"=>"Description"
 
 ]?>

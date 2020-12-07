@@ -373,5 +373,8 @@ Route::group(['middleware' => 'web'], function() {
         Route::get('support_members/verify', 'Admin\AdminSupportMemberController@support_members_verify_status')->name('support_members.verify');
 
 
+        Route::get('post_payments/send_invoice', 'Admin\AdminPostController@post_payments_send_invoice')->name('post_payments.send_invoice');
+
+
      });
 });
