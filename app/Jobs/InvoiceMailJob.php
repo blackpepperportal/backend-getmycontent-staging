@@ -55,30 +55,30 @@ class InvoiceMailJob implements ShouldQueue
 
             $isValid = 1;
 
-            // Log::info("mailer - ".Setting::get('MAILGUN_DOMAIN'));
+            Log::info("mailer - ".Setting::get('MAILGUN_DOMAIN'));
 
-            // if(envfile('MAIL_MAILER') == 'mailgun' && Setting::get('MAILGUN_PUBLIC_KEY')!='') {
-
-
-            //     Log::info("isValid - START");
-
-            //     # Instantiate the client.
-
-            //     $email_address = Mailgun::create(Setting::get('MAILGUN_SECRET'));
-
-            //     $validateAddress = $this->email_data['email'];
+            if(envfile('MAIL_MAILER') == 'mailgun' && Setting::get('MAILGUN_PUBLIC_KEY')!='') {
 
 
-            //     # Issue the call to the client.
+                Log::info("isValid - START");
 
-            //     $result =  $email_address->domains()->verify($validateAddress);
-            //     // // # is_valid is 0 or 1
+                # Instantiate the client.
 
-            //     $isValid = $result->http_response_body->is_valid;
+                $email_address = Mailgun::create(Setting::get('MAILGUN_SECRET'));
 
-            //     Log::info("isValid FINAL STATUS - ".$isValid);
+                $validateAddress = $this->email_data['email'];
 
-            // }
+
+                # Issue the call to the client.
+
+                $result =  $email_address->domains()->verify($validateAddress);
+                // // # is_valid is 0 or 1
+
+                $isValid = $result->http_response_body->is_valid;
+
+                Log::info("isValid FINAL STATUS - ".$isValid);
+
+            }
 
             if($isValid) {
 
