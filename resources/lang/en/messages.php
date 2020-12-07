@@ -1041,6 +1041,7 @@ return [
 	"invoice_tag"=>"Thanks for using :other_key. This is an invoice for your recent purchase.",
 	"amount"=>"Amount",
 	"total"=>"Total",
-	"description"=>"Description"
+	"description"=>"Description",
+	"date"=>"Date"
 
 ]?>

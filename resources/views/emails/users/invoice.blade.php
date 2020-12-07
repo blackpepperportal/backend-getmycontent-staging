@@ -161,6 +161,7 @@
 
         .attributes_item {
             padding: 0;
+            padding-bottom:20px !important;
         }
 
         /* Related Items ------------------------------ */
@@ -419,6 +420,7 @@
             .attributes_content,
             .discount {
                 background-color: #222 !important;
+                padding-bottom:20px !important;
             }
 
             .email-masthead_name {
@@ -448,7 +450,7 @@
                 <table class="email-content" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                     <tr>
                         <td class="email-masthead">
-                            
+
                         </td>
                     </tr>
                     <!-- Email Body -->
@@ -468,14 +470,14 @@
                                                             <tr>
                                                                 <td class="attributes_item">
                                                                     <span class="f-fallback">
-                                                                        <strong>{{tr('amount')}} :</strong> {{formatted_amount($data['post_payments']['amount'] ?? 0.00)}}
+                                                                        <strong>{{tr('amount')}} :</strong> {{formatted_amount($data['post_payments']['paid_amount'] ?? 0.00)}}
                                                                     </span>
                                                                 </td>
                                                             </tr>
-                                                            <tr>
+                                                            <tr style="padding-bottom:30px !important;">
                                                                 <td class="attributes_item">
                                                                     <span class="f-fallback">
-                                                                        <strong>Date:</strong> {{common_date($data['post_payments']['paid_date'], Auth::guard('admin')->user()->timezone, 'd M Y')}}
+                                                                        <strong>{{tr('date')}}:</strong> {{common_date($data['post_payments']['paid_date'], Auth::guard('admin')->user()->timezone, 'd M Y')}}
                                                                     </span>
                                                                 </td>
                                                             </tr>
@@ -532,7 +534,7 @@
                                                                     <p class="f-fallback purchase_total purchase_total--label">{{tr('total')}}</p>
                                                                 </td>
                                                                 <td width="20%" class="purchase_footer" valign="middle">
-                                                                    <p class="f-fallback purchase_total">{{$data['post_payments']['amount']}}</p>
+                                                                    <p class="f-fallback purchase_total">{{ formatted_amount($data['post_payments']['paid_amount'] ?? 0.00)}}</p>
                                                                 </td>
                                                             </tr>
                                                         </table>
