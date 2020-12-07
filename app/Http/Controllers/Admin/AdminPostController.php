@@ -1503,7 +1503,10 @@ class AdminPostController extends Controller
 
             $email_data['data'] = $email_data;
 
-            $this->dispatch(new \App\Jobs\InvoiceMailJob($email_data));
+            $email_data['is_invoice'] = 1;
+
+
+            $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
             return redirect()->back()->with('flash_success',tr('invoice_mail_sent_success'));
 

@@ -17,6 +17,7 @@ use DB, Hash, Setting, Auth, Validator, Enveditor,Log;
 
 use Mailgun\Mailgun;
 
+use App\Mail\InvoiceMail;
 
 
 class SendEmailJob implements ShouldQueue
@@ -53,7 +54,16 @@ class SendEmailJob implements ShouldQueue
     {
         try {
             
-            $mail_model = new SendEmail($this->email_data);
+            if(isset($this->email_data['is_invoice'])){
+
+             $mail_model = new InvoiceMail($this->email_data);
+
+            }
+            else{
+                
+                $mail_model = new SendEmail($this->email_data);
+
+            }
 
             $isValid = 1;
 
