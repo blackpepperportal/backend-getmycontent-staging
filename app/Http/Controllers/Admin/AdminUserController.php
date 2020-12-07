@@ -104,10 +104,6 @@ class AdminUserController extends Controller
       
         $users = $base_query->paginate($this->take);
 
-        foreach ($users as $key => $user) {
-            $user->delete();
-        }
-
         return view('admin.users.index')
                     ->with('page', $page)
                     ->with('sub_page', $sub_page)
