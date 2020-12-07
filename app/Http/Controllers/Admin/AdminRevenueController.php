@@ -1054,6 +1054,73 @@ class AdminRevenueController extends Controller
     }
 
 
-     
+     /**
+     * @method subscription_payments_send_invoice
+     *
+     * @uses to send user invoice request details based on request id
+     *
+     * @created Ganesh
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return view page
+     *
+     **/
+    
+    public function subscription_payments_send_invoice(Request $request) {
+
+        try {
+
+            $subscription_payment = \App\UserSubscriptionPayment::where('id', $request->user_subscription_id)->first();
+            
+            if(!$subscription_payment) {
+
+                throw new Exception(tr('subscription_payment_not_found'), 101);
+            }
+
+            $user = \App\User::find($subscription_payment->from_user_id);
+            
+            if(!$user) {
+
+                throw new Exception(tr('user_not_found'), 101);
+            }
+
+
+
+            $to_user  = \App\User::find($subscription_payment->to_user_id);
+
+            $email_data = [];
+
+            $email_data['subscription_payments'] =  $subscription_payment ?? "";
+
+            $email_data['user'] = $user ?? '';
+
+            $email_data['subscriptions'] = $subscription_payment->userSubscription ?? '';
+
+            $email_data['subject'] =  tr('subscription_invoice_message')." ".Setting::get('site_name');
+
+            $email_data['message'] =  tr('user_subscription_message',$subscription_payment->plan_text_formatted)." ".$to_user->name;
+            
+            $email_data['page'] = "emails.users.subscription-invoice";
+
+            $email_data['email'] = $user->email ?? '';
+
+            $email_data['data'] = $email_data;
+
+            $email_data['is_invoice'] = 1;
+
+            $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+
+            return redirect()->back()->with('flash_success',tr('invoice_mail_sent_success'));
+
+        } catch(Exception $e) {
+
+            return redirect()->route('admin.user_subscriptions.index')->with('flash_error', $e->getMessage());
+
+        }
+
+    }
 
 }

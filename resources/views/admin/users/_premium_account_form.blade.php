@@ -36,7 +36,7 @@
                         <div class="col-md-6 premium_account">
                             <div class="form-group">
                                 <label for="monthly_amount">{{ tr('monthly_amount') }}</label><br>
-                                <input type="number" min="0" step="any" id="monthly_amount" name="monthly_amount" class="form-control" placeholder="{{ tr('monthly_amount')}}" value="{{ ($user->userSubscription) ? $user->userSubscription->monthly_amount : '' }}" required>
+                                <input type="number" min="0" step="any" id="monthly_amount" name="monthly_amount" class="form-control non_zero" placeholder="{{ tr('monthly_amount')}}" value="{{ ($user->userSubscription) ? $user->userSubscription->monthly_amount : '' }}" required>
 
                             </div>
                         </div>
@@ -44,7 +44,7 @@
                         <div class="col-md-6 premium_account">
                             <div class="form-group">
                                 <label for="yearly_amount">{{ tr('yearly_amount') }}</label><br>
-                                <input type="number" min="0" step="any" id="yearly_amount" name="yearly_amount" class="form-control" placeholder="{{ tr('yearly_amount') }}" value="{{ ($user->userSubscription) ? $user->userSubscription->yearly_amount : '' }}" required>
+                                <input type="number" min="0" step="any" id="yearly_amount" name="yearly_amount" class="form-control non_zero" placeholder="{{ tr('yearly_amount') }}" value="{{ ($user->userSubscription) ? $user->userSubscription->yearly_amount : '' }}" required>
 
                             </div>
                         </div>

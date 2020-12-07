@@ -375,6 +375,9 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('post_payments/send_invoice', 'Admin\AdminPostController@post_payments_send_invoice')->name('post_payments.send_invoice');
 
+        Route::get('subscription_payments/send_invoice', 'Admin\AdminRevenueController@subscription_payments_send_invoice')->name('subscription_payments.send_invoice');
+
+
 
      });
 });

@@ -84,7 +84,7 @@
 
                         @include('admin.users._search')
 
-                        <table class="table table-striped table-bordered sourced-data">
+                        <table class="table table-striped table-bordered sourced-data ">
 
                             <thead>
                                 <tr>
@@ -349,6 +349,19 @@
 
 
     });
+
+
+    $('.non_zero').bind('keypress', function (event) {
+    var regex = new RegExp("^[1-9\b]+$");
+    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (!regex.test(key)) {
+    event.preventDefault();
+    return false;
+    }
+    });
+
+
+
 </script>
 
 @endsection

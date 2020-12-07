@@ -634,7 +634,7 @@ return [
 	"delivery_address" => "Delivary Address",
 	"total_products" => "Total Products",
 	"total" => "Total",
-	"post__payment_search_placeholder" => "Search By Username, Payment Id",
+	"post__payment_search_placeholder" => "Search By User Name, Payment Id",
 	"address_details" => "Address Details",
 	"delivery_address_name" => "Delivery Address Name",
 	"pincode" => "Pincode",
@@ -708,7 +708,7 @@ return [
 	"view_withdrwals" => "View Withdrawals",
 	"view_user_withdrawals" => "View Withdrawals",
 	"paynow" => "PayNow",
-	"user_withdrawals_search_placeholder" => "Search By user Name,Payment Id",
+	"user_withdrawals_search_placeholder" => "Search By User Name,Payment Id",
 	"total_paid_amount" => "Total Paid Amount",
 	"content_creator_is" => "Content creator Is",
 	"content_creator_payment_confirmation" => "Do you want to pay for this Content creator",
@@ -1045,6 +1045,10 @@ return [
 	"date"=>"Date",
 	"post_payment_not_found"=>"Post Payment Details Not Found",
 	"post_invoice_message"=>"Your Invoice for the Post Payments",
-	"hi"=>"Hi"
+	"hi"=>"Hi",
+	"subscription_payment_not_found"=>"Subscription Payment Details Not Found",
+	"subscription_invoice_message"=>"You Invoice for the Subscription Payments",
+	"user_subscription_message"=>"You had Subscribed :other_key of Subscription from the user",
+	"document_approved"=>"Document Approved"
 
 ]?>
