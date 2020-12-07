@@ -1455,7 +1455,7 @@ class AdminPostController extends Controller
 
 
     /**
-     * @method requests_send_invoice_to_user
+     * @method post_payments_send_invoice
      *
      * @uses to send user invoice request details based on request id
      *
