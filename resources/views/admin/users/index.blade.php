@@ -360,7 +360,15 @@
     }
     });
 
+    $(document).ready(function (e) {
 
+    $(".card-dashboard").scroll(function () {
+        if($('.chk-box-inner-left').length <= 5){
+            $(this).removeClass('table-responsive');
+        }
+    });
+
+  });
 
 </script>
 
