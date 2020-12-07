@@ -205,6 +205,8 @@ class AdminPostController extends Controller
 
                         $post_file->post_id = $post->id;
 
+                        $post_file->user_id = $post->user_id;
+                        
                         $post_file->file = $post_file_url;
 
                         $post_file->file_type = 'image';
