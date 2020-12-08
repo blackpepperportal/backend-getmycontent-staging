@@ -477,7 +477,7 @@
                                                             <tr style="padding-bottom:30px !important;">
                                                                 <td class="attributes_item">
                                                                     <span class="f-fallback">
-                                                                        <strong>{{tr('date')}}:</strong> {{common_date($data['subscription_payments']['paid_date'], Auth::guard('admin')->user()->timezone, 'd M Y')}}
+                                                                        <strong>{{tr('date')}}:</strong> {{common_date($data['subscription_payments']['paid_date'], $data['timezone'], 'd M Y')}}
                                                                     </span>
                                                                 </td>
                                                             </tr>
@@ -485,7 +485,7 @@
                                                             <tr style="padding-bottom:30px !important;">
                                                                 <td class="attributes_item">
                                                                     <span class="f-fallback">
-                                                                        <strong>{{tr('expiry_date')}}:</strong> {{common_date($data['subscription_payments']['expiry_date'], Auth::guard('admin')->user()->timezone, 'd M Y')}}
+                                                                        <strong>{{tr('expiry_date')}}:</strong> {{common_date($data['subscription_payments']['expiry_date'], $data['timezone'], 'd M Y')}}
                                                                     </span>
                                                                 </td>
                                                             </tr>
