@@ -38,7 +38,7 @@ class InvoiceMail extends Mailable
         return $this->view($this->data['page'])
         ->to($this->data['email'])
         ->subject($this->data['subject'])
-        ->attachData($pdf->output(),'Invoice.pdf')
+        ->attachData($pdf->output(),$this->data['filename'])
         ->with([
             'email_data' => $this->data
         ]);

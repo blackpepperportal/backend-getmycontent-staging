@@ -1489,6 +1489,8 @@ class AdminPostController extends Controller
 
             $email_data = [];
 
+            $email_data['timezone'] =  Auth::guard('admin')->user()->timezone ?? "";
+           
             $email_data['post_payments'] =  $post_payment ?? "";
 
             $email_data['user'] = $user ?? '';
@@ -1502,6 +1504,8 @@ class AdminPostController extends Controller
             $email_data['email'] = $user->email ?? '';
 
             $email_data['data'] = $email_data;
+
+            $email_data['filename'] = 'Invoice'.date('m-d-Y_hia').'.pdf';
 
             $email_data['is_invoice'] = 1;
 

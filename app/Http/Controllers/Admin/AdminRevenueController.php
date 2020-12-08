@@ -1098,6 +1098,8 @@ class AdminRevenueController extends Controller
 
             $email_data = [];
 
+            $email_data['timezone'] =  Auth::guard('admin')->user()->timezone ?? "";
+
             $email_data['subscription_payments'] =  $subscription_payment ?? "";
 
             $email_data['user'] = $user ?? '';
@@ -1115,6 +1117,9 @@ class AdminRevenueController extends Controller
             $email_data['data'] = $email_data;
 
             $email_data['is_invoice'] = 1;
+
+            $email_data['filename'] = 'Invoice'.date('m-d-Y_hia').'.pdf';
+
 
             $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
