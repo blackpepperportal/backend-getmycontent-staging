@@ -84,7 +84,11 @@
                                         </a>
                                     </td>
 
-                                    <td>{{$order_details->unique_id}}</td>
+                                    <td>
+                                       <a href="{{  route('admin.orders.view' , ['order_id' => $order_details->id] )  }}">
+                                        {{$order_details->unique_id}}
+                                       </a>
+                                    </td>
 
                                     <td>
                                         {{ $order_details->total_products}}

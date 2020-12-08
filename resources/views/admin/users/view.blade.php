@@ -162,6 +162,16 @@
                                     <td>{{$user->mobile ?: tr('not_available')}}</td>
                                 </tr>
 
+
+                                <tr>
+                                    <th>{{tr('no_of_orders')}}</th>
+                                    <td>
+                                        <a href="{{route('admin.orders.index',['user_id'=>$user->id])}}">
+                                        {{$user->orders_count}}
+                                       </a>
+                                    </td>
+                                </tr>
+
                                 <tr>
                                     <th>{{tr('user_wallet_balance')}}</th>
                                     <td>

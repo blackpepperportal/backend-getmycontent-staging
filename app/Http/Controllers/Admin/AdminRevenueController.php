@@ -226,9 +226,9 @@ class AdminRevenueController extends Controller
 
         try {
 
-            $order_payment_details = \App\OrderPayment::where('id',$request->order_payment_id)->first();
+            $order_payment = \App\OrderPayment::where('id',$request->order_payment_id)->first();
 
-            if(!$order_payment_details) {
+            if(!$order_payment) {
 
                 throw new Exception(tr('order_payment_not_found'), 1);
                 
@@ -237,7 +237,7 @@ class AdminRevenueController extends Controller
             return view('admin.orders.payments_view')
                     ->with('page','payments')
                     ->with('sub_page','order-payments')
-                    ->with('order_payment_details',$order_payment_details);
+                    ->with('order_payment',$order_payment);
 
         } catch(Exception $e) {
 
