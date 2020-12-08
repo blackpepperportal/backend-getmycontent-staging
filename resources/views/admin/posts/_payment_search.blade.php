@@ -12,7 +12,7 @@
 
             <div class="input-group">
                
-                <input type="text" class="form-control" name="search_key"
+                <input type="text" class="form-control" name="search_key" value="{{Request::get('search_key')}}"
                 placeholder="{{tr('post__payment_search_placeholder')}}"> <span class="input-group-btn">
                 &nbsp
 

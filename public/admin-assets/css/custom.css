@@ -187,3 +187,15 @@ img {
   padding: 5px 12px !important;
 
  }
+
+ .table-left{
+   margin-left:-24px !important;
+ }
+
+ .payments-action-left{
+   margin-left:-20px !important;
+ }
+
+ .flex{
+   display:flex !important;
+ }

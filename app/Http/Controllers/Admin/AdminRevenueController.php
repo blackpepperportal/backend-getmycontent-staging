@@ -103,7 +103,12 @@ class AdminRevenueController extends Controller
 
                                 return $query->where('users.name','LIKE','%'.$search_key.'%');
                                 
-                            })->orWhere('post_payments.payment_id','LIKE','%'.$search_key.'%');
+                            })
+                            ->orwhereHas('postDetails',function($query) use($search_key){
+
+                                return $query->where('posts.unique_id','LIKE','%'.$search_key.'%');
+                            })
+                            ->orWhere('post_payments.payment_id','LIKE','%'.$search_key.'%');
         }
 
         $user = \App\User::find($request->user_id) ?? '';
@@ -113,7 +118,7 @@ class AdminRevenueController extends Controller
             $base_query  = $base_query->where('user_id',$request->user_id);
         }
 
-        $post_payments = $base_query->paginate(10);
+        $post_payments = $base_query->orderBy('created_at','DESC')->paginate(10);
        
         return view('admin.posts.payments')
                 ->with('page','payments')
