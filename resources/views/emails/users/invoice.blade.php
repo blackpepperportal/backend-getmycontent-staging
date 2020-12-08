@@ -477,7 +477,7 @@
                                                             <tr style="padding-bottom:30px !important;">
                                                                 <td class="attributes_item">
                                                                     <span class="f-fallback">
-                                                                        <strong>{{tr('date')}}:</strong> {{common_date($data['post_payments']['paid_date'], Auth::guard('admin')->user()->timezone, 'd M Y')}}
+                                                                        <strong>{{tr('date')}}:</strong> {{common_date($data['post_payments']['paid_date'], Auth::guard('admin')->user()->timezone ?:'Asia/Kolkata', 'd M Y')}}
                                                                     </span>
                                                                 </td>
                                                             </tr>
@@ -508,7 +508,7 @@
                                                         <h3>{{$data['post_payments']['payment_id'] ?? ''}}</h3>
                                                     </td>
                                                     <td>
-                                                        <h3 class="align-right">{{common_date($data['post_payments']['paid_date'], Auth::guard('admin')->user()->timezone, 'd M Y')}}</h3>
+                                                        <h3 class="align-right">{{common_date($data['post_payments']['paid_date'], Auth::guard('admin')->user()->timezone ?:'Asia/Kolkata', 'd M Y')}}</h3>
                                                     </td>
                                                 </tr>
                                                 <tr>
