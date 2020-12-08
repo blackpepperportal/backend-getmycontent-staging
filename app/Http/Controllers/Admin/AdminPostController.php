@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 use App\Helpers\Helper, App\Helpers\EnvEditorHelper;
 
-use DB, Hash, Setting, Auth, Validator, Exception, Enveditor;
+use DB, Hash, Setting, Auth, Validator, Exception, Enveditor,Log;
 
 use App\Jobs\SendEmailJob;
 
@@ -1505,10 +1505,11 @@ class AdminPostController extends Controller
 
             $email_data['data'] = $email_data;
 
-            $email_data['filename'] = 'Invoice'.date('m-d-Y_hia').'.pdf';
+            $email_data['filename'] = 'Invoice'.date('m-d-Y_giA').'.pdf';
 
             $email_data['is_invoice'] = 1;
 
+            Log::info("Timezone".print_r($email_data['timezone'], true));
 
             $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
