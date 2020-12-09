@@ -2381,7 +2381,7 @@ class UserAccountApiController extends Controller
 
         try {
 
-            $base_query = $total_query = \App\BlockUser::where('block_by', $request->id)->Approved()->orderBy('block_users.created_at', 'asc');
+            $base_query = $total_query = \App\BlockUser::where('block_by', $request->id)->Approved()->orderBy('block_users.created_at', 'DESC');
 
             $block_users = $base_query->skip($this->skip)->take($this->take)->get();
 
