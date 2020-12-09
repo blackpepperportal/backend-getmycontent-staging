@@ -15,9 +15,11 @@ class CreateReportPostsTable extends Migration
     {
         Schema::create('report_posts', function (Blueprint $table) {
             $table->id();
+            $table->string('unique_id')->nullable();
             $table->integer('post_id');
-            $table->integer('block_by');
-            $table->text('reason');
+            $table->integer('block_by');            
+            $table->text('reason')->nullable();
+            $table->tinyInteger('status')->default(YES);
             $table->timestamps();
         });
     }
