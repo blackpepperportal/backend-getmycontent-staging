@@ -53,15 +53,14 @@ class PostsApiController extends Controller
 
         try {
 
-            $blocked_details = get_blocked_details($request->id);
-
-            $blocked_users = $blocked_details->blocked_users ?? [];
-
-            $report_posts = $blocked_details->report_posts ?? [];
-
+           
             $follower_ids = get_follower_ids($request->id);
 
-            $base_query = $total_query = Post::Approved()->whereNotIn('posts.id',$report_posts)->whereNotIn('posts.user_id',$blocked_users)->whereIn('posts.user_id', $follower_ids)->orderBy('posts.created_at', 'desc');
+            $report_posts = report_posts($request->id);
+
+            $blocked_users = blocked_users($request->id);
+
+            $base_query = $total_query = Post::Approved()->whereNotIn('posts.user_id',$blocked_users)->whereNotIn('posts.id',$report_posts)->whereIn('posts.user_id', $follower_ids)->orderBy('posts.created_at', 'desc');
 
             $posts = $base_query->skip($this->skip)->take($this->take)->get();
 

@@ -1044,14 +1044,38 @@ function generate_payment_id() {
 
 }
 
+/**
+ * @method get_blocked_users()
+ *
+ * @uses used to get the blocked users 
+ * 
+ * @created Ganesh
+ *
+ * @updated Ganesh
+ * 
+ */
+function blocked_users($user_id){
 
-function get_blocked_details($user_id){
+    $blocked_users = \App\BlockUser::where('block_by',$user_id)->pluck('blocked_to')->toArray() ?? [];
 
-    $data = new \stdClass();
+    return $blocked_users;
+}
 
-    $data->blocked_users = \App\BlockUser::where('block_by',$user_id)->pluck('blocked_to')->toArray() ?? [];
-           
-    $data->report_posts = \App\ReportPost::where('block_by',$user_id)->pluck('post_id')->toArray() ?? [];
 
-    return $data;
+/**
+ * @method report_posts()
+ *
+ * @uses used to get the reported posts
+ * 
+ * @created Ganesh
+ *
+ * @updated Ganesh
+ * 
+ */
+
+function report_posts($user_id){
+
+    $report_posts = \App\ReportPost::where('block_by',$user_id)->pluck('post_id')->toArray() ?? [];
+
+    return $report_posts;
 }
