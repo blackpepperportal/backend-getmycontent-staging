@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Reportpost extends Migration
+class CreateBlockUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class Reportpost extends Migration
      */
     public function up()
     {
-        //
-        Schema::create('report_posts', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('post_id');
+        Schema::create('block_users', function (Blueprint $table) {
+            $table->id();
             $table->integer('block_by');
-            $table->text('reason');
+            $table->integer('blocked_to');
+            $table->text('reason')->nullable();
+            $table->tinyInteger('status')->default(YES);
             $table->timestamps();
-
         });
     }
 
@@ -31,7 +30,6 @@ class Reportpost extends Migration
      */
     public function down()
     {
-        //
-        Schema::dropIfExists('report_posts');
+        Schema::dropIfExists('block_users');
     }
 }
