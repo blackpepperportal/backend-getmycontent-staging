@@ -110,5 +110,6 @@ return [
 
     155 => 'You have Blocked the User Successfully',
 
-    156 => 'You have Unblocked the User'
+    156 => 'You have Unblocked the User',
+
 ];
