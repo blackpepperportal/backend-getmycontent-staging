@@ -18,7 +18,7 @@ class PostsApiController extends Controller
 {
     protected $loginUser;
 
-    protected $skip, $take,$blocked_users,$report_posts;
+    protected $skip, $take;
 
     public function __construct(Request $request) {
 
@@ -33,10 +33,6 @@ class PostsApiController extends Controller
         $this->take = $request->take ?: (Setting::get('admin_take_count') ?: TAKE_COUNT);
 
         $this->timezone = $this->loginUser->timezone ?? "America/New_York";
-
-        $this->blocked_users = \App\BlockUser::where('block_by',$request->id)->pluck('blocked_to')->toArray() ?? [];
-           
-        $this->report_posts = \App\ReportPost::where('block_by',$request->id)->pluck('post_id')->toArray() ?? [];
 
     }
 
@@ -57,9 +53,15 @@ class PostsApiController extends Controller
 
         try {
 
+            $blocked_details = get_blocked_details($request->id);
+
+            $blocked_users = $blocked_details->blocked_users ?? [];
+
+            $report_posts = $blocked_details->report_posts ?? [];
+
             $follower_ids = get_follower_ids($request->id);
-            
-            $base_query = $total_query = Post::Approved()->whereNotIn('posts.id',$this->report_posts)->whereNotIn('posts.user_id',$this->blocked_users)->whereIn('posts.user_id', $follower_ids)->orderBy('posts.created_at', 'desc');
+
+            $base_query = $total_query = Post::Approved()->whereNotIn('posts.id',$report_posts)->whereNotIn('posts.user_id',$blocked_users)->whereIn('posts.user_id', $follower_ids)->orderBy('posts.created_at', 'desc');
 
             $posts = $base_query->skip($this->skip)->take($this->take)->get();
 
@@ -100,7 +102,7 @@ class PostsApiController extends Controller
 
             $follower_ids = get_follower_ids($request->id);
 
-            $base_query = $total_query = Post::Approved()->whereNotIn('posts.id',$this->report_posts)->whereNotIn('posts.user_id',$this->blocked_users)->whereIn('posts.user_id', $follower_ids)->with(['postFiles', 'user'])->orderBy('created_at', 'desc');
+            $base_query = $total_query = Post::Approved()->whereIn('posts.user_id', $follower_ids)->with(['postFiles', 'user'])->orderBy('created_at', 'desc');
 
             if($request->search_key) {
 
@@ -152,7 +154,7 @@ class PostsApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $post = Post::with('postFiles')->Approved()->whereNotIn('posts.id',$this->report_posts)->whereNotIn('posts.user_id',$this->blocked_users)->where('posts.unique_id', $request->post_unique_id)->first();
+            $post = Post::with('postFiles')->Approved()->where('posts.unique_id', $request->post_unique_id)->first();
 
             if(!$post) {
                 throw new Exception(api_error(139), 139);   

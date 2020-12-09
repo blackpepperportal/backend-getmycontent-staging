@@ -1043,3 +1043,15 @@ function generate_payment_id() {
     return strtoupper($payment_id);
 
 }
+
+
+function get_blocked_details($user_id){
+
+    $data = new \stdClass();
+
+    $data->blocked_users = \App\BlockUser::where('block_by',$user_id)->pluck('blocked_to')->toArray() ?? [];
+           
+    $data->report_posts = \App\ReportPost::where('block_by',$user_id)->pluck('post_id')->toArray() ?? [];
+
+    return $data;
+}

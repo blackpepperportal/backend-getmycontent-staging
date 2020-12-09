@@ -18,7 +18,7 @@ class FollowersApiController extends Controller
 {
     protected $loginUser;
 
-    protected $skip, $take,$blocked_users;
+    protected $skip, $take;
 
     public function __construct(Request $request) {
 
@@ -33,8 +33,6 @@ class FollowersApiController extends Controller
         $this->take = $request->take ?: (Setting::get('admin_take_count') ?: TAKE_COUNT);
 
         $this->timezone = $this->loginUser->timezone ?? "America/New_York";
-
-        $this->blocked_users = \App\BlockUser::where('block_by',$request->id)->pluck('blocked_to')->toArray() ?? [];
 
     }
 
@@ -57,10 +55,10 @@ class FollowersApiController extends Controller
         try {
 
             $following_user_ids = Follower::where('follower_id', $request->id)->pluck('user_id')->toArray();
-           
+
             array_push($following_user_ids, $request->id);
 
-            $base_query = $total_query = User::DocumentVerified()->Approved()->OtherResponse()->whereNotIn('users.id', $this->blocked_users)->whereNotIn('users.id', $following_user_ids)->orderBy('users.created_at', 'desc');
+            $base_query = $total_query = User::DocumentVerified()->Approved()->OtherResponse()->whereNotIn('users.id', $following_user_ids)->orderBy('users.created_at', 'desc');
 
             $users = $base_query->skip($this->skip)->take($this->take)->get();
 
@@ -105,7 +103,7 @@ class FollowersApiController extends Controller
 
             Helper::custom_validator($request->all(), $rules, $custom_errors);
 
-            $base_query = $total_query = User::Approved()->OtherResponse()->whereNotIn('users.id', $this->blocked_users)->where('users.name', 'like', "%".$request->key."%")->orderBy('users.created_at', 'desc');
+            $base_query = $total_query = User::Approved()->OtherResponse()->where('users.name', 'like', "%".$request->key."%")->orderBy('users.created_at', 'desc');
 
             $users = $base_query->skip($this->skip)->take($this->take)->get();
 
@@ -336,8 +334,8 @@ class FollowersApiController extends Controller
     public function followings(Request $request) {
 
         try {
-            
-            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('user_id',$this->blocked_users)->where('follower_id', $request->id);
+
+            $base_query = $total_query = Follower::CommonResponse()->where('follower_id', $request->id);
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
