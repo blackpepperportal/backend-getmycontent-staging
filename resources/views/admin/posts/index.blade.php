@@ -45,9 +45,11 @@
 
                     <div class="heading-elements">
 
+                        @if($posts->count() > 1)
                         <a class="btn btn-primary  dropdown-toggle  bulk-action-dropdown" href="#" id="dropdownMenuOutlineButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-plus"></i> {{tr('bulk_action')}}
                         </a>
+                        @endif
 
                         <a href="{{ route('admin.posts.create') }}" class="btn btn-primary"><i class="ft-plus icon-left"></i>{{ tr('add_post') }}</a>
 
@@ -99,7 +101,9 @@
                             <thead>
                                 <tr>
                                     <th>
+                                        @if($posts->count() > 1)
                                         <input id="check_all" type="checkbox" class="chk-box-left">
+                                        @endif
                                     </th>
                                     <th>{{ tr('s_no') }}</th>
                                     <th>{{ tr('content_creator') }}</th>

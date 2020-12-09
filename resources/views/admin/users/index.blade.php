@@ -31,9 +31,11 @@
 
                     <div class="heading-elements">
 
+                       @if($users->count() > 1)
                         <a class="btn btn-primary  dropdown-toggle  bulk-action-dropdown" href="#" id="dropdownMenuOutlineButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-plus"></i> {{tr('bulk_action')}}
                         </a>
+                       @endif
 
 
                         <a href="{{ route('admin.users.excel',['downloadexcel'=>'excel','status'=>Request::get('status'),'searc_key'=>Request::get('search_key'),'account_type'=>Request::get('account_type')]) }}" class="btn btn-primary">Export to Excel</a>
@@ -88,9 +90,11 @@
 
                             <thead>
                                 <tr>
+                                    @if($users->count() > 1)
                                     <th>
                                         <input id="check_all" type="checkbox" class="chk-box-left">
                                     </th>
+                                    @endif
                                     <th>{{ tr('s_no') }}</th>
                                     <th>{{ tr('name') }}</th>
                                     <th>{{ tr('email') }}</th>
@@ -107,6 +111,7 @@
                                 @foreach($users as $i => $user)
 
                                 <tr>
+                                    
                                     <td id="check{{$user->id}}"><input type="checkbox" name="row_check" class="faChkRnd chk-box-inner-left" id="{{$user->id}}" value="{{$user->id}}"></td>
 
                                     <td>{{ $i+$users->firstItem() }}</td>
