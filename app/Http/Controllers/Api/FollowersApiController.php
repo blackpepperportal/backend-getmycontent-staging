@@ -18,7 +18,7 @@ class FollowersApiController extends Controller
 {
     protected $loginUser;
 
-    protected $skip, $take;
+    protected $skip, $take,$blocked_users;
 
     public function __construct(Request $request) {
 
@@ -33,6 +33,8 @@ class FollowersApiController extends Controller
         $this->take = $request->take ?: (Setting::get('admin_take_count') ?: TAKE_COUNT);
 
         $this->timezone = $this->loginUser->timezone ?? "America/New_York";
+
+        $this->blocked_users = \App\BlockUser::where('block_by',$request->id)->pluck('blocked_to')->toArray() ?? [];
 
     }
 
@@ -334,8 +336,8 @@ class FollowersApiController extends Controller
     public function followings(Request $request) {
 
         try {
-
-            $base_query = $total_query = Follower::CommonResponse()->where('follower_id', $request->id);
+            
+            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('user_id',$this->blocked_users)->where('follower_id', $request->id);
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 

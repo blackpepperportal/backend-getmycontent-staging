@@ -58,8 +58,6 @@ class PostsApiController extends Controller
         try {
 
             $follower_ids = get_follower_ids($request->id);
-
-           
             
             $base_query = $total_query = Post::Approved()->whereNotIn('posts.id',$this->report_posts)->whereNotIn('posts.user_id',$this->blocked_users)->whereIn('posts.user_id', $follower_ids)->orderBy('posts.created_at', 'desc');
 
@@ -102,7 +100,7 @@ class PostsApiController extends Controller
 
             $follower_ids = get_follower_ids($request->id);
 
-            $base_query = $total_query = Post::Approved()->whereIn('posts.user_id', $follower_ids)->with(['postFiles', 'user'])->orderBy('created_at', 'desc');
+            $base_query = $total_query = Post::Approved()->whereNotIn('posts.id',$this->report_posts)->whereNotIn('posts.user_id',$this->blocked_users)->whereIn('posts.user_id', $follower_ids)->with(['postFiles', 'user'])->orderBy('created_at', 'desc');
 
             if($request->search_key) {
 
@@ -154,7 +152,7 @@ class PostsApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $post = Post::with('postFiles')->Approved()->where('posts.unique_id', $request->post_unique_id)->first();
+            $post = Post::with('postFiles')->Approved()->whereNotIn('posts.id',$this->report_posts)->whereNotIn('posts.user_id',$this->blocked_users)->where('posts.unique_id', $request->post_unique_id)->first();
 
             if(!$post) {
                 throw new Exception(api_error(139), 139);   
