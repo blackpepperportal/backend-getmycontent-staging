@@ -15,13 +15,13 @@
 
                 <option  class="select-color" value="">{{tr('select_status')}}</option>
 
-                <option  class="select-color" value="{{SORT_BY_APPROVED}}">{{tr('approved')}}</option>
+                <option class="select-color" value="{{SORT_BY_APPROVED}}" @if(Request::get('status') == SORT_BY_APPROVED && Request::get('status')!='' ) selected @endif>{{tr('approved')}}</option>
 
-                <option  class="select-color" value="{{SORT_BY_DECLINED}}">{{tr('declined')}}</option>
+                <option class="select-color" value="{{SORT_BY_DECLINED}}" @if(Request::get('status') == SORT_BY_DECLINED && Request::get('status')!='' ) selected @endif>{{tr('declined')}}</option>
 
-                <option  class="select-color" value="{{SORT_BY_PAID_POST}}">{{tr('paid')}}</option>
+                <option  class="select-color" value="{{SORT_BY_PAID_POST}}" @if(Request::get('status') == SORT_BY_PAID_POST && Request::get('status')!='' ) selected @endif>{{tr('paid')}}</option>
 
-                <option  class="select-color" value="{{SORT_BY_FREE_POST}}">{{tr('free_post')}}</option>
+                <option  class="select-color" value="{{SORT_BY_FREE_POST}}" @if(Request::get('status') == SORT_BY_FREE_POST && Request::get('status')!='' ) selected @endif>{{tr('free_post')}}</option>
 
             </select>
 

@@ -1,16 +1,16 @@
-@extends('layouts.admin') 
+@extends('layouts.admin')
 
 @section('content-header', tr('payments'))
 
 @section('breadcrumb')
 
-    <li class="breadcrumb-item"><a href="">{{ tr('payments') }}</a></li>
+<li class="breadcrumb-item"><a href="">{{ tr('payments') }}</a></li>
 
-    <li class="breadcrumb-item active" aria-current="page">
-        <span>{{ tr('subscription_payments') }}</span>
-    </li> 
-           
-@endsection 
+<li class="breadcrumb-item active" aria-current="page">
+    <span>{{ tr('subscription_payments') }}</span>
+</li>
+
+@endsection
 
 @section('content')
 
@@ -45,74 +45,73 @@
                                     <th>{{tr('plan')}}</th>
                                     <th>{{tr('amount')}}</th>
                                     <th>{{tr('status')}}</th>
+                                    <th>{{tr('invoice')}}</th>
                                     <th>{{tr('action')}}</th>
                                 </tr>
                             </thead>
 
                             <tbody>
                                 @foreach($user_subscriptions as $i => $subscription)
-                                      
-                                    <tr>
-                                        <td>{{$i+$user_subscriptions->firstItem()}}</td>
 
-                                        <td>
-                                            <a href="{{route('admin.users.view' , ['user_id' => $subscription->from_user_id])}}"> {{ $subscription->from_username ?:tr('not_available')}}
-                                            </a>
-                                        </td>
+                                <tr>
+                                    <td>{{$i+$user_subscriptions->firstItem()}}</td>
 
-                                        <td><a href="{{route('admin.users.view' , ['user_id' => $subscription->to_user_id])}}"> {{ $subscription->to_username ?:tr('not_available') }}</a></td>
+                                    <td>
+                                        <a href="{{route('admin.users.view' , ['user_id' => $subscription->from_user_id])}}"> {{ $subscription->from_username ?:tr('not_available')}}
+                                        </a>
+                                    </td>
 
-                                        <td>{{ $subscription->plan_text_formatted }}</td>
+                                    <td><a href="{{route('admin.users.view' , ['user_id' => $subscription->to_user_id])}}"> {{ $subscription->to_username ?:tr('not_available') }}</a></td>
 
-                                        <td>{{ $subscription->amount_formatted }}</td>
+                                    <td>{{ $subscription->plan_text_formatted }}</td>
 
-                                        <td>
+                                    <td>{{ $subscription->amount_formatted }}</td>
 
-                                            @if($subscription->status == APPROVED)
+                                    <td>
 
-                                                <span class="badge bg-success">{{ tr('approved') }} </span>
+                                        @if($subscription->status == APPROVED)
 
-                                            @else
+                                        <span class="badge bg-success">{{ tr('approved') }} </span>
 
-                                                <span class="badge bg-danger">{{ tr('declined') }} </span>
+                                        @else
 
-                                            @endif
+                                        <span class="badge bg-danger">{{ tr('declined') }} </span>
 
-                                        </td>
-                                            
-                                        <td>     
+                                        @endif
 
-                                            <div class="template-demo">
+                                    </td>
 
-                                                <div class="dropdown">
+                                    <td>
 
-                                                   <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ft-settings icon-left"></i> {{ tr('action') }}</button>
+                                        <a href="{{route('admin.subscription_payments.send_invoice',['user_subscription_id' => $subscription->id])}}" class="btn btn-primary"><i class="fa fa-envelope"></i>&nbsp;{{tr('send_invoice')}}</a>
 
 
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton1">
-                                                      
-                                                        <a class="dropdown-item" href="{{ route('admin.user_subscriptions.view', ['subscription_id' => $subscription->id]) }}">
-                                                            {{tr('view')}}
-                                                        </a>
+                                    </td>
 
+                                    <td>
 
-                                                    </div>
+                                        <div class="btn-group" role="group">
 
-                                                </div>
+                                            <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ft-settings icon-left"></i> {{ tr('action') }}</button>
 
+                                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+
+                                                <a class="dropdown-item" href="{{ route('admin.user_subscriptions.view', ['subscription_id' => $subscription->id] ) }}">&nbsp;{{ tr('view') }}</a>
                                             </div>
 
-                                        </td>
+                                        </div>
 
-                                    </tr>
+                                    </td>
+
+                                </tr>
 
                                 @endforeach
-                                
+
                             </tbody>
-                        
+
                         </table>
                         <div class="pull-right" id="paglink">{{ $user_subscriptions->appends(request()->input())->links() }}</div>
-                        
+
 
                     </div>
 
@@ -126,4 +125,3 @@
 
 </section>
 @endsection
-

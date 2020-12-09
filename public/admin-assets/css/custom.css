@@ -178,3 +178,24 @@ img {
 .search-form{
   margin-right: 2px;
 }
+
+.bulk-action-dropdown{
+  margin-right:12px !important;
+ }
+
+ .action_list{
+  padding: 5px 12px !important;
+
+ }
+
+ .table-left{
+   margin-left:-24px !important;
+ }
+
+ .payments-action-left{
+   margin-left:-20px !important;
+ }
+
+ .flex{
+   display:flex !important;
+ }

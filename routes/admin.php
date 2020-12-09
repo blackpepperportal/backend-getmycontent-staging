@@ -52,6 +52,9 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('users/excel','Admin\AdminUserController@users_excel')->name('users.excel');
 
+        Route::post('/users/bulk_action', 'Admin\AdminUserController@users_bulk_action')->name('users.bulk_action');
+
+
         Route::get('user_subscription_payments/index','Admin\AdminUserController@user_subscription_payments')->name('users_subscriptions.index');
 
         Route::get('user_subscriptions_payment/view','Admin\AdminUserController@user_subscriptions_payment_view')->name('user_subscriptions.view');
@@ -137,6 +140,7 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('post_comments/delete','Admin\AdminPostController@post_comment_delete')->name('post_comment.delete');
 
+        Route::post('/posts/bulk_action', 'Admin\AdminPostController@posts_bulk_action')->name('posts.bulk_action');
 
 
         //posts end
@@ -367,6 +371,12 @@ Route::group(['middleware' => 'web'], function() {
         Route::get('support_members/status', 'Admin\AdminSupportMemberController@support_members_status')->name('support_members.status');
 
         Route::get('support_members/verify', 'Admin\AdminSupportMemberController@support_members_verify_status')->name('support_members.verify');
+
+
+        Route::get('post_payments/send_invoice', 'Admin\AdminPostController@post_payments_send_invoice')->name('post_payments.send_invoice');
+
+        Route::get('subscription_payments/send_invoice', 'Admin\AdminRevenueController@subscription_payments_send_invoice')->name('subscription_payments.send_invoice');
+
 
 
      });

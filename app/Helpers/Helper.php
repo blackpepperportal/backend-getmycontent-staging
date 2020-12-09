@@ -698,6 +698,13 @@ class Helper {
         return $check ? YES : NO;
     }
 
+    public static function is_block_user($logged_in_user_id, $other_user_id) {
+
+        $check = \App\BlockUser::where('block_by', $logged_in_user_id)->where('blocked_to', $other_user_id)->count();
+
+        return $check ? YES : NO;
+    }
+
 }
 
 

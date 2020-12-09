@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 use App\Helpers\Helper, App\Helpers\EnvEditorHelper;
 
-use DB, Hash, Setting, Auth, Validator, Exception, Enveditor;
+use DB, Hash, Setting, Auth, Validator, Exception, Enveditor,Log;
 
 use App\Jobs\SendEmailJob;
 
@@ -1372,6 +1372,157 @@ class AdminPostController extends Controller
             return redirect()->back()->with('flash_error', $e->getMessage());
 
         }   
+    }
+
+
+    /**
+     * @method posts_bulk_action()
+     * 
+     * @uses To delete,approve,decline multiple posts
+     *
+     * @created Ganesh
+     *
+     * @updated 
+     *
+     * @param 
+     *
+     * @return success/failure message
+     */
+    public function posts_bulk_action(Request $request) {
+
+        try {
+            
+            $action_name = $request->action_name ;
+
+            $post_ids = explode(',', $request->selected_posts);
+
+            if (!$post_ids && !$action_name) {
+
+                throw new Exception(tr('posts_action_is_empty'));
+
+            }
+
+            DB::beginTransaction();
+
+            if($action_name == 'bulk_delete'){
+
+                $post = \App\Post::whereIn('id', $post_ids)->delete();
+
+                if ($post) {
+
+                    DB::commit();
+
+                    return redirect()->back()->with('flash_success',tr('admin_posts_delete_success'));
+
+                }
+
+                throw new Exception(tr('posts_delete_failed'));
+
+            }elseif($action_name == 'bulk_approve'){
+
+                $post =  \App\Post::whereIn('id', $post_ids)->update(['status' => APPROVED]);
+
+                if ($post) {
+
+                    DB::commit();
+
+                    return back()->with('flash_success',tr('admin_posts_approve_success'))->with('bulk_action','true');
+                }
+
+                throw new Exception(tr('posts_approve_failed'));  
+
+            }elseif($action_name == 'bulk_decline'){
+                
+                $post =  \App\Post::whereIn('id', $post_ids)->update(['status' => DECLINED]);
+
+                if ($post) {
+                    
+                    DB::commit();
+
+                    return back()->with('flash_success',tr('admin_posts_decline_success'))->with('bulk_action','true');
+                }
+
+                throw new Exception(tr('posts_decline_failed')); 
+            }
+
+        }catch( Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error',$e->getMessage());
+        }
+
+    }
+
+
+
+    /**
+     * @method post_payments_send_invoice
+     *
+     * @uses to send user invoice request details based on request id
+     *
+     * @created Sakthi
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return view page
+     *
+     **/
+    
+    public function post_payments_send_invoice(Request $request) {
+
+        try {
+
+            $post_payment = \App\PostPayment::where('id', $request->post_payment_id)->first();
+
+            if(!$post_payment) {
+
+                throw new Exception(tr('post_payment_not_found'), 101);
+            }
+
+            $user = \App\User::find($post_payment->user_id);
+
+            if(!$user) {
+
+                throw new Exception(tr('user_not_found'), 101);
+            }
+
+            $email_data = [];
+
+            $email_data['timezone'] =  Auth::guard('admin')->user()->timezone ?? "";
+           
+            $email_data['post_payments'] =  $post_payment ?? "";
+
+            $email_data['user'] = $user ?? '';
+
+            $email_data['posts'] = $post_payment->postDetails ?? '';
+
+            $email_data['subject'] =  tr('post_invoice_message')." ".Setting::get('site_name');
+
+            $email_data['page'] = "emails.users.invoice";
+
+            $email_data['email'] = $user->email ?? '';
+
+            $email_data['data'] = $email_data;
+
+            $email_data['filename'] = 'Invoice'.date('m-d-Y_giA').'.pdf';
+
+            $email_data['is_invoice'] = 1;
+
+            Log::info("Timezone".print_r($email_data['timezone'], true));
+
+            $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+
+            return redirect()->back()->with('flash_success',tr('invoice_mail_sent_success'));
+
+        } catch(Exception $e) {
+
+            return redirect()->route('admin.post_payments.index')->with('flash_error', $e->getMessage());
+
+        }
+
     }
 
 

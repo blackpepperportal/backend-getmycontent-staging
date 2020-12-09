@@ -82,6 +82,16 @@
                                             <td>{{ tr('paid_amount') }}</td>
                                             <td>{{ $post_payment->paid_amount_formatted}}</td>
                                         </tr>
+
+                                        <tr>
+                                            <td>{{ tr('admin_amount') }}</td>
+                                            <td>{{ $post_payment->admin_amount_formatted}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>{{ tr('user_amount') }}</td>
+                                            <td>{{ $post_payment->user_amount_formatted}}</td>
+                                        </tr>
                                     </tbody>
 
                                 </table>

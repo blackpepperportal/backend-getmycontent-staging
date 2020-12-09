@@ -20,7 +20,9 @@
 
                 <!-- <option class="select-color" value="{{SORT_BY_EMAIL_VERIFIED}}" @if(Request::get('status') == SORT_BY_EMAIL_VERIFIED && Request::get('status')!='' ) selected @endif>{{tr('email_verified')}}</option> -->
 
-                <option class="select-color" value="{{SORT_BY_DOCUMENT_VERIFIED}}" @if(Request::get('status') == SORT_BY_DOCUMENT_VERIFIED && Request::get('status')!='' ) selected @endif>{{tr('document_verified')}}</option>
+                <!-- <option class="select-color" value="{{SORT_BY_DOCUMENT_VERIFIED}}" @if(Request::get('status') == SORT_BY_DOCUMENT_VERIFIED && Request::get('status')!='' ) selected @endif>{{tr('document_verified')}}</option> -->
+
+                <option class="select-color" value="{{SORT_BY_DOCUMENT_APPROVED}}" @if(Request::get('status') == SORT_BY_DOCUMENT_VERIFIED && Request::get('status')!='' ) selected @endif>{{tr('document_approved')}}</option>
 
             </select>
 

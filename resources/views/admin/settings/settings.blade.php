@@ -148,6 +148,9 @@ hr {
             <a href="#" class="list-group-item text-left text-uppercase">
                 {{tr('other_settings')}}
             </a>
+            <a href="#" class="list-group-item text-left text-uppercase">
+                {{tr('configuration_settings')}}
+            </a>
 
         </div>
 
@@ -454,6 +457,8 @@ hr {
 
                                 <input type="text" class="form-control" id="MAIL_PORT" name="MAIL_PORT" placeholder="Enter {{tr('MAIL_PORT')}}" value="{{old('MAIL_PORT') ?: $env_values['MAIL_PORT']}}">
                             </div>
+
+
                         </div>
 
                         <div class="col-md-6">
@@ -498,14 +503,19 @@ hr {
 
                             <div class="col-md-12">
 
+                               <div class="form-group">
+                                    <label for="MAILGUN_DOMAIN">{{ tr('MAILGUN_PUBLIC_KEY') }}</label>
+                                    <input type="text" class="form-control" value="{{ old('MAILGUN_PUBLIC_KEY') ?: ($env_values['MAILGUN_PUBLIC_KEY'] ?? '' )  }}" name="MAILGUN_PUBLIC_KEY" id="MAILGUN_PUBLIC_KEY" placeholder="{{ tr('MAILGUN_PUBLIC_KEY') }}">
+                                </div>
+
                                 <div class="form-group">
                                     <label for="MAILGUN_DOMAIN">{{ tr('MAILGUN_DOMAIN') }}</label>
-                                    <input type="text" class="form-control" value="{{ old('MAILGUN_DOMAIN') ?: $env_values['MAILGUN_DOMAIN']  }}" name="MAILGUN_DOMAIN" id="MAILGUN_DOMAIN" placeholder="{{ tr('MAILGUN_DOMAIN') }}">
+                                    <input type="text" class="form-control" value="{{ old('MAILGUN_DOMAIN') ?: ($env_values['MAILGUN_DOMAIN'] ?? '')  }}" name="MAILGUN_DOMAIN" id="MAILGUN_DOMAIN" placeholder="{{ tr('MAILGUN_DOMAIN') }}">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="MAILGUN_SECRET">{{ tr('MAILGUN_SECRET') }}</label>
-                                    <input type="text" class="form-control" name="MAILGUN_SECRET" id="MAILGUN_SECRET" placeholder="{{ tr('MAILGUN_SECRET') }}" value="{{old('MAILGUN_SECRET') ?: $env_values['MAILGUN_SECRET'] }}">
+                                    <input type="text" class="form-control" name="MAILGUN_SECRET" id="MAILGUN_SECRET" placeholder="{{ tr('MAILGUN_SECRET') }}" value="{{old('MAILGUN_SECRET') ?: ($env_values['MAILGUN_SECRET'] ?? '') }}">
                                 </div>
 
                             </div>
@@ -967,6 +977,60 @@ hr {
                                 <textarea class="form-control" id="body_scripts" name="body_scripts">{{Setting::get('body_scripts')}}</textarea>
                             </div>
                         </div>
+
+                    </div>
+                </div>
+                <!-- /.box-body -->
+
+                <div class="form-actions">
+
+                    <div class="pull-right">
+                    
+                        <button type="reset" class="btn btn-warning mr-1">
+                            <i class="ft-x"></i> {{ tr('reset') }} 
+                        </button>
+
+                        <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled @endif ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
+                    
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                </div>
+
+            </form>
+        
+            <br>
+        
+        </div>
+
+
+        <div class="fansclub-tab-content">
+        
+            <form id="site_settings_save" action="{{route('admin.settings.save')}}" method="POST">
+                
+                @csrf
+                
+                <div class="box-body"> 
+                    <div class="row"> 
+
+                        <div class="col-md-12">
+
+                            <h5 class="settings-sub-header text-uppercase" ><b>{{tr('configuration_settings')}}</b></h5>
+
+                            <hr>
+
+                        </div>
+
+                        <div class="col-lg-9">
+
+                            <div class="form-group">
+                                <label for="google_analytics">{{tr('chat_socket_url')}}</label>
+                                <input class="form-control" id="chat_socket_url" name="chat_socket_url" value="{{old('chat_socket_url') ?: (Setting::get('chat_socket_url') ?? '')}}">
+                            </div>
+
+                        </div> 
+
 
                     </div>
                 </div>

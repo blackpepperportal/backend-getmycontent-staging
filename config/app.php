@@ -182,7 +182,7 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Benwilkins\FCM\FcmNotificationServiceProvider::class,
-
+        Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 
@@ -242,6 +242,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'FCM'      => LaravelFCM\Facades\FCM::class,
         'FCMGroup' => LaravelFCM\Facades\FCMGroup::class, // Optional
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];

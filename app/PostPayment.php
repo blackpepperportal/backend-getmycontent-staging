@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PostPayment extends Model
 {
-	protected  $appends = ['paid_amount_formatted'];
+	protected  $appends = ['paid_amount_formatted','admin_amount_formatted','user_amount_formatted'];
 
     public function getPaidAmountFormattedAttribute() {
 
@@ -22,6 +22,19 @@ class PostPayment extends Model
 
     	return $this->belongsTo(Post::class, 'post_id');
     }
+
+
+    public function getAdminAmountFormattedAttribute() {
+
+    	return formatted_amount($this->admin_amount);
+    }
+
+
+    public function getUserAmountFormattedAttribute() {
+
+    	return formatted_amount($this->user_amount);
+    }
+
 
     /**
      * Scope a query to only include active users.

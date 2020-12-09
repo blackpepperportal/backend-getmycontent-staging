@@ -108,5 +108,11 @@ return [
 
     154 => 'Removed from bookmarks',
 
+    155 => 'Added to blocklist',
 
+    156 => 'Removed from the blocklist',
+
+    157 => 'Your report submitted.',
+
+    158 => 'Removed from the reported list'
 ];
