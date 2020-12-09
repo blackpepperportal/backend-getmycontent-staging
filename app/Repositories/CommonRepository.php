@@ -196,7 +196,9 @@ class CommonRepository {
             $data['is_user_needs_pay'] = YES;
 
             $data['payment_text'] = tr('subscribe_for_free');
-
+ 
+        } else {
+            $data['unsubscribe_btn_status'] = YES;
         }
 
         // Check the user has subscribed for this user plans
@@ -219,8 +221,6 @@ class CommonRepository {
 
                     $data['payment_text'] = tr('unlock_subscription_text', $user_subscription->monthly_amount_formatted);
 
-                } else {
-                    $data['unsubscribe_btn_status'] = YES;
                 }
             }
 
