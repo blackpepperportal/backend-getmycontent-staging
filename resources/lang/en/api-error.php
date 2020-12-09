@@ -133,6 +133,8 @@ return [
 
     162 => 'Already chat has been saved between the users',
 
-    163 =>  'Invalid Token'
+    163 =>  'Invalid Token',
+
+    164 =>  'You can\'t Report your Own Post'
 
 ];

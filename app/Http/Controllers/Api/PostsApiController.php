@@ -1767,4 +1767,119 @@ class PostsApiController extends Controller
 
 
 
+    /**
+     * @method report_posts_save()
+     *
+     * @uses report the user post
+     *
+     * @created Ganesh
+     *
+     * @updated Ganesh
+     *
+     * @param object $request
+     *
+     * @return JSON Response
+     */
+    public function report_posts_save(Request $request) {
+
+        try {
+            
+            DB::begintransaction();
+
+            $rules = [
+                'post_id' => 'required|exists:posts,id',
+                'reason'=>'nullable|max:255'
+            ];
+
+            $custom_errors = ['post_id.required' => api_error(146)];
+
+            Helper::custom_validator($request->all(),$rules, $custom_errors);
+
+            $post = \App\Post::find($request->post_id);
+
+            $check_report_post = \App\ReportPost::where('block_by', $request->id)->where('post_id', $request->post_id)->first();
+
+            // Check the post already reported
+
+            if($post->user_id == $request->id){
+
+                throw new Exception(api_error(164), 164);  
+            }
+
+            if($check_report_post) {
+
+                $report_post = \App\ReportPost::destroy($check_report_post->id);
+
+                $code = 158;
+
+            } else {
+
+                $custom_request = new Request();
+
+                $custom_request->request->add(['block_by' => $request->id, 'post_id' => $request->post_id,'reason'=>$request->reason]);
+
+                $report_post = \App\ReportPost::updateOrCreate($custom_request->request->all());
+
+                $report_post->blocked_user = $report_post->blockeduser->name ?? '';
+
+                $report_post->post = $report_post->post ?? '';
+
+
+                $code = 157;
+
+            }
+
+            DB::commit(); 
+
+            $data = $report_post;
+
+            return $this->sendResponse(api_success($code), $code, $data);
+            
+        } catch(Exception $e){ 
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        } 
+    
+    }
+
+
+    /**
+     * @method report_posts()
+     * 
+     * @uses list of posts reported by user
+     *
+     * @created Ganesh 
+     *
+     * @updated Ganesh
+     *
+     * @param object $request
+     *
+     * @return json with boolean output
+     */
+
+    public function report_posts(Request $request) {
+
+        try {
+
+            $base_query = $total_query = \App\ReportPost::where('block_by', $request->id)->orderBy('report_posts.created_at', 'DESC');
+
+            $report_posts = $base_query->with('post')->with('blockeduser')->skip($this->skip)->take($this->take)->get();
+
+            $data['report_posts'] = $report_posts ?? [];
+
+            $data['total'] = $total_query->count() ?? 0;
+
+            return $this->sendResponse($message = '' , $code = '', $data);
+        
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+
+    }
+
+
 }
