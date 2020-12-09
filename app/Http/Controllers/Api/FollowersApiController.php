@@ -56,9 +56,11 @@ class FollowersApiController extends Controller
 
             $following_user_ids = Follower::where('follower_id', $request->id)->pluck('user_id')->toArray();
 
+            $blocked_users = blocked_users($request->id);
+            
             array_push($following_user_ids, $request->id);
 
-            $base_query = $total_query = User::DocumentVerified()->Approved()->OtherResponse()->whereNotIn('users.id', $following_user_ids)->orderBy('users.created_at', 'desc');
+            $base_query = $total_query = User::DocumentVerified()->whereNotIn('users.id',$blocked_users)->Approved()->OtherResponse()->whereNotIn('users.id', $following_user_ids)->orderBy('users.created_at', 'desc');
 
             $users = $base_query->skip($this->skip)->take($this->take)->get();
 
@@ -103,7 +105,9 @@ class FollowersApiController extends Controller
 
             Helper::custom_validator($request->all(), $rules, $custom_errors);
 
-            $base_query = $total_query = User::Approved()->OtherResponse()->where('users.name', 'like', "%".$request->key."%")->orderBy('users.created_at', 'desc');
+            $blocked_users = blocked_users($request->id);
+            
+            $base_query = $total_query = User::Approved()->whereNotIn('users.id',$blocked_users)->OtherResponse()->where('users.name', 'like', "%".$request->key."%")->orderBy('users.created_at', 'desc');
 
             $users = $base_query->skip($this->skip)->take($this->take)->get();
 
@@ -165,6 +169,13 @@ class FollowersApiController extends Controller
                 throw new Exception(api_error(135), 135);
             }
 
+            $blocked_users = blocked_users($request->id);
+
+            if(in_array($request->user_id,$blocked_users)) {
+
+                throw new Exception(api_error(165), 165);
+            }
+           
 
             // Check the user already following the selected users
             $follower = Follower::where('status', YES)->where('follower_id', $request->id)->where('user_id', $request->user_id)->first();

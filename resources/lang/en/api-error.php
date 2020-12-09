@@ -135,6 +135,8 @@ return [
 
     163 =>  'Invalid Token',
 
-    164 =>  'You can\'t Report your Own Post'
+    164 =>  'You can\'t Report your Own Post',
+
+    165 =>  'You have already blocked the User'
 
 ];
