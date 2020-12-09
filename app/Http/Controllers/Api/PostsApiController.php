@@ -1797,8 +1797,6 @@ class PostsApiController extends Controller
 
             $post = \App\Post::find($request->post_id);
 
-            $check_report_post = \App\ReportPost::where('block_by', $request->id)->where('post_id', $request->post_id)->first();
-
             // Check the post already reported
 
             if($post->user_id == $request->id){
@@ -1806,9 +1804,11 @@ class PostsApiController extends Controller
                 throw new Exception(api_error(164), 164);  
             }
 
+            $check_report_post = \App\ReportPost::where('block_by', $request->id)->where('post_id', $request->post_id)->first();
+
             if($check_report_post) {
 
-                $report_post = \App\ReportPost::destroy($check_report_post->id);
+                $report_post = $check_report_post->delete();
 
                 $code = 158;
 
@@ -1823,7 +1823,6 @@ class PostsApiController extends Controller
                 $report_post->blocked_user = $report_post->blockeduser->name ?? '';
 
                 $report_post->post = $report_post->post ?? '';
-
 
                 $code = 157;
 
@@ -1844,7 +1843,6 @@ class PostsApiController extends Controller
         } 
     
     }
-
 
     /**
      * @method report_posts()
