@@ -326,4 +326,9 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     Route::post('block_users','Api\UserAccountApiController@block_users');
 
+    Route::post('report_posts_save','Api\PostsApiController@report_posts_save');
+
+    Route::post('report_posts','Api\PostsApiController@report_posts');
+
+
 });

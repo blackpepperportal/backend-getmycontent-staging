@@ -112,4 +112,7 @@ return [
 
     156 => 'You have Unblocked the User',
 
+    157 => 'You have Successfully reported for the post',
+
+    158 => 'Removed the post report'
 ];
