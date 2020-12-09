@@ -103,7 +103,12 @@ class AdminRevenueController extends Controller
 
                                 return $query->where('users.name','LIKE','%'.$search_key.'%');
                                 
-                            })->orWhere('post_payments.payment_id','LIKE','%'.$search_key.'%');
+                            })
+                            ->orwhereHas('postDetails',function($query) use($search_key){
+
+                                return $query->where('posts.unique_id','LIKE','%'.$search_key.'%');
+                            })
+                            ->orWhere('post_payments.payment_id','LIKE','%'.$search_key.'%');
         }
 
         $user = \App\User::find($request->user_id) ?? '';
@@ -113,7 +118,7 @@ class AdminRevenueController extends Controller
             $base_query  = $base_query->where('user_id',$request->user_id);
         }
 
-        $post_payments = $base_query->paginate(10);
+        $post_payments = $base_query->orderBy('created_at','DESC')->paginate(10);
        
         return view('admin.posts.payments')
                 ->with('page','payments')
@@ -221,9 +226,9 @@ class AdminRevenueController extends Controller
 
         try {
 
-            $order_payment_details = \App\OrderPayment::where('id',$request->order_payment_id)->first();
+            $order_payment = \App\OrderPayment::where('id',$request->order_payment_id)->first();
 
-            if(!$order_payment_details) {
+            if(!$order_payment) {
 
                 throw new Exception(tr('order_payment_not_found'), 1);
                 
@@ -232,7 +237,7 @@ class AdminRevenueController extends Controller
             return view('admin.orders.payments_view')
                     ->with('page','payments')
                     ->with('sub_page','order-payments')
-                    ->with('order_payment_details',$order_payment_details);
+                    ->with('order_payment',$order_payment);
 
         } catch(Exception $e) {
 
@@ -1051,6 +1056,81 @@ class AdminRevenueController extends Controller
             return redirect()->back()->with('flash_error', $e->getMessage());
         }
     
+    }
+
+
+     /**
+     * @method subscription_payments_send_invoice
+     *
+     * @uses to send user invoice request details based on request id
+     *
+     * @created Ganesh
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return view page
+     *
+     **/
+    
+    public function subscription_payments_send_invoice(Request $request) {
+
+        try {
+
+            $subscription_payment = \App\UserSubscriptionPayment::where('id', $request->user_subscription_id)->first();
+            
+            if(!$subscription_payment) {
+
+                throw new Exception(tr('subscription_payment_not_found'), 101);
+            }
+
+            $user = \App\User::find($subscription_payment->from_user_id);
+            
+            if(!$user) {
+
+                throw new Exception(tr('user_not_found'), 101);
+            }
+
+
+
+            $to_user  = \App\User::find($subscription_payment->to_user_id);
+
+            $email_data = [];
+
+            $email_data['timezone'] =  Auth::guard('admin')->user()->timezone ?? "";
+
+            $email_data['subscription_payments'] =  $subscription_payment ?? "";
+
+            $email_data['user'] = $user ?? '';
+
+            $email_data['subscriptions'] = $subscription_payment->userSubscription ?? '';
+
+            $email_data['subject'] =  tr('subscription_invoice_message')." ".Setting::get('site_name');
+
+            $email_data['message'] =  tr('user_subscription_message',$subscription_payment->plan_text_formatted)." ".$to_user->name;
+            
+            $email_data['page'] = "emails.users.subscription-invoice";
+
+            $email_data['email'] = $user->email ?? '';
+
+            $email_data['data'] = $email_data;
+
+            $email_data['is_invoice'] = 1;
+
+            $email_data['filename'] = 'Invoice'.date('m-d-Y_hia').'.pdf';
+
+
+            $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+
+            return redirect()->back()->with('flash_success',tr('invoice_mail_sent_success'));
+
+        } catch(Exception $e) {
+
+            return redirect()->route('admin.user_subscriptions.index')->with('flash_error', $e->getMessage());
+
+        }
+
     }
 
 }

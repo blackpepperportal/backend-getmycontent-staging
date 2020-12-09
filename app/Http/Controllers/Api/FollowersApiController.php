@@ -248,6 +248,8 @@ class FollowersApiController extends Controller
             // Check the user already following the selected users
             $follower = Follower::where('user_id', $request->user_id)->where('follower_id', $request->id)->where('status', YES)->delete();
 
+            \App\UserSubscriptionPayment::where('to_user_id', $request->user_id)->where('from_user_id', $request->id)->where('is_current_subscription', YES)->update(['is_current_subscription' => NO, 'cancel_reason' => 'unfollowed']);
+
             DB::commit();
 
             $data['user_id'] = $request->user_id;
@@ -300,6 +302,8 @@ class FollowersApiController extends Controller
 
                 $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
 
+                $follower->is_block_user = Helper::is_block_user($request->id, $follower->user_id);
+
             }
 
             $data['followers'] = $followers;
@@ -350,6 +354,8 @@ class FollowersApiController extends Controller
                 $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
 
                 $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
+
+                $follower->is_block_user = Helper::is_block_user($request->id, $follower->user_id);
 
                 $follower->otherUser = \App\User::OtherResponse()->find($follower->user_id) ?? [];
 
@@ -498,6 +504,8 @@ class FollowersApiController extends Controller
 
                 $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
 
+                $follower->is_block_user = Helper::is_block_user($request->id, $follower->user_id);
+
             }
 
             $data['followers'] = $followers;
@@ -548,6 +556,8 @@ class FollowersApiController extends Controller
                 $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
 
                 $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
+
+                $follower->is_block_user = Helper::is_block_user($request->id, $follower->user_id);
             }
 
             $data['followers'] = $followers;
@@ -597,6 +607,8 @@ class FollowersApiController extends Controller
                 $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
 
                 $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
+
+                $follower->is_block_user = Helper::is_block_user($request->id, $follower->user_id);
 
                 $follower->otherUser = \App\User::OtherResponse()->find($follower->user_id) ?? [];
 
@@ -649,6 +661,8 @@ class FollowersApiController extends Controller
                 $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
 
                 $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
+
+                $follower->is_block_user = Helper::is_block_user($request->id, $follower->user_id);
 
                 $follower->otherUser = \App\User::OtherResponse()->find($follower->user_id) ?? [];
             }

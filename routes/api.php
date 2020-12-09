@@ -322,4 +322,13 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     Route::post('chat_messages','Api\FollowersApiController@chat_messages')->middleware(['CheckEmailVerify']);
 
+    Route::post('block_users_save','Api\UserAccountApiController@block_users_save');
+
+    Route::post('block_users','Api\UserAccountApiController@block_users');
+
+    Route::post('report_posts_save','Api\PostsApiController@report_posts_save');
+
+    Route::post('report_posts','Api\PostsApiController@report_posts');
+
+
 });

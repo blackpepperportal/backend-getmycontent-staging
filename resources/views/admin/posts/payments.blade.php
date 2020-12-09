@@ -16,9 +16,9 @@
 
 <section id="configuration">
 
-    <div class="row">
+    <div class="row ">
 
-        <div class="col-12">
+        <div class="col-12 ">
 
             <div class="card">
 
@@ -37,20 +37,20 @@
                     
                 </div>
 
-                <div class="card-content collapse show">
+                <div class="card-content collapse show ">
 
                     <div class="card-body card-dashboard">
 
                         @include('admin.posts._payment_search')
                         
-                        <table class="table table-striped table-bordered sourced-data">
+                        <table class="table table-striped table-bordered sourced-data table-left">
                             
                             <thead>
                                 <tr>
                                     <th>{{ tr('s_no') }}</th>
                                     <th>{{ tr('user') }}</th>
                                     <th>{{ tr('post')}}</th>
-                                    <th>{{ tr('payment_id') }}</th>
+                                    <th >{{ tr('payment_id') }}</th>
                                     <th>{{ tr('paid_amount') }}</th>
                                     <th>{{ tr('payment_mode') }}</th>
                                     <th>{{ tr('action') }}</th>
@@ -87,8 +87,12 @@
                                         </span>
                                     </td>
                                         
-                                    <td>
-                                       <a href="{{route('admin.post.payments.view',['post_payment_id' => $post_payment->id])}}" class="btn btn-primary">{{tr('view')}}</a>
+                                    <td class="flex payments-action-left">
+                                        
+                                       <a href="{{route('admin.post.payments.view',['post_payment_id' => $post_payment->id])}}" class="btn btn-primary">{{tr('view')}}</a>&nbsp;
+                                   
+                                       <a href="{{route('admin.post_payments.send_invoice',['post_payment_id' => $post_payment->id])}}" class="btn btn-primary"><i class="fa fa-envelope"></i>&nbsp;{{tr('send_invoice')}}</a>
+
                                     </td>
 
                                 </tr>

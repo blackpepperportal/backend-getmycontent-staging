@@ -30,6 +30,8 @@ class PostRepository {
 
                         $post->is_user_needs_pay = $post->is_paid_post;
 
+                        $post->delete_btn_status =  $request->id == $post->user_id ? YES : NO;
+
                         $post->is_user_subscribed = NO;
 
                         $post->is_ppv = NO;

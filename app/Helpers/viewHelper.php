@@ -1043,3 +1043,39 @@ function generate_payment_id() {
     return strtoupper($payment_id);
 
 }
+
+/**
+ * @method get_blocked_users()
+ *
+ * @uses used to get the blocked users 
+ * 
+ * @created Ganesh
+ *
+ * @updated Ganesh
+ * 
+ */
+function blocked_users($user_id){
+
+    $block_user_ids = \App\BlockUser::where('block_by',$user_id)->pluck('blocked_to')->toArray() ?? [];
+
+    return $block_user_ids;
+}
+
+
+/**
+ * @method report_posts()
+ *
+ * @uses used to get the reported posts
+ * 
+ * @created Ganesh
+ *
+ * @updated Ganesh
+ * 
+ */
+
+function report_posts($user_id){
+
+    $report_post_ids = \App\ReportPost::where('block_by',$user_id)->pluck('post_id')->toArray() ?? [];
+
+    return $report_post_ids;
+}

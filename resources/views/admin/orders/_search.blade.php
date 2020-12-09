@@ -33,6 +33,8 @@
                 <input type="text" class="form-control" name="search_key"
                 placeholder="{{tr('orders_search_placeholder')}}"> <span class="input-group-btn">
                 &nbsp
+         
+                <input type="hidden" name="user_id" value="{{Request::get('user_id') ?? ''}}">
 
                 <button type="submit" class="btn btn-default">
                    <a href=""><i class="fa fa-search" aria-hidden="true"></i></a>
