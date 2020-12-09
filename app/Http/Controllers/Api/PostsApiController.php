@@ -18,7 +18,7 @@ class PostsApiController extends Controller
 {
     protected $loginUser;
 
-    protected $skip, $take;
+    protected $skip, $take,$blocked_users,$report_posts;
 
     public function __construct(Request $request) {
 
@@ -33,6 +33,10 @@ class PostsApiController extends Controller
         $this->take = $request->take ?: (Setting::get('admin_take_count') ?: TAKE_COUNT);
 
         $this->timezone = $this->loginUser->timezone ?? "America/New_York";
+
+        $this->blocked_users = \App\BlockUser::where('block_by',$request->id)->pluck('blocked_to')->toArray() ?? [];
+           
+        $this->report_posts = \App\ReportPost::where('block_by',$request->id)->pluck('post_id')->toArray() ?? [];
 
     }
 
@@ -55,7 +59,9 @@ class PostsApiController extends Controller
 
             $follower_ids = get_follower_ids($request->id);
 
-            $base_query = $total_query = Post::Approved()->whereIn('posts.user_id', $follower_ids)->orderBy('posts.created_at', 'desc');
+           
+            
+            $base_query = $total_query = Post::Approved()->whereNotIn('posts.id',$this->report_posts)->whereNotIn('posts.user_id',$this->blocked_users)->whereIn('posts.user_id', $follower_ids)->orderBy('posts.created_at', 'desc');
 
             $posts = $base_query->skip($this->skip)->take($this->take)->get();
 
