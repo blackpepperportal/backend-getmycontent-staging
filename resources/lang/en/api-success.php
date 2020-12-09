@@ -108,5 +108,8 @@ return [
 
     154 => 'Removed from bookmarks',
 
+    155 => 'You have Blocked the User Successfully',
+
+    156 => 'You have Unblocked the User',
 
 ];

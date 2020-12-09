@@ -2299,5 +2299,105 @@ class UserAccountApiController extends Controller
     }
 
 
+    /** 
+     * @method block_users_save()
+     *
+     * @uses block the user using user_id
+     *
+     * @created Ganesh
+     *
+     * @updated Ganesh
+     *
+     * @param object $request - User Id
+     *
+     * @return json response with user details
+     */
+
+    public function block_users_save(Request $request) {
+
+        try {
+
+            // Validation start
+            $rules = [
+                'user_id' => 'required|exists:users,id',
+                'reason' => 'nullable|max:255'
+            ];
+
+
+            Helper::custom_validator($request->all(),$rules, $custom_errors=[]);
+
+            $check_blocked_user = \App\BlockUser::where('block_by', $request->id)->where('blocked_to', $request->user_id)->first();
+
+            // Check the user already blocked 
+
+            if($check_blocked_user) {
+
+                $block_user = \App\BlockUser::destroy($check_blocked_user->id);
+
+                $code = 156;
+
+            } else {
+
+                $custom_request = new Request();
+
+                $custom_request->request->add(['block_by' => $request->id, 'blocked_to' => $request->user_id,'reason'=>$request->reason]);
+
+                $block_user = \App\BlockUser::updateOrCreate($custom_request->request->all());
+
+                $code = 155;
+
+            }
+
+            DB::commit(); 
+
+            $data = $block_user;
+
+            return $this->sendResponse(api_success($code), $code, $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
+    }
+
+
+    /**
+     * @method block_users()
+     * 
+     * @uses list of blocked users
+     *
+     * @created Ganesh 
+     *
+     * @updated Ganesh
+     *
+     * @param object $request
+     *
+     * @return json with boolean output
+     */
+
+    public function block_users(Request $request) {
+
+        try {
+
+            $base_query = $total_query = \App\BlockUser::where('block_by', $request->id)->Approved()->orderBy('block_users.created_at', 'DESC');
+
+            $block_users = $base_query->skip($this->skip)->take($this->take)->get();
+
+            $data['block_users'] = $block_users ?? [];
+
+            $data['total'] = $total_query->count() ?? 0;
+
+            return $this->sendResponse($message = '' , $code = '', $data);
+        
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+
+    }
+
+
 
 }
