@@ -1056,9 +1056,9 @@ function generate_payment_id() {
  */
 function blocked_users($user_id){
 
-    $blocked_users = \App\BlockUser::where('block_by',$user_id)->pluck('blocked_to')->toArray() ?? [];
+    $block_user_ids = \App\BlockUser::where('block_by',$user_id)->pluck('blocked_to')->toArray() ?? [];
 
-    return $blocked_users;
+    return $block_user_ids;
 }
 
 
@@ -1075,7 +1075,7 @@ function blocked_users($user_id){
 
 function report_posts($user_id){
 
-    $report_posts = \App\ReportPost::where('block_by',$user_id)->pluck('post_id')->toArray() ?? [];
+    $report_post_ids = \App\ReportPost::where('block_by',$user_id)->pluck('post_id')->toArray() ?? [];
 
-    return $report_posts;
+    return $report_post_ids;
 }
