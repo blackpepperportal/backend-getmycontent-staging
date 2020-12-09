@@ -2323,7 +2323,6 @@ class UserAccountApiController extends Controller
                 'reason' => 'nullable|max:255'
             ];
 
-
             Helper::custom_validator($request->all(),$rules, $custom_errors=[]);
 
             $check_blocked_user = \App\BlockUser::where('block_by', $request->id)->where('blocked_to', $request->user_id)->first();
@@ -2332,7 +2331,7 @@ class UserAccountApiController extends Controller
 
             if($check_blocked_user) {
 
-                $block_user = \App\BlockUser::destroy($check_blocked_user->id);
+                $block_user = $check_blocked_user->delete();
 
                 $code = 156;
 
@@ -2355,6 +2354,8 @@ class UserAccountApiController extends Controller
             return $this->sendResponse(api_success($code), $code, $data);
 
         } catch(Exception $e) {
+
+            DB::rollback();
 
             return $this->sendError($e->getMessage(), $e->getCode());
 

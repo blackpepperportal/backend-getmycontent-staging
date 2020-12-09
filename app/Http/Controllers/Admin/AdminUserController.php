@@ -108,7 +108,6 @@ class AdminUserController extends Controller
       
         $users = $base_query->paginate($this->take);
 
-
         return view('admin.users.index')
                     ->with('page', $page)
                     ->with('sub_page', $sub_page)
@@ -227,7 +226,7 @@ class AdminUserController extends Controller
                 'mobile' => $request->mobile ? 'digits_between:6,13' : '',
                 'picture' => 'mimes:jpg,png,jpeg',
                 'user_id' => 'exists:users,id|nullable',
-                'cover' => 'nullable|mimes:jpeg,bmp,png',
+                'cover' => 'nullable|mimes:jpeg,bmp,png,jpg',
                 'gender' => 'nullable|in:male,female,others',
             ];
 

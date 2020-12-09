@@ -108,11 +108,11 @@ return [
 
     154 => 'Removed from bookmarks',
 
-    155 => 'You have Blocked the User Successfully',
+    155 => 'Added to blocklist',
 
-    156 => 'You have Unblocked the User',
+    156 => 'Removed from the blocklist',
 
-    157 => 'You have Successfully reported for the post',
+    157 => 'Your report submitted.',
 
-    158 => 'Removed the post report'
+    158 => 'Removed from the reported list'
 ];
