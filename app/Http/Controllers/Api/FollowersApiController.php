@@ -57,10 +57,10 @@ class FollowersApiController extends Controller
         try {
 
             $following_user_ids = Follower::where('follower_id', $request->id)->pluck('user_id')->toArray();
-
+           
             array_push($following_user_ids, $request->id);
 
-            $base_query = $total_query = User::DocumentVerified()->Approved()->OtherResponse()->whereNotIn('users.id', $following_user_ids)->orderBy('users.created_at', 'desc');
+            $base_query = $total_query = User::DocumentVerified()->Approved()->OtherResponse()->whereNotIn('users.id', $this->blocked_users)->whereNotIn('users.id', $following_user_ids)->orderBy('users.created_at', 'desc');
 
             $users = $base_query->skip($this->skip)->take($this->take)->get();
 
@@ -105,7 +105,7 @@ class FollowersApiController extends Controller
 
             Helper::custom_validator($request->all(), $rules, $custom_errors);
 
-            $base_query = $total_query = User::Approved()->OtherResponse()->where('users.name', 'like', "%".$request->key."%")->orderBy('users.created_at', 'desc');
+            $base_query = $total_query = User::Approved()->OtherResponse()->whereNotIn('users.id', $this->blocked_users)->where('users.name', 'like', "%".$request->key."%")->orderBy('users.created_at', 'desc');
 
             $users = $base_query->skip($this->skip)->take($this->take)->get();
 
