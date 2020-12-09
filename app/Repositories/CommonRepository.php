@@ -184,6 +184,8 @@ class CommonRepository {
 
         $data['payment_text'] = "";
 
+        $data['unsubscribe_btn_status'] = NO;
+
         $login_user = \App\User::find($request->id);
 
         // Check the user already following
@@ -217,6 +219,8 @@ class CommonRepository {
 
                     $data['payment_text'] = tr('unlock_subscription_text', $user_subscription->monthly_amount_formatted);
 
+                } else {
+                    $data['unsubscribe_btn_status'] = YES;
                 }
             }
 
