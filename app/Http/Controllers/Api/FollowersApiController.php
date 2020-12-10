@@ -208,6 +208,10 @@ class FollowersApiController extends Controller
 
             $data['is_follow'] = NO;
 
+            $data['total_followers'] = \App\Follower::where('user_id', $request->id)->count();
+
+            $data['total_followings'] = \App\Follower::where('follower_id', $request->id)->count();
+
             return $this->sendResponse(api_success(128,$follow_user->username ?? 'user'), $code = 128, $data);
 
         } catch(Exception $e) {
@@ -276,6 +280,10 @@ class FollowersApiController extends Controller
             $data['user_id'] = $request->user_id;
 
             $data['is_follow'] = YES;
+
+            $data['total_followers'] = \App\Follower::where('user_id', $request->id)->count();
+
+            $data['total_followings'] = \App\Follower::where('follower_id', $request->id)->count();
 
             return $this->sendResponse(api_success(129), $code = 129, $data);
 
