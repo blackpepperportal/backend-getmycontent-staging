@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserSubscriptionPayment extends Model
 {
-	 protected $hidden = ['id','unique_id'];
+	protected $hidden = ['id','unique_id'];
 
 	protected $appends = ['user_subscription_payment_id','user_subscription_payment_unique_id', 'from_username', 'from_user_picture', 'from_user_unique_id', 'to_username', 'to_user_picture', 'to_user_unique_id', 'amount_formatted','plan_text_formatted','admin_amount_formatted','user_amount_formatted'];
 	

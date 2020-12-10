@@ -208,6 +208,10 @@ class FollowersApiController extends Controller
 
             $data['is_follow'] = NO;
 
+            $data['total_followers'] = \App\Follower::where('user_id', $request->id)->count();
+
+            $data['total_followings'] = \App\Follower::where('follower_id', $request->id)->count();
+
             return $this->sendResponse(api_success(128,$follow_user->username ?? 'user'), $code = 128, $data);
 
         } catch(Exception $e) {
@@ -257,15 +261,29 @@ class FollowersApiController extends Controller
             }
 
             // Check the user already following the selected users
+
             $follower = Follower::where('user_id', $request->user_id)->where('follower_id', $request->id)->where('status', YES)->delete();
 
-            \App\UserSubscriptionPayment::where('to_user_id', $request->user_id)->where('from_user_id', $request->id)->where('is_current_subscription', YES)->update(['is_current_subscription' => NO, 'cancel_reason' => 'unfollowed']);
+            $user_subscription_payment = \App\UserSubscriptionPayment::where('to_user_id', $request->user_id)->where('from_user_id', $request->id)->where('is_current_subscription', YES)->first();
+
+            if($user_subscription_payment) {
+
+                $user_subscription_payment->is_current_subscription = NO;
+
+                $user_subscription_payment->cancel_reason = 'unfollowed';
+
+                $user_subscription_payment->save();
+            }
 
             DB::commit();
 
             $data['user_id'] = $request->user_id;
 
             $data['is_follow'] = YES;
+
+            $data['total_followers'] = \App\Follower::where('user_id', $request->id)->count();
+
+            $data['total_followings'] = \App\Follower::where('follower_id', $request->id)->count();
 
             return $this->sendResponse(api_success(129), $code = 129, $data);
 
@@ -303,21 +321,7 @@ class FollowersApiController extends Controller
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
-            foreach ($followers as $key => $follower) {
-
-                $follower->is_owner = $request->id == $follower->follower_id ? YES : NO;
-
-                $is_you_following = Helper::is_you_following($request->id, $follower->user_id);
-
-                $follower->show_follow = $is_you_following ? HIDE : SHOW;
-
-                $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
-
-                $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
-
-                $follower->is_block_user = Helper::is_block_user($request->id, $follower->user_id);
-
-            }
+            $followers = \App\Repositories\CommonRepository::followers_list_response($followers, $request);
 
             $data['followers'] = $followers;
 
@@ -358,23 +362,7 @@ class FollowersApiController extends Controller
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
-            foreach ($followers as $key => $follower) {
-
-                $follower->is_owner = $request->id == $follower->follower_id ? YES : NO;
-
-                $is_you_following = Helper::is_you_following($request->id, $follower->user_id);
-
-                $follower->show_follow = $is_you_following ? HIDE : SHOW;
-
-                $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
-
-                $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
-
-                $follower->is_block_user = Helper::is_block_user($request->id, $follower->user_id);
-
-                $follower->otherUser = \App\User::OtherResponse()->find($follower->user_id) ?? [];
-
-            }
+            $followers = \App\Repositories\CommonRepository::followings_list_response($followers, $request);
 
             $data['followers'] = $followers;
 
@@ -503,25 +491,13 @@ class FollowersApiController extends Controller
 
         try {
 
-            $base_query = $total_query = Follower::CommonResponse()->where('followers.status',FOLLOWER_ACTIVE)->where('user_id', $request->id);
+            $blocked_users = blocked_users($request->id);
+            
+            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('follower_id',$blocked_users)->where('followers.status',FOLLOWER_ACTIVE)->where('user_id', $request->id);
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
-            foreach ($followers as $key => $follower) {
-
-                $follower->is_owner = $request->id == $follower->follower_id ? YES : NO;
-
-                $is_you_following = Helper::is_you_following($request->id, $follower->user_id);
-
-                $follower->show_follow = $is_you_following ? HIDE : SHOW;
-
-                $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
-
-                $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
-
-                $follower->is_block_user = Helper::is_block_user($request->id, $follower->user_id);
-
-            }
+            $followers = \App\Repositories\CommonRepository::followers_list_response($followers, $request);
 
             $data['followers'] = $followers;
 
@@ -556,24 +532,13 @@ class FollowersApiController extends Controller
 
         try {
 
-            $base_query = $total_query = Follower::CommonResponse()->where('followers.status',FOLLOWER_EXPIRED)->where('user_id', $request->id);
+            $blocked_users = blocked_users($request->id);
+
+            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('follower_id',$blocked_users)->where('followers.status',FOLLOWER_EXPIRED)->where('user_id', $request->id);
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
-            foreach ($followers as $key => $follower) {
-
-                $follower->is_owner = $request->id == $follower->follower_id ? YES : NO;
-
-                $is_you_following = Helper::is_you_following($request->id, $follower->user_id);
-
-                $follower->show_follow = $is_you_following ? HIDE : SHOW;
-
-                $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
-
-                $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
-
-                $follower->is_block_user = Helper::is_block_user($request->id, $follower->user_id);
-            }
+            $followers = \App\Repositories\CommonRepository::followers_list_response($followers, $request);
 
             $data['followers'] = $followers;
 
@@ -607,33 +572,13 @@ class FollowersApiController extends Controller
 
         try {
 
-            $base_query = $total_query = Follower::CommonResponse()->where('follower_id', $request->id)->where('followers.status', YES);
+            $blocked_users = blocked_users($request->id);
+           
+            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('user_id',$blocked_users)->where('follower_id', $request->id)->where('followers.status', YES);
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
-            foreach ($followers as $key => $follower) {
-
-                $follower->is_owner = $request->id == $follower->follower_id ? YES : NO;
-
-                $is_you_following = Helper::is_you_following($request->id, $follower->user_id);
-
-                $follower->show_follow = $is_you_following ? HIDE : SHOW;
-
-                $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
-
-                $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
-
-                $is_block_user = Helper::is_block_user($request->id, $follower->user_id);
-
-                $follower->is_block_user = $is_block_user;
-
-                $other_user_details = \App\User::OtherResponse()->find($follower->user_id) ?? new \stdClass; 
-
-                $other_user_details->is_block_user = $is_block_user;
-
-                $follower->otherUser = $other_user_details ?? [];
-
-            }
+            $followers = \App\Repositories\CommonRepository::followings_list_response($followers, $request);
 
             $data['followers'] = $followers;
 
@@ -667,26 +612,13 @@ class FollowersApiController extends Controller
 
         try {
 
-            $base_query = $total_query = Follower::CommonResponse()->where('follower_id', $request->id)->where('followers.status', NO);
+            $blocked_users = blocked_users($request->id);
+
+            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('user_id',$blocked_users)->where('follower_id', $request->id)->where('followers.status', NO);
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
-            foreach ($followers as $key => $follower) {
-
-                $follower->is_owner = $request->id == $follower->follower_id ? YES : NO;
-
-                $is_you_following = Helper::is_you_following($request->id, $follower->user_id);
-
-                $follower->show_follow = $is_you_following ? HIDE : SHOW;
-
-                $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
-
-                $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
-
-                $follower->is_block_user = Helper::is_block_user($request->id, $follower->user_id);
-
-                $follower->otherUser = \App\User::OtherResponse()->find($follower->user_id) ?? [];
-            }
+            $followers = \App\Repositories\CommonRepository::followings_list_response($followers, $request);
 
             $data['followers'] = $followers;
 

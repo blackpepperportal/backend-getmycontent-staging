@@ -1121,7 +1121,13 @@ class PaymentRepository {
 
             \App\Repositories\CommonRepository::follow_user($request);
 
-            $response = ['success' => true, 'message' => 'paid', 'data' => ['user_type' => SUBSCRIBED_USER, 'payment_id' => $request->payment_id]];
+            $data = ['user_type' => SUBSCRIBED_USER, 'payment_id' => $request->payment_id];
+
+            $data['total_followers'] = \App\Follower::where('user_id', $request->id)->count();
+
+            $data['total_followings'] = \App\Follower::where('follower_id', $request->id)->count();
+
+            $response = ['success' => true, 'message' => 'paid', 'data' => $data];
 
             return response()->json($response, 200);
 
