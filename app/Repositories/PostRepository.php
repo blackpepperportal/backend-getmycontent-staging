@@ -40,7 +40,7 @@ class PostRepository {
 
                         $post->is_user_bookmarked = $post->postBookmarks->where('user_id', $request->id)->count() ? YES : NO;
 
-                        $post->share_link = Setting::get('frontend_url')."/post/".$post->post_unique_id;
+                        $post->share_link = Setting::get('frontend_url')."post/".$post->post_unique_id;
 
                         $post->payment_info = self::posts_user_payment_check($post, $request);
 
