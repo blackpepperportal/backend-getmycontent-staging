@@ -122,7 +122,7 @@
 
                                                 <h3>{{tr('hey')}} {{$data['name']}}!!</h3>  
 
-                                                {{tr('you_are_successfully_added_by_admin')}}
+                                                {{tr('you_are_successfully_added_by_admin', Setting::get('site_name'))}}
                                                 <br>
                                                 <a style="background-color: #4CAF50;border: none;color: white;padding: 15px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;margin: 4px 2px;cursor: pointer;" href="{{Setting::get('frontend_url')}}">{{tr('visit_website')}}</a>
                                             </div>
