@@ -2370,11 +2370,11 @@ class UserAccountApiController extends Controller
 
             DB::commit(); 
 
-            $data = $block_user;
+            $data = [];
 
-            $data->total_followers = \App\Follower::where('user_id', $request->id)->count();
+            $data['total_followers'] = \App\Follower::where('user_id', $request->id)->count();
 
-            $data->total_followings = \App\Follower::where('follower_id', $request->id)->count();
+            $data['total_followings'] = \App\Follower::where('follower_id', $request->id)->count();
 
             return $this->sendResponse(api_success($code), $code, $data);
 
