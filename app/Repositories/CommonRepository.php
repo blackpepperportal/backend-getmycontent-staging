@@ -229,4 +229,47 @@ class CommonRepository {
         return (object)$data;
     
     }
+
+    /**
+     * @method followings_list_response()
+     *
+     * @uses Format the follow user response
+     *
+     * @created vithya R
+     * 
+     * @updated vithya R
+     *
+     * @param object $request
+     *
+     * @return object $payment_details
+     */
+
+    public static function followers_list_response($followers, $request) {
+        
+        $followers = $followers->map(function ($follower, $key) use ($request) {
+
+                        $other_user = \App\User::OtherResponse()->find($follower->user_id) ?? new \stdClass; 
+
+                        $other_user->is_block_user = Helper::is_block_user($request->id, $follower->user_id);
+
+                        $other_user->is_owner = $request->id == $follower->follower_id ? YES : NO;
+
+                        $is_you_following = Helper::is_you_following($request->id, $follower->user_id);
+
+                        $other_user->show_follow = $is_you_following ? HIDE : SHOW;
+
+                        $other_user->show_unfollow = $is_you_following ? SHOW : HIDE;
+
+                        $other_user->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
+
+                        $follower->otherUser = $other_user ?? [];
+
+                        return $follower;
+                    });
+
+
+        return $posts;
+
+    }
+
 }

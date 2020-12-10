@@ -303,21 +303,7 @@ class FollowersApiController extends Controller
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
-            foreach ($followers as $key => $follower) {
-
-                $follower->is_owner = $request->id == $follower->follower_id ? YES : NO;
-
-                $is_you_following = Helper::is_you_following($request->id, $follower->user_id);
-
-                $follower->show_follow = $is_you_following ? HIDE : SHOW;
-
-                $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
-
-                $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
-
-                $follower->is_block_user = Helper::is_block_user($request->id, $follower->user_id);
-
-            }
+            $followers = \App\Repositories\PostRepository::followers_list_response($followers, $request);
 
             $data['followers'] = $followers;
 
@@ -358,23 +344,7 @@ class FollowersApiController extends Controller
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
-            foreach ($followers as $key => $follower) {
-
-                $follower->is_owner = $request->id == $follower->follower_id ? YES : NO;
-
-                $is_you_following = Helper::is_you_following($request->id, $follower->user_id);
-
-                $follower->show_follow = $is_you_following ? HIDE : SHOW;
-
-                $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
-
-                $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
-
-                $follower->is_block_user = Helper::is_block_user($request->id, $follower->user_id);
-
-                $follower->otherUser = \App\User::OtherResponse()->find($follower->user_id) ?? [];
-
-            }
+            $followers = \App\Repositories\PostRepository::followers_list_response($followers, $request);
 
             $data['followers'] = $followers;
 
@@ -507,21 +477,7 @@ class FollowersApiController extends Controller
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
-            foreach ($followers as $key => $follower) {
-
-                $follower->is_owner = $request->id == $follower->follower_id ? YES : NO;
-
-                $is_you_following = Helper::is_you_following($request->id, $follower->user_id);
-
-                $follower->show_follow = $is_you_following ? HIDE : SHOW;
-
-                $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
-
-                $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
-
-                $follower->is_block_user = Helper::is_block_user($request->id, $follower->user_id);
-
-            }
+            $followers = \App\Repositories\PostRepository::followers_list_response($followers, $request);
 
             $data['followers'] = $followers;
 
@@ -560,20 +516,7 @@ class FollowersApiController extends Controller
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
-            foreach ($followers as $key => $follower) {
-
-                $follower->is_owner = $request->id == $follower->follower_id ? YES : NO;
-
-                $is_you_following = Helper::is_you_following($request->id, $follower->user_id);
-
-                $follower->show_follow = $is_you_following ? HIDE : SHOW;
-
-                $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
-
-                $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
-
-                $follower->is_block_user = Helper::is_block_user($request->id, $follower->user_id);
-            }
+            $followers = \App\Repositories\PostRepository::followers_list_response($followers, $request);
 
             $data['followers'] = $followers;
 
@@ -611,29 +554,7 @@ class FollowersApiController extends Controller
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
-            foreach ($followers as $key => $follower) {
-
-                $follower->is_owner = $request->id == $follower->follower_id ? YES : NO;
-
-                $is_you_following = Helper::is_you_following($request->id, $follower->user_id);
-
-                $follower->show_follow = $is_you_following ? HIDE : SHOW;
-
-                $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
-
-                $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
-
-                $is_block_user = Helper::is_block_user($request->id, $follower->user_id);
-
-                $follower->is_block_user = $is_block_user;
-
-                $other_user_details = \App\User::OtherResponse()->find($follower->user_id) ?? new \stdClass; 
-
-                $other_user_details->is_block_user = $is_block_user;
-
-                $follower->otherUser = $other_user_details ?? [];
-
-            }
+            $followers = \App\Repositories\PostRepository::followers_list_response($followers, $request);
 
             $data['followers'] = $followers;
 
@@ -671,22 +592,7 @@ class FollowersApiController extends Controller
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
-            foreach ($followers as $key => $follower) {
-
-                $follower->is_owner = $request->id == $follower->follower_id ? YES : NO;
-
-                $is_you_following = Helper::is_you_following($request->id, $follower->user_id);
-
-                $follower->show_follow = $is_you_following ? HIDE : SHOW;
-
-                $follower->show_unfollow = $is_you_following ? SHOW : HIDE;
-
-                $follower->is_fav_user = Helper::is_fav_user($request->id, $follower->user_id);
-
-                $follower->is_block_user = Helper::is_block_user($request->id, $follower->user_id);
-
-                $follower->otherUser = \App\User::OtherResponse()->find($follower->user_id) ?? [];
-            }
+            $followers = \App\Repositories\PostRepository::followers_list_response($followers, $request);
 
             $data['followers'] = $followers;
 
