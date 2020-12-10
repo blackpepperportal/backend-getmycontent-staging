@@ -19,7 +19,7 @@ class BlockUser extends Model
 		return $this->id;
 	}
 
- 
+
 	/**
      * Scope a query to only include active users.
      *

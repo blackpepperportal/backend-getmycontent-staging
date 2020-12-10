@@ -67,7 +67,11 @@ class DemoSeeder extends Seeder
 
                 DB::table('users')->insert([
                     [
-                        'name' => 'user',
+                        'name' => 'User',
+                        'first_name' => 'User',
+                        'last_name' => 'Demo',
+                        'unique_id' => 'user-demo',
+                        'username' => 'user-demo',
                         'email' => 'user@fansclub.com',
                         'password' => \Hash::make('123456'),
                         'picture' => env('APP_URL')."/placeholder.jpeg",
@@ -92,6 +96,10 @@ class DemoSeeder extends Seeder
                 DB::table('users')->insert([
                     [
                         'name' => 'Test',
+                        'first_name' => 'User',
+                        'last_name' => 'Demo',
+                        'unique_id' => 'user-demo',
+                        'username' => 'user-demo',
                         'email' => 'test@fansclub.com',
                         'password' => \Hash::make('123456'),
                         'picture' => env('APP_URL')."/placeholder.jpeg",
