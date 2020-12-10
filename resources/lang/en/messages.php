@@ -751,7 +751,7 @@ return [
 	"your_account_has_been_declined_by_admin" => "This is to inform that, Your account is declined. Please contact admin for more Information",
 	"hello" => "Hello",
 	"hey" => "Hey",
-	"you_are_successfully_added_by_admin" => "You are successfully added by admin,Please visit website 👍",
+	"you_are_successfully_added_by_admin" => "Welcome to the :other_key, Please visit the website 👍",
 	"visit_website" => "Visit Website",
 	"content_creator_document_verification" => "Content creator document verification",
 	"hai" => "Hai",
