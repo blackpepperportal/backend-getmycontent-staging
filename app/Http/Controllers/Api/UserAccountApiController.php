@@ -2351,7 +2351,7 @@ class UserAccountApiController extends Controller
 
                 // Check the user already following the selected users
 
-                $follower = Follower::where('user_id', $request->user_id)->where('follower_id', $request->id)->where('status', YES)->delete();
+                $follower = \App\Follower::where('user_id', $request->user_id)->where('follower_id', $request->id)->where('status', YES)->delete();
 
                 $user_subscription_payment = \App\UserSubscriptionPayment::where('to_user_id', $request->user_id)->where('from_user_id', $request->id)->where('is_current_subscription', YES)->first();
 
