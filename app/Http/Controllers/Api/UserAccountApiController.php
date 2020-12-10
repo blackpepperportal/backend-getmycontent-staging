@@ -2372,6 +2372,10 @@ class UserAccountApiController extends Controller
 
             $data = $block_user;
 
+            $data->total_followers = \App\Follower::where('user_id', $request->user_id)->count();
+
+            $data->total_followings = \App\Follower::where('follower_id', $request->user_id)->count();
+
             return $this->sendResponse(api_success($code), $code, $data);
 
         } catch(Exception $e) {
