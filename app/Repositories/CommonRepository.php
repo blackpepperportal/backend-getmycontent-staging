@@ -268,7 +268,7 @@ class CommonRepository {
                     });
 
 
-        return $posts;
+        return $followers;
 
     }
 
