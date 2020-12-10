@@ -108,7 +108,7 @@ class SettingSeeder extends Seeder
         	],
         	[
 	            'key' => 'copyright_content',
-	            'value' => "Copyrights date('Y-m-d') . All rights reserved.",
+	            'value' => "Copyrights 2020. All rights reserved.",
         	],
         	[
 	            'key' => 'contact_email',
