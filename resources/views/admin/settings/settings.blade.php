@@ -124,10 +124,6 @@ hr {
             </a>
 
             <a href="#" class="list-group-item text-left text-uppercase">
-                {{tr('revenue_settings')}}
-            </a>
-
-            <a href="#" class="list-group-item text-left text-uppercase">
                 {{tr('email_settings')}}
             </a>
             <a href="#" class="list-group-item text-left text-uppercase">
@@ -136,21 +132,24 @@ hr {
             <a href="#" class="list-group-item text-left text-uppercase">
                 {{tr('social_login')}}
             </a>
-            <a href="#" class="list-group-item text-left text-uppercase">
+            <!-- <a href="#" class="list-group-item text-left text-uppercase">
                 {{tr('notification_settings')}}
-            </a>
+            </a> -->
             <a href="#" class="list-group-item text-left text-uppercase">
                 {{tr('mobile_settings')}}
             </a>
             <a href="#" class="list-group-item text-left text-uppercase">
                 {{tr('contact_information')}}
             </a>
-            <a href="#" class="list-group-item text-left text-uppercase">
-                {{tr('other_settings')}}
-            </a>
+
             <a href="#" class="list-group-item text-left text-uppercase">
                 {{tr('configuration_settings')}}
             </a>
+
+            <a href="#" class="list-group-item text-left text-uppercase">
+                {{tr('other_settings')}}
+            </a>
+            
 
         </div>
 
@@ -276,6 +275,7 @@ hr {
                             <hr>
 
                         </div>
+
                         <div class="col-md-12">
 
                             <h5 class="sub-title">{{tr('stripe_settings')}}</h5>
@@ -298,91 +298,27 @@ hr {
                                 <input type="text" class="form-control" id="stripe_secret_key" name="stripe_secret_key" placeholder="Enter {{tr('stripe_secret_key')}}" value="{{old('stripe_secret_key') ?: Setting::get('stripe_secret_key')}}">
                             </div>
                         </div>
-                         <div class="col-lg-6">
-                           <label for="stripe_secret_key">{{tr('stripe_mode')}} *</label>
-
-                                <div class="clearfix"></div>
-
-                                <div class="radio radio-aqua" style="display: inline-block;">
-
-                                    <input id="stripe_live" name="stripe_mode" type="radio" value="{{ STRIPE_MODE_LIVE }}" @if(Setting::get('stripe_mode') == STRIPE_MODE_LIVE ) checked="checked" @endif>
-
-                                    <label for="stripe_live">
-                                        {{tr('live')}}
-                                    </label>
-
-                                </div>
-
-                                <div class="radio radio-yellow" style="display: inline-block;">
-                                    <input id="stripe_sandbox" name="stripe_mode" type="radio" value="{{ STRIPE_MODE_SANDBOX }}" @if(Setting::get( 'stripe_mode') == STRIPE_MODE_SANDBOX) checked="checked" @endif>
-                                    <label for="stripe_sandbox">
-                                        {{tr('sandbox')}}
-                                    </label>
-                                </div>
-                        </div>
 
                     </div>
-
-                </div>
-
-                <div class="form-actions">
-
-                    <div class="pull-right">
-                    
-                        <button type="reset" class="btn btn-warning mr-1">
-                            <i class="ft-x"></i> {{ tr('reset') }} 
-                        </button>
-
-                        <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled @endif ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
-                    
-                    </div>
-
-                    <div class="clearfix"></div>
-
-                </div>
-       
-            </form>
-       
-            <br>
-       
-        </div>
-
-          <!-- Revenue settings -->
-        <div class="fansclub-tab-content">
-            
-            <form id="site_settings_save" action="{{route('admin.settings.save')}}" method="POST" enctype="multipart/form-data" class="forms-sample">
-         
-            @csrf
-
-                <div class="box-body">
 
                     <div class="row">
 
                         <div class="col-md-12">
 
-                            <h5 class="settings-sub-header text-uppercase" ><b>{{tr('revenue_settings')}}</b></h5>
-
                             <hr>
+
+                            <h5 class="sub-title">{{tr('revenue_settings')}}</h5>
 
                         </div>
                         
+                        <div class="col-md-6">
+                            <div class="form-group">
 
-                          <div class="col-md-6">
-                                <div class="form-group">
+                                <label for="admin_commission">{{tr('admin_commission')}}</label>
 
-                                    <label for="admin_commission">{{tr('admin_commission')}}</label>
-
-                                    <input type="text" class="form-control" name="admin_commission" pattern="[0-9]{0,}" value="{{Setting::get('admin_commission')  }}" id="admin_commission" placeholder="{{tr('admin_commission')}}">
-                                </div>
+                                <input type="text" class="form-control" name="admin_commission" pattern="[0-9]{0,}" value="{{Setting::get('admin_commission')  }}" id="admin_commission" placeholder="{{tr('admin_commission')}}">
                             </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="user_commission">{{tr('user_commission')}}</label>
-                                    <input type="text" class="form-control"  name="user_commission" pattern="[0-9]{0,}" value="{{Setting::get('user_commission')  }}" id="user_commission" placeholder="{{tr('user_commission')}}">
-                                </div>
-                            </div>
-
+                        </div>
                     </div>
 
                 </div>
@@ -740,7 +676,7 @@ hr {
         </div>
 
         <!--Notification settings -->
-        <div class="fansclub-tab-content">
+        <?php /** <div class="fansclub-tab-content" style="display: none;">
            
            <form id="social_settings_save" action="{{route('admin.settings.save')}}" method="POST">
                 
@@ -798,7 +734,7 @@ hr {
             </form>
             <br>
 
-        </div>  
+        </div> */ ?>
 
         <!-- APP Url Settings -->
         <div class="fansclub-tab-content">
@@ -933,6 +869,60 @@ hr {
        
         </div>
 
+        <div class="fansclub-tab-content">
+        
+            <form id="site_settings_save" action="{{route('admin.settings.save')}}" method="POST">
+                
+                @csrf
+                
+                <div class="box-body"> 
+                    <div class="row"> 
+
+                        <div class="col-md-12">
+
+                            <h5 class="settings-sub-header text-uppercase" ><b>{{tr('configuration_settings')}}</b></h5>
+
+                            <hr>
+
+                        </div>
+
+                        <div class="col-lg-9">
+
+                            <div class="form-group">
+                                <label for="google_analytics">{{tr('chat_socket_url')}}</label>
+                                <input class="form-control" id="chat_socket_url" name="chat_socket_url" value="{{old('chat_socket_url') ?: (Setting::get('chat_socket_url') ?? '')}}">
+                            </div>
+
+                        </div> 
+
+
+                    </div>
+                </div>
+                <!-- /.box-body -->
+
+                <div class="form-actions">
+
+                    <div class="pull-right">
+                    
+                        <button type="reset" class="btn btn-warning mr-1">
+                            <i class="ft-x"></i> {{ tr('reset') }} 
+                        </button>
+
+                        <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled @endif ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
+                    
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                </div>
+
+            </form>
+        
+            <br>
+        
+        </div>
+
+
         <!-- OTHER Settings -->
 
         <div class="fansclub-tab-content">
@@ -1005,59 +995,7 @@ hr {
         </div>
 
 
-        <div class="fansclub-tab-content">
         
-            <form id="site_settings_save" action="{{route('admin.settings.save')}}" method="POST">
-                
-                @csrf
-                
-                <div class="box-body"> 
-                    <div class="row"> 
-
-                        <div class="col-md-12">
-
-                            <h5 class="settings-sub-header text-uppercase" ><b>{{tr('configuration_settings')}}</b></h5>
-
-                            <hr>
-
-                        </div>
-
-                        <div class="col-lg-9">
-
-                            <div class="form-group">
-                                <label for="google_analytics">{{tr('chat_socket_url')}}</label>
-                                <input class="form-control" id="chat_socket_url" name="chat_socket_url" value="{{old('chat_socket_url') ?: (Setting::get('chat_socket_url') ?? '')}}">
-                            </div>
-
-                        </div> 
-
-
-                    </div>
-                </div>
-                <!-- /.box-body -->
-
-                <div class="form-actions">
-
-                    <div class="pull-right">
-                    
-                        <button type="reset" class="btn btn-warning mr-1">
-                            <i class="ft-x"></i> {{ tr('reset') }} 
-                        </button>
-
-                        <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled @endif ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
-                    
-                    </div>
-
-                    <div class="clearfix"></div>
-
-                </div>
-
-            </form>
-        
-            <br>
-        
-        </div>
-
     </div>
 
 </div>
