@@ -157,7 +157,13 @@ class PostsApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $post = Post::with('postFiles')->Approved()->where('posts.unique_id', $request->post_unique_id)->first();
+            $report_posts = report_posts($request->id);
+
+            $blocked_users = blocked_users($request->id);
+
+            $post = Post::with('postFiles')->Approved()
+            ->whereNotIn('posts.user_id',$blocked_users)->whereNotIn('posts.id',$report_posts)
+            ->where('posts.unique_id', $request->post_unique_id)->first();
 
             if(!$post) {
                 throw new Exception(api_error(139), 139);   
