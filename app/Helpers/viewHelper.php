@@ -1045,7 +1045,7 @@ function generate_payment_id() {
 }
 
 /**
- * @method get_blocked_users()
+ * @method blocked_users()
  *
  * @uses used to get the blocked users 
  * 
@@ -1059,6 +1059,23 @@ function blocked_users($user_id){
     $block_user_ids = \App\BlockUser::where('block_by',$user_id)->pluck('blocked_to')->toArray() ?? [];
 
     return $block_user_ids;
+}
+
+/**
+ * @method blocked_user_status()
+ *
+ * @uses used to get the blocked users 
+ * 
+ * @created Ganesh
+ *
+ * @updated Ganesh
+ * 
+ */
+function blocked_user_status($loggedin_user_id, $user_id){
+
+    $block_user = \App\BlockUser::where('block_by', $loggedin_user_id)->where('blocked_to', $user_id)->count() ?? 0;
+
+    return $block_user;
 }
 
 

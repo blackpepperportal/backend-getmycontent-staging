@@ -1643,7 +1643,7 @@ class UserAccountApiController extends Controller
      *
      * @updated Bhawya N
      *
-     * @param object $request - User Id
+     * @param object $request - User ID
      *
      * @return json response with user details
      */
@@ -1672,6 +1672,8 @@ class UserAccountApiController extends Controller
             $data['is_favuser'] = \App\FavUser::where('user_id', $request->id)->where('fav_user_id', $user->id)->count() ? YES : NO;
 
             $data['share_link'] = Setting::get('frontend_url').'model-profile/'.$request->user_unique_id;
+
+            $data['is_block_user'] = Helper::is_block_user($request->id, $user->user_id);
 
             $data['total_followers'] = \App\Follower::where('user_id', $request->user_id)->count();
 
@@ -1718,7 +1720,9 @@ class UserAccountApiController extends Controller
                 throw new Exception(api_error(135), 135);
             }
 
-            $base_query = $total_query = \App\Post::with('postFiles')->where('user_id', $user->id);
+            $report_post_ids = report_posts($request->id);
+
+            $base_query = $total_query = \App\Post::with('postFiles')->whereNotIn('posts.id',$report_post_ids)->where('user_id', $user->id);
 
             if($request->type != POSTS_ALL) {
 
