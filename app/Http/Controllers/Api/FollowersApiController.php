@@ -303,7 +303,7 @@ class FollowersApiController extends Controller
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
-            $followers = \App\Repositories\PostRepository::followers_list_response($followers, $request);
+            $followers = \App\Repositories\CommonRepository::followers_list_response($followers, $request);
 
             $data['followers'] = $followers;
 
@@ -344,7 +344,7 @@ class FollowersApiController extends Controller
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
-            $followers = \App\Repositories\PostRepository::followers_list_response($followers, $request);
+            $followers = \App\Repositories\CommonRepository::followers_list_response($followers, $request);
 
             $data['followers'] = $followers;
 
@@ -479,7 +479,7 @@ class FollowersApiController extends Controller
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
-            $followers = \App\Repositories\PostRepository::followers_list_response($followers, $request);
+            $followers = \App\Repositories\CommonRepository::followers_list_response($followers, $request);
 
             $data['followers'] = $followers;
 
@@ -520,7 +520,7 @@ class FollowersApiController extends Controller
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
-            $followers = \App\Repositories\PostRepository::followers_list_response($followers, $request);
+            $followers = \App\Repositories\CommonRepository::followers_list_response($followers, $request);
 
             $data['followers'] = $followers;
 
@@ -560,7 +560,7 @@ class FollowersApiController extends Controller
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
-            $followers = \App\Repositories\PostRepository::followers_list_response($followers, $request);
+            $followers = \App\Repositories\CommonRepository::followers_list_response($followers, $request);
 
             $data['followers'] = $followers;
 
@@ -600,7 +600,7 @@ class FollowersApiController extends Controller
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
-            $followers = \App\Repositories\PostRepository::followers_list_response($followers, $request);
+            $followers = \App\Repositories\CommonRepository::followers_list_response($followers, $request);
 
             $data['followers'] = $followers;
 
