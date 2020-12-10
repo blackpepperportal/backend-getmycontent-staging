@@ -2349,6 +2349,21 @@ class UserAccountApiController extends Controller
 
                 $code = 155;
 
+                // Check the user already following the selected users
+
+                $follower = Follower::where('user_id', $request->user_id)->where('follower_id', $request->id)->where('status', YES)->delete();
+
+                $user_subscription_payment = \App\UserSubscriptionPayment::where('to_user_id', $request->user_id)->where('from_user_id', $request->id)->where('is_current_subscription', YES)->first();
+
+                if($user_subscription_payment) {
+
+                    $user_subscription_payment->is_current_subscription = NO;
+
+                    $user_subscription_payment->cancel_reason = 'unfollowed';
+
+                    $user_subscription_payment->save();
+                }
+
             }
 
             DB::commit(); 
