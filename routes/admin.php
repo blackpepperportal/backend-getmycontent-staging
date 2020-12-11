@@ -389,5 +389,12 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('blocked_list', 'Admin\AdminUserController@blocked_list')->name('blocked_list.index');
 
+
+        Route::get('report_posts', 'Admin\AdminPostController@report_posts_index')->name('report_posts.index');
+
+        Route::get('report_posts/view', 'Admin\AdminPostController@report_posts_view')->name('report_posts.view');
+
+        Route::get('report_posts/delete', 'Admin\AdminPostController@report_posts_delete')->name('report_posts.delete');
+
      });
 });

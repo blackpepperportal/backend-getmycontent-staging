@@ -89,6 +89,15 @@
                             {{tr('view_posts')}}
                         </a>
                     </li>
+
+                    <li id="report-posts">
+                        <a class="menu-item" href="{{route('admin.report_posts.index')}}">
+                            {{tr('report_posts')}}
+                        </a>
+                    </li>
+
+
+
                 </ul>            
             
             </li>

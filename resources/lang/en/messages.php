@@ -1062,7 +1062,15 @@ return [
 	"blocked_user"=>"Blocked User",
 	"reason"=>"Reason",
 	"block_user_not_found"=>"Block User Not Found",
-	"block_user_deleted_success"=>"Blocked user removed successfully"
+	"block_user_deleted_success"=>"Blocked user removed successfully",
 
+
+	"report_posts"=>"Report Posts",
+	"report_user_count"=>"Report user Count",
+	"view_report_posts"=>"View Report Posts",
+	"report_user"=>"Report User",
+	"report_post_not_found"=>"Report Post Not Found",
+	"report_post_delete_success"=>"Report Post Deleted Successfully",
+	"report_post_delete_failed"=>"Report Post Delete Failed!!"
 
 ]?>
