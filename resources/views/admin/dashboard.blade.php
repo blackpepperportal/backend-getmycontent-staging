@@ -375,15 +375,16 @@
         var e = [<?php foreach ($data->analytics->last_x_days_revenues as $key => $value) {
                         echo '"' . $value->formatted_month . '"' . ',';
                     }
-                    ?>];
+                    ?>
+                    ];
 
         Morris.Area({
 
             element: "products-sales",
             data: <?php print_r(json_encode($data->posts_data)); ?>,
             xkey: "month",
-            ykeys: ["no_of_posts"],
-            labels: ["No of Posts"],
+            ykeys: ["no_of_posts","blocked_users","report_posts"],
+            labels: ["No of Posts","Blocked Users","Reported Posts"],
             behaveLikeLine: !0,
             ymax: 300,
             resize: !0,

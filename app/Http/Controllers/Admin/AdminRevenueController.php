@@ -64,7 +64,7 @@ class AdminRevenueController extends Controller
         $data->analytics = last_x_months_data(12);
 
         $data->posts_data = last_x_months_posts(12) ?? [];
-
+       
         $data->blocked_users = \App\BlockUser::count();
 
 

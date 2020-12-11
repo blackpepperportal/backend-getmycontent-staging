@@ -355,15 +355,15 @@
 
     });
 
-
-    $('.non_zero').bind('keypress', function (event) {
-    var regex = new RegExp("^[1-9\b]+$");
-    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-    if (!regex.test(key)) {
-    event.preventDefault();
-    return false;
-    }
-    });
+  // to accept trailing zeroes
+    $(document).ready(function(){
+        $('.non_zero').on('input change', function (e) {
+            var reg = /^0+/gi;
+            if (this.value.match(reg)) {
+                this.value = this.value.replace(reg, '');
+            }
+        });
+     });
 
     $(document).ready(function (e) {
 
