@@ -199,3 +199,8 @@ img {
  .flex{
    display:flex !important;
  }
+
+ .card-css{
+  width: 240px !important;
+  height: 95px !important;
+ }

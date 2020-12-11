@@ -65,6 +65,9 @@ class AdminRevenueController extends Controller
 
         $data->posts_data = last_x_months_posts(12) ?? [];
 
+        $data->blocked_users = \App\BlockUser::count();
+
+
         return view('admin.dashboard')
                     ->with('page' , 'dashboard')
                     ->with('data', $data);
