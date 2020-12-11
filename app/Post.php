@@ -103,6 +103,11 @@ class Post extends Model
 	   return $this->hasMany(PostPayment::class, 'post_id');
 	}
 
+	public function reportPosts() {
+
+		return $this->hasMany(ReportPost::class, 'post_id');
+	 }
+
 	/**
      * Scope a query to only include active users.
      *
@@ -155,7 +160,9 @@ class Post extends Model
 
             $model->postBookmarks()->delete();
 
-            $model->postFiles()->delete();
+			$model->postFiles()->delete();
+			
+			$model->reportPosts()->delete();
             
         });
 

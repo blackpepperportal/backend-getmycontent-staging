@@ -1071,6 +1071,13 @@ return [
 	"report_user"=>"Report User",
 	"report_post_not_found"=>"Report Post Not Found",
 	"report_post_delete_success"=>"Report Post Deleted Successfully",
-	"report_post_delete_failed"=>"Report Post Delete Failed!!"
+	"report_post_delete_failed"=>"Report Post Delete Failed!!",
+	"delete_report"=>"Delete Report",
+	"deleted"=>"Deleted",
+	"above_post_deleted_by_admin" => "Above Post Deleted by admin",
+	"post_delete_email" => "Post Delete Email",
+	"delete_post"=>"Delete Post"
+
+
 
 ]?>

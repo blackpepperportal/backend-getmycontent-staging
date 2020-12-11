@@ -1254,7 +1254,7 @@ class AdminUserController extends Controller
         
         $title = tr('blocked_users');
 
-        return view('admin.users.blocked_list')
+        return view('admin.users.blocked_users.blocked_users')
                     ->with('page','users')
                     ->with('sub_page', 'users-blocked')
                     ->with('title', $title)

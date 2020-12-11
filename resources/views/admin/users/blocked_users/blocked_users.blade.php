@@ -31,8 +31,8 @@
 
                     </h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i>
-                
-                   </a>
+
+                    </a>
 
                     <div class="heading-elements">
 

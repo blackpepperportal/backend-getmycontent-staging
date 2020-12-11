@@ -34,14 +34,17 @@
 
                         {{ tr('view_report_posts') }} -
 
-                        <a href="{{route('admin.posts.view',['post_id'=>$post->id])}}">{{$post->post_unique_id}}</a>
+                        <a href="{{route('admin.posts.view',['post_id'=>$post->id ?? ''])}}">{{$post->post_unique_id ?? ''}}</a>
 
                     </h4>
 
                     <div class="heading-elements">
 
-
+                        <a onclick="return confirm(&quot;{{ tr('post_delete_confirmation' , $post->post_unique_id ?? '') }}&quot;);" href="{{ route('admin.posts.delete', ['post_id' => $post->id,'page'=>request()->input('page')] ) }}" class="btn btn-primary"><i class="ft-trash icon-left"></i>{{tr('delete_post')}}</a>
+                   
                     </div>
+
+
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
                 </div>
@@ -73,7 +76,7 @@
                                     <td>
 
                                         <a href="{{route('admin.posts.view',['post_id'=>$report_post->post->id ?? ''])}}">
-                                            {{$report_post->post->post_unique_id }}
+                                            {{$report_post->post->post_unique_id ?? '' }}
                                         </a>
 
                                     </td>
@@ -89,7 +92,7 @@
 
                                     <td>
 
-                                        <a class="btn btn-outline-warning btn-large" onclick="return confirm(&quot; {{ tr('delete_confirmation') }}&quot;);" href="{{route('admin.report_posts.delete',['report_post_id'=>$report_post->id])}}">&nbsp;{{ tr('delete') }}</a>
+                                        <a class="btn btn-outline-warning btn-large" onclick="return confirm(&quot; {{ tr('delete_confirmation') }}&quot;);" href="{{route('admin.report_posts.delete',['report_post_id'=>$report_post->id])}}">&nbsp;{{ tr('delete_report') }}</a>
 
                                     </td>
 

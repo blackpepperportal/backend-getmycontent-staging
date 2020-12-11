@@ -70,7 +70,7 @@
                                     <td>
 
                                         <a href="{{route('admin.posts.view',['post_id'=>$post->post->id ?? ''])}}">
-                                            {{$post->post->post_unique_id }}
+                                            {{$post->post->post_unique_id ?? '' }}
                                         </a>
 
                                     </td>

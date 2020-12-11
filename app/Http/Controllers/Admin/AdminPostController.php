@@ -356,6 +356,20 @@ class AdminPostController extends Controller
 
                 DB::commit();
 
+                $email_data['subject'] = tr('post_delete_email' , Setting::get('site_name'));
+
+                $email_data['status'] = tr('deleted');
+
+                $email_data['email']  = $post->user->email ?? "-";
+
+                $email_data['name']  = $post->user->name ?? "-";
+
+                $email_data['post_unique_id']  = $post->unique_id;
+
+                $email_data['page'] = "emails.posts.status";
+
+                $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+
                 return redirect()->route('admin.posts.index',['page'=>$request->page])->with('flash_success', tr('post_deleted_success'));   
 
             } 
@@ -1543,7 +1557,7 @@ class AdminPostController extends Controller
     public function report_posts_index(Request $request) {
 
         $base_query = \App\ReportPost::select('report_posts.*', DB::raw('count(`post_id`) as report_user_count'))
-                      ->groupBy('post_id')->orderBy('created_at','DESC');
+                      ->has('post')->groupBy('post_id')->orderBy('created_at','DESC');
 
         $report_posts = $base_query->paginate($this->take);
 
