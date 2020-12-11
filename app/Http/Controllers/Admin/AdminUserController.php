@@ -1101,7 +1101,7 @@ class AdminUserController extends Controller
 
 
     /**
-     * @method users_index()
+     * @method block_users_index()
      *
      * @uses To list out users blocked
      *
@@ -1137,7 +1137,7 @@ class AdminUserController extends Controller
      *
      * @uses Display the blocked user details based on user_id
      *
-     * @created Akshata 
+     * @created Ganesh 
      *
      * @updated 
      *
@@ -1150,8 +1150,7 @@ class AdminUserController extends Controller
        
         try {
       
-            $block_user = \App\BlockUser::
-            where('block_by',$request->user_id)
+            $block_user = \App\BlockUser::where('block_by',$request->user_id)
             ->select('block_users.*', DB::raw('count(`block_by`) as blocked_count'))
             ->groupBy('block_by')->first();
            
@@ -1212,13 +1211,13 @@ class AdminUserController extends Controller
                 return redirect()->back()->with('flash_success', $message);
             }
             
-            throw new Exception(tr('user_status_change_failed'));
+            throw new Exception(tr('block_user_status_change_failed'));
 
         } catch(Exception $e) {
 
             DB::rollback();
 
-            return redirect()->route('admin.users.index')->with('flash_error', $e->getMessage());
+            return redirect()->route('admin.block_users.index')->with('flash_error', $e->getMessage());
 
         }
 
