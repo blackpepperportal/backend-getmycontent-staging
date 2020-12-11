@@ -1054,9 +1054,15 @@ return [
 	"blocked_users"=>"Blocked Users",
 	"blocked_count"=>"Blocked Count",
 	"decline_confirmation" => "Do you want to decline ?",
+	"delete_confirmation" => "Do you want to delete ?",
+
 	"block_user_approve_success"=>"Block User Approved Successfully",
 	"block_user_decline_success"=>"Block User Declined Successfully",
-	"view_block_user"=>"View Block User"
+	"view_block_user"=>"View Block User",
+	"blocked_user"=>"Blocked User",
+	"reason"=>"Reason",
+	"block_user_not_found"=>"Block User Not Found",
+	"block_user_deleted_success"=>"Blocked user removed successfully"
 
 
 ]?>

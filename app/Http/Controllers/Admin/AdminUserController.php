@@ -1223,4 +1223,99 @@ class AdminUserController extends Controller
 
     }
 
+
+     /**
+     * @method blocked_list()
+     *
+     * @uses To list out users blocked based on user_id
+     *
+     * @created Ganesh
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function blocked_list(Request $request) {
+
+    try {
+
+        if(!$request->user_id) {
+
+            throw new Exception(tr('user_not_found'), 101);
+            
+        }
+        
+        $user = \App\User::find($request->user_id);
+
+        $blocked_users = \App\BlockUser::where('block_by',$request->user_id)->orderBy('created_at','desc')->paginate($this->take);
+        
+        $title = tr('blocked_users');
+
+        return view('admin.users.blocked_list')
+                    ->with('page','users')
+                    ->with('sub_page', 'users-blocked')
+                    ->with('title', $title)
+                    ->with('user', $user)
+                    ->with('blocked_users', $blocked_users);
+
+
+        } catch(Exception $e) {
+
+            return redirect()->route('admin.block_users.index')->with('flash_error', $e->getMessage());
+
+        }
+    
+    }
+
+
+    /**
+     * @method block_users_delete()
+     *
+     * @uses delete the block user details based on  id
+     *
+     * @created Ganesh 
+     *
+     * @updated  
+     *
+     * @param object $request - User Id
+     * 
+     * @return response of success/failure details with view page
+     *
+     */
+    public function block_users_delete(Request $request) {
+
+        try {
+
+            DB::begintransaction();
+
+            $block_user = \App\BlockUser::find($request->block_user_id);
+            
+            if(!$block_user) {
+
+                throw new Exception(tr('block_user_not_found'), 101);                
+            }
+
+            if($block_user->delete()) {
+
+                DB::commit();
+
+                return redirect()->route('admin.blocked_list.index',['user_id'=>$block_user->block_by,'page'=>$request->page])->with('flash_success',tr('block_user_deleted_success'));   
+
+            } 
+            
+            throw new Exception(tr('user_delete_failed'));
+            
+        } catch(Exception $e){
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }       
+         
+    }
+
 }

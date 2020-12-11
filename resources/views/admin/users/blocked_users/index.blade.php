@@ -68,7 +68,9 @@
                                     </td>
 
                                     <td>
-                                        {{$user->blocked_count ?? ''}}
+                                         <a href="{{route('admin.blocked_list.index' , ['user_id' => $user->block_by])}}" class="custom-a">
+                                          {{$user->blocked_count ?? ''}}
+                                         </a>
                                     </td>
 
                                     <td>
