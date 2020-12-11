@@ -1050,6 +1050,13 @@ return [
 	"subscription_invoice_message"=>"You Invoice for the Subscription Payments",
 	"user_subscription_message"=>"You had Subscribed :other_key of Subscription from the user",
 	"document_approved"=>"Document Approved",
-	"no_of_orders"=>"No of Orders"
+	"no_of_orders"=>"No of Orders",
+	"blocked_users"=>"Blocked Users",
+	"blocked_count"=>"Blocked Count",
+	"decline_confirmation" => "Do you want to decline ?",
+	"block_user_approve_success"=>"Block User Approved Successfully",
+	"block_user_decline_success"=>"Block User Declined Successfully",
+	"view_block_user"=>"View Block User"
+
 
 ]?>

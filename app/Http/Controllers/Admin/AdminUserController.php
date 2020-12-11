@@ -1098,4 +1098,130 @@ class AdminUserController extends Controller
        }
     }
 
+
+
+    /**
+     * @method users_index()
+     *
+     * @uses To list out users blocked
+     *
+     * @created Ganesh
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function block_users_index(Request $request) {
+
+        $base_query = \App\BlockUser::select('block_users.*', DB::raw('count(`block_by`) as blocked_count'))
+                      ->groupBy('block_by')->orderBy('created_at','desc');
+
+        $block_users = $base_query->paginate($this->take);
+       
+        $title = tr('blocked_users');
+
+        return view('admin.users.blocked_users.index')
+                    ->with('page','users')
+                    ->with('sub_page', 'users-blocked')
+                    ->with('title', $title)
+                    ->with('block_users', $block_users);
+    
+    }
+
+
+    /**
+     * @method block_users_view()
+     *
+     * @uses Display the blocked user details based on user_id
+     *
+     * @created Akshata 
+     *
+     * @updated 
+     *
+     * @param object $request - User Id
+     * 
+     * @return View page
+     *
+     */
+    public function block_users_view(Request $request) {
+       
+        try {
+      
+            $block_user = \App\BlockUser::
+            where('block_by',$request->user_id)
+            ->select('block_users.*', DB::raw('count(`block_by`) as blocked_count'))
+            ->groupBy('block_by')->first();
+           
+            if(!$block_user) { 
+
+                throw new Exception(tr('block_user_not_found'), 101);                
+            }
+
+            return view('admin.users.blocked_users.view')
+                        ->with('page', 'users') 
+                        ->with('sub_page','users-blocked') 
+                        ->with('block_user' , $block_user);
+            
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+
+    /**
+     * @method block_users_status
+     *
+     * @uses To update user status as DECLINED/APPROVED based on users id
+     *
+     * @created Ganesh
+     *
+     * @updated 
+     *
+     * @param object $request - User Id
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function block_users_status(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $block_user = \App\BlockUser::find($request->block_user_id);
+
+            if(!$block_user) {
+
+                throw new Exception(tr('block_user_not_found'), 101);
+                
+            }
+
+            $block_user->status = $block_user->status ? DECLINED : APPROVED ;
+
+            if($block_user->save()) {
+
+                DB::commit();
+
+                $message = $block_user->status ? tr('block_user_approve_success') : tr('block_user_decline_success');
+
+                return redirect()->back()->with('flash_success', $message);
+            }
+            
+            throw new Exception(tr('user_status_change_failed'));
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->route('admin.users.index')->with('flash_error', $e->getMessage());
+
+        }
+
+    }
+
 }

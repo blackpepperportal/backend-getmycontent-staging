@@ -31,6 +31,12 @@
                             {{tr('view_users')}}
                         </a>
                     </li>
+
+                    <li id="users-blocked">
+                        <a class="menu-item" href="{{route('admin.block_users.index')}}">
+                            {{tr('blocked_users')}}
+                        </a>
+                    </li>
                 </ul>            
             
             </li>

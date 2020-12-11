@@ -19,7 +19,15 @@ class BlockUser extends Model
 		return $this->id;
 	}
 
+    public function user() {
 
+		return $this->belongsTo(User::class,'block_by');
+    }
+
+    public function blockeduser() {
+
+		return $this->belongsTo(User::class,'blocked_to');
+    }
 	/**
      * Scope a query to only include active users.
      *
