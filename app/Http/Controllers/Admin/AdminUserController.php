@@ -550,7 +550,6 @@ class AdminUserController extends Controller
 
                 DB::commit();
 
-                $user->reportPosts->delete();
 
                 return redirect()->route('admin.users.index',['page'=>$request->page])->with('flash_success',tr('user_deleted_success'));   
 

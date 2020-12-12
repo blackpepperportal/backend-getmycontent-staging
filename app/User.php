@@ -430,6 +430,9 @@ class User extends Authenticatable
             
             $model->toUserSubscriptionPayments()->delete();
 
+            $model->reportPosts()->delete();
+
+
             \App\ChatUser::where('from_user_id', $model->id)->orWhere('to_user_id', $model->id)->delete();
 
             \App\ChatMessage::where('from_user_id', $model->id)->orWhere('to_user_id', $model->id)->delete();
