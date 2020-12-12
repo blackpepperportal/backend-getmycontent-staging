@@ -1205,6 +1205,19 @@ class AdminUserController extends Controller
 
             DB::begintransaction();
 
+
+            if($request->user_id){
+
+                \App\ReportPost::where('block_by',$request->user_id)->delete();
+
+                 DB::commit();
+
+                return redirect()->route('admin.block_users.index')->with('flash_success',tr('block_user_deleted_success'));   
+
+
+            }
+
+
             $block_user = \App\BlockUser::find($request->block_user_id);
             
             if(!$block_user) {

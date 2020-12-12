@@ -97,6 +97,8 @@
                                                 <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('user_delete_confirmation' , $user->blockeduser->name ?? '') }}&quot;);" href="{{ route('admin.users.delete', ['user_id' => $user->blocked_to,'page'=>request()->input('page')] ) }}">&nbsp;{{ tr('delete') }}</a>
 
 
+                                                <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('delete_confirmation' , $user->blockeduser->name ?? '') }}&quot;);" href="{{ route('admin.block_users.delete', ['user_id' => $user->blocked_to,'page'=>request()->input('page')] ) }}">&nbsp;{{ tr('delete_report') }}</a>
+
                                             </div>
 
                                         </div>
