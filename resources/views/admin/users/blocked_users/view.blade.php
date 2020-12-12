@@ -2,100 +2,135 @@
 
 @section('title', tr('users'))
 
-@section('content-header', tr('users'))
+@section('content-header', tr('blocked_users'))
 
 @section('breadcrumb')
 
 
-<li class="breadcrumb-item"><a href="{{route('admin.block_users.index')}}">{{tr('block_users')}}</a>
+<li class="breadcrumb-item active">
+    <a href="{{route('admin.users.index')}}">{{ tr('users') }}</a>
 </li>
-<li class="breadcrumb-item active">{{tr('view_block_user')}}</a>
-</li>
+
+<li class="breadcrumb-item">{{$title ?? tr('blocked_users')}}</li>
 
 @endsection
 
 @section('content')
 
-<div class="content-body">
+<section id="configuration">
+    <div class="row">
 
-    <div id="user-profile">
+        <div class="col-12">
 
-        <div class="row">
+            <div class="card">
 
-            <div class="col-xl-12 col-lg-12">
+                <div class="card-header border-bottom border-gray">
 
-                <div class="card">
+                    <h4 class="card-title">{{$title ?? tr('view_users')}} - {{$user->name ?? ''}}
 
-                    <div class="card-header border-bottom border-gray">
 
-                        <h4 class="card-title">{{tr('view_users')}}</h4>
+                    </h4>
+                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i>
+
+                    </a>
+
+                    <div class="heading-elements">
 
                     </div>
 
-                    <div class="card-content">
 
-                        <div class="col-12">
 
-                            <div class="card profile-with-cover">
+                </div>
 
-                                <div class="media profil-cover-details w-100">
+                <div class="card-content collapse show">
 
-                                    <div class="media-left pl-2 pt-2">
+                    <div class="card-body card-dashboard table-responsive">
 
-                                        <a class="profile-image">
-                                            <img src="{{ $block_user->user->picture ?? asset('placeholder.jpg')}}" alt="{{ $block_user->user->name ?? ''}}" class="img-thumbnail img-fluid img-border height-100" alt="Card image">
-                                        </a>
+                        <table class="table table-striped table-bordered sourced-data ">
 
-                                    </div>
+                            <thead>
+                                <tr>
+                                    <th>{{ tr('s_no') }}</th>
+                                    <th>{{ tr('username') }}</th>
+                                    <th>{{ tr('blocked_by') }}</th>
+                                    <th>{{ tr('reason') }}</th>
+                                    <th>{{ tr('status') }}</th>
+                                    <th>{{ tr('action') }}</th>
+                                </tr>
+                            </thead>
 
-                                    <div class="media-body pt-3 px-2">
+                            <tbody>
 
-                                        <div class="row">
+                                @foreach($blocked_users as $i => $user)
 
-                                            <div class="col">
-                                                <h3 class="card-title">{{ $block_user->user->name ?? ''}}</h3>
-                                                <span class="text-muted">{{ $block_user->user->email ?? ''}}</span>
+                                <tr>
+
+                                    <td>{{ $i+$blocked_users->firstItem() }}</td>
+
+                                    <td>
+                                        {{$user->blockeduser->name ?? ''}}
+
+                                    </td>
+
+                                    <td>
+                                        {{$user->user->name ?? ''}}
+                                    </td>
+
+                                    <td>
+                                        {{$user->reason ?:tr('not_available')}}
+                                    </td>
+
+                                    <td>
+                                        @if($user->status == USER_APPROVED)
+
+                                        <span class="btn btn-success btn-sm">{{ tr('approved') }}</span>
+
+                                        @else
+
+                                        <span class="btn btn-warning btn-sm">{{ tr('declined') }}</span>
+
+                                        @endif
+                                    </td>
+
+                                    <td>
+
+                                        <div class="btn-group" role="group">
+
+                                            <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ft-settings icon-left"></i> {{ tr('action') }}</button>
+
+                                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+
+                                                @if(Setting::get('is_demo_control_enabled') == YES)
+
+                                                <a class="dropdown-item" href="javascript:void(0)">&nbsp;{{ tr('delete') }}</a>
+
+                                                @else
+
+
+                                                <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('delete_confirmation') }}&quot;);" href="{{ route('admin.block_users.delete', ['block_user_id' => $user->id,'page'=>request()->input('page')] ) }}">&nbsp;{{ tr('delete_report') }}</a>
+
+                                                @endif
+
+
+
                                             </div>
 
                                         </div>
 
-                                    </div>
+                                    </td>
 
-                                </div>
-
-                                <nav class="navbar navbar-light navbar-profile align-self-end">
-
-                                </nav>
-                            </div>
-                        </div>
-
-                        <div class="table-responsive">
-
-                            <table class="table table-xl mb-0">
-                                <tr>
-                                    <th>{{tr('username')}}</th>
-                                    <td>{{$block_user->user->name ?? ''}}</td>
                                 </tr>
 
-                                <tr>
-                                    <th>{{tr('email')}}</th>
-                                    <td>{{$block_user->user->email ?? ''}}</td>
-                                </tr>
 
-                                <tr>
-                                    <th>{{tr('blocked_count')}}</th>
-                                    <td>{{$block_user->blocked_count ?? ''}}</td>
-                                </tr>
+                                @endforeach
 
-                               
-                              
-                            </table>
+                            </tbody>
 
-                        </div>
+                        </table>
+
+                        <div class="pull-right" id="paglink">{{ $blocked_users->appends(request()->input())->links() }}</div>
 
                     </div>
-
-                   
 
                 </div>
 
@@ -105,11 +140,6 @@
 
     </div>
 
-</div>
-
-
-@endsection
-
-@section('scripts')
+</section>
 
 @endsection

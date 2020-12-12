@@ -1076,7 +1076,8 @@ return [
 	"deleted"=>"Deleted",
 	"above_post_deleted_by_admin" => "Above Post Deleted by admin",
 	"post_delete_email" => "Post Delete Email",
-	"delete_post"=>"Delete Post"
+	"delete_post"=>"Delete Post",
+	"blocked_by"=>"Blocked by"
 
 
 

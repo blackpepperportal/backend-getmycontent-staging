@@ -31,7 +31,7 @@
 
                     <div class="heading-elements">
 
-                       @if($users->count() > 1)
+                       @if($users->count() >= 1)
                         <a class="btn btn-primary  dropdown-toggle  bulk-action-dropdown" href="#" id="dropdownMenuOutlineButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-plus"></i> {{tr('bulk_action')}}
                         </a>
@@ -90,7 +90,7 @@
 
                             <thead>
                                 <tr>
-                                    @if($users->count() > 1)
+                                    @if($users->count() >= 1)
                                     <th>
                                         <input id="check_all" type="checkbox" class="chk-box-left">
                                     </th>

@@ -262,6 +262,11 @@ class User extends Authenticatable
 
         return $this->hasMany(UserSubscriptionPayment::class,'to_user_id');
     }
+
+    public function reportPosts() {
+
+        return $this->hasMany(ReportPost::class,'block_by');
+    }
     
     /**
      * Scope a query to only include active users.

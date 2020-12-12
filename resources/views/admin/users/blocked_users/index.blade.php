@@ -61,14 +61,14 @@
                                     <td>{{ $i+$block_users->firstItem() }}</td>
 
                                     <td>
-                                        <a href="{{route('admin.block_users.view' , ['user_id' => $user->block_by])}}" class="custom-a">
-                                            {{$user->user->name ?? ''}}
+                                        <a href="{{route('admin.users.view' , ['user_id' => $user->blocked_to])}}" class="custom-a">
+                                            {{$user->blockeduser->name ?? ''}}
                                         </a>
 
                                     </td>
 
                                     <td>
-                                         <a href="{{route('admin.blocked_list.index' , ['user_id' => $user->block_by])}}" class="custom-a">
+                                         <a href="{{route('admin.block_users.view' , ['user_id' => $user->blocked_to])}}" class="custom-a">
                                           {{$user->blocked_count ?? ''}}
                                          </a>
                                     </td>
@@ -81,7 +81,21 @@
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                <a class="dropdown-item" href="{{ route('admin.block_users.view', ['user_id' => $user->block_by] ) }}">&nbsp;{{ tr('view') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.block_users.view', ['user_id' => $user->blocked_to] ) }}">&nbsp;{{ tr('view') }}</a>
+
+                                                @if($user->blockeduser->status == APPROVED)
+
+                                                <a class="dropdown-item" href="{{  route('admin.users.status' , ['user_id' => $user->blocked_to] )  }}" onclick="return confirm(&quot;{{ $user->blockeduser->name ?? '' }} - {{ tr('user_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
+                                                </a>
+
+                                                @else
+
+                                                <a class="dropdown-item" href="{{ route('admin.users.status' , ['user_id' => $user->blocked_to] ) }}">&nbsp;{{ tr('approve') }}</a>
+
+                                                @endif
+
+                                                <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('user_delete_confirmation' , $user->blockeduser->name ?? '') }}&quot;);" href="{{ route('admin.users.delete', ['user_id' => $user->blocked_to,'page'=>request()->input('page')] ) }}">&nbsp;{{ tr('delete') }}</a>
+
 
                                             </div>
 

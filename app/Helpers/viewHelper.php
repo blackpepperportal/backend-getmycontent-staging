@@ -1003,10 +1003,6 @@ function last_x_months_posts($months) {
 
         $last_x_months_posts_data->month = $formatted_month;
 
-        $last_x_months_posts_data->report_posts  = \App\ReportPost::whereYear('created_at',$date->format('Y'))->whereMonth('created_at', '=', $date->format('m'))->count();
-
-        $last_x_months_posts_data->blocked_users  = \App\BlockUser::whereYear('created_at',$date->format('Y'))->whereMonth('created_at', '=', $date->format('m'))->count();
-
         array_push($last_x_months_posts, $last_x_months_posts_data);
 
     }

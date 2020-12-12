@@ -16,7 +16,7 @@
 
         <div class="col-xl-2 col-lg-6 col-12">
 
-            <div class="card card-top ">
+            <div class="card card-top">
 
                 <div class="card-content card-css">
 
@@ -383,8 +383,8 @@
             element: "products-sales",
             data: <?php print_r(json_encode($data->posts_data)); ?>,
             xkey: "month",
-            ykeys: ["no_of_posts","blocked_users","report_posts"],
-            labels: ["No of Posts","Blocked Users","Reported Posts"],
+            ykeys: ["no_of_posts"],
+            labels: ["No of Posts"],
             behaveLikeLine: !0,
             ymax: 300,
             resize: !0,

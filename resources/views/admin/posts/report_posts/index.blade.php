@@ -91,8 +91,20 @@
 
                                                 <a class="dropdown-item" href="{{route('admin.report_posts.view',['post_id'=>$post->post_id])}}">&nbsp;{{ tr('view') }}</a>
 
+                                                @if($post->post->status == APPROVED)
 
-                                                
+                                                <a class="dropdown-item" href="{{  route('admin.posts.status' , ['post_id' => $post->post_id] )  }}" onclick="return confirm(&quot;{{ tr('post_decline_confirmation') }}&quot;);">&nbsp;{{ tr('decline') }}
+                                                </a>
+
+                                                @else
+
+                                                <a class="dropdown-item" href="{{ route('admin.posts.status' , ['post_id' => $post->post_id] ) }}">&nbsp;{{ tr('approve') }}</a>
+
+                                                @endif
+
+                                                <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('post_delete_confirmation' , $post->unique_id) }}&quot;);" href="{{ route('admin.posts.delete', ['post_id' => $post->post_id,'page'=>request()->input('page')] ) }}">&nbsp;{{ tr('delete') }}</a>
+
+
                                             </div>
                                         </div>
                                     </td>

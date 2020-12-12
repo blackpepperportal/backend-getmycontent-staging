@@ -550,6 +550,8 @@ class AdminUserController extends Controller
 
                 DB::commit();
 
+                $user->reportPosts->delete();
+
                 return redirect()->route('admin.users.index',['page'=>$request->page])->with('flash_success',tr('user_deleted_success'));   
 
             } 
@@ -1116,10 +1118,11 @@ class AdminUserController extends Controller
      */
     public function block_users_index(Request $request) {
 
-        $base_query = \App\BlockUser::select('block_users.*', DB::raw('count(`block_by`) as blocked_count'))
-                      ->groupBy('block_by')->orderBy('created_at','desc');
+        $base_query = \App\BlockUser::select('block_users.*', DB::raw('count(`blocked_to`) as blocked_count'))
+                      ->has('blockeduser')->groupBy('blocked_to')->orderBy('created_at','desc');
 
         $block_users = $base_query->paginate($this->take);
+
        
         $title = tr('blocked_users');
 
@@ -1149,126 +1152,37 @@ class AdminUserController extends Controller
     public function block_users_view(Request $request) {
        
         try {
-      
-            $block_user = \App\BlockUser::where('block_by',$request->user_id)
-            ->select('block_users.*', DB::raw('count(`block_by`) as blocked_count'))
-            ->groupBy('block_by')->first();
-           
-            if(!$block_user) { 
 
-                throw new Exception(tr('block_user_not_found'), 101);                
-            }
-
-            return view('admin.users.blocked_users.view')
-                        ->with('page', 'users') 
-                        ->with('sub_page','users-blocked') 
-                        ->with('block_user' , $block_user);
-            
-        } catch (Exception $e) {
-
-            return redirect()->back()->with('flash_error', $e->getMessage());
-        }
+            if(!$request->user_id) {
     
-    }
-
-
-    /**
-     * @method block_users_status
-     *
-     * @uses To update user status as DECLINED/APPROVED based on users id
-     *
-     * @created Ganesh
-     *
-     * @updated 
-     *
-     * @param object $request - User Id
-     * 
-     * @return response success/failure message
-     *
-     **/
-    public function block_users_status(Request $request) {
-
-        try {
-
-            DB::beginTransaction();
-
-            $block_user = \App\BlockUser::find($request->block_user_id);
-
-            if(!$block_user) {
-
-                throw new Exception(tr('block_user_not_found'), 101);
+                throw new Exception(tr('user_not_found'), 101);
                 
             }
+            
+            $user = \App\User::find($request->user_id);    
 
-            $block_user->status = $block_user->status ? DECLINED : APPROVED ;
-
-            if($block_user->save()) {
-
-                DB::commit();
-
-                $message = $block_user->status ? tr('block_user_approve_success') : tr('block_user_decline_success');
-
-                return redirect()->back()->with('flash_success', $message);
+            $blocked_users = \App\BlockUser::where('blocked_to',$request->user_id)->orderBy('created_at','desc')->paginate($this->take);
+            
+            $title = tr('blocked_users');
+    
+            return view('admin.users.blocked_users.view')
+                        ->with('page','users')
+                        ->with('sub_page', 'users-blocked')
+                        ->with('title', $title)
+                        ->with('user', $user)
+                        ->with('blocked_users', $blocked_users);
+    
+    
+            } catch(Exception $e) {
+    
+                return redirect()->route('admin.block_users.index')->with('flash_error', $e->getMessage());
+    
             }
-            
-            throw new Exception(tr('block_user_status_change_failed'));
-
-        } catch(Exception $e) {
-
-            DB::rollback();
-
-            return redirect()->route('admin.block_users.index')->with('flash_error', $e->getMessage());
-
-        }
-
-    }
-
-
-     /**
-     * @method blocked_list()
-     *
-     * @uses To list out users blocked based on user_id
-     *
-     * @created Ganesh
-     *
-     * @updated 
-     *
-     * @param 
-     * 
-     * @return return view page
-     *
-     */
-    public function blocked_list(Request $request) {
-
-    try {
-
-        if(!$request->user_id) {
-
-            throw new Exception(tr('user_not_found'), 101);
-            
-        }
-        
-        $user = \App\User::find($request->user_id);
-
-        $blocked_users = \App\BlockUser::where('block_by',$request->user_id)->orderBy('created_at','desc')->paginate($this->take);
-        
-        $title = tr('blocked_users');
-
-        return view('admin.users.blocked_users.blocked_users')
-                    ->with('page','users')
-                    ->with('sub_page', 'users-blocked')
-                    ->with('title', $title)
-                    ->with('user', $user)
-                    ->with('blocked_users', $blocked_users);
-
-
-        } catch(Exception $e) {
-
-            return redirect()->route('admin.block_users.index')->with('flash_error', $e->getMessage());
-
-        }
     
     }
+
+
+    
 
 
     /**
@@ -1302,7 +1216,7 @@ class AdminUserController extends Controller
 
                 DB::commit();
 
-                return redirect()->route('admin.blocked_list.index',['user_id'=>$block_user->block_by,'page'=>$request->page])->with('flash_success',tr('block_user_deleted_success'));   
+                return redirect()->route('admin.block_users.view',['user_id'=>$block_user->blocked_to,'page'=>$request->page])->with('flash_success',tr('block_user_deleted_success'));   
 
             } 
             

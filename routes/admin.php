@@ -383,11 +383,7 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('block_users/view', 'Admin\AdminUserController@block_users_view')->name('block_users.view');
 
-        Route::get('block_users/status', 'Admin\AdminUserController@block_users_status')->name('block_users.status');
-
         Route::get('block_users/delete', 'Admin\AdminUserController@block_users_delete')->name('block_users.delete');
-
-        Route::get('blocked_list', 'Admin\AdminUserController@blocked_list')->name('blocked_list.index');
 
 
         Route::get('report_posts', 'Admin\AdminPostController@report_posts_index')->name('report_posts.index');
