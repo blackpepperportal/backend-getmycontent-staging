@@ -262,6 +262,11 @@ class User extends Authenticatable
 
         return $this->hasMany(UserSubscriptionPayment::class,'to_user_id');
     }
+
+    public function reportPosts() {
+
+        return $this->hasMany(ReportPost::class,'block_by');
+    }
     
     /**
      * Scope a query to only include active users.
@@ -324,9 +329,14 @@ class User extends Authenticatable
 
         static::creating(function ($model) {
 
-            $model->attributes['name'] = $model->attributes['first_name']." ".$model->attributes['last_name'];
+            if($model->attributes['first_name'] && $model->attributes['last_name']) {
 
-            $model->attributes['unique_id'] = $model->attributes['username'] = routefreestring(strtolower($model->attributes['name']));
+                $model->attributes['name'] = $model->attributes['first_name']." ".$model->attributes['last_name'];
+            }
+
+            $model->attributes['name'] = "";
+
+            $model->attributes['unique_id'] = $model->attributes['username'] = routefreestring(strtolower($model->attributes['name'] ?: rand(1,10000).rand(1,10000)));
 
             $model->attributes['is_email_verified'] = USER_EMAIL_VERIFIED;
 
@@ -424,6 +434,9 @@ class User extends Authenticatable
             $model->fromUserSubscriptionPayments()->delete();
             
             $model->toUserSubscriptionPayments()->delete();
+
+            $model->reportPosts()->delete();
+
 
             \App\ChatUser::where('from_user_id', $model->id)->orWhere('to_user_id', $model->id)->delete();
 

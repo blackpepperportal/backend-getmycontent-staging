@@ -1007,6 +1007,7 @@ function last_x_months_posts($months) {
 
     }
     
+
     return $last_x_months_posts;   
 
 }

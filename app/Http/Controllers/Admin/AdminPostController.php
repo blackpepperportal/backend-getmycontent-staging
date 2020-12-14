@@ -356,6 +356,20 @@ class AdminPostController extends Controller
 
                 DB::commit();
 
+                $email_data['subject'] = tr('post_delete_email' , Setting::get('site_name'));
+
+                $email_data['status'] = tr('deleted');
+
+                $email_data['email']  = $post->user->email ?? "-";
+
+                $email_data['name']  = $post->user->name ?? "-";
+
+                $email_data['post_unique_id']  = $post->unique_id;
+
+                $email_data['page'] = "emails.posts.status";
+
+                $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+
                 return redirect()->route('admin.posts.index',['page'=>$request->page])->with('flash_success', tr('post_deleted_success'));   
 
             } 
@@ -1523,6 +1537,131 @@ class AdminPostController extends Controller
 
         }
 
+    }
+
+
+    /**
+     * @method report_posts_index()
+     *
+     * @uses To list out reported posts by the users
+     *
+     * @created Ganesh
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function report_posts_index(Request $request) {
+
+        $base_query = \App\ReportPost::select('report_posts.*', DB::raw('count(`post_id`) as report_user_count'))
+                      ->has('post')->groupBy('post_id')->orderBy('created_at','DESC');
+
+        $report_posts = $base_query->paginate($this->take);
+
+        $title = tr('report_posts');
+
+        return view('admin.posts.report_posts.index')
+                    ->with('page','posts')
+                    ->with('sub_page', 'report-posts')
+                    ->with('title', $title)
+                    ->with('report_posts', $report_posts);
+    
+    }
+
+
+    /**
+     * @method report_posts_view()
+     *
+     * @uses To list out report posts
+     *
+     * @created Ganesh
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function report_posts_view(Request $request) {
+
+     try {
+
+        if(!$request->post_id){
+
+            throw new Exception(tr('post_not_found'), 101);
+        }
+
+        $base_query = \App\ReportPost::where('post_id',$request->post_id)->orderBy('created_at','DESC');
+
+        $report_posts = $base_query->paginate($this->take);
+
+        $post = \App\Post::find($request->post_id);
+
+        $title = tr('view_report_posts');
+
+        return view('admin.posts.report_posts.view')
+                    ->with('page','posts')
+                    ->with('sub_page', 'report-posts')
+                    ->with('title', $title)
+                    ->with('post', $post)
+                    ->with('report_posts', $report_posts);
+
+        } catch (Exception $e) {
+
+            return redirect()->route('admin.report_posts.index')->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+    /**
+     * @method report_posts_delete
+     *
+     * @uses Delete the report user post
+     *
+     * @created Ganesh
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function report_posts_delete(Request $request) {
+
+        try {
+
+            DB::begintransaction();
+
+            $report_post = \App\ReportPost::find($request->report_post_id);
+
+            if(!$report_post) {
+
+                throw new Exception(tr('report_post_not_found'), 101);                
+            }
+
+
+            if($report_post->delete()) {
+
+                DB::commit();
+
+                return redirect()->back()->with('flash_success',tr('report_post_delete_success'));   
+
+            } 
+
+            throw new Exception(tr('report_post_delete_failed'));
+
+        } catch(Exception $e){
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }   
     }
 
 

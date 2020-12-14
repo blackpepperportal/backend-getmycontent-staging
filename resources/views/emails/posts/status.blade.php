@@ -147,6 +147,10 @@
 
                                                     {{tr('above_post_approved_by_admin')}}!!
 
+                                                @elseif($data['status'] ==  tr('deleted'))
+
+                                                {{tr('above_post_deleted_by_admin')}}!! 
+
                                                 @else
 
                                                     {{tr('above_post_declined_by_admin')}}!! 
