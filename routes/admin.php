@@ -377,7 +377,20 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('subscription_payments/send_invoice', 'Admin\AdminRevenueController@subscription_payments_send_invoice')->name('subscription_payments.send_invoice');
 
+       
+       
+        Route::get('block_users', 'Admin\AdminUserController@block_users_index')->name('block_users.index');
 
+        Route::get('block_users/view', 'Admin\AdminUserController@block_users_view')->name('block_users.view');
+
+        Route::get('block_users/delete', 'Admin\AdminUserController@block_users_delete')->name('block_users.delete');
+
+
+        Route::get('report_posts', 'Admin\AdminPostController@report_posts_index')->name('report_posts.index');
+
+        Route::get('report_posts/view', 'Admin\AdminPostController@report_posts_view')->name('report_posts.view');
+
+        Route::get('report_posts/delete', 'Admin\AdminPostController@report_posts_delete')->name('report_posts.delete');
 
      });
 });

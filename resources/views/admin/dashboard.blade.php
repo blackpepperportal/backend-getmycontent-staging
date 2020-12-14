@@ -14,11 +14,11 @@
 
     <div class="row">
 
-        <div class="col-xl-3 col-lg-6 col-12">
+        <div class="col-xl-2 col-lg-6 col-12">
 
             <div class="card card-top">
 
-                <div class="card-content">
+                <div class="card-content card-css">
 
                     <div class="media align-items-stretch">
 
@@ -43,9 +43,36 @@
 
         <div class="col-xl-3 col-lg-6 col-12">
 
-            <div class="card card-top">
+            <div class="card card-top card-css">
 
-                <div class="card-content">
+                <div class="card-content ">
+
+                    <div class="media align-items-stretch">
+
+                        <div class="p-1 text-center bg-pink bg-darken-4">
+                            <a href="{{route('admin.block_users.index')}}"><i class="icon-user font-large-2 white"></i></a>
+                        </div>
+
+                        <div class="p-1 media-body">
+                            <h5>{{tr('blocked_users')}}</h5>
+                            <h5 class="text-bold-400 mb-2">
+                                <a href="{{route('admin.block_users.index')}}">{{$data->blocked_users}}</a>
+                            </h5>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3 col-lg-6 col-12">
+
+            <div class="card card-top ">
+
+                <div class="card-content ">
 
                     <div class="media align-items-stretch">
 
@@ -70,7 +97,7 @@
 
         </div>
 
-        <div class="col-xl-3 col-lg-6 col-12">
+        <div class="col-xl-2 col-lg-6 col-12">
 
             <div class="card card-top">
 
@@ -99,7 +126,7 @@
 
         </div>
 
-        <div class="col-xl-3 col-lg-6 col-12">
+        <div class="col-xl-2 col-lg-6 col-12">
 
             <div class="card card-top">
 
@@ -201,41 +228,41 @@
 
                     @forelse($data->recent_users as $i => $user)
 
-                        <a href="{{ route('admin.users.view', ['user_id' => $user->id])}}" class="nav-link">
+                    <a href="{{ route('admin.users.view', ['user_id' => $user->id])}}" class="nav-link">
 
-                            <div class="wrapper d-flex align-items-center py-2 border-bottom">
+                        <div class="wrapper d-flex align-items-center py-2 border-bottom">
 
-                                <img class="img-sm rounded-circle" src="{{ $user->picture }}" alt="profile">
+                            <img class="img-sm rounded-circle" src="{{ $user->picture }}" alt="profile">
 
-                                <div class="wrapper ml-3">
-                                    <h6 class="ml-1 mb-1">
-                                        {{$user->name}}
-                                    </h6>
+                            <div class="wrapper ml-3">
+                                <h6 class="ml-1 mb-1">
+                                    {{$user->name}}
+                                </h6>
 
-                                    <small class="text-muted mb-0">
-                                        <i class="icon icon-envelope-open mr-1"></i>
-                                        {{ $user->email }}
+                                <small class="text-muted mb-0">
+                                    <i class="icon icon-envelope-open mr-1"></i>
+                                    {{ $user->email }}
 
-                                    </small>
-                                    <br>
+                                </small>
+                                <br>
 
-                                </div>
-
-                                <small class="text-muted ml-auto">{{$user->created_at->diffForHumans()}}</small>
                             </div>
-                        
-                        </a>
+
+                            <small class="text-muted ml-auto">{{$user->created_at->diffForHumans()}}</small>
+                        </div>
+
+                    </a>
 
                     @empty
 
-                        <div class="text-center m-5">
-                            <h2 class="text-muted">
-                                <i class="fa fa-inbox"></i>
-                            </h2>
-                            <p>{{tr('no_result_found')}}</p>
-                        </div>
+                    <div class="text-center m-5">
+                        <h2 class="text-muted">
+                            <i class="fa fa-inbox"></i>
+                        </h2>
+                        <p>{{tr('no_result_found')}}</p>
+                    </div>
 
-                        
+
                     @endforelse
 
                     @if($data->recent_users->count() > 10)
@@ -348,7 +375,8 @@
         var e = [<?php foreach ($data->analytics->last_x_days_revenues as $key => $value) {
                         echo '"' . $value->formatted_month . '"' . ',';
                     }
-                    ?>];
+                    ?>
+                    ];
 
         Morris.Area({
 

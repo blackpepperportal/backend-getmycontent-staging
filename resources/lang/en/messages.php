@@ -1050,6 +1050,35 @@ return [
 	"subscription_invoice_message"=>"You Invoice for the Subscription Payments",
 	"user_subscription_message"=>"You had Subscribed :other_key of Subscription from the user",
 	"document_approved"=>"Document Approved",
-	"no_of_orders"=>"No of Orders"
+	"no_of_orders"=>"No of Orders",
+	"blocked_users"=>"Blocked Users",
+	"blocked_count"=>"Blocked Count",
+	"decline_confirmation" => "Do you want to decline ?",
+	"delete_confirmation" => "Do you want to delete ?",
+
+	"block_user_approve_success"=>"Block User Approved Successfully",
+	"block_user_decline_success"=>"Block User Declined Successfully",
+	"view_block_user"=>"View Block User",
+	"blocked_user"=>"Blocked User",
+	"reason"=>"Reason",
+	"block_user_not_found"=>"Block User Not Found",
+	"block_user_deleted_success"=>"Blocked user removed successfully",
+
+
+	"report_posts"=>"Report Posts",
+	"report_user_count"=>"Report user Count",
+	"view_report_posts"=>"View Report Posts",
+	"report_user"=>"Report User",
+	"report_post_not_found"=>"Report Post Not Found",
+	"report_post_delete_success"=>"Report Post Deleted Successfully",
+	"report_post_delete_failed"=>"Report Post Delete Failed!!",
+	"delete_report"=>"Delete Report",
+	"deleted"=>"Deleted",
+	"above_post_deleted_by_admin" => "Above Post Deleted by admin",
+	"post_delete_email" => "Post Delete Email",
+	"delete_post"=>"Delete Post",
+	"blocked_by"=>"Blocked by"
+
+
 
 ]?>

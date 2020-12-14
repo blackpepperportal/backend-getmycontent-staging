@@ -550,6 +550,7 @@ class AdminUserController extends Controller
 
                 DB::commit();
 
+
                 return redirect()->route('admin.users.index',['page'=>$request->page])->with('flash_success',tr('user_deleted_success'));   
 
             } 
@@ -807,7 +808,9 @@ class AdminUserController extends Controller
             throw new Exception(tr('user_not_found'));
         }
 
-        $user_followers = \App\Follower::where('follower_id',$request->follower_id)->paginate($this->take);
+        $blocked_users = blocked_users($request->follower_id);
+
+        $user_followers = \App\Follower::whereNotIn('user_id',$blocked_users)->where('follower_id',$request->follower_id)->paginate($this->take);
 
         return view('admin.users.followers')
                 ->with('page', 'users')
@@ -847,7 +850,9 @@ class AdminUserController extends Controller
 
         }
 
-        $followings = \App\Follower::where('user_id', $request->user_id)->paginate($this->take);
+        $blocked_users = blocked_users($request->user_id);
+
+        $followings = \App\Follower::whereNotIn('follower_id',$blocked_users)->where('user_id', $request->user_id)->paginate($this->take);
 
         return view('admin.users.followings')
                 ->with('page','users')
@@ -1096,6 +1101,151 @@ class AdminUserController extends Controller
 
             return redirect()->back()->with('flash_error', $e->getMessage());
        }
+    }
+
+
+
+    /**
+     * @method block_users_index()
+     *
+     * @uses To list out users blocked
+     *
+     * @created Ganesh
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function block_users_index(Request $request) {
+
+        $base_query = \App\BlockUser::select('block_users.*', DB::raw('count(`blocked_to`) as blocked_count'))
+                      ->has('blockeduser')->groupBy('blocked_to')->orderBy('created_at','desc');
+
+        $block_users = $base_query->paginate($this->take);
+
+       
+        $title = tr('blocked_users');
+
+        return view('admin.users.blocked_users.index')
+                    ->with('page','users')
+                    ->with('sub_page', 'users-blocked')
+                    ->with('title', $title)
+                    ->with('block_users', $block_users);
+    
+    }
+
+
+    /**
+     * @method block_users_view()
+     *
+     * @uses Display the blocked user details based on user_id
+     *
+     * @created Ganesh 
+     *
+     * @updated 
+     *
+     * @param object $request - User Id
+     * 
+     * @return View page
+     *
+     */
+    public function block_users_view(Request $request) {
+       
+        try {
+
+            if(!$request->user_id) {
+    
+                throw new Exception(tr('user_not_found'), 101);
+                
+            }
+            
+            $user = \App\User::find($request->user_id);    
+
+            $blocked_users = \App\BlockUser::where('blocked_to',$request->user_id)->orderBy('created_at','desc')->paginate($this->take);
+            
+            $title = tr('blocked_users');
+    
+            return view('admin.users.blocked_users.view')
+                        ->with('page','users')
+                        ->with('sub_page', 'users-blocked')
+                        ->with('title', $title)
+                        ->with('user', $user)
+                        ->with('blocked_users', $blocked_users);
+    
+    
+            } catch(Exception $e) {
+    
+                return redirect()->route('admin.block_users.index')->with('flash_error', $e->getMessage());
+    
+            }
+    
+    }
+
+
+    
+
+
+    /**
+     * @method block_users_delete()
+     *
+     * @uses delete the block user details based on  id
+     *
+     * @created Ganesh 
+     *
+     * @updated  
+     *
+     * @param object $request - User Id
+     * 
+     * @return response of success/failure details with view page
+     *
+     */
+    public function block_users_delete(Request $request) {
+
+        try {
+
+            DB::begintransaction();
+
+
+            if($request->user_id){
+
+                \App\ReportPost::where('block_by',$request->user_id)->delete();
+
+                 DB::commit();
+
+                return redirect()->route('admin.block_users.index')->with('flash_success',tr('block_user_deleted_success'));   
+
+
+            }
+
+
+            $block_user = \App\BlockUser::find($request->block_user_id);
+            
+            if(!$block_user) {
+
+                throw new Exception(tr('block_user_not_found'), 101);                
+            }
+
+            if($block_user->delete()) {
+
+                DB::commit();
+
+                return redirect()->route('admin.block_users.view',['user_id'=>$block_user->blocked_to,'page'=>$request->page])->with('flash_success',tr('block_user_deleted_success'));   
+
+            } 
+            
+            throw new Exception(tr('user_delete_failed'));
+            
+        } catch(Exception $e){
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }       
+         
     }
 
 }

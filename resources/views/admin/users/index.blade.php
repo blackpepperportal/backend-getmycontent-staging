@@ -31,7 +31,7 @@
 
                     <div class="heading-elements">
 
-                       @if($users->count() > 1)
+                       @if($users->count() >= 1)
                         <a class="btn btn-primary  dropdown-toggle  bulk-action-dropdown" href="#" id="dropdownMenuOutlineButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-plus"></i> {{tr('bulk_action')}}
                         </a>
@@ -90,7 +90,7 @@
 
                             <thead>
                                 <tr>
-                                    @if($users->count() > 1)
+                                    @if($users->count() >= 1)
                                     <th>
                                         <input id="check_all" type="checkbox" class="chk-box-left">
                                     </th>
@@ -355,15 +355,15 @@
 
     });
 
-
-    $('.non_zero').bind('keypress', function (event) {
-    var regex = new RegExp("^[1-9\b]+$");
-    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-    if (!regex.test(key)) {
-    event.preventDefault();
-    return false;
-    }
-    });
+  // to accept trailing zeroes
+    $(document).ready(function(){
+        $('.non_zero').on('input change', function (e) {
+            var reg = /^0+/gi;
+            if (this.value.match(reg)) {
+                this.value = this.value.replace(reg, '');
+            }
+        });
+     });
 
     $(document).ready(function (e) {
 
