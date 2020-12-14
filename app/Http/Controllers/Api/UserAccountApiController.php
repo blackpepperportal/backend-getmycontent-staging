@@ -74,12 +74,12 @@ class UserAccountApiController extends Controller
                 // validate social registration fields
                 $rules = [
                     'social_unique_id' => 'required',
-                    'first_name' => 'required|max:255|min:2',
-                    'last_name' => 'required|max:255|min:1',
+                    'first_name' => 'nullable|max:255|min:2',
+                    'last_name' => 'nullable|max:255|min:1',
                     'email' => 'required|email|max:255',
-                    'mobile' => 'digits_between:6,13',
+                    'mobile' => 'nullable|digits_between:6,13',
                     'picture' => '',
-                    'gender' => 'in:male,female,others',
+                    'gender' => 'nullable|in:male,female,others',
                 ];
 
                 Helper::custom_validator($request->all(), $rules);
@@ -102,8 +102,7 @@ class UserAccountApiController extends Controller
                 Helper::custom_validator($request->all(), $rules);
 
             }
-             
-            
+
             $user = User::firstWhere('email' , $request->email);
 
             $send_email = NO;

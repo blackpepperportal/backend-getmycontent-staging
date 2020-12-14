@@ -44,7 +44,7 @@
                     <div class="card-body card-dashboard">
                         <form method="GET" action="{{route('admin.posts.comments')}}">
 
-                            <div class="row">
+                            <div class="row search-form-css">
 
                             
                             <input type="hidden" name="post_id" value="{{$post_id}}">
