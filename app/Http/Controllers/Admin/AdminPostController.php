@@ -1637,6 +1637,18 @@ class AdminPostController extends Controller
 
             DB::begintransaction();
 
+
+            if($request->post_id){
+
+                \App\ReportPost::where('post_id',$request->post_id)->delete();
+
+                 DB::commit();
+
+                return redirect()->route('admin.report_posts.index')->with('flash_success',tr('report_post_delete_success'));   
+
+            }
+
+
             $report_post = \App\ReportPost::find($request->report_post_id);
 
             if(!$report_post) {

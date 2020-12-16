@@ -1211,7 +1211,7 @@ class AdminUserController extends Controller
 
             if($request->user_id){
 
-                \App\ReportPost::where('block_by',$request->user_id)->delete();
+                \App\BlockUser::where('block_by',$request->user_id)->delete();
 
                  DB::commit();
 
