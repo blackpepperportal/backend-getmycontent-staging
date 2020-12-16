@@ -14,7 +14,7 @@
 
     <div class="row">
 
-        <div class="col-xl-2 col-lg-6 col-12">
+        <div class="col-xl-3 col-lg-6 col-12">
 
             <div class="card card-top">
 
@@ -30,33 +30,6 @@
                             <h5>{{tr('total_users')}}</h5>
                             <h5 class="text-bold-400 mb-2">
                                 <a href="{{route('admin.users.index')}}">{{$data->total_users}}</a>
-                            </h5>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-xl-3 col-lg-6 col-12">
-
-            <div class="card card-top card-css">
-
-                <div class="card-content ">
-
-                    <div class="media align-items-stretch">
-
-                        <div class="p-1 text-center bg-pink bg-darken-4">
-                            <a href="{{route('admin.block_users.index')}}"><i class="icon-user font-large-2 white"></i></a>
-                        </div>
-
-                        <div class="p-1 media-body">
-                            <h5>{{tr('blocked_users')}}</h5>
-                            <h5 class="text-bold-400 mb-2">
-                                <a href="{{route('admin.block_users.index')}}">{{$data->blocked_users}}</a>
                             </h5>
                         </div>
 
@@ -97,7 +70,7 @@
 
         </div>
 
-        <div class="col-xl-2 col-lg-6 col-12">
+        <div class="col-xl-3 col-lg-6 col-12">
 
             <div class="card card-top">
 
@@ -126,7 +99,7 @@
 
         </div>
 
-        <div class="col-xl-2 col-lg-6 col-12">
+        <div class="col-xl-3 col-lg-6 col-12">
 
             <div class="card card-top">
 
