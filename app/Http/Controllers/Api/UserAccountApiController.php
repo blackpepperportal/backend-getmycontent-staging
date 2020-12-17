@@ -1670,7 +1670,7 @@ class UserAccountApiController extends Controller
 
             $data['is_favuser'] = \App\FavUser::where('user_id', $request->id)->where('fav_user_id', $user->id)->count() ? YES : NO;
 
-            $data['share_link'] = Setting::get('frontend_url').'model-profile/'.$request->user_unique_id;
+            $data['share_link'] = Setting::get('frontend_url').'m-profile/'.$request->user_unique_id;
 
             $data['is_block_user'] = Helper::is_block_user($request->id, $user->user_id);
 
