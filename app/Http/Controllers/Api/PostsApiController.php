@@ -1956,15 +1956,10 @@ class PostsApiController extends Controller
                 
             }
 
-            $request->request->add(['payment_mode' => PAYPAL, 'from_user_id' => $request->id, 'to_user_id' => $request->user_id]);
 
-            $total = $user_pay_amount = $request->amount ?: 1;
+            $user_pay_amount = $request->amount ?: 1;
 
-            $request->request->add([
-                'total' => $total, 
-                'user_pay_amount' => $user_pay_amount,
-                'paid_amount' => $user_pay_amount,
-            ]);
+            $request->request->add(['payment_mode' => PAYPAL, 'from_user_id' => $request->id, 'to_user_id' => $request->user_id,'paid_amount'=>$user_pay_amount]);
 
             $payment_response = PaymentRepo::tips_payment_save($request)->getData();
 

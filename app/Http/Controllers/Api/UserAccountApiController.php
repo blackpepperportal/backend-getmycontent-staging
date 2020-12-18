@@ -2490,15 +2490,9 @@ class UserAccountApiController extends Controller
 
             $subscription_amount = $request->plan_type == PLAN_TYPE_YEAR ? $user_subscription->yearly_amount : $user_subscription->monthly_amount;
 
-            $request->request->add(['payment_mode' => PAYPAL]);
-
-            $total = $user_pay_amount = $subscription_amount ?: 0.00;
+            $user_pay_amount = $subscription_amount ?: 0.00;
               
-            $request->request->add([
-                'total' => $total, 
-                'user_pay_amount' => $user_pay_amount,
-                'paid_amount' => $user_pay_amount,
-            ]);
+            $request->request->add(['payment_mode' => PAYPAL,'paid_amount'=>$user_pay_amount]);
 
             $payment_response = PaymentRepo::user_subscription_payments_save($request, $user_subscription)->getData();
 
