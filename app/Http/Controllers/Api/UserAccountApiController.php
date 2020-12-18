@@ -2426,7 +2426,7 @@ class UserAccountApiController extends Controller
 
 
      /** 
-     * @method user_subscriptions_payment_by_stripe()
+     * @method user_subscriptions_payment_by_paypal()
      *
      * @uses pay for subscription using paypal
      *
