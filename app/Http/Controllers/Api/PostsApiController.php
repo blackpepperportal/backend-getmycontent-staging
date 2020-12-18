@@ -1992,4 +1992,85 @@ class PostsApiController extends Controller
     }
 
 
+    /** 
+     * @method posts_payment_by_paypal()
+     *
+     * @uses pay for subscription using paypal
+     *
+     * @created Ganesh
+     *
+     * @updated Ganesh
+     *
+     * @param
+     * 
+     * @return JSON response
+     *
+     */
+
+    public function posts_payment_by_paypal(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            // Validation start
+
+            $rules = [
+                'payment_id'=>'required',
+                'post_id' => 'required|exists:posts,id'
+            ];
+
+            $custom_errors = ['post_id' => api_error(139)];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors);
+            
+            // Validation end
+
+           // Check the subscription is available
+
+            $post = \App\Post::PaidApproved()->firstWhere('posts.id',  $request->post_id);
+
+            if(!$post) {
+
+                throw new Exception(api_error(146), 146);
+                
+            }
+
+            $check_post_payment = \App\PostPayment::UserPaid($request->id, $request->post_id)->first();
+
+            if($check_post_payment) {
+
+                throw new Exception(api_error(145), 145);
+                
+            }
+
+            $user_pay_amount = $post->amount ?: 0.00;
+
+            $request->request->add(['payment_mode'=> PAYPAL,'paid_amount' => $user_pay_amount, 'payment_id' => $request->payment_id]);
+
+            $payment_response = PaymentRepo::post_payments_save($request, $post)->getData();
+
+            if($payment_response->success) {
+                
+                DB::commit();
+
+                return $this->sendResponse(api_success(140), 140, $payment_response->data);
+
+            } else {
+
+                throw new Exception($payment_response->error, $payment_response->error_code);
+                
+            }
+        
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+
+    }
+
+
 }
