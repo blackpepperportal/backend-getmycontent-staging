@@ -10,7 +10,7 @@ class BellNotification extends Model
 
     protected $hidden = ['id', 'unique_id'];
 
-	protected $appends = ['bell_notification_id', 'bell_notification_unique_id', 'from_username', 'from_userpicture', 'from_displayname', 'to_username', 'to_userpicture', 'to_displayname'];
+	protected $appends = ['bell_notification_id', 'bell_notification_unique_id', 'from_username', 'from_userpicture', 'from_user_unique_id', 'from_displayname', 'to_username', 'to_userpicture', 'to_displayname'];
 	
 	public function getBellNotificationIdAttribute() {
 
@@ -20,6 +20,11 @@ class BellNotification extends Model
 	public function getBellNotificationUniqueIdAttribute() {
 
 		return $this->unique_id;
+	}
+
+	public function getFromUserUniqueIdAttribute() {
+
+		return $this->fromUser->user_unique_id ?? "";
 	}
 
 	public function getFromUsernameAttribute() {

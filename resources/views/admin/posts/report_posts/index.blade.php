@@ -104,6 +104,7 @@
 
                                                 <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('post_delete_confirmation' , $post->unique_id) }}&quot;);" href="{{ route('admin.posts.delete', ['post_id' => $post->post_id,'page'=>request()->input('page')] ) }}">&nbsp;{{ tr('delete') }}</a>
 
+                                                <a class="dropdown-item" onclick="return confirm(&quot; {{ tr('delete_confirmation') }}&quot;);" href="{{route('admin.report_posts.delete',['post_id'=>$post->post_id])}}">&nbsp;{{ tr('delete_report') }}</a>
 
                                             </div>
                                         </div>

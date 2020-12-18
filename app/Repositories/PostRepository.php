@@ -32,9 +32,9 @@ class PostRepository {
 
                         $post->delete_btn_status =  $request->id == $post->user_id ? YES : NO;
 
-                        $post->is_user_subscribed = NO;
+                        // $post->is_user_subscribed = NO;
 
-                        $post->is_ppv = NO;
+                        // $post->is_ppv = NO;
 
                         $post->is_user_liked = $post->postLikes->where('user_id', $request->id)->count() ? YES : NO;
 
@@ -84,15 +84,26 @@ class PostRepository {
         
         $post->is_user_needs_pay = $post->is_paid_post;
 
-        $post->is_user_subscribed = NO;
-
-        $post->is_ppv = NO;
-
+        $post->delete_btn_status =  $request->id == $post->user_id ? YES : NO;
+        
         $post->is_user_liked = $post->postLikes->where('user_id', $request->id)->count() ? YES : NO;
 
         $post->is_user_bookmarked = $post->postBookmarks->where('user_id', $request->id)->count() ? YES : NO;
 
-        $post->share_link = Setting::get('frontend_url')."/post/".$post->post_unique_id;
+        $post->share_link = Setting::get('frontend_url')."post/".$post->post_unique_id;
+
+        $post->payment_info = self::posts_user_payment_check($post, $request);
+
+        $is_user_needs_pay = $post->payment_info->is_user_needs_pay ?? NO; 
+
+        $post->postFiles = \App\PostFile::where('post_id', $post->post_id)->when($is_user_needs_pay == NO, function ($q) use ($is_user_needs_pay) {
+                                    return $q->OriginalResponse();
+                                })
+                                ->when($is_user_needs_pay == YES, function($q) use ($is_user_needs_pay) {
+                                    return $q->BlurResponse();
+                                })->get();
+
+        $post->publish_time_formatted = common_date($post->publish_time, $request->timezone, 'M d');
 
         $post->unsetRelation('postLikes')->unsetRelation('postBookmarks')->unsetRelation('user');
 

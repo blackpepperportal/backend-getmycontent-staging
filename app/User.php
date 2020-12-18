@@ -84,7 +84,7 @@ class User extends Authenticatable
 
     public function getShareLinkAttribute() {
 
-        $share_link = \Setting::get('frontend_url').'model-profile/'.$this->unique_id;
+        $share_link = \Setting::get('frontend_url').'m-profile/'.$this->unique_id;
         
         return $share_link;
 

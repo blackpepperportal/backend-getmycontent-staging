@@ -102,13 +102,13 @@
             
             </li>
 
-            <li class="nav-item" id="scheduled-posts">
+            <!-- <li class="nav-item" id="scheduled-posts">
                 <a href="{{route('admin.posts.index',['scheduled' => YES])}}">
                     <i class="fa fa-clock-o"></i>
                     <span class="menu-title" data-i18n="">{{tr('scheduled_posts')}}</span>
                 </a>
             
-            </li>
+            </li> -->
 
            <!--  <li class="nav-item" id="post_albums">
                 <a href="{{route('admin.post_albums.index')}}">
@@ -121,7 +121,8 @@
             <!-- posts_management end -->
 
             <!-- products_management start -->
-<!-- 
+        
+            <!-- 
             <li class="navigation-header">
                 <span>{{tr('products_management')}}</span>
             </li>

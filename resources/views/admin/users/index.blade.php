@@ -72,11 +72,7 @@
 
                         </div>
 
-
-
                     </div>
-
-
 
                 </div>
 
@@ -138,11 +134,11 @@
                                     <td>
                                         @if($user->status == USER_APPROVED)
 
-                                        <span class="btn btn-success btn-sm">{{ tr('approved') }}</span>
+                                            <span class="btn btn-success btn-sm">{{ tr('approved') }}</span>
 
                                         @else
 
-                                        <span class="btn btn-warning btn-sm">{{ tr('declined') }}</span>
+                                            <span class="btn btn-warning btn-sm">{{ tr('declined') }}</span>
 
                                         @endif
                                     </td>
@@ -162,10 +158,7 @@
                                     </td>
 
                                     <td>
-                                        <span class="text-primary">
-                                            <a class="btn btn-outline-blue" href="{{route('admin.user_documents.view', ['user_id' => $user->id])}}">{{$user->is_document_verified_formatted}}</a>
-
-                                        </span>
+                                        <a class="btn btn-blue btn-sm" href="{{route('admin.user_documents.view', ['user_id' => $user->id])}}">{{$user->is_document_verified_formatted}}</a>
                                     </td>
 
                                     <td>
@@ -211,12 +204,11 @@
 
                                                 <a class="dropdown-item" href="{{ route('admin.user_followers', ['follower_id' => $user->id]) }}">&nbsp;{{ tr('following') }}</a>
 
-                                                <a class="dropdown-item" href="{{ route('admin.orders.index', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('orders') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.orders.index', ['user_id' => $user->id] ) }}" style="display: none;">&nbsp;{{ tr('orders') }}</a>
 
                                                 <a class="dropdown-item" href="{{ route('admin.post.payments', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('post_payments') }}</a>
 
-                                                <a class="dropdown-item" href="{{ route('admin.delivery_address.index', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('delivery_address') }}</a>
-
+                                                <a class="dropdown-item" href="{{ route('admin.delivery_address.index', ['user_id' => $user->id] ) }}" style="display: none;">&nbsp;{{ tr('delivery_address') }}</a>
 
                                                 <a class="dropdown-item" href="{{ route('admin.bookmarks.index', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('bookmarks') }}</a>
 
@@ -226,7 +218,6 @@
                                                 <a class="dropdown-item" href="{{ route('admin.post_likes.index', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('liked_posts') }}</a>
 
                                                 <a class="dropdown-item" href="{{ route('admin.user_wallets.view', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('wallets') }}</a>
-
 
 
                                             </div>
