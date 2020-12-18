@@ -1897,7 +1897,7 @@ class PostsApiController extends Controller
 
 
     /** 
-     * @method tips_payment_by_stripe()
+     * @method tips_payment_by_paypal()
      *
      * @uses tip payment to user
      *
@@ -1948,28 +1948,23 @@ class PostsApiController extends Controller
                 
             }
 
+            $check_tip_payment = \App\UserTip::UserPaid($request->id, $request->user_id)->first();
+
+            if($check_tip_payment) {
+
+                throw new Exception(api_error(145), 145);
+                
+            }
+
             $request->request->add(['payment_mode' => PAYPAL, 'from_user_id' => $request->id, 'to_user_id' => $request->user_id]);
 
             $total = $user_pay_amount = $request->amount ?: 1;
 
-            if($user_pay_amount > 0) {
-
-                $user_card = \App\UserCard::where('user_id', $request->id)->firstWhere('is_default', YES);
-
-                if(!$user_card) {
-
-                    throw new Exception(api_error(120), 120); 
-
-                }
-                
-                $request->request->add([
-                    'total' => $total, 
-                    'user_pay_amount' => $user_pay_amount,
-                    'user_card_id' => $user_card->id,
-                    'paid_amount' => $user_pay_amount,
-                ]);
-
-            }
+            $request->request->add([
+                'total' => $total, 
+                'user_pay_amount' => $user_pay_amount,
+                'paid_amount' => $user_pay_amount,
+            ]);
 
             $payment_response = PaymentRepo::tips_payment_save($request)->getData();
 

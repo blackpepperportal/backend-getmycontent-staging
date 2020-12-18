@@ -2493,24 +2493,12 @@ class UserAccountApiController extends Controller
             $request->request->add(['payment_mode' => PAYPAL]);
 
             $total = $user_pay_amount = $subscription_amount ?: 0.00;
-
-            if($user_pay_amount > 0) {
-
-                $user_card = \App\UserCard::where('user_id', $request->id)->firstWhere('is_default', YES);
-
-                if(!$user_card) {
-
-                    throw new Exception(api_error(120), 120); 
-
-                }
-                
-                $request->request->add([
-                    'total' => $total, 
-                    'user_pay_amount' => $user_pay_amount,
-                    'paid_amount' => $user_pay_amount,
-                ]);
-
-            }
+              
+            $request->request->add([
+                'total' => $total, 
+                'user_pay_amount' => $user_pay_amount,
+                'paid_amount' => $user_pay_amount,
+            ]);
 
             $payment_response = PaymentRepo::user_subscription_payments_save($request, $user_subscription)->getData();
 
