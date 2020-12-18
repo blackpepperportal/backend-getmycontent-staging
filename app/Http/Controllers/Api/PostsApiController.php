@@ -1895,4 +1895,111 @@ class PostsApiController extends Controller
     }
 
 
+
+    /** 
+     * @method tips_payment_by_stripe()
+     *
+     * @uses send tips to the user
+     *
+     * @created Vithya R
+     *
+     * @updated Vithya R
+     *
+     * @param
+     * 
+     * @return JSON response
+     *
+     */
+
+    public function tips_payment_by_paypal(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            // Validation start
+
+            $rules = [
+                    'payment_id'=>'required',
+                    'post_id' => 'nullable|exists:posts,id',
+                    'user_id' => 'required|exists:users,id',
+                    'amount' => 'required|min:0'
+                ];
+
+            $custom_errors = ['post_id' => api_error(139), 'user_id' => api_error(135)];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors);
+            
+            // Validation end
+
+            if($request->id == $request->user_id) {
+
+                throw new Exception(api_error(154), 154);
+                
+            }
+
+            $post = \App\Post::PaidApproved()->firstWhere('posts.id',  $request->post_id);
+
+            $user = \App\User::Approved()->firstWhere('users.id',  $request->user_id);
+
+            if(!$user) {
+
+                throw new Exception(api_error(135), 135);
+                
+            }
+
+            $request->request->add(['payment_mode' => PAYPAL, 'from_user_id' => $request->id, 'to_user_id' => $request->user_id]);
+
+            $total = $user_pay_amount = $request->amount ?: 1;
+
+            if($user_pay_amount > 0) {
+
+                $user_card = \App\UserCard::where('user_id', $request->id)->firstWhere('is_default', YES);
+
+                if(!$user_card) {
+
+                    throw new Exception(api_error(120), 120); 
+
+                }
+                
+                $request->request->add([
+                    'total' => $total, 
+                    'user_pay_amount' => $user_pay_amount,
+                    'user_card_id' => $user_card->id,
+                    'paid_amount' => $user_pay_amount,
+                ]);
+
+            }
+
+            $payment_response = PaymentRepo::tips_payment_save($request)->getData();
+
+            if($payment_response->success) {
+                
+                DB::commit();
+                
+                $job_data['user_tips'] = $request->all();
+
+                $job_data['timezone'] = $this->timezone;
+    
+                $this->dispatch(new \App\Jobs\TipPaymentJob($job_data));
+
+                return $this->sendResponse(api_success(146), 146, $payment_response->data);
+
+            } else {
+              
+                throw new Exception($payment_response->error, $payment_response->error_code);
+                
+            }
+        
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+
+    }
+
+
 }
