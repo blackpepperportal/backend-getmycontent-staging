@@ -1899,11 +1899,11 @@ class PostsApiController extends Controller
     /** 
      * @method tips_payment_by_stripe()
      *
-     * @uses send tips to the user
+     * @uses tip payment to user
      *
-     * @created Vithya R
+     * @created Ganesh
      *
-     * @updated Vithya R
+     * @updated Ganesh
      *
      * @param
      * 
