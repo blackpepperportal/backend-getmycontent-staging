@@ -2430,9 +2430,9 @@ class UserAccountApiController extends Controller
      *
      * @uses pay for subscription using paypal
      *
-     * @created Vithya R
+     * @created Ganesh
      *
-     * @updated Vithya R
+     * @updated Ganesh
      *
      * @param
      * 
