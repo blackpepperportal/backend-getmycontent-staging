@@ -1077,7 +1077,8 @@ return [
 	"above_post_deleted_by_admin" => "Above Post Deleted by admin",
 	"post_delete_email" => "Post Delete Email",
 	"delete_post"=>"Delete Post",
-	"blocked_by"=>"Blocked by"
+	"blocked_by"=>"Blocked by",
+	"is_paypal_enabled" => 'Is Paypal Enabled',
 
 
 
