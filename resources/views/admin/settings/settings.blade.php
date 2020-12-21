@@ -299,6 +299,20 @@ hr {
                             </div>
                         </div>
 
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="page">
+                                    {{tr('is_paypal_enabled')}}
+                                    <span class="required" aria-required="true"> <span class="admin-required">*</span> </span>
+                                </label><br>
+
+                                <input type="radio" id="yes" name="is_paypal_enabled" value="{{YES}}" {{ Setting::get('is_paypal_enabled') == YES ? "checked" : "" }}   ><label for="{{YES}}"> {{tr('yes')}} </label>
+
+                                <input type="radio"  id="no" name="is_paypal_enabled" value="{{NO}}"  {{  Setting::get('is_paypal_enabled') == NO ? "checked" : "" }} ><label for="{{NO}}"> {{tr('no')}} </label>&nbsp;
+                              
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="row">
