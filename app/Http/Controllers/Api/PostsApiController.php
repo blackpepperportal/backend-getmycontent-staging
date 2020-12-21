@@ -1895,4 +1895,182 @@ class PostsApiController extends Controller
     }
 
 
+
+    /** 
+     * @method tips_payment_by_paypal()
+     *
+     * @uses tip payment to user
+     *
+     * @created Ganesh
+     *
+     * @updated Ganesh
+     *
+     * @param
+     * 
+     * @return JSON response
+     *
+     */
+
+    public function tips_payment_by_paypal(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            // Validation start
+
+            $rules = [
+                    'payment_id'=>'required',
+                    'post_id' => 'nullable|exists:posts,id',
+                    'user_id' => 'required|exists:users,id',
+                    'amount' => 'required|min:0'
+                ];
+
+            $custom_errors = ['post_id' => api_error(139), 'user_id' => api_error(135)];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors);
+            
+            // Validation end
+
+            if($request->id == $request->user_id) {
+
+                throw new Exception(api_error(154), 154);
+                
+            }
+
+            $post = \App\Post::PaidApproved()->firstWhere('posts.id',  $request->post_id);
+
+            $user = \App\User::Approved()->firstWhere('users.id',  $request->user_id);
+
+            if(!$user) {
+
+                throw new Exception(api_error(135), 135);
+                
+            }
+
+            $check_tip_payment = \App\UserTip::UserPaid($request->id, $request->user_id)->first();
+
+            if($check_tip_payment) {
+
+                throw new Exception(api_error(145), 145);
+                
+            }
+
+
+            $user_pay_amount = $request->amount ?: 1;
+
+            $request->request->add(['payment_mode' => PAYPAL, 'from_user_id' => $request->id, 'to_user_id' => $request->user_id,'paid_amount'=>$user_pay_amount]);
+
+            $payment_response = PaymentRepo::tips_payment_save($request)->getData();
+
+            if($payment_response->success) {
+                
+                DB::commit();
+                
+                $job_data['user_tips'] = $request->all();
+
+                $job_data['timezone'] = $this->timezone;
+    
+                $this->dispatch(new \App\Jobs\TipPaymentJob($job_data));
+
+                return $this->sendResponse(api_success(146), 146, $payment_response->data);
+
+            } else {
+              
+                throw new Exception($payment_response->error, $payment_response->error_code);
+                
+            }
+        
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+
+    }
+
+
+    /** 
+     * @method posts_payment_by_paypal()
+     *
+     * @uses pay for subscription using paypal
+     *
+     * @created Ganesh
+     *
+     * @updated Ganesh
+     *
+     * @param
+     * 
+     * @return JSON response
+     *
+     */
+
+    public function posts_payment_by_paypal(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            // Validation start
+
+            $rules = [
+                'payment_id'=>'required',
+                'post_id' => 'required|exists:posts,id'
+            ];
+
+            $custom_errors = ['post_id' => api_error(139)];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors);
+            
+            // Validation end
+
+           // Check the subscription is available
+
+            $post = \App\Post::PaidApproved()->firstWhere('posts.id',  $request->post_id);
+
+            if(!$post) {
+
+                throw new Exception(api_error(146), 146);
+                
+            }
+
+            $check_post_payment = \App\PostPayment::UserPaid($request->id, $request->post_id)->first();
+
+            if($check_post_payment) {
+
+                throw new Exception(api_error(145), 145);
+                
+            }
+
+            $user_pay_amount = $post->amount ?: 0.00;
+
+            $request->request->add(['payment_mode'=> PAYPAL,'paid_amount' => $user_pay_amount, 'payment_id' => $request->payment_id]);
+
+            $payment_response = PaymentRepo::post_payments_save($request, $post)->getData();
+
+            if($payment_response->success) {
+                
+                DB::commit();
+
+                return $this->sendResponse(api_success(140), 140, $payment_response->data);
+
+            } else {
+
+                throw new Exception($payment_response->error, $payment_response->error_code);
+                
+            }
+        
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+
+    }
+
+
 }

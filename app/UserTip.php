@@ -77,5 +77,19 @@ class UserTip extends Model
             $model->save();
         
         });
+	}
+	
+
+	 /**
+     * Scope a query to only include active users.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeUserPaid($query, $from_user_id, $to_user_id) {
+
+        $query->where('user_tips.user_id', $from_user_id)->where('user_tips.to_user_id', $to_user_id)->where('user_tips.status', PAID);
+
+        return $query;
+
     }
 }

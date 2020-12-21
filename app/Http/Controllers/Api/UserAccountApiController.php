@@ -2425,4 +2425,97 @@ class UserAccountApiController extends Controller
 
 
 
+     /** 
+     * @method user_subscriptions_payment_by_paypal()
+     *
+     * @uses pay for subscription using paypal
+     *
+     * @created Ganesh
+     *
+     * @updated Ganesh
+     *
+     * @param
+     * 
+     * @return JSON response
+     *
+     */
+
+    public function user_subscriptions_payment_by_paypal(Request $request) {
+
+        try {
+            
+            DB::beginTransaction();
+
+            $rules = [
+                'payment_id' => 'required',
+                'user_unique_id' => 'required|exists:users,unique_id',
+                'plan_type' => 'required',
+            ];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors = []);
+
+            $user = \App\User::where('users.unique_id', $request->user_unique_id)->first();
+            
+            if(!$user) {
+                throw new Exception(api_error(135), 135);
+            }
+
+            $user_subscription = $user->userSubscription;
+
+            if(!$user_subscription) {
+                
+                if($request->is_free == YES) {
+
+                    $user_subscription = new \App\UserSubscription;
+
+                    $user_subscription->user_id = $user->id;
+
+                    $user_subscription->save();
+                    
+                } else {
+
+                    throw new Exception(api_error(155), 155);   
+ 
+                }
+
+            }
+           
+            $check_user_payment = \App\UserSubscriptionPayment::UserPaid($request->id, $user->id)->first();
+
+            if($check_user_payment) {
+
+                throw new Exception(api_error(145), 145);
+                
+            }
+
+            $subscription_amount = $request->plan_type == PLAN_TYPE_YEAR ? $user_subscription->yearly_amount : $user_subscription->monthly_amount;
+
+            $user_pay_amount = $subscription_amount ?: 0.00;
+              
+            $request->request->add(['payment_mode' => PAYPAL,'paid_amount'=>$user_pay_amount]);
+
+            $payment_response = PaymentRepo::user_subscription_payments_save($request, $user_subscription)->getData();
+
+            if(!$payment_response->success) {
+                
+                throw new Exception($payment_response->error, $payment_response->error_code);
+                
+            }
+
+            DB::commit();
+
+            return $this->sendResponse(api_success(140), 140, $payment_response->data);
+        
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+
+    }
+
+
+
 }
