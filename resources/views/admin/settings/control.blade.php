@@ -203,6 +203,48 @@
                                                         </div>
                                                     
                                                     </div>
+
+                                                    <div class="row">
+
+                                                        <div class="col-md-12">
+
+                                                            <hr><h4>Push Notification Links</h4><hr>
+
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                                       
+                                                            <label>BN_USER_FOLLOWINGS</label>
+                                                            
+                                                            <input type="text" name="BN_USER_FOLLOWINGS" class="form-control" value="{{Setting::get('BN_USER_FOLLOWINGS')}}">
+                                                    
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                                       
+                                                            <label>{{ tr('BN_USER_COMMENT') }}</label>
+                                                            
+                                                            <input type="text" name="BN_USER_COMMENT" class="form-control" value="{{Setting::get('BN_USER_COMMENT')}}">
+                                                    
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                                       
+                                                            <label>{{ tr('BN_USER_LIKE') }}</label>
+                                                            
+                                                            <input type="text" name="BN_USER_LIKE" class="form-control" value="{{Setting::get('BN_USER_LIKE')}}">
+                                                    
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                                       
+                                                            <label>{{ tr('BN_USER_TIPS') }}</label>
+                                                            
+                                                            <input type="text" name="BN_USER_TIPS" class="form-control" value="{{Setting::get('BN_USER_TIPS')}}">
+                                                    
+                                                        </div>
+                                                    
+                                                    </div>
                                                 
                                                 </div>
 

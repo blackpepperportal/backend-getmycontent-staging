@@ -65,7 +65,7 @@ class PostCommentJob implements ShouldQueue
           
             $data['message'] = $message;
 
-            $data['action_url'] = Setting::get('BN_USER_COMMENT');
+            $data['action_url'] = Setting::get('BN_USER_COMMENT').$post_comment->post->post_unique_id;
 
             $data['image'] = $post_comment->user->picture ?? asset('placeholder.jpeg');
 
@@ -73,22 +73,22 @@ class PostCommentJob implements ShouldQueue
 
             dispatch(new BellNotificationJob($data));
 
-            $user_details = User::where('id', $post_comment->post->user_id)->first();
+            $user = User::where('id', $post_comment->post->user_id)->first();
 
-            if (Setting::get('is_push_notification') == YES && $user_details) {
+            if (Setting::get('is_push_notification') == YES && $user) {
 
-                if($user_details->is_push_notification == YES && ($user_details->device_token != '')) {
+                if($user->is_push_notification == YES && ($user->device_token != '')) {
 
                     $push_data = ['action_url'=>$data['action_url']];
 
-                    \Notification::send($user_details->id, new \App\Notifications\PushNotification($title , $content, $push_data, $user_details->device_token));
+                    \Notification::send($user->id, new \App\Notifications\PushNotification($title , $content, $push_data, $user->device_token));
 
 
                 }
             }        
             
             
-            if (Setting::get('is_email_notification') == YES && $user_details) {
+            if (Setting::get('is_email_notification') == YES && $user) {
                
                 $email_data['subject'] = tr('user_post_comment_message');
                
@@ -96,11 +96,11 @@ class PostCommentJob implements ShouldQueue
 
                 $email_data['page'] = "emails.posts.post_comment";
 
-                $email_data['email'] = $user_details->email;
+                $email_data['email'] = $user->email;
 
-                $email_data['name'] = $user_details->name;
+                $email_data['name'] = $user->name;
 
-                $email_data['data'] = $user_details;
+                $email_data['data'] = $user;
 
                 dispatch(new SendEmailJob($email_data));
 
