@@ -1503,9 +1503,11 @@ class UserAccountApiController extends Controller
                 'user_billing_account_id' => 'nullable|exists:user_billing_accounts,id',
                 'account_holder_name' => 'required',
                 'account_number' => 'required',
-                'ifsc_code' => 'required',
-                'swift_code' => 'required',
-                'nickname' => '',
+                'ifsc_code' => 'nullable',
+                'swift_code' => 'nullable',
+                'route_number' => 'nullable',
+                'iban_number' => 'nullable',
+                'nickname' => 'required',
             ];
 
             Helper::custom_validator($request->all(), $rules, $custom_errors = []);
