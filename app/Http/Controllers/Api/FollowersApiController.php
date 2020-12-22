@@ -449,7 +449,7 @@ class FollowersApiController extends Controller
                         $query->where('chat_messages.to_user_id', 'LIKE', '%'.$request->from_user_id.'%');
                     });
 
-            $chat_messages = $base_query->skip($this->skip)->take($this->take)->orderBy('chat_messages.updated_at', 'desc')->get();
+            $chat_messages = $base_query->skip($this->skip)->take($this->take)->orderBy('chat_messages.updated_at', 'asc')->get();
 
             foreach ($chat_messages as $key => $value) {
                 
