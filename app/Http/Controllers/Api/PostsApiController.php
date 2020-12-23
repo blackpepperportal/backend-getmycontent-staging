@@ -383,7 +383,7 @@ class PostsApiController extends Controller
         try {
             
             $rules = [
-                'file' => 'required|file|max:20000',
+                'file' => 'required|file',
                 'file_type' => 'required',
                 'post_id' => 'nullable|posts,id'
             ];
