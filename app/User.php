@@ -329,12 +329,12 @@ class User extends Authenticatable
 
         static::creating(function ($model) {
 
+            $model->attributes['name'] = "";
+
             if($model->attributes['first_name'] && $model->attributes['last_name']) {
 
                 $model->attributes['name'] = $model->attributes['first_name']." ".$model->attributes['last_name'];
             }
-
-            $model->attributes['name'] = "";
 
             $model->attributes['unique_id'] = $model->attributes['username'] = routefreestring(strtolower($model->attributes['name'] ?: rand(1,10000).rand(1,10000)));
 
