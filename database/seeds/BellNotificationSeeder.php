@@ -18,11 +18,11 @@ class BellNotificationSeeder extends Seeder
 		    ],
 		    [
 		        'key' => 'BN_USER_COMMENT',
-		        'value' => Setting::get('frontend_url', "")
+		        'value' => Setting::get('frontend_url', "")."post/"
 		    ],
 		    [
 		        'key' => 'BN_USER_LIKE',
-		        'value' => Setting::get('frontend_url', "")
+		        'value' => Setting::get('frontend_url', "")."post/"
 		    ],
 		    [
 		        'key' => 'BN_USER_TIPS',

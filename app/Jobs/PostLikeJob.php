@@ -8,17 +8,13 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-use App\Post;
+use App\Post, App\User;
 
 use Carbon\Carbon;
 
-use Log, Auth;
-
-use Setting, Exception;
+use Log, Auth, Setting, Exception;
 
 use App\Helpers\Helper;
-
-use App\User;
 
 class PostLikeJob implements ShouldQueue
 {
@@ -44,7 +40,6 @@ class PostLikeJob implements ShouldQueue
      */
     public function handle()
     {
-        //
         try {
 
             $post_like = $this->data['post_like'];
@@ -56,6 +51,8 @@ class PostLikeJob implements ShouldQueue
             $data['from_user_id'] = $post_like->user_id;
 
             $data['to_user_id'] = $post_like->post_user_id;
+
+            $data['post_id'] = $post_like->post_id;
           
             $data['message'] = $message;
 
@@ -64,6 +61,8 @@ class PostLikeJob implements ShouldQueue
             $data['image'] = $post_like->User->picture ?? asset('placeholder.jpeg');
 
             $data['subject'] = $content;
+
+            $data['type'] = BELL_NOTIFICATION_TYPE_LIKE;
 
             dispatch(new BellNotificationJob($data));
 
