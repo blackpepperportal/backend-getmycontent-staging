@@ -313,6 +313,37 @@ hr {
                             </div>
                         </div>
 
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="page">
+                                    {{tr('PAYPAL_MODE')}}
+                                    <span class="required" aria-required="true"> <span class="admin-required">*</span> </span>
+                                </label><br>
+
+                                <input type="radio" id="sandbox" name="PAYPAL_MODE" value="sandbox" {{Setting::get('PAYPAL_MODE') == SANDBOX ? "checked" : "" }}   ><label for="{{SANDBOX}}"> {{tr('sandbox')}} </label>
+
+                                <input type="radio"  id="production" name="PAYPAL_MODE" value="production"  {{  Setting::get('PAYPAL_MODE') == PRODUCTION ? "checked" : "" }} ><label for="{{NO}}"> {{tr('live')}} </label>&nbsp;
+                              
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                             <div class="form-group">
+
+                                <label for="PAYPAL_ID">{{tr('PAYPAL_ID')}} *</label>
+
+                                <input type="text" class="form-control" id="PAYPAL_ID" name="PAYPAL_ID" placeholder="Enter {{tr('PAYPAL_ID')}}" value="{{old('PAYPAL_ID') ?: Setting::get('PAYPAL_ID')}}">
+
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="PAYPAL_SECRET">{{tr('PAYPAL_SECRET')}} *</label>
+
+                                <input type="text" class="form-control" id="PAYPAL_SECRET" name="PAYPAL_SECRET" placeholder="Enter {{tr('PAYPAL_SECRET')}}" value="{{old('PAYPAL_SECRET') ?: Setting::get('PAYPAL_SECRET')}}">
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="row">
