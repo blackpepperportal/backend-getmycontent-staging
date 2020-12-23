@@ -56,7 +56,7 @@ class SendEmailJob implements ShouldQueue
             
             if(isset($this->email_data['is_invoice'])){
 
-             $mail_model = new InvoiceMail($this->email_data);
+                $mail_model = new InvoiceMail($this->email_data);
 
             }
             else{
@@ -65,40 +65,9 @@ class SendEmailJob implements ShouldQueue
 
             }
 
-            $isValid = 1;
+            \Mail::queue($mail_model);
 
-            Log::info("mailer - ".Setting::get('MAILGUN_DOMAIN'));
-
-
-            if(envfile('MAIL_MAILER') == 'mailgun' && Setting::get('MAILGUN_PUBLIC_KEY')!='') {
-
-
-                Log::info("isValid - START");
-
-                # Instantiate the client.
-
-                $email_address = Mailgun::create(Setting::get('MAILGUN_SECRET'));
-
-                $validateAddress = $this->email_data['email'];
-
-
-                # Issue the call to the client.
-
-                $result =  $email_address->domains()->verify($validateAddress);
-                // // # is_valid is 0 or 1
-
-                $isValid = $result->http_response_body->is_valid;
-
-                Log::info("isValid FINAL STATUS - ".$isValid);
-
-            }
-
-            if($isValid) {
-
-                \Mail::queue($mail_model);
-
-                Log::info("EmailJob Success");
-            }
+            Log::info("EmailJob Success");
 
         } catch(Exception $e) {
 
