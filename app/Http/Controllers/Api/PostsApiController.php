@@ -314,6 +314,8 @@ class PostsApiController extends Controller
 
                         $post_file = \App\PostFile::find($post_file_id);
 
+                        $post_file->preview_file = $request->hasFile('preview_file') ? Helper::storage_upload_file($request->file('preview_file'), POST_PATH) : "";
+
                         $post_file->post_id = $post->id;
 
                         // $old_path = get_post_temp_path($request->id, $file);
@@ -329,7 +331,6 @@ class PostsApiController extends Controller
                         // $post_file->file_type =  pathinfo($file,PATHINFO_EXTENSION);
 
                         // $post_file->blur_file = $post_file->file_type != "mp4" ? \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->id) : "";
-
 
                         $post_file->save();
 

@@ -84,7 +84,7 @@ class User extends Authenticatable
 
     public function getShareLinkAttribute() {
 
-        $share_link = \Setting::get('frontend_url').'m-profile/'.$this->unique_id;
+        $share_link = \Setting::get('frontend_url').$this->unique_id;
         
         return $share_link;
 
@@ -329,12 +329,12 @@ class User extends Authenticatable
 
         static::creating(function ($model) {
 
+            $model->attributes['name'] = "";
+
             if($model->attributes['first_name'] && $model->attributes['last_name']) {
 
                 $model->attributes['name'] = $model->attributes['first_name']." ".$model->attributes['last_name'];
             }
-
-            $model->attributes['name'] = "";
 
             $model->attributes['unique_id'] = $model->attributes['username'] = routefreestring(strtolower($model->attributes['name'] ?: rand(1,10000).rand(1,10000)));
 

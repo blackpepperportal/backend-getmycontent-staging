@@ -1672,7 +1672,7 @@ class UserAccountApiController extends Controller
 
             $data['is_favuser'] = \App\FavUser::where('user_id', $request->id)->where('fav_user_id', $user->id)->count() ? YES : NO;
 
-            $data['share_link'] = Setting::get('frontend_url').'m-profile/'.$request->user_unique_id;
+            $data['share_link'] = Setting::get('frontend_url').$request->user_unique_id;
 
             $data['is_block_user'] = Helper::is_block_user($request->id, $user->user_id);
 
@@ -1734,7 +1734,7 @@ class UserAccountApiController extends Controller
                     });
             }
 
-            $posts = $base_query->skip($this->skip)->take($this->take)->orderBy('created_at', 'desc')->get();
+            $posts = $base_query->skip($this->skip)->take($this->take)->orderBy('posts.created_at', 'desc')->get();
 
             $posts = \App\Repositories\PostRepository::posts_list_response($posts, $request);
 

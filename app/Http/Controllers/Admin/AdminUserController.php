@@ -49,8 +49,6 @@ class AdminUserController extends Controller
      */
     public function users_index(Request $request) {
 
-        dd(\App\BellNotification::count());
-
         $base_query = \App\User::orderBy('created_at','desc');
 
         if($request->search_key) {
