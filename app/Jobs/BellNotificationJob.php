@@ -54,13 +54,21 @@ class BellNotificationJob  implements ShouldQueue
     {
         try {
 
-            // Log::info('BellNotificationJob');
-
             $datas = $this->data;
 
-            // Log::info($datas);
-            
-            $bell_notification = new BellNotification;
+            $type = $datas['type'] ?? "";
+
+            if($type) {
+
+                $bell_notification = BellNotification::where('from_user_id', $datas['from_user_id'])
+                                        ->where('to_user_id', $datas['to_user_id'])
+                                        ->where('post_id', $datas['post_id'])->first() ?? new BellNotification;
+
+            } else {
+                
+                $bell_notification = new BellNotification;
+
+            }
 
             $bell_notification->from_user_id = $datas['from_user_id'];
 
@@ -73,6 +81,8 @@ class BellNotificationJob  implements ShouldQueue
             $bell_notification->message = $datas['message'];
 
             $bell_notification->action_url = $datas['action_url'];
+
+            $bell_notification->post_id = $datas['post_id'] ?? 0;
 
             $bell_notification->is_read = BELL_NOTIFICATION_STATUS_UNREAD;
 

@@ -20,11 +20,11 @@ class CreateUserBillingAccountsTable extends Migration
                 $table->string('unique_id')->unique();
                 $table->integer('user_id');
                 $table->string('nickname')->nullable();
-                $table->string('bank_name');
+                $table->string('bank_name')->default("");
                 $table->string('account_holder_name');
                 $table->string('account_number');
-                $table->string('ifsc_code');
-                $table->string('swift_code')->nullable();
+                $table->string('ifsc_code')->default("");
+                $table->string('swift_code')->default("");
                 $table->tinyInteger('is_default')->default(0);
                 $table->tinyInteger('status')->default(1);
                 $table->timestamps();

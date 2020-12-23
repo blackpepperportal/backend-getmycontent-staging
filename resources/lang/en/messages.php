@@ -1079,7 +1079,11 @@ return [
 	"delete_post"=>"Delete Post",
 	"blocked_by"=>"Blocked by",
 	"is_paypal_enabled" => 'Is Paypal Enabled',
-
-
-
-]?>
+	"iban_number" => "IBAN Number",
+	"route_number" => "Route Number",
+	"BN_USER_FOLLOWINGS" => "User Followings Link",
+	"BN_USER_COMMENT" => "User Comment Link",
+	"BN_USER_LIKE" => "User Like Link",
+	"BN_USER_TIPS" => "User Tips Link",
+]
+?>

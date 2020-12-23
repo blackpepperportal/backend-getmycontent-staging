@@ -8,17 +8,13 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-use App\Post;
+use App\Post, App\User;
 
 use Carbon\Carbon;
 
-use Log, Auth;
-
-use Setting, Exception;
+use Log, Auth, Setting, Exception;
 
 use App\Helpers\Helper;
-
-use App\User;
 
 class PostLikeJob implements ShouldQueue
 {
@@ -44,7 +40,6 @@ class PostLikeJob implements ShouldQueue
      */
     public function handle()
     {
-        //
         try {
 
             $post_like = $this->data['post_like'];
@@ -56,33 +51,37 @@ class PostLikeJob implements ShouldQueue
             $data['from_user_id'] = $post_like->user_id;
 
             $data['to_user_id'] = $post_like->post_user_id;
+
+            $data['post_id'] = $post_like->post_id;
           
             $data['message'] = $message;
 
-            $data['action_url'] = Setting::get('BN_USER_LIKE');
+            $data['action_url'] = Setting::get('BN_USER_LIKE').$post_like->post->post_unique_id;
 
             $data['image'] = $post_like->User->picture ?? asset('placeholder.jpeg');
 
             $data['subject'] = $content;
 
+            $data['type'] = BELL_NOTIFICATION_TYPE_LIKE;
+
             dispatch(new BellNotificationJob($data));
 
-            $user_details = User::where('id', $post_like->post_user_id)->first();
+            $user = User::where('id', $post_like->post_user_id)->first();
 
-            if (Setting::get('is_push_notification') == YES && $user_details) {
+            if (Setting::get('is_push_notification') == YES && $user) {
 
-                if($user_details->is_push_notification == YES && ($user_details->device_token != '')) {
+                if($user->is_push_notification == YES && ($user->device_token != '')) {
 
                     $push_data = ['action_url'=>$data['action_url']];
 
-                    \Notification::send($user_details->id, new \App\Notifications\PushNotification($title , $content, $push_data, $user_details->device_token));
+                    \Notification::send($user->id, new \App\Notifications\PushNotification($title , $content, $push_data, $user->device_token));
 
 
                 }
             }      
 
 
-            if (Setting::get('is_email_notification') == YES && $user_details) {
+            if (Setting::get('is_email_notification') == YES && $user) {
 
                
                 $email_data['subject'] = tr('user_post_like_message');
@@ -91,11 +90,11 @@ class PostLikeJob implements ShouldQueue
 
                 $email_data['page'] = "emails.posts.post_like";
 
-                $email_data['email'] = $user_details->email;
+                $email_data['email'] = $user->email;
 
-                $email_data['name'] = $user_details->name;
+                $email_data['name'] = $user->name;
 
-                $email_data['data'] = $user_details;
+                $email_data['data'] = $user;
 
                 Log::info("message_save".print_r($email_data['email'], true));
 
@@ -103,14 +102,6 @@ class PostLikeJob implements ShouldQueue
 
 
             }
-            
-            
-
-
-
-
-
-
 
         } catch(Exception $e) {
 
