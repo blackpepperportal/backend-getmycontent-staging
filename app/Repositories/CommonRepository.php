@@ -205,6 +205,8 @@ class CommonRepository {
 
         $user_subscription = \App\UserSubscription::where('user_id', $other_user->id)->first();
 
+        $data['subscription_info'] = [];
+
         if($user_subscription) {
 
             $data['subscription_info'] = $user_subscription;
