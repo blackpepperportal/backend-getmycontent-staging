@@ -250,3 +250,6 @@ if(!defined('BELL_NOTIFICATION_TYPE_DISLIKE')) define('BELL_NOTIFICATION_TYPE_DI
 if(!defined('BELL_NOTIFICATION_TYPE_POST_COMMENT')) define('BELL_NOTIFICATION_TYPE_POST_COMMENT', 'comment');
 if(!defined('BELL_NOTIFICATION_TYPE_SUBSCRIPTION')) define('BELL_NOTIFICATION_TYPE_SUBSCRIPTION', 'subscription');
 if(!defined('BELL_NOTIFICATION_TYPE_SEND_TIP')) define('BELL_NOTIFICATION_TYPE_SEND_TIP', 'tips');
+
+if(!defined('PRODUCTION')) define('PRODUCTION', 'production');
+if(!defined('SANDBOX')) define('SANDBOX', 'sandbox');
