@@ -697,17 +697,17 @@ class UserAccountApiController extends Controller
                 $user->email = $request->email;
             }
 
-            $user->about = $request->about ?: $user->about;
-
             $user->mobile = $request->mobile ?: $user->mobile;
 
-            $user->gender = $request->gender ?: $user->gender;
+            $user->about = $request->has('about') ? $request->about : "";
 
-            $user->address = $request->address ?: $user->address;
+            $user->gender = $request->has('gender') ? $request->gender : 'male';
 
-            $user->website = $request->website ?: $user->website;
+            $user->address = $request->has('address') ? $request->address : "";
 
-            $user->amazon_wishlist = $request->amazon_wishlist ?: $user->amazon_wishlist;
+            $user->website = $request->has('website') ? $request->website : "";
+
+            $user->amazon_wishlist = $request->has('amazon_wishlist') ? $request->amazon_wishlist : "";
 
             // Upload picture
             if($request->hasFile('picture') != "") {
