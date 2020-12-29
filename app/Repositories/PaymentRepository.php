@@ -901,6 +901,7 @@ class PaymentRepository {
                 'amount' => $total,
                 'currency' => $currency_code,
                 'customer' => $request->customer_id,
+                "source" => $request->card_token
             ];
 
 
