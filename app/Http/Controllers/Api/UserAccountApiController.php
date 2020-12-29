@@ -961,15 +961,19 @@ class UserAccountApiController extends Controller
             // Get the key from settings table
 
             $customer = \Stripe\Customer::create([
-                    "card" => $request->card_token,
+                    // "card" => $request->card_token,
                     // "card" => 'tok_visa',
                     "email" => $user->email,
                     "description" => "Customer for ".Setting::get('site_name'),
+                    'payment_method' => $request->card_token
                 ]);
 
-            $retrieve = \Stripe\Token::retrieve([
-                'id' => $request->card_token,
-            ]);
+            $stripe = new \Stripe\StripeClient(Setting::get('stripe_secret_key'));
+            
+            $retrieve = $stripe->paymentMethods->retrieve(
+              $request->card_token,
+              []
+            );
             
             $card_info_from_stripe = $retrieve->card ? $retrieve->card : [];
 
