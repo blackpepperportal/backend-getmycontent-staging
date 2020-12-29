@@ -1986,6 +1986,7 @@ class UserAccountApiController extends Controller
                 $request->request->add([
                     'total' => $total, 
                     'customer_id' => $user_card->customer_id,
+                    'card_token' => $user_card->card_token,
                     'user_pay_amount' => $user_pay_amount,
                     'paid_amount' => $user_pay_amount,
                 ]);

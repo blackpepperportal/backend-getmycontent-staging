@@ -121,14 +121,25 @@ class PaymentRepository {
 
             $total = intval(round($request->user_pay_amount * 100));
 
+            // $charge_array = [
+            //                     'amount' => $total,
+            //                     'currency' => $currency_code,
+            //                     'customer' => $request->customer_id,
+            //                 ];
+
+
+            // $stripe_payment_response =  \Stripe\Charge::create($charge_array);
+
             $charge_array = [
-                                'amount' => $total,
-                                'currency' => $currency_code,
-                                'customer' => $request->customer_id,
-                            ];
+                'amount' => $total,
+                'currency' => $currency_code,
+                'customer' => $request->customer_id,
+                "payment_method" => $request->card_token,
+                'off_session' => true,
+                'confirm' => true,
+            ];
 
-
-            $stripe_payment_response =  \Stripe\Charge::create($charge_array);
+            $stripe_payment_response = \Stripe\PaymentIntent::create($charge_array);
 
             $payment_data = [
                                 'payment_id' => $stripe_payment_response->id ?? 'CARD-'.rand(),
@@ -605,13 +616,24 @@ class PaymentRepository {
 
             $total = intval(round($request->user_pay_amount * 100));
 
+            // $charge_array = [
+            //     'amount' => $total,
+            //     'currency' => $currency_code,
+            //     'customer' => $request->customer_id,
+            // ];
+
+            // $stripe_payment_response =  \Stripe\Charge::create($charge_array);
+
             $charge_array = [
                 'amount' => $total,
                 'currency' => $currency_code,
                 'customer' => $request->customer_id,
+                "payment_method" => $request->card_token,
+                'off_session' => true,
+                'confirm' => true,
             ];
 
-            $stripe_payment_response =  \Stripe\Charge::create($charge_array);
+            $stripe_payment_response = \Stripe\PaymentIntent::create($charge_array);
 
             $payment_data = [
                 'payment_id' => $stripe_payment_response->id ?? 'CARD-'.rand(),
@@ -768,14 +790,25 @@ class PaymentRepository {
 
             $total = intval(round($request->user_pay_amount * 100));
 
+            // $charge_array = [
+            //     'amount' => $total,
+            //     'currency' => $currency_code,
+            //     'customer' => $request->customer_id,
+            // ];
+
+
+            // $stripe_payment_response =  \Stripe\Charge::create($charge_array);
+
             $charge_array = [
                 'amount' => $total,
                 'currency' => $currency_code,
                 'customer' => $request->customer_id,
+                "payment_method" => $request->card_token,
+                'off_session' => true,
+                'confirm' => true,
             ];
 
-
-            $stripe_payment_response =  \Stripe\Charge::create($charge_array);
+            $stripe_payment_response = \Stripe\PaymentIntent::create($charge_array);
 
             $payment_data = [
                 'payment_id' => $stripe_payment_response->id ?? 'CARD-'.rand(),
@@ -1185,14 +1218,25 @@ class PaymentRepository {
 
             $total = intval(round($request->user_pay_amount * 100));
 
+            // $charge_array = [
+            //     'amount' => $total,
+            //     'currency' => $currency_code,
+            //     'customer' => $request->customer_id,
+            // ];
+
+
+            // $stripe_payment_response =  \Stripe\Charge::create($charge_array);
+
             $charge_array = [
                 'amount' => $total,
                 'currency' => $currency_code,
                 'customer' => $request->customer_id,
+                "payment_method" => $request->card_token,
+                'off_session' => true,
+                'confirm' => true,
             ];
 
-
-            $stripe_payment_response =  \Stripe\Charge::create($charge_array);
+            $stripe_payment_response = \Stripe\PaymentIntent::create($charge_array);
 
             $payment_data = [
                 'payment_id' => $stripe_payment_response->id ?? 'CARD-'.rand(),
