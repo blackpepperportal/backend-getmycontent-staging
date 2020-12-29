@@ -959,15 +959,25 @@ class UserAccountApiController extends Controller
             DB::beginTransaction();
 
             // Get the key from settings table
-            
+
             $customer = \Stripe\Customer::create([
                     // "card" => $request->card_token,
-                    "card" => 'tok_visa',
+                    // "card" => 'tok_visa',
                     "email" => $user->email,
                     "description" => "Customer for ".Setting::get('site_name'),
+                    'payment_method' => $request->card_token
                 ]);
 
-            if($customer) {
+            $stripe = new \Stripe\StripeClient(Setting::get('stripe_secret_key'));
+            
+            $retrieve = $stripe->paymentMethods->retrieve(
+              $request->card_token,
+              []
+            );
+            
+            $card_info_from_stripe = $retrieve->card ? $retrieve->card : [];
+
+            if($customer && $card_info_from_stripe) {
 
                 $customer_id = $customer->id;
 
@@ -977,13 +987,17 @@ class UserAccountApiController extends Controller
 
                 $card->customer_id = $customer_id;
 
-                $card->card_token = $customer->sources->data ? $customer->sources->data[0]->id : "";
+                $card->card_token = $card_info_from_stripe->id ?? "NO-TOKEN";
 
-                $card->card_type = $customer->sources->data ? $customer->sources->data[0]->brand : "";
+                $card->card_type = $card_info_from_stripe->brand ?? "";
 
-                $card->last_four = $customer->sources->data[0]->last4 ? $customer->sources->data[0]->last4 : "";
+                $card->last_four = $card_info_from_stripe->last4 ?? '';
 
                 $card->card_holder_name = $request->card_holder_name ?: $this->loginUser->name;
+
+                // $cards->month = $card_details_from_stripe->exp_month ?? "01";
+
+                // $cards->year = $card_details_from_stripe->exp_year ?? "01";
 
                 // Check is any default is available
 
