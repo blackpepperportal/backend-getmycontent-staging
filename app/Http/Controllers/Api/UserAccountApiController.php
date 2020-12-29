@@ -987,12 +987,12 @@ class UserAccountApiController extends Controller
 
                 $card->card_type = $card_info_from_stripe->brand ?? "";
 
-                $card->last_four = $card_info_from_stripe->last4 ?? ''
+                $card->last_four = $card_info_from_stripe->last4 ?? '';
 
                 $card->card_holder_name = $request->card_holder_name ?: $this->loginUser->name;
 
                 // $cards->month = $card_details_from_stripe->exp_month ?? "01";
-                
+
                 // $cards->year = $card_details_from_stripe->exp_year ?? "01";
 
                 // Check is any default is available
