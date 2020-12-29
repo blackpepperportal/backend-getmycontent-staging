@@ -965,17 +965,26 @@ class UserAccountApiController extends Controller
                     // "card" => 'tok_visa',
                     "email" => $user->email,
                     "description" => "Customer for ".Setting::get('site_name'),
-                    'payment_method' => $request->card_token
+                    // 'payment_method' => $request->card_token,
+                    // 'default_payment_method'
+                    // 'source' => $request->card_token
                 ]);
 
             $stripe = new \Stripe\StripeClient(Setting::get('stripe_secret_key'));
-            
-            $retrieve = $stripe->paymentMethods->retrieve(
-              $request->card_token,
-              []
-            );
+
+            $intent = \Stripe\SetupIntent::create([
+              'customer' => $customer->id,
+              'payment_method' => $request->card_token
+            ]);
+
+            $stripe->setupIntents->confirm($intent->id,['payment_method' => $request->card_token]);
+
+
+            $retrieve = $stripe->paymentMethods->retrieve($request->card_token, []);
             
             $card_info_from_stripe = $retrieve->card ? $retrieve->card : [];
+
+            \Log::info("card_info_from_stripe".print_r($card_info_from_stripe, true));
 
             if($customer && $card_info_from_stripe) {
 
@@ -987,7 +996,7 @@ class UserAccountApiController extends Controller
 
                 $card->customer_id = $customer_id;
 
-                $card->card_token = $card_info_from_stripe->id ?? "NO-TOKEN";
+                $card->card_token = $request->card_token ?? "NO-TOKEN";
 
                 $card->card_type = $card_info_from_stripe->brand ?? "";
 
