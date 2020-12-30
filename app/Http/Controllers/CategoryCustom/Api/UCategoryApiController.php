@@ -14,6 +14,7 @@ use App\Repositories\PaymentRepository as PaymentRepo;
 
 use App\Repositories\WalletRepository as WalletRepo;
 
+
 class UCategoryApiController extends Controller
 {
     protected $loginUser, $skip, $take;
@@ -98,7 +99,7 @@ class UCategoryApiController extends Controller
 
             $base_query = $total_query = \App\UCategory::CommonResponse();
 
-            $u_categories = $base_query->skip($this->skip)->take($this->take)->orderBy('u_categories.created_at', 'desc')->get();
+            $u_categories = $base_query->orderBy('u_categories.created_at', 'desc')->get();
 
             $data['u_categories'] = $u_categories;
 
@@ -112,5 +113,43 @@ class UCategoryApiController extends Controller
         
         }
 
+    }
+
+    /** 
+     * @method u_categories_view()
+     *
+     * @uses ucategories single view
+     *
+     * @created Ganesh
+     *
+     * @updated Ganesh
+     *
+     * @param
+     *
+     * @return json response with details
+     */
+
+    public function u_categories_view(Request $request) {
+
+        try {
+
+            $rules = ['u_category_id' => 'required|exists:u_categories,id'];
+
+            $custom_errors = ['u_category_id.exists' => api_error(166)];
+
+            Helper::custom_validator($request->all(),$rules,$custom_errors);
+
+            $u_category = \App\UCategory::where('id', $request->u_category_id)->CommonResponse()->get();
+
+            $data['u_category'] = $u_category;
+
+            return $this->sendResponse($message = "", $success_code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
     }
 }

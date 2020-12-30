@@ -92,7 +92,7 @@ class UserAccountApiController extends Controller
                         'email' => 'required|email|regex:/(.+)@(.+)\.(.+)/i|max:255|min:2',
                         'password' => 'required|min:6',
                         'picture' => 'mimes:jpeg,jpg,bmp,png',
-                        'u_category_id' => 'required|integer|exists:u_categories,id',
+                        'u_category_id' => 'nullable|integer|exists:u_categories,id',
                     ];
 
                 Helper::custom_validator($request->all(), $rules);
@@ -185,13 +185,11 @@ class UserAccountApiController extends Controller
 
                 if($request->u_category_id){
 
-                  $ucategory = new \App\UserCategory;
+                  $ucategory = \App\UserCategory::where('u_category_id',$request->u_category_id)->where('user_id', $user->id)->first() ?? new \App\UserCategory;
 
                   $ucategory->u_category_id = $request->u_category_id;
 
                   $ucategory->user_id = $user->id;
-
-                  $ucategory->status = DEFAULT_TRUE;
 
                   $ucategory->save();
                 }

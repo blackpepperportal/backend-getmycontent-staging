@@ -10,14 +10,14 @@ class UCategory extends Model
 
 	protected $hidden = ['id', 'unique_id'];
 
-	protected $appends = ['u_categories_id','u_categories_unique_id','users_count'];
+	protected $appends = ['u_category_id','u_category_unique_id','total_users'];
 
-    public function getUCategoriesIdAttribute() {
+    public function getUCategoryIdAttribute() {
 
         return $this->id;
     }
 
-    public function getUCategoriesUniqueIdAttribute() {
+    public function getUCategoryUniqueIdAttribute() {
 
         return $this->unique_id;
     }
@@ -27,7 +27,7 @@ class UCategory extends Model
         return $this->hasMany(UserCategory::class,'u_category_id');
     }
 
-     public function getUsersCountAttribute() {
+     public function getTotalUsersAttribute() {
         
         return $this->usercategory()->count();
     }

@@ -339,4 +339,7 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     Route::post('u_categories_list','CategoryCustom\Api\UCategoryApiController@u_categories_list');
 
+    Route::post('u_categories_view','CategoryCustom\Api\UCategoryApiController@u_categories_view');
+
+
 });
