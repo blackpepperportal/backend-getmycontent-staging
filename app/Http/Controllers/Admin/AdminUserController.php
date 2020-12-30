@@ -134,11 +134,13 @@ class AdminUserController extends Controller
 
         $user = new \App\User;
 
+        $u_categories = \App\UCategory::where('status',APPROVED)->get();
 
         return view('admin.users.create')
                     ->with('page', 'users')
                     ->with('sub_page','users-create')
-                    ->with('user', $user);           
+                    ->with('user', $user)  
+                    ->with('u_categories',$u_categories);        
    
     }
 
@@ -184,10 +186,25 @@ class AdminUserController extends Controller
                 throw new Exception(tr('user_not_found'), 101);
             }
 
+            $user_category = \App\UserCategory::firstWhere('user_id',$user->id);
+             
+            if($user_category){
+
+                $u_categories = selected(\App\UCategory::where('status',APPROVED)->get(), $user_category->u_category_id, 'id');
+
+            }
+            else{
+
+                $u_categories = \App\UCategory::where('status',APPROVED)->get();
+
+            }
+
+
             return view('admin.users.edit')
                     ->with('page', 'users')
                     ->with('sub_page', 'users-view')
-                    ->with('user', $user); 
+                    ->with('user', $user)
+                    ->with('u_categories',$u_categories); 
             
         } catch(Exception $e) {
 
@@ -330,6 +347,7 @@ class AdminUserController extends Controller
                      * @todo Welcome mail notification
                      */
 
+                  
                     $email_data['subject'] = tr('user_welcome_email' , Setting::get('site_name'));
 
                     $email_data['email']  = $user->email;
@@ -338,13 +356,25 @@ class AdminUserController extends Controller
 
                     $email_data['page'] = "emails.users.welcome";
 
-                    $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+                    // $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
                     $user->is_email_verified = USER_EMAIL_VERIFIED;
 
                     $user->user_account_type = $request->user_account_type;
 
                     $user->save();
+
+                }
+
+                if($request->u_category_id!=''){
+
+                    $ucategory = \App\UserCategory::where('user_id', $user->id)->first() ?? new \App\UserCategory;
+    
+                    $ucategory->u_category_id = $request->u_category_id;
+    
+                    $ucategory->user_id = $user->id;
+    
+                    $ucategory->save();
 
                 }
 

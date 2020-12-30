@@ -207,6 +207,33 @@
 
                             </div>
 
+
+                          
+                            <div class="row">
+
+                            <div class="col-md-6">
+
+                                    <div class="form-group">
+
+                                        <label>{{ tr('category') }}</label>
+
+                                        <select class="form-control select2" name="u_category_id" required>
+                                            <option>{{tr('select_category')}}</option>
+
+                                            @foreach($u_categories as $u_category)
+                                                <option value="{{$u_category->id}}" @if($u_category->is_selected == YES) selected @endif>
+                                                    {{ucfirst($u_category->name)}}
+                                                </option>
+                                            @endforeach
+
+                                        </select>
+                                    </div>
+
+                                    </div>
+                            </div>
+
+
+
                             <div class="form-actions">
 
                                 <div class="pull-right">

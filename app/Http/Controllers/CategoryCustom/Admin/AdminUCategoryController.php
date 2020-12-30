@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\CategoryCustom\Admin;
 
 use App\Http\Controllers\Controller;
 
@@ -975,6 +975,309 @@ class AdminUCategoryController extends Controller
         }
 
     }
+
+
+     /**
+     * @method u_categories_create()
+     *
+     * @uses To create documents details
+     *
+     * @created  Ganesh
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function u_categories_create() {
+
+        $u_category = new \App\UCategory;
+
+        return view('admin.u_categories.create')
+                    ->with('page', 'u_categories')
+                    ->with('sub_page', 'u_categories-create')
+                    ->with('u_category', $u_category);           
+    }
+
+    /**
+     * @method u_categories_index()
+     *
+     * @uses Used to list the  user category
+     *
+     * @created Ganesh
+     *
+     * @updated Ganesh  
+     *
+     * @param -
+     *
+     * @return List of pages   
+     */
+
+    public function u_categories_index() {
+
+        $u_categories = \App\UCategory::orderBy('updated_at' , 'desc')->paginate($this->take);
+
+        return view('admin.u_categories.index')
+                    ->with('page', 'u_categories')
+                    ->with('sub_page', 'u_categories-view')
+                    ->with('u_categories', $u_categories);
+    
+    }
+
+
+    /**
+     * @method u_categories_save()
+     *
+     * @uses To save the category details of new/existing  object based on details
+     *
+     * @created Ganesh
+     *
+     * @updated 
+     *
+     * @param object request - Document Form Data
+     *
+     * @return success message
+     *
+     */
+    public function u_categories_save(Request $request) {
+            
+        try {
+
+            DB::begintransaction();
+
+            $rules = [
+                'name' => 'required|max:191',
+                'picture' => 'mimes:jpg,png,jpeg',
+                'description' => 'max:199',
+            ];
+           
+            Helper::custom_validator($request->all(),$rules);
+
+            $message = $request->u_category_id ? tr('u_category_update_success') : tr('u_category_create_success');
+
+
+            $u_category = $request->u_category_id ? \App\UCategory::find($request->u_category_id) : new \App\UCategory;
+            
+            $u_category->name = $request->name ?: $u_category->name;
+
+            $u_category->description = $request->description ?: $u_category->description;
+
+            // Upload picture
+            
+            if($request->hasFile('picture')) {
+
+                if($request->u_category_id) {
+
+                    Helper::storage_delete_file($u_category->picture, COMMON_FILE_PATH); 
+                    // Delete the old pic
+                }
+
+                $u_category->picture = Helper::storage_upload_file($request->file('picture'), COMMON_FILE_PATH);
+            }
+
+            if($u_category->save()) {
+
+                DB::commit(); 
+
+                return redirect(route('admin.u_categories.index'))->with('flash_success', $message);
+
+            } 
+
+            throw new Exception(tr('u_category_save_failed'));
+            
+        } catch(Exception $e){ 
+
+            DB::rollback();
+
+            return redirect()->back()->withInput()->with('flash_error', $e->getMessage());
+
+        } 
+
+    }
+
+    /**
+     * @method u_categories_delete()
+     *
+     * @uses delete the user category details based on faq id
+     *
+     * @created Ganesh 
+     *
+     * @updated  
+     *
+     * @param object $request - Faq Id
+     * 
+     * @return response of success/failure details with view page
+     *
+     */
+    public function u_categories_delete(Request $request) {
+
+        try {
+
+            DB::begintransaction();
+
+            $u_category = \App\UCategory::find($request->u_category_id);
+            
+            if(!$u_category) {
+
+                throw new Exception(tr('u_category_not_found'), 101);                
+            }
+
+            if($u_category->delete()) {
+
+                DB::commit();
+
+                return redirect()->route('admin.u_categories.index',['page'=>$request->page])->with('flash_success',tr('u_category_deleted_success'));   
+
+            } 
+            
+            throw new Exception(tr('u_category_delete_failed'));
+            
+        } catch(Exception $e){
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+
+        }       
+         
+    }
+
+
+    /**
+     * @method u_categories_edit()
+     *
+     * @uses To display and update categories details based on the id
+     *
+     * @created Ganesh
+     *
+     * @updated 
+     *
+     * @param object $request - Faq Id
+     * 
+     * @return redirect view page 
+     *
+     */
+    public function u_categories_edit(Request $request) {
+
+        try {
+
+            $u_category = \App\UCategory::find($request->u_category_id);
+
+            if(!$u_category) { 
+
+                throw new Exception(tr('u_category_not_found'), 101);
+
+            }
+           
+            return view('admin.u_categories.edit')
+                    ->with('main_page','faqs-crud')
+                    ->with('page' , 'faqs')
+                    ->with('sub_page','faqs-view')
+                    ->with('u_category' , $u_category); 
+            
+        } catch(Exception $e) {
+
+            return redirect()->route('admin.u_categories.index')->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+
+    /**
+     * @method u_categories_view()
+     *
+     * @uses view the user category details based on  id
+     *
+     * @created Ganesh 
+     *
+     * @updated 
+     *
+     * @param object $request - Faq Id
+     * 
+     * @return View page
+     *
+     */
+    public function u_categories_view(Request $request) {
+       
+        try {
+      
+            if(!$request->u_category_id) {
+    
+                throw new Exception(tr('u_category_not_found'), 101);
+            }
+            
+            $ucategory = \App\UCategory::find($request->u_category_id);    
+
+            $user_categories = \App\UserCategory::where('u_category_id',$request->u_category_id)->orderBy('created_at','desc')->paginate($this->take);
+
+            return view('admin.u_categories.view')
+                        ->with('page', 'u_categories')
+                        ->with('sub_page', 'u_categories-view')
+                        ->with('ucategory',$ucategory)
+                        ->with('user_categories' , $user_categories);
+            
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+        }
+    
+    }
+
+
+    /**
+     * @method u_categories_status
+     *
+     * @uses To update ucategory status as DECLINED/APPROVED based on  id
+     *
+     * @created Ganesh
+     *
+     * @updated 
+     *
+     * @param object $request - Faq Id
+     * 
+     * @return response success/failure message
+     *
+     **/
+    public function u_categories_status(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $u_category = \App\UCategory::find($request->u_category_id);
+
+            if(!$u_category) {
+
+                throw new Exception(tr('u_category_not_found'), 101);
+                
+            }
+
+            $u_category->status = $u_category->status ? DECLINED : APPROVED ;
+
+            if($u_category->save()) {
+
+                DB::commit();
+
+                $message = $u_category->status ? tr('u_category_approve_success') : tr('u_category_decline_success');
+
+                return redirect()->back()->with('flash_success', $message);
+            }
+            
+            throw new Exception(tr('faq_status_change_failed'));
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->route('admin.faqs.index')->with('flash_error', $e->getMessage());
+
+        }
+
+    }
+
+    
 
 
 }

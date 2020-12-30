@@ -41,6 +41,27 @@
             
             </li>
 
+            <li class="nav-item" id="u_categories">
+                <a href="{{route('admin.u_categories.index')}}">
+                    <i class="fa fa-list"></i>
+                    <span class="menu-title" data-i18n="">{{tr('u_category')}}</span>
+                </a>
+                <ul class="menu-content">
+                    <li id="u_categories-create">
+                        <a class="menu-item" href="{{route('admin.u_categories.create')}}">
+                            {{tr('add_ucategory')}}
+                        </a>
+                    </li>
+                    <li id="u_categories-view">
+                        <a class="menu-item" href="{{route('admin.u_categories.index')}}">
+                            {{tr('view_ucategory')}}
+                        </a>
+                    </li>
+
+                </ul>            
+            
+            </li>
+
             <li class="nav-item" id="users-documents">
                 <a class="menu-item" href="{{route('admin.user_documents.index')}}">
                     <i class="ft-shield"></i>

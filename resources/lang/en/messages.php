@@ -1085,5 +1085,27 @@ return [
 	"BN_USER_COMMENT" => "User Comment Link",
 	"BN_USER_LIKE" => "User Like Link",
 	"BN_USER_TIPS" => "User Tips Link",
+
+	"u_category"=>"User Category",
+	"add_ucategory"=>"Add User Category",
+	"view_ucategory"=>"View User Category",
+	"edit_ucategory"=>"Edit User Category",
+
+
+	"u_category_save_failed"=>"User Category Save Failed",
+	"u_category_create_success"=>"User Category Created Successfully",
+	"u_category_update_success"=>"User Category Updated Successfully",
+	"u_category_not_found"=>"User Category not found",
+	"u_category_deleted_success"=>"User Category Deleted Successfully",
+	"u_category_delete_failed"=>"User Category Delete Failed !!",
+	"u_category_delete_confirmation" => "Once you\'ve deleted the record , the category (:other_key) will no longer be able to log in to the site or apps. This action cannot be undo.",
+	"u_category_decline_confirmation" => "Do you want decline this Category?",
+
+	"u_category_approve_success" => "User Category Approved Successfully",
+	"u_category_decline_success" => "User Category Declined Successfully",
+
+	"select_category"=>"Select Category"
+
+
 ]
 ?>
