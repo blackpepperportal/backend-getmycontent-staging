@@ -356,7 +356,7 @@ class AdminUserController extends Controller
 
                     $email_data['page'] = "emails.users.welcome";
 
-                    // $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
+                    $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
                     $user->is_email_verified = USER_EMAIL_VERIFIED;
 
