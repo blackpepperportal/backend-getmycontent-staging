@@ -71,7 +71,9 @@
                                     </td>
 
                                     <td>
-                                        {!! $u_category->total_users !!}
+                                        <a href="{{ route('admin.u_categories.view', ['u_category_id' => $u_category->id] ) }}">
+                                        {{ $u_category->total_users }}
+                                        </a>
                                     </td>
 
 
