@@ -130,6 +130,8 @@
     </script>
 
      <script>
+
+        if ($('#editor').length) {
             ClassicEditor
             .create( document.querySelector( '#editor' ) )
             .then( editor => {
@@ -138,10 +140,13 @@
             .catch( error => {
                     console.error( error );
             } );
+        } else {
+            /* it doesn't exist */
+        }
+            
     </script>
 
     <script type="text/javascript">
-
 
         $(document).ready(function(){
        
@@ -172,8 +177,6 @@
              },100);
             
          });
-
-        
 
     </script>
 
