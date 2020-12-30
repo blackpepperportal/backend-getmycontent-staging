@@ -83,9 +83,9 @@ class UCategoryApiController extends Controller
      *
      * @uses ucategories List
      *
-     * @created Bhawya
+     * @created Ganesh
      *
-     * @updated Bhawya
+     * @updated Ganesh
      *
      * @param
      * 
