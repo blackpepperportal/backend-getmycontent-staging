@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\CategoryCustom\Api;
 
 use Illuminate\Http\Request;
 
@@ -14,7 +14,7 @@ use App\Repositories\PaymentRepository as PaymentRepo;
 
 use App\Repositories\WalletRepository as WalletRepo;
 
-class CategoryApiController extends Controller
+class UCategoryApiController extends Controller
 {
     protected $loginUser, $skip, $take;
 
@@ -75,5 +75,42 @@ class CategoryApiController extends Controller
             return $this->sendError($e->getMessage(), $e->getCode());
         }
 
-	}
+    }
+    
+
+     /** 
+     * @method u_categories_list()
+     *
+     * @uses ucategories List
+     *
+     * @created Bhawya
+     *
+     * @updated Bhawya
+     *
+     * @param
+     * 
+     * @return JSON response
+     *
+     */
+    public function u_categories_list(Request $request) {
+
+        try {
+
+            $base_query = $total_query = \App\UCategory::CommonResponse();
+
+            $u_categories = $base_query->skip($this->skip)->take($this->take)->orderBy('u_categories.created_at', 'desc')->get();
+
+            $data['u_categories'] = $u_categories;
+
+            $data['total'] = $total_query->count() ?: 0;
+
+            return $this->sendResponse($message = "", $code = "", $u_categories);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+
+    }
 }

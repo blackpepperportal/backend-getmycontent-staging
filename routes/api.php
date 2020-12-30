@@ -337,5 +337,6 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     Route::post('posts_payment_by_paypal','Api\PostsApiController@posts_payment_by_paypal');
 
+    Route::post('u_categories_list','CategoryCustom\Api\UCategoryApiController@u_categories_list');
 
 });
