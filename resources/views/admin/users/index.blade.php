@@ -119,6 +119,11 @@
                                         @if($user->user_account_type == USER_PREMIUM_ACCOUNT)
                                         <b><i class="icon-badge text-green"></i></b>
                                         @endif
+                                        @if(Cache::has($user->id))
+                                            <span class="text-success">Online</span>
+                                        @else
+                                            <span class="text-secondary">Offline</span>
+                                        @endif
                                     </td>
 
                                     <td>{{ $user->email }}<br>
