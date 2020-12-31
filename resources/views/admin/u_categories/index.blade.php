@@ -31,8 +31,7 @@
 
                     <div class="heading-elements">
 
-                    <a href="{{ route('admin.u_categories.create') }}" class="btn btn-primary"><i class="ft-plus icon-left"></i>{{ tr('add_ucategory') }}</a>
-
+                        <a href="{{ route('admin.u_categories.create') }}" class="btn btn-primary"><i class="ft-plus icon-left"></i>{{ tr('add_ucategory') }}</a>
 
                     </div>
 
@@ -64,7 +63,7 @@
                                     <td>{{ $i+$u_categories->firstItem() }}</td>
 
                                     <td>
-                                        <a href="{{route('admin.users.view' , ['user_id' => $u_category->id])}}" class="custom-a">
+                                        <a href="{{route('admin.u_categories.view' , ['u_category_id' => $u_category->id])}}" class="custom-a">
                                             {{$u_category->name}}
                                         </a>
 
@@ -84,11 +83,11 @@
                                     <td>
                                         @if($u_category->status == APPROVED)
 
-                                        <span class="btn btn-success btn-sm">{{ tr('approved') }}</span>
+                                            <span class="btn btn-success btn-sm">{{ tr('approved') }}</span>
 
                                         @else
 
-                                        <span class="btn btn-warning btn-sm">{{ tr('declined') }}</span>
+                                            <span class="btn btn-warning btn-sm">{{ tr('declined') }}</span>
 
                                         @endif
                                     </td>
