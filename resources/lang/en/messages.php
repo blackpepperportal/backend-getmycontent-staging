@@ -1094,5 +1094,7 @@ return [
 	"AWS_DEFAULT_REGION"=>"AWS Default Region",
 	"AWS_BUCKET"=>"AWS Bucket",
 	"s3_bucket_config"=>"S3 Bucket Configuration",
+  
+	"is_badge_verified"=>"Is Badge Verified ?"
 ]
 ?>

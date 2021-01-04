@@ -103,6 +103,24 @@
                                         <td class="text-capitalize">{{$user->device_type ?: tr('not_available')}}</td>
                                     </tr>
 
+                                    @if(Setting::get('is_verified_badge_enabled'))
+                                    <tr>
+                                       
+                                        <th>{{tr('is_badge_verified')}}</th>
+                                        <td>
+                                            @if($user->is_verified_badge == YES)
+
+                                            <span class="badge badge-success">{{tr('yes')}}</span>
+
+                                            @else
+                                            <span class="badge badge-danger">{{tr('no')}}</span>
+
+                                            @endif
+                                        </td>
+                                        
+                                    </tr>
+                                    @endif
+                                    
                                     <tr>
                                         <th>{{tr('status')}}</th>
                                         <td>

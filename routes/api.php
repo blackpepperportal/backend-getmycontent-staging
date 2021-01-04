@@ -96,6 +96,9 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
         
         Route::post('bell_notifications_index','Api\UserAccountApiController@bell_notifications_index');
 
+        Route::post('verified_badge_status', 'Api\UserAccountApiController@verified_badge_status');
+
+
         // Cards management start
 
         Route::post('cards_add', 'Api\UserAccountApiController@cards_add');

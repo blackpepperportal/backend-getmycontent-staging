@@ -137,6 +137,8 @@ return [
 
     164 =>  'You can\'t Report your Own Post',
 
-    165 =>  'You have already blocked the User'
+    165 =>  'You have already blocked the User',
+
+    166 =>  'Badge Verification Failed'
 
 ];
