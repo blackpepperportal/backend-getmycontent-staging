@@ -2544,4 +2544,58 @@ class UserAccountApiController extends Controller
 
 
 
+    /**
+     * @method verified_badge_status()
+     *
+     * @uses used to update verified badge status
+     *
+     * @created Ganesh
+     *
+     * @updated Ganesh
+     *
+     * @param card_token
+     * 
+     * @return JSON Response
+     */
+    public function verified_badge_status(Request $request) {
+
+        try {
+
+            if(!Setting::get('is_verified_badge_enabled')) {
+
+                throw new Exception(api_error(166), 166);
+
+            } 
+
+            DB::beginTransaction();
+
+            $user = User::find($request->id);
+
+            if(!$user) {
+
+                throw new Exception(api_error(1002), 1002);
+                
+            }
+
+            $user->is_verified_badge  = $user->is_verified_badge == YES ? NO :YES;
+
+            $user->save();
+
+            DB::commit();
+
+            $code = $user->is_verified_badge == YES ? 159 : 160;
+
+            return $this->sendResponse(api_success($code), $code, $user);
+
+            } catch(Exception $e) {
+
+                DB::rollback();
+
+                return $this->sendError($e->getMessage(), $e->getCode());
+            
+            }
+
+        }
+
+
 }
