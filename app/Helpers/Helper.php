@@ -593,7 +593,7 @@ class Helper {
 
         }
 
-        if (Setting::get('s3_bucket') == STORAGE_TYPE_s3 ) {
+        if (Setting::get('s3_bucket') == STORAGE_TYPE_S3 ) {
 
             $path = $input_file->store($folder_path, 's3');
 
@@ -632,7 +632,7 @@ class Helper {
 
         $storage_file_path = $folder_path.$file_name;
 
-        if (Setting::get('s3_bucket') == STORAGE_TYPE_s3 ) {
+        if (Setting::get('s3_bucket') == STORAGE_TYPE_S3 ) {
 
             $s3 = Storage::disk('s3');
 
