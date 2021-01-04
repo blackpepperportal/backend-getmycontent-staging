@@ -1085,5 +1085,6 @@ return [
 	"BN_USER_COMMENT" => "User Comment Link",
 	"BN_USER_LIKE" => "User Like Link",
 	"BN_USER_TIPS" => "User Tips Link",
+	"is_badge_verified"=>"Is Badge Verified ?"
 ]
 ?>
