@@ -253,3 +253,8 @@ if(!defined('BELL_NOTIFICATION_TYPE_SEND_TIP')) define('BELL_NOTIFICATION_TYPE_S
 
 if(!defined('PRODUCTION')) define('PRODUCTION', 'production');
 if(!defined('SANDBOX')) define('SANDBOX', 'sandbox');
+
+if(!defined('FILE_TYPE_IMAGE')) define('FILE_TYPE_IMAGE', 'image');
+if(!defined('FILE_TYPE_VIDEO')) define('FILE_TYPE_VIDEO', 'video');
+if(!defined('FILE_TYPE_AUDIO')) define('FILE_TYPE_AUDIO', 'audio');
+if(!defined('FILE_TYPE_TEXT')) define('FILE_TYPE_TEXT', 'text');
