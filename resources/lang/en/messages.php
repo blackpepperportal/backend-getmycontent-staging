@@ -1089,5 +1089,9 @@ return [
 	"s3_bucket"=>"S3 Bucket",
 	"enable"=>"Enable",
 	"disable"=>"Disable",
+	"AWS_ACCESS_KEY_ID"=>"AWS Access Key Id",
+	"AWS_SECRET_ACCESS_KEY"=>"AWS Secret Access Key",
+	"AWS_DEFAULT_REGION"=>"AWS Default Region",
+	"AWS_BUCKET"=>"AWS Bucket",
 ]
 ?>

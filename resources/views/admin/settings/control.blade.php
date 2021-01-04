@@ -152,6 +152,38 @@
 
                                                         <div class="form-group col-md-6">
                                                                        
+                                                            <label>{{ tr('AWS_ACCESS_KEY_ID') }}</label>
+                                                            
+                                                            <input type="text" name="AWS_ACCESS_KEY_ID" class="form-control" value="{{Setting::get('AWS_ACCESS_KEY_ID')}}">
+                                                    
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                                       
+                                                            <label>{{ tr('AWS_SECRET_ACCESS_KEY') }}</label>
+                                                            
+                                                            <input type="text" name="AWS_SECRET_ACCESS_KEY" class="form-control" value="{{Setting::get('AWS_SECRET_ACCESS_KEY')}}">
+                                                    
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                                       
+                                                            <label>{{ tr('AWS_DEFAULT_REGION') }}</label>
+                                                            
+                                                            <input type="text" name="AWS_DEFAULT_REGION" class="form-control" value="{{Setting::get('AWS_DEFAULT_REGION')}}">
+                                                    
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                                       
+                                                            <label>{{ tr('AWS_BUCKET') }}</label>
+                                                            
+                                                            <input type="text" name="AWS_BUCKET" class="form-control" value="{{Setting::get('AWS_BUCKET')}}">
+                                                    
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                                       
                                                             <label>{{ tr('admin_take_count') }}</label>
                                                             
                                                             <input type="number" name="admin_take_count" class="form-control" value="{{Setting::get('admin_take_count', 6)}}">
