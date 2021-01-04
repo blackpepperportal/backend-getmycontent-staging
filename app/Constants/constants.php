@@ -253,3 +253,6 @@ if(!defined('BELL_NOTIFICATION_TYPE_SEND_TIP')) define('BELL_NOTIFICATION_TYPE_S
 
 if(!defined('PRODUCTION')) define('PRODUCTION', 'production');
 if(!defined('SANDBOX')) define('SANDBOX', 'sandbox');
+
+if(!defined('STORAGE_TYPE_s3')) define('STORAGE_TYPE_s3', 1);
+if(!defined('STORAGE_TYPE_LOCAL')) define('STORAGE_TYPE_LOCAL', 0);

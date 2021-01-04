@@ -136,6 +136,22 @@
 
                                                         <div class="form-group col-md-6">
                                                                        
+                                                            <label>{{ tr('s3_bucket') }}</label>
+                                                            <br>
+                                                            <label>
+                                                                <input required type="radio" name="s3_bucket" value="1" class="flat-red" @if(Setting::get('s3_bucket') == 1) checked @endif>
+                                                                {{tr('enable')}}
+                                                            </label>
+
+                                                            <label>
+                                                                <input required type="radio" name="s3_bucket" class="flat-red"  value="0" @if(Setting::get('s3_bucket') == 0) checked @endif>
+                                                                {{tr('disable')}}
+                                                            </label>
+                                                    
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                                       
                                                             <label>{{ tr('admin_take_count') }}</label>
                                                             
                                                             <input type="number" name="admin_take_count" class="form-control" value="{{Setting::get('admin_take_count', 6)}}">
