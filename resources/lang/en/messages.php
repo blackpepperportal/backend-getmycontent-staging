@@ -1093,5 +1093,6 @@ return [
 	"AWS_SECRET_ACCESS_KEY"=>"AWS Secret Access Key",
 	"AWS_DEFAULT_REGION"=>"AWS Default Region",
 	"AWS_BUCKET"=>"AWS Bucket",
+	"s3_bucket_config"=>"S3 Bucket Configuration",
 ]
 ?>
