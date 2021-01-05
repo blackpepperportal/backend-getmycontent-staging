@@ -66,7 +66,7 @@
                         </div>
                     </div>
 
-                     <div class="col-xl-3 col-lg-4 col-12">
+                     <div class="col-xl-3 col-lg-6 col-12">
                         <div class="card">
                             <div class="card-content">
                                 <div class="media align-items-stretch">
@@ -82,7 +82,7 @@
                         </div>
                     </div>
 
-                    <div class="col-xl-3 col-lg-4 col-12">
+                    <div class="col-xl-3 col-lg-6 col-12">
                         <div class="card">
                             <div class="card-content">
                                 <div class="media align-items-stretch">
