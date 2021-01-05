@@ -57,11 +57,6 @@ class UserWithdrawal extends Model
     }
 
 
-    public function billingaccountDetails(){
-
-        return $this->belongsTo(UserBillingAccount::class,'user_billing_account_id');
-    }
-
     public function user() {
     	return $this->belongsTo('App\User','user_id');
     }

@@ -370,7 +370,7 @@ class AdminPostController extends Controller
 
                 $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
-                return redirect()->back()->with('flash_success', tr('post_deleted_success'));   
+                return redirect()->route('admin.posts.index',['page'=>$request->page])->with('flash_success', tr('post_deleted_success'));   
 
             } 
 

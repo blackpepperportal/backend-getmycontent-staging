@@ -176,12 +176,12 @@
 
                     <div class="col-sm popup-label">
                         <b class="label-font">{{tr('account_holder_name')}}</b>
-                        <p>{{$withdrawal_details->billingaccountDetails->account_holder_name ?? tr('not_available') }}</p>
+                        <p>{{$withdrawal_details->billingAccount->account_holder_name ?? tr('not_available') }}</p>
                     </div>
 
                     <div class="col-sm popup-label">
                         <b class="label-font">{{tr('account_number')}}</b>
-                        <p>{{$withdrawal_details->billingaccountDetails->account_number ?? tr('not_available') }}</p>
+                        <p>{{$withdrawal_details->billingAccount->account_number ?? tr('not_available') }}</p>
                     </div>
 
                 </div>
@@ -190,12 +190,12 @@
 
                     <div class="col-sm popup-label">
                         <b class="label-font">{{tr('bank_name')}}</b>
-                        <p>{{$withdrawal_details->billingaccountDetails->bank_name ?? tr('not_available') }}</p>
+                        <p>{{$withdrawal_details->billingAccount->bank_name ?? tr('not_available') }}</p>
                     </div>
 
                     <div class="col-sm popup-label">
                         <b class="label-font">{{tr('ifsc_code')}}</b>
-                        <p>{{$withdrawal_details->billingaccountDetails->ifsc_code ?? tr('not_available') }}</p>
+                        <p>{{$withdrawal_details->billingAccount->ifsc_code ?? tr('not_available') }}</p>
                     </div>
 
 
@@ -205,7 +205,7 @@
 
                     <div class="col-sm popup-label">
                         <b class="label-font">{{tr('swift_code')}}</b>
-                        <p>{{$withdrawal_details->billingaccountDetails->swift_code ?? tr('not_available') }}</p>
+                        <p>{{$withdrawal_details->billingAccount->swift_code ?? tr('not_available') }}</p>
                     </div>
 
                     <div class="col-sm popup-label">
