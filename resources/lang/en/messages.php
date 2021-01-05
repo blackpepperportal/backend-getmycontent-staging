@@ -1095,6 +1095,8 @@ return [
 	"AWS_BUCKET"=>"AWS Bucket",
 	"s3_bucket_config"=>"S3 Bucket Configuration",
   
-	"is_badge_verified"=>"Is Badge Verified ?"
+	"is_badge_verified"=>"Is Badge Verified ?",
+	"online" => "Online",
+	"offline" => "Offline",
 ]
 ?>

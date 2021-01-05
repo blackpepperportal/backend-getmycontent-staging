@@ -229,7 +229,15 @@ class SettingSeeder extends Seeder
 			],
 			[
 		        'key' => 'is_verified_badge_enabled',
-		        'value' => 1
+		        'value' => NO
+		    ],
+			[
+		        'key' => 's3_bucket',
+		        'value' => NO
+		    ],
+		    [
+		        'key' => 'is_user_active_status',
+		        'value' => NO
 		    ],
 
 		]);
