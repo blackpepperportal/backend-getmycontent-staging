@@ -33,7 +33,7 @@
 
                     <div class="card-body card-dashboard">
 
-                        @include('admin.users.subscriptions._search')
+                        @include('admin.revenues.user_tips._search')
 
                         <table class="table table-striped table-bordered sourced-data">
 

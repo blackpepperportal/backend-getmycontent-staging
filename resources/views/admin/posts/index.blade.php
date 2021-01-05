@@ -107,6 +107,7 @@
                                     </th>
                                     <th>{{ tr('s_no') }}</th>
                                     <th>{{ tr('content_creator') }}</th>
+                                    <th>{{ tr('unique_id') }}</th>
                                     <th>{{ tr('publish_time') }}</th>
                                     <th>{{ tr('amount') }}</th>
                                     <th>{{ tr('is_paid_post') }}</th>
@@ -127,6 +128,12 @@
                                         <a href="{{  route('admin.posts.view' , ['post_id' => $post->id] )  }}">
                                             {{ $post->userdisplayname ?? "-" }}
                                         </a>
+                                    </td>
+
+                                    <td>
+                                      <a href="{{  route('admin.posts.view' , ['post_id' => $post->id] )  }}">
+                                        {{ $post->unique_id}}
+                                      </a>
                                     </td>
 
                                     <td>{{($post->publish_time) ? common_date($post->publish_time , Auth::guard('admin')->user()->timezone) : '-'}}</td>

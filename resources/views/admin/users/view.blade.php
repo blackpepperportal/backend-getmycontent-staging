@@ -206,7 +206,9 @@
                                     <tr>
                                         <th>{{tr('tipped_amount')}}</th>
                                         <td>
+                                             <a href="{{route('admin.user_tips.index',['user_id'=>$user->id])}}">
                                             {{$user->tipped_amount ?? 0.00}}
+                                            </a>
                                         </td>
                                     </tr>
 
