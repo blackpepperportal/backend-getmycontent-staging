@@ -409,7 +409,7 @@ class PostsApiController extends Controller
 
                 $post_file->file_type = $request->file_type;
 
-                $post_file->blur_file = $request->file_type == "image" ? \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->id) : Setting::get('post_video_placeholder');
+                $post_file->blur_file = $request->file_type == "image" ? \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->file, $request->id) : Setting::get('post_video_placeholder');
 
                 $post_file->save();
 
