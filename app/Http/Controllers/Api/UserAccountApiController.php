@@ -1525,7 +1525,7 @@ class UserAccountApiController extends Controller
             $rules = [
                 'user_billing_account_id' => 'nullable|exists:user_billing_accounts,id',
                 'account_holder_name' => 'required',
-                'account_number' => 'required',
+                'account_number' => 'required|numeric',
                 'ifsc_code' => 'nullable',
                 'swift_code' => 'nullable',
                 'route_number' => 'nullable',
