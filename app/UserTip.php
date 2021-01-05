@@ -49,7 +49,7 @@ class UserTip extends Model
 
 	public function fromUser() {
 
-	   return $this->belongsTo(User::class, 'from_user_id');
+	   return $this->belongsTo(User::class, 'user_id');
 	}
 
 	public function toUser() {

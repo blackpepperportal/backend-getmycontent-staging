@@ -1096,6 +1096,9 @@ return [
 	"s3_bucket_config"=>"S3 Bucket Configuration",
   
 	"is_badge_verified"=>"Is Badge Verified ?",
-	"tips_earnings"=>"Tips Earnings"
+	"tips_earnings"=>"Tips Earnings",
+	"tip_payments"=>"Tip Payments",
+	"user_tip_not_found"=>"User Tip not found",
+	"view_tip_payments"=>"View Tip Payments"
 ]
 ?>

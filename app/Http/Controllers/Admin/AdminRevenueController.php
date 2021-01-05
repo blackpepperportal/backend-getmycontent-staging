@@ -1151,4 +1151,67 @@ class AdminRevenueController extends Controller
 
     }
 
+
+     /**
+     * @method user_tips_index()
+     *
+     * @uses To list out user tip  payment details 
+     *
+     * @created Ganesh
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function user_tips_index(Request $request) {
+       
+        $base_query = \App\UserTip::orderBy('created_at','desc');
+                      
+        $user_tips = $base_query->paginate(10);
+
+        return view('admin.revenues.user_tips.index')
+                    ->with('page', 'payments')
+                    ->with('sub_page', 'tip-payments')
+                    ->with('user_tips', $user_tips);
+    }
+
+    /**
+     * @method user_tips_view()
+     *
+     * @uses To list out users tip payment details 
+     *
+     * @created Ganesh
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function user_tips_view(Request $request) {
+
+        try {
+       
+            $user_tip = \App\UserTip::find($request->user_tip_id);
+             
+             if(!$user_tip) { 
+
+                throw new Exception(tr('user_tip_not_found'), 101);                
+            }
+
+            return view('admin.revenues.user_tips.view')
+                        ->with('page', 'payments')
+                        ->with('sub_page', 'tip-payments')
+                        ->with('user_tip', $user_tip);
+
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+       }
+    }
+
 }

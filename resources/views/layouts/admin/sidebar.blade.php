@@ -255,6 +255,12 @@
                         </a>
                     </li>
 
+                    <li id="tip-payments">
+                        <a class="menu-item" href="{{route('admin.user_tips.index')}}">
+                           {{tr('tip_payments')}}
+                        </a>
+                    </li>
+
                    <!--  <li id="order-payments">
                         <a class="menu-item" href="{{route('admin.order.payments')}}">
                            {{tr('order_payments')}}
