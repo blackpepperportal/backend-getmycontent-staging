@@ -69,4 +69,22 @@ class ChatMessage extends Model
 
 	   return $this->belongsTo(User::class, 'to_user_id');
 	}
+
+	public static function boot() {
+
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->attributes['unique_id'] = "CM"."-".uniqid();
+        });
+
+        static::created(function($model) {
+
+            $model->attributes['unique_id'] = "CM"."-".$model->attributes['id']."-".uniqid();
+
+            $model->save();
+        
+        });
+
+    }
 }
