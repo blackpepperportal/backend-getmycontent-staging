@@ -1085,6 +1085,16 @@ return [
 	"BN_USER_COMMENT" => "User Comment Link",
 	"BN_USER_LIKE" => "User Like Link",
 	"BN_USER_TIPS" => "User Tips Link",
+
+	"s3_bucket"=>"S3 Bucket",
+	"enable"=>"Enable",
+	"disable"=>"Disable",
+	"AWS_ACCESS_KEY_ID"=>"AWS Access Key Id",
+	"AWS_SECRET_ACCESS_KEY"=>"AWS Secret Access Key",
+	"AWS_DEFAULT_REGION"=>"AWS Default Region",
+	"AWS_BUCKET"=>"AWS Bucket",
+	"s3_bucket_config"=>"S3 Bucket Configuration",
+  
 	"is_badge_verified"=>"Is Badge Verified ?"
 ]
 ?>

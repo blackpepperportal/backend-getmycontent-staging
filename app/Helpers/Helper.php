@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 use Mailgun\Mailgun;
 
-use Hash, Exception, Auth, Mail, File, Log, Storage, Setting, DB, Validator;
+use Hash, Exception, Auth, Mail, File, Log, Storage, Setting, DB, Validator, Image;
 
 use App\Admin, App\User, App\ContentCreator, App\StaticPage;
 
@@ -592,6 +592,17 @@ class Helper {
             return "";
 
         }
+
+        if (Setting::get('s3_bucket') == STORAGE_TYPE_S3 ) {
+
+            $path = $input_file->store($folder_path, 's3');
+
+            $file_path = str_replace("//","/",$path);
+
+            $url = Storage::disk('s3')->url($file_path);
+
+            return $url;
+        }
        
         $name = $name ?: Helper::file_name();
 
@@ -620,6 +631,15 @@ class Helper {
         $file_name = basename($url);
 
         $storage_file_path = $folder_path.$file_name;
+
+        if (Setting::get('s3_bucket') == STORAGE_TYPE_S3 ) {
+
+            $s3 = Storage::disk('s3');
+
+            $s3->delete($storage_file_path);
+
+            return true;
+        }
 
         $response = Storage::disk('public')->delete($storage_file_path);
     }
