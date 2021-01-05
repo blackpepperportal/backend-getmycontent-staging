@@ -82,28 +82,25 @@ class ChatApiController extends Controller
 
             if ($chat_message->save()) {
 
-                if ($request->is_file_uploaded) {
+                $chat_asset = new \App\ChatAsset;
 
-                    $chat_asset = new \App\ChatAsset;
+                $chat_asset->from_user_id = $request->from_user_id;
 
-                    $chat_asset->from_user_id = $request->from_user_id;
+                $chat_asset->to_user_id = $request->to_user_id;
 
-                    $chat_asset->to_user_id = $request->to_user_id;
+                $chat_asset->chat_message_id = $chat_message->chat_message_id;
 
-                    $chat_asset->chat_message_id = $chat_message->chat_message_id;
+                $filename = rand(1,1000000).'-chat_asset-'.$request->file_type;
 
-                    $filename = rand(1,1000000).'-chat_asset-'.$request->file_type;
+                $chat_assets_file_url = Helper::storage_upload_file($request->file, CHAT_ASSETS_PATH, $filename);
 
-                    $chat_assets_file_url = Helper::storage_upload_file($request->file, CHAT_ASSETS_PATH, $filename);
+                $chat_asset->file = $chat_assets_file_url;
 
-                    $chat_asset->file = $chat_assets_file_url;
+                $chat_asset->file_type = $request->file_type ?? FILE_TYPE_IMAGE;
 
-                    $chat_asset->file_type = $request->file_type ?? FILE_TYPE_IMAGE;
+                $chat_asset->amount = $request->amount ?? 0.00;
 
-                    $chat_asset->amount = $request->amount ?? 0.00;
-
-                    $chat_asset->save();
-                }
+                $chat_asset->save();
 
                 DB::commit();
             }
