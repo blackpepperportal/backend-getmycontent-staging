@@ -20,6 +20,11 @@ class ChatAsset extends Model
 		return $this->unique_id;
 	}
 
+    public function chatMessage() {
+
+        return $this->belongsTo(ChatMessage::class, 'chat_message_id');
+    }
+
 	public static function boot() {
 
         parent::boot();
