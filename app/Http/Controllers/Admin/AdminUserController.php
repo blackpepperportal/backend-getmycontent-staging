@@ -500,7 +500,6 @@ class AdminUserController extends Controller
         try {
       
             $user = \App\User::find($request->user_id);
-            
 
             if(!$user) { 
 

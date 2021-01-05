@@ -445,7 +445,7 @@ class UserAccountApiController extends Controller
 
             $email_data['page'] = "emails.users.forgot-password";
 
-            $email_data['url'] = Setting::get('frontend_url')."/resetpassword/".$token;
+            $email_data['url'] = Setting::get('frontend_url')."resetpassword/".$token;
             
             $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 

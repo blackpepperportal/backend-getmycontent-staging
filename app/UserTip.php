@@ -62,6 +62,8 @@ class UserTip extends Model
 	   return $this->belongsTo(Post::class, 'post_id');
 	}
 
+	
+
 	public static function boot() {
 
         parent::boot();

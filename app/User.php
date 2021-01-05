@@ -41,7 +41,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = ['user_id', 'user_unique_id', 'is_notification', 'is_document_verified_formatted', 'total_followers', 'total_followings', 'user_account_type_formatted', 'total_posts', 'total_fav_users', 'total_bookmarks', 'is_subscription_enabled', 'share_link','orders_count'];
+    protected $appends = ['user_id', 'user_unique_id', 'is_notification', 'is_document_verified_formatted', 'total_followers', 'total_followings', 'user_account_type_formatted', 'total_posts', 'total_fav_users', 'total_bookmarks', 'is_subscription_enabled', 'share_link','orders_count','tipped_amount'];
 
     public function getUserIdAttribute() {
 
@@ -267,6 +267,13 @@ class User extends Authenticatable
 
         return $this->hasMany(ReportPost::class,'block_by');
     }
+
+    public function getTippedAmountAttribute() {
+
+		return formatted_amount($this->userTips->sum('amount') ?? 0.00);
+	}
+
+	
     
     /**
      * Scope a query to only include active users.

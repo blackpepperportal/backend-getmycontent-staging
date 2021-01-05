@@ -204,6 +204,13 @@
                                     </tr>
 
                                     <tr>
+                                        <th>{{tr('tipped_amount')}}</th>
+                                        <td>
+                                            {{$user->tipped_amount ?? 0.00}}
+                                        </td>
+                                    </tr>
+
+                                    <tr>
                                         <th>{{tr('email_notification')}}</th>
                                         <td>
                                             @if($user->is_email_notification == YES)
