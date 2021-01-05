@@ -328,9 +328,13 @@ class ChatApiController extends Controller
 
         try {
 
-            $chat_assets_payments = \App\ChatAssetPayment::where('from_user_id',$request->id)->get();
+            $base_query = \App\ChatAssetPayment::where('from_user_id',$request->id);
+
+            $chat_assets_payments = $total = $base_query->skip($this->skip)->take($this->take)->get();
 
             $data['chat_assets_payments'] = $chat_assets_payments;
+
+            $data['total'] = $total->count();
 
             return $this->sendResponse($message = "", $success_code = "", $data);
 
