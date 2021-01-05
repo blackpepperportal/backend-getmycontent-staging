@@ -368,6 +368,10 @@ return [
 	"PAYPAL_ID" => "Paypal Id",
 	"PAYPAL_SECRET" => "Paypal Secret",
 	"PAYPAL_MODE" => "Paypal Mode",
+	"paypal_settings" => "Paypal Settings",
+	"paypal_payment_status" => "Paypal Payment Gateway",
+	"is_verified_badge_enabled" => "Is Verification Badge Feature?",
+	"is_user_active_status" => "User Online/Offline Feature?",
 
 	"admin_control" => "Admin Control",
 	"is_demo_control_enabled" => "Do you want to prevent the edit/delete Actions",
