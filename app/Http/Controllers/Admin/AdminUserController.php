@@ -500,7 +500,6 @@ class AdminUserController extends Controller
         try {
       
             $user = \App\User::find($request->user_id);
-            
 
             if(!$user) { 
 
@@ -1053,6 +1052,12 @@ class AdminUserController extends Controller
                             
                             return $query->where('users.name','LIKE','%'.$search_key.'%');
                         });
+        }
+
+
+        if($request->from_user_id){
+
+            $base_query->where('from_user_id',$request->from_user_id);
         }
 
         $user_subscriptions = $base_query->paginate(10);

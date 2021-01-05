@@ -445,7 +445,7 @@ class UserAccountApiController extends Controller
 
             $email_data['page'] = "emails.users.forgot-password";
 
-            $email_data['url'] = Setting::get('frontend_url')."/resetpassword/".$token;
+            $email_data['url'] = Setting::get('frontend_url')."resetpassword/".$token;
             
             $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
@@ -1525,7 +1525,7 @@ class UserAccountApiController extends Controller
             $rules = [
                 'user_billing_account_id' => 'nullable|exists:user_billing_accounts,id',
                 'account_holder_name' => 'required',
-                'account_number' => 'required',
+                'account_number' => 'required|numeric',
                 'ifsc_code' => 'nullable',
                 'swift_code' => 'nullable',
                 'route_number' => 'nullable',

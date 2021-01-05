@@ -204,6 +204,13 @@
                                     </tr>
 
                                     <tr>
+                                        <th>{{tr('tipped_amount')}}</th>
+                                        <td>
+                                            {{$user->tipped_amount ?? 0.00}}
+                                        </td>
+                                    </tr>
+
+                                    <tr>
                                         <th>{{tr('email_notification')}}</th>
                                         <td>
                                             @if($user->is_email_notification == YES)
@@ -305,6 +312,13 @@
                                         <div class="col-6">
 
                                             <a href="{{route('admin.post.payments',['user_id' => $user->id])}}" class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1">{{tr('post_payments')}}</a>
+
+                                        </div>
+
+
+                                        <div class="col-6">
+
+                                           <a href="{{route('admin.users_subscriptions.index',['from_user_id' => $user->id])}}" class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1">{{tr('subscription_payments')}}</a>
 
                                         </div>
 
