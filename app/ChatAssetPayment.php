@@ -8,7 +8,7 @@ class ChatAssetPayment extends Model
 {
     protected $hidden = ['id','unique_id'];
 
-	protected $appends = ['chat_asset_payment_id', 'chat_asset_payment_unique_id'];
+	protected $appends = ['chat_asset_payment_id', 'chat_asset_payment_unique_id', 'amount_formatted', 'admin_amount_formatted', 'user_amount_formatted'];
 
 	public function getChatAssetPaymentIdAttribute() {
 
@@ -29,6 +29,32 @@ class ChatAssetPayment extends Model
 
 	   return $this->hasMany(ChatAsset::class, 'chat_message_id');
 	}
+
+    public function fromUser() {
+
+        return $this->belongsTo(User::class,'from_user_id');
+    }
+
+    public function toUser() {
+
+        return $this->belongsTo(User::class, 'to_user_id');
+    }
+
+    public function getAmountFormattedAttribute() {
+
+        return formatted_amount($this->paid_amount);
+    }
+
+    public function getAdminAmountFormattedAttribute() {
+
+        return formatted_amount($this->admin_amount);
+    }
+
+
+    public function getUserAmountFormattedAttribute() {
+
+        return formatted_amount($this->user_amount);
+    }
 
 	public static function boot() {
 

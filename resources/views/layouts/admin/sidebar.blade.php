@@ -273,6 +273,12 @@
                         </a>
                     </li>
 
+                    <li id="chat-asset-payments">
+                        <a class="menu-item" href="{{route('admin.chat_asset_payments.index')}}">
+                           {{tr('chat_asset_payments')}}
+                        </a>
+                    </li>
+
                 </ul>            
             </li>
 

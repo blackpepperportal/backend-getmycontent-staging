@@ -1085,6 +1085,10 @@ return [
 	"BN_USER_COMMENT" => "User Comment Link",
 	"BN_USER_LIKE" => "User Like Link",
 	"BN_USER_TIPS" => "User Tips Link",
+
+	"chat_asset_payments"=>"Chat Asset Payments",
+	"chat_asset_payment"=>"Chat Asset Payment",
+	"view_chat_asset_payment"=>"View Chat Asset Payment",
 	"is_badge_verified"=>"Is Badge Verified ?"
 ]
 ?>

@@ -392,5 +392,9 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('report_posts/delete', 'Admin\AdminPostController@report_posts_delete')->name('report_posts.delete');
 
+        Route::get('chat_asset_payments/index','Admin\AdminUserController@chat_asset_payments')->name('chat_asset_payments.index');
+
+        Route::get('chat_asset_payments/view','Admin\AdminUserController@chat_asset_payment_view')->name('chat_asset_payments.view');
+
      });
 });
