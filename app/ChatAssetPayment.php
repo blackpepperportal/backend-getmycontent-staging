@@ -8,14 +8,14 @@ class ChatAssetPayment extends Model
 {
     protected $hidden = ['id','unique_id'];
 
-	protected $appends = ['chat_asset_payments_id', 'chat_asset_payments_unique_id'];
+	protected $appends = ['chat_asset_payment_id', 'chat_asset_payment_unique_id'];
 
-	public function getChatAssetPaymentsIdAttribute() {
+	public function getChatAssetPaymentIdAttribute() {
 
 		return $this->id;
 	}
 
-	public function getChatAssetPaymentsUniqueIdAttribute() {
+	public function getChatAssetPaymentUniqueIdAttribute() {
 
 		return $this->unique_id;
 	}
