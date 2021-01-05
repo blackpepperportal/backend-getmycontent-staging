@@ -873,6 +873,14 @@ class PostsApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules, $custom_errors);
 
+            $is_post_published = \App\Post::where('id',$request->post_id)->where('is_published',YES)->first();
+
+            
+            if(!$is_post_published){
+
+                throw new Exception(api_error(169), 169);
+            }
+            
             $custom_request = new Request();
 
             $custom_request->request->add(['user_id' => $request->id, 'post_id' => $request->post_id, 'comment' => $request->comment]);

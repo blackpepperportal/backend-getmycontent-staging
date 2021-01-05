@@ -806,7 +806,8 @@ class WalletApiController extends Controller
                 'paid_amount' => $request->requested_amount,
                 'payment_type' => WALLET_PAYMENT_TYPE_WITHDRAWAL,
                 'amount_type' => WALLET_AMOUNT_TYPE_MINUS,
-                'payment_id' => 'WDP-'.rand()
+                'payment_id' => 'WDP-'.rand(),
+                'payment_mode'=>PAYMENT_MODE_WALLET
             ];
 
             $withdraw_request = new \Illuminate\Http\Request();
