@@ -689,7 +689,7 @@ class Helper {
      * @method upload_file
      */
     
-    public static function generate_post_blur_file($url, $user_id) {
+    public static function generate_post_blur_file($url, $input_file,$user_id) {
 
         if(!$url) {
 
@@ -713,6 +713,20 @@ class Helper {
            
             $url = asset(Storage::url($output_file_path));
 
+        }
+        else{
+
+            $extension = $input_file->getClientOriginalExtension();
+
+            $filename = md5(time()).'_'.$input_file->getClientOriginalName();
+
+            $blured_file = Image::make($input_file)->blur(100)->encode($extension);
+
+            Storage::disk('s3')->put(POST_BLUR_PATH.$filename, (string)$blured_file, 'public');
+
+            $url = Storage::disk('s3')->url(POST_BLUR_PATH.$filename);
+
+            return $url;
         }
         
         return $url;
