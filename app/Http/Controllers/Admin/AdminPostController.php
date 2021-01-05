@@ -425,6 +425,9 @@ class AdminPostController extends Controller
 
             $number_of_tips = \App\UserTip::where('post_id',$request->post_id)->count();
 
+            $payment_data->tips_earnings = \App\UserTip::where('post_id',$request->post_id)->sum('amount');
+
+
             $data->recent_comments = \App\PostComment::where('post_id',$request->post_id)->orderBy('post_comments.created_at', 'desc')->get();
 
             return view('admin.posts.dashboard')
