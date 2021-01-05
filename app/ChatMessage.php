@@ -70,16 +70,6 @@ class ChatMessage extends Model
 	   return $this->belongsTo(User::class, 'to_user_id');
 	}
 
-	public function chatAsset() {
-
-	   return $this->belongsTo(ChatAsset::class, 'chat_message_id');
-	}
-
-	public function chatAssetPayment() {
-
-	   return $this->belongsTo(ChatAssetPayment::class, 'chat_message_id');
-	}
-
 	public function chatAssets() {
 
 	   return $this->hasMany(ChatAsset::class, 'chat_message_id');

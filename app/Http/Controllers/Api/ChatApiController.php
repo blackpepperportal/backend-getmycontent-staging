@@ -52,8 +52,8 @@ class ChatApiController extends Controller
                 'from_user_id' => 'required|exists:users,id',
                 'to_user_id' => 'required|exists:users,id',
                 'message' => 'required',
-                'amount' => $request->is_file_uploaded ? 'required' : '',
-                'file' => $request->is_file_uploaded ? 'required' : '',
+                'amount' => 'required',
+                'file' => 'required',
             ];
 
             Helper::custom_validator($request->all(),$rules);
@@ -76,7 +76,7 @@ class ChatApiController extends Controller
 
             $chat_message->message = $request->message;
 
-            $chat_message->is_file_uploaded = $request->is_file_uploaded ?? YES;
+            $chat_message->is_file_uploaded = YES;
 
             $chat_message->amount = $request->amount ?? 0.00;
 
