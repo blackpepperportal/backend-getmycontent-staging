@@ -54,6 +54,8 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     Route::any('chat_assets_index', 'Api\ChatApiController@chat_assets_index');
 
+    Route::any('chat_assets_payment_by_stripe', 'Api\ChatApiController@chat_assets_payment_by_stripe');
+
     Route::post('register','Api\UserAccountApiController@register');
     
     Route::post('login','Api\UserAccountApiController@login');

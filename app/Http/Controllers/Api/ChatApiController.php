@@ -10,6 +10,8 @@ use Log, Validator, Exception, DB, Setting;
 
 use App\Helpers\Helper;
 
+use App\Repositories\PaymentRepository as PaymentRepo;
+
 class ChatApiController extends Controller
 {
 
@@ -159,6 +161,115 @@ class ChatApiController extends Controller
             return $this->sendError($e->getMessage(), $e->getCode());
         }
     
+    }
+
+    /**
+     * @method chat_assets_payment_by_stripe()
+     * 
+     * @uses chat_assets_payment_by_stripe based on Chat message id
+     *
+     * @created Arun
+     *
+     * @updated Arun
+     *
+     * @param object $request - Chat message id
+     *
+     * @return json with boolean output
+     */
+
+    public function chat_assets_payment_by_stripe(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            // Validation start
+
+            $rules = ['chat_message_id' => 'required|numeric'];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors = []);
+
+            // Validation end
+            $chat_message = \App\ChatMessage::firstWhere('id',$request->chat_message_id);
+
+            $chat_asset = \App\ChatAsset::firstWhere('chat_message_id',$request->chat_message_id);
+
+            if(!$chat_message || !$chat_asset) {
+
+                throw new Exception(api_error(167), 167); 
+
+            }
+
+            $request->request->add(['payment_mode' => CARD]);
+
+            $total = $user_pay_amount = $chat_message->amount ?: 0.00;
+
+            if($user_pay_amount > 0) {
+
+                // Check the user have the cards
+
+                $user_card = \App\UserCard::where('user_id', $request->id)->firstWhere('is_default', YES);
+
+                if(!$user_card) {
+
+                    throw new Exception(api_error(120), 120); 
+
+                }
+
+                $request->request->add([
+                    'total' => $total, 
+                    'user_card_id' => $user_card->id,
+                    'customer_id' => $user_card->customer_id,
+                    'card_token' => $user_card->card_token,
+                    'user_pay_amount' => $user_pay_amount,
+                    'paid_amount' => $user_pay_amount,
+                ]);
+
+                $card_payment_response = PaymentRepo::chat_assets_payment_by_stripe($request, $chat_message)->getData();
+                
+                if($card_payment_response->success == false) {
+
+                    throw new Exception($card_payment_response->error, $card_payment_response->error_code);
+                    
+                }
+
+                $card_payment_data = $card_payment_response->data;
+
+                $request->request->add(['paid_amount' => $card_payment_data->paid_amount, 'payment_id' => $card_payment_data->payment_id, 'paid_status' => $card_payment_data->paid_status]);
+               
+
+            }
+
+            $payment_response = PaymentRepo::chat_assets_payment_save($request, $chat_message)->getData();
+
+            if($payment_response->success) {
+
+                $chat_message->is_paid = PAID;
+
+                if ($chat_message->save()) {
+
+                    $chat_asset->is_paid = PAID;
+
+                    $chat_asset->save();
+                }
+                
+                DB::commit();
+
+                return $this->sendResponse(api_success(117), 117, $payment_response->data);
+
+            } else {
+
+                throw new Exception($payment_response->error, $payment_response->error_code);
+                
+            }
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+
     }
 
 

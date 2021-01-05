@@ -139,6 +139,8 @@ return [
 
     165 =>  'You have already blocked the User',
 
-    166 =>  'Badge Verification Failed'
+    166 =>  'Badge Verification Failed',
+
+    167 =>  'Chat details not found'
 
 ];
