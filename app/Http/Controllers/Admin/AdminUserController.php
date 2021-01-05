@@ -1055,6 +1055,12 @@ class AdminUserController extends Controller
                         });
         }
 
+
+        if($request->from_user_id){
+
+            $base_query->where('from_user_id',$request->from_user_id);
+        }
+
         $user_subscriptions = $base_query->paginate(10);
 
 

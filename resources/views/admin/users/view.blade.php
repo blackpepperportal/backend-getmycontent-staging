@@ -308,6 +308,13 @@
 
                                         </div>
 
+
+                                        <div class="col-6">
+
+                                           <a href="{{route('admin.users_subscriptions.index',['from_user_id' => $user->id])}}" class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1">{{tr('subscription_payments')}}</a>
+
+                                        </div>
+
                                         <div class="col-6" style="display: none;">
 
                                             <a href="{{route('admin.orders.index',['user_id' => $user->id])}}" class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1">{{tr('orders')}}</a>
