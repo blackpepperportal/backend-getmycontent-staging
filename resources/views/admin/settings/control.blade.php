@@ -136,6 +136,22 @@
 
                                                         <div class="form-group col-md-6">
                                                                        
+                                                            <label>{{ tr('s3_bucket') }}</label>
+                                                            <br>
+                                                            <label>
+                                                                <input required type="radio" name="s3_bucket" value="1" class="flat-red" @if(Setting::get('s3_bucket') == 1) checked @endif>
+                                                                {{tr('enable')}}
+                                                            </label>
+
+                                                            <label>
+                                                                <input required type="radio" name="s3_bucket" class="flat-red"  value="0" @if(Setting::get('s3_bucket') == 0) checked @endif>
+                                                                {{tr('disable')}}
+                                                            </label>
+                                                    
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                                       
                                                             <label>{{ tr('admin_take_count') }}</label>
                                                             
                                                             <input type="number" name="admin_take_count" class="form-control" value="{{Setting::get('admin_take_count', 6)}}">
@@ -244,6 +260,112 @@
                                                     
                                                         </div>
                                                     
+                                                    </div>
+                                                
+                                                </div>
+
+                                                <div class="form-actions">
+
+                                                    <div class="pull-right">
+                                                    
+                                                        <button type="reset" class="btn btn-warning mr-1">
+                                                            <i class="ft-x"></i> {{ tr('reset') }} 
+                                                        </button>
+
+                                                        <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled @endif ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
+                                                    
+                                                    </div>
+
+                                                    <div class="clearfix"></div>
+
+                                                </div>
+
+                                            </form>
+                                            
+                                        </div>
+                                    
+                                    </div>
+
+                                </div>
+                            
+                            </div>
+                        
+                        </div>
+
+                    </section>
+
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <div class="card-content">
+
+                    <section id="basic-form-layouts">
+    
+                        <div class="row match-height">
+                        
+                            <div class="col-lg-12">
+
+                                <div class="card">
+                                    
+                                    <div class="card-header border-bottom border-gray">
+                                        <h4 class="card-title" id="basic-layout-form">{{tr('admin')}}</h4>
+                                        <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                    </div>
+
+                                    <div class="card-content collapse show">
+
+                                        <div class="card-body">
+
+
+                                            <form class="forms-sample" action="{{route('admin.env-settings.save')}}" method="POST" role="form">
+
+                                            @csrf
+
+                                                <div class="card-header bg-card-header ">
+
+                                                    <h4 class="">{{tr('s3_bucket_config')}}</h4>
+
+                                                </div>
+
+                                                <div class="card-body">
+
+                                                    <div class="row">
+
+                                                        <div class="form-group col-md-6">
+                                                                       
+                                                            <label>{{ tr('AWS_ACCESS_KEY_ID') }}</label>
+                                                            <br>
+                                                            <input type="text" class="form-control" id="AWS_ACCESS_KEY_ID" name="AWS_ACCESS_KEY_ID" placeholder="Enter {{tr('AWS_ACCESS_KEY_ID')}}" value="{{old('AWS_ACCESS_KEY_ID') ?: $env_values['AWS_ACCESS_KEY_ID'] }}">
+                                                    
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                                       
+                                                            <label>{{ tr('AWS_SECRET_ACCESS_KEY') }}</label>
+                                                            <br>
+                                                            <input type="text" class="form-control" id="AWS_SECRET_ACCESS_KEY" name="AWS_SECRET_ACCESS_KEY" placeholder="Enter {{tr('AWS_SECRET_ACCESS_KEY')}}" value="{{old('AWS_SECRET_ACCESS_KEY') ?: $env_values['AWS_SECRET_ACCESS_KEY'] }}">
+                                                    
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                                       
+                                                            <label>{{ tr('AWS_DEFAULT_REGION') }}</label>
+                                                            <br>
+                                                            <input type="text" class="form-control" id="AWS_DEFAULT_REGION" name="AWS_DEFAULT_REGION" placeholder="Enter {{tr('AWS_DEFAULT_REGION')}}" value="{{old('AWS_DEFAULT_REGION') ?: $env_values['AWS_DEFAULT_REGION'] }}">
+                                                    
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                                       
+                                                            <label>{{ tr('AWS_BUCKET') }}</label>
+                                                            <br>
+                                                            <input type="text" class="form-control" id="AWS_BUCKET" name="AWS_BUCKET" placeholder="Enter {{tr('AWS_BUCKET')}}" value="{{old('AWS_BUCKET') ?: $env_values['AWS_BUCKET'] }}">
+                                                    
+                                                        </div>
+
                                                     </div>
                                                 
                                                 </div>

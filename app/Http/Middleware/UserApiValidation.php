@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Validator, DB, Setting, Log, Helper;
 
 use App\User;
+use Cache;
+use Carbon\Carbon;
 
 class UserApiValidation {
     /**
@@ -72,6 +74,9 @@ class UserApiValidation {
             }
        
         }
+
+        $expiresAt = Carbon::now()->addMinutes(1);
+        Cache::put($request->id, true, $expiresAt);
 
         return $next($request);
     }

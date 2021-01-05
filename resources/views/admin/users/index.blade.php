@@ -97,7 +97,13 @@
                                     <th>{{ tr('user_wallets') }}</th>
                                     <th>{{ tr('status') }}</th>
                                     <th><i class="icon-envelope"></i> {{ tr('verify') }}</th>
+
+                                    @if(Setting::get('is_verified_badge_enabled'))
+                                    <th>{{tr('is_badge_verified')}}</th>
+                                    @endif
+
                                     <th>{{tr('documents')}}</th>
+
                                     <th>{{ tr('action') }}</th>
                                 </tr>
                             </thead>
@@ -118,6 +124,11 @@
                                         </a>
                                         @if($user->user_account_type == USER_PREMIUM_ACCOUNT)
                                         <b><i class="icon-badge text-green"></i></b>
+                                        @endif
+                                        @if(Cache::has($user->id))
+                                            <span class="text-success">Online</span>
+                                        @else
+                                            <span class="text-secondary">Offline</span>
                                         @endif
                                     </td>
 
@@ -157,6 +168,21 @@
                                         @endif
                                     </td>
 
+                                    @if(Setting::get('is_verified_badge_enabled'))
+                                       
+                                        <td>
+                                            @if($user->is_verified_badge == YES)
+
+                                            <span class="badge badge-success">{{tr('yes')}}</span>
+
+                                            @else
+                                            <span class="badge badge-danger">{{tr('no')}}</span>
+
+                                            @endif
+                                        </td>
+                                        
+                                    @endif
+                                    
                                     <td>
                                         <a class="btn btn-blue btn-sm" href="{{route('admin.user_documents.view', ['user_id' => $user->id])}}">{{$user->is_document_verified_formatted}}</a>
                                     </td>

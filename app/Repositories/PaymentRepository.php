@@ -854,7 +854,7 @@ class PaymentRepository {
 
             $post_payment->user_id = $request->id;
 
-            $post_payment->payment_id = $request->payment_id ?? "NO-".rand();
+            $post_payment->payment_id = $request->peayment_id ?? "NO-".rand();
 
             $post_payment->payment_mode = $request->payment_mode ?? CARD;
 
@@ -882,7 +882,7 @@ class PaymentRepository {
 
             self::post_payment_wallet_update($request, $post, $post_payment);
 
-            $response = ['success' => true, 'message' => 'paid', 'data' => [ 'payment_id' => $request->payment_id]];
+            $response = ['success' => true, 'message' => 'paid', 'data' => [ 'payment_id' => $request->payment_id, 'post' => $post]];
 
             return response()->json($response, 200);
 
@@ -1008,6 +1008,10 @@ class PaymentRepository {
             $user_tip->status = PAID;
 
             $user_tip->save();
+
+            // Add to post user wallet
+
+            self::tips_payment_wallet_update($request, $user_tip);
 
             $response = ['success' => true, 'message' => 'paid', 'data' => [ 'payment_id' => $request->payment_id]];
 
@@ -1314,4 +1318,61 @@ class PaymentRepository {
         }
 
     }
+
+    /**
+     * @method tips_payment_wallet_update
+     *
+     * @uses tip payment amount will update to the post owner wallet
+     *
+     * @created vithya R
+     *
+     * @updated vithya R
+     *
+     * @param
+     *
+     * @return
+     */
+
+    public static function tips_payment_wallet_update($request, $user_tip) {
+
+        try {
+
+            $to_user_inputs = [
+                'id' => $request->to_user_id,
+                'received_from_user_id' => $request->id,
+                'total' => $user_tip->amount, 
+                'user_pay_amount' => $user_tip->amount,
+                'paid_amount' => $user_tip->amount,
+                'payment_type' => WALLET_PAYMENT_TYPE_CREDIT,
+                'amount_type' => WALLET_AMOUNT_TYPE_ADD,
+                'payment_id' => $user_tip->payment_id
+            ];
+
+            $to_user_request = new \Illuminate\Http\Request();
+
+            $to_user_request->replace($to_user_inputs);
+
+            $to_user_payment_response = self::user_wallets_payment_save($to_user_request)->getData();
+
+            if($to_user_payment_response->success) {
+
+                DB::commit();
+
+                return $to_user_payment_response;
+
+            } else {
+
+                throw new Exception($to_user_payment_response->error, $to_user_payment_response->error_code);
+            }
+        
+        } catch(Exception $e) {
+
+            $response = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
+
+            return response()->json($response, 200);
+
+        }
+
+    }
+
 }

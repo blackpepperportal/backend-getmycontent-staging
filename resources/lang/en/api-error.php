@@ -137,6 +137,13 @@ return [
 
     164 =>  'You can\'t Report your Own Post',
 
-    165 =>  'You have already blocked the User'
+    165 =>  'You have already blocked the User',
+
+    166 =>  'Badge Verification Failed',
+
+    167 =>  'Incorrect password',
+
+    168 => 'You have already blocked the user.please unblock and add to favourites',
+
 
 ];

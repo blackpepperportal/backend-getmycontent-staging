@@ -226,6 +226,10 @@ class SettingSeeder extends Seeder
 			[
 		        'key' => 'MAILGUN_PUBLIC_KEY',
 		        'value' => ""
+			],
+			[
+		        'key' => 'is_verified_badge_enabled',
+		        'value' => 1
 		    ],
 
 		]);
