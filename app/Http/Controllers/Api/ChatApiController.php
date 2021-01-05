@@ -252,7 +252,7 @@ class ChatApiController extends Controller
                 
                 DB::commit();
 
-                return $this->sendResponse(api_success(117), 117, $payment_response->data);
+                return $this->sendResponse(api_success(118), 118, $payment_response->data);
 
             } else {
 
@@ -263,6 +263,120 @@ class ChatApiController extends Controller
         } catch(Exception $e) {
 
             DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+
+    }
+
+    /**
+     * @method chat_assets_delete()
+     *
+     * @uses delete the chat assets
+     *
+     * @created Arun
+     *
+     * @updated Arun
+     *
+     * @param object $request
+     *
+     * @return JSON Response
+     */
+    public function chat_assets_delete(Request $request) {
+
+        try {
+            
+            DB::begintransaction();
+
+            $rules = ['chat_message_id' => 'required|exists:chat_messages,id'];
+
+            Helper::custom_validator($request->all(),$rules);
+
+            $chat_message = \App\ChatMessage::destroy($request->chat_message_id);
+
+            DB::commit(); 
+
+            $data = $chat_message;
+
+            return $this->sendResponse(api_success(161), 161, $data);
+            
+        } catch(Exception $e){ 
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        } 
+    
+    }
+
+    /** 
+     * @method chat_assets_payments_list()
+     *
+     * @uses To display the chat_assets_payments list based on user  id
+     *
+     * @created Arun 
+     *
+     * @updated Arun
+     *
+     * @param object $request
+     *
+     * @return json response with user details
+     */
+
+    public function chat_assets_payments_list(Request $request) {
+
+        try {
+
+            $chat_assets_payments = \App\ChatAssetPayment::where('from_user_id',$request->id)->get();
+
+            $data['chat_assets_payments'] = $chat_assets_payments;
+
+            return $this->sendResponse($message = "", $success_code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
+    }
+
+    /**
+     * @method chat_assets_payments_view()
+     * 
+     * @uses get the selected chat_assets_payments request
+     *
+     * @created Arun 
+     *
+     * @updated Arun
+     *
+     * @param object $request
+     *
+     * @return json with boolean output
+     */
+
+    public function chat_assets_payments_view(Request $request) {
+
+        try {
+
+            $rules = ['chat_asset_payments_id' => 'required|exists:chat_asset_payments,id'];
+
+            Helper::custom_validator($request->all(),$rules);
+
+            $chat_asset_payment = \App\ChatAssetPayment::with('chatMessage')->with('chatAssets')->firstWhere('id',$request->chat_asset_payments_id);
+            
+            if(!$chat_asset_payment) {
+
+                throw new Exception(api_error(167), 167);
+                
+            }
+
+            $data['chat_asset_payment'] = $chat_asset_payment;
+
+            return $this->sendResponse($message = "", $code = "", $data);
+
+        } catch(Exception $e) {
 
             return $this->sendError($e->getMessage(), $e->getCode());
         }
