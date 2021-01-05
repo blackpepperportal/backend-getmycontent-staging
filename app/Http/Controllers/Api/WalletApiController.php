@@ -773,6 +773,13 @@ class WalletApiController extends Controller
                 throw new Exception(api_error(143, $min_amount_formatted), 143);
             }
 
+            $remaining = $user_wallet->remaining ?? 0;
+            
+            if($remaining < $request->requested_amount) {
+
+                throw new Exception(api_error(170), 170);    
+            }
+
             // Create withdraw requests
 
             $user_withdrawal = new \App\UserWithdrawal;

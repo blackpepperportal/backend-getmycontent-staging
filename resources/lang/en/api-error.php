@@ -147,4 +147,6 @@ return [
 
     169 => 'Post not yet published',
 
+    170 => 'Requested amount should be less than wallet balance'
+
 ];
