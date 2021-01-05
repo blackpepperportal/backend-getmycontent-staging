@@ -14,6 +14,9 @@ use App\Jobs\SendEmailJob;
 
 use Carbon\Carbon;
 
+use App\Repositories\PaymentRepository as PaymentRepo;
+
+
 class AdminRevenueController extends Controller
 {
 	/**
@@ -780,6 +783,8 @@ class AdminRevenueController extends Controller
             if($user_withdrawal->save()) {
 
                 DB::commit();
+
+                PaymentRepo::user_wallet_update_withdraw_cancel($user_withdrawal->requested_amount, $user_withdrawal->user_id);
 
                 $email_data['subject'] = Setting::get('site_name');
 
