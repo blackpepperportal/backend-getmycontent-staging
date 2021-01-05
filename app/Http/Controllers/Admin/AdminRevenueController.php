@@ -786,6 +786,16 @@ class AdminRevenueController extends Controller
 
                 PaymentRepo::user_wallet_update_withdraw_cancel($user_withdrawal->requested_amount, $user_withdrawal->user_id);
 
+                $user_wallet_payment = \App\UserWalletPayment::where('id', $user_withdrawal->user_wallet_payment_id)->first();
+
+                if($user_wallet_payment) {
+
+                    $user_wallet_payment->status = USER_WALLET_PAYMENT_CANCELLED;
+
+                    $user_wallet_payment->save();
+                }
+
+                
                 $email_data['subject'] = Setting::get('site_name');
 
                 $email_data['page'] = "emails.users.withdrawals-decline";
