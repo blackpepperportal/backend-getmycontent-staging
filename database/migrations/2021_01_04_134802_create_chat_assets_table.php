@@ -20,7 +20,7 @@ class CreateChatAssetsTable extends Migration
             $table->integer('to_user_id');
             $table->integer('chat_message_id');
             $table->string('file');
-            $table->string('file_type')->default('FILE_TYPE_IMAGE');
+            $table->string('file_type')->default(FILE_TYPE_IMAGE);
             $table->float('amount')->default(0.00);
             $table->tinyInteger('is_paid')->default(NO);
             $table->tinyInteger('status')->default(1);
