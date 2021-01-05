@@ -211,7 +211,7 @@ class AdminPostController extends Controller
 
                         $post_file->file_type = 'image';
 
-                        $post_file->blur_file = \App\Helpers\Helper::generate_post_blur_file($post_file->file, $post->user_id);
+                        $post_file->blur_file = \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->post_files, $post->user_id);
                         
                         $post_file->save();
 
