@@ -20,6 +20,19 @@ use App\Repositories\PaymentRepository as PaymentRepo;
 
 class ApplicationController extends Controller
 {
+
+    protected $skip, $take;
+
+    public function __construct(Request $request) {
+
+        $this->skip = $request->skip ?: 0;
+
+        $this->take = $request->take ?: (Setting::get('admin_take_count') ?: TAKE_COUNT);
+
+        $this->timezone = $this->loginUser->timezone ?? "America/New_York";
+
+    }
+
     /**
      * @method static_pages_api()
      *
@@ -411,6 +424,46 @@ class ApplicationController extends Controller
         } catch(Exception $e) {
 
             DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+    
+    }
+
+    /**
+     * @method media_assets()
+     * 
+     * @uses - To get the media assets.
+     *
+     * @created Arun
+     *
+     * @updated Arun
+     * 
+     * @param 
+     *
+     * @return return response.
+     *
+     */
+
+    public function media_assets(Request $request) {
+
+        try {
+            
+            $sent_base_query = \App\ChatAsset::where('is_paid',PAID)->where('from_user_id',$request->id);
+
+            $sent = $sent_base_query->skip($this->skip)->take($this->take)->get();
+
+            $recived_base_query = \App\ChatAsset::where('is_paid',PAID)->where('to_user_id',$request->id);
+
+            $recived = $recived_base_query->skip($this->skip)->take($this->take)->get();
+
+            $data['sent'] = $sent ?? [];
+
+            $data['recived'] = $recived ?? [];
+
+            return $this->sendResponse("", "", $data);
+
+        } catch(Exception $e) {
 
             return $this->sendError($e->getMessage(), $e->getCode());
         }
