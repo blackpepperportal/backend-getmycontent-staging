@@ -328,9 +328,9 @@ class ChatApiController extends Controller
 
         try {
 
-            $base_query = \App\ChatAssetPayment::where('from_user_id',$request->id);
+            $base_query = $total_query = \App\ChatAssetPayment::where('from_user_id',$request->id);
 
-            $chat_assets_payments = $total_query = $base_query->skip($this->skip)->take($this->take)->get();
+            $chat_assets_payments = $base_query->skip($this->skip)->take($this->take)->get();
 
             $data['chat_assets_payments'] = $chat_assets_payments;
 
