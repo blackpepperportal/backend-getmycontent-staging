@@ -139,6 +139,11 @@ return [
 
     165 =>  'You have already blocked the User',
 
-    166 =>  'Badge Verification Failed'
+    166 =>  'Badge Verification Failed',
+
+    167 =>  'Incorrect password',
+
+    168 => 'You have already blocked the user.please unblock and add to favourites',
+
 
 ];

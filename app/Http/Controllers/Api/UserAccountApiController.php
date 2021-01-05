@@ -825,7 +825,7 @@ class UserAccountApiController extends Controller
 
                 if(!Hash::check($request->password, $user->password)) {
          
-                    throw new Exception(api_error(104), 104); 
+                    throw new Exception(api_error(167), 167); 
                 }
             
             }

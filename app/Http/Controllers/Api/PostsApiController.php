@@ -1446,6 +1446,13 @@ class PostsApiController extends Controller
                 throw new Exception(api_error(135), 135);
             }
 
+            $is_user_blocked = Helper::is_block_user($request->id,$request->user_id);
+             
+            if($is_user_blocked){
+
+                throw new Exception(api_error(168), 168);
+            }
+
             $check_fav_user = $fav_user = \App\FavUser::where('user_id', $request->id)->where('fav_user_id', $request->user_id)->first();
 
             if(!$check_fav_user) {

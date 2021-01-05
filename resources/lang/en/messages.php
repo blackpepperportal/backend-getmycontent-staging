@@ -64,8 +64,8 @@ return [
 
 	/*********** COMMON CONTENT *******/
 
-	"select_picture" => "Selecte Picture",
-	"select_cover" => "Selecte Cover Picture",
+	"select_picture" => "Select Picture",
+	"select_cover" => "Select Cover Picture",
 	"select_status" => "Select Status",
 	"select_gender" => "Select Gender",
 	"member_since" => "Since ",
