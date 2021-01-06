@@ -60,7 +60,7 @@ class PostsApiController extends Controller
 
             $blocked_users = blocked_users($request->id);
 
-            $base_query = $total_query = Post::Approved()->whereNotIn('posts.user_id',$blocked_users)->whereNotIn('posts.id',$report_posts)->whereIn('posts.user_id', $follower_ids)->orderBy('posts.created_at', 'desc');
+            $base_query = $total_query = Post::Approved()->whereNotIn('posts.user_id',$blocked_users)->whereNotIn('posts.id',$report_posts)->whereHas('user')->whereIn('posts.user_id', $follower_ids)->orderBy('posts.created_at', 'desc');
 
             $posts = $base_query->skip($this->skip)->take($this->take)->get();
 
@@ -105,7 +105,7 @@ class PostsApiController extends Controller
 
             $blocked_users = blocked_users($request->id);
 
-            $base_query = $total_query = Post::Approved()->whereNotIn('posts.user_id',$blocked_users)->whereNotIn('posts.id',$report_posts)->whereIn('posts.user_id', $follower_ids)->with(['postFiles', 'user'])->orderBy('created_at', 'desc');
+            $base_query = $total_query = Post::Approved()->whereNotIn('posts.user_id',$blocked_users)->whereNotIn('posts.id',$report_posts)->whereHas('user')->whereIn('posts.user_id', $follower_ids)->with(['postFiles', 'user'])->orderBy('created_at', 'desc');
 
             if($request->search_key) {
 
@@ -635,6 +635,12 @@ class PostsApiController extends Controller
                 
             }
 
+            if($request->id == $post->user_id) {
+
+                throw new Exception(api_error(171), 171);
+                
+            }
+
             $check_post_payment = \App\PostPayment::UserPaid($request->id, $request->post_id)->first();
 
             if($check_post_payment) {
@@ -740,6 +746,12 @@ class PostsApiController extends Controller
             if(!$post) {
 
                 throw new Exception(api_error(146), 146);
+                
+            }
+
+            if($request->id == $post->user_id) {
+
+                throw new Exception(api_error(171), 171);
                 
             }
 
@@ -2052,6 +2064,12 @@ class PostsApiController extends Controller
             if(!$post) {
 
                 throw new Exception(api_error(146), 146);
+                
+            }
+
+            if($request->id == $post->user_id) {
+
+                throw new Exception(api_error(171), 171);
                 
             }
 

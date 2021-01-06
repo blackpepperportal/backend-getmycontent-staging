@@ -1062,7 +1062,7 @@ class AdminRevenueController extends Controller
 
             }
 
-            $user_wallet_payments = \App\UserWalletPayment::where('requested_amount','>',0)->where('user_id',$user_wallet->user_id)->paginate(10);
+            $user_wallet_payments = \App\UserWalletPayment::where('requested_amount','>',0)->where('user_id',$user_wallet->user_id)->orderBy('created_at','desc')->paginate(10);
                    
             return view('admin.user_wallets.view')
                         ->with('page', 'user_wallets') 
@@ -1169,6 +1169,31 @@ class AdminRevenueController extends Controller
     public function user_tips_index(Request $request) {
        
         $base_query = \App\UserTip::orderBy('created_at','desc');
+
+        if($request->user_id){
+
+         $base_query->where('user_id',$request->user_id);   
+
+        }
+
+        $search_key = $request->search_key;
+
+        if($search_key) {
+
+            $base_query = $base_query
+                        ->whereHas('fromUser',function($query) use($search_key) {
+
+                            return $query->where('users.name','LIKE','%'.$search_key.'%');
+
+                        })->orwhereHas('toUser',function($query) use($search_key) {
+                            
+                            return $query->where('users.name','LIKE','%'.$search_key.'%');
+
+                        })->orwhereHas('post',function($query) use($search_key) {
+                                
+                            return $query->where('posts.unique_id','LIKE','%'.$search_key.'%');
+                        });
+        }
                       
         $user_tips = $base_query->paginate(10);
 

@@ -270,7 +270,7 @@ class User extends Authenticatable
 
     public function getTippedAmountAttribute() {
 
-		return formatted_amount($this->userTips->sum('amount') ?? 0.00);
+		return formatted_amount($this->userTips()->sum('amount') ?? 0.00);
 	}
 
 	

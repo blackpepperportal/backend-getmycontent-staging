@@ -18,7 +18,7 @@
 
 @endsection
 
-@section('script')
+@section('scripts')
 
 <script type="text/javascript">
 
