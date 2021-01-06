@@ -2598,7 +2598,40 @@ class UserAccountApiController extends Controller
         }
 
 
-   
+    /**
+     * @method user_tips_history()
+     * 
+     * @uses User tips history
+     *
+     * @created Ganesh
+     *
+     * @updated Ganesh
+     *
+     * @param object $request
+     *
+     * @return json with boolean output
+     */
+
+    public function user_tips_history(Request $request) {
+
+        try {
+
+            $base_query = $total = \App\UserTip::CommonResponse()->where('user_id', $request->id);
+
+            $history = $base_query->orderBy('created_at', 'desc')->skip($this->skip)->take($this->take)->get();
+
+            $data['history'] = $history ?? [];
+
+            $data['total'] = $total->count() ?? 0;
+
+            return $this->sendResponse($message = "", $code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+
+    }
 
 
 }
