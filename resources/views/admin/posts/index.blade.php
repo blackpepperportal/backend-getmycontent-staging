@@ -125,7 +125,7 @@
                                     <td>{{ $i+$posts->firstItem() }}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.posts.view' , ['post_id' => $post->id] )  }}">
+                                        <a href="{{  route('admin.users.view' , ['user_id' => $post->user_id] )  }}">
                                             {{ $post->userdisplayname ?? "-" }}
                                         </a>
                                     </td>
