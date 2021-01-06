@@ -145,5 +145,9 @@ return [
 
     168 => 'You have already blocked the user.please unblock and add to favourites',
 
+    169 => 'Post not yet published',
 
+    170 => 'Requested amount should be less than wallet balance',
+
+    171 => 'You can\'t pay for your Own Post'
 ];

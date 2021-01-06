@@ -280,10 +280,11 @@ class PostsApiController extends Controller
           
             DB::begintransaction();
 
+            
             $rules = [
                 'content' => 'required',
                 'publish_time' => 'nullable',
-                'amount' => 'nullable|min:0',
+                'amount' => 'nullable|numeric|min:0',
                 'post_files' => 'nullable'
             ];
 
@@ -634,6 +635,12 @@ class PostsApiController extends Controller
                 
             }
 
+            if($request->id == $post->user_id) {
+
+                throw new Exception(api_error(171), 171);
+                
+            }
+
             $check_post_payment = \App\PostPayment::UserPaid($request->id, $request->post_id)->first();
 
             if($check_post_payment) {
@@ -739,6 +746,12 @@ class PostsApiController extends Controller
             if(!$post) {
 
                 throw new Exception(api_error(146), 146);
+                
+            }
+
+            if($request->id == $post->user_id) {
+
+                throw new Exception(api_error(171), 171);
                 
             }
 
@@ -873,6 +886,14 @@ class PostsApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules, $custom_errors);
 
+            $is_post_published = \App\Post::where('id',$request->post_id)->where('is_published',YES)->first();
+
+            
+            if(!$is_post_published){
+
+                throw new Exception(api_error(169), 169);
+            }
+            
             $custom_request = new Request();
 
             $custom_request->request->add(['user_id' => $request->id, 'post_id' => $request->post_id, 'comment' => $request->comment]);
@@ -2043,6 +2064,12 @@ class PostsApiController extends Controller
             if(!$post) {
 
                 throw new Exception(api_error(146), 146);
+                
+            }
+
+            if($request->id == $post->user_id) {
+
+                throw new Exception(api_error(171), 171);
                 
             }
 

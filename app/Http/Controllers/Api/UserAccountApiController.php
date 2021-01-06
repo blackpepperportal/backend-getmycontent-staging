@@ -289,7 +289,7 @@ class UserAccountApiController extends Controller
             Helper::custom_validator($request->all(), $rules);
 
             $user = User::firstWhere('email', '=', $request->email);
-
+            
             $is_email_verified = YES;
 
             // Check the user details 
@@ -317,7 +317,7 @@ class UserAccountApiController extends Controller
                 return response()->json($response, 200);
 
             }
-
+            
             if(Hash::check($request->password, $user->password)) {
 
                 // Generate new tokens
@@ -329,14 +329,14 @@ class UserAccountApiController extends Controller
                 // Save device details
 
                 $check_device_exist = User::firstWhere('device_token', $request->device_token);
-
+                
                 if($check_device_exist) {
 
                     $check_device_exist->device_token = "";
                     
                     $check_device_exist->save();
                 }
-
+                
                 $user->device_token = $request->device_token ?? $user->device_token;
 
                 $user->device_type = $request->device_type ?? $user->device_type;
@@ -346,7 +346,7 @@ class UserAccountApiController extends Controller
                 $user->save();
 
                 $data = User::find($user->id);
-
+                
                 DB::commit();
                 
                 counter(); // For site analytics. Don't remove
@@ -445,7 +445,7 @@ class UserAccountApiController extends Controller
 
             $email_data['page'] = "emails.users.forgot-password";
 
-            $email_data['url'] = Setting::get('frontend_url')."/resetpassword/".$token;
+            $email_data['url'] = Setting::get('frontend_url')."resetpassword/".$token;
             
             $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
@@ -1525,7 +1525,7 @@ class UserAccountApiController extends Controller
             $rules = [
                 'user_billing_account_id' => 'nullable|exists:user_billing_accounts,id',
                 'account_holder_name' => 'required',
-                'account_number' => 'required',
+                'account_number' => 'required|numeric',
                 'ifsc_code' => 'nullable',
                 'swift_code' => 'nullable',
                 'route_number' => 'nullable',
@@ -2596,6 +2596,9 @@ class UserAccountApiController extends Controller
             }
 
         }
+
+
+   
 
 
 }

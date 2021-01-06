@@ -56,6 +56,7 @@ class UserWithdrawal extends Model
         return NO;
     }
 
+
     public function user() {
     	return $this->belongsTo('App\User','user_id');
     }
