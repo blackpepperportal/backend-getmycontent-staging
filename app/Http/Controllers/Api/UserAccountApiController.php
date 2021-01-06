@@ -2246,7 +2246,7 @@ class UserAccountApiController extends Controller
 
         try {
 
-            $base_query = $total_query = \App\BellNotification::where('to_user_id', $request->id)->orderBy('created_at', 'desc')->whereHas('from_user');
+            $base_query = $total_query = \App\BellNotification::where('to_user_id', $request->id)->orderBy('created_at', 'desc')->whereHas('fromUser');
 
             $notifications = $base_query->skip($this->skip)->take($this->take)->get() ?? [];
 
