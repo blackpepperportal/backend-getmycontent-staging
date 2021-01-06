@@ -635,6 +635,12 @@ class PostsApiController extends Controller
                 
             }
 
+            if($request->id == $post->user_id) {
+
+                throw new Exception(api_error(171), 171);
+                
+            }
+
             $check_post_payment = \App\PostPayment::UserPaid($request->id, $request->post_id)->first();
 
             if($check_post_payment) {
@@ -740,6 +746,12 @@ class PostsApiController extends Controller
             if(!$post) {
 
                 throw new Exception(api_error(146), 146);
+                
+            }
+
+            if($request->id == $post->user_id) {
+
+                throw new Exception(api_error(171), 171);
                 
             }
 
@@ -2052,6 +2064,12 @@ class PostsApiController extends Controller
             if(!$post) {
 
                 throw new Exception(api_error(146), 146);
+                
+            }
+
+            if($request->id == $post->user_id) {
+
+                throw new Exception(api_error(171), 171);
                 
             }
 
