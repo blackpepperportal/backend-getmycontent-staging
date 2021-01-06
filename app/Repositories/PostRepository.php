@@ -58,8 +58,6 @@ class PostRepository {
                         $post->unsetRelation('postLikes')->unsetRelation('postBookmarks');
 
 
-
-
                         return $post;
                     });
 
