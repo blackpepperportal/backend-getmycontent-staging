@@ -124,7 +124,7 @@ class AdminRevenueController extends Controller
             $base_query  = $base_query->where('user_id',$request->user_id);
         }
 
-        $post_payments = $base_query->orderBy('created_at','DESC')->paginate(10);
+        $post_payments = $base_query->has('user')->orderBy('created_at','DESC')->paginate(10);
        
         return view('admin.posts.payments')
                 ->with('page','payments')
@@ -1025,7 +1025,7 @@ class AdminRevenueController extends Controller
             $base_query = $base_query->where('user_id',$request->user_id);
         }
 
-        $user_wallets = $base_query->paginate(10);
+        $user_wallets = $base_query->has('user')->where('total','>',0)->paginate(10);
 
         return view('admin.user_wallets.index')
                     ->with('page','user_wallets')

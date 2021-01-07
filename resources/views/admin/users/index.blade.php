@@ -241,6 +241,9 @@
 
                                                 <a class="dropdown-item" href="{{ route('admin.post.payments', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('post_payments') }}</a>
 
+                                                <a class="dropdown-item" href="{{route('admin.users_subscriptions.index',['from_user_id' => $user->id])}}">&nbsp;{{tr('subscription_payments')}}</a>
+
+
                                                 <a class="dropdown-item" href="{{ route('admin.delivery_address.index', ['user_id' => $user->id] ) }}" style="display: none;">&nbsp;{{ tr('delivery_address') }}</a>
 
                                                 <a class="dropdown-item" href="{{ route('admin.bookmarks.index', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('bookmarks') }}</a>

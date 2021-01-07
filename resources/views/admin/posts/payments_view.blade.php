@@ -137,10 +137,12 @@
                                             </td>
                                         </tr>
 
+                                        @if($post_payment->is_failed ==YES)
                                         <tr>
                                             <td>{{ tr('failed_reason') }}</td>
                                             <td>{{ $post_payment->failed_reason}}</td>
                                         </tr>
+                                        @endif
 
                                         <tr>
                                             <td>{{ tr('created_at') }}</td>
