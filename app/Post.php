@@ -29,7 +29,7 @@ class Post extends Model
 
 		$user_unique_id = $this->user->unique_id ?? "";
 
-		unset($this->user);
+		// unset($this->user);
 
 		return $user_unique_id ?? "";
 	}
@@ -38,7 +38,7 @@ class Post extends Model
 
 		$username = $this->user->username ?? "";
 
-		unset($this->user);
+		// unset($this->user);
 
 		return $username ?? "";
 	}
@@ -47,7 +47,7 @@ class Post extends Model
 
 		$name = $this->user->name ?? "";
 
-		unset($this->user);
+		// unset($this->user);
 
 		return $name ?? "";
 	}
@@ -56,7 +56,7 @@ class Post extends Model
 
 		$picture = $this->user->picture ?? "";
 
-		unset($this->user);
+		// unset($this->user);
 
 		return $picture ?? "";
 	}
