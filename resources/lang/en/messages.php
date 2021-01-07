@@ -1107,5 +1107,6 @@ return [
 	"tipped_amount"=>"Tipped Amount",
 	"online" => "Online",
 	"offline" => "Offline",
+	"frontend_no_data_image" => "Frontend No Data Image",
 ]
 ?>
