@@ -1170,9 +1170,13 @@ class AdminRevenueController extends Controller
        
         $base_query = \App\UserTip::orderBy('created_at','desc');
 
+        $user = '';
+
         if($request->user_id){
 
          $base_query->where('user_id',$request->user_id);   
+
+         $user = \App\User::find($request->user_id);
 
         }
 
@@ -1200,6 +1204,7 @@ class AdminRevenueController extends Controller
         return view('admin.revenues.user_tips.index')
                     ->with('page', 'payments')
                     ->with('sub_page', 'tip-payments')
+                    ->with('user', $user)
                     ->with('user_tips', $user_tips);
     }
 
