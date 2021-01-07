@@ -62,7 +62,17 @@ class UserTip extends Model
 	   return $this->belongsTo(Post::class, 'post_id');
 	}
 
-	
+	 /**
+     * Scope a query to only include active users.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+
+    public function scopeCommonResponse($query) {
+		
+		return $query;
+		
+    }
 
 	public static function boot() {
 
