@@ -39,14 +39,15 @@
 
                                         <div class="card-body">
 
-
                                             <form class="forms-sample" action="{{ route('admin.settings.save') }}" method="POST" enctype="multipart/form-data" role="form">
 
                                             @csrf
 
-                                                <div class="card-header bg-card-header ">
+                                                <div class="card-header">
 
-                                                    <h4 class="">{{tr('admin_control')}}</h4>
+                                                    <h4 class="text-uppercase">{{tr('admin_control')}}</h4>
+
+                                                    <hr>
 
                                                 </div>
 
@@ -266,6 +267,30 @@
                                                             
                                                             <input type="text" name="demo_user_password" class="form-control" value="{{Setting::get('demo_user_password')}}">
                                                     
+                                                        </div>
+                                                    
+                                                    </div>
+                                                    <div class="row">
+
+                                                        <div class="col-md-12">
+
+                                                            <hr><h4>Frontend Settings</h4><hr>
+
+                                                        </div>
+
+                                                        <div class="col-md-6">
+
+                                                            <div class="form-group">
+                                                                <label for="frontend_no_data_image">{{tr('frontend_no_data_image')}} *</label>
+                                                                <input type="file" class="form-control" id="frontend_no_data_image" name="frontend_no_data_image" accept="image/png" placeholder="{{tr('frontend_no_data_image')}}">
+                                                            </div>
+                                                            
+                                                            @if(Setting::get('frontend_no_data_image'))
+
+                                                                <img class="img img-thumbnail m-b-20" style="width: 40%" src="{{Setting::get('frontend_no_data_image')}}" alt="{{Setting::get('site_name')}}"> 
+
+                                                            @endif
+
                                                         </div>
                                                     
                                                     </div>
