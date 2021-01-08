@@ -103,6 +103,24 @@
                                         <td class="text-capitalize">{{$user->device_type ?: tr('not_available')}}</td>
                                     </tr>
 
+                                    @if(Setting::get('is_verified_badge_enabled'))
+                                    <tr>
+                                       
+                                        <th>{{tr('is_badge_verified')}}</th>
+                                        <td>
+                                            @if($user->is_verified_badge == YES)
+
+                                            <span class="badge badge-success">{{tr('yes')}}</span>
+
+                                            @else
+                                            <span class="badge badge-danger">{{tr('no')}}</span>
+
+                                            @endif
+                                        </td>
+                                        
+                                    </tr>
+                                    @endif
+                                    
                                     <tr>
                                         <th>{{tr('status')}}</th>
                                         <td>
@@ -182,6 +200,15 @@
                                         <th>{{tr('user_wallet_balance')}}</th>
                                         <td>
                                             {{$user->userWallets->remaining_formatted ?? formatted_amount(0.00)}}
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>{{tr('tipped_amount')}}</th>
+                                        <td>
+                                             <a href="{{route('admin.user_tips.index',['user_id'=>$user->id])}}">
+                                            {{$user->tipped_amount ?? 0.00}}
+                                            </a>
                                         </td>
                                     </tr>
 
@@ -287,6 +314,19 @@
                                         <div class="col-6">
 
                                             <a href="{{route('admin.post.payments',['user_id' => $user->id])}}" class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1">{{tr('post_payments')}}</a>
+
+                                        </div>
+
+
+                                        <div class="col-6">
+
+                                           <a href="{{route('admin.users_subscriptions.index',['from_user_id' => $user->id])}}" class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1">{{tr('subscription_payments')}}</a>
+
+                                        </div>
+
+                                        <div class="col-6">
+
+                                           <a href="{{route('admin.user_tips.index',['user_id' => $user->id])}}" class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1">{{tr('tip_payments')}}</a>
 
                                         </div>
 

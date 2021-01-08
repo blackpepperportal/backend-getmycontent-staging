@@ -60,7 +60,7 @@ class PostsApiController extends Controller
 
             $blocked_users = blocked_users($request->id);
 
-            $base_query = $total_query = Post::Approved()->whereNotIn('posts.user_id',$blocked_users)->whereNotIn('posts.id',$report_posts)->whereIn('posts.user_id', $follower_ids)->orderBy('posts.created_at', 'desc');
+            $base_query = $total_query = Post::Approved()->whereNotIn('posts.user_id',$blocked_users)->whereNotIn('posts.id',$report_posts)->whereHas('user')->whereIn('posts.user_id', $follower_ids)->orderBy('posts.created_at', 'desc');
 
             $posts = $base_query->skip($this->skip)->take($this->take)->get();
 
@@ -105,7 +105,7 @@ class PostsApiController extends Controller
 
             $blocked_users = blocked_users($request->id);
 
-            $base_query = $total_query = Post::Approved()->whereNotIn('posts.user_id',$blocked_users)->whereNotIn('posts.id',$report_posts)->whereIn('posts.user_id', $follower_ids)->with(['postFiles', 'user'])->orderBy('created_at', 'desc');
+            $base_query = $total_query = Post::Approved()->whereNotIn('posts.user_id',$blocked_users)->whereNotIn('posts.id',$report_posts)->whereHas('user')->whereIn('posts.user_id', $follower_ids)->with(['postFiles', 'user'])->orderBy('created_at', 'desc');
 
             if($request->search_key) {
 
@@ -280,10 +280,11 @@ class PostsApiController extends Controller
           
             DB::begintransaction();
 
+            
             $rules = [
                 'content' => 'required',
                 'publish_time' => 'nullable',
-                'amount' => 'nullable|min:0',
+                'amount' => 'nullable|numeric|min:0',
                 'post_files' => 'nullable'
             ];
 
@@ -409,7 +410,7 @@ class PostsApiController extends Controller
 
                 $post_file->file_type = $request->file_type;
 
-                $post_file->blur_file = $request->file_type == "image" ? \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->id) : Setting::get('post_video_placeholder');
+                $post_file->blur_file = $request->file_type == "image" ? \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->file, $request->id) : Setting::get('post_video_placeholder');
 
                 $post_file->save();
 
@@ -634,6 +635,12 @@ class PostsApiController extends Controller
                 
             }
 
+            if($request->id == $post->user_id) {
+
+                throw new Exception(api_error(171), 171);
+                
+            }
+
             $check_post_payment = \App\PostPayment::UserPaid($request->id, $request->post_id)->first();
 
             if($check_post_payment) {
@@ -739,6 +746,12 @@ class PostsApiController extends Controller
             if(!$post) {
 
                 throw new Exception(api_error(146), 146);
+                
+            }
+
+            if($request->id == $post->user_id) {
+
+                throw new Exception(api_error(171), 171);
                 
             }
 
@@ -873,6 +886,14 @@ class PostsApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules, $custom_errors);
 
+            $is_post_published = \App\Post::where('id',$request->post_id)->where('is_published',YES)->first();
+
+            
+            if(!$is_post_published){
+
+                throw new Exception(api_error(169), 169);
+            }
+            
             $custom_request = new Request();
 
             $custom_request->request->add(['user_id' => $request->id, 'post_id' => $request->post_id, 'comment' => $request->comment]);
@@ -1444,6 +1465,13 @@ class PostsApiController extends Controller
 
             if(!$to_user) {
                 throw new Exception(api_error(135), 135);
+            }
+
+            $is_user_blocked = Helper::is_block_user($request->id,$request->user_id);
+             
+            if($is_user_blocked){
+
+                throw new Exception(api_error(168), 168);
             }
 
             $check_fav_user = $fav_user = \App\FavUser::where('user_id', $request->id)->where('fav_user_id', $request->user_id)->first();
@@ -2036,6 +2064,12 @@ class PostsApiController extends Controller
             if(!$post) {
 
                 throw new Exception(api_error(146), 146);
+                
+            }
+
+            if($request->id == $post->user_id) {
+
+                throw new Exception(api_error(171), 171);
                 
             }
 

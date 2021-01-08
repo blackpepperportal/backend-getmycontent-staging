@@ -108,7 +108,7 @@ class VerificationApiController extends Controller
 
             $rules = [
             		'document_id' => 'required|exists:documents,id',
-                    'document_file' => 'required',
+                    'document_file' => 'required|mimes:jpeg,jpg,bmp,png',
             	];
 
             Helper::custom_validator($request->all(), $rules, $custom_errors = []);

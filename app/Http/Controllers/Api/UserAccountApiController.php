@@ -301,7 +301,7 @@ class UserAccountApiController extends Controller
             Helper::custom_validator($request->all(), $rules);
 
             $user = User::firstWhere('email', '=', $request->email);
-
+            
             $is_email_verified = YES;
 
             // Check the user details 
@@ -329,7 +329,7 @@ class UserAccountApiController extends Controller
                 return response()->json($response, 200);
 
             }
-
+            
             if(Hash::check($request->password, $user->password)) {
 
                 // Generate new tokens
@@ -341,14 +341,14 @@ class UserAccountApiController extends Controller
                 // Save device details
 
                 $check_device_exist = User::firstWhere('device_token', $request->device_token);
-
+                
                 if($check_device_exist) {
 
                     $check_device_exist->device_token = "";
                     
                     $check_device_exist->save();
                 }
-
+                
                 $user->device_token = $request->device_token ?? $user->device_token;
 
                 $user->device_type = $request->device_type ?? $user->device_type;
@@ -358,7 +358,7 @@ class UserAccountApiController extends Controller
                 $user->save();
 
                 $data = User::find($user->id);
-
+                
                 DB::commit();
                 
                 counter(); // For site analytics. Don't remove
@@ -457,7 +457,7 @@ class UserAccountApiController extends Controller
 
             $email_data['page'] = "emails.users.forgot-password";
 
-            $email_data['url'] = Setting::get('frontend_url')."/resetpassword/".$token;
+            $email_data['url'] = Setting::get('frontend_url')."resetpassword/".$token;
             
             $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
@@ -837,7 +837,7 @@ class UserAccountApiController extends Controller
 
                 if(!Hash::check($request->password, $user->password)) {
          
-                    throw new Exception(api_error(104), 104); 
+                    throw new Exception(api_error(167), 167); 
                 }
             
             }
@@ -1537,7 +1537,7 @@ class UserAccountApiController extends Controller
             $rules = [
                 'user_billing_account_id' => 'nullable|exists:user_billing_accounts,id',
                 'account_holder_name' => 'required',
-                'account_number' => 'required',
+                'account_number' => 'required|numeric',
                 'ifsc_code' => 'nullable',
                 'swift_code' => 'nullable',
                 'route_number' => 'nullable',
@@ -2258,7 +2258,7 @@ class UserAccountApiController extends Controller
 
         try {
 
-            $base_query = $total_query = \App\BellNotification::where('to_user_id', $request->id)->orderBy('created_at', 'desc');
+            $base_query = $total_query = \App\BellNotification::where('to_user_id', $request->id)->orderBy('created_at', 'desc')->whereHas('fromUser');
 
             $notifications = $base_query->skip($this->skip)->take($this->take)->get() ?? [];
 
@@ -2554,6 +2554,96 @@ class UserAccountApiController extends Controller
 
     }
 
+
+
+    /**
+     * @method verified_badge_status()
+     *
+     * @uses used to update verified badge status
+     *
+     * @created Ganesh
+     *
+     * @updated Ganesh
+     *
+     * @param card_token
+     * 
+     * @return JSON Response
+     */
+    public function verified_badge_status(Request $request) {
+
+        try {
+
+            if(!Setting::get('is_verified_badge_enabled')) {
+
+                throw new Exception(api_error(166), 166);
+
+            } 
+
+            DB::beginTransaction();
+
+            $user = User::find($request->id);
+
+            if(!$user) {
+
+                throw new Exception(api_error(1002), 1002);
+                
+            }
+
+            $user->is_verified_badge  = $user->is_verified_badge == YES ? NO :YES;
+
+            $user->save();
+
+            DB::commit();
+
+            $code = $user->is_verified_badge == YES ? 159 : 160;
+
+            return $this->sendResponse(api_success($code), $code, $user);
+
+            } catch(Exception $e) {
+
+                DB::rollback();
+
+                return $this->sendError($e->getMessage(), $e->getCode());
+            
+            }
+
+        }
+
+
+    /**
+     * @method user_tips_history()
+     * 
+     * @uses User tips history
+     *
+     * @created Ganesh
+     *
+     * @updated Ganesh
+     *
+     * @param object $request
+     *
+     * @return json with boolean output
+     */
+
+    public function user_tips_history(Request $request) {
+
+        try {
+
+            $base_query = $total = \App\UserTip::CommonResponse()->where('user_id', $request->id);
+
+            $history = $base_query->orderBy('created_at', 'desc')->skip($this->skip)->take($this->take)->get();
+
+            $data['history'] = $history ?? [];
+
+            $data['total'] = $total->count() ?? 0;
+
+            return $this->sendResponse($message = "", $code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+
+    }
 
 
 }

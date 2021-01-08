@@ -393,13 +393,11 @@ Route::group(['middleware' => 'web'], function() {
         Route::get('report_posts/delete', 'Admin\AdminPostController@report_posts_delete')->name('report_posts.delete');
 
 
-
         Route::get('u_categories', 'CategoryCustom\Admin\AdminUCategoryController@u_categories_index')->name('u_categories.index');
 
         Route::get('u_categories/create', 'CategoryCustom\Admin\AdminUCategoryController@u_categories_create')->name('u_categories.create');
 
         Route::get('u_categories/edit', 'CategoryCustom\Admin\AdminUCategoryController@u_categories_edit')->name('u_categories.edit');
-
 
         Route::post('u_categories/save', 'CategoryCustom\Admin\AdminUCategoryController@u_categories_save')->name('u_categories.save');
 
@@ -409,6 +407,8 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('u_categories/delete', 'CategoryCustom\Admin\AdminUCategoryController@u_categories_delete')->name('u_categories.delete');
 
+        Route::get('user_tips/index','Admin\AdminRevenueController@user_tips_index')->name('user_tips.index');
 
+        Route::get('user_tips/view','Admin\AdminRevenueController@user_tips_view')->name('user_tips.view');
      });
 });

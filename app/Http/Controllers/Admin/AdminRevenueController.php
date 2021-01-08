@@ -14,6 +14,9 @@ use App\Jobs\SendEmailJob;
 
 use Carbon\Carbon;
 
+use App\Repositories\PaymentRepository as PaymentRepo;
+
+
 class AdminRevenueController extends Controller
 {
 	/**
@@ -121,7 +124,7 @@ class AdminRevenueController extends Controller
             $base_query  = $base_query->where('user_id',$request->user_id);
         }
 
-        $post_payments = $base_query->orderBy('created_at','DESC')->paginate(10);
+        $post_payments = $base_query->has('user')->orderBy('created_at','DESC')->paginate(10);
        
         return view('admin.posts.payments')
                 ->with('page','payments')
@@ -781,6 +784,18 @@ class AdminRevenueController extends Controller
 
                 DB::commit();
 
+                PaymentRepo::user_wallet_update_withdraw_cancel($user_withdrawal->requested_amount, $user_withdrawal->user_id);
+
+                $user_wallet_payment = \App\UserWalletPayment::where('id', $user_withdrawal->user_wallet_payment_id)->first();
+
+                if($user_wallet_payment) {
+
+                    $user_wallet_payment->status = USER_WALLET_PAYMENT_CANCELLED;
+
+                    $user_wallet_payment->save();
+                }
+
+                
                 $email_data['subject'] = Setting::get('site_name');
 
                 $email_data['page'] = "emails.users.withdrawals-decline";
@@ -1010,7 +1025,7 @@ class AdminRevenueController extends Controller
             $base_query = $base_query->where('user_id',$request->user_id);
         }
 
-        $user_wallets = $base_query->paginate(10);
+        $user_wallets = $base_query->has('user')->where('total','>',0)->paginate(10);
 
         return view('admin.user_wallets.index')
                     ->with('page','user_wallets')
@@ -1047,7 +1062,7 @@ class AdminRevenueController extends Controller
 
             }
 
-            $user_wallet_payments = \App\UserWalletPayment::where('requested_amount','>',0)->where('user_id',$user_wallet->user_id)->paginate(10);
+            $user_wallet_payments = \App\UserWalletPayment::where('requested_amount','>',0)->where('user_id',$user_wallet->user_id)->orderBy('created_at','desc')->paginate(10);
                    
             return view('admin.user_wallets.view')
                         ->with('page', 'user_wallets') 
@@ -1134,6 +1149,99 @@ class AdminRevenueController extends Controller
 
         }
 
+    }
+
+
+     /**
+     * @method user_tips_index()
+     *
+     * @uses To list out user tip  payment details 
+     *
+     * @created Ganesh
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function user_tips_index(Request $request) {
+       
+        $base_query = \App\UserTip::orderBy('created_at','desc');
+
+        $user = '';
+
+        if($request->user_id){
+
+         $base_query->where('user_id',$request->user_id);   
+
+         $user = \App\User::find($request->user_id);
+
+        }
+
+        $search_key = $request->search_key;
+
+        if($search_key) {
+
+            $base_query = $base_query
+                        ->whereHas('fromUser',function($query) use($search_key) {
+
+                            return $query->where('users.name','LIKE','%'.$search_key.'%');
+
+                        })->orwhereHas('toUser',function($query) use($search_key) {
+                            
+                            return $query->where('users.name','LIKE','%'.$search_key.'%');
+
+                        })->orwhereHas('post',function($query) use($search_key) {
+                                
+                            return $query->where('posts.unique_id','LIKE','%'.$search_key.'%');
+                        });
+        }
+                      
+        $user_tips = $base_query->paginate(10);
+
+        return view('admin.revenues.user_tips.index')
+                    ->with('page', 'payments')
+                    ->with('sub_page', 'tip-payments')
+                    ->with('user', $user)
+                    ->with('user_tips', $user_tips);
+    }
+
+    /**
+     * @method user_tips_view()
+     *
+     * @uses To list out users tip payment details 
+     *
+     * @created Ganesh
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function user_tips_view(Request $request) {
+
+        try {
+       
+            $user_tip = \App\UserTip::find($request->user_tip_id);
+             
+             if(!$user_tip) { 
+
+                throw new Exception(tr('user_tip_not_found'), 101);                
+            }
+
+            return view('admin.revenues.user_tips.view')
+                        ->with('page', 'payments')
+                        ->with('sub_page', 'tip-payments')
+                        ->with('user_tip', $user_tip);
+
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+       }
     }
 
 }

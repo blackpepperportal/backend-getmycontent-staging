@@ -226,6 +226,22 @@ class SettingSeeder extends Seeder
 			[
 		        'key' => 'MAILGUN_PUBLIC_KEY',
 		        'value' => ""
+			],
+			[
+		        'key' => 'is_verified_badge_enabled',
+		        'value' => NO
+		    ],
+			[
+		        'key' => 's3_bucket',
+		        'value' => NO
+		    ],
+		    [
+		        'key' => 'is_user_active_status',
+		        'value' => NO
+		    ],
+		    [
+		        'key' => 'frontend_no_data_image',
+		        'value' => asset('images/no-data-found.svg')
 		    ],
 
 		]);

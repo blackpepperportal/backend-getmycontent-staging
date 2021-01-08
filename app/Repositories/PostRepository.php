@@ -55,7 +55,7 @@ class PostRepository {
 
                         $post->publish_time_formatted = common_date($post->publish_time, $request->timezone, 'M d');
 
-                        $post->unsetRelation('postLikes')->unsetRelation('postBookmarks')->unsetRelation('user');
+                        $post->unsetRelation('postLikes')->unsetRelation('postBookmarks');
 
 
                         return $post;

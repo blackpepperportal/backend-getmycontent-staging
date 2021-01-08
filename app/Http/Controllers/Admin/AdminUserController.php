@@ -530,7 +530,6 @@ class AdminUserController extends Controller
         try {
       
             $user = \App\User::find($request->user_id);
-            
 
             if(!$user) { 
 
@@ -1085,12 +1084,22 @@ class AdminUserController extends Controller
                         });
         }
 
+        $user = '';
+
+        if($request->from_user_id){
+
+            $base_query->where('from_user_id',$request->from_user_id);
+
+            $user = \App\User::find($request->from_user_id);
+        }
+
         $user_subscriptions = $base_query->paginate(10);
 
 
         return view('admin.users.subscriptions.index')
                     ->with('page', 'user_subscriptions')
                     ->with('sub_page', 'user-subscription-payments')
+                    ->with('user', $user)
                     ->with('user_subscriptions', $user_subscriptions);
     }
 

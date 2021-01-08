@@ -773,6 +773,13 @@ class WalletApiController extends Controller
                 throw new Exception(api_error(143, $min_amount_formatted), 143);
             }
 
+            $remaining = $user_wallet->remaining ?? 0;
+            
+            if($remaining < $request->requested_amount) {
+
+                throw new Exception(api_error(170), 170);    
+            }
+
             // Create withdraw requests
 
             $user_withdrawal = new \App\UserWithdrawal;
@@ -806,7 +813,8 @@ class WalletApiController extends Controller
                 'paid_amount' => $request->requested_amount,
                 'payment_type' => WALLET_PAYMENT_TYPE_WITHDRAWAL,
                 'amount_type' => WALLET_AMOUNT_TYPE_MINUS,
-                'payment_id' => 'WDP-'.rand()
+                'payment_id' => 'WDP-'.rand(),
+                'payment_mode'=>PAYMENT_MODE_WALLET
             ];
 
             $withdraw_request = new \Illuminate\Http\Request();

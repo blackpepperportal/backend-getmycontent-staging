@@ -135,7 +135,7 @@ class UCategoryApiController extends Controller
 
             $rules = ['u_category_id' => 'required|exists:u_categories,id'];
 
-            $custom_errors = ['u_category_id.exists' => api_error(166)];
+            $custom_errors = ['u_category_id.exists' => api_error(300)];
 
             Helper::custom_validator($request->all(),$rules,$custom_errors);
 

@@ -192,8 +192,12 @@ class AdminSettingController extends Controller
      * @return view page 
      */
     public function admin_control() {
-           
-        return view('admin.settings.control')->with('page', tr('admin_control'));
+
+        $env_values = EnvEditorHelper::getEnvValues();
+
+        return view('admin.settings.control')
+                ->with('env_values', $env_values)
+                ->with('page' , tr('admin_control'));
         
     }
 

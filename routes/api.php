@@ -96,6 +96,9 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
         
         Route::post('bell_notifications_index','Api\UserAccountApiController@bell_notifications_index');
 
+        Route::post('verified_badge_status', 'Api\UserAccountApiController@verified_badge_status');
+
+
         // Cards management start
 
         Route::post('cards_add', 'Api\UserAccountApiController@cards_add');
@@ -340,6 +343,7 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
     Route::post('u_categories_list','CategoryCustom\Api\UCategoryApiController@u_categories_list');
 
     Route::post('u_categories_view','CategoryCustom\Api\UCategoryApiController@u_categories_view');
-
+    
+    Route::post('user_tips_history','Api\UserAccountApiController@user_tips_history');
 
 });

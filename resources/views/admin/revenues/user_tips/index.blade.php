@@ -7,7 +7,7 @@
 <li class="breadcrumb-item"><a href="">{{ tr('payments') }}</a></li>
 
 <li class="breadcrumb-item active" aria-current="page">
-    <span>{{ tr('subscription_payments') }}</span>
+    <span>{{ tr('tip_payments') }}</span>
 </li>
 
 @endsection
@@ -24,26 +24,25 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">
-                        {{ tr('subscription_payments') }} 
+                    <h4 class="card-title">{{ tr('tip_payments') }} 
 
-                        @if(Request::get('from_user_id'))
-
-                        -
-                        <a href="{{route('admin.users.view',['user_id'=>$user->id ?? ''])}}">{{$user->name ?? ''}}</a>
-
-                        @endif
-
+                    @if(Request::get('user_id'))
+                    - 
+                    <a href="{{route('admin.users.view',['user_id'=>$user->id ?? ''])}}">{{$user->name ?? ''}}</a>
+                    @endif
+                    
                     </h4>
+
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
+                    
                 </div>
 
                 <div class="card-content collapse show">
 
                     <div class="card-body card-dashboard">
 
-                        @include('admin.users.subscriptions._search')
+                        @include('admin.revenues.user_tips._search')
 
                         <table class="table table-striped table-bordered sourced-data">
 
@@ -52,34 +51,37 @@
                                     <th>{{tr('s_no')}}</th>
                                     <th>{{tr('from_username')}}</th>
                                     <th>{{tr('to_username')}}</th>
-                                    <th>{{tr('plan')}}</th>
+                                    <th>{{tr('post')}}</th>
                                     <th>{{tr('amount')}}</th>
                                     <th>{{tr('status')}}</th>
-                                    <th>{{tr('invoice')}}</th>
                                     <th>{{tr('action')}}</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                @foreach($user_subscriptions as $i => $subscription)
+                                @foreach($user_tips as $i => $tips)
 
                                 <tr>
-                                    <td>{{$i+$user_subscriptions->firstItem()}}</td>
+                                    <td>{{$i+$user_tips->firstItem()}}</td>
 
                                     <td>
-                                        <a href="{{route('admin.users.view' , ['user_id' => $subscription->from_user_id])}}"> {{ $subscription->from_username ?:tr('not_available')}}
+                                        <a href="{{route('admin.users.view' , ['user_id' => $tips->from_user_id])}}"> {{ $tips->from_username ?:tr('not_available')}}
                                         </a>
                                     </td>
 
-                                    <td><a href="{{route('admin.users.view' , ['user_id' => $subscription->to_user_id])}}"> {{ $subscription->to_username ?:tr('not_available') }}</a></td>
+                                    <td><a href="{{route('admin.users.view' , ['user_id' => $tips->to_user_id])}}"> {{ $tips->to_username ?:tr('not_available') }}</a></td>
 
-                                    <td>{{ $subscription->plan_text_formatted }}</td>
+                                    <td>
+                                        <a href="{{route('admin.posts.view',['post_id'=>$tips->post->id ?? ''])}}">
+                                        {{ $tips->post->unique_id ?? tr('not_available') }}
+                                        </a>
+                                    </td>
 
-                                    <td>{{ $subscription->amount_formatted }}</td>
+                                    <td>{{ $tips->amount_formatted }}</td>
 
                                     <td>
 
-                                        @if($subscription->status == APPROVED)
+                                        @if($tips->status == APPROVED)
 
                                         <span class="badge bg-success">{{ tr('approved') }} </span>
 
@@ -91,12 +93,6 @@
 
                                     </td>
 
-                                    <td>
-
-                                        <a href="{{route('admin.subscription_payments.send_invoice',['user_subscription_id' => $subscription->id])}}" class="btn btn-primary"><i class="fa fa-envelope"></i>&nbsp;{{tr('send_invoice')}}</a>
-
-
-                                    </td>
 
                                     <td>
 
@@ -106,7 +102,7 @@
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                <a class="dropdown-item" href="{{ route('admin.user_subscriptions.view', ['subscription_id' => $subscription->id] ) }}">&nbsp;{{ tr('view') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.user_tips.view', ['user_tip_id' => $tips->id] ) }}">&nbsp;{{ tr('view') }}</a>
                                             </div>
 
                                         </div>
@@ -120,7 +116,7 @@
                             </tbody>
 
                         </table>
-                        <div class="pull-right" id="paglink">{{ $user_subscriptions->appends(request()->input())->links() }}</div>
+                        <div class="pull-right" id="paglink">{{ $user_tips->appends(request()->input())->links() }}</div>
 
 
                     </div>

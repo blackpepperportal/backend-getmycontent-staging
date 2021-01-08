@@ -49,7 +49,7 @@ class UserTip extends Model
 
 	public function fromUser() {
 
-	   return $this->belongsTo(User::class, 'from_user_id');
+	   return $this->belongsTo(User::class, 'user_id');
 	}
 
 	public function toUser() {
@@ -61,6 +61,18 @@ class UserTip extends Model
 
 	   return $this->belongsTo(Post::class, 'post_id');
 	}
+
+	 /**
+     * Scope a query to only include active users.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+
+    public function scopeCommonResponse($query) {
+		
+		return $query;
+		
+    }
 
 	public static function boot() {
 

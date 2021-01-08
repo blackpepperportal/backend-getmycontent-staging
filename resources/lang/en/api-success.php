@@ -114,5 +114,10 @@ return [
 
     157 => 'Your report submitted.',
 
-    158 => 'Removed from the reported list'
+    158 => 'Removed from the reported list',
+
+    159 => 'Badge Verify Enabled',
+
+    160 => 'Badge Verify Disabled'
+
 ];

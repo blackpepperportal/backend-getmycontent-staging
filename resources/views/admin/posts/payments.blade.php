@@ -118,3 +118,11 @@
 </section>
 
 @endsection
+
+@section('styles')
+<style>
+    .table th, .table td {
+    padding: 0.75rem 1.5rem !important;
+}
+</style>
+@endsection

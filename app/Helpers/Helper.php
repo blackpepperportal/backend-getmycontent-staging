@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 use Mailgun\Mailgun;
 
-use Hash, Exception, Auth, Mail, File, Log, Storage, Setting, DB, Validator;
+use Hash, Exception, Auth, Mail, File, Log, Storage, Setting, DB, Validator, Image;
 
 use App\Admin, App\User, App\ContentCreator, App\StaticPage;
 
@@ -592,6 +592,17 @@ class Helper {
             return "";
 
         }
+
+        if(Setting::get('s3_bucket') == STORAGE_TYPE_S3 ) {
+
+            $path = $input_file->store($folder_path, 's3');
+
+            $file_path = str_replace("//","/",$path);
+
+            $url = Storage::disk('s3')->url($file_path);
+
+            return $url;
+        }
        
         $name = $name ?: Helper::file_name();
 
@@ -621,6 +632,15 @@ class Helper {
 
         $storage_file_path = $folder_path.$file_name;
 
+        if (Setting::get('s3_bucket') == STORAGE_TYPE_S3 ) {
+
+            $s3 = Storage::disk('s3');
+
+            $s3->delete($storage_file_path);
+
+            return true;
+        }
+
         $response = Storage::disk('public')->delete($storage_file_path);
     }
 
@@ -634,6 +654,17 @@ class Helper {
 
             return "";
 
+        }
+
+        if(Setting::get('s3_bucket') == STORAGE_TYPE_S3 ) {
+
+            $path = $input_file->store($folder_path, 's3');
+
+            $file_path = str_replace("//","/",$path);
+
+            $url = Storage::disk('s3')->url($file_path);
+
+            return $url;
         }
        
         $name = $name ?: Helper::file_name();
@@ -658,7 +689,7 @@ class Helper {
      * @method upload_file
      */
     
-    public static function generate_post_blur_file($url, $user_id) {
+    public static function generate_post_blur_file($url, $input_file,$user_id) {
 
         if(!$url) {
 
@@ -666,20 +697,38 @@ class Helper {
 
         }
 
-        \File::makeDirectory(Storage::path('public/'.POST_BLUR_PATH.$user_id), 0777, true, true);
+        if(Setting::get('s3_bucket') != STORAGE_TYPE_S3 ) {
 
-        $storage_file_path = 'public/'.POST_PATH.$user_id.'/'.basename($url);
+            \File::makeDirectory(Storage::path('public/'.POST_BLUR_PATH.$user_id), 0777, true, true);
 
-        $output_file_path = 'public/'.POST_BLUR_PATH.$user_id.'/'.basename($url);
+            $storage_file_path = 'public/'.POST_PATH.$user_id.'/'.basename($url);
 
-        // create new Intervention Image
-        $img = \Image::make(Storage::path($storage_file_path));
+            $output_file_path = 'public/'.POST_BLUR_PATH.$user_id.'/'.basename($url);
 
-        // apply stronger blur
-        $img->blur(100)->save(Storage::path($output_file_path));
-       
-        $url = asset(Storage::url($output_file_path));
-    
+            // create new Intervention Image
+            $img = \Image::make(Storage::path($storage_file_path));
+
+            // apply stronger blur
+            $img->blur(100)->save(Storage::path($output_file_path));
+           
+            $url = asset(Storage::url($output_file_path));
+
+        }
+        else{
+
+            $extension = $input_file->getClientOriginalExtension();
+
+            $filename = md5(time()).'_'.$input_file->getClientOriginalName();
+
+            $blured_file = Image::make($input_file)->blur(100)->encode($extension);
+
+            Storage::disk('s3')->put(POST_BLUR_PATH.$filename, (string)$blured_file, 'public');
+
+            $url = Storage::disk('s3')->url(POST_BLUR_PATH.$filename);
+
+            return $url;
+        }
+        
         return $url;
 
     }
