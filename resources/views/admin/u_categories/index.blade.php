@@ -1,14 +1,14 @@
 @extends('layouts.admin')
 
-@section('title', tr('users'))
+@section('title', tr('u_categories'))
 
-@section('content-header', tr('users'))
+@section('content-header', tr('u_categories'))
 
 @section('breadcrumb')
 
 
 <li class="breadcrumb-item active">
-    <a href="{{route('admin.users.index')}}">{{ tr('u_category') }}</a>
+    <a href="{{route('admin.users.index')}}">{{ tr('u_categories') }}</a>
 </li>
 
 <li class="breadcrumb-item">{{$title ?? tr('view_ucategory')}}</li>

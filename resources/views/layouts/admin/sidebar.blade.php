@@ -68,7 +68,7 @@
             <li class="nav-item" id="u_categories">
                 <a href="{{route('admin.u_categories.index')}}">
                     <i class="fa fa-list"></i>
-                    <span class="menu-title" data-i18n="">{{tr('u_category')}}</span>
+                    <span class="menu-title" data-i18n="">{{tr('u_categories')}}</span>
                 </a>
                 <ul class="menu-content">
                     <li id="u_categories-create">
