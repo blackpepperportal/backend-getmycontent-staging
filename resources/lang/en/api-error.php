@@ -149,5 +149,7 @@ return [
 
     170 => 'Requested amount should be less than wallet balance',
 
-    171 => 'You can\'t pay for your Own Post'
+    171 => 'You can\'t pay for your Own Post',
+
+    180 => 'The Post Content Should not be empty'
 ];
