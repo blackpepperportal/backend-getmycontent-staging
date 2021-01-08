@@ -640,6 +640,15 @@ class UserAccountApiController extends Controller
 
             $user->yearly_amount = $user->userSubscription->yearly_amount ?? 0.00;
 
+            $categories = \App\UCategory::where('status', APPROVED)->get();
+
+            foreach ($categories as $key => $value) {
+
+                $value->is_selected = \App\UserCategory::where('user_id', $request->id)->where('u_category_id', $value->id)->first() ? YES : NO;
+            }
+
+            $user->categories = $categories;
+
             return $this->sendResponse($message = "", $success_code = "", $user);
 
         } catch(Exception $e) {
@@ -739,6 +748,17 @@ class UserAccountApiController extends Controller
             }
 
             if($user->save()) {
+
+                if($request->u_category_id) {
+
+                    $ucategory = \App\UserCategory::where('u_category_id', $request->u_category_id)->where('user_id', $user->id)->first() ?? new \App\UserCategory;
+
+                    $ucategory->u_category_id = $request->u_category_id;
+
+                    $ucategory->user_id = $user->id;
+
+                    $ucategory->save();
+                }
 
                 $data = User::find($user->id);
 

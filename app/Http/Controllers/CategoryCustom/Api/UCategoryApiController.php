@@ -35,51 +35,9 @@ class UCategoryApiController extends Controller
 
         $request->request->add(['timezone' => $this->timezone]);
 
-    }
+    }    
 
-    /**
-     * @method user_wallets_index()
-     * 
-     * @uses wallet details
-     *
-     * @created Bhawya N 
-     *
-     * @updated Bhawya N
-     *
-     * @param object $request
-     *
-     * @return json with boolean output
-     */
-
-    public function user_wallets_index(Request $request) {
-
-        try {
-
-            $user_wallet = \App\UserWallet::firstWhere('user_id', $request->id);
-            
-            if(!$user_wallet) {
-
-                $user_wallet = \App\UserWallet::create(['user_id' => $request->id, 'total' => 0.00, 'used' => 0.00, 'remaining' => 0.00]);
-
-            }
-
-            $data['user_wallet'] = $user_wallet;
-
-            $data['user_withdrawals_min_amount'] = Setting::get('user_withdrawals_min_amount', 10);
-
-            $data['user_withdrawals_min_amount_formatted'] = formatted_amount(Setting::get('user_withdrawals_min_amount', 10));
-
-            return $this->sendResponse($message = "", $code = "", $data);
-
-        } catch(Exception $e) {
-
-            return $this->sendError($e->getMessage(), $e->getCode());
-        }
-
-    }
-    
-
-     /** 
+    /** 
      * @method u_categories_list()
      *
      * @uses ucategories List
@@ -133,15 +91,19 @@ class UCategoryApiController extends Controller
 
         try {
 
-            $rules = ['u_category_id' => 'required|exists:u_categories,id'];
+            $rules = ['u_category_unique_id' => 'required|exists:u_categories,unique_id'];
 
-            $custom_errors = ['u_category_id.exists' => api_error(300)];
+            $custom_errors = ['u_category_unique_id.exists' => api_error(300)];
 
             Helper::custom_validator($request->all(),$rules,$custom_errors);
 
-            $u_category = \App\UCategory::where('id', $request->u_category_id)->CommonResponse()->get();
+            $u_category = \App\UCategory::where('unique_id', $request->u_category_unique_id)->CommonResponse()->first();
 
             $data['u_category'] = $u_category;
+
+            $users = $u_category->userCategories()->whereHas('user')->get();
+
+            $data['users'] = $users ?? [];
 
             return $this->sendResponse($message = "", $success_code = "", $data);
 

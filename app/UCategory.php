@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class UCategory extends Model
 {
-    //
-
 	protected $hidden = ['id', 'unique_id'];
 
 	protected $appends = ['u_category_id','u_category_unique_id','total_users'];
@@ -22,16 +20,15 @@ class UCategory extends Model
         return $this->unique_id;
     }
 
-    public function usercategory() {
+    public function getTotalUsersAttribute() {
+        
+        return $this->userCategories()->count();
+    }
+
+    public function userCategories() {
 
         return $this->hasMany(UserCategory::class,'u_category_id');
     }
-
-     public function getTotalUsersAttribute() {
-        
-        return $this->usercategory()->count();
-    }
-
 
     /**
      * Scope a query to only include active users.
