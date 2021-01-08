@@ -102,7 +102,7 @@ class AdminPostController extends Controller
             $base_query = $base_query->where('user_id',$request->user_id);
         }
 
-        $posts = $base_query->paginate(10);
+        $posts = $base_query->whereHas('user')->paginate(10);
 
         return view('admin.posts.index')
                 ->with('page', 'posts')
