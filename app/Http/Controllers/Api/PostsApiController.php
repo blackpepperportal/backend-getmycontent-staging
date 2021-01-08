@@ -303,7 +303,7 @@ class PostsApiController extends Controller
             $publish_time = $request->publish_time ?: date('Y-m-d H:i:s');
 
             $post->publish_time = date('Y-m-d H:i:s', strtotime($publish_time));
-
+            
 
             if($post->save()) {
 

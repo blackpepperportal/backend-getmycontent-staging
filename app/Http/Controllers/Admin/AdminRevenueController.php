@@ -1116,7 +1116,7 @@ class AdminRevenueController extends Controller
 
             $email_data = [];
 
-            $email_data['timezone'] =  Auth::guard('admin')->user()->timezone ?? "";
+            $email_data['timezone'] =  Auth::guard('admin')->user()->timezone ?? "Asia/Kolkata";
 
             $email_data['subscription_payments'] =  $subscription_payment ?? "";
 
