@@ -1048,12 +1048,15 @@ class AdminUCategoryController extends Controller
             DB::begintransaction();
 
             $rules = [
-                'name' => 'required|max:191',
+                'name' =>  $request->u_category_id ? 'required|max:191|unique:u_categories,name,'.$request->u_category_id.',id' : 'required|max:191|unique:u_categories,name,NULL,id',
                 'picture' => 'mimes:jpg,png,jpeg',
                 'description' => 'max:199',
+
             ];
+
+            $custom_errors = ['name.unique'=>tr('u_category_name_exists')];
            
-            Helper::custom_validator($request->all(),$rules);
+            Helper::custom_validator($request->all(),$rules,$custom_errors);
 
             $message = $request->u_category_id ? tr('u_category_update_success') : tr('u_category_create_success');
 
@@ -1063,6 +1066,8 @@ class AdminUCategoryController extends Controller
             $u_category->name = $request->name ?: $u_category->name;
 
             $u_category->description = $request->description ?: $u_category->description;
+
+            $u_category->unique_id =  \Str::slug($request->name);
 
             // Upload picture
             

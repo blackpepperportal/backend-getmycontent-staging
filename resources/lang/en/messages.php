@@ -1127,5 +1127,7 @@ return [
 	"online" => "Online",
 	"offline" => "Offline",
 	"frontend_no_data_image" => "Frontend No Data Image",
+
+	"u_category_name_exists"=>"The category name already exists"
 ]
 ?>
