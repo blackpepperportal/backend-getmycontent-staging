@@ -1282,6 +1282,87 @@ class AdminUCategoryController extends Controller
 
     }
 
+
+
+    /**
+     * @method u_categories_bulk_action()
+     * 
+     * @uses To delete,approve,decline multiple user category
+     *
+     * @created Ganesh
+     *
+     * @updated 
+     *
+     * @param 
+     *
+     * @return success/failure message
+     */
+    public function u_categories_bulk_action(Request $request) {
+
+        try {
+            
+            $action_name = $request->action_name ;
+
+            $u_category_ids = explode(',', $request->selected_categories);
+
+            if (!$u_category_ids && !$action_name) {
+
+                throw new Exception(tr('u_category_action_is_empty'));
+
+            }
+
+            DB::beginTransaction();
+
+            if($action_name == 'bulk_delete'){
+
+                $u_category = \App\UCategory::whereIn('id', $u_category_ids)->delete();
+
+                if ($u_category) {
+
+                    DB::commit();
+
+                    return redirect()->back()->with('flash_success',tr('admin_u_categories_delete_success'))->with('bulk_action','true');
+
+                }
+
+                throw new Exception(tr('u_category_delete_failed'));
+
+            }elseif($action_name == 'bulk_approve'){
+
+                $u_category =  \App\UCategory::whereIn('id', $u_category_ids)->update(['status' => APPROVED]);
+
+                if ($u_category) {
+
+                    DB::commit();
+
+                    return back()->with('flash_success',tr('admin_u_categories_approve_success'))->with('bulk_action','true');
+                }
+
+                throw new Exception(tr('u_category_approve_failed'));  
+
+            }elseif($action_name == 'bulk_decline'){
+                
+                $u_category =  \App\UCategory::whereIn('id', $u_category_ids)->update(['status' => DECLINED]);
+
+                if ($u_category) {
+                    
+                    DB::commit();
+
+                    return back()->with('flash_success',tr('admin_u_categories_decline_success'))->with('bulk_action','true');
+                }
+
+                throw new Exception(tr('u_category_decline_failed')); 
+            }
+
+        }catch( Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error',$e->getMessage());
+        }
+
+    }
+
     
 
 
