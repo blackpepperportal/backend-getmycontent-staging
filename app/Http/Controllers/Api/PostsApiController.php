@@ -305,7 +305,7 @@ class PostsApiController extends Controller
             $post->publish_time = date('Y-m-d H:i:s', strtotime($publish_time));
             
 
-            if($post->content=='' || $post->content=='undefined'){
+            if(!$post->content){
 
                 throw new Exception(api_error(180), 180);  
             }
