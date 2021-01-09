@@ -1301,6 +1301,8 @@ class AdminUCategoryController extends Controller
 
         try {
             
+            $message = '';
+            
             $action_name = $request->action_name ;
 
             $u_category_ids = explode(',', $request->selected_categories);
@@ -1316,43 +1318,49 @@ class AdminUCategoryController extends Controller
             if($action_name == 'bulk_delete'){
 
                 $u_category = \App\UCategory::whereIn('id', $u_category_ids)->delete();
+                
+                if (!$u_category) {
 
-                if ($u_category) {
-
-                    DB::commit();
-
-                    return redirect()->back()->with('flash_success',tr('admin_u_categories_delete_success'))->with('bulk_action','true');
+                    throw new Exception(tr('u_category_delete_failed'));
 
                 }
 
-                throw new Exception(tr('u_category_delete_failed'));
+                $message = tr('admin_u_categories_delete_success');
+
 
             }elseif($action_name == 'bulk_approve'){
 
                 $u_category =  \App\UCategory::whereIn('id', $u_category_ids)->update(['status' => APPROVED]);
 
-                if ($u_category) {
+                if (!$u_category) {
 
-                    DB::commit();
+                    throw new Exception(tr('u_category_approve_failed')); 
 
-                    return back()->with('flash_success',tr('admin_u_categories_approve_success'))->with('bulk_action','true');
                 }
-
-                throw new Exception(tr('u_category_approve_failed'));  
-
+                $message =  tr('admin_u_categories_approve_success');
+                 
             }elseif($action_name == 'bulk_decline'){
                 
                 $u_category =  \App\UCategory::whereIn('id', $u_category_ids)->update(['status' => DECLINED]);
 
-                if ($u_category) {
+                if (!$u_category) {
                     
-                    DB::commit();
+                    throw new Exception(tr('u_category_decline_failed')); 
 
-                    return back()->with('flash_success',tr('admin_u_categories_decline_success'))->with('bulk_action','true');
                 }
 
-                throw new Exception(tr('u_category_decline_failed')); 
+                $message = tr('admin_u_categories_decline_success');
+
             }
+
+            if($u_category){
+
+                DB::commit();
+
+                return back()->with('flash_success',$message)->with('bulk_action','true');
+
+            }
+
 
         }catch( Exception $e) {
 
