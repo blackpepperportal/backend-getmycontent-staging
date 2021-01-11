@@ -282,8 +282,8 @@ hr {
 
                         </div>
 
-                         <div class="col-lg-6">
-                             <div class="form-group">
+                        <div class="col-lg-6">
+                            <div class="form-group">
 
                                 <label for="stripe_publishable_key">{{tr('stripe_publishable_key')}} *</label>
 
@@ -291,12 +291,44 @@ hr {
 
                             </div>
                         </div>
+
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="stripe_secret_key">{{tr('stripe_secret_key')}} *</label>
 
                                 <input type="text" class="form-control" id="stripe_secret_key" name="stripe_secret_key" placeholder="Enter {{tr('stripe_secret_key')}}" value="{{old('stripe_secret_key') ?: Setting::get('stripe_secret_key')}}">
                             </div>
+                        
+                        </div>
+
+                        @if(Setting::get('is_paypal_enabled') == YES)
+
+                        <div class="col-md-12">
+
+                            <hr>
+
+                            <h5 class="sub-title">{{tr('paypal_settings')}}</h5>
+
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+
+                                <label for="PAYPAL_ID">{{tr('PAYPAL_ID')}} *</label>
+
+                                <input type="text" class="form-control" id="PAYPAL_ID" name="PAYPAL_ID" placeholder="Enter {{tr('PAYPAL_ID')}}" value="{{old('PAYPAL_ID') ?: Setting::get('PAYPAL_ID')}}">
+
+                            </div>
+                        
+                        </div>
+                       
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="PAYPAL_SECRET">{{tr('PAYPAL_SECRET')}} *</label>
+
+                                <input type="text" class="form-control" id="PAYPAL_SECRET" name="PAYPAL_SECRET" placeholder="Enter {{tr('PAYPAL_SECRET')}}" value="{{old('PAYPAL_SECRET') ?: Setting::get('PAYPAL_SECRET')}}">
+                            </div>
+                        
                         </div>
 
                         <div class="col-md-6">
@@ -311,24 +343,10 @@ hr {
                                 <input type="radio"  id="production" name="PAYPAL_MODE" value="production"  {{  Setting::get('PAYPAL_MODE') == PRODUCTION ? "checked" : "" }} ><label for="{{NO}}"> {{tr('live')}} </label>&nbsp;
                               
                             </div>
+                        
                         </div>
 
-                        <div class="col-lg-6">
-                             <div class="form-group">
-
-                                <label for="PAYPAL_ID">{{tr('PAYPAL_ID')}} *</label>
-
-                                <input type="text" class="form-control" id="PAYPAL_ID" name="PAYPAL_ID" placeholder="Enter {{tr('PAYPAL_ID')}}" value="{{old('PAYPAL_ID') ?: Setting::get('PAYPAL_ID')}}">
-
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label for="PAYPAL_SECRET">{{tr('PAYPAL_SECRET')}} *</label>
-
-                                <input type="text" class="form-control" id="PAYPAL_SECRET" name="PAYPAL_SECRET" placeholder="Enter {{tr('PAYPAL_SECRET')}}" value="{{old('PAYPAL_SECRET') ?: Setting::get('PAYPAL_SECRET')}}">
-                            </div>
-                        </div>
+                        @endif
 
                     </div>
 

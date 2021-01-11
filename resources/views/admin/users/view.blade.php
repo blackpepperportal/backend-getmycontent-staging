@@ -204,6 +204,15 @@
                                     </tr>
 
                                     <tr>
+                                        <th>{{tr('tipped_amount')}}</th>
+                                        <td>
+                                             <a href="{{route('admin.user_tips.index',['user_id'=>$user->id])}}">
+                                            {{$user->tipped_amount ?? 0.00}}
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
                                         <th>{{tr('email_notification')}}</th>
                                         <td>
                                             @if($user->is_email_notification == YES)
@@ -308,11 +317,30 @@
 
                                         </div>
 
+
+                                        <div class="col-6">
+
+                                           <a href="{{route('admin.users_subscriptions.index',['from_user_id' => $user->id])}}" class="btn btn-outline-warning btn-block btn-min-width mr-1 mb-1">{{tr('subscription_payments')}}</a>
+
+                                        </div>
+
+                                        <div class="col-6">
+
+                                           <a href="{{route('admin.user_tips.index',['user_id' => $user->id])}}" class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1">{{tr('tip_payments')}}</a>
+
+                                        </div>
+
                                         <div class="col-6" style="display: none;">
 
                                             <a href="{{route('admin.orders.index',['user_id' => $user->id])}}" class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1">{{tr('orders')}}</a>
 
                                         </div>
+
+                                        <div class="col-6">
+
+                                             <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" href="{{ route('admin.posts.index', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('posts') }}</a>
+
+                                      </div>
 
 
                                         <div class="col-6">

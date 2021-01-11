@@ -123,12 +123,17 @@
                                             {{$user->name}}
                                         </a>
                                         @if($user->user_account_type == USER_PREMIUM_ACCOUNT)
-                                        <b><i class="icon-badge text-green"></i></b>
+                                            <b><i class="icon-badge text-green"></i></b>
                                         @endif
-                                        @if(Cache::has($user->id))
-                                            <span class="text-success">Online</span>
-                                        @else
-                                            <span class="text-secondary">Offline</span>
+
+                                        @if(Setting::get('is_user_active_status') == YES)
+
+                                            @if(Cache::has($user->id))
+                                                <i class="fa fa-circle text-green" aria-hidden="true" title="Active"></i>
+                                            @else
+                                                <i class="fa fa-circle-thin" aria-hidden="true" title="Away"></i>
+                                            @endif
+
                                         @endif
                                     </td>
 
@@ -226,6 +231,8 @@
 
                                                 <div class="dropdown-divider"></div>
 
+                                                <a class="dropdown-item" href="{{ route('admin.posts.index', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('posts') }}</a>
+
                                                 <a class="dropdown-item" href="{{ route('admin.user_followings', ['user_id' => $user->id]) }}">&nbsp;{{ tr('followings') }}</a>
 
                                                 <a class="dropdown-item" href="{{ route('admin.user_followers', ['follower_id' => $user->id]) }}">&nbsp;{{ tr('following') }}</a>
@@ -233,6 +240,9 @@
                                                 <a class="dropdown-item" href="{{ route('admin.orders.index', ['user_id' => $user->id] ) }}" style="display: none;">&nbsp;{{ tr('orders') }}</a>
 
                                                 <a class="dropdown-item" href="{{ route('admin.post.payments', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('post_payments') }}</a>
+
+                                                <a class="dropdown-item" href="{{route('admin.users_subscriptions.index',['from_user_id' => $user->id])}}">&nbsp;{{tr('subscription_payments')}}</a>
+
 
                                                 <a class="dropdown-item" href="{{ route('admin.delivery_address.index', ['user_id' => $user->id] ) }}" style="display: none;">&nbsp;{{ tr('delivery_address') }}</a>
 
@@ -245,6 +255,7 @@
 
                                                 <a class="dropdown-item" href="{{ route('admin.user_wallets.view', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('wallets') }}</a>
 
+                                                <a class="dropdown-item" href="{{ route('admin.user_tips.index', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('tip_payments') }}</a>
 
                                             </div>
 

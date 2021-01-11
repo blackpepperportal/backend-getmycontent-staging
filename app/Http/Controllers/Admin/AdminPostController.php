@@ -102,7 +102,7 @@ class AdminPostController extends Controller
             $base_query = $base_query->where('user_id',$request->user_id);
         }
 
-        $posts = $base_query->paginate(10);
+        $posts = $base_query->whereHas('user')->paginate(10);
 
         return view('admin.posts.index')
                 ->with('page', 'posts')
@@ -211,7 +211,7 @@ class AdminPostController extends Controller
 
                         $post_file->file_type = 'image';
 
-                        $post_file->blur_file = \App\Helpers\Helper::generate_post_blur_file($post_file->file, $post->user_id);
+                        $post_file->blur_file = \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->post_files, $post->user_id);
                         
                         $post_file->save();
 
@@ -370,7 +370,13 @@ class AdminPostController extends Controller
 
                 $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
-                return redirect()->route('admin.posts.index',['page'=>$request->page])->with('flash_success', tr('post_deleted_success'));   
+                if($request->page){
+                    
+                    return redirect()->route('admin.posts.index',['page'=>$request->page])->with('flash_success', tr('post_deleted_success'));   
+                }
+                else{
+                    return redirect()->back()->with('flash_success', tr('post_deleted_success'));   
+                }
 
             } 
 
@@ -424,6 +430,9 @@ class AdminPostController extends Controller
             $number_of_likes = \App\PostLike::Approved()->where('post_id',$request->post_id)->count();
 
             $number_of_tips = \App\UserTip::where('post_id',$request->post_id)->count();
+
+            $payment_data->tips_earnings = \App\UserTip::where('post_id',$request->post_id)->sum('amount');
+
 
             $data->recent_comments = \App\PostComment::where('post_id',$request->post_id)->orderBy('post_comments.created_at', 'desc')->get();
 

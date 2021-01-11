@@ -199,7 +199,7 @@ class PaymentRepository {
 
             $user_wallet->save();
 
-            $response = ['success' => true, 'message' => 'done', 'data' => $payment_data];
+            $response = ['success' => true, 'message' => 'done', 'data' => $user_wallet];
 
             return response()->json($response, 200);
 

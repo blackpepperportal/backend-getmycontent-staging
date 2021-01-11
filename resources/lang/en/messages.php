@@ -64,8 +64,8 @@ return [
 
 	/*********** COMMON CONTENT *******/
 
-	"select_picture" => "Selecte Picture",
-	"select_cover" => "Selecte Cover Picture",
+	"select_picture" => "Select Picture",
+	"select_cover" => "Select Cover Picture",
 	"select_status" => "Select Status",
 	"select_gender" => "Select Gender",
 	"member_since" => "Since ",
@@ -368,6 +368,10 @@ return [
 	"PAYPAL_ID" => "Paypal Id",
 	"PAYPAL_SECRET" => "Paypal Secret",
 	"PAYPAL_MODE" => "Paypal Mode",
+	"paypal_settings" => "Paypal Settings",
+	"paypal_payment_status" => "Paypal Payment Gateway",
+	"is_verified_badge_enabled" => "Is Verification Badge Feature?",
+	"is_user_active_status" => "User Online/Offline Feature?",
 
 	"admin_control" => "Admin Control",
 	"is_demo_control_enabled" => "Do you want to prevent the edit/delete Actions",
@@ -1085,6 +1089,24 @@ return [
 	"BN_USER_COMMENT" => "User Comment Link",
 	"BN_USER_LIKE" => "User Like Link",
 	"BN_USER_TIPS" => "User Tips Link",
-	"is_badge_verified"=>"Is Badge Verified ?"
+
+	"s3_bucket"=>"S3 Bucket",
+	"enable"=>"Enable",
+	"disable"=>"Disable",
+	"AWS_ACCESS_KEY_ID"=>"AWS Access Key Id",
+	"AWS_SECRET_ACCESS_KEY"=>"AWS Secret Access Key",
+	"AWS_DEFAULT_REGION"=>"AWS Default Region",
+	"AWS_BUCKET"=>"AWS Bucket",
+	"s3_bucket_config"=>"S3 Bucket Configuration",
+  
+	"is_badge_verified"=>"Is Badge Verified ?",
+	"tips_earnings"=>"Tips Earnings",
+	"tip_payments"=>"Tip Payments",
+	"user_tip_not_found"=>"User Tip not found",
+	"view_tip_payments"=>"View Tip Payments",
+	"tipped_amount"=>"Tipped Amount",
+	"online" => "Online",
+	"offline" => "Offline",
+	"frontend_no_data_image" => "Frontend No Data Image",
 ]
 ?>

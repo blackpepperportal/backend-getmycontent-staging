@@ -79,7 +79,7 @@
 
                                     <td>
                                         @if($user->status == YES)
-                                        <span class="text-success">{{tr('approved')}}</span>
+                                        <span class="btn btn-success btn-sm">{{tr('approved')}}</span>
                                         @else
                                         <span class="text-danger">{{tr('declined')}}</span>
 

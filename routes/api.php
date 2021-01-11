@@ -340,5 +340,8 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     Route::post('posts_payment_by_paypal','Api\PostsApiController@posts_payment_by_paypal');
 
+    Route::post('user_tips_history','Api\UserAccountApiController@user_tips_history');
+
+
 
 });
