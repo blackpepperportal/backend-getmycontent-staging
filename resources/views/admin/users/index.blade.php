@@ -129,9 +129,9 @@
                                         @if(Setting::get('is_user_active_status') == YES)
 
                                             @if(Cache::has($user->id))
-                                                <span class="text-success">{{tr('online')}}</span>
+                                                <i class="fa fa-circle text-green" aria-hidden="true" title="Active"></i>
                                             @else
-                                                <span class="text-secondary">{{tr('offline')}}</span>
+                                                <i class="fa fa-circle-thin" aria-hidden="true" title="Away"></i>
                                             @endif
 
                                         @endif
