@@ -24,7 +24,17 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('subscription_payments') }}</h4>
+                    <h4 class="card-title">
+                        {{ tr('subscription_payments') }} 
+
+                        @if(Request::get('from_user_id'))
+
+                        -
+                        <a href="{{route('admin.users.view',['user_id'=>$user->id ?? ''])}}">{{$user->name ?? ''}}</a>
+
+                        @endif
+
+                    </h4>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 
                 </div>

@@ -336,6 +336,12 @@
 
                                         </div>
 
+                                        <div class="col-6">
+
+                                             <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" href="{{ route('admin.posts.index', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('posts') }}</a>
+
+                                      </div>
+
 
                                         <div class="col-6">
 

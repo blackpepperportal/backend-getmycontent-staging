@@ -124,7 +124,7 @@ class AdminRevenueController extends Controller
             $base_query  = $base_query->where('user_id',$request->user_id);
         }
 
-        $post_payments = $base_query->orderBy('created_at','DESC')->paginate(10);
+        $post_payments = $base_query->whereHas('postDetails')->has('user')->orderBy('created_at','DESC')->paginate(10);
        
         return view('admin.posts.payments')
                 ->with('page','payments')
@@ -1025,7 +1025,7 @@ class AdminRevenueController extends Controller
             $base_query = $base_query->where('user_id',$request->user_id);
         }
 
-        $user_wallets = $base_query->paginate(10);
+        $user_wallets = $base_query->has('user')->where('total','>',0)->paginate(10);
 
         return view('admin.user_wallets.index')
                     ->with('page','user_wallets')
@@ -1170,9 +1170,13 @@ class AdminRevenueController extends Controller
        
         $base_query = \App\UserTip::orderBy('created_at','desc');
 
+        $user = '';
+
         if($request->user_id){
 
          $base_query->where('user_id',$request->user_id);   
+
+         $user = \App\User::find($request->user_id);
 
         }
 
@@ -1195,11 +1199,12 @@ class AdminRevenueController extends Controller
                         });
         }
                       
-        $user_tips = $base_query->paginate(10);
+        $user_tips = $base_query->whereHas('post')->paginate(10);
 
         return view('admin.revenues.user_tips.index')
                     ->with('page', 'payments')
                     ->with('sub_page', 'tip-payments')
+                    ->with('user', $user)
                     ->with('user_tips', $user_tips);
     }
 

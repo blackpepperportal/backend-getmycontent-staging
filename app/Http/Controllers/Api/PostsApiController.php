@@ -14,6 +14,8 @@ use App\User, App\Post;
 
 use App\Repositories\PaymentRepository as PaymentRepo;
 
+use Carbon\Carbon;
+
 class PostsApiController extends Controller
 {
     protected $loginUser;
@@ -301,7 +303,12 @@ class PostsApiController extends Controller
             $publish_time = $request->publish_time ?: date('Y-m-d H:i:s');
 
             $post->publish_time = date('Y-m-d H:i:s', strtotime($publish_time));
+            
 
+            if(!$post->content){
+
+                throw new Exception(api_error(180), 180);  
+            }
 
             if($post->save()) {
 
@@ -886,6 +893,21 @@ class PostsApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules, $custom_errors);
 
+            $post = \App\Post::find($request->post_id);
+
+            if(!$post){
+
+                throw new Exception(api_error(139), 139);
+            }
+
+            $today = Carbon::now()->format('Y-m-d H:i:s');
+            
+            if(strtotime($post->publish_time) > strtotime($today)){
+
+                throw new Exception(api_error(169), 169);
+            }
+
+            
             $is_post_published = \App\Post::where('id',$request->post_id)->where('is_published',YES)->first();
 
             
