@@ -20,6 +20,7 @@ use App\Repositories\PaymentRepository as PaymentRepo;
 
 class ApplicationController extends Controller
 {
+
     /**
      * @method static_pages_api()
      *

@@ -1089,7 +1089,6 @@ return [
 	"BN_USER_COMMENT" => "User Comment Link",
 	"BN_USER_LIKE" => "User Like Link",
 	"BN_USER_TIPS" => "User Tips Link",
-
 	"s3_bucket"=>"S3 Bucket",
 	"enable"=>"Enable",
 	"disable"=>"Disable",
@@ -1098,7 +1097,6 @@ return [
 	"AWS_DEFAULT_REGION"=>"AWS Default Region",
 	"AWS_BUCKET"=>"AWS Bucket",
 	"s3_bucket_config"=>"S3 Bucket Configuration",
-  
 	"is_badge_verified"=>"Is Badge Verified ?",
 	"tips_earnings"=>"Tips Earnings",
 	"tip_payments"=>"Tip Payments",
@@ -1108,5 +1106,9 @@ return [
 	"online" => "Online",
 	"offline" => "Offline",
 	"frontend_no_data_image" => "Frontend No Data Image",
+	"chat_asset_payments"=>"Chat Asset Payments",
+	"chat_asset_payment"=>"Chat Asset Payment",
+	"view_chat_asset_payment"=>"View Chat Asset Payment",
+	"is_badge_verified"=>"Is Badge Verified ?"
 ]
 ?>

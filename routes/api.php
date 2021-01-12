@@ -342,6 +342,26 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     Route::post('user_tips_history','Api\UserAccountApiController@user_tips_history');
 
+});
 
+Route::group(['middleware' => ['UserApiVal']], function() {
+
+    Route::any('chat_assets', 'Api\ChatApiController@chat_assets_index');
+
+    Route::any('chat_assets_save', 'Api\ChatApiController@chat_assets_save');
+
+    Route::any('chat_assets_delete', 'Api\ChatApiController@chat_assets_delete');
+    
+
+    Route::any('chat_assets_payment_by_stripe', 'Api\ChatApiController@chat_assets_payment_by_stripe');
+
+    Route::any('chat_assets_payment_by_wallet', 'Api\ChatApiController@chat_assets_payment_by_wallet');
+
+    Route::any('chat_assets_payment_by_paypal', 'Api\ChatApiController@chat_assets_payment_by_paypal');
+
+
+    Route::any('chat_asset_payments', 'Api\ChatApiController@chat_asset_payments');
+
+    Route::any('chat_asset_payments_view', 'Api\ChatApiController@chat_asset_payments_view');
 
 });

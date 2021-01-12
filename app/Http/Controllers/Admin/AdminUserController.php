@@ -1257,4 +1257,84 @@ class AdminUserController extends Controller
          
     }
 
+    /**
+     * @method chat_asset_payments()
+     *
+     * @uses To list out chat_asset_payments details 
+     *
+     * @created Arun
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function chat_asset_payments(Request $request) {
+       
+        $base_query = \App\ChatAssetPayment::orderBy('created_at','desc');
+
+        $search_key = $request->search_key;
+
+        if($search_key) {
+
+            $base_query = $base_query
+                        ->whereHas('fromUser',function($query) use($search_key) {
+
+                            return $query->where('users.name','LIKE','%'.$search_key.'%');
+
+                        })->orwhereHas('toUser',function($query) use($search_key) {
+                            
+                            return $query->where('users.name','LIKE','%'.$search_key.'%');
+                        });
+        }
+
+        $chat_asset_payments = $base_query->paginate(10);
+
+
+        return view('admin.users.chat.index')
+                    ->with('page', 'user_subscriptions')
+                    ->with('sub_page', 'chat-asset-payments')
+                    ->with('chat_asset_payments', $chat_asset_payments);
+    }
+
+    /**
+     * @method chat_asset_payment_view()
+     *
+     * @uses To list out chat_asset_payment details 
+     *
+     * @created Arun
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function chat_asset_payment_view(Request $request) {
+
+        try {
+       
+            $chat_asset_payment = \App\ChatAssetPayment::find($request->chat_asset_payment_id);
+             
+             if(!$chat_asset_payment) { 
+
+                throw new Exception(tr('chat_asset_payment_not_found'), 101);                
+            }
+
+
+            return view('admin.users.chat.view')
+                        ->with('page', 'user_subscription_payment')
+                        ->with('sub_page', 'chat-asset-payments')
+                        ->with('chat_asset_payment', $chat_asset_payment);
+
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+       }
+    }
+
+
 }

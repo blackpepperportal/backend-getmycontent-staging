@@ -1097,3 +1097,15 @@ function report_posts($user_id){
 
     return $report_post_ids;
 }
+
+function admin_commission_spilit($total) {
+
+    $admin_commission = Setting::get('admin_commission', 1)/100;
+
+    $admin_amount = $total * $admin_commission;
+
+    $user_amount = $total - $admin_amount;
+
+    return  (object) ['admin_amount' => $admin_amount, 'user_amount' => $user_amount];
+
+}

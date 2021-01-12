@@ -151,5 +151,8 @@ return [
 
     171 => 'You can\'t pay for your Own Post',
 
-    180 => 'The Post Content Should not be empty'
+    180 => 'The Post Content Should not be empty',
+
+    3000 =>  'The Chat info not found'
+
 ];
