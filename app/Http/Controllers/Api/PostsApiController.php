@@ -74,6 +74,8 @@ class PostsApiController extends Controller
 
             $data['user'] = $this->loginUser;
 
+            Log::info("HHHDHDHDDH".print_r($data, true));
+
             return $this->sendResponse($message = '' , $code = '', $data);
 
         } catch(Exception $e) {

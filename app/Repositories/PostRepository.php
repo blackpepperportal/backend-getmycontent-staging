@@ -32,10 +32,6 @@ class PostRepository {
 
                         $post->delete_btn_status =  $request->id == $post->user_id ? YES : NO;
 
-                        // $post->is_user_subscribed = NO;
-
-                        // $post->is_ppv = NO;
-
                         $post->is_user_liked = $post->postLikes->where('user_id', $request->id)->count() ? YES : NO;
 
                         $post->is_user_bookmarked = $post->postBookmarks->where('user_id', $request->id)->count() ? YES : NO;
@@ -129,7 +125,7 @@ class PostRepository {
 
         $post_user = $post->user ?? [];
 
-        $data['is_user_needs_pay'] = NO;
+        $data['is_user_needs_pay'] = $data['is_free_account'] = NO;
 
         $data['post_payment_type'] = $data['payment_text'] = "";
 
@@ -137,6 +133,11 @@ class PostRepository {
 
             goto post_end;
 
+        }
+
+        if($post_user->user_id == $request->id) {
+
+            goto post_end;
         }
 
         $post_user_account_type = $post_user->user_account_type ?? USER_FREE_ACCOUNT;
@@ -173,21 +174,17 @@ class PostRepository {
 
             if($user_subscription) {
 
-                if($user_subscription->monthly_amount <= 0 && $user_subscription->yearly_amount <= 0) {
 
-                } else {
+                $check_user_subscription_payment = \App\UserSubscriptionPayment::where('user_subscription_id', $user_subscription->id)->where('from_user_id', $request->id)->count();
 
-                    $check_user_subscription_payment = \App\UserSubscriptionPayment::where('user_subscription_id', $user_subscription->id)->where('from_user_id', $request->id)->count();
+                if(!$check_user_subscription_payment) {
 
-                    if(!$check_user_subscription_payment) {
+                    $data['is_user_needs_pay'] = YES;
 
-                        $data['is_user_needs_pay'] = YES;
+                    $data['post_payment_type'] = POSTS_PAYMENT_SUBSCRIPTION;
 
-                        $data['post_payment_type'] = POSTS_PAYMENT_SUBSCRIPTION;
+                    $data['payment_text'] = tr('unlock_subscription_text', $user_subscription->monthly_amount_formatted);
 
-                        $data['payment_text'] = tr('unlock_subscription_text', $user_subscription->monthly_amount_formatted);
-
-                    }
                 }
 
             }

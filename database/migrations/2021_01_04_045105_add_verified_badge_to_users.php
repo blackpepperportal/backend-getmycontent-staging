@@ -14,7 +14,7 @@ class AddVerifiedBadgeToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->tinyInteger('is_verified_badge')->default(YES);
+            $table->tinyInteger('is_verified_badge')->default(NO);
         });
     }
 

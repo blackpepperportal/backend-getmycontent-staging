@@ -180,7 +180,7 @@ class CommonRepository {
 
     public static function subscriptions_user_payment_check($other_user, $request) {
 
-        $data['is_user_needs_pay'] = NO;
+        $data['is_user_needs_pay'] = $data['is_free_account'] = NO;
 
         $data['payment_text'] = "";
 
@@ -195,9 +195,12 @@ class CommonRepository {
 
             $data['is_user_needs_pay'] = YES;
 
+            $data['is_free_account'] =  NO;
+
             $data['payment_text'] = tr('subscribe_for_free');
  
         } else {
+
             $data['unsubscribe_btn_status'] = YES;
         }
 
@@ -226,6 +229,8 @@ class CommonRepository {
                 }
             }
 
+        } else {
+            $data['is_free_account'] = YES;
         }
 
         return (object)$data;
