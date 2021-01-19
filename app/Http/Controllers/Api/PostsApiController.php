@@ -2003,14 +2003,6 @@ class PostsApiController extends Controller
                 
             }
 
-            $check_tip_payment = \App\UserTip::UserPaid($request->id, $request->user_id)->first();
-
-            if($check_tip_payment) {
-
-                throw new Exception(api_error(145), 145);
-                
-            }
-
 
             $user_pay_amount = $request->amount ?: 1;
 
