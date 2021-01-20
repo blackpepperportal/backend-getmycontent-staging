@@ -1699,9 +1699,9 @@ class UserAccountApiController extends Controller
 
             $data['is_block_user'] = Helper::is_block_user($request->id, $user->user_id);
 
-            $data['total_followers'] = \App\Follower::where('user_id', $request->user_id)->count();
+            $data['total_followers'] = \App\Follower::where('user_id', $request->user_id)->where('status', YES)->count();
 
-            $data['total_followings'] = \App\Follower::where('follower_id', $request->user_id)->count();
+            $data['total_followings'] = \App\Follower::where('follower_id', $request->user_id)->where('status', YES)->count();
 
             $data['total_posts'] = \App\Post::where('user_id', $request->user_id)->count();
 
@@ -2399,9 +2399,9 @@ class UserAccountApiController extends Controller
 
             $data = [];
 
-            $data['total_followers'] = \App\Follower::where('user_id', $request->id)->count();
+            $data['total_followers'] = \App\Follower::where('user_id', $request->id)->where('status', YES)->count();
 
-            $data['total_followings'] = \App\Follower::where('follower_id', $request->id)->count();
+            $data['total_followings'] = \App\Follower::where('follower_id', $request->id)->where('status', YES)->count();
 
             return $this->sendResponse(api_success($code), $code, $data);
 

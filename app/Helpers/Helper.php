@@ -735,7 +735,7 @@ class Helper {
 
     public static function is_you_following($logged_in_user_id, $other_user_id) {
 
-        $check = \App\Follower::where('user_id', $other_user_id)->where('follower_id', $logged_in_user_id)->count();
+        $check = \App\Follower::where('user_id', $other_user_id)->where('follower_id', $logged_in_user_id)->where('status', YES)->count();
 
         return $check ? YES : NO;
     }
