@@ -483,7 +483,7 @@ class UserAccountApiController extends Controller
 
             $rules = [
                 'password' => 'required|confirmed|min:6',
-                'token' => 'required|string',
+                'reset_token' => 'required|string',
                 'password_confirmation'=>'required'
             ]; 
 
@@ -491,7 +491,7 @@ class UserAccountApiController extends Controller
 
             DB::beginTransaction();
 
-            $password_reset = \App\PasswordReset::where('token', $request->token)->first();
+            $password_reset = \App\PasswordReset::where('token', $request->reset_token)->first();
 
             if(!$password_reset){
 
