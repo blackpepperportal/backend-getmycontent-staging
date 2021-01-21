@@ -41,7 +41,7 @@ class PublishPostJob implements ShouldQueue
 
                     foreach ($posts as $post) {
 
-                        $post->is_published = YES ;
+                        $post->is_published = YES;
 
                         $post->publish_time = date('Y-m-d H:i:s');
 

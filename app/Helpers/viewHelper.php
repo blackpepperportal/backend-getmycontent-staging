@@ -894,7 +894,7 @@ function user_document_status_formatted($status) {
 
 function get_follower_ids($user_id) {
 
-    $follower_ids = \App\Follower::where('follower_id', $user_id)->pluck('user_id');
+    $follower_ids = \App\Follower::where('follower_id', $user_id)->where('status', YES)->pluck('user_id');
 
     $follower_ids = $follower_ids ? $follower_ids->toArray() : [];
 
