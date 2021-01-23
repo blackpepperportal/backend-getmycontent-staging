@@ -580,7 +580,7 @@ class AdminContentCreatorController extends Controller
      */
     public function users_followers(Request $request) {
 
-        $followers = \App\Follower::where('follower_id', $request->follower_id)->paginate($this->take);
+        $followers = \App\Follower::where('follower_id', $request->follower_id)->where('status', YES)->paginate($this->take);
 
         $user = \App\User::find($request->user_id);
         
@@ -606,7 +606,7 @@ class AdminContentCreatorController extends Controller
      */
     public function users_followings(Request $request) {
 
-        $followings = \App\Follower::where('user_id',$request->user_id)->paginate($this->take);
+        $followings = \App\Follower::where('user_id',$request->user_id)->where('status', YES)->paginate($this->take);
         
         $user = \App\User::find($request->user_id);
 

@@ -288,7 +288,7 @@ class PostsApiController extends Controller
             $rules = [
                 'content' => 'required',
                 'publish_time' => 'nullable',
-                'amount' => 'nullable|numeric|min:0',
+                'amount' => 'nullable|numeric|min:1',
                 'post_files' => 'nullable'
             ];
 
@@ -2000,14 +2000,6 @@ class PostsApiController extends Controller
             if(!$user) {
 
                 throw new Exception(api_error(135), 135);
-                
-            }
-
-            $check_tip_payment = \App\UserTip::UserPaid($request->id, $request->user_id)->first();
-
-            if($check_tip_payment) {
-
-                throw new Exception(api_error(145), 145);
                 
             }
 
