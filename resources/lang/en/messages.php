@@ -1108,5 +1108,7 @@ return [
 	"online" => "Online",
 	"offline" => "Offline",
 	"frontend_no_data_image" => "Frontend No Data Image",
+	"is_mailgun_email_validate" => "Is Mailgun - Email Validate Enabled?"
+
 ]
 ?>
