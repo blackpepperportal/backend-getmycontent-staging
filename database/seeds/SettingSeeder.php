@@ -244,6 +244,11 @@ class SettingSeeder extends Seeder
 		        'value' => asset('images/no-data-found.svg')
 		    ],
 
+		    [
+		        'key' => 'is_mailgun_email_validate',
+		        'value' => NO
+		    ],
+
 		]);
 
 		if(Schema::hasTable('settings')) {

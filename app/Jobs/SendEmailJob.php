@@ -69,7 +69,7 @@ class SendEmailJob implements ShouldQueue
             Log::info("mailer - ".$this->email_data['email']);
 
 
-            if(envfile('MAIL_MAILER') == 'mailgun' && envfile('MAILGUN_SECRET')!='') {
+            if(envfile('MAIL_MAILER') == 'mailgun' && envfile('MAILGUN_SECRET')!='' && Setting::get('is_mailgun_email_validate') == YES) {
 
 
                 Log::info("isValid - START");
