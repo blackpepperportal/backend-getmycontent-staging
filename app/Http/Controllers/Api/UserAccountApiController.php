@@ -402,7 +402,7 @@ class UserAccountApiController extends Controller
         try {
             
             $rules = [
-                'username' => 'required',
+                // 'username' => 'required',
             ];
 
             Helper::custom_validator($request->all(), $rules);
@@ -740,6 +740,15 @@ class UserAccountApiController extends Controller
             if(!$user) { 
 
                 throw new Exception(api_error(1002) , 1002);
+            }
+
+            $user_details = User::where('id', '!=' , $request->id)
+                ->firstWhere('username','=',$request->username);
+           
+            if($user_details) {
+
+                throw new Exception(api_error(181), 181);
+
             }
 
             $user->name = $request->name ?: $user->name;
