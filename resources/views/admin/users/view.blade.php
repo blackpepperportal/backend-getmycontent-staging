@@ -80,7 +80,7 @@
                                 <table class="table table-xl mb-0">
                                     <tr >
                                         <th style="border-top: 0">{{tr('username')}}</th>
-                                        <td style="border-top: 0">{{$user->name}}</td>
+                                        <td style="border-top: 0">{{$user->username}}</td>
                                     </tr>
 
                                     <tr>

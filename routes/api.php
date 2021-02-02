@@ -48,6 +48,8 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 	 *
 	 */
 
+    Route::post('username_validation','Api\UserAccountApiController@username_validation');
+    
     Route::any('chat_messages_save', 'ApplicationController@chat_messages_save');
 
     Route::post('register','Api\UserAccountApiController@register');
