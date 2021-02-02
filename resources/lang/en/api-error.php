@@ -151,5 +151,8 @@ return [
 
     171 => 'You can\'t pay for your Own Post',
 
-    180 => 'The Post Content Should not be empty'
+    180 => 'The Post Content Should not be empty',
+
+    181 => 'That username already taken. Please try another',
+
 ];
