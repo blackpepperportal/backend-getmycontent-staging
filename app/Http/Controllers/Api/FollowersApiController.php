@@ -54,7 +54,7 @@ class FollowersApiController extends Controller
 
         try {
 
-            $following_user_ids = Follower::where('follower_id', $request->id)->pluck('user_id')->toArray();
+            $following_user_ids = Follower::where('follower_id', $request->id)->pluck('user_id')->where('status', YES)->toArray();
 
             $blocked_user_ids = blocked_users($request->id);
             
@@ -208,9 +208,9 @@ class FollowersApiController extends Controller
 
             $data['is_follow'] = NO;
 
-            $data['total_followers'] = \App\Follower::where('user_id', $request->id)->count();
+            $data['total_followers'] = \App\Follower::where('user_id', $request->id)->where('status', YES)->count();
 
-            $data['total_followings'] = \App\Follower::where('follower_id', $request->id)->count();
+            $data['total_followings'] = \App\Follower::where('follower_id', $request->id)->where('status', YES)->count();
 
             return $this->sendResponse(api_success(128,$follow_user->username ?? 'user'), $code = 128, $data);
 
@@ -262,7 +262,11 @@ class FollowersApiController extends Controller
 
             // Check the user already following the selected users
 
-            $follower = Follower::where('user_id', $request->user_id)->where('follower_id', $request->id)->where('status', YES)->delete();
+            $follower = Follower::where('user_id', $request->user_id)->where('follower_id', $request->id)->where('status', YES)->first();
+
+            $follower->status = FOLLOWER_EXPIRED;
+
+            $follower->save();
 
             $user_subscription_payment = \App\UserSubscriptionPayment::where('to_user_id', $request->user_id)->where('from_user_id', $request->id)->where('is_current_subscription', YES)->first();
 
@@ -281,9 +285,9 @@ class FollowersApiController extends Controller
 
             $data['is_follow'] = YES;
 
-            $data['total_followers'] = \App\Follower::where('user_id', $request->id)->count();
+            $data['total_followers'] = \App\Follower::where('user_id', $request->id)->where('status', YES)->count();
 
-            $data['total_followings'] = \App\Follower::where('follower_id', $request->id)->count();
+            $data['total_followings'] = \App\Follower::where('follower_id', $request->id)->where('status', YES)->count();
 
             return $this->sendResponse(api_success(129), $code = 129, $data);
 
@@ -317,7 +321,7 @@ class FollowersApiController extends Controller
 
             $blocked_user_ids = blocked_users($request->id);
 
-            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('follower_id',$blocked_user_ids)->where('user_id', $request->id);
+            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('follower_id',$blocked_user_ids)->where('followers.status', YES)->where('user_id', $request->id);
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
@@ -358,7 +362,7 @@ class FollowersApiController extends Controller
 
             $blocked_user_ids = blocked_users($request->id);
 
-            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('user_id',$blocked_user_ids)->where('follower_id', $request->id);
+            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('user_id',$blocked_user_ids)->where('follower_id', $request->id)->where('status', YES);
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 

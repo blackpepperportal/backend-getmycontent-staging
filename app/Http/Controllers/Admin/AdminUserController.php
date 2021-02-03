@@ -839,7 +839,7 @@ class AdminUserController extends Controller
 
         $blocked_users = blocked_users($request->follower_id);
 
-        $user_followers = \App\Follower::whereNotIn('user_id',$blocked_users)->where('follower_id',$request->follower_id)->paginate($this->take);
+        $user_followers = \App\Follower::whereNotIn('user_id',$blocked_users)->where('follower_id',$request->follower_id)->where('status', YES)->paginate($this->take);
 
         return view('admin.users.followers')
                 ->with('page', 'users')
@@ -881,7 +881,7 @@ class AdminUserController extends Controller
 
         $blocked_users = blocked_users($request->user_id);
 
-        $followings = \App\Follower::whereNotIn('follower_id',$blocked_users)->where('user_id', $request->user_id)->paginate($this->take);
+        $followings = \App\Follower::whereNotIn('follower_id',$blocked_users)->where('user_id', $request->user_id)->where('status', YES)->paginate($this->take);
 
         return view('admin.users.followings')
                 ->with('page','users')

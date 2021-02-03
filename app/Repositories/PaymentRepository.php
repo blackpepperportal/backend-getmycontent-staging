@@ -1170,9 +1170,9 @@ class PaymentRepository {
 
             $data = ['user_type' => SUBSCRIBED_USER, 'payment_id' => $request->payment_id];
 
-            $data['total_followers'] = \App\Follower::where('user_id', $request->id)->count();
+            $data['total_followers'] = \App\Follower::where('user_id', $request->id)->where('status', YES)->count();
 
-            $data['total_followings'] = \App\Follower::where('follower_id', $request->id)->count();
+            $data['total_followings'] = \App\Follower::where('follower_id', $request->id)->where('status', YES)->count();
 
             $response = ['success' => true, 'message' => 'paid', 'data' => $data];
 
@@ -1282,6 +1282,7 @@ class PaymentRepository {
 
             $to_user_inputs = [
                 'id' => $user_subscription_payment->to_user_id,
+                'payment_mode' => $request->payment_mode,
                 'received_from_user_id' => $user_subscription_payment->from_user_id,
                 'total' => $user_subscription_payment->user_amount, 
                 'user_pay_amount' => $user_subscription_payment->user_amount,

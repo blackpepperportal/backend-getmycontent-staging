@@ -70,7 +70,6 @@ class SendEmailJob implements ShouldQueue
 
             if(envfile('MAIL_MAILER') == 'mailgun' && envfile('MAILGUN_SECRET')!='' && Setting::get('is_mailgun_email_validate') == YES) {
 
-
                 Log::info("isValid - START");
 
                 # Instantiate the client.

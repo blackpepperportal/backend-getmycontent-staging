@@ -80,7 +80,7 @@
                                 <table class="table table-xl mb-0">
                                     <tr >
                                         <th style="border-top: 0">{{tr('username')}}</th>
-                                        <td style="border-top: 0">{{$user->name}}</td>
+                                        <td style="border-top: 0">{{$user->username}}</td>
                                     </tr>
 
                                     <tr>
@@ -335,6 +335,12 @@
                                             <a href="{{route('admin.orders.index',['user_id' => $user->id])}}" class="btn btn-outline-success btn-block btn-min-width mr-1 mb-1">{{tr('orders')}}</a>
 
                                         </div>
+
+                                        <div class="col-6">
+
+                                             <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" href="{{ route('admin.posts.index', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('posts') }}</a>
+
+                                      </div>
 
 
                                         <div class="col-6">

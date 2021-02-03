@@ -151,6 +151,10 @@ return [
 
     171 => 'You can\'t pay for your Own Post',
 
-    300 =>  'The category not found'
+    300 =>  'The category not found',
+
+    180 => 'The Post Content Should not be empty',
+
+    181 => 'That username already taken. Please try another',
 
 ];

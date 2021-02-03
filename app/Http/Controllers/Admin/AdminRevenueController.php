@@ -124,7 +124,7 @@ class AdminRevenueController extends Controller
             $base_query  = $base_query->where('user_id',$request->user_id);
         }
 
-        $post_payments = $base_query->has('user')->orderBy('created_at','DESC')->paginate(10);
+        $post_payments = $base_query->whereHas('postDetails')->has('user')->orderBy('created_at','DESC')->paginate(10);
        
         return view('admin.posts.payments')
                 ->with('page','payments')
@@ -1199,7 +1199,7 @@ class AdminRevenueController extends Controller
                         });
         }
                       
-        $user_tips = $base_query->paginate(10);
+        $user_tips = $base_query->whereHas('post')->paginate(10);
 
         return view('admin.revenues.user_tips.index')
                     ->with('page', 'payments')

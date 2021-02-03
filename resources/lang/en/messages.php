@@ -985,7 +985,6 @@ return [
 	"user_post_like_message"=>":other_key liked your post.",
 	"user_post_comment_message"=>":other_key commented on your post.",
     "user_follow_message"=>":other_key is Following you.",
-
 	"user_tips_message"=>"You received a tip amount(:other_key) from ",
     "post_liked_by_user"=>"Your Post has been Liked by the user",
     "n_a" => "N/A",
@@ -1128,5 +1127,7 @@ return [
 	"online" => "Online",
 	"offline" => "Offline",
 	"frontend_no_data_image" => "Frontend No Data Image",
+	"is_mailgun_email_validate" => "Is Mailgun - Email Validate Enabled?"
+
 ]
 ?>
