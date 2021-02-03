@@ -1048,12 +1048,15 @@ class AdminUCategoryController extends Controller
             DB::begintransaction();
 
             $rules = [
-                'name' => 'required|max:191',
+                'name' =>  $request->u_category_id ? 'required|max:191|unique:u_categories,name,'.$request->u_category_id.',id' : 'required|max:191|unique:u_categories,name,NULL,id',
                 'picture' => 'mimes:jpg,png,jpeg',
                 'description' => 'max:199',
+
             ];
+
+            $custom_errors = ['name.unique'=>tr('u_category_name_exists')];
            
-            Helper::custom_validator($request->all(),$rules);
+            Helper::custom_validator($request->all(),$rules,$custom_errors);
 
             $message = $request->u_category_id ? tr('u_category_update_success') : tr('u_category_create_success');
 
@@ -1063,6 +1066,8 @@ class AdminUCategoryController extends Controller
             $u_category->name = $request->name ?: $u_category->name;
 
             $u_category->description = $request->description ?: $u_category->description;
+
+            $u_category->unique_id =  \Str::slug($request->name);
 
             // Upload picture
             
@@ -1273,6 +1278,95 @@ class AdminUCategoryController extends Controller
 
             return redirect()->route('admin.faqs.index')->with('flash_error', $e->getMessage());
 
+        }
+
+    }
+
+
+
+    /**
+     * @method u_categories_bulk_action()
+     * 
+     * @uses To delete,approve,decline multiple user category
+     *
+     * @created Ganesh
+     *
+     * @updated 
+     *
+     * @param 
+     *
+     * @return success/failure message
+     */
+    public function u_categories_bulk_action(Request $request) {
+
+        try {
+            
+            $message = '';
+            
+            $action_name = $request->action_name ;
+
+            $u_category_ids = explode(',', $request->selected_categories);
+
+            if (!$u_category_ids && !$action_name) {
+
+                throw new Exception(tr('u_category_action_is_empty'));
+
+            }
+
+            DB::beginTransaction();
+
+            if($action_name == 'bulk_delete'){
+
+                $u_category = \App\UCategory::whereIn('id', $u_category_ids)->delete();
+                
+                if (!$u_category) {
+
+                    throw new Exception(tr('u_category_delete_failed'));
+
+                }
+
+                $message = tr('admin_u_categories_delete_success');
+
+
+            }elseif($action_name == 'bulk_approve'){
+
+                $u_category =  \App\UCategory::whereIn('id', $u_category_ids)->update(['status' => APPROVED]);
+
+                if (!$u_category) {
+
+                    throw new Exception(tr('u_category_approve_failed')); 
+
+                }
+                $message =  tr('admin_u_categories_approve_success');
+                 
+            }elseif($action_name == 'bulk_decline'){
+                
+                $u_category =  \App\UCategory::whereIn('id', $u_category_ids)->update(['status' => DECLINED]);
+
+                if (!$u_category) {
+                    
+                    throw new Exception(tr('u_category_decline_failed')); 
+
+                }
+
+                $message = tr('admin_u_categories_decline_success');
+
+            }
+
+            if($u_category){
+
+                DB::commit();
+
+                return back()->with('flash_success',$message)->with('bulk_action','true');
+
+            }
+
+
+        }catch( Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->back()->with('flash_error',$e->getMessage());
         }
 
     }

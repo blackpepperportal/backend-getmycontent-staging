@@ -410,5 +410,8 @@ Route::group(['middleware' => 'web'], function() {
         Route::get('user_tips/index','Admin\AdminRevenueController@user_tips_index')->name('user_tips.index');
 
         Route::get('user_tips/view','Admin\AdminRevenueController@user_tips_view')->name('user_tips.view');
-     });
+    
+        Route::post('/u_categories/bulk_action', 'CategoryCustom\Admin\AdminUCategoryController@u_categories_bulk_action')->name('u_categories.bulk_action');
+
+      });
 });

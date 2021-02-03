@@ -1127,7 +1127,16 @@ return [
 	"online" => "Online",
 	"offline" => "Offline",
 	"frontend_no_data_image" => "Frontend No Data Image",
-	"is_mailgun_email_validate" => "Is Mailgun - Email Validate Enabled?"
-
+	"is_mailgun_email_validate" => "Is Mailgun - Email Validate Enabled?",
+	"u_category_name_exists"=>"The category name already exists",
+	"u_category_approve_confirmation" => "Do you want approve this Categories",
+	"u_category_approve_failed"=>"Approve Category  failed!!",
+	"u_category_decline_failed"=>"Decline Category failed!!",
+	"u_category_delete_failed"=>"Delete Category failed!!",
+	"u_category_action_is_empty"=>"User Category or Action not selected",
+	"admin_u_categories_approve_success"=>"User Categories has been approved successfully",
+	"admin_u_categories_decline_success"=>"User Categories  has been declined successfully",
+	"admin_u_categories_delete_success"=>"User Categories  has been deleted successfully",
+	"admin_u_categories_delete_confirmation"=>"Do you want to delete this categories ?",
 ]
 ?>
