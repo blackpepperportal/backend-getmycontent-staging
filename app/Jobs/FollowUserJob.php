@@ -91,7 +91,7 @@ class FollowUserJob implements ShouldQueue
             
             if (Setting::get('is_email_notification') == YES && $user) {
                
-                $email_data['subject'] = tr('follow_message');
+                $email_data['subject'] = tr('user_follow_message', $follower->followerDetails->name ?? '');
                
                 $email_data['message'] = $message;
 

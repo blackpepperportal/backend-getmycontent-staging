@@ -46,7 +46,7 @@ class PostLikeJob implements ShouldQueue
 
             $title = $content = push_messages(603);
 
-            $message = tr('post_like_message', $post_like->User->name ?? ''); 
+            $message = tr('user_post_like_message', $post_like->User->name ?? ''); 
 
             $data['from_user_id'] = $post_like->user_id;
 
@@ -76,15 +76,13 @@ class PostLikeJob implements ShouldQueue
 
                     \Notification::send($user->id, new \App\Notifications\PushNotification($title , $content, $push_data, $user->device_token));
 
-
                 }
             }      
 
 
             if (Setting::get('is_email_notification') == YES && $user) {
 
-               
-                $email_data['subject'] = tr('user_post_like_message');
+                $email_data['subject'] = tr('user_post_like_message', $post_like->User->name ?? ''); 
                
                 $email_data['message'] = $message;
 
