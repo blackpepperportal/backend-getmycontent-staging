@@ -322,4 +322,29 @@ class ApplicationController extends Controller
     }
 
 
+    /**
+     * @method static_pages_api()
+     *
+     * @uses to get the pages
+     *
+     * @created Vidhya R 
+     *
+     * @edited Vidhya R
+     *
+     * @param - 
+     *
+     * @return JSON Response
+     */
+
+    public function notification_counts(Request $request) {
+
+        Log::info("Request Data".print_r($request->all(), true));
+        
+        $data['chat_notification'] = 2;
+
+        $data['bell_notification'] = 2;
+
+        return $data;
+
+    }
 }

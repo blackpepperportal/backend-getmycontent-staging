@@ -66,6 +66,17 @@ io.on('connection', function (socket) {
 
             console.log('receiver', notification_receiver);
 
+            var data ={user_id:data.myid};
+
+            $.ajax({
+                type: "POST",
+                url : "{{route('notification_counts')}}",
+                data: data, 
+                success : function(response){
+                    console.log(data);
+                }
+            });
+
             var notification_data = {chat_notification:1, bell_notification:1};
 
             var notification_status = socket.broadcast.to(notification_receiver).emit('notification', notification_data);
