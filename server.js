@@ -68,7 +68,7 @@ io.on('connection', function (socket) {
 
             url = chat_save_url+'api/user/get_notifications_count?user_id=1'+data.myid;
 
-            const chat_notification = bell_notification = 0;
+            var chat_notification = bell_notification = 0;
 
             request.get(url, function (error, response, body) {
 
@@ -77,7 +77,7 @@ io.on('connection', function (socket) {
                 if(body && body != undefined){
 
                     const res_data = JSON.parse(body);
-                    
+
                     if(res_data.data && res_data.data != undefined){
                         
                         chat_notification = res_data.data.chat_notification;
