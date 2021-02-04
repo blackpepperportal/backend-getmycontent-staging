@@ -2317,6 +2317,10 @@ class UserAccountApiController extends Controller
 
         try {
 
+            DB::beginTransaction();
+
+            $bell_notification = \App\BellNotification::where('to_user_id', $request->id)->where('is_read', BELL_NOTIFICATION_STATUS_UNREAD)->update(['is_read' => BELL_NOTIFICATION_STATUS_READ]);
+
             $base_query = $total_query = \App\BellNotification::where('to_user_id', $request->id)->orderBy('created_at', 'desc')->whereHas('fromUser');
 
             $notifications = $base_query->skip($this->skip)->take($this->take)->get() ?? [];
@@ -2329,10 +2333,14 @@ class UserAccountApiController extends Controller
 
             $data['total'] = $total_query->count() ?? 0;
 
+            DB::commit();
+
             return $this->sendResponse($message = "", $success_code = "", $data);
 
         } catch(Exception $e) {
 
+            DB::rollback();
+            
             return $this->sendError($e->getMessage(), $e->getCode());
 
         }

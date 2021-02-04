@@ -349,7 +349,7 @@ class ApplicationController extends Controller
 
             $chat_message = \App\ChatMessage::where('to_user_id', $request->user_id);
 
-            $bell_notification = \App\BellNotification::where('to_user_id', $request->user_id);
+            $bell_notification = \App\BellNotification::where('to_user_id', $request->user_id)->where('is_read',BELL_NOTIFICATION_STATUS_UNREAD)->whereHas('fromUser');
 
             $data['chat_notification'] = $chat_message->count() ?: 0;
 
