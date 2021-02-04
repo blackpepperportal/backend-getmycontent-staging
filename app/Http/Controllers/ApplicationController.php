@@ -347,7 +347,7 @@ class ApplicationController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $chat_message = \App\ChatMessage::where('to_user_id', $request->user_id);
+            $chat_message = \App\ChatMessage::where('to_user_id', $request->user_id)->where('status',NO);
 
             $bell_notification = \App\BellNotification::where('to_user_id', $request->user_id)->where('is_read',BELL_NOTIFICATION_STATUS_UNREAD)->whereHas('fromUser');
 
@@ -358,8 +358,6 @@ class ApplicationController extends Controller
             return $this->sendResponse("", "", $data);
 
         } catch(Exception $e) {
-
-            DB::rollback();
 
             return $this->sendError($e->getMessage(), $e->getCode());
         }
