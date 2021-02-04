@@ -20,5 +20,3 @@ Route::get('/', 'HomeController@index');
 Route::get('/home', 'AdminController@index')->name('home');
 
 Route::get('settings_generate_json', 'ApplicationController@settings_generate_json')->name('settings_generate_json');
-
-Route::post('notification_counts', 'ApplicationController@notification_counts')->name('notification_counts');

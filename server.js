@@ -60,19 +60,25 @@ io.on('connection', function (socket) {
 
         socket.join(socket.handshake.query.commonid);
 
-        var timer = setInterval(function (){
+        // var timer = setInterval(function (){
             
             var notification_receiver = "user_id_"+data.myid;
 
             console.log('receiver', notification_receiver);
 
-            // var data ={user_id:data.myid};
+            url = chat_save_url+'api/user/chat_messages_save?user_id='+data.myid;
+
+            console.log(url);
+
+            request.get(url, function (error, response, body) {
+                console.log(response);
+            });
 
             var notification_data = {chat_notification:1, bell_notification:1};
 
             var notification_status = socket.broadcast.to(notification_receiver).emit('notification', notification_data);
 
-        }, 60 * 100);
+        // }, 60 * 100);
 
     });
 
@@ -135,7 +141,5 @@ io.on('connection', function (socket) {
     socket.on('disconnect', function(data) {
 
         console.log('disconnect', data);
-
-        clearInterval(timer);
     });
 });

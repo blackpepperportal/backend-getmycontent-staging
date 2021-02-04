@@ -323,28 +323,44 @@ class ApplicationController extends Controller
 
 
     /**
-     * @method static_pages_api()
+     * @method chat_messages_save()
+     * 
+     * @uses - To save the chat message.
      *
-     * @uses to get the pages
+     * @created vidhya R
      *
-     * @created Vidhya R 
+     * @updated vidhya R
+     * 
+     * @param 
      *
-     * @edited Vidhya R
+     * @return No return response.
      *
-     * @param - 
-     *
-     * @return JSON Response
      */
 
-    public function notification_counts(Request $request) {
+    public function get_notifications_count(Request $request) {
 
-        Log::info("Request Data".print_r($request->all(), true));
-        
-        $data['chat_notification'] = 2;
+        try {
 
-        $data['bell_notification'] = 2;
+            Log::info("message_save".print_r($request->all() , true));
 
-        return $data;
+            $rules = [
+                'user_id' => 'required|exists:users,id',
+            ];
 
+            Helper::custom_validator($request->all(),$rules);
+
+            $base_query = \App\ChatMessage::where('chat_messages.to_user_id', $request->user_id);
+
+            $data['total'] = $base_query->count() ?: 0;
+
+            return $this->sendResponse("", "", $data);
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+    
     }
 }
