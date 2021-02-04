@@ -66,13 +66,26 @@ io.on('connection', function (socket) {
 
             console.log('receiver', notification_receiver);
 
-            url = chat_save_url+'api/user/get_notifications_count?user_id='+data.myid;
+            url = chat_save_url+'api/user/get_notifications_count?user_id=1'+data.myid;
 
-            chat_notification = bell_notification = 0;
+            const chat_notification = bell_notification = 0;
 
             request.get(url, function (error, response, body) {
-                data = JSON.parse(body);
-                console.log(data);
+
+                // console.log(body);
+
+                if(body && body != undefined){
+
+                    const res_data = JSON.parse(body);
+                    
+                    if(res_data.data && res_data.data != undefined){
+                        
+                        chat_notification = res_data.data.chat_notification;
+                        bell_notification = res_data.data.bell_notification;
+
+                    }
+                }
+
             });
 
             var notification_data = {chat_notification:chat_notification, bell_notification:bell_notification};
