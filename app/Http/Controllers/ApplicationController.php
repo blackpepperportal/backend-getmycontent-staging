@@ -341,6 +341,8 @@ class ApplicationController extends Controller
 
         try {
 
+            Log::info("Notification".print_r($request->all(),true));
+
             $rules = [
                 'user_id' => 'required|exists:users,id',
             ];
