@@ -357,7 +357,7 @@ class ApplicationController extends Controller
 
             $data['bell_notification'] = $bell_notification->count() ?: 0;
 
-            return $this->sendResponse("", "", $data);
+            return $this->sendResponse("", "", $data = []);
 
         } catch(Exception $e) {
 
