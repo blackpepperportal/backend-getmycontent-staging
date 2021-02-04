@@ -60,7 +60,7 @@ io.on('connection', function (socket) {
 
         socket.join(socket.handshake.query.commonid);
 
-        setInterval(function (){
+        // setInterval(function (){
             
             var notification_receiver = "user_id_"+data.myid;
 
@@ -72,7 +72,7 @@ io.on('connection', function (socket) {
 
             var notification_status = socket.broadcast.to(notification_receiver).emit('notification', notification_data);
 
-        }, 60000);
+        // }, 60000);
 
     });
 
