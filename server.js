@@ -2,8 +2,11 @@ var app = require('express')();
 var fs = require('fs');
 var debug = require('debug')('FANSCLUB:sockets');
 var request = require('request');
+const http = require('http')
 var dotenv = require('dotenv').config();
-
+const fetch = require('node-fetch');
+const util = require('util');
+const setTimeoutPromise = util.promisify(setTimeout);
 var port = process.env.PORT || '3012';
 
 var chat_save_url = process.env.APP_URL;
@@ -60,38 +63,40 @@ io.on('connection', function (socket) {
 
         socket.join(socket.handshake.query.commonid);
 
+        global.chat_notification = 0;
+        global.bell_notification = 0;
+
         setInterval(function (){
             
             var notification_receiver = "user_id_"+data.myid;
 
             console.log('receiver', notification_receiver);
 
-            url = chat_save_url+'api/user/get_notifications_count?user_id='+data.myid;
+            
 
-            var chat_notification = bell_notification = 0;
+            const url = "http://localhost:8000/"+'api/user/get_notifications_count?user_id='+data.myid;
 
-            request.get(url, function (error, response, body) {
+            setTimeoutPromise(40, 'foobar').then((value) => {
 
-                // console.log(body);
+                request.get(url, function (error, response, body) {
 
-                if(body && body != undefined){
+                    if(body && body != undefined){
 
-                    const res_data = JSON.parse(body);
+                        const res_data = JSON.parse(body);
 
-                    if(res_data.data && res_data.data != undefined){
+                        if(res_data.data && res_data.data != undefined){
 
-                        chat_notification = res_data.data.chat_notification;
-                        bell_notification = res_data.data.bell_notification;
-
+                            chat_notification = res_data.data.chat_notification;
+                            
+                            bell_notification = res_data.data.bell_notification;
+                        }
                     }
-                }
-
+                })
             });
 
-            console.log(chat_notification);
-            console.log(bell_notification);
+            console.log("chat_notification", chat_notification);
 
-            var notification_data = {chat_notification:chat_notification, bell_notification:bell_notification};
+            let notification_data = {chat_notification:chat_notification, bell_notification:bell_notification};
 
             var notification_status = socket.broadcast.to(notification_receiver).emit('notification', notification_data);
 
