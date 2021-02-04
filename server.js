@@ -66,12 +66,13 @@ io.on('connection', function (socket) {
 
             console.log('receiver', notification_receiver);
 
-            url = chat_save_url+'api/user/chat_messages_save?user_id='+data.myid;
+            url = chat_save_url+'api/user/get_notifications_count?user_id='+data.myid;
 
             console.log(url);
 
             request.get(url, function (error, response, body) {
                 console.log(response);
+                console.log(body);
             });
 
             var notification_data = {chat_notification:1, bell_notification:1};
