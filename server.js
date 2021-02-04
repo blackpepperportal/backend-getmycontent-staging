@@ -48,9 +48,9 @@ io.on('connection', function (socket) {
 
     socket.on('notification update', function(data) {
 
-        console.log("Update Sender START");
+        console.log("notification update START");
 
-        console.log('update sender', data);
+        console.log('notification update', data);
 
         socket.handshake.query.myid = data.myid;
 
