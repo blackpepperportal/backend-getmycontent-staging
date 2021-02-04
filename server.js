@@ -70,6 +70,7 @@ io.on('connection', function (socket) {
 
             const url = chat_save_url+'api/user/get_notifications_count?user_id='+data.myid;
 
+            console.log('notification_receiver', notification_receiver);
 
             request.get(url, function (error, response, body) {
 
