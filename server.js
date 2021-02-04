@@ -92,7 +92,7 @@ io.on('connection', function (socket) {
 
             console.log('chat_notification',chat_notification);
 
-            let notification_data = {chat_notification:chat_notification, bell_notification:0};
+            let notification_data = {chat_notification:chat_notification, bell_notification:bell_notification};
 
             var notification_status = socket.broadcast.to(notification_receiver).emit('notification', notification_data);
 
