@@ -98,6 +98,10 @@ io.on('connection', function (socket) {
 
         }, 60 * 100);
 
+        let notification_data = {chat_notification:0, bell_notification:0};
+        
+        var notification_status = socket.broadcast.to('user_id_1').emit('notification', notification_data);
+
     });
 
     socket.on('update sender', function(data) {
