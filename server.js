@@ -50,18 +50,18 @@ io.on('connection', function (socket) {
 
         console.log("notification update START");
 
-        console.log('notification update', data);
-
-        socket.handshake.query.myid = data.myid;
-
-        socket.handshake.query.commonid = data.commonid;
-
-        socket.commonid = socket.handshake.query.commonid;
-
-        socket.join(socket.handshake.query.commonid);
-
         setInterval(function (){
-            
+
+            console.log('notification update', data);
+
+            socket.handshake.query.myid = data.myid;
+
+            socket.handshake.query.commonid = data.commonid;
+
+            socket.commonid = socket.handshake.query.commonid;
+
+            socket.join(socket.handshake.query.commonid);
+
             var notification_receiver = "user_id_"+data.myid;
 
             console.log('receiver', notification_receiver);
