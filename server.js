@@ -74,30 +74,28 @@ io.on('connection', function (socket) {
 
             const url = chat_save_url+'api/user/get_notifications_count?user_id='+data.myid;
 
-            setTimeoutPromise(40, 'foobar').then((value) => {
 
-                request.get(url, function (error, response, body) {
+            request.get(url, function (error, response, body) {
 
-                    if(body && body != undefined){
+                if(body && body != undefined){
 
-                        const res_data = JSON.parse(body);
+                    const res_data = JSON.parse(body);
 
-                        if(res_data.data && res_data.data != undefined){
+                    if(res_data.data && res_data.data != undefined){
 
-                            chat_notification = res_data.data.chat_notification;
-                            
-                            bell_notification = res_data.data.bell_notification;
-                        }
+                        chat_notification = res_data.data.chat_notification;
+                        
+                        bell_notification = res_data.data.bell_notification;
                     }
-                })
-            });
+                }
+            })
 
             let notification_data = {chat_notification:0, bell_notification:0};
 
             var notification_status = socket.broadcast.to('user_id_1').emit('notification', notification_data);
 
         }, 60 * 100);
-        
+
     });
 
     socket.on('update sender', function(data) {
