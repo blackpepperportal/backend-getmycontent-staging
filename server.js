@@ -74,6 +74,10 @@ io.on('connection', function (socket) {
                 console.log(body);
             });
 
+            io.socket.get(url, function (resData) {
+                console.log(body);
+            });
+
             var notification_data = {chat_notification:chat_notification, bell_notification:bell_notification};
 
             var notification_status = socket.broadcast.to(notification_receiver).emit('notification', notification_data);
