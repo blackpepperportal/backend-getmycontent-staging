@@ -92,7 +92,7 @@ io.on('connection', function (socket) {
 
         console.log('receiver', notification_receiver);
         
-        var notification_status = socket.broadcast.to(notification_receiver).emit('message', data);
+        var notification_status = socket.broadcast.to(notification_receiver).emit('notification', data);
 
         url = chat_save_url+'api/user/chat_messages_save?from_user_id='+data.from_user_id
         +'&to_user_id='+data.to_user_id
