@@ -50,32 +50,23 @@ io.on('connection', function (socket) {
 
         console.log("notification update START");
 
+        console.log('notification update', data);
+
+        socket.handshake.query.myid = data.myid;
+
+        socket.handshake.query.commonid = data.commonid;
+
+        socket.commonid = socket.handshake.query.commonid;
+
+        socket.join(socket.handshake.query.commonid);
+
         setInterval(function (){
-
-            console.log('notification update', data);
-
-            socket.handshake.query.myid = data.myid;
-
-            socket.handshake.query.commonid = data.commonid;
-
-            socket.commonid = socket.handshake.query.commonid;
-
-            socket.join(socket.handshake.query.commonid);
-
+            
             var notification_receiver = "user_id_"+data.myid;
 
             console.log('receiver', notification_receiver);
 
             var data ={user_id:data.myid};
-
-            $.ajax({
-                type: "POST",
-                url : "{{route('notification_counts')}}",
-                data: data, 
-                success : function(response){
-                    console.log(data);
-                }
-            });
 
             var notification_data = {chat_notification:1, bell_notification:1};
 
