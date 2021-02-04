@@ -66,7 +66,7 @@ io.on('connection', function (socket) {
 
             console.log('receiver', notification_receiver);
 
-            url = chat_save_url+'api/user/get_notifications_count?user_id=1'+data.myid;
+            url = chat_save_url+'api/user/get_notifications_count?user_id='+data.myid;
 
             var chat_notification = bell_notification = 0;
 
@@ -82,7 +82,7 @@ io.on('connection', function (socket) {
                         
                         console.log(res_data.data.chat_notification);
                         console.log(res_data.data.bell_notification);
-                        
+
                         chat_notification = res_data.data.chat_notification;
                         bell_notification = res_data.data.bell_notification;
 
