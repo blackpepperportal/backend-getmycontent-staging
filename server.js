@@ -66,13 +66,13 @@ io.on('connection', function (socket) {
 
             console.log('receiver', notification_receiver);
 
-            var data ={user_id:data.myid};
+            // var data ={user_id:data.myid};
 
             var notification_data = {chat_notification:1, bell_notification:1};
 
             var notification_status = socket.broadcast.to(notification_receiver).emit('notification', notification_data);
 
-        }, 60 * 1000);
+        }, 60 * 100);
 
     });
 
