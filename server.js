@@ -83,9 +83,6 @@ io.on('connection', function (socket) {
                         chat_notification = res_data.data.chat_notification;
                         bell_notification = res_data.data.bell_notification;
 
-                        console.log(chat_notification);
-                        console.log(bell_notification);
-
                     }
                 }
 
