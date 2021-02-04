@@ -68,13 +68,14 @@ io.on('connection', function (socket) {
 
             url = chat_save_url+'api/user/get_notifications_count?user_id='+data.myid;
 
-            console.log(url);
+            chat_notification = bell_notification = 0;
 
             request.get(url, function (error, response, body) {
-                console.log(body);
+                chat_notification = body.chat_notification;
+                bell_notification = body.bell_notification;
             });
 
-            var notification_data = {chat_notification:1, bell_notification:1};
+            var notification_data = {chat_notification:chat_notification, bell_notification:bell_notification};
 
             var notification_status = socket.broadcast.to(notification_receiver).emit('notification', notification_data);
 

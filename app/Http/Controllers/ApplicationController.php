@@ -349,9 +349,13 @@ class ApplicationController extends Controller
 
             Helper::custom_validator($request->all(),$rules);
 
-            $base_query = \App\ChatMessage::where('chat_messages.to_user_id', $request->user_id);
+            $chat_message = \App\ChatMessage::where('to_user_id', $request->user_id);
 
-            $data['total'] = $base_query->count() ?: 0;
+            $bell_notification = \App\BellNotification::where('to_user_id', $request->user_id);
+
+            $data['chat_notification'] = $chat_message->count() ?: 0;
+
+            $data['bell_notification'] = $bell_notification->count() ?: 0;
 
             return $data;
 
