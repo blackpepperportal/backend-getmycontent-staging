@@ -71,8 +71,7 @@ io.on('connection', function (socket) {
             console.log(url);
 
             request.get(url, function (error, response, body) {
-                console.log(response);
-                console.log(body);
+                console.log(body.data);
             });
 
             var notification_data = {chat_notification:1, bell_notification:1};
