@@ -4,7 +4,7 @@ var debug = require('debug')('FANSCLUB:sockets');
 var request = require('request');
 const http = require('http')
 var dotenv = require('dotenv').config();
-const fetch = require('node-fetch');
+
 const util = require('util');
 const setTimeoutPromise = util.promisify(setTimeout);
 var port = process.env.PORT || '3012';
@@ -72,9 +72,7 @@ io.on('connection', function (socket) {
 
             console.log('receiver', notification_receiver);
 
-            
-
-            const url = "http://localhost:8000/"+'api/user/get_notifications_count?user_id='+data.myid;
+            const url = chat_save_url+'api/user/get_notifications_count?user_id='+data.myid;
 
             setTimeoutPromise(40, 'foobar').then((value) => {
 
