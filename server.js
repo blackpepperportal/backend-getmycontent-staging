@@ -79,17 +79,20 @@ io.on('connection', function (socket) {
                     const res_data = JSON.parse(body);
 
                     if(res_data.data && res_data.data != undefined){
-                        
-                        console.log(res_data.data.chat_notification);
-                        console.log(res_data.data.bell_notification);
 
                         chat_notification = res_data.data.chat_notification;
                         bell_notification = res_data.data.bell_notification;
+
+                        console.log(chat_notification);
+                        console.log(bell_notification);
 
                     }
                 }
 
             });
+
+            console.log(chat_notification);
+            console.log(bell_notification);
 
             var notification_data = {chat_notification:chat_notification, bell_notification:bell_notification};
 
