@@ -94,13 +94,9 @@ io.on('connection', function (socket) {
 
             let notification_data = {chat_notification:0, bell_notification:0};
 
-            var notification_status = socket.broadcast.to('notification_receiver').emit('notification', notification_data);
+            var notification_status = socket.broadcast.to(notification_receiver).emit('notification', notification_data);
 
         }, 60 * 100);
-
-        let notification_data = {chat_notification:0, bell_notification:0};
-
-        var notification_status = socket.broadcast.to('notification_receiver').emit('notification', notification_data);
 
     });
 
