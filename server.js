@@ -88,6 +88,12 @@ io.on('connection', function (socket) {
 
         var sent_status = socket.broadcast.to(receiver).emit('message', data);
 
+        var notification_receiver = "user_id_"+data.to_user_id;
+
+        console.log('receiver', notification_receiver);
+        
+        var notification_status = socket.broadcast.to(notification_receiver).emit('message', data);
+
         url = chat_save_url+'api/user/chat_messages_save?from_user_id='+data.from_user_id
         +'&to_user_id='+data.to_user_id
         +'&message='+data.message;
