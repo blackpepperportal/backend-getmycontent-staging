@@ -32,13 +32,6 @@ if( SSL_KEY && SSL_CERTIFICATE) {
 
 var io = require('socket.io')(server);
 
-const doEveryMinute = (socket) => {
-   setTimeout(() => {
-       setInterval(() => doEveryMinute(socket), 60000);
-       socket.emit(1, 'myData', data)}
-   }, (60 - date.getSeconds()) * 1000);
-}
-
 io.on('connection', function (socket) {
 
     console.log('new connection established');
@@ -66,7 +59,7 @@ io.on('connection', function (socket) {
         socket.commonid = socket.handshake.query.commonid;
 
         socket.join(socket.handshake.query.commonid);
-        
+
         setInterval(function (){
             
             var notification_receiver = "user_id_"+data.myid;
