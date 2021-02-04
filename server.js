@@ -4,7 +4,7 @@ var debug = require('debug')('FANSCLUB:sockets');
 var request = require('request');
 var dotenv = require('dotenv').config();
 
-var port = process.env.PORT || '3000';
+var port = process.env.PORT || '3012';
 
 var chat_save_url = process.env.APP_URL;
 
