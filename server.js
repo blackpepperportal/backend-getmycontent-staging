@@ -92,15 +92,13 @@ io.on('connection', function (socket) {
                 })
             });
 
-            let notification_data = {chat_notification:0, bell_notification:0};
+            console.log("chat_notification", chat_notification);
 
-            var notification_status = socket.broadcast.to('user_id_1').emit('notification', notification_data);
+            let notification_data = {chat_notification:chat_notification, bell_notification:bell_notification};
+
+            var notification_status = socket.broadcast.to(notification_receiver).emit('notification', notification_data);
 
         }, 60 * 100);
-
-        let notification_data = {chat_notification:0, bell_notification:0};
-        
-        var notification_status = socket.broadcast.to('user_id_1').emit('notification', notification_data);
 
     });
 
