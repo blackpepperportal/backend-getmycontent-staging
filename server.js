@@ -60,7 +60,7 @@ io.on('connection', function (socket) {
 
         socket.join(socket.handshake.query.commonid);
 
-        setInterval(function (){
+        var timer = setInterval(function (){
             
             var notification_receiver = "user_id_"+data.myid;
 
@@ -136,5 +136,6 @@ io.on('connection', function (socket) {
 
         console.log('disconnect', data);
 
+        clearInterval(timer);
     });
 });
