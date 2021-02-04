@@ -51,8 +51,6 @@ io.on('connection', function (socket) {
 
     socket.on('notification update', function(data) {
 
-        console.log("notification update START");
-
         console.log('notification update', data);
 
         socket.handshake.query.myid = data.myid;
@@ -69,8 +67,6 @@ io.on('connection', function (socket) {
         setInterval(function (){
             
             var notification_receiver = "user_id_"+data.myid;
-
-            console.log('receiver', notification_receiver);
 
             const url = chat_save_url+'api/user/get_notifications_count?user_id='+data.myid;
 
@@ -90,13 +86,11 @@ io.on('connection', function (socket) {
                 }
             })
 
-            console.log('chat_notification',chat_notification);
-
             let notification_data = {chat_notification:chat_notification, bell_notification:bell_notification};
 
             var notification_status = socket.broadcast.to(notification_receiver).emit('notification', notification_data);
 
-        }, 60 * 100);
+        }, 60 * 1000);
 
     });
 
