@@ -32,6 +32,13 @@ if( SSL_KEY && SSL_CERTIFICATE) {
 
 var io = require('socket.io')(server);
 
+const doEveryMinute = (socket) => {
+   setTimeout(() => {
+       setInterval(() => doEveryMinute(socket), 60000);
+       socket.emit(1, 'myData', data)}
+   }, (60 - date.getSeconds()) * 1000);
+}
+
 io.on('connection', function (socket) {
 
     console.log('new connection established');
@@ -45,6 +52,34 @@ io.on('connection', function (socket) {
     socket.join(socket.handshake.query.commonid);
 
     socket.emit('connected', {'sessionID' : socket.handshake.query.commonid});
+
+    socket.on('notification update', function(data) {
+
+        console.log("Update Sender START");
+
+        console.log('update sender', data);
+
+        socket.handshake.query.myid = data.myid;
+
+        socket.handshake.query.commonid = data.commonid;
+
+        socket.commonid = socket.handshake.query.commonid;
+
+        socket.join(socket.handshake.query.commonid);
+        
+        setInterval(function (){
+            
+            var notification_receiver = "user_id_"+data.myid;
+
+            console.log('receiver', notification_receiver);
+
+            var notification_data = {chat_notification:1, bell_notification:1};
+
+            var notification_status = socket.broadcast.to(notification_receiver).emit('notification', notification_data);
+
+        }, 60 * 1000);
+
+    });
 
     socket.on('update sender', function(data) {
 
@@ -87,14 +122,6 @@ io.on('connection', function (socket) {
         console.log('receiver', receiver);
 
         var sent_status = socket.broadcast.to(receiver).emit('message', data);
-
-        var notification_receiver = "user_id_"+data.to_user_id;
-
-        console.log('receiver', notification_receiver);
-
-        var notification_data = {chat_notification:1, bell_notification:1};
-
-        var notification_status = socket.broadcast.to(notification_receiver).emit('notification', notification_data);
 
         url = chat_save_url+'api/user/chat_messages_save?from_user_id='+data.from_user_id
         +'&to_user_id='+data.to_user_id
