@@ -353,7 +353,7 @@ class ApplicationController extends Controller
 
             $data['total'] = $base_query->count() ?: 0;
 
-            return $this->sendResponse("", "", $data);
+            return $data;
 
         } catch(Exception $e) {
 
