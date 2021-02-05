@@ -91,7 +91,7 @@ io.on('connection', function (socket) {
 
             var notification_status = socket.broadcast.to(notification_receiver).emit('notification', notification_data);
 
-        },120000);
+        }, 60 * 100);
 
     });
 
