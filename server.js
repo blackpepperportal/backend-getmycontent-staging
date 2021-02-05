@@ -64,38 +64,40 @@ io.on('connection', function (socket) {
         global.chat_notification = 0;
         global.bell_notification = 0;
 
-        setInterval(function (){
-            
-            var notification_receiver = "user_id_"+data.myid;
-
-            const url = chat_save_url+'api/user/get_notifications_count?user_id='+data.myid;
-
-            request.get(url, function (error, response, body) {
-
-                if(body && body != undefined){
-
-                    const res_data = JSON.parse(body);
-
-                    if(res_data.data && res_data.data != undefined){
-
-                        chat_notification = res_data.data.chat_notification;
-                        
-                        bell_notification = res_data.data.bell_notification;
-
-                        console.log('notification_receiver', notification_receiver);
-
-                        let notification_data = {chat_notification:chat_notification, bell_notification:bell_notification};
-
-                        console.log('notification_data', notification_data);
-
-                        var notification_status = socket.broadcast.to(notification_receiver).emit('notification', notification_data);
-                    }
-                }
-            })            
-
-        },120000);
+        setInterval(data);
 
     });
+
+    setInterval(function (data){
+            
+        var notification_receiver = "user_id_"+data.myid;
+
+        const url = chat_save_url+'api/user/get_notifications_count?user_id='+data.myid;
+
+        request.get(url, function (error, response, body) {
+
+            if(body && body != undefined){
+
+                const res_data = JSON.parse(body);
+
+                if(res_data.data && res_data.data != undefined){
+
+                    chat_notification = res_data.data.chat_notification;
+                    
+                    bell_notification = res_data.data.bell_notification;
+
+                    console.log('notification_receiver', notification_receiver);
+
+                    let notification_data = {chat_notification:chat_notification, bell_notification:bell_notification};
+
+                    console.log('notification_data', notification_data);
+
+                    var notification_status = socket.broadcast.to(notification_receiver).emit('notification', notification_data);
+                }
+            }
+        })            
+
+    },12000);
 
     socket.on('update sender', function(data) {
 
