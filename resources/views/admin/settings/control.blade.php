@@ -153,6 +153,22 @@
 
                                                         <div class="form-group col-md-6">
                                                                        
+                                                            <label>{{ tr('notification_count_update_enabled') }}</label>
+                                                            <br>
+                                                            <label>
+                                                                <input required type="radio" name="is_notification_count_enabled" value="1" class="flat-red" @if(Setting::get('is_notification_count_enabled') == 1) checked @endif>
+                                                                {{tr('yes')}}
+                                                            </label>
+
+                                                            <label>
+                                                                <input required type="radio" name="is_notification_count_enabled" class="flat-red"  value="0" @if(Setting::get('is_notification_count_enabled') == 0) checked @endif>
+                                                                {{tr('no')}}
+                                                            </label>
+                                                    
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                                       
                                                             <label>{{ tr('s3_bucket') }}</label>
                                                             <br>
                                                             <label>
