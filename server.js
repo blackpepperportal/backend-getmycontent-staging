@@ -82,6 +82,12 @@ io.on('connection', function (socket) {
                         
                         bell_notification = res_data.data.bell_notification;
 
+                        console.log('notification_receiver', notification_receiver);
+
+                        console.log('bell_notification', bell_notification);
+
+                        console.log('chat_notification', chat_notification);
+
                         let notification_data = {chat_notification:chat_notification, bell_notification:bell_notification};
 
                         var notification_status = socket.broadcast.to(notification_receiver).emit('notification', notification_data);
@@ -89,7 +95,7 @@ io.on('connection', function (socket) {
                 }
             })            
 
-        },12000);
+        },1200);
 
     });
 
