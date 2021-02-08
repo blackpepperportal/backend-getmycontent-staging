@@ -55,7 +55,7 @@ class UCategoryApiController extends Controller
 
         try {
 
-            $base_query = $total_query = \App\UCategory::CommonResponse();
+            $base_query = $total_query = \App\UCategory::CommonResponse()->Approved();
 
             $u_categories = $base_query->orderBy('u_categories.created_at', 'desc')->get();
 

@@ -31,6 +31,19 @@ class UCategory extends Model
     }
 
     /**
+     * Scope a query to only include active members.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeApproved($query) {
+
+        $query->where('u_categories.status', APPROVED);
+
+        return $query;
+
+    }
+    
+    /**
      * Scope a query to only include active users.
      *
      * @return \Illuminate\Database\Eloquent\Builder
