@@ -345,6 +345,12 @@ class User extends Authenticatable
 
             $model->attributes['unique_id'] = routefreestring(strtolower($model->attributes['name'] ?: rand(1,10000).rand(1,10000)));
 
+            if($model->attributes['username'] == '') {
+
+                $model->attributes['username'] = $model->attributes['unique_id'];
+
+            }
+
             $model->attributes['is_email_verified'] = USER_EMAIL_VERIFIED;
 
             if (Setting::get('is_account_email_verification') == YES && envfile('MAIL_USERNAME') && envfile('MAIL_PASSWORD')) { 
@@ -382,6 +388,12 @@ class User extends Authenticatable
 
             $model->attributes['unique_id'] = "UID"."-".$model->attributes['id']."-".uniqid();
 
+            if($model->attributes['username'] == '') {
+
+                $model->attributes['username'] = $model->attributes['unique_id'];
+
+            }
+            
             $model->save();
         
         });
