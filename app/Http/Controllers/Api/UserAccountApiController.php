@@ -87,8 +87,11 @@ class UserAccountApiController extends Controller
             } else {
 
                 $rules = [
-                        'first_name' => 'required|max:255|min:2',
-                        'last_name' => 'required|max:255|min:1',
+
+                        'name' => 'required|max:255|min:2',
+                        'username' => 'required|max:255|min:1',
+                        // 'first_name' => 'required|max:255|min:2',
+                        // 'last_name' => 'required|max:255|min:1',
                         'email' => 'required|email|regex:/(.+)@(.+)\.(.+)/i|max:255|min:2',
                         'password' => 'required|min:6',
                         'picture' => 'mimes:jpeg,jpg,bmp,png',
@@ -100,6 +103,14 @@ class UserAccountApiController extends Controller
                 $rules = ['email' => 'unique:users,email'];
 
                 Helper::custom_validator($request->all(), $rules);
+
+            }
+
+            $user_details = User::firstWhere('username','=',$request->username);
+           
+            if($user_details) {
+
+                throw new Exception(api_error(181), 181);
 
             }
 
@@ -129,6 +140,8 @@ class UserAccountApiController extends Controller
 
             }
 
+            $user->name = $request->name ?? "";
+
             $user->first_name = $request->first_name ?? "";
 
             $user->last_name = $request->last_name ?? "";
@@ -136,6 +149,8 @@ class UserAccountApiController extends Controller
             $user->email = $request->email ?? "";
 
             $user->mobile = $request->mobile ?? "";
+
+            $user->username = $request->username ?? "";
 
             if($request->has('password')) {
 
@@ -358,6 +373,49 @@ class UserAccountApiController extends Controller
                 throw new Exception(api_error(102), 102);
 
             }
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
+    }
+
+    /**
+     * @method username_validation()
+     *
+     * @uses
+     * 
+     * @created Bhawya N 
+     *
+     * @updated Bhawya N
+     *
+     * @param object $request - User Email & Password
+     *
+     * @return Json response with user details
+     */
+    public function username_validation(Request $request) {
+
+        try {
+            
+            $rules = [
+                // 'username' => 'required',
+            ];
+
+            Helper::custom_validator($request->all(), $rules);
+
+            $user = User::firstWhere('username','=',$request->username);
+           
+            if($user) {
+
+                throw new Exception(api_error(181), 181);
+
+            }
+            
+            return $this->sendResponse(api_success(101), 101, []);
 
         } catch(Exception $e) {
 
@@ -682,6 +740,15 @@ class UserAccountApiController extends Controller
             if(!$user) { 
 
                 throw new Exception(api_error(1002) , 1002);
+            }
+
+            $user_details = User::where('id', '!=' , $request->id)
+                ->firstWhere('username','=',$request->username);
+           
+            if($user_details) {
+
+                throw new Exception(api_error(181), 181);
+
             }
 
             $user->name = $request->name ?: $user->name;
@@ -2250,6 +2317,10 @@ class UserAccountApiController extends Controller
 
         try {
 
+            DB::beginTransaction();
+
+            $bell_notification = \App\BellNotification::where('to_user_id', $request->id)->where('is_read', BELL_NOTIFICATION_STATUS_UNREAD)->update(['is_read' => BELL_NOTIFICATION_STATUS_READ]);
+
             $base_query = $total_query = \App\BellNotification::where('to_user_id', $request->id)->orderBy('created_at', 'desc')->whereHas('fromUser');
 
             $notifications = $base_query->skip($this->skip)->take($this->take)->get() ?? [];
@@ -2262,10 +2333,14 @@ class UserAccountApiController extends Controller
 
             $data['total'] = $total_query->count() ?? 0;
 
+            DB::commit();
+
             return $this->sendResponse($message = "", $success_code = "", $data);
 
         } catch(Exception $e) {
 
+            DB::rollback();
+            
             return $this->sendError($e->getMessage(), $e->getCode());
 
         }
