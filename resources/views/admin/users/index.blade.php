@@ -118,9 +118,9 @@
 
                                     <td>{{ $i+$users->firstItem() }}</td>
 
-                                    <td>
+                                    <td class="white-space-nowrap">
                                         <a href="{{route('admin.users.view' , ['user_id' => $user->id])}}" class="custom-a">
-                                            {{$user->name}}
+                                            {{$user->name ?: tr('not_available')}}
                                         </a>
                                         @if($user->user_account_type == USER_PREMIUM_ACCOUNT)
                                             <b><i class="icon-badge text-green"></i></b>

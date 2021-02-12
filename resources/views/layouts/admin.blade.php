@@ -63,6 +63,12 @@
   
     @yield('styles')
 
+    <style>
+        .white-space-nowrap{
+            white-space: nowrap;
+        }
+    </style>
+
 
 </head>
 
