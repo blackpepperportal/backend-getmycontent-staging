@@ -85,6 +85,11 @@ class AdminUserController extends Controller
 
                     $base_query = $base_query->where('users.is_document_verified',USER_DOCUMENT_APPROVED);
                     break;
+
+                case SORT_BY_DOCUMENT_PENDING:
+
+                    $base_query = $base_query->where('users.is_document_verified',USER_DOCUMENT_PENDING)->orWhere('users.is_document_verified',USER_DOCUMENT_NONE);
+                    break;
                 
                 default:
                     $base_query = $base_query->where('users.is_email_verified',USER_EMAIL_NOT_VERIFIED);
