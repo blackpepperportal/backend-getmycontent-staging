@@ -157,6 +157,7 @@ class ApplicationController extends Controller
                     $request->request->add([
                     'total' => $total, 
                     'customer_id' => $card->customer_id,
+                    'card_token' => $card->card_token,
                     'user_pay_amount' => $user_pay_amount,
                     'paid_amount' => $user_pay_amount,
                 ]);
