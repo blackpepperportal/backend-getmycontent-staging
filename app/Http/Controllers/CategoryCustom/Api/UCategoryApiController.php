@@ -101,9 +101,15 @@ class UCategoryApiController extends Controller
 
             $data['u_category'] = $u_category;
 
-            $users = $u_category->userCategories()->whereHas('user')->get();
+            $base_query = $u_category->userCategories()->whereHas('user')->get();
 
-            $data['users'] = $users ?? [];
+            foreach($base_query as $user) {
+
+                $user->followers_count = $user->user->followers->where('status',FOLLOWER_ACTIVE)->count() ?? 0;
+
+            };
+
+            $data['users'] = $base_query->sortByDesc('followers_count')->values() ?? [];
 
             return $this->sendResponse($message = "", $success_code = "", $data);
 

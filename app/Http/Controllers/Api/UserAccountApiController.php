@@ -1625,13 +1625,13 @@ class UserAccountApiController extends Controller
              // Validation start
             $rules = [
                 'user_billing_account_id' => 'nullable|exists:user_billing_accounts,id',
-                'account_holder_name' => 'required',
+                // 'account_holder_name' => 'required',
                 'account_number' => 'required|numeric',
                 'ifsc_code' => 'nullable',
                 'swift_code' => 'nullable',
                 'route_number' => 'nullable',
                 'iban_number' => 'nullable',
-                'nickname' => 'required',
+                'nickname' => 'nullable',
             ];
 
             Helper::custom_validator($request->all(), $rules, $custom_errors = []);

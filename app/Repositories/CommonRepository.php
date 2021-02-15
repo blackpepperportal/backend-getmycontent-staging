@@ -122,7 +122,7 @@ class CommonRepository {
 
             }
 
-            $follower = new \App\Follower;
+            $follower = \App\Follower::where('follower_id', $request->id)->where('user_id', $request->user_id)->first() ?? new \App\Follower;
 
             $follower->user_id = $request->user_id;
 
