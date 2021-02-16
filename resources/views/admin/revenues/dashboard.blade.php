@@ -65,7 +65,7 @@
 
                             </div>
 
-                            <div class="col-xl-3 col-lg-6 col-12">
+                            <div class="col-xl-3 col-lg-6 col-12" style="display:none">
 
                                 <div class="card border-primary">
 
