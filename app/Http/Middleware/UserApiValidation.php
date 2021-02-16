@@ -75,7 +75,7 @@ class UserApiValidation {
        
         }
 
-        $expiresAt = Carbon::now()->addMinutes(1);
+        $expiresAt = Carbon::now()->addMinutes(Setting::get('user_online_status_limit') ?: 1);
         Cache::put($request->id, true, $expiresAt);
 
         return $next($request);
