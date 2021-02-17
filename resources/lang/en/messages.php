@@ -1111,5 +1111,6 @@ return [
 	"frontend_no_data_image" => "Frontend No Data Image",
 	"is_mailgun_email_validate" => "Is Mailgun - Email Validate Enabled?",
 	"notification_count_update_enabled" => "Notification Count Update Enabled?",
+	"recent_posts" => "RECENT POSTS",
 ]
 ?>
