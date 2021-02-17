@@ -253,22 +253,24 @@
 
                                         ?>]
                                     
-                               }, {
-                                   label: "Order Earnings",
-                                   backgroundColor: "#8e5ea2",
-                                   data: [<?php 
-                                            foreach ($data->analytics->last_x_days_revenues as $value) {
-                                                echo $value->total_order_earnings.',';
-                                            }
+                               }, 
 
-                                        ?>]
-                               }
+                               // {
+                               //     label: "Order Earnings",
+                               //     backgroundColor: "#8e5ea2",
+                               //     data: [<?php 
+                               //              foreach ($data->analytics->last_x_days_revenues as $value) {
+                               //                  echo $value->total_order_earnings.',';
+                               //              }
+
+                               //          ?>]
+                               // }
                                ]
                 },
                 options: {
                     title: {
                         display: true,
-                        text: 'Total Post & Order Earnings (in {{Setting::get('currency')}})'
+                        text: 'Total Post Earnings (in {{Setting::get('currency')}})'
                     }
                 }
             });
