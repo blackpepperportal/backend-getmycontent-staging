@@ -79,7 +79,7 @@ class User extends Authenticatable
 
     public function getTotalFollowersAttribute() {
 
-        $count = $this->followers->count();
+        $count = $this->followers->where('status',FOLLOWER_ACTIVE)->count();
 
         unset($this->followers);
         
@@ -97,7 +97,7 @@ class User extends Authenticatable
 
     public function getTotalFollowingsAttribute() {
 
-        $count = $this->followings->count();
+        $count = $this->followings->where('status', YES)->count();
 
         unset($this->followings);
         

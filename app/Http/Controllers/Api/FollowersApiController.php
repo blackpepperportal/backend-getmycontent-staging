@@ -60,7 +60,7 @@ class FollowersApiController extends Controller
             
             array_push($following_user_ids, $request->id);
 
-            $base_query = $total_query = User::DocumentVerified()->whereNotIn('users.id',$blocked_user_ids)->Approved()->OtherResponse()->whereNotIn('users.id', $following_user_ids)->orderBy('users.created_at', 'desc');
+            $base_query = $total_query = User::DocumentVerified()->whereNotIn('users.id',$blocked_user_ids)->Approved()->OtherResponse()->whereNotIn('users.id', $following_user_ids)->orderByRaw('RAND()');
 
             $users = $base_query->skip($this->skip)->take($this->take)->get();
 
@@ -362,7 +362,7 @@ class FollowersApiController extends Controller
 
             $blocked_user_ids = blocked_users($request->id);
 
-            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('user_id',$blocked_user_ids)->where('follower_id', $request->id)->where('status', YES);
+            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('user_id',$blocked_user_ids)->where('follower_id', $request->id);
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
