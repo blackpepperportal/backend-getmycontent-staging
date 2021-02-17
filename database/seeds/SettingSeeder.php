@@ -249,6 +249,11 @@ class SettingSeeder extends Seeder
 		        'value' => NO
 		    ],
 
+		    [
+		        'key' => 'user_online_status_limit',
+		        'value' => NO
+		    ],
+
 		]);
 
 		if(Schema::hasTable('settings')) {

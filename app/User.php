@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-use Setting, DB;
+use Setting, DB, Cache;
 
 use App\Helpers\Helper;
 
@@ -41,7 +41,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = ['user_id', 'user_unique_id', 'is_notification', 'is_document_verified_formatted', 'total_followers', 'total_followings', 'user_account_type_formatted', 'total_posts', 'total_fav_users', 'total_bookmarks', 'is_subscription_enabled', 'share_link','orders_count','tipped_amount'];
+    protected $appends = ['user_id', 'user_unique_id', 'is_notification', 'is_document_verified_formatted', 'total_followers', 'total_followings', 'user_account_type_formatted', 'total_posts', 'total_fav_users', 'total_bookmarks', 'is_subscription_enabled', 'share_link','orders_count','tipped_amount', 'is_user_online'];
 
     public function getUserIdAttribute() {
 
@@ -56,6 +56,11 @@ class User extends Authenticatable
     public function getIsNotificationAttribute() {
 
         return $this->is_email_notification ? YES : NO;
+    }
+
+    public function getIsUserOnlineAttribute() {
+
+        return Cache::has($this->id) ? YES : NO;
     }
 
     public function getIsSubscriptionEnabledAttribute() {
@@ -74,7 +79,7 @@ class User extends Authenticatable
 
     public function getTotalFollowersAttribute() {
 
-        $count = $this->followers->count();
+        $count = $this->followers->where('status',FOLLOWER_ACTIVE)->count();
 
         unset($this->followers);
         
@@ -92,7 +97,7 @@ class User extends Authenticatable
 
     public function getTotalFollowingsAttribute() {
 
-        $count = $this->followings->count();
+        $count = $this->followings->where('status', YES)->count();
 
         unset($this->followings);
         
