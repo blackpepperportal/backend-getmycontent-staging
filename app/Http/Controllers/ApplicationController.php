@@ -20,6 +20,17 @@ use App\Repositories\PaymentRepository as PaymentRepo;
 
 class ApplicationController extends Controller
 {
+
+    protected $loginUser;
+
+    public function __construct(Request $request) {
+        
+        $this->loginUser = User::find($request->id);
+
+        $this->timezone = $this->loginUser->timezone ?? "America/New_York";
+
+    }
+
     /**
      * @method static_pages_api()
      *
@@ -55,6 +66,10 @@ class ApplicationController extends Controller
             $static_pages = $base_query->get();
 
         }
+
+         $static_pages->created_at_formated = common_date($static_pages->created_at, $this->timezone, 'd M Y');
+
+         $static_pages->updated_at_formated = common_date($static_pages->updated_at, $this->timezone, 'd M Y');
 
         $response_array = ['success' => true , 'data' => $static_pages ? $static_pages->toArray(): []];
 
