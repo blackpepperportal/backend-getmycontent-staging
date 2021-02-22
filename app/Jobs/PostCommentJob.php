@@ -57,7 +57,7 @@ class PostCommentJob implements ShouldQueue
 
             $title = $content = push_messages(604);
 
-            $message = tr('post_comment_message', $post_comment->user->name ?? ''); 
+            $message = tr('user_post_comment_message', $post_comment->user->name ?? ''); 
 
             $data['from_user_id'] = $post_comment->user_id;
 
@@ -90,7 +90,7 @@ class PostCommentJob implements ShouldQueue
             
             if (Setting::get('is_email_notification') == YES && $user) {
                
-                $email_data['subject'] = tr('user_post_comment_message');
+                $email_data['subject'] = tr('user_post_comment_message', $post_comment->user->name ?? '');
                
                 $email_data['message'] = $message;
 

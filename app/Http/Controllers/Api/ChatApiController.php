@@ -298,7 +298,7 @@ class ChatApiController extends Controller
 
             $data = $chat_message;
 
-            return $this->sendResponse(api_success(161), 161, $data);
+            return $this->sendResponse(api_success(3000), 3000, $data);
             
         } catch(Exception $e){ 
 

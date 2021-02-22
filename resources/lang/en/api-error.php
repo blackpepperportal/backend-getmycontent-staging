@@ -153,6 +153,8 @@ return [
 
     180 => 'The Post Content Should not be empty',
 
-    3000 =>  'The Chat info not found'
+    181 => 'That username already taken. Please try another',
+
+    3000 =>  'The Chat info not found',
 
 ];

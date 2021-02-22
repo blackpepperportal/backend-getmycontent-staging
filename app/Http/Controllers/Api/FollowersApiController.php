@@ -60,7 +60,7 @@ class FollowersApiController extends Controller
             
             array_push($following_user_ids, $request->id);
 
-            $base_query = $total_query = User::DocumentVerified()->whereNotIn('users.id',$blocked_user_ids)->Approved()->OtherResponse()->whereNotIn('users.id', $following_user_ids)->orderBy('users.created_at', 'desc');
+            $base_query = $total_query = User::DocumentVerified()->whereNotIn('users.id',$blocked_user_ids)->Approved()->OtherResponse()->whereNotIn('users.id', $following_user_ids)->orderByRaw('RAND()');
 
             $users = $base_query->skip($this->skip)->take($this->take)->get();
 
@@ -321,7 +321,7 @@ class FollowersApiController extends Controller
 
             $blocked_user_ids = blocked_users($request->id);
 
-            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('follower_id',$blocked_user_ids)->where('status', YES)->where('user_id', $request->id);
+            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('follower_id',$blocked_user_ids)->where('followers.status', YES)->where('user_id', $request->id);
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
@@ -362,7 +362,7 @@ class FollowersApiController extends Controller
 
             $blocked_user_ids = blocked_users($request->id);
 
-            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('user_id',$blocked_user_ids)->where('follower_id', $request->id)->where('status', YES);
+            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('user_id',$blocked_user_ids)->where('follower_id', $request->id);
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
@@ -452,6 +452,8 @@ class FollowersApiController extends Controller
                         $query->where('chat_messages.from_user_id', $request->to_user_id);
                         $query->where('chat_messages.to_user_id', $request->from_user_id);
                     });
+
+            $chat_message = \App\ChatMessage::where('chat_messages.to_user_id', $request->from_user_id)->where('status', NO)->update(['status' => YES]);
 
             $chat_messages = $base_query->skip($this->skip)->take($this->take)->orderBy('chat_messages.updated_at', 'asc')->get();
 

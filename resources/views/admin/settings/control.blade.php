@@ -89,6 +89,22 @@
 
                                                         <div class="form-group col-md-6">
                                                                        
+                                                            <label>{{ tr('is_mailgun_email_validate') }}</label>
+                                                            <br>
+                                                            <label>
+                                                                <input required type="radio" name="is_mailgun_email_validate" value="1" class="flat-red" @if(Setting::get('is_mailgun_email_validate') == 1) checked @endif>
+                                                                {{tr('yes')}}
+                                                            </label>
+
+                                                            <label>
+                                                                <input required type="radio" name="is_mailgun_email_validate" class="flat-red"  value="0" @if(Setting::get('is_mailgun_email_validate') == 0) checked @endif>
+                                                                {{tr('no')}}
+                                                            </label>
+                                                    
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                                       
                                                             <label>{{ tr('is_email_notification') }}</label>
                                                             <br>
                                                             <label>
@@ -130,6 +146,22 @@
 
                                                             <label>
                                                                 <input required type="radio" name="is_push_notification" class="flat-red"  value="0" @if(Setting::get('is_push_notification') == 0) checked @endif>
+                                                                {{tr('no')}}
+                                                            </label>
+                                                    
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                                       
+                                                            <label>{{ tr('notification_count_update_enabled') }}</label>
+                                                            <br>
+                                                            <label>
+                                                                <input required type="radio" name="is_notification_count_enabled" value="1" class="flat-red" @if(Setting::get('is_notification_count_enabled') == 1) checked @endif>
+                                                                {{tr('yes')}}
+                                                            </label>
+
+                                                            <label>
+                                                                <input required type="radio" name="is_notification_count_enabled" class="flat-red"  value="0" @if(Setting::get('is_notification_count_enabled') == 0) checked @endif>
                                                                 {{tr('no')}}
                                                             </label>
                                                     

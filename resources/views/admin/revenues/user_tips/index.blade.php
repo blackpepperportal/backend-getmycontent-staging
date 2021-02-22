@@ -65,7 +65,7 @@
                                     <td>{{$i+$user_tips->firstItem()}}</td>
 
                                     <td>
-                                        <a href="{{route('admin.users.view' , ['user_id' => $tips->from_user_id])}}"> {{ $tips->from_username ?:tr('not_available')}}
+                                        <a href="{{route('admin.users.view' , ['user_id' => $tips->user_id])}}"> {{ $tips->from_username ?:tr('not_available')}}
                                         </a>
                                     </td>
 

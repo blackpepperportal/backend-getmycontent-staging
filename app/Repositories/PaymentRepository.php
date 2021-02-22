@@ -1282,6 +1282,7 @@ class PaymentRepository {
 
             $to_user_inputs = [
                 'id' => $user_subscription_payment->to_user_id,
+                'payment_mode' => $request->payment_mode,
                 'received_from_user_id' => $user_subscription_payment->from_user_id,
                 'total' => $user_subscription_payment->user_amount, 
                 'user_pay_amount' => $user_subscription_payment->user_amount,

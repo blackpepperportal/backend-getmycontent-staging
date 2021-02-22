@@ -65,7 +65,7 @@
 
                             </div>
 
-                            <div class="col-xl-3 col-lg-6 col-12">
+                            <div class="col-xl-3 col-lg-6 col-12" style="display:none">
 
                                 <div class="card border-primary">
 
@@ -253,22 +253,24 @@
 
                                         ?>]
                                     
-                               }, {
-                                   label: "Order Earnings",
-                                   backgroundColor: "#8e5ea2",
-                                   data: [<?php 
-                                            foreach ($data->analytics->last_x_days_revenues as $value) {
-                                                echo $value->total_order_earnings.',';
-                                            }
+                               }, 
 
-                                        ?>]
-                               }
+                               // {
+                               //     label: "Order Earnings",
+                               //     backgroundColor: "#8e5ea2",
+                               //     data: [<?php 
+                               //              foreach ($data->analytics->last_x_days_revenues as $value) {
+                               //                  echo $value->total_order_earnings.',';
+                               //              }
+
+                               //          ?>]
+                               // }
                                ]
                 },
                 options: {
                     title: {
                         display: true,
-                        text: 'Total Post & Order Earnings (in {{Setting::get('currency')}})'
+                        text: 'Total Post Earnings (in {{Setting::get('currency')}})'
                     }
                 }
             });

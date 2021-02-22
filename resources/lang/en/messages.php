@@ -981,9 +981,12 @@ return [
     "user_follow_message"=>"User (:other_key) has been Following you",
 	"USER_FREE_ACCOUNT" => "Free",
 	"USER_PREMIUM_ACCOUNT" => "Premium",
-	"post_like_message"=>"Your Post has been Liked by the User (:other_key) ",
-	"post_comment_message"=>"User (:other_key) has Commented For your Post",
-	"user_tips_message"=>"You had received the tips amount(:other_key) from the user",
+	
+	"user_post_like_message"=>":other_key liked your post.",
+	"user_post_comment_message"=>":other_key commented on your post.",
+    "user_follow_message"=>":other_key is Following you.",
+	"user_tips_message"=>"You received a tip amount(:other_key) from ",
+
     "post_liked_by_user"=>"Your Post has been Liked by the user",
     "n_a" => "N/A",
     "unlock_post_text" => "UNLOCK POST FOR :other_key",
@@ -991,9 +994,6 @@ return [
 	"subscribe_for_free" => "Subscribe for Free",
 	"add_post"=>"Add Post",
 	"post_files"=>"Post Files",
-	"user_post_like_message"=>"Your Post has been Liked by the User",
-	"user_post_comment_message"=>"Your Post has received the comments",
-	"user_receive_tips_message"=>"User has Sent Tips Amount to You",
 	"email_validate"=>"Enter Valid Email Format",
 	"follow_message"=>"You have One Follower",
 	"follow"=>"Follow",
@@ -1054,6 +1054,7 @@ return [
 	"subscription_invoice_message"=>"You Invoice for the Subscription Payments",
 	"user_subscription_message"=>"You had Subscribed :other_key of Subscription from the user",
 	"document_approved"=>"Document Approved",
+	"document_pending"=>"Document Pending",
 	"no_of_orders"=>"No of Orders",
 	"blocked_users"=>"Blocked Users",
 	"blocked_count"=>"Blocked Count",
@@ -1109,6 +1110,9 @@ return [
 	"chat_asset_payments"=>"Chat Asset Payments",
 	"chat_asset_payment"=>"Chat Asset Payment",
 	"view_chat_asset_payment"=>"View Chat Asset Payment",
-	"is_badge_verified"=>"Is Badge Verified ?"
+	"is_badge_verified"=>"Is Badge Verified ?",
+	"is_mailgun_email_validate" => "Is Mailgun - Email Validate Enabled?",
+	"notification_count_update_enabled" => "Notification Count Update Enabled?",
+	"recent_posts" => "RECENT POSTS",
 ]
 ?>

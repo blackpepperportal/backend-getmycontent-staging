@@ -158,6 +158,7 @@ class ApplicationController extends Controller
                     $request->request->add([
                     'total' => $total, 
                     'customer_id' => $card->customer_id,
+                    'card_token' => $card->card_token,
                     'user_pay_amount' => $user_pay_amount,
                     'paid_amount' => $user_pay_amount,
                 ]);
@@ -323,4 +324,47 @@ class ApplicationController extends Controller
     }
 
 
+    /**
+     * @method chat_messages_save()
+     * 
+     * @uses - To save the chat message.
+     *
+     * @created vidhya R
+     *
+     * @updated vidhya R
+     * 
+     * @param 
+     *
+     * @return No return response.
+     *
+     */
+
+    public function get_notifications_count(Request $request) {
+
+        try {
+
+            Log::info("Notification".print_r($request->all(),true));
+
+            $rules = [
+                'user_id' => 'required|exists:users,id',
+            ];
+
+            Helper::custom_validator($request->all(),$rules);
+
+            $chat_message = \App\ChatMessage::where('to_user_id', $request->user_id)->where('status',NO);
+
+            $bell_notification = \App\BellNotification::where('to_user_id', $request->user_id)->where('is_read',BELL_NOTIFICATION_STATUS_UNREAD);
+
+            $data['chat_notification'] = $chat_message->count() ?: 0;
+
+            $data['bell_notification'] = $bell_notification->count() ?: 0;
+
+            return $this->sendResponse("", "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+    
+    }
 }

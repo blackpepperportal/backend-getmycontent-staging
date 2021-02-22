@@ -138,7 +138,7 @@
 
                 <div class="card-header">
 
-                    <h4 class="card-title">{{tr('revenue')}}</h4>
+                    <h4 class="card-title">{{tr('recent_posts')}}</h4>
 
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 

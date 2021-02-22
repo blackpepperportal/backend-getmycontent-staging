@@ -120,6 +120,8 @@ return [
 
     160 => 'Badge Verify Disabled',
 
-    161 => 'The chat deleted'
+    161 => 'Valid Username',
+
+    3000 => 'The chat deleted',
 
 ];
