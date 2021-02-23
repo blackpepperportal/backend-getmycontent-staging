@@ -248,7 +248,15 @@ class ApplicationController extends Controller
 
             $from_chat_user_inputs = ['from_user_id' => $request->from_user_id, 'to_user_id' => $request->to_user_id];
 
-            $from_chat_user = \App\ChatUser::updateOrCreate($from_chat_user_inputs);
+            $chat_user = new \App\ChatUser();
+
+            $chat_user->from_user_id = $request->from_user_id;
+
+            $chat_user->to_user_id = $request->to_user_id;
+            
+            $chat_user->save();
+                
+            // $from_chat_user = \App\ChatUser::updateOrCreate($from_chat_user_inputs);
 
             // $to_chat_user_inputs = ['from_user_id' => $request->to_user_id, 'to_user_id' => $request->from_user_id];
 
