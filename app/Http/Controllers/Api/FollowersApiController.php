@@ -453,7 +453,7 @@ class FollowersApiController extends Controller
                         $query->where('chat_messages.to_user_id', $request->from_user_id);
                     })
                     ->latest()
-                    ->sortByDesc('chat_messages.id');
+                    ->sortBy('chat_messages.id');
 
             $chat_message = \App\ChatMessage::where('chat_messages.to_user_id', $request->from_user_id)->where('status', NO)->update(['status' => YES]);
 
