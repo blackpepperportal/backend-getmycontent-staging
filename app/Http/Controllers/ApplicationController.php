@@ -250,9 +250,9 @@ class ApplicationController extends Controller
 
             $from_chat_user = \App\ChatUser::updateOrCreate($from_chat_user_inputs);
 
-            $to_chat_user_inputs = ['from_user_id' => $request->to_user_id, 'to_user_id' => $request->from_user_id];
+            // $to_chat_user_inputs = ['from_user_id' => $request->to_user_id, 'to_user_id' => $request->from_user_id];
 
-            $to_chat_user = \App\ChatUser::updateOrCreate($to_chat_user_inputs);
+            // $to_chat_user = \App\ChatUser::updateOrCreate($to_chat_user_inputs);
 
             // $from_chat_user = \App\ChatUser::where('from_user_id', $request->from_user_id)->where('to_user_id', $request->to_user_id)->first();
 
