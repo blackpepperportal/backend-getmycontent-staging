@@ -269,6 +269,10 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('chat_asset_payments_view', 'Api\ChatApiController@chat_asset_payments_view');
 
+        Route::post('chat_users_search','Api\ChatApiController@chat_users_search');
+
+        Route::post('chat_messages_search','Api\ChatApiController@chat_messages_search');
+
     });
 
     Route::post('other_profile','Api\UserAccountApiController@other_profile');

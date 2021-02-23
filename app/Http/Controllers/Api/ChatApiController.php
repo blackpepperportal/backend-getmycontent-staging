@@ -388,4 +388,103 @@ class ChatApiController extends Controller
     }
 
 
+    /** 
+     * @method chat_users_search()
+     *
+     * @uses
+     *
+     * @created Bhawya
+     *
+     * @updated Bhawya
+     *
+     * @param
+     * 
+     * @return JSON response
+     *
+     */
+    public function chat_users_search(Request $request) {
+
+        try {
+
+            // validation start
+
+            $rules = ['search_key' => 'required'];
+            
+            $custom_errors = ['search_key.required' => 'Please enter the username'];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors);
+
+            $search_key = $request->search_key;
+
+            $base_query = $total_query = \App\ChatUser::where('from_user_id', $request->id)
+                    ->whereHas('toUser',function($query) use($search_key) {
+                        return $query->where('users.name','LIKE','%'.$search_key.'%');
+                    })
+                    ->orderBy('chat_users.updated_at', 'desc');
+
+            $chat_users = $base_query->skip($this->skip)->take($this->take)->get();
+
+            $data['users'] = $chat_users ?? [];
+
+            $data['total'] = $total_query->count() ?: 0;
+
+            return $this->sendResponse($message = "", $code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+
+    }
+
+    /** 
+     * @method chat_messages_search()
+     *
+     * @uses
+     *
+     * @created vithya R
+     *
+     * @updated vithya R
+     *
+     * @param
+     * 
+     * @return JSON response
+     *
+     */
+    public function chat_messages_search(Request $request) {
+
+        try {
+
+            $rules = ['search_key' => 'required'];
+            
+            $custom_errors = ['search_key.required' => 'Please enter the message'];
+
+            Helper::custom_validator($request->all(), $rules, $custom_errors);
+
+            $search_key = $request->search_key;
+
+            $base_query = $total_query = \App\ChatMessage::where(function($query) use ($request){
+                        $query->where('chat_messages.from_user_id', $request->from_user_id);
+                        $query->where('chat_messages.to_user_id', $request->to_user_id);
+                    })
+                    ->where('chat_messages.message', 'like', "%".$search_key."%")
+                    ->orderBy('chat_messages.updated_at', 'asc');
+
+            $chat_messages = $base_query->skip($this->skip)->take($this->take)->get();
+
+            $data['messages'] = $chat_messages ?? [];
+
+            $data['total'] = $total_query->count() ?: 0;
+
+            return $this->sendResponse($message = "", $code = "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+
+    }
+
 }
