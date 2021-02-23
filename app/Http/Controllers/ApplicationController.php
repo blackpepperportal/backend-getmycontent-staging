@@ -246,9 +246,9 @@ class ApplicationController extends Controller
             
             $message = $request->message;
 
-            $from_chat_user_inputs = ['from_user_id' => $request->from_user_id, 'to_user_id' => $request->to_user_id];
+            // $from_chat_user_inputs = ['from_user_id' => $request->from_user_id, 'to_user_id' => $request->to_user_id];
 
-            $chat_user = new \App\ChatUser();
+            $chat_user = \App\ChatUser::where('from_user_id', $request->from_user_id)->where('to_user_id', $request->to_user_id)->first() ?? new \App\ChatUser();
 
             $chat_user->from_user_id = $request->from_user_id;
 
@@ -256,7 +256,7 @@ class ApplicationController extends Controller
             
             $chat_user->save();
 
-            $chat_to_user = new \App\ChatUser();
+            $chat_to_user = \App\ChatUser::where('from_user_id', $request->to_user_id)->where('to_user_id', $request->from_user_id)->first() ?? new \App\ChatUser();
 
             $chat_to_user->from_user_id = $request->to_user_id;
 
