@@ -455,7 +455,7 @@ class FollowersApiController extends Controller
 
             $chat_message = \App\ChatMessage::where('chat_messages.to_user_id', $request->from_user_id)->where('status', NO)->update(['status' => YES]);
 
-            $chat_messages = $base_query->skip($this->skip)->take($this->take)->orderBy('chat_messages.updated_at', 'asc')->get();
+            $chat_messages = $base_query->with('chatAssets')->skip($this->skip)->take($this->take)->orderBy('chat_messages.updated_at', 'asc')->get();
 
             foreach ($chat_messages as $key => $value) {
                 
