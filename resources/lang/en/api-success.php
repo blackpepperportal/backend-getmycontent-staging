@@ -122,4 +122,6 @@ return [
 
     161 => 'Valid Username',
 
+    3000 => 'The chat deleted',
+
 ];
