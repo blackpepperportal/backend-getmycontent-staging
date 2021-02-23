@@ -456,7 +456,7 @@ class FollowersApiController extends Controller
 
             $chat_message = \App\ChatMessage::where('chat_messages.to_user_id', $request->from_user_id)->where('status', NO)->update(['status' => YES]);
 
-            $chat_messages = $base_query->skip($this->skip)->take($this->take)->get()->sortBy('chat_messages.id');
+            $chat_messages = $base_query->skip($this->skip)->take($this->take)->get()->reverse();
 
             foreach ($chat_messages as $key => $value) {
                 
