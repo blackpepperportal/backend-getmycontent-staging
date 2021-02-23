@@ -190,10 +190,9 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('withdrawals_check','Api\WalletApiController@user_withdrawals_check');
 
-
     });
 
-    Route::group(['middleware' => ['CheckDocumentVerify']], function() {
+    Route::group(['middleware' => 'CheckDocumentVerify'] , function() {
 
         Route::post('user_products','Api\UserProductApiController@user_products_index');
 
@@ -233,7 +232,7 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
     });
 
-    Route::group(['middleware' => ['UserApiVal']], function() {
+    Route::group(['middleware' => 'UserApiVal'] , function() {
 
         // Followers and Followings list for content creators
         Route::post('followers', 'Api\FollowersApiController@followers');
@@ -252,6 +251,23 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
         Route::post('follow_users','Api\FollowersApiController@follow_users');
 
         Route::post('unfollow_users','Api\FollowersApiController@unfollow_users');
+
+        Route::post('chat_assets', 'Api\ChatApiController@chat_assets_index');
+
+        Route::post('chat_assets_save', 'Api\ChatApiController@chat_assets_save');
+
+        Route::post('chat_assets_delete', 'Api\ChatApiController@chat_assets_delete');
+        
+
+        Route::post('chat_assets_payment_by_stripe', 'Api\ChatApiController@chat_assets_payment_by_stripe');
+
+        Route::post('chat_assets_payment_by_wallet', 'Api\ChatApiController@chat_assets_payment_by_wallet');
+
+        Route::post('chat_assets_payment_by_paypal', 'Api\ChatApiController@chat_assets_payment_by_paypal');
+
+        Route::post('chat_asset_payments', 'Api\ChatApiController@chat_asset_payments');
+
+        Route::post('chat_asset_payments_view', 'Api\ChatApiController@chat_asset_payments_view');
 
     });
 
@@ -345,7 +361,5 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
     Route::post('posts_payment_by_paypal','Api\PostsApiController@posts_payment_by_paypal');
 
     Route::post('user_tips_history','Api\UserAccountApiController@user_tips_history');
-
-
 
 });
