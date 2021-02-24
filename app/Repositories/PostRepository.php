@@ -42,6 +42,15 @@ class PostRepository {
 
                         $is_user_needs_pay = $post->payment_info->is_user_needs_pay ?? NO; 
 
+                        
+
+                        $is_subscribed = \App\UserSubscriptionPayment::where('from_user_id',$request->id)->where('to_user_id',$post->user_id)->count() ?? 0;
+
+                        $post->is_user_subscribed =  $is_subscribed > 0 ? YES : NO;
+
+                        $post->is_pay_and_watch = $post->payment_info->is_user_needs_pay ?? NO; 
+
+
                         $post->postFiles = \App\PostFile::where('post_id', $post->post_id)->when($is_user_needs_pay == NO, function ($q) use ($is_user_needs_pay) {
                                                     return $q->OriginalResponse();
                                                 })
