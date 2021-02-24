@@ -155,4 +155,6 @@ return [
 
     181 => 'That username already taken. Please try another',
 
+    3000 =>  'The Chat info not found',
+
 ];

@@ -451,17 +451,20 @@ class FollowersApiController extends Controller
                     })->orWhere(function($query) use ($request){
                         $query->where('chat_messages.from_user_id', $request->to_user_id);
                         $query->where('chat_messages.to_user_id', $request->from_user_id);
-                    });
+                    })
+                    ->latest();
 
             $chat_message = \App\ChatMessage::where('chat_messages.to_user_id', $request->from_user_id)->where('status', NO)->update(['status' => YES]);
 
-            $chat_messages = $base_query->skip($this->skip)->take($this->take)->orderBy('chat_messages.updated_at', 'asc')->get();
+            $chat_messages = $base_query->with('chatAssets')->skip($this->skip)->take($this->take)->get();
 
             foreach ($chat_messages as $key => $value) {
                 
                 $value->created = $value->created_at->diffForHumans() ?? "";
             }
 
+            $chat_messages = array_reverse($chat_messages->toArray());
+            
             $data['messages'] = $chat_messages ?? [];
 
             $data['user'] = $request->id == $request->from_user_id ? \App\User::find($request->to_user_id) : \App\User::find($request->to_user_id);

@@ -1001,7 +1001,19 @@ class PaymentRepository {
 
             $user_tip->payment_mode = $request->payment_mode ?? CARD;
 
-            $user_tip->amount = $request->paid_amount ?? 0.00;
+            $user_tip->amount = $total = $request->paid_amount ?? 0.00;
+
+             // Commission calculation
+
+            $tips_admin_commission_in_per = Setting::get('tips_admin_commission', 1)/100;
+
+            $tips_admin_amount = $total * $tips_admin_commission_in_per;
+
+            $user_amount = $total - $tips_admin_amount;
+
+            $user_tip->admin_amount = $tips_admin_amount ?? 0.00;
+ 
+            $user_tip->user_amount = $user_amount ?? 0.00;
 
             $user_tip->paid_date = date('Y-m-d H:i:s');
 
@@ -1146,7 +1158,7 @@ class PaymentRepository {
 
             // Commission calculation & update the earnings to other user wallet
 
-            $admin_commission_in_per = Setting::get('admin_commission', 1)/100;
+            $admin_commission_in_per = Setting::get('subscription_admin_commission', 1)/100;
 
             $admin_amount = $total * $admin_commission_in_per;
 
@@ -1374,6 +1386,133 @@ class PaymentRepository {
 
         }
 
+    }
+
+    /**
+     * @method chat_assets_payment_by_stripe()
+     *
+     * @uses 
+     *
+     * @created Arun
+     * 
+     * @updated Arun
+     *
+     * @param object $chat_message, object $request
+     *
+     * @return object $chat_message
+     */
+
+    public static function chat_assets_payment_by_stripe($request, $chat_message) {
+
+        try {
+
+            // Check stripe configuration
+
+            $stripe_secret_key = Setting::get('stripe_secret_key');
+
+            if(!$stripe_secret_key) {
+
+                throw new Exception(api_error(107), 107);
+
+            } 
+
+            \Stripe\Stripe::setApiKey($stripe_secret_key);
+           
+            $currency_code = Setting::get('currency_code', 'USD') ?: "USD";
+
+            $total = intval(round($request->user_pay_amount * 100));
+
+            $charge_array = [
+                'amount' => $total,
+                'currency' => $currency_code,
+                'customer' => $request->customer_id,
+                "payment_method" => $request->card_token,
+                'off_session' => true,
+                'confirm' => true,
+            ];
+
+            $stripe_payment_response = \Stripe\PaymentIntent::create($charge_array);
+
+            $payment_data = [
+                'payment_id' => $stripe_payment_response->id ?? 'CARD-'.rand(),
+                'paid_amount' => $stripe_payment_response->amount/100 ?? $total,
+                'paid_status' => $stripe_payment_response->paid ?? true
+            ];
+
+            $response = ['success' => true, 'message' => 'done', 'data' => $payment_data];
+
+            return response()->json($response, 200);
+
+        } catch(Exception $e) {
+
+            $response = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
+
+            return response()->json($response, 200);
+
+        }
+
+    }
+
+    /**
+     * @method chat_assets_payment_save()
+     *
+     * @uses used to save chat_assets payment details
+     *
+     * @created Arun
+     * 
+     * @updated Arun
+     *
+     * @param object $request
+     *
+     * @return object $chat_asset_payment
+     */
+
+    public static function chat_assets_payment_save($request, $chat_message) {
+
+        try {
+
+            $chat_asset_payment = new \App\ChatAssetPayment;
+            
+            $chat_asset_payment->from_user_id = $chat_message->from_user_id;
+
+            $chat_asset_payment->to_user_id = $chat_message->to_user_id;
+
+            $chat_asset_payment->chat_message_id = $chat_message->chat_message_id;
+
+            $chat_asset_payment->user_card_id = $request->user_card_id ?: 0;
+            
+            $chat_asset_payment->payment_id = $request->payment_id ?:generate_payment_id();
+
+            $chat_asset_payment->paid_amount = $request->paid_amount ?? 0.00;
+
+            $chat_asset_payment->currency = Setting::get('currency') ?? "$";
+
+            $chat_asset_payment->payment_mode = $request->payment_mode ?? CARD;
+
+            $chat_asset_payment->paid_date = date('Y-m-d H:i:s');
+
+            $chat_asset_payment->status = $request->paid_status ?: PAID;
+
+            $commission = admin_commission_spilit($request->paid_amount);
+
+            $chat_asset_payment->admin_amount = $commission->admin_amount ?? 0.00;
+
+            $chat_asset_payment->user_amount = $commission->user_amount ?? 0.00;
+
+            $chat_asset_payment->save();
+
+            $response = ['success' => true, 'message' => 'paid', 'data' => $chat_asset_payment];
+
+            return response()->json($response, 200);
+
+        } catch(Exception $e) {
+
+            $response = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
+
+            return response()->json($response, 200);
+
+        }
+    
     }
 
 }
