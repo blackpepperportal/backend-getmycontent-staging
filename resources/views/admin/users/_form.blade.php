@@ -132,6 +132,11 @@
 
                                 <div class="row">
 
+                                    <div class="col-lg-12">
+                                        <h3>{{tr('social_settings')}} ({{tr('optional')}})</h3>
+                                        <hr>
+                                    </div>
+
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="website">{{ tr('website') }}</label>
@@ -146,11 +151,60 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="instagram_link">{{ tr('instagram_link') }}</label>
+                                            <input type="url" id="instagram_link" name="instagram_link" class="form-control" placeholder="{{ tr('instagram_link') }}" value="{{ $user->instagram_link ?: old('instagram_link') }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="facebook_link">{{ tr('facebook_link') }}</label>
+                                            <input type="url" id="facebook_link" name="facebook_link" class="form-control" placeholder="{{ tr('facebook_link') }}" value="{{ $user->facebook_link ?: old('facebook_link') }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="twitter_link">{{ tr('twitter_link') }}</label>
+                                            <input type="url" id="twitter_link" name="twitter_link" class="form-control" placeholder="{{ tr('twitter_link') }}" value="{{ $user->twitter_link ?: old('twitter_link') }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="linkedin_link">{{ tr('linkedin_link') }}</label>
+                                            <input type="url" id="linkedin_link" name="linkedin_link" class="form-control" placeholder="{{ tr('linkedin_link') }}" value="{{ $user->linkedin_link ?: old('linkedin_link') }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="pinterest_link">{{ tr('pinterest_link') }}</label>
+                                            <input type="url" id="pinterest_link" name="pinterest_link" class="form-control" placeholder="{{ tr('pinterest_link') }}" value="{{ $user->pinterest_link ?: old('pinterest_link') }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="youtube_link">{{ tr('youtube_link') }}</label>
+                                            <input type="url" id="youtube_link" name="youtube_link" class="form-control" placeholder="{{ tr('youtube_link') }}" value="{{ $user->youtube_link ?: old('youtube_link') }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="twitch_link">{{ tr('twitch_link') }}</label>
+                                            <input type="url" id="twitch_link" name="twitch_link" class="form-control" placeholder="{{ tr('twitch_link') }}" value="{{ $user->twitch_link ?: old('twitch_link') }}">
+                                        </div>
+                                    </div>
+
                                 </div>
 
                                 <div class="row">
 
-                                    <div class="col-md-6">
+                                    <!-- <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="choose_account_type">{{ tr('choose_account_type') }}</label><br>
                                             
@@ -159,9 +213,9 @@
                                             <input type="radio"  id="free" onclick="premium_check();" name="user_account_type" value="{{USER_FREE_ACCOUNT}}"  {{ ($user->user_account_type  == USER_FREE_ACCOUNT)? "checked" : "" }} ><label for="{{USER_FREE_ACCOUNT}}"> {{tr('free_users')}} </label>&nbsp;
 
                                         </div>
-                                    </div>
+                                    </div> -->
 
-                                    <div class="col-md-6">
+                                    <!-- <div class="col-md-6">
 
                                         <div class="form-group">
 
@@ -179,7 +233,7 @@
                                             </select>
                                         </div>
 
-                                    </div>
+                                    </div> -->
 
 
 

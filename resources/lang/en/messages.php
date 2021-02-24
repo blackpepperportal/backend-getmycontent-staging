@@ -1117,6 +1117,15 @@ return [
 	"tips_admin_commission" => "Tips Admin Commission",
 	"subscription_admin_commission" => "Subscription Admin Commission",
 
+	"instagram_link" => "Instagram Link",
+	"facebook_link" => "Facebook Link",
+	"twitter_link" => "Twitter Link",
+	"linkedin_link" => "Linkedin Link",
+	"pinterest_link" => "Pinterest Link",
+	"youtube_link" => "YouTube Link",
+	"twitch_link" => "Twitch Link",
+	"optional" => "Optional",
+
 
 ]
 ?>

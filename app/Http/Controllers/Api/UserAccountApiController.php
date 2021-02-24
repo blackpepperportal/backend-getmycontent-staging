@@ -778,6 +778,20 @@ class UserAccountApiController extends Controller
 
             $user->amazon_wishlist = $request->filled('amazon_wishlist') ? $request->amazon_wishlist : "";
 
+            $user->instagram_link = $request->filled('instagram_link') ? $request->instagram_link : "";
+            
+            $user->facebook_link = $request->filled('facebook_link') ? $request->facebook_link : "";
+            
+            $user->twitter_link = $request->filled('twitter_link') ? $request->twitter_link : "";
+
+            $user->linkedin_link = $request->filled('linkedin_link') ? $request->linkedin_link : "";
+
+            $user->pinterest_link = $request->filled('pinterest_link') ? $request->pinterest_link : "";
+
+            $user->youtube_link = $request->filled('youtube_link') ? $request->youtube_link : "";
+
+            $user->twitch_link = $request->filled('twitch_link') ? $request->twitch_link : "";
+
             // Upload picture
             if($request->hasFile('picture') != "") {
 
