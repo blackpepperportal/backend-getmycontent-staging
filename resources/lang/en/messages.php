@@ -1114,5 +1114,9 @@ return [
 	"is_mailgun_email_validate" => "Is Mailgun - Email Validate Enabled?",
 	"notification_count_update_enabled" => "Notification Count Update Enabled?",
 	"recent_posts" => "RECENT POSTS",
+	"tips_admin_commission" => "Tips Admin Commission",
+	"subscription_admin_commission" => "Subscription Admin Commission",
+
+
 ]
 ?>
