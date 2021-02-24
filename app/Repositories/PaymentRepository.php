@@ -1158,7 +1158,7 @@ class PaymentRepository {
 
             // Commission calculation & update the earnings to other user wallet
 
-            $admin_commission_in_per = Setting::get('admin_commission', 1)/100;
+            $admin_commission_in_per = Setting::get('subscription_admin_commission', 1)/100;
 
             $admin_amount = $total * $admin_commission_in_per;
 
