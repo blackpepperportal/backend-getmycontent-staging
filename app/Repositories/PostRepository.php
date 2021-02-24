@@ -189,9 +189,8 @@ class PostRepository {
                 }
 
 
-                $is_subscribed = \App\UserSubscriptionPayment::where('user_subscription_id', $user_subscription->id)->where('from_user_id', $request->id)->where('to_user_id', $post_user->id)->count() ?? 0;
+                $data['is_user_subscribed'] = check_user_subscribed($post_user,$request);
 
-                $data['is_user_subscribed'] = $is_subscribed > 0 ? YES :NO;
                
             }
 
@@ -216,11 +215,9 @@ class PostRepository {
                 $data['payment_text'] = tr('unlock_post_text', $post->amount_formatted);
             }
         
-            $user_subscription = \App\UserSubscription::where('user_id', $post_user->id)->first();
+    
 
-            $is_subscribed = \App\UserSubscriptionPayment::where('user_subscription_id', $user_subscription->id)->where('from_user_id', $request->id)->where('to_user_id', $post_user->id)->count() ?? 0;
-
-            $data['is_user_subscribed'] = $is_subscribed > 0 ? YES :NO;
+            $data['is_user_subscribed'] = check_user_subscribed($post_user,$request);
         }
 
         post_end:
