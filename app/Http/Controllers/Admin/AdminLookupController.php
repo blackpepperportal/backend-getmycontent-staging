@@ -167,7 +167,7 @@ class AdminLookupController extends Controller
             
             if($request->hasFile('picture')) {
 
-                if($request->user_id) {
+                if($request->document_id) {
 
                     Helper::storage_delete_file($document->picture, COMMON_FILE_PATH); 
                     // Delete the old pic

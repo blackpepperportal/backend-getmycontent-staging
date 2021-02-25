@@ -244,7 +244,7 @@
             </li>
 
             <li class="nav-item" id="payments">
-                <a href="{{route('admin.documents.index')}}">
+                <a href="#">
                     <i class="fa fa-money"></i>
                     <span class="menu-title" data-i18n="">{{tr('payments')}}</span>
                 </a>
