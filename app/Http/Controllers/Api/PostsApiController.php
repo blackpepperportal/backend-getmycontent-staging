@@ -856,7 +856,8 @@ class PostsApiController extends Controller
 
             foreach ($post_comments as $key => $post_comment) {
 
-                $post_comment->created = common_date($post_comment->created_at, $this->timezone, 'd M Y');
+                $post_comment->created = $post_comment->created_at->diffForHumans() ?? "";
+
             }
 
 
