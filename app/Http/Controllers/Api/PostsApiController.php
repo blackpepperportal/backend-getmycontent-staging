@@ -854,13 +854,6 @@ class PostsApiController extends Controller
 
             $post_comments = $base_query->skip($this->skip)->take($this->take)->get();
 
-            foreach ($post_comments as $key => $post_comment) {
-
-                $post_comment->created = $post_comment->created_at->diffForHumans() ?? "";
-
-            }
-
-
             $data['post_comments'] = $post_comments ?? [];
 
             $data['total'] = $total_query->count() ?? 0;
