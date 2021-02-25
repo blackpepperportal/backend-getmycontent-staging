@@ -1794,7 +1794,7 @@ class UserAccountApiController extends Controller
 
             $data['total_posts'] = \App\Post::where('user_id', $request->user_id)->count();
 
-            $video_query = $image_query = \App\PostFile::where('user_id', $request->id);
+            $video_query = $image_query = \App\PostFile::where('user_id', $request->user_id);
 
             $data['total_videos'] = $video_query->where('file_type', POSTS_VIDEO)->count();
 
