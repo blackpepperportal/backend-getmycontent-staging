@@ -1114,5 +1114,18 @@ return [
 	"is_mailgun_email_validate" => "Is Mailgun - Email Validate Enabled?",
 	"notification_count_update_enabled" => "Notification Count Update Enabled?",
 	"recent_posts" => "RECENT POSTS",
+	"tips_admin_commission" => "Tips Admin Commission",
+	"subscription_admin_commission" => "Subscription Admin Commission",
+
+	"instagram_link" => "Instagram Link",
+	"facebook_link" => "Facebook Link",
+	"twitter_link" => "Twitter Link",
+	"linkedin_link" => "Linkedin Link",
+	"pinterest_link" => "Pinterest Link",
+	"youtube_link" => "YouTube Link",
+	"twitch_link" => "Twitch Link",
+	"optional" => "Optional",
+
+
 ]
 ?>

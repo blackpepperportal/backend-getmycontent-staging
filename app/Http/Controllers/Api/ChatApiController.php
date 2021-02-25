@@ -52,7 +52,7 @@ class ChatApiController extends Controller
                 'from_user_id' => 'required|exists:users,id',
                 'to_user_id' => 'required|exists:users,id',
                 'message' => 'required',
-                'amount' => 'required',
+                'amount' => 'nullable|min:0',
                 'file' => 'required',
             ];
 

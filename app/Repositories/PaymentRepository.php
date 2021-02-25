@@ -1001,7 +1001,19 @@ class PaymentRepository {
 
             $user_tip->payment_mode = $request->payment_mode ?? CARD;
 
-            $user_tip->amount = $request->paid_amount ?? 0.00;
+            $user_tip->amount = $total = $request->paid_amount ?? 0.00;
+
+             // Commission calculation
+
+            $tips_admin_commission_in_per = Setting::get('tips_admin_commission', 1)/100;
+
+            $tips_admin_amount = $total * $tips_admin_commission_in_per;
+
+            $user_amount = $total - $tips_admin_amount;
+
+            $user_tip->admin_amount = $tips_admin_amount ?? 0.00;
+ 
+            $user_tip->user_amount = $user_amount ?? 0.00;
 
             $user_tip->paid_date = date('Y-m-d H:i:s');
 
@@ -1146,7 +1158,7 @@ class PaymentRepository {
 
             // Commission calculation & update the earnings to other user wallet
 
-            $admin_commission_in_per = Setting::get('admin_commission', 1)/100;
+            $admin_commission_in_per = Setting::get('subscription_admin_commission', 1)/100;
 
             $admin_amount = $total * $admin_commission_in_per;
 
