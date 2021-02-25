@@ -14,13 +14,13 @@ class AddSocialLinksToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('instagram_link')->nullable();
-            $table->string('facebook_link')->nullable();
-            $table->string('twitter_link')->nullable();
-            $table->string('linkedin_link')->nullable();
-            $table->string('pinterest_link')->nullable();
-            $table->string('youtube_link')->nullable();
-            $table->string('twitch_link')->nullable();
+            $table->string('instagram_link')->default("");
+            $table->string('facebook_link')->default("");
+            $table->string('twitter_link')->default("");
+            $table->string('linkedin_link')->default("");
+            $table->string('pinterest_link')->default("");
+            $table->string('youtube_link')->default("");
+            $table->string('twitch_link')->default("");
         });
     }
 
