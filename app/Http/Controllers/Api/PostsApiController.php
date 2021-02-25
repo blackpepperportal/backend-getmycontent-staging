@@ -854,6 +854,12 @@ class PostsApiController extends Controller
 
             $post_comments = $base_query->skip($this->skip)->take($this->take)->get();
 
+            foreach ($post_comments as $key => $post_comment) {
+
+                $post_comment->created = common_date($post_comment->created_at, $this->timezone, 'd M Y');
+            }
+
+
             $data['post_comments'] = $post_comments ?? [];
 
             $data['total'] = $total_query->count() ?? 0;
