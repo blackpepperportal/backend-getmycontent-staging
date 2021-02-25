@@ -42,6 +42,8 @@ class PostRepository {
 
                         $is_user_needs_pay = $post->payment_info->is_user_needs_pay ?? NO; 
 
+                        $post->is_user_subscribed = $post->payment_info->is_user_subscribed ?? NO; 
+
                         $post->postFiles = \App\PostFile::where('post_id', $post->post_id)->when($is_user_needs_pay == NO, function ($q) use ($is_user_needs_pay) {
                                                     return $q->OriginalResponse();
                                                 })
@@ -125,9 +127,9 @@ class PostRepository {
 
         $post_user = $post->user ?? [];
 
-        $data['is_user_needs_pay'] = $data['is_free_account'] = NO;
+        $data['is_user_needs_pay'] = $data['is_free_account'] =  NO;
 
-        $data['post_payment_type'] = $data['payment_text'] = "";
+        $data['post_payment_type'] = $data['payment_text'] = $data['is_user_subscribed'] = "";
 
         if(!$post_user) {
 
@@ -174,9 +176,8 @@ class PostRepository {
 
             if($user_subscription) {
 
-
                 $check_user_subscription_payment = \App\UserSubscriptionPayment::where('user_subscription_id', $user_subscription->id)->where('from_user_id', $request->id)->count();
-
+                
                 if(!$check_user_subscription_payment) {
 
                     $data['is_user_needs_pay'] = YES;
@@ -187,6 +188,10 @@ class PostRepository {
 
                 }
 
+
+                $data['is_user_subscribed'] = check_user_subscribed($post_user,$request);
+
+               
             }
 
         } else {
@@ -210,6 +215,9 @@ class PostRepository {
                 $data['payment_text'] = tr('unlock_post_text', $post->amount_formatted);
             }
         
+    
+
+            $data['is_user_subscribed'] = check_user_subscribed($post_user,$request);
         }
 
         post_end:
