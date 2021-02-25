@@ -277,8 +277,6 @@ class User extends Authenticatable
 
 		return formatted_amount($this->userTips()->sum('amount') ?? 0.00);
 	}
-
-	
     
     /**
      * Scope a query to only include active users.
