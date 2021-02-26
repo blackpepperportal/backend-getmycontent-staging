@@ -122,6 +122,11 @@
                                         <a href="{{route('admin.users.view' , ['user_id' => $user->id])}}" class="custom-a">
                                             {{$user->name ?: tr('not_available')}}
                                         </a>
+
+                                        @if($user->is_verified_badge == YES && Setting::get('is_verified_badge_enabled'))
+                                            <img src="{{Setting::get('verified_badge_file')}}" width="16" height="16" /> 
+                                        @endif
+
                                         @if($user->user_account_type == USER_PREMIUM_ACCOUNT)
                                             <b><i class="icon-badge text-green"></i></b>
                                         @endif
@@ -226,6 +231,22 @@
                                                 @else
 
                                                 <a class="dropdown-item" href="{{ route('admin.users.status' , ['user_id' => $user->id] ) }}">&nbsp;{{ tr('approve') }}</a>
+
+                                                @endif
+
+                                                @if(Setting::get('is_verified_badge_enabled'))
+
+
+                                                    @if($user->is_verified_badge == YES)
+
+                                                        <a class="dropdown-item" href="{{  route('admin.users.verify_badge' , ['user_id' => $user->id] )  }}">&nbsp;{{ tr('remove_badge') }}
+                                                    </a>
+
+                                                    @else
+
+                                                        <a class="dropdown-item" href="{{ route('admin.users.verify_badge' , ['user_id' => $user->id] ) }}">&nbsp;{{ tr('add_badge') }}</a>
+
+                                                    @endif
 
                                                 @endif
 

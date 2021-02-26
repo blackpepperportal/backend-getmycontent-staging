@@ -1353,5 +1353,57 @@ class AdminUserController extends Controller
        }
     }
 
+    /**
+     * @method users_verify_badge_status()
+     *
+     * @uses verify the user
+     *
+     * @created vithya
+     *
+     * @updated
+     *
+     * @param object $request - User Id
+     *
+     * @return redirect back page with status of the user verification
+     */
+    public function users_verify_badge_status(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $user = \App\User::find($request->user_id);
+
+            if(!$user) {
+
+                throw new Exception(tr('user_not_found'), 101);
+                
+            }
+
+            $user->is_verified_badge = $user->is_verified_badge ? NO : YES;
+
+            if($user->save()) {
+
+                DB::commit();
+
+                $message = $user->is_verified_badge ? tr('user_verify_badge_added') : tr('user_verify_badge_removed');
+
+                return redirect()->route('admin.users.index')->with('flash_success', $message);
+
+            }
+            
+            throw new Exception(tr('user_verify_change_failed'));
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->route('admin.users.index')->with('flash_error', $e->getMessage());
+
+        }
+    
+    }
+
+
 
 }
