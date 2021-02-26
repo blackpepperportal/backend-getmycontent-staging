@@ -54,7 +54,7 @@ class FollowersApiController extends Controller
 
         try {
 
-            $following_user_ids = Follower::where('follower_id', $request->id)->pluck('user_id')->where('status', YES)->toArray();
+            $following_user_ids = Follower::where('follower_id', $request->id)->where('status', YES)->pluck('user_id')->toArray() ?? [];
 
             $blocked_user_ids = blocked_users($request->id);
             
