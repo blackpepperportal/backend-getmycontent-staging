@@ -13,9 +13,14 @@ class VerifiedBadgeSeeder extends Seeder
     {
         DB::table('settings')->insert([
     		[
-		        'key' => 'verified_badge_file',
-		        'value' => asset('images/verified.svg')
+		        'key' => 'is_user_allowed_verified_badge',
+		        'value' => NO
 		    ],
+
+            [
+                'key' => 'verified_badge_file',
+                'value' => asset('images/verified.svg')
+            ],
             [
                 'key' => 'verified_badge_text',
                 'value' => "Verified"
