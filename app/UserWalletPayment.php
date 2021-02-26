@@ -8,7 +8,7 @@ class UserWalletPayment extends Model
 {
     protected $hidden = ['deleted_at', 'id', 'unique_id'];
 
-	protected $appends = ['user_wallet_payment_id','user_wallet_payment_unique_id', 'paid_amount_formatted', 'status_formatted', 'wallet_picture', 'received_from_username','requested_amount_formatted'];
+	protected $appends = ['user_wallet_payment_id','user_wallet_payment_unique_id', 'paid_amount_formatted', 'status_formatted', 'wallet_picture', 'received_from_username','requested_amount_formatted','admin_amount_formatted','user_amount_formatted'];
 
     public function getUserWalletPaymentIdAttribute() {
 
@@ -25,9 +25,19 @@ class UserWalletPayment extends Model
         return wallet_formatted_amount($this->paid_amount, $this->amount_type);
     }
 
-     public function getRequestedAmountFormattedAttribute() {
+    public function getRequestedAmountFormattedAttribute() {
 
         return formatted_amount($this->requested_amount);
+    }
+
+    public function getAdminAmountFormattedAttribute() {
+
+        return formatted_amount($this->admin_amount);
+    }
+
+    public function getUserAmountFormattedAttribute() {
+
+        return formatted_amount($this->user_amount);
     }
 
     public function getStatusFormattedAttribute() {

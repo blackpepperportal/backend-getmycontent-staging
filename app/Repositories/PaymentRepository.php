@@ -42,6 +42,10 @@ class PaymentRepository {
 
             $user_wallet_payment->paid_amount = $user_wallet_payment->requested_amount = $request->paid_amount ?? 0.00;
 
+            $user_wallet_payment->admin_amount = $request->admin_amount ?? 0.00;
+
+            $user_wallet_payment->user_amount = $request->user_amount ?? 0.00;
+
             $user_wallet_payment->payment_type = $request->payment_type ?: WALLET_PAYMENT_TYPE_ADD;
 
             $user_wallet_payment->amount_type = $request->amount_type ?: WALLET_AMOUNT_TYPE_ADD;
@@ -854,7 +858,7 @@ class PaymentRepository {
 
             $post_payment->user_id = $request->id;
 
-            $post_payment->payment_id = $request->peayment_id ?? "NO-".rand();
+            $post_payment->payment_id = $request->payment_id ?? "NO-".rand();
 
             $post_payment->payment_mode = $request->payment_mode ?? CARD;
 
@@ -1065,7 +1069,9 @@ class PaymentRepository {
                 'paid_amount' => $post_payment->user_amount,
                 'payment_type' => WALLET_PAYMENT_TYPE_CREDIT,
                 'amount_type' => WALLET_AMOUNT_TYPE_ADD,
-                'payment_id' => $post_payment->payment_id
+                'payment_id' => $post_payment->payment_id,
+                'admin_amount' => $post_payment->admin_amount,
+                'user_amount' => $post_payment->user_amount,
             ];
 
             $to_user_request = new \Illuminate\Http\Request();
@@ -1143,6 +1149,8 @@ class PaymentRepository {
             $user_subscription_payment->payment_id = $request->payment_id ?? "NO-".rand();
 
             $user_subscription_payment->status = PAID_STATUS;
+
+            $user_subscription_payment->is_current_subscription = YES;
 
             $user_subscription_payment->amount = $total = $request->paid_amount ?? 0.00;
 
@@ -1299,6 +1307,8 @@ class PaymentRepository {
                 'total' => $user_subscription_payment->user_amount, 
                 'user_pay_amount' => $user_subscription_payment->user_amount,
                 'paid_amount' => $user_subscription_payment->user_amount,
+                'user_amount' => $user_subscription_payment->user_amount,
+                'admin_amount' => $user_subscription_payment->admin_amount,
                 'payment_type' => WALLET_PAYMENT_TYPE_CREDIT,
                 'amount_type' => WALLET_AMOUNT_TYPE_ADD,
                 'payment_id' => $user_subscription_payment->payment_id
@@ -1353,12 +1363,14 @@ class PaymentRepository {
             $to_user_inputs = [
                 'id' => $request->to_user_id,
                 'received_from_user_id' => $request->id,
-                'total' => $user_tip->amount, 
-                'user_pay_amount' => $user_tip->amount,
-                'paid_amount' => $user_tip->amount,
+                'total' => $user_tip->user_amount, 
+                'user_pay_amount' => $user_tip->user_amount,
+                'paid_amount' => $user_tip->user_amount,
                 'payment_type' => WALLET_PAYMENT_TYPE_CREDIT,
                 'amount_type' => WALLET_AMOUNT_TYPE_ADD,
-                'payment_id' => $user_tip->payment_id
+                'payment_id' => $user_tip->payment_id,
+                'user_amount' => $user_tip->user_amount,
+                'admin_amount' => $user_tip->admin_amount,
             ];
 
             $to_user_request = new \Illuminate\Http\Request();

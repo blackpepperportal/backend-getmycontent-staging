@@ -6,6 +6,8 @@ use App\Helpers\Helper;
 
 use Log, Validator, Setting, Exception, DB;
 
+use Carbon\Carbon;
+
 class CommonRepository {
 
 	/**
@@ -218,8 +220,13 @@ class CommonRepository {
 
             } else {
 
-                $check_user_subscription_payment = \App\UserSubscriptionPayment::where('user_subscription_id', $user_subscription->id)->where('from_user_id', $request->id)->count();
+                $current_date = Carbon::now()->format('Y-m-d');
 
+                $check_user_subscription_payment = \App\UserSubscriptionPayment::where('user_subscription_id', $user_subscription->id)->where('from_user_id', $request->id)
+                    ->where('is_current_subscription',YES)
+                    ->whereDate('expiry_date','>=',$current_date)
+                    ->where('to_user_id', $other_user->id)->count();
+                
                 if(!$check_user_subscription_payment) {
 
                     $data['is_user_needs_pay'] = YES;

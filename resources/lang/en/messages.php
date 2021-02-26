@@ -1126,7 +1126,8 @@ return [
 	"twitch_link" => "Twitch Link",
 	"optional" => "Optional",
 	"verified_badge_file" => "Verified Badge File",
-	"verified_badge_text" => "Verified Badge Text"
+	"verified_badge_text" => "Verified Badge Text",
+	"post_admin_commission" => "Post Admin Commission",
 
 
 ]
