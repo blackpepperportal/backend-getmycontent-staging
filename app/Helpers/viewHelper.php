@@ -1127,8 +1127,13 @@ function check_user_subscribed($post_user,$request) {
     
     $user_subscription = \App\UserSubscription::where('user_id', $post_user->id)->first();
 
-    $is_subscribed = \App\UserSubscriptionPayment::where('is_current_subscription',YES)->whereDate('expiry_date','>=',$current_date)->where('user_subscription_id', $user_subscription->id)->where('from_user_id', $request->id)->where('to_user_id', $post_user->id)->count() ?? 0;
-    
+    $is_subscribed = NO;
+
+    if($user_subscription) {
+
+        $is_subscribed = \App\UserSubscriptionPayment::where('is_current_subscription',YES)->whereDate('expiry_date','>=',$current_date)->where('user_subscription_id', $user_subscription->id)->where('from_user_id', $request->id)->where('to_user_id', $post_user->id)->count() ?? 0;
+    }
+
     return $is_subscribed > 0 ? YES :NO;
     
 }

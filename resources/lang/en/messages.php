@@ -1127,6 +1127,7 @@ return [
 	"optional" => "Optional",
 	"verified_badge_file" => "Verified Badge File",
 	"verified_badge_text" => "Verified Badge Text",
+	"post_admin_commission" => "Post Admin Commission",
 	"user_verify_badge_added" => "Badge Added",
 	"user_verify_badge_removed" => "Badge Removed",
 

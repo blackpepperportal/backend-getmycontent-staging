@@ -53,6 +53,8 @@
                                     <th>{{tr('to_username')}}</th>
                                     <th>{{tr('post')}}</th>
                                     <th>{{tr('amount')}}</th>
+                                    <th>{{tr('admin_amount')}}</th>
+                                    <th>{{tr('user_amount')}}</th>
                                     <th>{{tr('status')}}</th>
                                     <th>{{tr('action')}}</th>
                                 </tr>
@@ -78,6 +80,10 @@
                                     </td>
 
                                     <td>{{ $tips->amount_formatted }}</td>
+
+                                    <td>{{ $tips->admin_amount_formatted }}</td>
+
+                                    <td>{{ $tips->user_amount_formatted }}</td>
 
                                     <td>
 

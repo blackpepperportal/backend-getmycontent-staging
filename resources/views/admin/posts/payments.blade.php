@@ -52,6 +52,8 @@
                                     <th>{{ tr('post')}}</th>
                                     <th >{{ tr('payment_id') }}</th>
                                     <th>{{ tr('paid_amount') }}</th>
+                                    <th>{{ tr('admin_amount') }}</th>
+                                    <th>{{ tr('user_amount') }}</th>
                                     <th>{{ tr('payment_mode') }}</th>
                                     <th>{{ tr('action') }}</th>
                                 </tr>
@@ -80,6 +82,16 @@
                                     <td>
                                         {{ $post_payment->paid_amount_formatted}}
                                     </td>
+
+
+                                    <td>
+                                        {{ $post_payment->admin_amount_formatted}}
+                                    </td>
+
+                                    <td>
+                                        {{ $post_payment->user_amount_formatted}}
+                                    </td>
+
 
                                     <td>
                                         <span class="badge badge-secondary">
