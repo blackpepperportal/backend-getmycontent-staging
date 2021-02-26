@@ -1126,7 +1126,12 @@ return [
 	"twitch_link" => "Twitch Link",
 	"optional" => "Optional",
 	"verified_badge_file" => "Verified Badge File",
-	"verified_badge_text" => "Verified Badge Text"
+	"verified_badge_text" => "Verified Badge Text",
+	"user_verify_badge_added" => "Badge Added",
+	"user_verify_badge_removed" => "Badge Removed",
+
+	"remove_badge" => "Remove Badge",
+	"add_badge" => "Add Badge",
 
 
 ]

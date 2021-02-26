@@ -50,6 +50,8 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::get('users/verify', 'Admin\AdminUserController@users_verify_status')->name('users.verify');
 
+        Route::get('users/verify_badge', 'Admin\AdminUserController@users_verify_badge_status')->name('users.verify_badge');
+
         Route::get('users/excel','Admin\AdminUserController@users_excel')->name('users.excel');
 
         Route::post('/users/bulk_action', 'Admin\AdminUserController@users_bulk_action')->name('users.bulk_action');
