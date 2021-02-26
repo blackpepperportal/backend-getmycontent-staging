@@ -8,6 +8,10 @@ use Log, Validator, Setting, Exception, DB;
 
 use App\User;
 
+use Carbon\Carbon;
+
+use App\Repositories\CommonRepository as CommonRepo;
+
 class PostRepository {
 
     /**
@@ -142,6 +146,22 @@ class PostRepository {
             goto post_end;
         }
 
+        $follower = \App\Follower::where('status', YES)->where('follower_id', $request->id)->where('user_id', $post_user->user_id)->first();
+
+        if(!$follower) {
+
+            $data['is_free_account'] =  NO;
+ 
+        }
+
+        $user_subscription = \App\UserSubscription::where('user_id', $post_user->id)->first();
+
+        if(!$user_subscription) {
+
+            $data['is_free_account'] =  YES;
+ 
+        }
+
         $post_user_account_type = $post_user->user_account_type ?? USER_FREE_ACCOUNT;
 
         $login_user = \App\User::find($request->id);
@@ -176,7 +196,14 @@ class PostRepository {
 
             if($user_subscription) {
 
-                $check_user_subscription_payment = \App\UserSubscriptionPayment::where('user_subscription_id', $user_subscription->id)->where('from_user_id', $request->id)->count();
+                $current_date = Carbon::now()->format('Y-m-d');
+
+                $check_user_subscription_payment = \App\UserSubscriptionPayment::where('user_subscription_id', $user_subscription->id)
+                    ->where('from_user_id', $request->id)
+                    ->where('is_current_subscription',YES)
+                    ->whereDate('expiry_date','>=',$current_date)
+                    ->where('to_user_id', $post_user->id)
+                    ->count();
                 
                 if(!$check_user_subscription_payment) {
 
@@ -189,7 +216,7 @@ class PostRepository {
                 }
 
 
-                $data['is_user_subscribed'] = check_user_subscribed($post_user,$request);
+                // $data['is_user_subscribed'] = check_user_subscribed($post_user,$request);
 
                
             }
@@ -217,7 +244,7 @@ class PostRepository {
         
     
 
-            $data['is_user_subscribed'] = check_user_subscribed($post_user,$request);
+            // $data['is_user_subscribed'] = check_user_subscribed($post_user,$request);
         }
 
         post_end:
