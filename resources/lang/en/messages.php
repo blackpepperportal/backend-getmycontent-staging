@@ -1125,6 +1125,8 @@ return [
 	"youtube_link" => "YouTube Link",
 	"twitch_link" => "Twitch Link",
 	"optional" => "Optional",
+	"verified_badge_file" => "Verified Badge File",
+	"verified_badge_text" => "Verified Badge Text"
 
 
 ]
