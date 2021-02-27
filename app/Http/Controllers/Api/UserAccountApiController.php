@@ -2457,6 +2457,12 @@ class UserAccountApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules, $custom_errors=[]);
 
+            if($request->id == $request->user_id) {
+
+                throw new Exception(api_error(182) , 182);
+                
+            }
+
             $check_blocked_user = \App\BlockUser::where('block_by', $request->id)->where('blocked_to', $request->user_id)->first();
 
             // Check the user already blocked 

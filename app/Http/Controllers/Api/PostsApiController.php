@@ -162,12 +162,13 @@ class PostsApiController extends Controller
             Helper::custom_validator($request->all(),$rules);
 
             $report_posts = report_posts($request->id);
-
+            
             $blocked_users = blocked_users($request->id);
-
+            
             $post = Post::with('postFiles')->Approved()
-            ->whereNotIn('posts.user_id',$blocked_users)->whereNotIn('posts.id',$report_posts)
-            ->where('posts.unique_id', $request->post_unique_id)->first();
+                ->whereNotIn('posts.user_id',$blocked_users)
+                ->whereNotIn('posts.id',$report_posts)
+                ->where('posts.unique_id', $request->post_unique_id)->first();
 
             if(!$post) {
                 throw new Exception(api_error(139), 139);   
@@ -408,7 +409,7 @@ class PostsApiController extends Controller
             $post_file_url = Helper::post_upload_file($request->file, $folder_path, $filename);
 
             $ext = $request->file->getClientOriginalExtension();
-            
+
             if($post_file_url) {
 
                 $post_file = new \App\PostFile;
