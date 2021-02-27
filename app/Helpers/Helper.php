@@ -709,7 +709,7 @@ class Helper {
             $img = \Image::make(Storage::path($storage_file_path));
 
             // apply stronger blur
-            $img->blur(100)->save(Storage::path($output_file_path));
+            $img->sepia()->blur(100)->save(Storage::path($output_file_path));
            
             $url = asset(Storage::url($output_file_path));
 
@@ -720,7 +720,7 @@ class Helper {
 
             $filename = md5(time()).'_'.$input_file->getClientOriginalName();
 
-            $blured_file = Image::make($input_file)->blur(100)->encode($extension);
+            $blured_file = Image::make($input_file)->sepia()->blur(100)->encode($extension);
 
             Storage::disk('s3')->put(POST_BLUR_PATH.$filename, (string)$blured_file, 'public');
 
