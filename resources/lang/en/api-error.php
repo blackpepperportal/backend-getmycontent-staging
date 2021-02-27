@@ -157,4 +157,5 @@ return [
 
     3000 =>  'The Chat info not found',
 
+    182 =>  'You can\'t block the User',
 ];
