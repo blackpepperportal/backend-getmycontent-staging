@@ -407,6 +407,8 @@ class PostsApiController extends Controller
 
             $post_file_url = Helper::post_upload_file($request->file, $folder_path, $filename);
 
+            $ext = $request->file->getClientOriginalExtension();
+            
             if($post_file_url) {
 
                 $post_file = new \App\PostFile;
@@ -420,6 +422,16 @@ class PostsApiController extends Controller
                 $post_file->file_type = $request->file_type;
 
                 $post_file->blur_file = $request->file_type == "image" ? \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->file, $request->id) : Setting::get('post_video_placeholder');
+
+                if($request->file_type == 'video') {
+
+                    $filename_img = rand(1,1000000).'-post-image.jpg';
+
+                    \VideoThumbnail::createThumbnail(storage_path('app/public/'.$folder_path.$filename.'.'.$ext),storage_path('app/public/'.$folder_path),$filename_img, 2);
+
+                    $post_file->preview_file = asset('storage/'.$folder_path.$filename_img);
+
+                }
 
                 $post_file->save();
 
