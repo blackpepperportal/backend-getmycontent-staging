@@ -502,7 +502,7 @@ class FollowersApiController extends Controller
 
             $blocked_users = blocked_users($request->id);
             
-            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('follower_id',$blocked_users)->where('followers.status',FOLLOWER_ACTIVE)->where('user_id', $request->id);
+            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('follower_id',$blocked_users)->whereHas('follower')->where('followers.status',FOLLOWER_ACTIVE)->where('user_id', $request->id);
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
@@ -543,7 +543,7 @@ class FollowersApiController extends Controller
 
             $blocked_users = blocked_users($request->id);
 
-            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('follower_id',$blocked_users)->where('followers.status',FOLLOWER_EXPIRED)->where('user_id', $request->id);
+            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('follower_id',$blocked_users)->whereHas('follower')->where('followers.status',FOLLOWER_EXPIRED)->where('user_id', $request->id);
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
@@ -583,7 +583,7 @@ class FollowersApiController extends Controller
 
             $blocked_users = blocked_users($request->id);
            
-            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('user_id',$blocked_users)->where('follower_id', $request->id)->where('followers.status', YES);
+            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('user_id',$blocked_users)->whereHas('user')->where('follower_id', $request->id)->where('followers.status', YES);
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
@@ -623,7 +623,7 @@ class FollowersApiController extends Controller
 
             $blocked_users = blocked_users($request->id);
 
-            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('user_id',$blocked_users)->where('follower_id', $request->id)->where('followers.status', NO);
+            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('user_id',$blocked_users)->whereHas('user')->where('follower_id', $request->id)->where('followers.status', NO);
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 
