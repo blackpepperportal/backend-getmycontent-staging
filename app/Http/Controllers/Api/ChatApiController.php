@@ -51,7 +51,7 @@ class ChatApiController extends Controller
             $rules = [
                 'from_user_id' => 'required|exists:users,id',
                 'to_user_id' => 'required|exists:users,id',
-                'message' => 'required',
+                'message' => '',
                 'amount' => 'nullable|min:0',
                 'file' => 'required',
             ];
@@ -127,7 +127,7 @@ class ChatApiController extends Controller
      *
      * @created Arun
      *
-     * @updated Arun
+     * @updated Vithya R
      * 
      * @param 
      *
@@ -138,18 +138,21 @@ class ChatApiController extends Controller
     public function chat_assets_index(Request $request) {
 
         try {
+
+            $base_query = $total_query = \App\ChatAsset::where(function($query) use ($request){
+                        $query->where('chat_assets.from_user_id', $request->from_user_id);
+                        $query->where('chat_assets.to_user_id', $request->to_user_id);
+                    })->orWhere(function($query) use ($request){
+                        $query->where('chat_assets.from_user_id', $request->to_user_id);
+                        $query->where('chat_assets.to_user_id', $request->from_user_id);
+                    })
+                    ->latest();
+                    
+            $chat_assets = $base_query->skip($this->skip)->take($this->take)->get();
             
-            $sent_base_query = \App\ChatAsset::where('is_paid',PAID)->where('from_user_id',$request->id);
+            $data['chat_assets'] = $chat_assets ?? emptyObject();
 
-            $sent = $sent_base_query->skip($this->skip)->take($this->take)->get();
-
-            $recived_base_query = \App\ChatAsset::where('is_paid',PAID)->where('to_user_id',$request->id);
-
-            $received = $recived_base_query->skip($this->skip)->take($this->take)->get();
-
-            $data['sent'] = $sent ?? [];
-
-            $data['received'] = $received ?? [];
+            $data['total'] = $total_query->count() ?? [];
 
             return $this->sendResponse("", "", $data);
 
