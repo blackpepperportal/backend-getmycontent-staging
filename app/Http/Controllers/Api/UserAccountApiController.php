@@ -820,7 +820,7 @@ class UserAccountApiController extends Controller
 
                 if($request->u_category_id) {
 
-                    $ucategory = \App\UserCategory::where('u_category_id', $request->u_category_id)->where('user_id', $user->id)->first() ?? new \App\UserCategory;
+                    $ucategory = \App\UserCategory::where('user_id', $user->id)->first() ?? new \App\UserCategory;
 
                     $ucategory->u_category_id = $request->u_category_id;
 
