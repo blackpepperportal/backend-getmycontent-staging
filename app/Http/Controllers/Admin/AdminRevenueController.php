@@ -1199,8 +1199,10 @@ class AdminRevenueController extends Controller
                         });
         }
                       
-        $user_tips = $base_query->whereHas('post')->paginate(10);
-
+        // $user_tips = $base_query->whereHas('post')->paginate(10);
+        // Dont add whereHas('post') - its not taking user to user tip payments
+        $user_tips = $base_query->paginate(10);
+        
         return view('admin.revenues.user_tips.index')
                     ->with('page', 'payments')
                     ->with('sub_page', 'tip-payments')

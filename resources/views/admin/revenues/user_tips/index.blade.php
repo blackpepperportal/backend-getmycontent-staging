@@ -74,9 +74,13 @@
                                     <td><a href="{{route('admin.users.view' , ['user_id' => $tips->to_user_id])}}"> {{ $tips->to_username ?:tr('not_available') }}</a></td>
 
                                     <td>
+                                        @if($tips->post && $tips->post->unique_id)
                                         <a href="{{route('admin.posts.view',['post_id'=>$tips->post->id ?? ''])}}">
-                                        {{ $tips->post->unique_id ?? tr('not_available') }}
+                                        {{ $tips->post->unique_id}}
                                         </a>
+                                        @else
+                                        {{tr('not_available') }}
+                                        @endif
                                     </td>
 
                                     <td>{{ $tips->amount_formatted }}</td>
