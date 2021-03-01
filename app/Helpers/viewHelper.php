@@ -1137,3 +1137,7 @@ function check_user_subscribed($post_user,$request) {
     return $is_subscribed > 0 ? YES :NO;
     
 }
+
+function emptyObject() {
+    return (Object)[];
+}
