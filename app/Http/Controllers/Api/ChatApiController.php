@@ -51,7 +51,7 @@ class ChatApiController extends Controller
             $rules = [
                 'from_user_id' => 'required|exists:users,id',
                 'to_user_id' => 'required|exists:users,id',
-                'message' => 'required',
+                'message' => '',
                 'amount' => 'nullable|min:0',
                 'file' => 'required',
             ];
@@ -140,11 +140,11 @@ class ChatApiController extends Controller
         try {
 
             $base_query = $total_query = \App\ChatAsset::where(function($query) use ($request){
-                        $query->where('chat_messages.from_user_id', $request->from_user_id);
-                        $query->where('chat_messages.to_user_id', $request->to_user_id);
+                        $query->where('chat_assets.from_user_id', $request->from_user_id);
+                        $query->where('chat_assets.to_user_id', $request->to_user_id);
                     })->orWhere(function($query) use ($request){
-                        $query->where('chat_messages.from_user_id', $request->to_user_id);
-                        $query->where('chat_messages.to_user_id', $request->from_user_id);
+                        $query->where('chat_assets.from_user_id', $request->to_user_id);
+                        $query->where('chat_assets.to_user_id', $request->from_user_id);
                     })
                     ->latest();
                     
