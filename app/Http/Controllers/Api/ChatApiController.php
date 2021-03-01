@@ -127,7 +127,7 @@ class ChatApiController extends Controller
      *
      * @created Arun
      *
-     * @updated Arun
+     * @updated Vithya R
      * 
      * @param 
      *
@@ -138,18 +138,21 @@ class ChatApiController extends Controller
     public function chat_assets_index(Request $request) {
 
         try {
+
+            $base_query = $total_query = \App\ChatAsset::where(function($query) use ($request){
+                        $query->where('chat_messages.from_user_id', $request->from_user_id);
+                        $query->where('chat_messages.to_user_id', $request->to_user_id);
+                    })->orWhere(function($query) use ($request){
+                        $query->where('chat_messages.from_user_id', $request->to_user_id);
+                        $query->where('chat_messages.to_user_id', $request->from_user_id);
+                    })
+                    ->latest();
+                    
+            $chat_assets = $base_query->skip($this->skip)->take($this->take)->get();
             
-            $sent_base_query = \App\ChatAsset::where('is_paid',PAID)->where('from_user_id',$request->id);
+            $data['chat_assets'] = $chat_assets ?? emptyObject();
 
-            $sent = $sent_base_query->skip($this->skip)->take($this->take)->get();
-
-            $recived_base_query = \App\ChatAsset::where('is_paid',PAID)->where('to_user_id',$request->id);
-
-            $received = $recived_base_query->skip($this->skip)->take($this->take)->get();
-
-            $data['sent'] = $sent ?? [];
-
-            $data['received'] = $received ?? [];
+            $data['total'] = $total_query->count() ?? [];
 
             return $this->sendResponse("", "", $data);
 
