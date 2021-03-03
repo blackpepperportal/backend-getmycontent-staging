@@ -103,23 +103,25 @@ class PostsApiController extends Controller
 
         try {
 
-            $follower_ids = get_follower_ids($request->id);
+            // Validation start
+            $rules = ['user_unique_id' => 'required|exists:users,unique_id'];
 
-            $report_posts = report_posts($request->id);
+            Helper::custom_validator($request->all(), $rules, $custom_errors = []);
 
-            $blocked_users = blocked_users($request->id);
+            $user = \App\User::where('users.unique_id', $request->user_unique_id)->first();
 
-            $base_query = $total_query = Post::Approved()->whereNotIn('posts.user_id',$blocked_users)->whereNotIn('posts.id',$report_posts)->whereHas('user')->whereIn('posts.user_id', $follower_ids)->with(['postFiles', 'user'])->orderBy('created_at', 'desc');
+            if(!$user) {
+                throw new Exception(api_error(135), 135);
+            }
+
+            $report_post_ids = report_posts($request->id);
+
+            $base_query = $total_query = \App\Post::with('postFiles')->whereNotIn('posts.id',$report_post_ids)->where('user_id', $user->id);
 
             if($request->search_key) {
 
                 $base_query = $base_query->where('posts.content','LIKE','%'.$request->search_key.'%');
-
-                $search_key = $request->search_key;
-
-                $base_query = $base_query->whereHas('user', function($q) use($search_key) {
-                                    $q->orWhere('name','LIKE','%'.$search_key.'%');
-                                });
+                                   
             }
 
             $posts = $base_query->skip($this->skip)->take($this->take)->get();
