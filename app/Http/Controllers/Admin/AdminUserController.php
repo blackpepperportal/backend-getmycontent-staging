@@ -265,9 +265,6 @@ class AdminUserController extends Controller
 
             }
 
-            
-            $user->user_account_type = $request->filled('user_account_type') ? $request->twitch_link : "";
-
             $user->first_name = $request->first_name;
 
             $user->last_name = $request->last_name;
