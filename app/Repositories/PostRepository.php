@@ -32,7 +32,7 @@ class PostRepository {
         
         $posts = $posts->map(function ($post, $key) use ($request) {
 
-                        $post->is_user_needs_pay = $post->is_paid_post;
+                        $post->is_user_needs_pay = $post->is_paid_post && $post->amount > 0 ? YES : NO;
 
                         $post->delete_btn_status =  $request->id == $post->user_id ? YES : NO;
 
