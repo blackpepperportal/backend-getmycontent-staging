@@ -54,7 +54,7 @@ return [
 
     127 => "The product is marked as out of stock..!!",
 
-    128 => "You're following the :other_key now.",
+    128 => "You are now following :other_key now.",
     
     129 => "Unfollowed.",
 
