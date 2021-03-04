@@ -41,7 +41,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = ['user_id', 'user_unique_id', 'is_notification', 'is_document_verified_formatted', 'total_followers', 'total_followings', 'user_account_type_formatted', 'total_posts', 'total_fav_users', 'total_bookmarks', 'is_subscription_enabled', 'share_link','orders_count','tipped_amount', 'is_user_online'];
+    protected $appends = ['user_id', 'user_unique_id', 'is_notification', 'is_document_verified_formatted', 'total_followers', 'total_followings', 'user_account_type_formatted', 'total_posts', 'total_fav_users', 'total_bookmarks', 'is_subscription_enabled', 'share_link','orders_count','tipped_amount', 'is_user_online', 'about'];
+
+    public function getAboutAttribute() {
+
+        return $this->about == null ? "" : $this->about;
+    }
 
     public function getUserIdAttribute() {
 
