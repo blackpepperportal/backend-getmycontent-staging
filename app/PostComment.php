@@ -10,7 +10,7 @@ class PostComment extends Model
 
     protected $hidden = ['id','unique_id'];
 
-	protected $appends = ['post_comment_id','post_comment_unique_id', 'username', 'user_displayname','user_picture', 'user_unique_id',];
+	protected $appends = ['post_comment_id','post_comment_unique_id', 'username', 'user_displayname','user_picture', 'user_unique_id','created'];
 	
 	public function getPostCommentIdAttribute() {
 
@@ -20,6 +20,11 @@ class PostComment extends Model
 	public function getPostCommentUniqueIdAttribute() {
 
 		return $this->unique_id;
+	}
+
+	public function getCreatedAttribute() {
+
+		return $this->created_at->diffForHumans() ?? "";
 	}
 
 	public function getUserUniqueIdAttribute() {

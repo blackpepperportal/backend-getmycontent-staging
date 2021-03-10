@@ -67,10 +67,6 @@ class ApplicationController extends Controller
 
         }
 
-         $static_pages->created_at_formated = common_date($static_pages->created_at, $this->timezone, 'd M Y');
-
-         $static_pages->updated_at_formated = common_date($static_pages->updated_at, $this->timezone, 'd M Y');
-
         $response_array = ['success' => true , 'data' => $static_pages ? $static_pages->toArray(): []];
 
         return response()->json($response_array , 200);
@@ -260,13 +256,29 @@ class ApplicationController extends Controller
             
             $message = $request->message;
 
-            $from_chat_user_inputs = ['from_user_id' => $request->from_user_id, 'to_user_id' => $request->to_user_id];
+            // $from_chat_user_inputs = ['from_user_id' => $request->from_user_id, 'to_user_id' => $request->to_user_id];
 
-            $from_chat_user = \App\ChatUser::updateOrCreate($from_chat_user_inputs);
+            $chat_user = \App\ChatUser::where('from_user_id', $request->from_user_id)->where('to_user_id', $request->to_user_id)->first() ?? new \App\ChatUser();
 
-            $to_chat_user_inputs = ['from_user_id' => $request->to_user_id, 'to_user_id' => $request->from_user_id];
+            $chat_user->from_user_id = $request->from_user_id;
 
-            $to_chat_user = \App\ChatUser::updateOrCreate($to_chat_user_inputs);
+            $chat_user->to_user_id = $request->to_user_id;
+            
+            $chat_user->save();
+
+            $chat_to_user = \App\ChatUser::where('from_user_id', $request->to_user_id)->where('to_user_id', $request->from_user_id)->first() ?? new \App\ChatUser();
+
+            $chat_to_user->from_user_id = $request->to_user_id;
+
+            $chat_to_user->to_user_id = $request->from_user_id;
+            
+            $chat_to_user->save();
+
+            // $from_chat_user = \App\ChatUser::updateOrCreate($from_chat_user_inputs);
+
+            // $to_chat_user_inputs = ['from_user_id' => $request->to_user_id, 'to_user_id' => $request->from_user_id];
+
+            // $to_chat_user = \App\ChatUser::updateOrCreate($to_chat_user_inputs);
 
             // $from_chat_user = \App\ChatUser::where('from_user_id', $request->from_user_id)->where('to_user_id', $request->to_user_id)->first();
 

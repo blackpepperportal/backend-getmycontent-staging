@@ -214,12 +214,12 @@ class User extends Authenticatable
 
     public function followers() {
         
-        return $this->hasMany(Follower::class, 'user_id');
+        return $this->hasMany(Follower::class, 'user_id')->whereHas('follower');
     }
 
     public function followings() {
         
-        return $this->hasMany(Follower::class, 'follower_id');
+        return $this->hasMany(Follower::class, 'follower_id')->whereHas('user');
     }
 
     
@@ -277,8 +277,6 @@ class User extends Authenticatable
 
 		return formatted_amount($this->userTips()->sum('amount') ?? 0.00);
 	}
-
-	
     
     /**
      * Scope a query to only include active users.

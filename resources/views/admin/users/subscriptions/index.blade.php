@@ -54,6 +54,8 @@
                                     <th>{{tr('to_username')}}</th>
                                     <th>{{tr('plan')}}</th>
                                     <th>{{tr('amount')}}</th>
+                                    <th>{{tr('admin_amount')}}</th>
+                                    <th>{{tr('user_amount')}}</th>
                                     <th>{{tr('status')}}</th>
                                     <th>{{tr('invoice')}}</th>
                                     <th>{{tr('action')}}</th>
@@ -76,6 +78,10 @@
                                     <td>{{ $subscription->plan_text_formatted }}</td>
 
                                     <td>{{ $subscription->amount_formatted }}</td>
+
+                                    <td>{{ $subscription->admin_amount_formatted }}</td>
+
+                                    <td>{{ $subscription->user_amount_formatted }}</td>
 
                                     <td>
 

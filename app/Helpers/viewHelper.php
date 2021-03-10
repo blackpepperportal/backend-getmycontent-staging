@@ -1097,3 +1097,47 @@ function report_posts($user_id){
 
     return $report_post_ids;
 }
+
+function admin_commission_spilit($total) {
+
+    $admin_commission = Setting::get('admin_commission', 1)/100;
+
+    $admin_amount = $total * $admin_commission;
+
+    $user_amount = $total - $admin_amount;
+
+    return  (object) ['admin_amount' => $admin_amount, 'user_amount' => $user_amount];
+
+}
+
+
+/**
+ * @method check_user_subscribed()
+ *
+ * @uses check the user subscribed
+ * 
+ * @created Ganesh
+ *
+ * @updated Ganesh
+ * 
+ */
+function check_user_subscribed($post_user,$request) {
+
+    $current_date = Carbon::now()->format('Y-m-d');
+    
+    $user_subscription = \App\UserSubscription::where('user_id', $post_user->id)->first();
+
+    $is_subscribed = NO;
+
+    if($user_subscription) {
+
+        $is_subscribed = \App\UserSubscriptionPayment::where('is_current_subscription',YES)->whereDate('expiry_date','>=',$current_date)->where('user_subscription_id', $user_subscription->id)->where('from_user_id', $request->id)->where('to_user_id', $post_user->id)->count() ?? 0;
+    }
+
+    return $is_subscribed > 0 ? YES :NO;
+    
+}
+
+function emptyObject() {
+    return (Object)[];
+}
