@@ -257,7 +257,7 @@
 
                                                 <a class="dropdown-item" href="{{ route('admin.user_tips.index', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('tip_payments') }}</a>
 
-                                                <a class="dropdown-item" href="{{ route('admin.bank_details.index', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('bank_details') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.users.bank_details', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('bank_details') }}</a>
 
                                             </div>
 

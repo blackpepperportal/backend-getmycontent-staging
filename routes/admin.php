@@ -54,7 +54,7 @@ Route::group(['middleware' => 'web'], function() {
 
         Route::post('/users/bulk_action', 'Admin\AdminUserController@users_bulk_action')->name('users.bulk_action');
 
-        Route::get('bank_details/index','Admin\AdminUserController@bank_details_index')->name('bank_details.index');
+        Route::get('/users/bank_details','Admin\AdminUserController@bank_details_index')->name('users.bank_details');
 
 
         Route::get('user_subscription_payments/index','Admin\AdminUserController@user_subscription_payments')->name('users_subscriptions.index');
