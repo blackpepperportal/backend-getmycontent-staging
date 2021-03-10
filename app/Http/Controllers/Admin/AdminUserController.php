@@ -1262,4 +1262,41 @@ class AdminUserController extends Controller
          
     }
 
+    /**
+     * @method bank_details_index()
+     *
+     * @uses To list out user banking details
+     *
+     * @created Arun
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+
+    public function bank_details_index(Request $request) {
+       
+        $base_query = \App\UserBillingAccount::orderBy('created_at','desc');
+
+        $user = '';
+
+        if($request->user_id){
+
+         $base_query->where('user_id',$request->user_id);
+
+        }
+
+        $search_key = $request->search_key;
+                      
+        $bank_details = $base_query->paginate($this->take);
+
+        return view('admin.users.bank_details')
+                    ->with('page', 'users')
+                    ->with('sub_page', 'users-view')
+                    ->with('bank_details', $bank_details);
+    }
+
 }
