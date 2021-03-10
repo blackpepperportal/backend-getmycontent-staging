@@ -533,7 +533,7 @@ return [
 	"user_document_decline_confirmation" => "Do you want decline this user document?",
 	"user_document_status_change_failed" => "The user document status updating failed..!!",
 	"user_document_verify_success" => "The user document verification completed!",
-	"user_document_unverify_success" => "The user document verification removed!",
+	"user_document_unverify_success" => "The user document declined!",
 	"user_document_verify_change_failed" => "Updating user document verification status failed..!!",
 
 	"user_document_not_found" => "The document not found", 
