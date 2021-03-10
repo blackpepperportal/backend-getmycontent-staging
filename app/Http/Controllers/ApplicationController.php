@@ -21,6 +21,16 @@ use App\Repositories\PaymentRepository as PaymentRepo;
 class ApplicationController extends Controller
 {
 
+    protected $loginUser;
+
+    public function __construct(Request $request) {
+        
+        $this->loginUser = User::find($request->id);
+
+        $this->timezone = $this->loginUser->timezone ?? "America/New_York";
+
+    }
+
     /**
      * @method static_pages_api()
      *

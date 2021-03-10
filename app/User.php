@@ -389,7 +389,7 @@ class User extends Authenticatable
 
             $model->attributes['is_email_notification'] = $model->attributes['is_push_notification'] = YES;
 
-            $model->attributes['unique_id'] = "UID"."-".$model->attributes['id']."-".uniqid();
+            $model->attributes['unique_id'] = routefreestring(strtolower($model->attributes['name'] ?: rand(1,10000).rand(1,10000)));
 
             if($model->attributes['username'] == '') {
 
