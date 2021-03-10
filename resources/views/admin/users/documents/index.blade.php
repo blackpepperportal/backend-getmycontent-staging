@@ -78,10 +78,10 @@
                                     </td>
 
                                     <td>
-                                        @if($user->status == YES)
+                                        @if($user->status == USER_DOCUMENT_APPROVED)
                                         <span class="btn btn-success btn-sm">{{tr('approved')}}</span>
                                         @else
-                                        <span class="text-danger">{{tr('declined')}}</span>
+                                        <span class="btn btn-warning btn-sm">{{tr('declined')}}</span>
 
                                         @endif
 
@@ -89,15 +89,19 @@
 
                                     <td>
 
-                                        @if($user->documents_count > 0 )
+                                        @if($user->documents_count > 0)
 
-                                        <a class="btn btn-success" href="{{route('admin.user_documents.verify', ['user_id' => $user->user_id])}}" onclick="return confirm(&quot;{{tr('user_document_verify_confirmation')}}&quot;);">
-                                            {{tr('verify')}}
-                                        </a>
+                                            <a class="btn btn-success" href="{{route('admin.user_documents.verify', ['user_id' => $user->user_id,'status'=>USER_DOCUMENT_APPROVED])}}" onclick="return confirm(&quot;{{tr('user_document_verify_confirmation')}}&quot;);">
+                                                {{tr('verify')}}
+                                            </a>
 
-                                        <a class="btn btn-outline-pink" href="{{route('admin.user_documents.view', ['user_id' => $user->id])}}">
-                                            {{ tr('view_all_documents') }}
-                                        </a>
+                                            <a class="btn btn-success" href="{{route('admin.user_documents.verify', ['user_id' => $user->user_id,'status'=>USER_DOCUMENT_DECLINED])}}" onclick="return confirm(&quot;{{tr('user_document_verify_confirmation')}}&quot;);">
+                                                {{tr('decline')}}
+                                            </a>
+
+                                            <a class="btn btn-outline-pink" href="{{route('admin.user_documents.view', ['user_id' => $user->id])}}">
+                                                {{ tr('view_all_documents') }}
+                                            </a>
                                         @else
 
                                         <a class="btn btn-success" href="#" onClick="alert(&quot;{{tr('user_documents_empty')}}&quot;)">

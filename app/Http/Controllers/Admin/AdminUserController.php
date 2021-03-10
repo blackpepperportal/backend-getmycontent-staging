@@ -913,7 +913,7 @@ class AdminUserController extends Controller
         }
 
         $users = $base_query->where('is_document_verified', '!=', USER_DOCUMENT_APPROVED)->paginate($this->take);
-
+        
         foreach($users as $user){
 
             $user->documents_count = \App\UserDocument::where('user_id',$user->id)->count();
@@ -995,13 +995,13 @@ class AdminUserController extends Controller
                 
             }
 
-            $user->is_document_verified = $user->is_document_verified ? USER_DOCUMENT_APPROVED : USER_DOCUMENT_DECLINED;
+            $user->is_document_verified = $request->status;
 
             if($user->save()) {
 
                 DB::commit();
 
-                $status_message = $user->is_document_verified ? tr('approved'):tr('declined');
+                $status_message = $user->is_document_verified == USER_DOCUMENT_APPROVED ? tr('approved'):tr('declined');
 
                 $email_data['subject'] = tr('user_document_verification').' '.Setting::get('site_name');
 
@@ -1015,7 +1015,7 @@ class AdminUserController extends Controller
 
                 $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
-                $message = $user->is_document_verified ? tr('user_document_verify_success') : tr('user_document_unverify_success');
+                $message = $user->is_document_verified == USER_DOCUMENT_APPROVED ? tr('user_document_verify_success') : tr('user_document_unverify_success');
 
                 return redirect()->route('admin.user_documents.index')->with('flash_success', $message);
             }
