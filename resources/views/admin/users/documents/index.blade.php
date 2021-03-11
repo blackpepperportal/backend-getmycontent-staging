@@ -78,9 +78,9 @@
                                     </td>
 
                                     <td>
-                                        @if($user->status == USER_DOCUMENT_APPROVED)
+                                        @if($user->userDocuments->status == USER_DOCUMENT_APPROVED)
                                             <span class="btn btn-success btn-sm">{{tr('approved')}}</span>
-                                        @elseif($user->status == USER_DOCUMENT_PENDING)
+                                        @elseif($user->userDocuments->status == USER_DOCUMENT_PENDING)
 
                                             <span class="btn btn-success btn-sm">{{tr('pending')}}</span>
 
