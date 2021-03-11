@@ -328,4 +328,44 @@ class CommonRepository {
 
     }
 
+    /**
+     * @method chat_user_update()
+     *
+     * @uses 
+     *
+     * @created Bhawya
+     *
+     * @updated Bhawya
+     *
+     * @param boolean
+     *
+     * @return boolean response
+     */
+    public static function chat_user_update($from_user_id,$to_user_id) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $chat_user = \App\ChatUser::where('from_user_id', $from_user_id)->where('to_user_id', $to_user_id)->first() ?? new \App\ChatUser();
+
+            $chat_user->from_user_id = $from_user_id;
+
+            $chat_user->to_user_id = $to_user_id;
+            
+            $chat_user->save();
+            
+            DB::commit();
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            $response = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
+
+            return response()->json($response, 200);
+
+        }
+
+    }
 }
