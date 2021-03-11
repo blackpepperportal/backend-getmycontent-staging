@@ -352,6 +352,8 @@ class CommonRepository {
             $chat_user->from_user_id = $from_user_id;
 
             $chat_user->to_user_id = $to_user_id;
+
+            $chat_user->status = $chat_user->status ? YES : NO;
             
             $chat_user->save();
             
