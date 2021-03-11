@@ -357,6 +357,8 @@ class CommonRepository {
             
             $chat_user->save();
             
+            Log::info("Follow User".print_r($chat_user, true));
+
             DB::commit();
 
         } catch(Exception $e) {
