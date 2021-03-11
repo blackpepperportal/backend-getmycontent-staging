@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ChatUser extends Model
 {
+	public $timestamps = true;
+	
     protected $fillable = ['from_user_id', 'to_user_id'];
 
     protected $hidden = ['id','unique_id'];
