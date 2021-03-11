@@ -178,15 +178,13 @@ class FollowersApiController extends Controller
            
 
             // Check the user already following the selected users
-            $follower = Follower::where('status', YES)->where('follower_id', $request->id)->where('user_id', $request->user_id)->first();
+            $follower = Follower::where('follower_id', $request->id)->where('user_id', $request->user_id)->first() ??  new Follower;
 
-            if($follower) {
+            if($follower->status == YES) {
 
                 throw new Exception(api_error(137), 137);
 
             }
-
-            $follower = new Follower;
 
             $follower->user_id = $request->user_id;
 
