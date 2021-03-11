@@ -263,8 +263,6 @@ class ApplicationController extends Controller
             $chat_user->from_user_id = $request->from_user_id;
 
             $chat_user->to_user_id = $request->to_user_id;
-
-            $chat_user->update_at = date('Y-m-d H:i:s');
             
             $chat_user->save();
 
@@ -273,8 +271,6 @@ class ApplicationController extends Controller
             $chat_to_user->from_user_id = $request->to_user_id;
 
             $chat_to_user->to_user_id = $request->from_user_id;
-                
-            $chat_user->update_at = date('Y-m-d H:i:s');
             
             $chat_to_user->save();
 
