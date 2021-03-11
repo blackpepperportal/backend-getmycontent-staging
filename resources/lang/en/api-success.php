@@ -86,9 +86,9 @@ return [
 
     143 => 'Added to bookmarks',
 
-    144 => 'Added to favourite list',
+    144 => 'Added to favorite list',
 
-    145 => 'Removed from favourites.',
+    145 => 'Removed from favorites.',
 
     146 => 'Thanks for the tips',
 
