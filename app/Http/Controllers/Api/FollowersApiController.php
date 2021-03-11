@@ -398,7 +398,7 @@ class FollowersApiController extends Controller
 
         try {
 
-            $base_query = $total_query = \App\ChatUser::where('from_user_id', $request->id);
+            $base_query = $total_query = \App\ChatUser::where('from_user_id', $request->id)->whereHas('fromUser');
 
             $chat_users = $base_query->skip($this->skip)->take($this->take)
                     ->orderBy('chat_users.updated_at', 'desc')
