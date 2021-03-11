@@ -78,12 +78,8 @@
                                     </td>
 
                                     <td>
-                                        @if($user->userDocuments->status == USER_DOCUMENT_APPROVED)
+                                        @if($user->status == USER_DOCUMENT_APPROVED)
                                             <span class="btn btn-success btn-sm">{{tr('approved')}}</span>
-                                        @elseif($user->userDocuments->status == USER_DOCUMENT_PENDING)
-
-                                            <span class="btn btn-success btn-sm">{{tr('pending')}}</span>
-
                                         @else
                                             <span class="btn btn-warning btn-sm">{{tr('declined')}}</span>
 
