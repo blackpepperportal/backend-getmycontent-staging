@@ -27,11 +27,6 @@ class FavUser extends Model
 	   return $this->belongsTo(User::class, 'fav_user_id');
 	}
 
-	public function user() {
-
-	   return $this->belongsTo(User::class, 'user_id');
-	}
-
 	/**
      * Scope a query to only include active users.
      *
