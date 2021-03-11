@@ -230,7 +230,7 @@ class User extends Authenticatable
 
     public function favUsers() {
         
-        return $this->hasMany(FavUser::class, 'user_id')->whereHas('favUser');
+        return $this->hasMany(FavUser::class, 'user_id')->whereHas('user');
     }
 
     public function postLikes() {

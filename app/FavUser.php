@@ -22,10 +22,25 @@ class FavUser extends Model
 		return $this->unique_id;
 	}
 
-	public function favUser() {
+    public function favUser() {
 
-	   return $this->belongsTo(User::class, 'fav_user_id');
-	}
+        return $this->belongsTo(User::class,'fav_user_id');
+    }
+
+    public function user() {
+
+        return $this->belongsTo(User::class,'user_id');
+    }
+
+    public function favDetails() {
+
+        return $this->belongsTo(User::class,'fav_user_id');
+    }
+
+    public function userDetails() {
+
+        return $this->belongsTo(User::class,'user_id');
+    }
 
 	/**
      * Scope a query to only include active users.
