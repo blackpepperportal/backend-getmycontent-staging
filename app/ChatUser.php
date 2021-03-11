@@ -61,4 +61,10 @@ class ChatUser extends Model
 
 	   return $this->belongsTo(User::class, 'to_user_id');
 	}
+
+	public static function boot() {
+
+        parent::boot();
+
+    }
 }
