@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ChatUser extends Model
 {
-	public $timestamps = true;
-	
     protected $fillable = ['from_user_id', 'to_user_id'];
 
     protected $hidden = ['id','unique_id'];
@@ -67,6 +65,10 @@ class ChatUser extends Model
 	public static function boot() {
 
         parent::boot();
+
+        static::created( function ($model) {
+       		$model->setUpdatedAt($model->freshTimestamp());
+    	});
 
     }
 }
