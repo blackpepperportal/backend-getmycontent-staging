@@ -329,6 +329,49 @@ class CommonRepository {
     }
 
     /**
+     * @method followings_list_response()
+     *
+     * @uses Format the follow user response
+     *
+     * @created vithya R
+     * 
+     * @updated vithya R
+     *
+     * @param object $request
+     *
+     * @return object $payment_details
+     */
+
+    public static function favorites_list_response($fav_users, $request) {
+        
+         $fav_users = $fav_users->map(function ($data, $key) use ($request) {
+
+                $fav_user = \App\User::OtherResponse()->find($data->fav_user_id) ?? new \stdClass; 
+
+                $fav_user->is_fav_user = Helper::is_fav_user($request->id, $data->fav_user_id);
+
+                $fav_user->is_block_user = Helper::is_block_user($request->id, $data->fav_user_id);
+
+                $fav_user->is_owner = $request->id == $data->fav_user_id ? YES : NO;
+
+                $is_you_following = Helper::is_you_following($request->id, $data->fav_user_id);
+
+                $fav_user->show_follow = $is_you_following ? HIDE : SHOW;
+
+                $fav_user->show_unfollow = $is_you_following ? SHOW : HIDE;
+
+                $data->fav_user = $fav_user ?? [];
+
+                return $data;
+        });
+
+
+
+        return $fav_users;
+
+    }
+
+    /**
      * @method chat_user_update()
      *
      * @uses 

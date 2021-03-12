@@ -8,36 +8,12 @@ class FavUser extends Model
 {
     protected $fillable = ['user_id', 'fav_user_id'];
 
-    protected $hidden = ['id', 'unique_id'];
-
-	protected $appends = ['fav_user_id', 'fav_user_unique_id'];
-	
-	public function getFavUserIdAttribute() {
-
-		return $this->id;
-	}
-
-	public function getFavUserUniqueIdAttribute() {
-
-		return $this->unique_id;
-	}
-
     public function favUser() {
 
         return $this->belongsTo(User::class,'fav_user_id');
     }
 
     public function user() {
-
-        return $this->belongsTo(User::class,'user_id');
-    }
-
-    public function favDetails() {
-
-        return $this->belongsTo(User::class,'fav_user_id');
-    }
-
-    public function userDetails() {
 
         return $this->belongsTo(User::class,'user_id');
     }

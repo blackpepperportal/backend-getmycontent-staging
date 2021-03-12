@@ -1458,9 +1458,11 @@ class PostsApiController extends Controller
 
            // Check the subscription is available
 
-            $base_query = $total_query = \App\FavUser::where('user_id', $request->id)->Approved()->whereHas('favUser')->with('favUser')->orderBy('fav_users.created_at', 'desc');
+            $base_query = $total_query = \App\FavUser::where('user_id', $request->id)->Approved()->orderBy('fav_users.created_at', 'desc')->whereHas('favUser');
 
             $fav_users = $base_query->skip($this->skip)->take($this->take)->get();
+
+            $fav_users = \App\Repositories\CommonRepository::favorites_list_response($fav_users, $request);
 
             $data['fav_users'] = $fav_users ?? [];
 
