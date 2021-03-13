@@ -143,7 +143,7 @@ return [
 
     167 =>  'Incorrect password',
 
-    168 => 'You have already blocked the user.please unblock and add to favourites',
+    168 => 'You have already blocked the user.please unblock and add to favorites',
 
     169 => 'Post not yet published',
 

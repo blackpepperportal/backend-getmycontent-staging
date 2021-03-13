@@ -328,4 +328,89 @@ class CommonRepository {
 
     }
 
+    /**
+     * @method followings_list_response()
+     *
+     * @uses Format the follow user response
+     *
+     * @created vithya R
+     * 
+     * @updated vithya R
+     *
+     * @param object $request
+     *
+     * @return object $payment_details
+     */
+
+    public static function favorites_list_response($fav_users, $request) {
+        
+         $fav_users = $fav_users->map(function ($data, $key) use ($request) {
+
+                $fav_user = \App\User::OtherResponse()->find($data->fav_user_id) ?? new \stdClass; 
+
+                $fav_user->is_fav_user = Helper::is_fav_user($request->id, $data->fav_user_id);
+
+                $fav_user->is_block_user = Helper::is_block_user($request->id, $data->fav_user_id);
+
+                $fav_user->is_owner = $request->id == $data->fav_user_id ? YES : NO;
+
+                $is_you_following = Helper::is_you_following($request->id, $data->fav_user_id);
+
+                $fav_user->show_follow = $is_you_following ? HIDE : SHOW;
+
+                $fav_user->show_unfollow = $is_you_following ? SHOW : HIDE;
+
+                $data->fav_user = $fav_user ?? [];
+
+                return $data;
+        });
+
+
+
+        return $fav_users;
+
+    }
+
+    /**
+     * @method chat_user_update()
+     *
+     * @uses 
+     *
+     * @created Bhawya
+     *
+     * @updated Bhawya
+     *
+     * @param boolean
+     *
+     * @return boolean response
+     */
+    public static function chat_user_update($from_user_id,$to_user_id) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $chat_user = \App\ChatUser::where('from_user_id', $from_user_id)->where('to_user_id', $to_user_id)->first() ?? new \App\ChatUser();
+
+            $chat_user->from_user_id = $from_user_id;
+
+            $chat_user->to_user_id = $to_user_id;
+
+            $chat_user->status = $chat_user->status ? NO : YES;
+            
+            $chat_user->save();
+            
+            DB::commit();
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            $response = ['success' => false, 'error' => $e->getMessage(), 'error_code' => $e->getCode()];
+
+            return response()->json($response, 200);
+
+        }
+
+    }
 }
