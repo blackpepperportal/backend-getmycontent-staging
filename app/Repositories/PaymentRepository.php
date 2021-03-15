@@ -1121,6 +1121,8 @@ class PaymentRepository {
 
         try {
 
+            $user = \App\User::where('users.unique_id', $request->user_unique_id)->first();
+
             $previous_payment = \App\UserSubscriptionPayment::where('from_user_id', $request->id)->where('to_user_id', $user_subscription->user_id)->where('is_current_subscription', YES)->first();
 
             $user_subscription_payment = new \App\UserSubscriptionPayment;
@@ -1140,11 +1142,11 @@ class PaymentRepository {
                 }
             }
 
-            $user_subscription_payment->user_subscription_id = $user_subscription->id;
+            $user_subscription_payment->user_subscription_id = $user_subscription->id ?? 0;
 
             $user_subscription_payment->from_user_id = $request->id;
 
-            $user_subscription_payment->to_user_id = $user_subscription->user_id;
+            $user_subscription_payment->to_user_id = $user->id;
 
             $user_subscription_payment->payment_id = $request->payment_id ?? "NO-".rand();
 
@@ -1182,9 +1184,11 @@ class PaymentRepository {
 
             // Add to post user wallet
 
-            self::user_subscription_payments_wallet_update($request, $user_subscription, $user_subscription_payment);
+            if($total > 0) {
+                self::user_subscription_payments_wallet_update($request, $user_subscription, $user_subscription_payment);
+            }
 
-            $request->request->add(['user_id' => $user_subscription->user_id]);
+            $request->request->add(['user_id' => $user->id]);
 
             \App\Repositories\CommonRepository::follow_user($request);
 
