@@ -2034,13 +2034,11 @@ class UserAccountApiController extends Controller
                 throw new Exception(api_error(135), 135);
             }
 
-            $user_subscription = $user->userSubscription;
-
+            $user_subscription = $user->userSubscription ?? new \App\UserSubscription;
+            
             if(!$user_subscription) {
                 
                 if($request->is_free == YES) {
-
-                    $user_subscription = new \App\UserSubscription;
 
                     $user_subscription->user_id = $user->id;
 
@@ -2048,7 +2046,7 @@ class UserAccountApiController extends Controller
                     
                 } else {
 
-                    throw new Exception(api_error(155), 155);   
+                    // throw new Exception(api_error(155), 155);   
  
                 }
 

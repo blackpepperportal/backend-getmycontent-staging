@@ -757,11 +757,12 @@ function revenue_graph($days) {
         $last_x_days_data->date = $current_date;
       
         $last_x_days_post_total_earnings = \App\PostPayment::where('status',PAID)->whereDate('paid_date', '=', $current_date)->sum('paid_amount');
-        $last_x_days_order_total_earnings = \App\OrderPayment::where('status',PAID)->whereDate('paid_date', '=', $current_date)->sum('total');
+
+        $last_x_days_subscription_total_earnings = \App\SubscriptionPayment::where('status',PAID)->whereDate('paid_date', '=', $current_date)->sum('amount');
       
         $last_x_days_data->total_post_earnings = $last_x_days_post_total_earnings ?: 0.00;
 
-        $last_x_days_data->total_order_earnings = $last_x_days_order_total_earnings ?: 0.00;
+        $last_x_days_data->total_subscription_earnings = $last_x_days_subscription_total_earnings ?: 0.00;
 
         array_push($last_x_days_revenues, $last_x_days_data);
 

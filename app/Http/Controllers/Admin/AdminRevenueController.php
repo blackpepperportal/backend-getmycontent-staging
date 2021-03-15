@@ -269,24 +269,23 @@ class AdminRevenueController extends Controller
         
         $data = new \stdClass;
 
-        $data->order_payments = \App\OrderPayment::where('status',PAID)->sum('total');
+        $data->user_tips = \App\UserTip::where('status',PAID)->sum('amount');
 
         $data->post_payments = \App\PostPayment::where('status',PAID)->sum('paid_amount');
 
         $data->subscription_payments = \App\UserSubscriptionPayment::where('status',PAID)->sum('amount');
 
-        $data->total_payments =  $data->order_payments + $data->post_payments + $data->subscription_payments;
+        $data->total_payments =  $data->user_tips + $data->post_payments + $data->subscription_payments;
 
-        $order_today_payments = \App\OrderPayment::where('status',PAID)->whereDate('paid_date',today())->sum('total');
+        $user_tips_today_payments = \App\UserTip::where('status',PAID)->whereDate('paid_date',today())->sum('amount');
 
         $post_today_payments = \App\PostPayment::where('status',PAID)->whereDate('paid_date',today())->sum('paid_amount');
 
         $subscription_today_payments = \App\SubscriptionPayment::where('status',PAID)->whereDate('paid_date',today())->sum('amount');
 
-        $data->today_payments = $order_today_payments + $post_today_payments + $subscription_today_payments;
+        $data->today_payments = $user_tips_today_payments + $post_today_payments + $subscription_today_payments;
 
         $data->analytics = revenue_graph(6);
-        
         
         return view('admin.revenues.dashboard')
                     ->with('page' , 'revenue-dashboard')
