@@ -74,6 +74,8 @@ class VerificationApiController extends Controller
 
             $data['document_status_formatted'] = document_status_formatted($is_document_verified ?? 0);
 
+            $data['document_status_text_formatted'] = document_status_text_formatted($is_document_verified ?? 0);
+
             $data['is_document_verified'] = $is_document_verified ?? 0;
 
             return $this->sendResponse($message = "", $success_code = "", $data);

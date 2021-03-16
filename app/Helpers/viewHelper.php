@@ -972,6 +972,18 @@ function document_status_formatted($status) {
     return isset($status_list[$status]) ? $status_list[$status] : tr('USER_KYC_DOCUMENT_NONE');
 }
 
+function document_status_text_formatted($status) {
+
+    $status_list = [
+        USER_DOCUMENT_NONE => tr('user_document_none'), 
+        USER_DOCUMENT_PENDING => tr('user_document_veification_pending'),
+        USER_DOCUMENT_APPROVED => tr('user_document_approved'), 
+        USER_DOCUMENT_DECLINED => tr('user_document_declined')
+    ];
+
+    return isset($status_list[$status]) ? $status_list[$status] : tr('USER_KYC_DOCUMENT_NONE');
+}
+
 /**
  * @method last_x_months_posts()
  *
