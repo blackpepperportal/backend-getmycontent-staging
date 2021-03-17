@@ -80,7 +80,7 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
 
         Route::post('update_profile', 'Api\UserAccountApiController@update_profile')->middleware(['CheckEmailVerify']);
             
-        Route::post('profile_categories_save','Api\User\UserAccountApiController@profile_categories_save');
+        Route::post('profile_categories_save','Api\UserAccountApiController@profile_categories_save');
 
         Route::post('user_premium_account_check', 'Api\UserAccountApiController@user_premium_account_check');
 

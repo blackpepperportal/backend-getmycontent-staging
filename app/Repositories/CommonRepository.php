@@ -438,22 +438,18 @@ class CommonRepository {
                     
                 $u_category_ids = $request->u_category_id;
                 
+
                 if(!is_array($u_category_ids)) {
 
                     $u_category_ids = explode(',', $u_category_ids);
                     
                 }
 
-                if($request->user_id) {
+                foreach ($request->u_category_id as $key => $category_id) {
 
-                    UserCategory::where('u_category_id', $request->u_category_id)->where('user_id', $user->id)->delete();
-                }  
+                    $ucategory = \App\UserCategory::where('u_category_id',$category_id )->where('user_id', $user->id)->first() ?? new \App\UserCategory;
 
-                foreach ($request->u_category_id as $key => $sub_category_id) {
-
-                    $ucategory = new UserCategory;
-
-                    $ucategory->u_category_id = $request->u_category_id;
+                    $ucategory->u_category_id = $category_id;
 
                     $ucategory->user_id = $user->id;
 
@@ -464,7 +460,7 @@ class CommonRepository {
 
             DB::commit(); 
 
-            $response_array = ['success' => true, 'message'=> api_success(167), 'code' => 167, 'data' => []];
+            $response_array = ['success' => true, 'message'=> api_success(180), 'code' => 180, 'data' => []];
 
             return $response_array;
             

@@ -122,6 +122,8 @@ return [
 
     161 => 'Valid Username',
 
+    180 => 'The user category update success',
+
     3000 => 'The chat deleted',
 
 ];

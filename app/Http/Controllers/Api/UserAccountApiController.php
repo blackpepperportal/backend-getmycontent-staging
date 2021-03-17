@@ -2790,14 +2790,14 @@ class UserAccountApiController extends Controller
         try {
 
             $rules = [
-                'u_category_id' => 'required|integer|exists:u_categories,id',
+                'u_category_id' => 'required|exists:u_categories,id',
             ];
 
             Helper::custom_validator($request->all(),$rules,$custom_errors = []);
 
             $user_details = User::firstWhere('id',$request->id);
 
-            if($user_details) {
+            if(!$user_details) {
 
                 throw new Exception(api_error(181), 181);
 
@@ -2814,7 +2814,16 @@ class UserAccountApiController extends Controller
                 throw new Exception($response['message'], $response['error_code'] );
             }
 
-            return $this->sendResponse($message = $response['message'], $code = $response['code'], $data = $response['data']);
+            $categories = \App\UCategory::where('status', APPROVED)->get();
+
+            foreach ($categories as $key => $value) {
+
+                $value->is_selected = \App\UserCategory::where('user_id', $request->id)->where('u_category_id', $value->id)->first() ? YES : NO;
+            }
+
+            $data['categories'] = $categories;
+
+            return $this->sendResponse($message = $response['message'], $code = $response['code'], $data = $data);
 
 
         } catch(Exception $e) {
