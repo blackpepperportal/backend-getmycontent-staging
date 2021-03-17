@@ -2,9 +2,12 @@ var app = require('express')();
 var fs = require('fs');
 var debug = require('debug')('FANSCLUB:sockets');
 var request = require('request');
+const http = require('http')
 var dotenv = require('dotenv').config();
 
-var port = process.env.PORT || '3000';
+const util = require('util');
+const setTimeoutPromise = util.promisify(setTimeout);
+var port = process.env.PORT || '3012';
 
 var chat_save_url = process.env.APP_URL;
 
@@ -45,6 +48,54 @@ io.on('connection', function (socket) {
     socket.join(socket.handshake.query.commonid);
 
     socket.emit('connected', {'sessionID' : socket.handshake.query.commonid});
+
+    socket.on('notification update', function(data) {
+
+        console.log('notification update', data);
+
+        socket.handshake.query.myid = data.myid;
+
+        socket.handshake.query.commonid = data.commonid;
+
+        socket.commonid = socket.handshake.query.commonid;
+
+        socket.join(socket.handshake.query.commonid);
+
+        global.chat_notification = 0;
+        global.bell_notification = 0;
+
+        setInterval(function (){
+            
+            var notification_receiver = "user_id_"+data.myid;
+
+            const url = chat_save_url+'api/user/get_notifications_count?user_id='+data.myid;
+
+            request.get(url, function (error, response, body) {
+
+                if(body && body != undefined){
+
+                    const res_data = JSON.parse(body);
+
+                    if(res_data.data && res_data.data != undefined){
+
+                        chat_notification = res_data.data.chat_notification;
+                        
+                        bell_notification = res_data.data.bell_notification;
+
+                        console.log('notification_receiver', notification_receiver);
+
+                        let notification_data = {chat_notification:chat_notification, bell_notification:bell_notification};
+
+                        console.log('notification_data', notification_data);
+
+                        var notification_status = socket.broadcast.to(notification_receiver).emit('notification', notification_data);
+                    }
+                }
+            })            
+
+        },120000);
+
+    });
 
     socket.on('update sender', function(data) {
 
@@ -105,6 +156,5 @@ io.on('connection', function (socket) {
     socket.on('disconnect', function(data) {
 
         console.log('disconnect', data);
-
     });
 });

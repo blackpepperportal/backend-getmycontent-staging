@@ -118,10 +118,15 @@
 
                                     <td>{{ $i+$users->firstItem() }}</td>
 
-                                    <td>
+                                    <td class="white-space-nowrap">
                                         <a href="{{route('admin.users.view' , ['user_id' => $user->id])}}" class="custom-a">
-                                            {{$user->name}}
+                                            {{$user->name ?: tr('not_available')}}
                                         </a>
+
+                                        @if($user->is_verified_badge == YES && Setting::get('is_verified_badge_enabled'))
+                                            <img src="{{Setting::get('verified_badge_file')}}" width="16" height="16" /> 
+                                        @endif
+
                                         @if($user->user_account_type == USER_PREMIUM_ACCOUNT)
                                             <b><i class="icon-badge text-green"></i></b>
                                         @endif
@@ -229,6 +234,22 @@
 
                                                 @endif
 
+                                                @if(Setting::get('is_verified_badge_enabled'))
+
+
+                                                    @if($user->is_verified_badge == YES)
+
+                                                        <a class="dropdown-item" href="{{  route('admin.users.verify_badge' , ['user_id' => $user->id] )  }}">&nbsp;{{ tr('remove_badge') }}
+                                                    </a>
+
+                                                    @else
+
+                                                        <a class="dropdown-item" href="{{ route('admin.users.verify_badge' , ['user_id' => $user->id] ) }}">&nbsp;{{ tr('add_badge') }}</a>
+
+                                                    @endif
+
+                                                @endif
+
                                                 <div class="dropdown-divider"></div>
 
                                                 <a class="dropdown-item" href="{{ route('admin.posts.index', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('posts') }}</a>
@@ -256,6 +277,8 @@
                                                 <a class="dropdown-item" href="{{ route('admin.user_wallets.view', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('wallets') }}</a>
 
                                                 <a class="dropdown-item" href="{{ route('admin.user_tips.index', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('tip_payments') }}</a>
+
+                                                <a class="dropdown-item" href="{{ route('admin.users.bank_details', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('bank_details') }}</a>
 
                                             </div>
 

@@ -89,6 +89,22 @@
 
                                                         <div class="form-group col-md-6">
                                                                        
+                                                            <label>{{ tr('is_mailgun_email_validate') }}</label>
+                                                            <br>
+                                                            <label>
+                                                                <input required type="radio" name="is_mailgun_email_validate" value="1" class="flat-red" @if(Setting::get('is_mailgun_email_validate') == 1) checked @endif>
+                                                                {{tr('yes')}}
+                                                            </label>
+
+                                                            <label>
+                                                                <input required type="radio" name="is_mailgun_email_validate" class="flat-red"  value="0" @if(Setting::get('is_mailgun_email_validate') == 0) checked @endif>
+                                                                {{tr('no')}}
+                                                            </label>
+                                                    
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                                       
                                                             <label>{{ tr('is_email_notification') }}</label>
                                                             <br>
                                                             <label>
@@ -137,6 +153,22 @@
 
                                                         <div class="form-group col-md-6">
                                                                        
+                                                            <label>{{ tr('notification_count_update_enabled') }}</label>
+                                                            <br>
+                                                            <label>
+                                                                <input required type="radio" name="is_notification_count_enabled" value="1" class="flat-red" @if(Setting::get('is_notification_count_enabled') == 1) checked @endif>
+                                                                {{tr('yes')}}
+                                                            </label>
+
+                                                            <label>
+                                                                <input required type="radio" name="is_notification_count_enabled" class="flat-red"  value="0" @if(Setting::get('is_notification_count_enabled') == 0) checked @endif>
+                                                                {{tr('no')}}
+                                                            </label>
+                                                    
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                                       
                                                             <label>{{ tr('s3_bucket') }}</label>
                                                             <br>
                                                             <label>
@@ -151,20 +183,51 @@
                                                     
                                                         </div>
 
-                                                        <div class="form-group col-md-6">
-                                                                       
-                                                            <label>{{ tr('is_verified_badge_enabled') }}</label>
-                                                            <br>
-                                                            <label>
-                                                                <input required type="radio" name="is_verified_badge_enabled" value="1" class="flat-red" @if(Setting::get('is_verified_badge_enabled') == 1) checked @endif>
-                                                                {{tr('enable')}}
-                                                            </label>
+                                                        <div class="row">
 
-                                                            <label>
-                                                                <input required type="radio" name="is_verified_badge_enabled" class="flat-red"  value="0" @if(Setting::get('is_verified_badge_enabled') == 0) checked @endif>
-                                                                {{tr('disable')}}
-                                                            </label>
-                                                    
+                                                        <div class="col-md-12">
+
+                                                            <hr><h4>Verified Badge Settings</h4><hr>
+
+                                                        </div>
+
+                                                            <div class="form-group col-md-6">
+                                                                           
+                                                                <label>{{ tr('is_verified_badge_enabled') }}</label>
+                                                                <br>
+                                                                <label>
+                                                                    <input required type="radio" name="is_verified_badge_enabled" value="1" class="flat-red" @if(Setting::get('is_verified_badge_enabled') == 1) checked @endif>
+                                                                    {{tr('enable')}}
+                                                                </label>
+
+                                                                <label>
+                                                                    <input required type="radio" name="is_verified_badge_enabled" class="flat-red"  value="0" @if(Setting::get('is_verified_badge_enabled') == 0) checked @endif>
+                                                                    {{tr('disable')}}
+                                                                </label>
+                                                        
+                                                            </div>
+
+                                                            <div class="form-group col-md-6">
+                                                                           
+                                                                <label>{{ tr('verified_badge_text') }}</label>
+                                                                
+                                                                <input type="text" name="verified_badge_text" class="form-control" value="{{Setting::get('verified_badge_text')}}">
+                                                        
+                                                            </div>
+
+                                                            <div class="form-group col-md-6">
+                                                                <label for="verified_badge_file">{{tr('verified_badge_file')}} *</label>
+                                                                <p class="txt-warning">{{tr('png_image_note')}}</p>
+                                                                <input type="file" class="form-control" id="verified_badge_file" name="verified_badge_file" accept="image/png" placeholder="{{tr('verified_badge_file')}}">
+                                                            
+                                                            </div>
+                                                            
+                                                            @if(Setting::get('verified_badge_file'))
+
+                                                                <img class="img img-thumbnail m-b-20" style="width: 40%" src="{{Setting::get('verified_badge_file')}}" alt="{{Setting::get('site_name')}}"> 
+
+                                                            @endif
+
                                                         </div>
 
                                                         <div class="form-group col-md-6">

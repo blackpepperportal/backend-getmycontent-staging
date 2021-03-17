@@ -80,7 +80,7 @@
                                 <table class="table table-xl mb-0">
                                     <tr >
                                         <th style="border-top: 0">{{tr('username')}}</th>
-                                        <td style="border-top: 0">{{$user->name}}</td>
+                                        <td style="border-top: 0">{{$user->username}}</td>
                                     </tr>
 
                                     <tr>
@@ -336,6 +336,12 @@
 
                                         </div>
 
+                                        <div class="col-6">
+
+                                             <a class="btn btn-outline-danger btn-block btn-min-width mr-1 mb-1" href="{{ route('admin.posts.index', ['user_id' => $user->id] ) }}">&nbsp;{{ tr('posts') }}</a>
+
+                                      </div>
+
 
                                         <div class="col-6">
 
@@ -370,6 +376,58 @@
                                     </div>
 
                                 </div>
+
+                                <div class="table-responsive">
+
+                                    <hr>
+
+                                    <h4>{{tr('social_settings')}}</h4>
+                                    <hr>
+
+                                    <table class="table table-xl mb-0">
+                                        <tr >
+                                            <th style="border-top: 0">{{tr('amazon_wishlist')}}</th>
+                                            <td style="border-top: 0">{{$user->amazon_wishlist ?: "-"}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>{{tr('website')}}</th>
+                                            <td>{{$user->website ?: "-"}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>{{tr('instagram_link')}}</th>
+                                            <td>{{$user->instagram_link ?: "-"}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>{{tr('facebook_link')}}</th>
+                                            <td>{{$user->facebook_link ?: "-"}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>{{tr('twitter_link')}}</th>
+                                            <td>{{$user->twitter_link ?: "-"}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>{{tr('linkedin_link')}}</th>
+                                            <td>{{$user->linkedin_link ?: "-"}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>{{tr('pinterest_link')}}</th>
+                                            <td>{{$user->pinterest_link ?: "-"}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>{{tr('youtube_link')}}</th>
+                                            <td>{{$user->youtube_link ?: "-"}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>{{tr('twitch_link')}}</th>
+                                            <td>{{$user->twitch_link ?: "-"}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+
+
 
                             </div>
                        

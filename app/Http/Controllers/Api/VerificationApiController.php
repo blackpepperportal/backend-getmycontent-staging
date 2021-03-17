@@ -51,7 +51,9 @@ class VerificationApiController extends Controller
 
         	$documents = \App\Document::CommonResponse()->get();
 
-            $is_delete_edit_option = $this->loginUser->is_document_verified == USER_DOCUMENT_APPROVED ? NO : YES;
+            $is_document_verified = $this->loginUser->is_document_verified;
+
+            $is_delete_edit_option = $is_document_verified == USER_DOCUMENT_APPROVED || $is_document_verified == USER_DOCUMENT_PENDING ? NO : YES;
 
         	foreach ($documents as $key => $document) {
 
@@ -70,9 +72,11 @@ class VerificationApiController extends Controller
 
         	$data['documents'] = $documents;
 
-            $data['document_status_formatted'] = document_status_formatted($this->loginUser->is_document_verified ?? 0);
+            $data['document_status_formatted'] = document_status_formatted($is_document_verified ?? 0);
 
-            $data['is_document_verified'] = $this->loginUser->is_document_verified ?? 0;
+            $data['document_status_text_formatted'] = document_status_text_formatted($is_document_verified ?? 0);
+
+            $data['is_document_verified'] = $is_document_verified ?? 0;
 
             return $this->sendResponse($message = "", $success_code = "", $data);
 
@@ -113,6 +117,13 @@ class VerificationApiController extends Controller
 
             Helper::custom_validator($request->all(), $rules, $custom_errors = []);
 
+            $user_document = \App\UserDocument::where('user_id', $request->id)->where('document_id', $request->document_id)->first();
+
+            if($user_document) {
+
+                // throw new Exception(api_success(114), 114);
+
+            }
             // Validation end
 
             $request->request->add(['user_id' => $request->id]);

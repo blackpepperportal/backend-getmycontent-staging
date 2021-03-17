@@ -8,7 +8,7 @@ class Post extends Model
 {
 	protected $hidden = ['id','unique_id'];
 
-	protected $appends = ['amount_formatted','post_id','post_unique_id', 'username', 'user_displayname','user_picture', 'user_unique_id', 'total_likes', 'total_comments'];
+	protected $appends = ['amount_formatted','post_id','post_unique_id', 'username', 'user_displayname','user_picture', 'user_unique_id', 'total_likes', 'total_comments','is_verified_badge'];
 
 	public function getAmountFormattedAttribute() {
 
@@ -50,6 +50,15 @@ class Post extends Model
 		// unset($this->user);
 
 		return $name ?? "";
+	}
+
+	public function getIsVerifiedBadgeAttribute() {
+
+		$is_verified_badge = $this->user->is_verified_badge ?? "";
+
+		// unset($this->user);
+
+		return $is_verified_badge ?? "";
 	}
 
 	public function getUserPictureAttribute() {

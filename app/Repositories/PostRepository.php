@@ -8,6 +8,10 @@ use Log, Validator, Setting, Exception, DB;
 
 use App\User;
 
+use Carbon\Carbon;
+
+use App\Repositories\CommonRepository as CommonRepo;
+
 class PostRepository {
 
     /**
@@ -28,13 +32,9 @@ class PostRepository {
         
         $posts = $posts->map(function ($post, $key) use ($request) {
 
-                        $post->is_user_needs_pay = $post->is_paid_post;
+                        $post->is_user_needs_pay = $post->is_paid_post && $post->amount > 0 ? YES : NO;
 
                         $post->delete_btn_status =  $request->id == $post->user_id ? YES : NO;
-
-                        // $post->is_user_subscribed = NO;
-
-                        // $post->is_ppv = NO;
 
                         $post->is_user_liked = $post->postLikes->where('user_id', $request->id)->count() ? YES : NO;
 
@@ -45,6 +45,8 @@ class PostRepository {
                         $post->payment_info = self::posts_user_payment_check($post, $request);
 
                         $is_user_needs_pay = $post->payment_info->is_user_needs_pay ?? NO; 
+
+                        $post->is_user_subscribed = $post->payment_info->is_user_subscribed ?? NO; 
 
                         $post->postFiles = \App\PostFile::where('post_id', $post->post_id)->when($is_user_needs_pay == NO, function ($q) use ($is_user_needs_pay) {
                                                     return $q->OriginalResponse();
@@ -129,14 +131,35 @@ class PostRepository {
 
         $post_user = $post->user ?? [];
 
-        $data['is_user_needs_pay'] = NO;
+        $data['is_user_needs_pay'] = $data['is_free_account'] =  NO;
 
-        $data['post_payment_type'] = $data['payment_text'] = "";
+        $data['post_payment_type'] = $data['payment_text'] = $data['is_user_subscribed'] = "";
 
         if(!$post_user) {
 
             goto post_end;
 
+        }
+
+        if($post_user->user_id == $request->id) {
+
+            goto post_end;
+        }
+
+        $follower = \App\Follower::where('status', YES)->where('follower_id', $request->id)->where('user_id', $post_user->user_id)->first();
+
+        if(!$follower) {
+
+            $data['is_free_account'] =  NO;
+ 
+        }
+
+        $user_subscription = \App\UserSubscription::where('user_id', $post_user->id)->first();
+
+        if(!$user_subscription) {
+
+            $data['is_free_account'] =  YES;
+ 
         }
 
         $post_user_account_type = $post_user->user_account_type ?? USER_FREE_ACCOUNT;
@@ -173,23 +196,29 @@ class PostRepository {
 
             if($user_subscription) {
 
-                if($user_subscription->monthly_amount <= 0 && $user_subscription->yearly_amount <= 0) {
+                $current_date = Carbon::now()->format('Y-m-d');
 
-                } else {
+                $check_user_subscription_payment = \App\UserSubscriptionPayment::where('user_subscription_id', $user_subscription->id)
+                    ->where('from_user_id', $request->id)
+                    ->where('is_current_subscription',YES)
+                    ->whereDate('expiry_date','>=',$current_date)
+                    ->where('to_user_id', $post_user->id)
+                    ->count();
+                
+                if(!$check_user_subscription_payment) {
 
-                    $check_user_subscription_payment = \App\UserSubscriptionPayment::where('user_subscription_id', $user_subscription->id)->where('from_user_id', $request->id)->count();
+                    $data['is_user_needs_pay'] = YES;
 
-                    if(!$check_user_subscription_payment) {
+                    $data['post_payment_type'] = POSTS_PAYMENT_SUBSCRIPTION;
 
-                        $data['is_user_needs_pay'] = YES;
+                    $data['payment_text'] = tr('unlock_subscription_text', $user_subscription->monthly_amount_formatted);
 
-                        $data['post_payment_type'] = POSTS_PAYMENT_SUBSCRIPTION;
-
-                        $data['payment_text'] = tr('unlock_subscription_text', $user_subscription->monthly_amount_formatted);
-
-                    }
                 }
 
+
+                // $data['is_user_subscribed'] = check_user_subscribed($post_user,$request);
+
+               
             }
 
         } else {
@@ -213,6 +242,9 @@ class PostRepository {
                 $data['payment_text'] = tr('unlock_post_text', $post->amount_formatted);
             }
         
+    
+
+            // $data['is_user_subscribed'] = check_user_subscribed($post_user,$request);
         }
 
         post_end:

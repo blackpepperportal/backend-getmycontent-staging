@@ -95,6 +95,17 @@
                                             <td>{{ $user_tip->payment_mode}}</td>
                                         </tr>
 
+                                        <tr>
+                                            <td>{{ tr('admin_amount')}} </td>
+                                            <td>{{ $user_tip->admin_amount_formatted}}</td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td>{{ tr('user_amount')}} </td>
+                                            <td>{{ $user_tip->user_amount_formatted}}</td>
+                                        </tr>
+
 
                                     </tbody>
 

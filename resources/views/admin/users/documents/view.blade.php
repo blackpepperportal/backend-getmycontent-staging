@@ -34,9 +34,14 @@
 
                     <div class="heading-elements">
 
-                        @if($user->is_document_verified != USER_DOCUMENT_APPROVED && $user_documents->count() > 0)
+                        @if($user_documents->count() > 0)
 
-                            <a href="{{ route('admin.user_documents.verify',['user_id'=> $user->id]) }}" class="btn btn-lg btn-success text-uppercase"> <i class="icon-badge"></i> {{tr('verify')}}</a>
+                            <a class="btn btn-success" href="{{route('admin.user_documents.verify', ['user_id' => $user->user_id,'status'=>USER_DOCUMENT_APPROVED])}}"><i class="icon-badge"></i> {{tr('verify')}}
+                            </a>
+
+                            <a class="btn btn-success" href="{{route('admin.user_documents.verify', ['user_id' => $user->user_id,'status'=>USER_DOCUMENT_DECLINED])}}">
+                                {{tr('decline')}}
+                            </a>
 
                         @endif
 

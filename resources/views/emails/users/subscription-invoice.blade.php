@@ -516,7 +516,7 @@
                                                         <h3>{{$data['subscription_payments']['payment_id'] ?? ''}}</h3>
                                                     </td>
                                                     <td>
-                                                        <h3 class="align-right">{{common_date($data['subscription_payments']['paid_date'], Auth::guard('admin')->user()->timezone, 'd M Y')}}</h3>
+                                                        <h3 class="align-right">{{common_date($data['subscription_payments']['paid_date'], $data['timezone'], 'd M Y')}}</h3>
                                                     </td>
                                                 </tr>
                                                 <tr>

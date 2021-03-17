@@ -87,8 +87,11 @@ class UserAccountApiController extends Controller
             } else {
 
                 $rules = [
-                        'first_name' => 'required|max:255|min:2',
-                        'last_name' => 'required|max:255|min:1',
+
+                        'name' => 'required|max:255|min:2',
+                        'username' => 'required|max:255|min:1',
+                        // 'first_name' => 'required|max:255|min:2',
+                        // 'last_name' => 'required|max:255|min:1',
                         'email' => 'required|email|regex:/(.+)@(.+)\.(.+)/i|max:255|min:2',
                         'password' => 'required|min:6',
                         'picture' => 'mimes:jpeg,jpg,bmp,png',
@@ -101,6 +104,14 @@ class UserAccountApiController extends Controller
                 $rules = ['email' => 'unique:users,email'];
 
                 Helper::custom_validator($request->all(), $rules);
+
+            }
+
+            $user_details = User::firstWhere('username','=',$request->username);
+           
+            if($user_details) {
+
+                throw new Exception(api_error(181), 181);
 
             }
 
@@ -130,6 +141,8 @@ class UserAccountApiController extends Controller
 
             }
 
+            $user->name = $request->name ?? "";
+
             $user->first_name = $request->first_name ?? "";
 
             $user->last_name = $request->last_name ?? "";
@@ -137,6 +150,8 @@ class UserAccountApiController extends Controller
             $user->email = $request->email ?? "";
 
             $user->mobile = $request->mobile ?? "";
+
+            $user->username = $request->username ?? "";
 
             if($request->has('password')) {
 
@@ -382,6 +397,49 @@ class UserAccountApiController extends Controller
     }
 
     /**
+     * @method username_validation()
+     *
+     * @uses
+     * 
+     * @created Bhawya N 
+     *
+     * @updated Bhawya N
+     *
+     * @param object $request - User Email & Password
+     *
+     * @return Json response with user details
+     */
+    public function username_validation(Request $request) {
+
+        try {
+            
+            $rules = [
+                // 'username' => 'required',
+            ];
+
+            Helper::custom_validator($request->all(), $rules);
+
+            $user = User::firstWhere('username','=',$request->username);
+           
+            if($user) {
+
+                throw new Exception(api_error(181), 181);
+
+            }
+            
+            return $this->sendResponse(api_success(161), 161, []);
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
+        }
+    
+    }
+
+    /**
      * @method forgot_password()
      *
      * @uses If the user forgot his/her password he can hange it over here
@@ -457,7 +515,7 @@ class UserAccountApiController extends Controller
 
             $email_data['page'] = "emails.users.forgot-password";
 
-            $email_data['url'] = Setting::get('frontend_url')."resetpassword/".$token;
+            $email_data['url'] = Setting::get('frontend_url')."reset-password/".$token;
             
             $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
@@ -495,7 +553,7 @@ class UserAccountApiController extends Controller
 
             $rules = [
                 'password' => 'required|confirmed|min:6',
-                'token' => 'required|string',
+                'reset_token' => 'required|string',
                 'password_confirmation'=>'required'
             ]; 
 
@@ -503,7 +561,7 @@ class UserAccountApiController extends Controller
 
             DB::beginTransaction();
 
-            $password_reset = \App\PasswordReset::where('token', $request->token)->first();
+            $password_reset = \App\PasswordReset::where('token', $request->reset_token)->first();
 
             if(!$password_reset){
 
@@ -520,7 +578,9 @@ class UserAccountApiController extends Controller
 
             DB::commit();
 
-            return $this->sendResponse(api_success(153), $success_code = 153, $data = []);
+            $data = $user;
+
+            return $this->sendResponse(api_success(153), $success_code = 153, $data);
 
         } catch(Exception $e) {
 
@@ -649,6 +709,12 @@ class UserAccountApiController extends Controller
 
             $user->categories = $categories;
 
+            $video_query = $image_query = \App\PostFile::where('user_id', $request->id);
+
+            $user->total_videos = $video_query->where('file_type', POSTS_VIDEO)->count();
+
+            $user->total_images = $image_query->where('file_type', POSTS_IMAGE)->count();
+
             return $this->sendResponse($message = "", $success_code = "", $user);
 
         } catch(Exception $e) {
@@ -703,6 +769,15 @@ class UserAccountApiController extends Controller
                 throw new Exception(api_error(1002) , 1002);
             }
 
+            $user_details = User::where('id', '!=' , $request->id)
+                ->firstWhere('username','=',$request->username);
+           
+            if($user_details) {
+
+                throw new Exception(api_error(181), 181);
+
+            }
+
             $user->name = $request->name ?: $user->name;
 
             $username = $request->username ?: $user->username;
@@ -729,6 +804,20 @@ class UserAccountApiController extends Controller
             $user->website = $request->filled('website') ? $request->website : "";
 
             $user->amazon_wishlist = $request->filled('amazon_wishlist') ? $request->amazon_wishlist : "";
+
+            $user->instagram_link = $request->filled('instagram_link') ? $request->instagram_link : "";
+            
+            $user->facebook_link = $request->filled('facebook_link') ? $request->facebook_link : "";
+            
+            $user->twitter_link = $request->filled('twitter_link') ? $request->twitter_link : "";
+
+            $user->linkedin_link = $request->filled('linkedin_link') ? $request->linkedin_link : "";
+
+            $user->pinterest_link = $request->filled('pinterest_link') ? $request->pinterest_link : "";
+
+            $user->youtube_link = $request->filled('youtube_link') ? $request->youtube_link : "";
+
+            $user->twitch_link = $request->filled('twitch_link') ? $request->twitch_link : "";
 
             // Upload picture
             if($request->hasFile('picture') != "") {
@@ -1731,11 +1820,17 @@ class UserAccountApiController extends Controller
 
             $data['is_block_user'] = Helper::is_block_user($request->id, $user->user_id);
 
-            $data['total_followers'] = \App\Follower::where('user_id', $request->user_id)->count();
+            $data['total_followers'] = \App\Follower::where('user_id', $request->user_id)->where('status', YES)->count();
 
-            $data['total_followings'] = \App\Follower::where('follower_id', $request->user_id)->count();
+            $data['total_followings'] = \App\Follower::where('follower_id', $request->user_id)->where('status', YES)->count();
 
             $data['total_posts'] = \App\Post::where('user_id', $request->user_id)->count();
+
+            $video_query = $image_query = \App\PostFile::where('user_id', $request->user_id);
+
+            $data['total_videos'] = $video_query->where('file_type', POSTS_VIDEO)->count();
+
+            $data['total_images'] = $image_query->where('file_type', POSTS_IMAGE)->count();
 
             return $this->sendResponse($message = "", $code = "", $data);
 
@@ -1971,13 +2066,11 @@ class UserAccountApiController extends Controller
                 throw new Exception(api_error(135), 135);
             }
 
-            $user_subscription = $user->userSubscription;
-
+            $user_subscription = $user->userSubscription ?? new \App\UserSubscription;
+            
             if(!$user_subscription) {
                 
                 if($request->is_free == YES) {
-
-                    $user_subscription = new \App\UserSubscription;
 
                     $user_subscription->user_id = $user->id;
 
@@ -1985,7 +2078,7 @@ class UserAccountApiController extends Controller
                     
                 } else {
 
-                    throw new Exception(api_error(155), 155);   
+                    // throw new Exception(api_error(155), 155);   
  
                 }
 
@@ -2278,6 +2371,10 @@ class UserAccountApiController extends Controller
 
         try {
 
+            DB::beginTransaction();
+
+            $bell_notification = \App\BellNotification::where('to_user_id', $request->id)->where('is_read', BELL_NOTIFICATION_STATUS_UNREAD)->update(['is_read' => BELL_NOTIFICATION_STATUS_READ]);
+
             $base_query = $total_query = \App\BellNotification::where('to_user_id', $request->id)->orderBy('created_at', 'desc')->whereHas('fromUser');
 
             $notifications = $base_query->skip($this->skip)->take($this->take)->get() ?? [];
@@ -2290,10 +2387,14 @@ class UserAccountApiController extends Controller
 
             $data['total'] = $total_query->count() ?? 0;
 
+            DB::commit();
+
             return $this->sendResponse($message = "", $success_code = "", $data);
 
         } catch(Exception $e) {
 
+            DB::rollback();
+            
             return $this->sendError($e->getMessage(), $e->getCode());
 
         }
@@ -2386,6 +2487,12 @@ class UserAccountApiController extends Controller
 
             Helper::custom_validator($request->all(),$rules, $custom_errors=[]);
 
+            if($request->id == $request->user_id) {
+
+                throw new Exception(api_error(182) , 182);
+                
+            }
+
             $check_blocked_user = \App\BlockUser::where('block_by', $request->id)->where('blocked_to', $request->user_id)->first();
 
             // Check the user already blocked 
@@ -2429,9 +2536,9 @@ class UserAccountApiController extends Controller
 
             $data = [];
 
-            $data['total_followers'] = \App\Follower::where('user_id', $request->id)->count();
+            $data['total_followers'] = \App\Follower::where('user_id', $request->id)->where('status', YES)->count();
 
-            $data['total_followings'] = \App\Follower::where('follower_id', $request->id)->count();
+            $data['total_followings'] = \App\Follower::where('follower_id', $request->id)->where('status', YES)->count();
 
             return $this->sendResponse(api_success($code), $code, $data);
 

@@ -143,7 +143,7 @@ return [
 
     167 =>  'Incorrect password',
 
-    168 => 'You have already blocked the user.please unblock and add to favourites',
+    168 => 'You have already blocked the user.please unblock and add to favorites',
 
     169 => 'Post not yet published',
 
@@ -153,4 +153,11 @@ return [
 
     300 =>  'The category not found'
 
+    180 => 'The Post Content Should not be empty',
+
+    181 => 'That username already taken. Please try another',
+
+    3000 =>  'The Chat info not found',
+
+    182 =>  'You can\'t block the User',
 ];

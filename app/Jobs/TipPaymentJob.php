@@ -80,7 +80,7 @@ class TipPaymentJob implements ShouldQueue
 
             if (Setting::get('is_email_notification') == YES && $user_details) {
                
-                $email_data['subject'] = tr('user_receive_tips_message');
+                $email_data['subject'] = tr('user_tips_message', formatted_amount($user_tips->amount ?? 0.00) )." ".$from_user->name ?? ''; 
                
                 $email_data['message'] = $message;
 

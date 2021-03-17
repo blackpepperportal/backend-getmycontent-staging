@@ -20,6 +20,17 @@ use App\Repositories\PaymentRepository as PaymentRepo;
 
 class ApplicationController extends Controller
 {
+
+    protected $loginUser;
+
+    public function __construct(Request $request) {
+        
+        $this->loginUser = User::find($request->id);
+
+        $this->timezone = $this->loginUser->timezone ?? "America/New_York";
+
+    }
+
     /**
      * @method static_pages_api()
      *
@@ -157,6 +168,7 @@ class ApplicationController extends Controller
                     $request->request->add([
                     'total' => $total, 
                     'customer_id' => $card->customer_id,
+                    'card_token' => $card->card_token,
                     'user_pay_amount' => $user_pay_amount,
                     'paid_amount' => $user_pay_amount,
                 ]);
@@ -244,13 +256,17 @@ class ApplicationController extends Controller
             
             $message = $request->message;
 
-            $from_chat_user_inputs = ['from_user_id' => $request->from_user_id, 'to_user_id' => $request->to_user_id];
+            // $from_chat_user_inputs = ['from_user_id' => $request->from_user_id, 'to_user_id' => $request->to_user_id];
 
-            $from_chat_user = \App\ChatUser::updateOrCreate($from_chat_user_inputs);
+            \App\Repositories\CommonRepository::chat_user_update($request->from_user_id,$request->to_user_id);
 
-            $to_chat_user_inputs = ['from_user_id' => $request->to_user_id, 'to_user_id' => $request->from_user_id];
+            \App\Repositories\CommonRepository::chat_user_update($request->to_user_id,$request->from_user_id);
 
-            $to_chat_user = \App\ChatUser::updateOrCreate($to_chat_user_inputs);
+            // $from_chat_user = \App\ChatUser::updateOrCreate($from_chat_user_inputs);
+
+            // $to_chat_user_inputs = ['from_user_id' => $request->to_user_id, 'to_user_id' => $request->from_user_id];
+
+            // $to_chat_user = \App\ChatUser::updateOrCreate($to_chat_user_inputs);
 
             // $from_chat_user = \App\ChatUser::where('from_user_id', $request->from_user_id)->where('to_user_id', $request->to_user_id)->first();
 
@@ -322,4 +338,47 @@ class ApplicationController extends Controller
     }
 
 
+    /**
+     * @method chat_messages_save()
+     * 
+     * @uses - To save the chat message.
+     *
+     * @created vidhya R
+     *
+     * @updated vidhya R
+     * 
+     * @param 
+     *
+     * @return No return response.
+     *
+     */
+
+    public function get_notifications_count(Request $request) {
+
+        try {
+
+            Log::info("Notification".print_r($request->all(),true));
+
+            $rules = [
+                'user_id' => 'required|exists:users,id',
+            ];
+
+            Helper::custom_validator($request->all(),$rules);
+
+            $chat_message = \App\ChatMessage::where('to_user_id', $request->user_id)->where('status',NO);
+
+            $bell_notification = \App\BellNotification::where('to_user_id', $request->user_id)->where('is_read',BELL_NOTIFICATION_STATUS_UNREAD);
+
+            $data['chat_notification'] = $chat_message->count() ?: 0;
+
+            $data['bell_notification'] = $bell_notification->count() ?: 0;
+
+            return $this->sendResponse("", "", $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+    
+    }
 }

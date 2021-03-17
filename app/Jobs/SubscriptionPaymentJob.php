@@ -97,6 +97,8 @@ class SubscriptionPaymentJob implements ShouldQueue
 
                      $payment->customer_id = $card->customer_id;
 
+                     $payment->card_token = $card->card_token;
+
                      $payment->user_pay_amount = $user_pay_amount;
 
                      $payment->paid_amount = $card->paid_amount;

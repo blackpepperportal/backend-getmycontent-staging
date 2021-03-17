@@ -162,7 +162,7 @@ class WalletApiController extends Controller
 
                 }
 
-                $request->request->add(['customer_id' => $user_card->customer_id]);
+                $request->request->add(['customer_id' => $user_card->customer_id,'card_token' => $user_card->card_token]);
                 
                 $card_payment_response = PaymentRepo::user_wallets_payment_by_stripe($request)->getData();
 

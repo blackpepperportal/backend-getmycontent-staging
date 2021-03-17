@@ -76,8 +76,9 @@
                                             <div class="media">
 
                                                 <div class="media-body text-left w-100">
-                                                    <h3 class="danger">{{formatted_amount($data->order_payments)}}</h3>
-                                                    <span>{{tr('order_payments')}}</span>
+                                                    <h3 class="danger">{{formatted_amount($data->user_tips)}}</h3>
+                                                    <a href="{{route('admin.user_tips.index')}}">{{tr('tip_payments')}}
+                                                    </a>
                                                 </div>
 
                                                 <div class="media-right media-middle">
@@ -253,12 +254,14 @@
 
                                         ?>]
                                     
-                               }, {
-                                   label: "Order Earnings",
+                               }, 
+
+                               {
+                                   label: "Subscription Earnings",
                                    backgroundColor: "#8e5ea2",
                                    data: [<?php 
                                             foreach ($data->analytics->last_x_days_revenues as $value) {
-                                                echo $value->total_order_earnings.',';
+                                                echo $value->total_subscription_earnings.',';
                                             }
 
                                         ?>]
@@ -268,7 +271,7 @@
                 options: {
                     title: {
                         display: true,
-                        text: 'Total Post & Order Earnings (in {{Setting::get('currency')}})'
+                        text: 'Total Post Earnings (in {{Setting::get('currency')}})'
                     }
                 }
             });
