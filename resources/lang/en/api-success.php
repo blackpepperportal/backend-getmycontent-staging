@@ -54,7 +54,7 @@ return [
 
     127 => "The product is marked as out of stock..!!",
 
-    128 => "You're following the :other_key now.",
+    128 => "You are now following :other_key now.",
     
     129 => "Unfollowed.",
 
@@ -86,9 +86,9 @@ return [
 
     143 => 'Added to bookmarks',
 
-    144 => 'Added to favourite list',
+    144 => 'Added to favorite list',
 
-    145 => 'Removed from favourites.',
+    145 => 'Removed from favorites.',
 
     146 => 'Thanks for the tips',
 
@@ -118,6 +118,10 @@ return [
 
     159 => 'Badge Verify Enabled',
 
-    160 => 'Badge Verify Disabled'
+    160 => 'Badge Verify Disabled',
+
+    161 => 'Valid Username',
+
+    3000 => 'The chat deleted',
 
 ];

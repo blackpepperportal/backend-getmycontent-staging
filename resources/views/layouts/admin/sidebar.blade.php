@@ -244,7 +244,7 @@
             </li>
 
             <li class="nav-item" id="payments">
-                <a href="{{route('admin.documents.index')}}">
+                <a href="#">
                     <i class="fa fa-money"></i>
                     <span class="menu-title" data-i18n="">{{tr('payments')}}</span>
                 </a>
@@ -276,6 +276,12 @@
                     <li id="user-subscription-payments">
                         <a class="menu-item" href="{{route('admin.users_subscriptions.index')}}">
                            {{tr('subscription_payments')}}
+                        </a>
+                    </li>
+
+                    <li id="chat-asset-payments">
+                        <a class="menu-item" href="{{route('admin.chat_asset_payments.index')}}">
+                           {{tr('chat_asset_payments')}}
                         </a>
                     </li>
 

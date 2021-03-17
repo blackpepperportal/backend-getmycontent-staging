@@ -363,9 +363,27 @@ hr {
                         <div class="col-md-6">
                             <div class="form-group">
 
-                                <label for="admin_commission">{{tr('admin_commission')}}</label>
+                                <label for="admin_commission">{{tr('post_admin_commission')}}</label>
 
                                 <input type="text" class="form-control" name="admin_commission" pattern="[0-9]{0,}" value="{{Setting::get('admin_commission')  }}" id="admin_commission" placeholder="{{tr('admin_commission')}}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+
+                                <label for="tips_admin_commission">{{tr('tips_admin_commission')}}</label>
+
+                                <input type="text" class="form-control" name="tips_admin_commission" pattern="[0-9]{0,}" value="{{Setting::get('tips_admin_commission')  }}" id="tips_admin_commission" placeholder="{{tr('tips_admin_commission')}}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+
+                                <label for="subscription_admin_commission">{{tr('subscription_admin_commission')}}</label>
+
+                                <input type="text" class="form-control" name="subscription_admin_commission" pattern="[0-9]{0,}" value="{{Setting::get('subscription_admin_commission')  }}" id="subscription_admin_commission" placeholder="{{tr('subscription_admin_commission')}}">
                             </div>
                         </div>
                     </div>

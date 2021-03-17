@@ -415,7 +415,7 @@ class UserAccountApiController extends Controller
 
             }
             
-            return $this->sendResponse(api_success(101), 101, []);
+            return $this->sendResponse(api_success(161), 161, []);
 
         } catch(Exception $e) {
 
@@ -688,6 +688,12 @@ class UserAccountApiController extends Controller
 
             $user->yearly_amount = $user->userSubscription->yearly_amount ?? 0.00;
 
+            $video_query = $image_query = \App\PostFile::where('user_id', $request->id);
+
+            $user->total_videos = $video_query->where('file_type', POSTS_VIDEO)->count();
+
+            $user->total_images = $image_query->where('file_type', POSTS_IMAGE)->count();
+
             return $this->sendResponse($message = "", $success_code = "", $user);
 
         } catch(Exception $e) {
@@ -777,6 +783,20 @@ class UserAccountApiController extends Controller
             $user->website = $request->filled('website') ? $request->website : "";
 
             $user->amazon_wishlist = $request->filled('amazon_wishlist') ? $request->amazon_wishlist : "";
+
+            $user->instagram_link = $request->filled('instagram_link') ? $request->instagram_link : "";
+            
+            $user->facebook_link = $request->filled('facebook_link') ? $request->facebook_link : "";
+            
+            $user->twitter_link = $request->filled('twitter_link') ? $request->twitter_link : "";
+
+            $user->linkedin_link = $request->filled('linkedin_link') ? $request->linkedin_link : "";
+
+            $user->pinterest_link = $request->filled('pinterest_link') ? $request->pinterest_link : "";
+
+            $user->youtube_link = $request->filled('youtube_link') ? $request->youtube_link : "";
+
+            $user->twitch_link = $request->filled('twitch_link') ? $request->twitch_link : "";
 
             // Upload picture
             if($request->hasFile('picture') != "") {
@@ -1774,6 +1794,12 @@ class UserAccountApiController extends Controller
 
             $data['total_posts'] = \App\Post::where('user_id', $request->user_id)->count();
 
+            $video_query = $image_query = \App\PostFile::where('user_id', $request->user_id);
+
+            $data['total_videos'] = $video_query->where('file_type', POSTS_VIDEO)->count();
+
+            $data['total_images'] = $image_query->where('file_type', POSTS_IMAGE)->count();
+
             return $this->sendResponse($message = "", $code = "", $data);
 
         } catch(Exception $e) {
@@ -1833,8 +1859,6 @@ class UserAccountApiController extends Controller
             $data['posts'] = $posts ?? [];
 
             $data['total'] = $total_query->count() ?? 0;
-
-            Log::info("HHHDHDHDDH".print_r($data, true));
 
             return $this->sendResponse($message = "", $code = "", $data);
 
@@ -2010,13 +2034,11 @@ class UserAccountApiController extends Controller
                 throw new Exception(api_error(135), 135);
             }
 
-            $user_subscription = $user->userSubscription;
-
+            $user_subscription = $user->userSubscription ?? new \App\UserSubscription;
+            
             if(!$user_subscription) {
                 
                 if($request->is_free == YES) {
-
-                    $user_subscription = new \App\UserSubscription;
 
                     $user_subscription->user_id = $user->id;
 
@@ -2024,7 +2046,7 @@ class UserAccountApiController extends Controller
                     
                 } else {
 
-                    throw new Exception(api_error(155), 155);   
+                    // throw new Exception(api_error(155), 155);   
  
                 }
 
@@ -2432,6 +2454,12 @@ class UserAccountApiController extends Controller
             ];
 
             Helper::custom_validator($request->all(),$rules, $custom_errors=[]);
+
+            if($request->id == $request->user_id) {
+
+                throw new Exception(api_error(182) , 182);
+                
+            }
 
             $check_blocked_user = \App\BlockUser::where('block_by', $request->id)->where('blocked_to', $request->user_id)->first();
 

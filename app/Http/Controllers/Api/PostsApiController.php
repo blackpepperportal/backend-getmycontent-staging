@@ -103,23 +103,25 @@ class PostsApiController extends Controller
 
         try {
 
-            $follower_ids = get_follower_ids($request->id);
+            // Validation start
+            $rules = ['user_unique_id' => 'required|exists:users,unique_id'];
 
-            $report_posts = report_posts($request->id);
+            Helper::custom_validator($request->all(), $rules, $custom_errors = []);
 
-            $blocked_users = blocked_users($request->id);
+            $user = \App\User::where('users.unique_id', $request->user_unique_id)->first();
 
-            $base_query = $total_query = Post::Approved()->whereNotIn('posts.user_id',$blocked_users)->whereNotIn('posts.id',$report_posts)->whereHas('user')->whereIn('posts.user_id', $follower_ids)->with(['postFiles', 'user'])->orderBy('created_at', 'desc');
+            if(!$user) {
+                throw new Exception(api_error(135), 135);
+            }
+
+            $report_post_ids = report_posts($request->id);
+
+            $base_query = $total_query = \App\Post::with('postFiles')->whereNotIn('posts.id',$report_post_ids)->where('user_id', $user->id);
 
             if($request->search_key) {
 
                 $base_query = $base_query->where('posts.content','LIKE','%'.$request->search_key.'%');
-
-                $search_key = $request->search_key;
-
-                $base_query = $base_query->whereHas('user', function($q) use($search_key) {
-                                    $q->orWhere('name','LIKE','%'.$search_key.'%');
-                                });
+                                   
             }
 
             $posts = $base_query->skip($this->skip)->take($this->take)->get();
@@ -162,12 +164,13 @@ class PostsApiController extends Controller
             Helper::custom_validator($request->all(),$rules);
 
             $report_posts = report_posts($request->id);
-
+            
             $blocked_users = blocked_users($request->id);
-
+            
             $post = Post::with('postFiles')->Approved()
-            ->whereNotIn('posts.user_id',$blocked_users)->whereNotIn('posts.id',$report_posts)
-            ->where('posts.unique_id', $request->post_unique_id)->first();
+                ->whereNotIn('posts.user_id',$blocked_users)
+                ->whereNotIn('posts.id',$report_posts)
+                ->where('posts.unique_id', $request->post_unique_id)->first();
 
             if(!$post) {
                 throw new Exception(api_error(139), 139);   
@@ -407,6 +410,8 @@ class PostsApiController extends Controller
 
             $post_file_url = Helper::post_upload_file($request->file, $folder_path, $filename);
 
+            $ext = $request->file->getClientOriginalExtension();
+
             if($post_file_url) {
 
                 $post_file = new \App\PostFile;
@@ -420,6 +425,16 @@ class PostsApiController extends Controller
                 $post_file->file_type = $request->file_type;
 
                 $post_file->blur_file = $request->file_type == "image" ? \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->file, $request->id) : Setting::get('post_video_placeholder');
+
+                if($request->file_type == 'video') {
+
+                    $filename_img = rand(1,1000000).'-post-image.jpg';
+
+                    \VideoThumbnail::createThumbnail(storage_path('app/public/'.$folder_path.$filename.'.'.$ext),storage_path('app/public/'.$folder_path),$filename_img, 2);
+
+                    $post_file->preview_file = asset('storage/'.$folder_path.$filename_img);
+
+                }
 
                 $post_file->save();
 
@@ -1443,9 +1458,11 @@ class PostsApiController extends Controller
 
            // Check the subscription is available
 
-            $base_query = $total_query = \App\FavUser::where('user_id', $request->id)->Approved()->orderBy('fav_users.created_at', 'desc');
+            $base_query = $total_query = \App\FavUser::where('user_id', $request->id)->Approved()->orderBy('fav_users.created_at', 'desc')->whereHas('favUser');
 
             $fav_users = $base_query->skip($this->skip)->take($this->take)->get();
+
+            $fav_users = \App\Repositories\CommonRepository::favorites_list_response($fav_users, $request);
 
             $data['fav_users'] = $fav_users ?? [];
 

@@ -94,6 +94,8 @@ if(!defined('SORT_BY_DOCUMENT_VERIFIED')) define('SORT_BY_DOCUMENT_VERIFIED',5);
 
 if(!defined('SORT_BY_DOCUMENT_APPROVED')) define('SORT_BY_DOCUMENT_APPROVED',6);
 
+if(!defined('SORT_BY_DOCUMENT_PENDING')) define('SORT_BY_DOCUMENT_PENDING',7);
+
 
 if(!defined('STATIC_PAGE_SECTION_1')) define('STATIC_PAGE_SECTION_1', 1);
 
@@ -253,6 +255,11 @@ if(!defined('BELL_NOTIFICATION_TYPE_SEND_TIP')) define('BELL_NOTIFICATION_TYPE_S
 
 if(!defined('PRODUCTION')) define('PRODUCTION', 'production');
 if(!defined('SANDBOX')) define('SANDBOX', 'sandbox');
+
+if(!defined('FILE_TYPE_IMAGE')) define('FILE_TYPE_IMAGE', 'image');
+if(!defined('FILE_TYPE_VIDEO')) define('FILE_TYPE_VIDEO', 'video');
+if(!defined('FILE_TYPE_AUDIO')) define('FILE_TYPE_AUDIO', 'audio');
+if(!defined('FILE_TYPE_TEXT')) define('FILE_TYPE_TEXT', 'text');
 
 if(!defined('STORAGE_TYPE_S3')) define('STORAGE_TYPE_S3', 1);
 if(!defined('STORAGE_TYPE_LOCAL')) define('STORAGE_TYPE_LOCAL', 0);

@@ -10,7 +10,7 @@ class UserTip extends Model
 
     protected $hidden = ['id', 'unique_id'];
 
-	protected $appends = ['user_tip_id', 'user_tip_unique_id', 'from_username', 'from_user_picture', 'to_username', 'to_user_picture', 'amount_formatted'];
+	protected $appends = ['user_tip_id', 'user_tip_unique_id', 'from_username', 'from_user_picture', 'to_username', 'to_user_picture', 'amount_formatted','admin_amount_formatted','user_amount_formatted'];
 	
 	public function getUserTipIdAttribute() {
 
@@ -25,6 +25,16 @@ class UserTip extends Model
 	public function getAmountFormattedAttribute() {
 
 		return formatted_amount($this->amount);
+	}
+
+	public function getAdminAmountFormattedAttribute() {
+
+		return formatted_amount($this->admin_amount);
+	}
+
+	public function getUserAmountFormattedAttribute() {
+
+		return formatted_amount($this->user_amount);
 	}
 
 	public function getFromUsernameAttribute() {

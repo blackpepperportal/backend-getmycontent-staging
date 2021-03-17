@@ -757,11 +757,12 @@ function revenue_graph($days) {
         $last_x_days_data->date = $current_date;
       
         $last_x_days_post_total_earnings = \App\PostPayment::where('status',PAID)->whereDate('paid_date', '=', $current_date)->sum('paid_amount');
-        $last_x_days_order_total_earnings = \App\OrderPayment::where('status',PAID)->whereDate('paid_date', '=', $current_date)->sum('total');
+
+        $last_x_days_subscription_total_earnings = \App\SubscriptionPayment::where('status',PAID)->whereDate('paid_date', '=', $current_date)->sum('amount');
       
         $last_x_days_data->total_post_earnings = $last_x_days_post_total_earnings ?: 0.00;
 
-        $last_x_days_data->total_order_earnings = $last_x_days_order_total_earnings ?: 0.00;
+        $last_x_days_data->total_subscription_earnings = $last_x_days_subscription_total_earnings ?: 0.00;
 
         array_push($last_x_days_revenues, $last_x_days_data);
 
@@ -971,6 +972,18 @@ function document_status_formatted($status) {
     return isset($status_list[$status]) ? $status_list[$status] : tr('USER_KYC_DOCUMENT_NONE');
 }
 
+function document_status_text_formatted($status) {
+
+    $status_list = [
+        USER_DOCUMENT_NONE => tr('user_document_none'), 
+        USER_DOCUMENT_PENDING => tr('user_document_veification_pending'),
+        USER_DOCUMENT_APPROVED => tr('user_document_approved'), 
+        USER_DOCUMENT_DECLINED => tr('user_document_declined')
+    ];
+
+    return isset($status_list[$status]) ? $status_list[$status] : tr('USER_KYC_DOCUMENT_NONE');
+}
+
 /**
  * @method last_x_months_posts()
  *
@@ -1096,4 +1109,48 @@ function report_posts($user_id){
     $report_post_ids = \App\ReportPost::where('block_by',$user_id)->pluck('post_id')->toArray() ?? [];
 
     return $report_post_ids;
+}
+
+function admin_commission_spilit($total) {
+
+    $admin_commission = Setting::get('admin_commission', 1)/100;
+
+    $admin_amount = $total * $admin_commission;
+
+    $user_amount = $total - $admin_amount;
+
+    return  (object) ['admin_amount' => $admin_amount, 'user_amount' => $user_amount];
+
+}
+
+
+/**
+ * @method check_user_subscribed()
+ *
+ * @uses check the user subscribed
+ * 
+ * @created Ganesh
+ *
+ * @updated Ganesh
+ * 
+ */
+function check_user_subscribed($post_user,$request) {
+
+    $current_date = Carbon::now()->format('Y-m-d');
+    
+    $user_subscription = \App\UserSubscription::where('user_id', $post_user->id)->first();
+
+    $is_subscribed = NO;
+
+    if($user_subscription) {
+
+        $is_subscribed = \App\UserSubscriptionPayment::where('is_current_subscription',YES)->whereDate('expiry_date','>=',$current_date)->where('user_subscription_id', $user_subscription->id)->where('from_user_id', $request->id)->where('to_user_id', $post_user->id)->count() ?? 0;
+    }
+
+    return $is_subscribed > 0 ? YES :NO;
+    
+}
+
+function emptyObject() {
+    return (Object)[];
 }

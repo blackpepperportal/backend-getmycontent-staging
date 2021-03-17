@@ -33,4 +33,6 @@ if(!defined('POST_PATH')) define('POST_PATH', 'uploads/posts/');
 
 if(!defined('POST_BLUR_PATH')) define('POST_BLUR_PATH', 'uploads/blur-posts/');
 
+if(!defined('CHAT_ASSETS_PATH')) define('CHAT_ASSETS_PATH', 'uploads/chat-assets/');
+
 

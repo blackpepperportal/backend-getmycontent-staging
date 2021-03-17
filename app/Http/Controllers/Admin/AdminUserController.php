@@ -18,7 +18,7 @@ use App\Exports\UsersExport;
 
 class AdminUserController extends Controller
 {
-	/**
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -84,6 +84,11 @@ class AdminUserController extends Controller
                 case SORT_BY_DOCUMENT_APPROVED:
 
                     $base_query = $base_query->where('users.is_document_verified',USER_DOCUMENT_APPROVED);
+                    break;
+
+                case SORT_BY_DOCUMENT_PENDING:
+
+                    $base_query = $base_query->where('users.is_document_verified',USER_DOCUMENT_PENDING)->orWhere('users.is_document_verified',USER_DOCUMENT_NONE);
                     break;
                 
                 default:
@@ -250,17 +255,16 @@ class AdminUserController extends Controller
 
                 $user->email_verified_at = date('Y-m-d H:i:s');
 
-                $user->picture = asset('placeholder.jpeg');
-
                 $user->is_email_verified = USER_EMAIL_VERIFIED;
 
                 $user->token = Helper::generate_token();
 
                 $user->token_expiry = Helper::generate_token_expiry();
+                
+                $user->login_by = $request->login_by ?: 'manual';
 
             }
 
-            
             $user->first_name = $request->first_name;
 
             $user->last_name = $request->last_name;
@@ -275,11 +279,22 @@ class AdminUserController extends Controller
 
             $user->amazon_wishlist = $request->amazon_wishlist ?: "";
 
-            $user->login_by = $request->login_by ?: 'manual';
+            $user->instagram_link = $request->filled('instagram_link') ? $request->instagram_link : "";
+            
+            $user->facebook_link = $request->filled('facebook_link') ? $request->facebook_link : "";
+            
+            $user->twitter_link = $request->filled('twitter_link') ? $request->twitter_link : "";
+
+            $user->linkedin_link = $request->filled('linkedin_link') ? $request->linkedin_link : "";
+
+            $user->pinterest_link = $request->filled('pinterest_link') ? $request->pinterest_link : "";
+
+            $user->youtube_link = $request->filled('youtube_link') ? $request->youtube_link : "";
+
+            $user->twitch_link = $request->filled('twitch_link') ? $request->twitch_link : "";
 
             $username = $request->username ?: $user->username;
 
-            $user->user_account_type = $request->user_account_type;
 
             $user->unique_id = $user->username = routefreestring(strtolower($username));
             
@@ -307,7 +322,6 @@ class AdminUserController extends Controller
             if($user->save()) {
 
                 if($request->monthly_amount || $request->yearly_amount) {
-
 
                     $user_subscription = \App\UserSubscription::where('user_id', $user->id)->first() ?? new \App\UserSubscription;
 
@@ -899,7 +913,7 @@ class AdminUserController extends Controller
         }
 
         $users = $base_query->where('is_document_verified', '!=', USER_DOCUMENT_APPROVED)->paginate($this->take);
-
+        
         foreach($users as $user){
 
             $user->documents_count = \App\UserDocument::where('user_id',$user->id)->count();
@@ -981,13 +995,13 @@ class AdminUserController extends Controller
                 
             }
 
-            $user->is_document_verified = $user->is_document_verified ? USER_DOCUMENT_APPROVED : USER_DOCUMENT_DECLINED;
+            $user->is_document_verified = $request->status;
 
             if($user->save()) {
 
                 DB::commit();
 
-                $status_message = $user->is_document_verified ? tr('approved'):tr('declined');
+                $status_message = $user->is_document_verified == USER_DOCUMENT_APPROVED ? tr('approved'):tr('declined');
 
                 $email_data['subject'] = tr('user_document_verification').' '.Setting::get('site_name');
 
@@ -1001,7 +1015,7 @@ class AdminUserController extends Controller
 
                 $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 
-                $message = $user->is_document_verified ? tr('user_document_verify_success') : tr('user_document_unverify_success');
+                $message = $user->is_document_verified == USER_DOCUMENT_APPROVED ? tr('user_document_verify_success') : tr('user_document_unverify_success');
 
                 return redirect()->route('admin.user_documents.index')->with('flash_success', $message);
             }
@@ -1256,5 +1270,174 @@ class AdminUserController extends Controller
         }       
          
     }
+
+    /**
+     * @method chat_asset_payments()
+     *
+     * @uses To list out chat_asset_payments details 
+     *
+     * @created Arun
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function chat_asset_payments(Request $request) {
+       
+        $base_query = \App\ChatAssetPayment::orderBy('created_at','desc');
+
+        $search_key = $request->search_key;
+
+        if($search_key) {
+
+            $base_query = $base_query
+                        ->whereHas('fromUser',function($query) use($search_key) {
+
+                            return $query->where('users.name','LIKE','%'.$search_key.'%');
+
+                        })->orwhereHas('toUser',function($query) use($search_key) {
+                            
+                            return $query->where('users.name','LIKE','%'.$search_key.'%');
+                        });
+        }
+
+        $chat_asset_payments = $base_query->paginate(10);
+
+
+        return view('admin.users.chat.index')
+                    ->with('page', 'user_subscriptions')
+                    ->with('sub_page', 'chat-asset-payments')
+                    ->with('chat_asset_payments', $chat_asset_payments);
+    }
+
+    /**
+     * @method chat_asset_payment_view()
+     *
+     * @uses To list out chat_asset_payment details 
+     *
+     * @created Arun
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+    public function chat_asset_payment_view(Request $request) {
+
+        try {
+       
+            $chat_asset_payment = \App\ChatAssetPayment::find($request->chat_asset_payment_id);
+             
+             if(!$chat_asset_payment) { 
+
+                throw new Exception(tr('chat_asset_payment_not_found'), 101);                
+            }
+
+
+            return view('admin.users.chat.view')
+                        ->with('page', 'user_subscription_payment')
+                        ->with('sub_page', 'chat-asset-payments')
+                        ->with('chat_asset_payment', $chat_asset_payment);
+
+        } catch (Exception $e) {
+
+            return redirect()->back()->with('flash_error', $e->getMessage());
+       }
+    }
+
+    /**
+     * @method users_verify_badge_status()
+     *
+     * @uses verify the user
+     *
+     * @created vithya
+     *
+     * @updated
+     *
+     * @param object $request - User Id
+     *
+     * @return redirect back page with status of the user verification
+     */
+    public function users_verify_badge_status(Request $request) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $user = \App\User::find($request->user_id);
+
+            if(!$user) {
+
+                throw new Exception(tr('user_not_found'), 101);
+                
+            }
+
+            $user->is_verified_badge = $user->is_verified_badge ? NO : YES;
+
+            if($user->save()) {
+
+                DB::commit();
+
+                $message = $user->is_verified_badge ? tr('user_verify_badge_added') : tr('user_verify_badge_removed');
+
+                return redirect()->route('admin.users.index')->with('flash_success', $message);
+
+            }
+            
+            throw new Exception(tr('user_verify_change_failed'));
+
+        } catch(Exception $e) {
+
+            DB::rollback();
+
+            return redirect()->route('admin.users.index')->with('flash_error', $e->getMessage());
+
+        }
+    
+    }
+
+    /**
+     * @method bank_details_index()
+     *
+     * @uses To list out user banking details
+     *
+     * @created Arun
+     *
+     * @updated 
+     *
+     * @param 
+     * 
+     * @return return view page
+     *
+     */
+
+    public function bank_details_index(Request $request) {
+       
+        $base_query = \App\UserBillingAccount::orderBy('created_at','desc');
+
+        $user = '';
+
+        if($request->user_id){
+
+         $base_query->where('user_id',$request->user_id);
+
+        }
+
+        $search_key = $request->search_key;
+                      
+        $bank_details = $base_query->paginate($this->take);
+
+        return view('admin.users.bank_details')
+                    ->with('page', 'users')
+                    ->with('sub_page', 'users-view')
+                    ->with('bank_details', $bank_details);
+    }
+
+
 
 }
