@@ -18,7 +18,6 @@ use App\Repositories\CommonRepository as CommonRepo;
 
 use Carbon\Carbon;
 
-
 class UserAccountApiController extends Controller
 {
  	protected $loginUser;
@@ -838,16 +837,16 @@ class UserAccountApiController extends Controller
 
             if($user->save()) {
 
-                if($request->u_category_id) {
+                // if($request->u_category_id) {
 
-                    $ucategory = \App\UserCategory::where('u_category_id', $request->u_category_id)->where('user_id', $user->id)->first() ?? new \App\UserCategory;
+                //     $ucategory = \App\UserCategory::where('u_category_id', $request->u_category_id)->where('user_id', $user->id)->first() ?? new \App\UserCategory;
 
-                    $ucategory->u_category_id = $request->u_category_id;
+                //     $ucategory->u_category_id = $request->u_category_id;
 
-                    $ucategory->user_id = $user->id;
+                //     $ucategory->user_id = $user->id;
 
-                    $ucategory->save();
-                }
+                //     $ucategory->save();
+                // }
 
                 $data = User::find($user->id);
 
@@ -2768,6 +2767,60 @@ class UserAccountApiController extends Controller
         } catch(Exception $e) {
 
             return $this->sendError($e->getMessage(), $e->getCode());
+        }
+
+    }
+
+    /**
+     * @method profile_categories_save
+     *
+     * @uses To save categories and sub categories of model profile
+     *
+     * @created Arun
+     *
+     * @created Arun
+     *
+     * @param Object $request
+     *
+     * @return repsonse of html page
+     */
+
+    public function profile_categories_save(Request $request) {
+
+        try {
+
+            $rules = [
+                'u_category_id' => 'required|integer|exists:u_categories,id',
+            ];
+
+            Helper::custom_validator($request->all(),$rules,$custom_errors = []);
+
+            $user_details = User::firstWhere('id',$request->id);
+
+            if($user_details) {
+
+                throw new Exception(api_error(181), 181);
+
+            }
+
+            $u_category_ids = explode(',', $request->u_category_id);
+
+            $request->request->add(['user_id'=> $request->id ?? 0, 'u_category_id'=> $u_category_ids ?? []]);
+
+            $response = CommonRepo::user_categories_save($request,$user_details);
+
+            if ($response['success'] == false) {
+
+                throw new Exception($response['message'], $response['error_code'] );
+            }
+
+            return $this->sendResponse($message = $response['message'], $code = $response['code'], $data = $response['data']);
+
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+
         }
 
     }

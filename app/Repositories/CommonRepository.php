@@ -413,4 +413,70 @@ class CommonRepository {
         }
 
     }
+
+    /**
+     * @method user_categories_save()
+     *
+     * @uses To save the users details of new/existing user object based on details
+     *
+     * @created Arun
+     *
+     * @updated Arun
+     *
+     * @param object request - User Form Data
+     *
+     * @return success message
+     *
+     */
+    public static function user_categories_save($request, $user) {
+
+        try {
+
+            DB::begintransaction();
+
+            if($request->u_category_id) {
+                    
+                $u_category_ids = $request->u_category_id;
+                
+                if(!is_array($u_category_ids)) {
+
+                    $u_category_ids = explode(',', $u_category_ids);
+                    
+                }
+
+                if($request->user_id) {
+
+                    UserCategory::where('u_category_id', $request->u_category_id)->where('user_id', $user->id)->delete();
+                }  
+
+                foreach ($request->u_category_id as $key => $sub_category_id) {
+
+                    $ucategory = new UserCategory;
+
+                    $ucategory->u_category_id = $request->u_category_id;
+
+                    $ucategory->user_id = $user->id;
+
+                    $ucategory->save();
+                }                  
+
+            }
+
+            DB::commit(); 
+
+            $response_array = ['success' => true, 'message'=> api_success(167), 'code' => 167, 'data' => []];
+
+            return $response_array;
+            
+        } catch(Exception $e){ 
+
+            DB::rollback();
+
+            $response_array = ['success' => false,'message' => $e->getMessage(),'error_code' => $e->getLine()];
+
+            return $response_array;
+
+        } 
+
+    }
 }
