@@ -1139,6 +1139,6 @@ return [
 	"user_document_veification_pending" => "The user updated documents not yet verified by Admin.",
 	"user_document_approved" => "The user updated documents approved by Admin.",
 	"user_document_declined" => "The user updated documents decined by Admin.",
-
+	"snapchat_link" => "Snapchat Link",
 ]
 ?>
