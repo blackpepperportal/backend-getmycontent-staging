@@ -1043,7 +1043,7 @@ class PostsApiController extends Controller
                         });
                 }
 
-                $posts = $post_base_query->get();
+                $posts = $post_base_query->with('postBookmark')->get();
 
                 $posts = \App\Repositories\PostRepository::posts_list_response($posts, $request);
 
