@@ -423,6 +423,11 @@
                                             <th>{{tr('twitch_link')}}</th>
                                             <td>{{$user->twitch_link ?: "-"}}</td>
                                         </tr>
+
+                                        <tr>
+                                            <th>{{tr('snapchat_link')}}</th>
+                                            <td>{{$user->snapchat_link ?: "-"}}</td>
+                                        </tr>
                                     </table>
                                 </div>
 
