@@ -437,7 +437,6 @@ class CommonRepository {
             if($request->u_category_id) {
                     
                 $u_category_ids = $request->u_category_id;
-                
 
                 if(!is_array($u_category_ids)) {
 
@@ -445,7 +444,8 @@ class CommonRepository {
                     
                 }
 
-                foreach ($request->u_category_id as $key => $category_id) {
+                
+                foreach($u_category_ids as $key => $category_id) {
 
                     $ucategory = \App\UserCategory::where('u_category_id',$category_id )->where('user_id', $user->id)->first() ?? new \App\UserCategory;
 
@@ -454,7 +454,8 @@ class CommonRepository {
                     $ucategory->user_id = $user->id;
 
                     $ucategory->save();
-                }                  
+
+                }    
 
             }
 

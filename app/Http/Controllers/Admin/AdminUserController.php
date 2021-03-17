@@ -16,6 +16,8 @@ use Excel;
 
 use App\Exports\UsersExport;
 
+use App\Repositories\CommonRepository as CommonRepo;
+
 class AdminUserController extends Controller
 {
     /**
@@ -191,18 +193,13 @@ class AdminUserController extends Controller
                 throw new Exception(tr('user_not_found'), 101);
             }
 
-            $user_category = \App\UserCategory::firstWhere('user_id',$user->id);
-             
-            if($user_category){
+            $u_categories = \App\UCategory::where('status', APPROVED)->get();
 
-                $u_categories = selected(\App\UCategory::where('status',APPROVED)->get(), $user_category->u_category_id, 'id');
+            foreach ($u_categories as $key => $value) {
 
+                $value->is_selected = \App\UserCategory::where('user_id', $user->id)->where('u_category_id', $value->id)->first() ? YES : NO;
             }
-            else{
 
-                $u_categories = \App\UCategory::where('status',APPROVED)->get();
-
-            }
 
 
             return view('admin.users.edit')
@@ -380,15 +377,9 @@ class AdminUserController extends Controller
 
                 }
 
-                if($request->u_category_id!=''){
+                if($request->u_category_id !=''){
 
-                    $ucategory = \App\UserCategory::where('user_id', $user->id)->first() ?? new \App\UserCategory;
-    
-                    $ucategory->u_category_id = $request->u_category_id;
-    
-                    $ucategory->user_id = $user->id;
-    
-                    $ucategory->save();
+                    CommonRepo::user_categories_save($request,$user);
 
                 }
 

@@ -271,7 +271,7 @@
 
                                         <label>{{ tr('category') }}</label>
 
-                                        <select class="form-control select2" name="u_category_id" required>
+                                        <select class="form-control select2" name="u_category_id[]" multiple required>
                                             <option>{{tr('select_category')}}</option>
 
                                             @foreach($u_categories as $u_category)
