@@ -2790,7 +2790,7 @@ class UserAccountApiController extends Controller
         try {
 
             $rules = [
-                'u_category_id' => 'required|exists:u_categories,id',
+                'u_category_id' => $request->u_category_id ? 'required|exists:u_categories,id' :'',
             ];
 
             Helper::custom_validator($request->all(),$rules,$custom_errors = []);

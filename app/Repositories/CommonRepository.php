@@ -444,6 +444,7 @@ class CommonRepository {
                     
                 }
 
+                \App\UserCategory::where('user_id', $user->id)->delete();
                 
                 foreach($u_category_ids as $key => $category_id) {
 
