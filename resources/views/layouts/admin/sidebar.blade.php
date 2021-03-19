@@ -267,7 +267,7 @@
                         </a>
                     </li> -->
 
-<!--                     <li id="subscription-payments">
+                    <!-- <li id="subscription-payments">
                         <a class="menu-item" href="{{route('admin.subscription_payments.index')}}">
                            {{tr('subscription_payments')}}
                         </a>
@@ -279,7 +279,7 @@
                         </a>
                     </li>
 
-                    <li id="chat-asset-payments">
+                    <li id="chat-asset-payments" style="display: none;">
                         <a class="menu-item" href="{{route('admin.chat_asset_payments.index')}}">
                            {{tr('chat_asset_payments')}}
                         </a>
