@@ -389,10 +389,11 @@ class AdminPostController extends Controller
 
                 if($request->page){
                     
-                    return redirect()->route('admin.posts.index',['page'=>$request->page])->with('flash_success', tr('post_deleted_success'));   
-                }
-                else{
-                    return redirect()->back()->with('flash_success', tr('post_deleted_success'));   
+                    return redirect()->route('admin.posts.index', ['page'=>$request->page])->with('flash_success', tr('post_deleted_success'));
+
+                } else {
+
+                    return redirect()->route('admin.posts.index')->with('flash_success', tr('post_deleted_success'));
                 }
 
             } 
