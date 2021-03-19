@@ -58,9 +58,7 @@
                                    <div class="col-md-6">
                                         
                                         <div class="form-group">
-                                            <label for="page">
-                                                {{tr('upload_files')}}
-                                            </label>
+                                            <label for="page">{{tr('upload_files')}}</label>
                                             <input type="file" class="form-control" name="post_files" accept="image/*,video/*" />
                                         </div>
 
@@ -83,33 +81,7 @@
 
 
                                 <div class="row">
-
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="page">
-                                                {{tr('select_publish_type')}}
-                                                <span class="required" aria-required="true"> <span class="admin-required">*</span> </span>
-                                            </label><br>
-
-                                            <input type="radio" id="now" onclick="select_publish_type();" name="publish_type" value="{{PUBLISHED}}" {{ ($post->is_published  == PUBLISHED)? "checked" : "" }}   ><label for="{{USER_PREMIUM_ACCOUNT}}"> {{tr('now')}} </label>
-
-                                            <input type="radio"  id="schedule" onclick="select_publish_type();" name="publish_type" value="{{UNPUBLISHED}}"  {{ ($post->is_published  == UNPUBLISHED)? "checked" : "" }} ><label for="{{UNPUBLISHED}}"> {{tr('schedule')}} </label>&nbsp;
-                                          
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6 schedule_time" {{ ($post->is_published  == PUBLISHED)? "style=display:none;": "" }}>
-                                        <div class="form-group">
-                                            <label for="page">
-                                                {{tr('select_publish_date')}}
-                                            </label><br>
-
-                                            <input class="form-control" name="publish_time" type="text" id="datepicker" value="{{ $post->publish_time ? date('Y-m-d H:i:s', strtotime($post->publish_time)) : old('publish_time') }}" readonly='true'>
-
-                                        </div>
-                                    </div>
-
-                                      <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="user_name">{{ tr('amount') }}</label>
                                             <input type="number" id="amount" name="amount" class="form-control" placeholder="{{ tr('amount') }}" value="{{ $post->amount ?: old('amount') }}" >
