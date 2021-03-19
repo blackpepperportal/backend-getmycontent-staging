@@ -408,12 +408,12 @@
 
   // to accept trailing zeroes
     $(document).ready(function(){
-        $('.non_zero').on('input change', function (e) {
-            var reg = /^0+/gi;
-            if (this.value.match(reg)) {
-                this.value = this.value.replace(reg, '');
-            }
-        });
+        // $('.non_zero').on('input change', function (e) {
+        //     var reg = /^0+/gi;
+        //     if (this.value.match(reg)) {
+        //         this.value = this.value.replace(reg, '');
+        //     }
+        // });
      });
 
     $(document).ready(function (e) {
