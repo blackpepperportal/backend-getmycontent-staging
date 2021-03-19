@@ -196,14 +196,13 @@ class AdminPostController extends Controller
 
                     $request->request->add(['file_type' => get_file_type($request->file('post_files'))]);
 
-
                     $filename = rand(1,1000000).'-post-'.$request->file_type ?? 'image';
 
                     $folder_path = POST_PATH.$post->user_id.'/';
 
                     $post_file_url = Helper::post_upload_file($request->post_files, $folder_path, $filename);
 
-                    $ext = $request->post_files->getClientOriginalExtension();
+                    $ext = $request->file('post_files')->getClientOriginalExtension();
 
                     if($post_file_url) {
 
@@ -215,7 +214,7 @@ class AdminPostController extends Controller
 
                         $post_file->file_type = $request->file_type;
 
-                        $post_file->blur_file = $request->file_type == "image" ? \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->file, $request->id) : Setting::get('post_video_placeholder');
+                        $post_file->blur_file = $request->file_type == "image" ? \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->file('post_files'), $post->user_id) : Setting::get('post_video_placeholder');
 
                         if($request->file_type == 'video') {
 
