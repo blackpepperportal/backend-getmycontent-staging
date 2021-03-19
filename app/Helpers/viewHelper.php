@@ -1160,9 +1160,9 @@ function get_file_type($file) {
 
     $imagemimes = ['image/png', 'image/jpeg', 'image/jpg']; //Add more mimes that you want to support
     
-    $videomimes = ['video/mp4', 'video/mov', 'video/ogg']; //Add more mimes that you want to support
+    $videomimes = ['video/mp4', 'video/mov', 'video/webm', 'video/flv', 'video/avi', 'video/mkv']; //Add more mimes that you want to support
     
-    $audiomimes = ['audio/mpeg']; //Add more mimes that you want to support
+    $audiomimes = ['audio/mpeg', 'audio/mp3']; //Add more mimes that you want to support
 
     if(in_array($file->getMimeType() ,$imagemimes)) {
         return FILE_TYPE_IMAGE;
@@ -1174,5 +1174,7 @@ function get_file_type($file) {
     //validate audio
     if (in_array($file->getMimeType() ,$audiomimes)) {
         return FILE_TYPE_AUDIO;
-    }   
+    }
+
+    return FILE_TYPE_IMAGE;   
 }
