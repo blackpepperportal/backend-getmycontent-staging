@@ -153,25 +153,24 @@ class AdminPostController extends Controller
     */
     public function posts_save(Request $request) {
         
-        try {
-            
-            
+        try {            
+
             DB::begintransaction();
 
             $rules = [
                 'user_id' => 'required',
                 'content' => 'required',
                 'amount' => 'nullable|min:0',
-                'publish_type'=>'required',
-                'publish_time' => 'required_if:publish_type,==,'.UNPUBLISHED,
+                // 'publish_type'=>'required',
+                // 'publish_time' => 'required_if:publish_type,==,'.UNPUBLISHED,
             ];
 
-            $customMessages = [
+            $errors = [
                 'required_if' => 'The :attribute field is required when :other is '. tr('schedule') .'.',
             ];
 
 
-            Helper::custom_validator($request->all(),$rules, $customMessages);
+            Helper::custom_validator($request->all(),$rules, $errors);
 
             $post = \App\Post::find($request->post_id) ?? new \App\Post;
 
@@ -179,7 +178,7 @@ class AdminPostController extends Controller
 
             $post->content = $request->content;
 
-            $post->is_published = $request->publish_type;
+            $post->is_published = $request->publish_type ?? PUBLISHED;
 
             $publish_time = $request->publish_time ?: date('Y-m-d H:i:s');
           
@@ -191,15 +190,20 @@ class AdminPostController extends Controller
 
             if($post->save()) {
 
-                if($request->has('post_files')){
+                if($request->has('post_files')) {
 
                     $post_file = \App\PostFile::where('post_id',$post->id)->first() ?? new \App\PostFile();
+
+                    $request->request->add(['file_type' => get_file_type($request->file('post_files'))]);
+
 
                     $filename = rand(1,1000000).'-post-'.$request->file_type ?? 'image';
 
                     $folder_path = POST_PATH.$post->user_id.'/';
 
                     $post_file_url = Helper::post_upload_file($request->post_files, $folder_path, $filename);
+
+                    $ext = $request->post_files->getClientOriginalExtension();
 
                     if($post_file_url) {
 
@@ -209,9 +213,19 @@ class AdminPostController extends Controller
                         
                         $post_file->file = $post_file_url;
 
-                        $post_file->file_type = 'image';
+                        $post_file->file_type = $request->file_type;
 
-                        $post_file->blur_file = \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->post_files, $post->user_id);
+                        $post_file->blur_file = $request->file_type == "image" ? \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->file, $request->id) : Setting::get('post_video_placeholder');
+
+                        if($request->file_type == 'video') {
+
+                            $filename_img = rand(1,1000000).'-post-image.jpg';
+
+                            \VideoThumbnail::createThumbnail(storage_path('app/public/'.$folder_path.$filename.'.'.$ext),storage_path('app/public/'.$folder_path),$filename_img, 2);
+
+                            $post_file->preview_file = asset('storage/'.$folder_path.$filename_img);
+
+                        }
                         
                         $post_file->save();
 

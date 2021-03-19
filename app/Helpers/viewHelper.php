@@ -1154,3 +1154,25 @@ function check_user_subscribed($post_user,$request) {
 function emptyObject() {
     return (Object)[];
 }
+
+
+function get_file_type($file) {
+
+    $imagemimes = ['image/png', 'image/jpeg', 'image/jpg']; //Add more mimes that you want to support
+    
+    $videomimes = ['video/mp4', 'video/mov', 'video/ogg']; //Add more mimes that you want to support
+    
+    $audiomimes = ['audio/mpeg']; //Add more mimes that you want to support
+
+    if(in_array($file->getMimeType() ,$imagemimes)) {
+        return FILE_TYPE_IMAGE;
+    }
+    //Validate video
+    if (in_array($file->getMimeType() ,$videomimes)) {
+        return FILE_TYPE_VIDEO;
+    }
+    //validate audio
+    if (in_array($file->getMimeType() ,$audiomimes)) {
+        return FILE_TYPE_AUDIO;
+    }   
+}
