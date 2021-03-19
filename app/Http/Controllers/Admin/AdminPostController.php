@@ -216,21 +216,25 @@ class AdminPostController extends Controller
 
                         $post_file->blur_file = $request->file_type == "image" ? \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->file('post_files'), $post->user_id) : Setting::get('post_video_placeholder');
 
-                        if($request->file_type == 'video') {
+                        if($request->file_type == FILE_TYPE_VIDEO) { // This is not working properly
 
-                            $filename_img = rand(1,1000000).'-post-image.jpg';
+                            // $filename_img = "preview-".rand(1,1000000).'-post-image.jpg';
 
-                            \VideoThumbnail::createThumbnail(storage_path('app/public/'.$folder_path.$filename.'.'.$ext),storage_path('app/public/'.$folder_path),$filename_img, 2);
+                            // \VideoThumbnail::createThumbnail(storage_path('app/public/'.$folder_path.$filename.'.'.$ext),storage_path('app/public/'.$folder_path),$filename_img, 2);
 
-                            $post_file->preview_file = asset('storage/'.$folder_path.$filename_img);
+                            // $post_file->preview_file = asset('storage/'.$folder_path.$filename_img);
+                            
+                            $post_file->preview_file = Setting::get('post_video_placeholder');
 
                         }
+
                         
                         $post_file->save();
 
                     }
 
                 }
+
                 DB::commit(); 
 
                 return redirect()->route('admin.posts.view',['post_id'=>$post->id])->with('flash_success', tr('posts_create_succes'));
