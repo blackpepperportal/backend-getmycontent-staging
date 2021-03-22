@@ -55,6 +55,33 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="page">
+                                                {{tr('select_image_type')}}
+                                                <span class="required" aria-required="true"> <span class="admin-required">*</span> </span>
+                                            </label><br>
+
+                                            <input type="radio" onclick="select_image_type();" name="file_type" value="{{POSTS_IMAGE}}" {{ ($post->is_published  == POSTS_IMAGE)? "checked" : "" }}   ><label class="ml-1" for="{{POSTS_IMAGE}}"> {{tr('image')}} </label>
+
+                                            <input class="ml-1" type="radio"  onclick="select_image_type();" name="file_type" value="{{POSTS_VIDEO}}"  {{ ($post->is_published  == POSTS_VIDEO)? "checked" : "" }} ><label class="ml-1" for="{{POSTS_VIDEO}}"> {{tr('video')}} </label>&nbsp;
+                                          
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-6 preview_file" style="display: none;">
+                                        
+                                        <div class="form-group">
+                                            <label for="page">{{tr('preview_file')}}</label>
+                                            <input type="file" class="form-control" name="preview_file" accept="image/*" />
+                                        </div>
+
+                                    </div>
+
                                    <div class="col-md-6">
                                         
                                         <div class="form-group">
