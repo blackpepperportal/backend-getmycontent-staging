@@ -93,7 +93,7 @@
 
 			<div class="card-title">{{tr('payment_history')}}</div>
 
-			<table class="table table-striped table-bordered">
+			<table class="table table-striped table-bordered table-responsive">
                         
                 <thead>
                     <tr>

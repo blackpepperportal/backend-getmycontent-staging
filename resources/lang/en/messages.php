@@ -1140,5 +1140,10 @@ return [
 	"user_document_approved" => "The user updated documents approved by Admin.",
 	"user_document_declined" => "The user updated documents decined by Admin.",
 	"snapchat_link" => "Snapchat Link",
+
+	"image" => "Image",
+	"video" => "Video",
+	"select_image_type" => "Select Image Type",
+	"preview_file" => "Preview File",
 ]
 ?>

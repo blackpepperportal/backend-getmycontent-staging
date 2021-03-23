@@ -47,7 +47,7 @@
 
                                 </div>
 
-                                <table class="table table-bordered table-striped tab-content">
+                                <table class="table table-bordered table-striped tab-content table-responsive">
                        
                                     <tbody>
                                        
@@ -91,7 +91,7 @@
 
                                 <div class="card-title text-primary">{{tr('order_details')}}</div>
 
-                                <table class="table table-bordered table-striped tab-content">
+                                <table class="table table-bordered table-striped tab-content table-responsive">
                        
                                     <tbody>
 

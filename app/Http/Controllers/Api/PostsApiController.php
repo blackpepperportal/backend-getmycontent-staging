@@ -289,7 +289,7 @@ class PostsApiController extends Controller
 
             
             $rules = [
-                'content' => 'required',
+                'content' => $request->post_files ? 'nullable' :'required',
                 'publish_time' => 'nullable',
                 'amount' => 'nullable|numeric|min:1',
                 'post_files' => 'nullable'

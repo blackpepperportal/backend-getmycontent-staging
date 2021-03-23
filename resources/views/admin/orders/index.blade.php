@@ -50,7 +50,7 @@
 
                         @include('admin.orders._search')
                         
-                        <table class="table table-striped table-bordered sourced-data">
+                        <table class="table table-striped table-bordered sourced-data table-responsive">
                             
                             <thead>
                                 <tr>
