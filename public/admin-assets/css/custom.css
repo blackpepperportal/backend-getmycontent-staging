@@ -202,9 +202,47 @@ img {
 
  .card-css{
   width: 240px !important;
-  height: 95px !important;
+  height: 88px !important;
  }
 
  .search-form-css{
    margin-right:2px ! important;
  }
+
+ .col-padding-zero{
+   padding-right: 0;
+   padding-left: 0;
+ }
+
+ .dashboard-sec .card .card-content .media-body h5{
+  font-size: 1em;
+  font-weight: 600;
+ }
+
+ table.dataTable td, table.dataTable th {
+  white-space: nowrap;
+ }
+
+ div.fansclub-tab-content{
+   padding-right: 20px;
+   padding-bottom: 10px;
+ }
+
+ .padding-btm-zero{
+  padding-bottom: 0!important;
+}
+.reps-tab-flex .nav-item a.nav-link.active{
+  border-bottom: 3px solid #f4a640;
+  border-top: 0!important;
+  border-left: 0;
+  border-right: 0;
+}
+
+.user-view-padding{
+  padding:15px;
+}
+
+.user-profile-view-sec .profile-image img{
+  object-fit: cover;
+  width: 100px;
+}

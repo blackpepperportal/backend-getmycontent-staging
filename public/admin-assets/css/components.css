@@ -14,6 +14,7 @@ html body {
     height: 100%;
     background-color: #f5f7fa;
     direction: ltr;
+    overflow-x: hidden;
 }
 html body.fixed-navbar {
     padding-top: 4rem;
@@ -177,7 +178,7 @@ html body .pace .pace-progress {
 }
 
 footer.footer {
-    padding: 0.4rem;
+    padding: 1rem;
 }
 
 footer.navbar-shadow {
@@ -4577,6 +4578,7 @@ table.dataTable {
 div.dataTables_wrapper {
     width: 100%;
     margin: 0 auto;
+    padding: 0;
 }
 div.dataTables_wrapper div.dataTables_filter label {
     margin-top: 1rem;

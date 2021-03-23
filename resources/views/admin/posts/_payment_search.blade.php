@@ -2,13 +2,13 @@
 
     <div class="row">
 
-        <div class="col-6">
+        <div class="col-xs-12 col-sm-12 col-lg-6 col-md-12">
             @if(Request::has('search_key'))
                 <p class="text-muted">{{tr('search_results_for')}}<b>{{Request::get('search_key')}}</b></p>
             @endif
         </div>
 
-        <div class="col-6">
+        <div class="col-xs-12 col-sm-12 col-lg-6 col-md-12">
 
             <div class="input-group">
                

@@ -139,7 +139,7 @@
 
                         </table>
 
-                        <div class="pull-right" id="paglink">{{ $user_withdrawals->appends(request()->input())->links() }}</div>
+                        <div class="pull-right resp-float-unset" id="paglink">{{ $user_withdrawals->appends(request()->input())->links() }}</div>
 
                     </div>
 

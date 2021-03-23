@@ -6,13 +6,13 @@
 
 @section('breadcrumb')
 
-    
 
-    <li class="breadcrumb-item"><a href="{{route('admin.user_wallets.index')}}">{{tr('user_wallets')}}</a>
-    </li>
 
-    <li class="breadcrumb-item active">{{tr('view_user_wallets')}}</a>
-    </li>
+<li class="breadcrumb-item"><a href="{{route('admin.user_wallets.index')}}">{{tr('user_wallets')}}</a>
+</li>
+
+<li class="breadcrumb-item active">{{tr('view_user_wallets')}}</a>
+</li>
 
 @endsection
 
@@ -24,139 +24,147 @@
 
         <div class="card-header border-bottom border-gray">
 
-            <h4 class="card-title">{{ tr('view_user_wallets') }} - <a href="{{route('admin.users.view',['user_id' => $user_wallet->user_id])}}">{{$user_wallet->user->name ?? "-"}}</a>	</h4>
+            <h4 class="card-title">{{ tr('view_user_wallets') }} - <a
+                    href="{{route('admin.users.view',['user_id' => $user_wallet->user_id])}}">{{$user_wallet->user->name ?? "-"}}</a>
+            </h4>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-            
+
         </div>
 
         <div class="card-body">
 
             <div class="row">
 
-			    <div class="col-xl-4 col-lg-6 col-12">
-			        <div class="card bg-warning">
-			            <div class="card-content">
-			                <div class="card-body">
-			                    <div class="media d-flex">
-			                        <div class="media-body white text-left">
-			                            <h3>{{$user_wallet->total_formatted}}</h3>
-			                            <span>{{tr('total')}}</span>
-			                        </div>
-			                        <div class="align-self-center">
-			                            <i class="icon-wallet font-large-2 white"></i>
-			                        </div>
-			                    </div>
-			                </div>
-			            </div>
-			        </div>
-			    </div>
+                <div class="col-xl-4 col-lg-6 col-12">
+                    <div class="card bg-warning">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="media-body white text-left">
+                                        <h3>{{$user_wallet->total_formatted}}</h3>
+                                        <span>{{tr('total')}}</span>
+                                    </div>
+                                    <div class="align-self-center">
+                                        <i class="icon-wallet font-large-2 white"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-			    <div class="col-xl-4 col-lg-6 col-12">
-			        <div class="card bg-success">
-			            <div class="card-content">
-			                <div class="card-body">
-			                    <div class="media d-flex">
-			                        <div class="media-body white text-left">
-			                            <h3>{{$user_wallet->used_formatted}}</h3>
-			                            <span>{{tr('used')}}</span>
-			                        </div>
-			                        <div class="align-self-center">
-			                            <i class="icon-support white font-large-2 float-right"></i>
-			                        </div>
-			                    </div>
-			                </div>
-			            </div>
-			        </div>
-			    </div>
+                <div class="col-xl-4 col-lg-6 col-12">
+                    <div class="card bg-success">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="media-body white text-left">
+                                        <h3>{{$user_wallet->used_formatted}}</h3>
+                                        <span>{{tr('used')}}</span>
+                                    </div>
+                                    <div class="align-self-center">
+                                        <i class="icon-support white font-large-2 float-right"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-			    <div class="col-xl-4 col-lg-6 col-12">
-			        <div class="card bg-danger">
-			            <div class="card-content">
-			                <div class="card-body">
-			                    <div class="media d-flex">
-			                        <div class="media-body white text-left">
-			                            <h3>{{$user_wallet->remaining_formatted}}</h3>
-			                            <span>{{tr('remaining')}}</span>
-			                        </div>
-			                        <div class="align-self-center">
-			                            <i class="icon-pie-chart white font-large-2 float-right"></i>
-			                        </div>
-			                    </div>
-			                </div>
-			            </div>
-			        </div>
-			    </div>
+                <div class="col-xl-4 col-lg-6 col-12">
+                    <div class="card bg-danger">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="media-body white text-left">
+                                        <h3>{{$user_wallet->remaining_formatted}}</h3>
+                                        <span>{{tr('remaining')}}</span>
+                                    </div>
+                                    <div class="align-self-center">
+                                        <i class="icon-pie-chart white font-large-2 float-right"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-			</div>
+            </div>
 
-			<div class="row col-12">
+            <div class="row">
 
-			<div class="card-title">{{tr('payment_history')}}</div>
+				<div class="col-md-12">
+					<div class="card-title">{{tr('payment_history')}}</div>
 
-			<table class="table table-striped table-bordered table-responsive">
-                        
-                <thead>
-                    <tr>
-                        <th>{{ tr('s_no') }}</th>
-                        <th>{{ tr('payment_id') }} </th> 
-                        <th>{{ tr('payment_mode') }}</th>
-                        <th>{{ tr('requested_amount') }}</th>
-                        <th>{{ tr('paid_date') }}</th>
-                        <th>{{ tr('status') }}</th>
-                    </tr>
-                </thead>
-               
-                <tbody>
-                   
-				   @if($user_wallet_payments->isNotEmpty())
+					<table class="table table-striped table-bordered table-responsive">
 
-                    @foreach($user_wallet_payments as $i => $stardom_wallet_payment_details)
-                    <tr>
-                        <td>{{ $i+$user_wallet_payments->firstItem() }}</td>
+						<thead>
+							<tr>
+								<th>{{ tr('s_no') }}</th>
+								<th>{{ tr('payment_id') }} </th>
+								<th>{{ tr('payment_mode') }}</th>
+								<th>{{ tr('requested_amount') }}</th>
+								<th>{{ tr('paid_date') }}</th>
+								<th>{{ tr('status') }}</th>
+							</tr>
+						</thead>
 
-                        <td>{{ $stardom_wallet_payment_details->payment_id}}</td>
+						<tbody>
 
-                        <td>{{ $stardom_wallet_payment_details->payment_mode }}</td>
+							@if($user_wallet_payments->isNotEmpty())
 
-                        <td>{{ $stardom_wallet_payment_details->requested_amount_formatted }}</td>
+							@foreach($user_wallet_payments as $i => $stardom_wallet_payment_details)
+							<tr>
+								<td>{{ $i+$user_wallet_payments->firstItem() }}</td>
 
-                        <td>
-                            {{common_date($stardom_wallet_payment_details->paid_date,Auth::guard('admin')->user()->timezone)}}
-                        </td>
+								<td>{{ $stardom_wallet_payment_details->payment_id}}</td>
 
-                        <td>
-                            @if($stardom_wallet_payment_details->status == PAID)
+								<td>{{ $stardom_wallet_payment_details->payment_mode }}</td>
 
-                            	<span class="btn btn-success btn-sm">{{ tr('paid') }}</span> 
-                            @else
+								<td>{{ $stardom_wallet_payment_details->requested_amount_formatted }}</td>
 
-                            	<span class="btn btn-warning btn-sm">{{ tr('not_paid') }}</span> 
-                            @endif
-                        </td>
+								<td>
+									{{common_date($stardom_wallet_payment_details->paid_date,Auth::guard('admin')->user()->timezone)}}
+								</td>
 
-                    </tr>
+								<td>
+									@if($stardom_wallet_payment_details->status == PAID)
 
-                    @endforeach
+									<span class="btn btn-success btn-sm">{{ tr('paid') }}</span>
+									@else
 
-					@else
-                       
-					   <tr colspan="8" class="text-center"><td><h4>{{tr('no_results_found')}}</h4></td></tr>
+									<span class="btn btn-warning btn-sm">{{ tr('not_paid') }}</span>
+									@endif
+								</td>
 
-					@endif
+							</tr>
 
-                </tbody>
-            
-            </table>
+							@endforeach
 
-            <div class="pull-right" id="paglink">{{ $user_wallet_payments->appends(request()->input())->links() }}</div>
+							@else
 
-        </div>
+							<tr colspan="8" class="text-center">
+								<td>
+									<h4>{{tr('no_results_found')}}</h4>
+								</td>
+							</tr>
+
+							@endif
+
+						</tbody>
+
+					</table>
+
+					<div class="pull-right" id="paglink">{{ $user_wallet_payments->appends(request()->input())->links() }}
+					</div>
+				</div>
+
+            </div>
 
         </div>
 
     </div>
 
 </div>
-    
-@endsection
 
+@endsection

@@ -46,6 +46,8 @@
 
     <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/css/custom.css')}}">
 
+    <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/css/responsive.css')}}">
+
     <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/css/plugins/forms/checkboxes-radios.min.css')}}">
 
 
