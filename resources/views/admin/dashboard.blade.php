@@ -135,6 +135,8 @@
         <div class="col-xl-12 col-lg-12">
 
             <div class="card">
+                
+            <div class="card-body graph-scroll-body">
 
                 <div class="card-header">
 
@@ -157,13 +159,9 @@
 
                 </div>
 
-                <div class="card-content">
-
-                    <div class="card-body">
-
-                        <div id="products-sales" class="height-300"></div>
-
-                    </div>
+                <div class="card-content">                  
+                    <div id="products-sales" class="height-300"></div>
+                </div>
 
                 </div>
 
@@ -200,31 +198,33 @@
                     </div>
 
                     @forelse($data->recent_users as $i => $user)
+                    <div class="block-nav-pills">
 
-                    <a href="{{ route('admin.users.view', ['user_id' => $user->id])}}" class="nav-link">
+                        <a href="{{ route('admin.users.view', ['user_id' => $user->id])}}" class="nav-link">
 
-                        <div class="wrapper d-flex align-items-center py-2 border-bottom">
+                            <div class="wrapper d-flex align-items-center py-2 border-bottom">
 
-                            <img class="img-sm rounded-circle" src="{{ $user->picture }}" alt="profile">
+                                <img class="img-sm rounded-circle" src="{{ $user->picture }}" alt="profile">
 
-                            <div class="wrapper ml-3">
-                                <h6 class="ml-1 mb-1">
-                                    {{$user->name}}
-                                </h6>
+                                <div class="wrapper ml-3">
+                                    <h6 class="ml-1 mb-1">
+                                        {{$user->name}}
+                                    </h6>
 
-                                <small class="text-muted mb-0">
-                                    <i class="icon icon-envelope-open mr-1"></i>
-                                    {{ $user->email }}
+                                    <small class="text-muted mb-0">
+                                        <i class="icon icon-envelope-open mr-1"></i>
+                                        {{ $user->email }}
 
-                                </small>
-                                <br>
+                                    </small>
+                                    <br>
 
+                                </div>
+
+                                <small class="text-muted ml-auto">{{$user->created_at->diffForHumans()}}</small>
                             </div>
 
-                            <small class="text-muted ml-auto">{{$user->created_at->diffForHumans()}}</small>
-                        </div>
-
-                    </a>
+                        </a>
+                    </div>
 
                     @empty
 
@@ -273,10 +273,11 @@
                     </div>
 
                     @forelse($data->recent_premium_users as $i => $recent_premium_user)
+                    <div class="block-nav-pills">
 
                     <a href="{{ route('admin.users.view', ['provider_id' => $recent_premium_user->id])}}" class="nav-link">
 
-                        <div class="list d-flex align-items-center border-bottom py-2">
+                        <div class="list d-flex align-items-center border-bottom py-2 list-block">
 
                             <img class="img-sm rounded-circle" src="{{ $recent_premium_user->picture ?: asset('placeholder.jpeg')}}" alt="">
 
@@ -284,9 +285,9 @@
 
                                 <p class="mb-0"><b>{{$recent_premium_user->name}} </b></p>
 
-                                <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center list-block-1">
 
-                                    <div class="d-flex align-items-center">
+                                    <div class="d-flex align-items-center block-sm">
                                         <i class="icon icon-envelope-open text-muted mr-1"></i>
 
                                         <p class="mb-0 text-muted">{{$recent_premium_user->email}}</p>
@@ -300,6 +301,8 @@
                         </div>
 
                     </a>
+
+                    </div>
 
                     @empty
                     <div class="text-center m-5">

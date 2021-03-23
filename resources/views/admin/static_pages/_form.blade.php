@@ -4,7 +4,7 @@
     
         <div class="col-lg-12">
 
-            <div class="card">
+            <div class="card user-static-sec">
                 
                 <div class="card-header border-bottom border-gray">
 
@@ -34,7 +34,7 @@
 
                             @csrf
 
-                            <div class="card-body">
+                            <!-- <div class="card-body"> -->
 
                                 @if($static_page->id)
 
@@ -47,7 +47,7 @@
                                     <div class="row">
 
                                         <div class="form-group col-md-6">
-                                            <div class="form-group">
+                                            <div class="form-group-1">
                                                 <label for="title">{{tr('title')}}<span class="admin-required">*</span> </label>
                                                 <input type="text" id="title" name="title" class="form-control" placeholder="Enter {{tr('title')}}" required  value="{{old('title')?: $static_page->title}}" onkeydown="return alphaOnly(event);">
                                             </div>
@@ -112,7 +112,7 @@
 
                                 </div>
 
-                            </div>
+                            <!-- </div> -->
 
                             <div class="form-actions">
 

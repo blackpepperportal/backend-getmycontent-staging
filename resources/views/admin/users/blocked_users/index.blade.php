@@ -22,7 +22,7 @@
 
         <div class="col-12">
 
-            <div class="card">
+            <div class="card blocked-user-sec">
 
                 <div class="card-header border-bottom border-gray">
 
@@ -41,7 +41,7 @@
 
                     <div class="card-body card-dashboard">
 
-                        <table class="table table-striped table-bordered sourced-data table-responsive">
+                        <table class="table table-striped table-bordered sourced-data">
 
                             <thead>
                                 <tr>
@@ -114,7 +114,7 @@
 
                         </table>
 
-                        <div class="pull-right" id="paglink">{{ $block_users->appends(request()->input())->links() }}</div>
+                        <div class="pull-right resp-float-unset" id="paglink">{{ $block_users->appends(request()->input())->links() }}</div>
 
                     </div>
 

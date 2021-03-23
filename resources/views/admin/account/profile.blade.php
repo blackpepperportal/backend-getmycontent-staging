@@ -15,7 +15,7 @@
 
     <div class="row">
 
-        <div class="col-4">
+        <div class="col-xl-4 col-lg-4 col-md-12">
 
             <div class="card">
                 
@@ -53,7 +53,7 @@
 
         </div>
 
-        <div class="col-8">
+        <div class="col-xl-8 col-lg-8 col-md-12">
 
             <div class="card">
 
@@ -61,7 +61,7 @@
 
                     <div class="card-body">
                    
-                        <ul class="nav nav-tabs nav-top-border no-hover-bg">
+                        <ul class="nav nav-tabs nav-top-border no-hover-bg reps-tab-flex">
                             <li class="nav-item">
                                 <a class="nav-link active" id="base-tab_update_profile" data-toggle="tab" aria-controls="tab_update_profile" href="#tab_update_profile" aria-expanded="true">{{ tr('update_profile') }}</a>
                             </li>
@@ -73,7 +73,7 @@
                             </li>
                         </ul>
 
-                        <div class="tab-content px-1 pt-1">
+                        <div class="tab-content pt-1">
 
                             <div role="tabpanel" class="tab-pane active" id="tab_update_profile" aria-expanded="true" aria-labelledby="base-tab_update_profile">
 
@@ -107,13 +107,13 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-actions">
+                                    <div class="form-actions padding-btm-zero">
 
                                         <button type="reset" class="btn btn-warning mr-1">
-                                            <i class="ft-x"></i> {{ tr('reset') }} 
+                                            <i class="ft-x mr-1"></i> {{ tr('reset') }} 
                                         </button>
 
-                                        <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled @endif ><i class="fa fa-check-square-o"></i>{{ tr('submit') }}</button>
+                                        <button type="submit" class="btn btn-primary" @if(Setting::get('is_demo_control_enabled') == YES) disabled @endif ><i class="fa fa-check-square-o mr-1"></i>{{ tr('submit') }}</button>
                                         
                                         <div class="clearfix"></div>
 

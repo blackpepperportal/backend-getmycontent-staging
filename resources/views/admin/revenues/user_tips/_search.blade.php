@@ -1,12 +1,12 @@
-<form method="GET" action="{{route('admin.user_tips.index')}}" class="form-bottom">
+<form method="GET" action="{{route('admin.user_tips.index')}}" class="">
 
     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-lg-3 col-md-6 resp-mrg-btm-md">
+        <div class="col-xs-12 col-sm-12 col-lg-3 col-md-6">
             @if(Request::has('search_key'))
             <p class="text-muted">Search results for <b>{{Request::get('search_key')}}</b></p>
             @endif
         </div>
-        <div class="col-xs-12 col-sm-12 col-lg-3 col-md-6 md-full-width resp-mrg-btm-md"></div>
+        <div class="col-xs-12 col-sm-12 col-lg-3 col-md-6 md-full-width"></div>
         <div class="col-xs-12 col-sm-12 col-lg-6 col-md-12">
 
             <div class="input-group">
