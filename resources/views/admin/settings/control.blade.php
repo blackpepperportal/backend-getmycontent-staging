@@ -188,12 +188,12 @@
                                                             <label>{{ tr('is_multilanguage_support') }}</label>
                                                             <br>
                                                             <label>
-                                                                <input required type="radio" name="is_multilanguage_support" value="1" class="flat-red" @if(Setting::get('is_multilanguage_support') == 1) checked @endif>
+                                                                <input required type="radio" name="is_multilanguage_enabled" value="1" class="flat-red" @if(Setting::get('is_multilanguage_enabled') == 1) checked @endif>
                                                                 {{tr('yes')}}
                                                             </label>
 
                                                             <label>
-                                                                <input required type="radio" name="is_multilanguage_support" class="flat-red"  value="0" @if(Setting::get('is_multilanguage_support') == 0) checked @endif>
+                                                                <input required type="radio" name="is_multilanguage_enabled" class="flat-red"  value="0" @if(Setting::get('is_multilanguage_enabled') == 0) checked @endif>
                                                                 {{tr('no')}}
                                                             </label>
                                                     
