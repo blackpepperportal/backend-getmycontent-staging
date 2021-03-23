@@ -37,7 +37,7 @@
 
                 	<div class="col-lg-6">
 
-                		<table class="table table-bordered table-striped tab-content table-responsive">
+                		<table class="table table-bordered table-striped tab-content table-responsive-sm">
                
                             <tbody>
 
@@ -91,7 +91,7 @@
 
                 	<div class="col-lg-6">
 
-                		 <table class="table table-bordered table-striped tab-content table-responsive">
+                		 <table class="table table-bordered table-striped tab-content table-responsive-sm">
                        
                             <tbody>
                             	<tr>

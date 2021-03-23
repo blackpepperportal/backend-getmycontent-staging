@@ -210,6 +210,17 @@ Version: 1.0
     .settings-sec .fansclub-tab .img-thumbnail{
         margin-bottom: 1.3em;
     }
+    .post-view-personal-bio-sec .post-image {
+        height: 150px;
+        object-fit: cover;
+    }
+
+    .post-view-personal-bio-sec ul {
+        padding-left: 0;
+    }
+    .table th, .table td{
+        white-space: nowrap;
+    }
 }
 
 @media (max-width: 575.98px) {}
