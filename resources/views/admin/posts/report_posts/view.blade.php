@@ -54,7 +54,7 @@
                     <div class="card-body card-dashboard">
 
 
-                        <table class="table table-striped table-bordered sourced-data">
+                        <table class="table table-striped table-bordered sourced-data table-responsive">
 
                             <thead>
                                 <tr>
