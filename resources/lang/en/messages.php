@@ -379,6 +379,7 @@ return [
 	"is_account_email_verification" => "Is Account email verification enabled",
 	"is_email_notification" => "Is email notification",
 	"is_email_configured" => "Is email configured",
+	"is_multilanguage_support" => "Is multi-language supported",
 	"is_push_notification" => "Is push notification",
 	"admin_take_count" => "Admin Take Count",
 	"demo_admin_email" => "Demo - Admin Email",

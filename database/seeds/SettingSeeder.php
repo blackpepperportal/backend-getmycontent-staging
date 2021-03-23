@@ -253,6 +253,10 @@ class SettingSeeder extends Seeder
 		        'key' => 'user_online_status_limit',
 		        'value' => NO
 		    ],
+		    [
+		        'key' => 'is_multilanguage_support',
+		        'value' => NO
+		    ],
 
 		]);
 

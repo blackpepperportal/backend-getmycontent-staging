@@ -183,6 +183,22 @@
                                                     
                                                         </div>
 
+                                                        <div class="form-group col-md-6">
+                                                                       
+                                                            <label>{{ tr('is_multilanguage_support') }}</label>
+                                                            <br>
+                                                            <label>
+                                                                <input required type="radio" name="is_multilanguage_support" value="1" class="flat-red" @if(Setting::get('is_multilanguage_support') == 1) checked @endif>
+                                                                {{tr('yes')}}
+                                                            </label>
+
+                                                            <label>
+                                                                <input required type="radio" name="is_multilanguage_support" class="flat-red"  value="0" @if(Setting::get('is_multilanguage_support') == 0) checked @endif>
+                                                                {{tr('no')}}
+                                                            </label>
+                                                    
+                                                        </div>
+
                                                         <div class="row">
 
                                                         <div class="col-md-12">
