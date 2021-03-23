@@ -40,7 +40,7 @@
 
                             <div class="col-md-6">
 
-                                <table class="table table-bordered table-striped tab-content table-responsive">
+                                <table class="table table-bordered table-striped tab-content table-responsive-sm">
 
                                     <tbody>
 
@@ -112,7 +112,7 @@
 
                             <div class="col-md-6">
 
-                                <table class="table table-bordered table-striped tab-content table-responsive">
+                                <table class="table table-bordered table-striped tab-content table-responsive-sm">
 
                                     <tbody>
 

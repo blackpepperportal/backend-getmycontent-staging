@@ -51,7 +51,12 @@ Version: 1.0
     .user-wallet-sec .heading-elements-toggle{
         display: none;
     }
-
+    .user-document-verify-sec .heading-elements-toggle{
+        display: none;
+    }
+    .heading-elements-toggle{
+        display: none;
+    }
 }
 
 
@@ -192,6 +197,18 @@ Version: 1.0
 
     .user-profile-view-sec .media .media-body h3{
         margin-bottom: 0.8rem;
+    }
+    .user-document-verify-sec .heading-elements{
+        top:41px;
+    }
+    .breadcrumb{
+        font-size: 0.85rem;
+    }
+    .card-margin-btm-zero {
+        margin-bottom: 0!important;
+    }
+    .settings-sec .fansclub-tab .img-thumbnail{
+        margin-bottom: 1.3em;
     }
 }
 
