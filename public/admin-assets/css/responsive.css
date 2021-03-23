@@ -162,6 +162,37 @@ Version: 1.0
         border-left: 0;
         border-right: 0;
     }
+    .resp-marg-top-xs{
+        margin-top: 1em;
+    }
+    html body .content .content-wrapper .content-header-title{
+        text-align: right;
+    }
+    .user-profile-view-sec .user-view-padding .table th, .user-view-padding .table td{
+        white-space: nowrap;
+    }
+    .user-profile-view-sec .media.profil-cover-details{
+        display: block!important;
+        text-align: center;
+    }
+
+    .user-profile-view-sec .media .media-body{
+        padding-right: 0!important;
+        padding-left: 0!important;
+        padding-top: 1.5em!important;
+    }
+
+    .user-profile-view-sec .card.profile-with-cover{
+        margin-bottom: 0!important;
+    }
+
+    .user-profile-view-sec .media-left{
+        padding-left: 0!important;
+    }
+
+    .user-profile-view-sec .media .media-body h3{
+        margin-bottom: 0.8rem;
+    }
 }
 
 @media (max-width: 575.98px) {}

@@ -237,3 +237,7 @@ img {
   border-left: 0;
   border-right: 0;
 }
+
+.user-view-padding{
+  padding:15px;
+}
