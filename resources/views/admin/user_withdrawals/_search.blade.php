@@ -2,7 +2,7 @@
 
     <div class="row">
 
-        <div class="col-xs-12 col-sm-12 col-lg-3 col-md-6 resp-mrg-btm-md">
+        <div class="col-xs-12 col-sm-12 col-lg-3 col-md-6">
             @if(Request::has('search_key'))
                 <p class="text-muted">{{tr('search_results_for')}}<b>{{Request::get('search_key')}}</b></p>
             @endif

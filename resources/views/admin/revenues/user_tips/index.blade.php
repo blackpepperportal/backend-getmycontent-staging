@@ -20,7 +20,7 @@
 
         <div class="col-12">
 
-            <div class="card">
+            <div class="card user-tips-sec">
 
                 <div class="card-header border-bottom border-gray">
 
@@ -126,7 +126,7 @@
                             </tbody>
 
                         </table>
-                        <div class="pull-right" id="paglink">{{ $user_tips->appends(request()->input())->links() }}</div>
+                        <div class="pull-right resp-float-unset" id="paglink">{{ $user_tips->appends(request()->input())->links() }}</div>
 
 
                     </div>

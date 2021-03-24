@@ -20,7 +20,7 @@
 
         <div class="col-12 ">
 
-            <div class="card">
+            <div class="card post-payment-sec">
 
                 <div class="card-header border-bottom border-gray">
 
@@ -43,7 +43,7 @@
 
                         @include('admin.posts._payment_search')
                         
-                        <table class="table table-striped table-bordered sourced-data table-left">
+                        <table class="table table-striped table-bordered sourced-data table-responsive">
                             
                             <thead>
                                 <tr>
@@ -115,7 +115,7 @@
                         
                         </table>
 
-                        <div class="pull-right" id="paglink">{{ $post_payments->appends(request()->input())->links() }}</div>
+                        <div class="pull-right resp-float-unset" id="paglink">{{ $post_payments->appends(request()->input())->links() }}</div>
 
                     </div>
 

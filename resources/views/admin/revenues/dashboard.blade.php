@@ -18,7 +18,7 @@
 
         <div class="col-12">
 
-            <div class="card">
+            <div class="card revenue-dashboard-sec">
 
                 <div class="card-header border-bottom border-gray">
 
@@ -200,9 +200,7 @@
                                     </div>
 
                                     <div class="card-body no-padding height-9">
-                                        <div class="row">
-                                            <canvas id="bar-chart"></canvas>
-                                        </div>
+                                        <canvas id="bar-chart"></canvas>
                                     </div>
 
                                 </div>

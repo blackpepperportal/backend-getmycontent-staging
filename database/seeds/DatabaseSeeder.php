@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PageDemoSeeder::class);
         $this->call(PaypalSeeder::class);
         $this->call(VerifiedBadgeSeeder::class);
+        $this->call(MultiLanguageSeeder::class);
 
     }
 }
