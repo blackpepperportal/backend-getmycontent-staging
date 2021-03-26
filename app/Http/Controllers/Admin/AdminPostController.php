@@ -153,25 +153,24 @@ class AdminPostController extends Controller
     */
     public function posts_save(Request $request) {
         
-        try {
-            
-            
+        try {            
+
             DB::begintransaction();
 
             $rules = [
                 'user_id' => 'required',
-                'content' => 'required',
+                'content' => $request->has('post_files') ? 'nullable' : 'required',
                 'amount' => 'nullable|min:0',
-                'publish_type'=>'required',
-                'publish_time' => 'required_if:publish_type,==,'.UNPUBLISHED,
+                // 'publish_type'=>'required',
+                // 'publish_time' => 'required_if:publish_type,==,'.UNPUBLISHED,
             ];
 
-            $customMessages = [
+            $errors = [
                 'required_if' => 'The :attribute field is required when :other is '. tr('schedule') .'.',
             ];
 
 
-            Helper::custom_validator($request->all(),$rules, $customMessages);
+            Helper::custom_validator($request->all(),$rules, $errors);
 
             $post = \App\Post::find($request->post_id) ?? new \App\Post;
 
@@ -179,7 +178,7 @@ class AdminPostController extends Controller
 
             $post->content = $request->content;
 
-            $post->is_published = $request->publish_type;
+            $post->is_published = $request->publish_type ?? PUBLISHED;
 
             $publish_time = $request->publish_time ?: date('Y-m-d H:i:s');
           
@@ -191,15 +190,19 @@ class AdminPostController extends Controller
 
             if($post->save()) {
 
-                if($request->has('post_files')){
+                if($request->has('post_files')) {
 
                     $post_file = \App\PostFile::where('post_id',$post->id)->first() ?? new \App\PostFile();
+
+                    $request->request->add(['file_type' => get_file_type($request->file('post_files'))]);
 
                     $filename = rand(1,1000000).'-post-'.$request->file_type ?? 'image';
 
                     $folder_path = POST_PATH.$post->user_id.'/';
 
                     $post_file_url = Helper::post_upload_file($request->post_files, $folder_path, $filename);
+
+                    $ext = $request->file('post_files')->getClientOriginalExtension();
 
                     if($post_file_url) {
 
@@ -209,15 +212,38 @@ class AdminPostController extends Controller
                         
                         $post_file->file = $post_file_url;
 
-                        $post_file->file_type = 'image';
+                        $post_file->file_type = $request->file_type;
 
-                        $post_file->blur_file = \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->post_files, $post->user_id);
-                        
+                        $post_file->blur_file = $request->file_type == "image" ? \App\Helpers\Helper::generate_post_blur_file($post_file->file, $request->file('post_files'), $post->user_id) : Setting::get('post_video_placeholder');
+
+                        if($request->file_type == FILE_TYPE_VIDEO) { 
+
+                            if ($request->has('preview_file')) {
+
+                                $preview_filename = rand(1,1000000).'-post-'.$request->file_type ?? 'image';
+
+                                $preview_file = Helper::post_upload_file($request->preview_file, $folder_path, $preview_filename);
+                            }
+                            else{
+
+                                $filename_img = "preview-".rand(1,1000000).'-post-image.jpg';
+
+                                \VideoThumbnail::createThumbnail(storage_path('app/public/'.$folder_path.$filename.'.'.$ext),storage_path('app/public/'.$folder_path),$filename_img, 2);
+
+                                $preview_file = asset('storage/'.$folder_path.$filename_img);
+
+                            }
+                            
+                            $post_file->preview_file = $preview_file ?? Setting::get('post_video_placeholder');
+
+                        }
+
                         $post_file->save();
 
                     }
 
                 }
+
                 DB::commit(); 
 
                 return redirect()->route('admin.posts.view',['post_id'=>$post->id])->with('flash_success', tr('posts_create_succes'));
@@ -372,10 +398,11 @@ class AdminPostController extends Controller
 
                 if($request->page){
                     
-                    return redirect()->route('admin.posts.index',['page'=>$request->page])->with('flash_success', tr('post_deleted_success'));   
-                }
-                else{
-                    return redirect()->back()->with('flash_success', tr('post_deleted_success'));   
+                    return redirect()->route('admin.posts.index', ['page'=>$request->page])->with('flash_success', tr('post_deleted_success'));
+
+                } else {
+
+                    return redirect()->route('admin.posts.index')->with('flash_success', tr('post_deleted_success'));
                 }
 
             } 

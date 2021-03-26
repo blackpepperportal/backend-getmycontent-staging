@@ -22,7 +22,7 @@
 
         <div class="col-12">
 
-            <div class="card">
+            <div class="card user-view-sec">
 
                 <div class="card-header border-bottom border-gray">
 
@@ -32,13 +32,13 @@
                     <div class="heading-elements">
 
                        @if($users->count() >= 1)
-                        <a class="btn btn-primary  dropdown-toggle  bulk-action-dropdown" href="#" id="dropdownMenuOutlineButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="btn btn-primary  dropdown-toggle  bulk-action-dropdown resp-mrg-btm-xs" href="#" id="dropdownMenuOutlineButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-plus"></i> {{tr('bulk_action')}}
                         </a>
                        @endif
 
 
-                        <a href="{{ route('admin.users.excel',['downloadexcel'=>'excel','status'=>Request::get('status'),'searc_key'=>Request::get('search_key'),'account_type'=>Request::get('account_type')]) }}" class="btn btn-primary">Export to Excel</a>
+                        <a href="{{ route('admin.users.excel',['downloadexcel'=>'excel','status'=>Request::get('status'),'searc_key'=>Request::get('search_key'),'account_type'=>Request::get('account_type')]) }}" class="btn btn-primary resp-mrg-btm-xs">Export to Excel</a>
                         <a href="{{ route('admin.users.create') }}" class="btn btn-primary"><i class="ft-plus icon-left"></i>{{ tr('add_user') }}</a>
 
                         <div class="dropdown-menu float-right" aria-labelledby="dropdownMenuOutlineButton2">
@@ -78,11 +78,11 @@
 
                 <div class="card-content collapse show">
 
-                    <div class="card-body card-dashboard table-responsive">
+                    <div class="card-body card-dashboard">
 
                         @include('admin.users._search')
 
-                        <table class="table table-striped table-bordered sourced-data ">
+                        <table class="table table-striped table-bordered sourced-data table-responsive">
 
                             <thead>
                                 <tr>
@@ -299,7 +299,7 @@
 
                         </table>
 
-                        <div class="pull-right" id="paglink">{{ $users->appends(request()->input())->links() }}</div>
+                        <div class="pull-right resp-float-unset" id="paglink">{{ $users->appends(request()->input())->links() }}</div>
 
                     </div>
 
@@ -408,12 +408,12 @@
 
   // to accept trailing zeroes
     $(document).ready(function(){
-        $('.non_zero').on('input change', function (e) {
-            var reg = /^0+/gi;
-            if (this.value.match(reg)) {
-                this.value = this.value.replace(reg, '');
-            }
-        });
+        // $('.non_zero').on('input change', function (e) {
+        //     var reg = /^0+/gi;
+        //     if (this.value.match(reg)) {
+        //         this.value = this.value.replace(reg, '');
+        //     }
+        // });
      });
 
     $(document).ready(function (e) {

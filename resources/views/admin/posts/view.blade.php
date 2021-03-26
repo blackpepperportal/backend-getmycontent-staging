@@ -21,7 +21,7 @@
 
     <div class="col-12">
 
-        <div class="card">
+        <div class="card post-view-personal-bio-sec">
 
             <div class="card-header border-bottom border-gray">
 
@@ -35,13 +35,13 @@
                 <div class="row">
 
 
-                    <div class="col-2">
+                    <div class="col-xl-2 col-lg-2 col-md-12 resp-mrg-btm-xs">
 
                         <img src="{{$post->user->picture ?? asset('placeholder.jpeg')}}" class="post-image" alt="Card image" />
 
                     </div>
 
-                    <div class="col-4">
+                    <div class="col-xl-4 col-lg-4 col-md-12 resp-mrg-btm-xs">
 
                         <h4 class="card-title">{{$post->user->name ?? "-"}}</h4>
 
@@ -56,11 +56,11 @@
 
                     </div>
 
-                    <div class="col-3"></div>
+                    <div class="col-xl-3 col-md-12 col-lg-3 resp-mrg-btm-xs"></div>
 
-                    <div class="col-3">
+                    <div class="col-xl-3 col-md-12 col-lg-3">
 
-                        <h4 class="card-title">{{tr('post')}}</h4><br>
+                        <h4 class="card-title mb-0">{{tr('post')}}</h4><br>
 
                         @if(Setting::get('is_demo_control_enabled') == YES)
 
@@ -89,7 +89,7 @@
 
                 <div class="row">
 
-                    <div class="col-xl-4 col-lg-6 col-12">
+                    <div class="col-xl-4 col-lg-6 col-md-12">
                         <div class="card">
                             <div class="card-content">
                                 <div class="media align-items-stretch">
@@ -105,7 +105,7 @@
                         </div>
                     </div>
 
-                    <div class="col-xl-4 col-lg-6 col-12">
+                    <div class="col-xl-4 col-lg-6 col-md-12">
                         <div class="card">
                             <div class="card-content">
                                 <div class="media align-items-stretch">
@@ -121,7 +121,7 @@
                         </div>
                     </div>
 
-                    <div class="col-xl-4 col-lg-6 col-12">
+                    <div class="col-xl-4 col-lg-6 col-md-12">
                         <div class="card">
                             <div class="card-content">
                                 <div class="media align-items-stretch">
@@ -143,7 +143,7 @@
 
 
 
-                    <div class="col-6">
+                    <div class="col-xl-6 col-lg-6 col-md-12">
 
                         <ul class="post-left">
                             <li class="text-uppercase">{{tr('unique_id')}} - {{$post->unique_id}}</li>
@@ -166,7 +166,7 @@
                         </ul>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-xl-6 col-lg-6 col-md-12">
 
                         <ul>
                             <li>{{tr('content')}}-{{$post->content}}</li>
@@ -199,7 +199,7 @@
                 <div class="row">
 
 
-                    <div class="col-2">
+                    <div class="col-xl-2 col-lg-2 col-md-12">
 
                         @if(!$post_files->isEmpty())
 
@@ -216,13 +216,13 @@
 
                    @foreach($post_files as $i => $post_file)
 
-                    <div class="col-4">
+                    <div class="col-xl-4 col-lg-4 col-md-12">
 
                         <h6 class="card-title">{{$post_file->unique_id}}</h6>
 
                     </div>
 
-                    <div class="col-4">
+                    <div class="col-xl-4 col-lg-4 col-md-12">
 
                         <a class="btn btn-primary btn-sm" target="_blank" href="{{ asset($post_file->file)}}">&nbsp;{{ tr('view') }}</a>
 

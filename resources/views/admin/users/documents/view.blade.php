@@ -24,7 +24,7 @@
 
             <p>{{tr('user_documents_verify_notes')}}</p>
 
-            <div class="card">
+            <div class="card user-document-verify-sec">
 
                 <div class="card-header border-bottom border-gray">
 
@@ -58,7 +58,7 @@
 
                     <div class="card-body card-dashboard">
 
-                        <table class="table table-striped table-bordered sourced-data">
+                        <table class="table table-striped table-bordered sourced-data table-responsive">
 
                             <thead>
                                 <tr>

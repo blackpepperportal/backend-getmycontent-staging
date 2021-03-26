@@ -293,6 +293,8 @@ class AdminUserController extends Controller
 
             $user->twitch_link = $request->filled('twitch_link') ? $request->twitch_link : "";
 
+            $user->snapchat_link = $request->filled('snapchat_link') ? $request->snapchat_link : "";
+            
             $username = $request->username ?: $user->username;
 
 

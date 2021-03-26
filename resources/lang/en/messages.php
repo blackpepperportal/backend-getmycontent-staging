@@ -379,6 +379,7 @@ return [
 	"is_account_email_verification" => "Is Account email verification enabled",
 	"is_email_notification" => "Is email notification",
 	"is_email_configured" => "Is email configured",
+	"is_multilanguage_support" => "Is multi-language support enabled?",
 	"is_push_notification" => "Is push notification",
 	"admin_take_count" => "Admin Take Count",
 	"demo_admin_email" => "Demo - Admin Email",
@@ -1139,6 +1140,11 @@ return [
 	"user_document_veification_pending" => "The user updated documents not yet verified by Admin.",
 	"user_document_approved" => "The user updated documents approved by Admin.",
 	"user_document_declined" => "The user updated documents decined by Admin.",
+	"snapchat_link" => "Snapchat Link",
 
+	"image" => "Image",
+	"video" => "Video",
+	"select_image_type" => "Select Image Type",
+	"preview_file" => "Preview File",
 ]
 ?>
