@@ -253,6 +253,11 @@ class User extends Authenticatable
         return $this->hasMany(UserTip::class,'user_id');
     }
 
+    public function userCategory() {
+
+        return $this->hasMany(UserCategory::class,'user_id');
+    }
+
     public function supportTickets() {
 
         return $this->hasMany(SupportTicket::class,'user_id');
@@ -424,7 +429,9 @@ class User extends Authenticatable
             $model->postComments()->delete();
 
             $model->userTips()->delete();
-            
+                
+            $model->userCategory()->delete();
+
             foreach ($model->posts as $key => $post) {
                 $post->delete();
             }

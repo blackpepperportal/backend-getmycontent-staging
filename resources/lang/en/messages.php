@@ -983,7 +983,7 @@ return [
     "user_follow_message"=>"User (:other_key) has been Following you",
 	"USER_FREE_ACCOUNT" => "Free",
 	"USER_PREMIUM_ACCOUNT" => "Premium",
-	
+
 	"user_post_like_message"=>":other_key liked your post.",
 	"user_post_comment_message"=>":other_key commented on your post.",
     "user_follow_message"=>":other_key is Following you.",
@@ -996,6 +996,8 @@ return [
 	"subscribe_for_free" => "Subscribe for Free",
 	"add_post"=>"Add Post",
 	"post_files"=>"Post Files",
+
+	"user_receive_tips_message"=> "User has Sent Tips Amount to You",
 	"email_validate"=>"Enter Valid Email Format",
 	"follow_message"=>"You have One Follower",
 	"follow"=>"Follow",
@@ -1162,5 +1164,16 @@ return [
 	"user_document_approved" => "The user updated documents approved by Admin.",
 	"user_document_declined" => "The user updated documents decined by Admin.",
 
+	"is_mailgun_email_validate" => "Is Mailgun - Email Validate Enabled?",
+	"u_category_name_exists"=>"The category name already exists",
+	"u_category_approve_confirmation" => "Do you want approve this Categories",
+	"u_category_approve_failed"=>"Approve Category  failed!!",
+	"u_category_decline_failed"=>"Decline Category failed!!",
+	"u_category_delete_failed"=>"Delete Category failed!!",
+	"u_category_action_is_empty"=>"User Category or Action not selected",
+	"admin_u_categories_approve_success"=>"User Categories has been approved successfully",
+	"admin_u_categories_decline_success"=>"User Categories  has been declined successfully",
+	"admin_u_categories_delete_success"=>"User Categories  has been deleted successfully",
+	"admin_u_categories_delete_confirmation"=>"Do you want to delete this categories ?",
 ]
 ?>

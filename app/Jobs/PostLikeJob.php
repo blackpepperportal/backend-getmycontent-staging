@@ -76,7 +76,6 @@ class PostLikeJob implements ShouldQueue
 
                     \Notification::send($user->id, new \App\Notifications\PushNotification($title , $content, $push_data, $user->device_token));
 
-
                 }
             }      
 

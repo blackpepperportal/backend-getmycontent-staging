@@ -417,6 +417,8 @@ Route::group(['middleware' => 'web'], function() {
         Route::get('chat_asset_payments/index','Admin\AdminUserController@chat_asset_payments')->name('chat_asset_payments.index');
 
         Route::get('chat_asset_payments/view','Admin\AdminUserController@chat_asset_payment_view')->name('chat_asset_payments.view');
+    
+        Route::post('/u_categories/bulk_action', 'CategoryCustom\Admin\AdminUCategoryController@u_categories_bulk_action')->name('u_categories.bulk_action');
 
-     });
+      });
 });

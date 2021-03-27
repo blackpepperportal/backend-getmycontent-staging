@@ -55,7 +55,7 @@ class UCategoryApiController extends Controller
 
         try {
 
-            $base_query = $total_query = \App\UCategory::CommonResponse();
+            $base_query = $total_query = \App\UCategory::CommonResponse()->Approved();
 
             $u_categories = $base_query->orderBy('u_categories.created_at', 'desc')->get();
 
@@ -101,9 +101,15 @@ class UCategoryApiController extends Controller
 
             $data['u_category'] = $u_category;
 
-            $users = $u_category->userCategories()->whereHas('user')->get();
+            $base_query = $u_category->userCategories()->whereHas('user')->get();
 
-            $data['users'] = $users ?? [];
+            foreach($base_query as $user) {
+
+                $user->followers_count = $user->user->followers->where('status',FOLLOWER_ACTIVE)->count() ?? 0;
+
+            };
+
+            $data['users'] = $base_query->sortByDesc('followers_count')->values() ?? [];
 
             return $this->sendResponse($message = "", $success_code = "", $data);
 

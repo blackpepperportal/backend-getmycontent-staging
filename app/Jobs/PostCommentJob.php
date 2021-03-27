@@ -89,9 +89,9 @@ class PostCommentJob implements ShouldQueue
             
             
             if (Setting::get('is_email_notification') == YES && $user) {
-               
-                $email_data['subject'] = tr('user_post_comment_message', $post_comment->user->name ?? '');
-               
+         
+                $email_data['subject'] = tr('user_post_comment_message', $post_comment->user->name ?? ''); 
+
                 $email_data['message'] = $message;
 
                 $email_data['page'] = "emails.posts.post_comment";
