@@ -13,7 +13,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(SettingSeeder::class);
         $this->call(DemoSeeder::class);
-
         $this->call(BellNotificationSeeder::class);
         $this->call(CommissionSeeder::class);
         $this->call(NotificationCountSeeder::class);
@@ -21,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PaypalSeeder::class);
         $this->call(VerifiedBadgeSeeder::class);
         $this->call(MultiLanguageSeeder::class);
+        $this->call(UserWelcomeSeeder::class);
 
     }
 }

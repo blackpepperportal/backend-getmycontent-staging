@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserBillingAccount extends Model
 {
-    protected $fillable = ['user_id', 'account_holder_name','account_number', 'ifsc_code', 'swift_code', 'nickname', 'bank_name'];
+    protected $fillable = ['user_id', 'account_holder_name','account_number', 'ifsc_code', 'swift_code', 'nickname', 'bank_name', 'iban_number', 'route_number'];
 
 	protected $hidden = ['deleted_at', 'id', 'unique_id'];
 
