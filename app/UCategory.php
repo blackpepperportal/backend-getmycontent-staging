@@ -22,7 +22,7 @@ class UCategory extends Model
 
     public function getTotalUsersAttribute() {
         
-        return $this->userCategories()->count();
+        return $this->userCategories()->whereHas('user')->count();
     }
 
     public function userCategories() {
