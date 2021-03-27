@@ -246,3 +246,12 @@ img {
   object-fit: cover;
   width: 100px;
 }
+
+.chart-container{
+  border: none;
+  border-radius: 0;
+  -webkit-box-shadow: 0 10px 40px 0 rgb(62 57 107 / 7%), 0 2px 9px 0 rgb(62 57 107 / 6%);
+  box-shadow: 0 10px 40px 0 rgb(62 57 107 / 7%), 0 2px 9px 0 rgb(62 57 107 / 6%);
+  background-color: #FFFFFF;
+  padding: 1.5rem;
+}

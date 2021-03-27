@@ -49,13 +49,13 @@
                             
                             <input type="hidden" name="post_id" value="{{$post_id}}">
 
-                                <div class="col-6">
+                                <div class="col-xl-6 col-lg-6 col-md-12">
                                     @if(Request::has('search_key'))
                                     <p class="text-muted">{{tr('search_results_for')}}<b>{{Request::get('search_key')}}</b></p>
                                     @endif
                                 </div>
 
-                                <div class="col-6">
+                                <div class="col-xl-6 col-lg-6 col-md-12">
 
                                     <div class="input-group">
 
