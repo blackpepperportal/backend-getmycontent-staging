@@ -1632,11 +1632,17 @@ class UserAccountApiController extends Controller
 
             if($request->user_billing_account_id) {
                 
-                $user_billing_account = \App\UserBillingAccount::updateOrCreate(['id' => $request->user_billing_account_id,'account_number' => $request->account_number, 'user_id' => $request->id], $request->all());
+                $user_billing_account = \App\UserBillingAccount::updateOrCreate(['id' => $request->user_billing_account_id, 'account_number' => $request->account_number, 'user_id' => $request->id], $request->all());
 
             } else {
                 
                 $user_billing_account = \App\UserBillingAccount::updateOrCreate(['account_number' => $request->account_number, 'user_id' => $request->id], $request->all());
+
+                if(\App\UserBillingAccount::where('user_id', $request->id)->count() <= 1) {
+
+                    $user_billing_account->is_default = YES;
+
+                }
 
             }
 
