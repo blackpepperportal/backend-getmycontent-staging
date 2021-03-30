@@ -283,11 +283,29 @@
                 new Chart($("#bar-chart"), {
                 type: 'bar',
                 data: {
-                    labels: ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                    labels: [<?php foreach ($data->analytics->last_x_days_revenues as $key => $value)       {
+                                echo '"'.$value->date.'"'.',';
+                            } 
+                            ?>],
                     datasets: [{
-                        label: "Month",
+                        label: "Post Earnings",
                         backgroundColor: ["#b1cfec", "#7ee5e5", "#66d1d1", "#f77eb9", "#4d8af0", "#b1cfec", "#7ee5e5", "#66d1d1", "#f77eb9", "#4d8af0"],
-                        data: [247, 526, 734, 2084, 1433, 1433, 247, 526, 734, 2084, 1433, 1433]
+                        data: [<?php 
+                                foreach ($data->analytics->last_x_days_revenues as $value) {
+                                    echo $value->total_post_earnings.',';
+                                }
+
+                            ?>]
+                    },
+                    {
+                        label: "Subscription Earnings",
+                        backgroundColor: ["#b1cfec", "#7ee5e5", "#66d1d1", "#f77eb9", "#4d8af0", "#b1cfec", "#7ee5e5", "#66d1d1", "#f77eb9", "#4d8af0"],
+                        data: [<?php 
+                                foreach ($data->analytics->last_x_days_revenues as $value) {
+                                    echo $value->total_subscription_earnings.',';
+                                }
+
+                            ?>]
                     }]
                 },
                 options: {
