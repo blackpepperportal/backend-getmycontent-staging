@@ -50,6 +50,8 @@ class PaymentRepository {
 
             $user_wallet_payment->amount_type = $request->amount_type ?: WALLET_AMOUNT_TYPE_ADD;
 
+            $user_wallet_payment->usage_type = $request->usage_type ?: "";
+
             $user_wallet_payment->currency = Setting::get('currency') ?? "$";
 
             $user_wallet_payment->payment_mode = $request->payment_mode ?? CARD;
@@ -68,7 +70,11 @@ class PaymentRepository {
 
             $user_wallet_payment->save();
 
-            $user_wallet_payment->message = get_wallet_message($user_wallet_payment);
+            $message = strtoupper($request->usage_type)." - " ?: "";
+
+            $message .= get_wallet_message($user_wallet_payment);
+
+            $user_wallet_payment->message = $message;
 
             $user_wallet_payment->save();
 
@@ -1076,6 +1082,7 @@ class PaymentRepository {
                 'payment_id' => $post_payment->payment_id,
                 'admin_amount' => $post_payment->admin_amount,
                 'user_amount' => $post_payment->user_amount,
+                'usage_type' => USAGE_TYPE_PPV
             ];
 
             $to_user_request = new \Illuminate\Http\Request();
@@ -1319,7 +1326,8 @@ class PaymentRepository {
                 'admin_amount' => $user_subscription_payment->admin_amount,
                 'payment_type' => WALLET_PAYMENT_TYPE_CREDIT,
                 'amount_type' => WALLET_AMOUNT_TYPE_ADD,
-                'payment_id' => $user_subscription_payment->payment_id
+                'payment_id' => $user_subscription_payment->payment_id,
+                'usage_type' => USAGE_TYPE_SUBSCRIPTION
             ];
 
 
@@ -1379,6 +1387,7 @@ class PaymentRepository {
                 'payment_id' => $user_tip->payment_id,
                 'user_amount' => $user_tip->user_amount,
                 'admin_amount' => $user_tip->admin_amount,
+                'usage_type' => USAGE_TYPE_TIP
             ];
 
             $to_user_request = new \Illuminate\Http\Request();
