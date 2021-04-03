@@ -1146,5 +1146,6 @@ return [
 	"video" => "Video",
 	"select_image_type" => "Select Image Type",
 	"preview_file" => "Preview File",
+	"user_document_approved_text" => "Your ID Verification has been approved.",
 ]
 ?>

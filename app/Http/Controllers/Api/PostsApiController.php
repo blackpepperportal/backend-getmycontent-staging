@@ -1686,7 +1686,6 @@ class PostsApiController extends Controller
                 
                 DB::commit();
                 
-                
                 $job_data['user_tips'] = $request->all();
 
                 $job_data['timezone'] = $this->timezone;

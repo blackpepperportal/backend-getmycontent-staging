@@ -1007,7 +1007,11 @@ class PaymentRepository {
 
             $user_tip->amount = $total = $request->paid_amount ?? 0.00;
 
-             // Commission calculation
+            $user_tip->message = $request->message ?: "";
+
+            $user_tip->user_wallet_payment_id = $request->user_wallet_payment_id ?? 0;
+
+            // Commission calculation
 
             $tips_admin_commission_in_per = Setting::get('tips_admin_commission', 1)/100;
 

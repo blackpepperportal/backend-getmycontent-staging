@@ -81,6 +81,10 @@
                                         @else
                                         {{tr('not_available') }}
                                         @endif
+
+                                        <br>
+                                        <br>
+                                        <span class="text-gray">{{tr('date')}}: {{common_date($tips->paid_date, Auth::user()->timezone)}}</span>
                                     </td>
 
                                     <td>{{ $tips->amount_formatted }}</td>

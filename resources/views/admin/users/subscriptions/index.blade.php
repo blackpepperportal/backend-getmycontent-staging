@@ -52,6 +52,7 @@
                                     <th>{{tr('s_no')}}</th>
                                     <th>{{tr('from_username')}}</th>
                                     <th>{{tr('to_username')}}</th>
+                                    <th>{{tr('payment_id')}}</th>
                                     <th>{{tr('plan')}}</th>
                                     <th>{{tr('amount')}}</th>
                                     <th>{{tr('admin_amount')}}</th>
@@ -74,6 +75,15 @@
                                     </td>
 
                                     <td><a href="{{route('admin.users.view' , ['user_id' => $subscription->to_user_id])}}"> {{ $subscription->to_username ?:tr('not_available') }}</a></td>
+
+                                    <td>
+                                        {{ $subscription->payment_id }}
+
+                                        <br>
+                                        <br>
+                                        <span class="text-gray">{{tr('date')}}: {{common_date($subscription->paid_date, Auth::user()->timezone)}}</span>
+
+                                    </td>
 
                                     <td>{{ $subscription->plan_text_formatted }}</td>
 
