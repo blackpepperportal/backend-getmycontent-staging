@@ -359,6 +359,11 @@ class User extends Authenticatable
 
             }
 
+            if($model->attributes['username']) {
+
+                $model->attributes['unique_id'] = $model->attributes['username'];
+            }
+
             $model->attributes['is_email_verified'] = USER_EMAIL_VERIFIED;
 
             if (Setting::get('is_account_email_verification') == YES && envfile('MAIL_USERNAME') && envfile('MAIL_PASSWORD')) { 
@@ -409,6 +414,26 @@ class User extends Authenticatable
         static::updating(function($model) {
 
             // $model->attributes['first_name'] = $model->attributes['last_name'] = $model->attributes['name'];
+
+            $model->attributes['website'] = isset($model->attributes['website']) && $model->attributes['website'] ? formatUrl($model->attributes['website']) : "";
+
+            $model->attributes['amazon_wishlist'] =  isset($model->attributes['amazon_wishlist']) &&  $model->attributes['amazon_wishlist'] ? formatUrl($model->attributes['amazon_wishlist']) : "";
+
+            $model->attributes['facebook_link'] =  isset($model->attributes['facebook_link']) &&  $model->attributes['facebook_link'] ? formatUrl($model->attributes['facebook_link']) : "";
+
+            $model->attributes['instagram_link'] =  isset($model->attributes['instagram_link']) &&  $model->attributes['instagram_link'] ? formatUrl($model->attributes['instagram_link']) : "";
+
+            $model->attributes['twitter_link'] =  isset($model->attributes['twitter_link']) &&  $model->attributes['twitter_link'] ? formatUrl($model->attributes['twitter_link']) : "";
+
+            $model->attributes['linkedin_link'] =  isset($model->attributes['linkedin_link']) &&  $model->attributes['linkedin_link'] ? formatUrl($model->attributes['linkedin_link']) : "";
+
+            $model->attributes['pinterest_link'] =  isset($model->attributes['pinterest_link']) &&  $model->attributes['pinterest_link'] ? formatUrl($model->attributes['pinterest_link']) : "";
+
+            $model->attributes['youtube_link'] =  isset($model->attributes['youtube_link']) &&  $model->attributes['youtube_link'] ? formatUrl($model->attributes['youtube_link']) : "";
+
+            $model->attributes['twitch_link'] =  isset($model->attributes['twitch_link']) &&  $model->attributes['twitch_link'] ? formatUrl($model->attributes['twitch_link']) : "";
+            
+            $model->attributes['snapchat_link'] =  isset($model->attributes['snapchat_link']) &&  $model->attributes['snapchat_link'] ? formatUrl($model->attributes['snapchat_link']) : "";
 
         });
 

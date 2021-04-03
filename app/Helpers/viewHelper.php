@@ -977,7 +977,7 @@ function document_status_text_formatted($status) {
     $status_list = [
         USER_DOCUMENT_NONE => tr('user_document_none'), 
         USER_DOCUMENT_PENDING => tr('user_document_veification_pending'),
-        USER_DOCUMENT_APPROVED => tr('user_document_approved'), 
+        USER_DOCUMENT_APPROVED => tr('user_document_approved_text'), 
         USER_DOCUMENT_DECLINED => tr('user_document_declined')
     ];
 
@@ -1177,4 +1177,25 @@ function get_file_type($file) {
     }
 
     return FILE_TYPE_IMAGE;   
+}
+
+function formatUrl($url) {
+
+    $parsed = parse_url($url);
+
+    if(empty($parsed['scheme'])) {
+
+        if(false === strpos($url, '://')) {
+
+            $url = 'https://' . ltrim($url, '/');
+
+        } else {
+
+            $url = 'https' . ltrim($url, '/');
+        }
+    }
+
+    return $url;
+
+    Log::info("url".$url);
 }
