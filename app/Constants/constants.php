@@ -72,6 +72,7 @@ if(!defined('ADMIN_CONTROL_DISABLED')) define('ADMIN_CONTROL_DISABLED', 0);
 if(!defined('NO_DEVICE_TOKEN')) define("NO_DEVICE_TOKEN", "NO_DEVICE_TOKEN");
 
 if(!defined('PLAN_TYPE_MONTH')) define('PLAN_TYPE_MONTH', 'months');
+
 if(!defined('PLAN_TYPE_YEAR')) define('PLAN_TYPE_YEAR', 'years');
 
 if(!defined('PLAN_TYPE_WEEK')) define('PLAN_TYPE_WEEK', 'weeks');
@@ -263,3 +264,13 @@ if(!defined('FILE_TYPE_TEXT')) define('FILE_TYPE_TEXT', 'text');
 
 if(!defined('STORAGE_TYPE_S3')) define('STORAGE_TYPE_S3', 1);
 if(!defined('STORAGE_TYPE_LOCAL')) define('STORAGE_TYPE_LOCAL', 0);
+
+if(!defined('USAGE_TYPE_PPV')) define('USAGE_TYPE_PPV', 'ppv');
+
+if(!defined('USAGE_TYPE_SUBSCRIPTION')) define('USAGE_TYPE_SUBSCRIPTION', 'subscription');
+
+if(!defined('USAGE_TYPE_TIP')) define('USAGE_TYPE_TIP', 'tip');
+
+if(!defined('USAGE_TYPE_SEND_MONEY')) define('USAGE_TYPE_SEND_MONEY', 'Sent Money');
+
+if(!defined('USAGE_TYPE_WITHDRAW')) define('USAGE_TYPE_WITHDRAW', 'withdraw');

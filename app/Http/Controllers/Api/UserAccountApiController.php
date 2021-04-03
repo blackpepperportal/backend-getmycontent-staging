@@ -834,7 +834,15 @@ class UserAccountApiController extends Controller
                         throw new Exception($account_response->error, $account_response->error_code);
                     }
 
-                    $user_subscription = \App\UserSubscription::where('user_id', $request->id)->first() ?? new \App\UserSubscription;
+                    $user_subscription = \App\UserSubscription::where('user_id', $request->id)->first();
+
+                    if(!$user_subscription) {
+
+                        $user_subscription = new \App\UserSubscription;
+
+                        \App\UserSubscriptionPayment::where('user_subscription_id', 0)->where('to_user_id', $request->id)->update(['is_current_subscription' => NO, 'expiry_date' => date('Y-m-d H:i:s'), 'cancel_reason' => 'Model added subscription']);
+
+                    }
 
                     $user_subscription->user_id = $request->id;
 
@@ -2196,7 +2204,8 @@ class UserAccountApiController extends Controller
                 'payment_type' => WALLET_PAYMENT_TYPE_PAID,
                 'amount_type' => WALLET_AMOUNT_TYPE_MINUS,
                 'to_user_id' => $user_subscription->user_id,
-                'payment_id' => 'WPP-'.rand()
+                'payment_id' => 'WPP-'.rand(),
+                'usage_type' => USAGE_TYPE_SUBSCRIPTION
             ]);
 
             $wallet_payment_response = PaymentRepo::user_wallets_payment_save($request)->getData();

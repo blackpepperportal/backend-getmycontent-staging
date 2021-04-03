@@ -1136,10 +1136,10 @@ return [
 
 	"remove_badge" => "Remove Badge",
 	"add_badge" => "Add Badge",
-	"user_document_none" => "The user haven't uploaded any documents.",
-	"user_document_veification_pending" => "The user updated documents not yet verified by Admin.",
-	"user_document_approved" => "The user updated documents approved by Admin.",
-	"user_document_declined" => "The user updated documents decined by Admin.",
+	"user_document_none" => "You haven't uploaded any documents.",
+	"user_document_veification_pending" => "The uploaded documents are not yet verified.",
+	"user_document_approved" => "The uploaded documents are approved.",
+	"user_document_declined" => "The uploaded documents are decined.",
 	"snapchat_link" => "Snapchat Link",
 
 	"image" => "Image",
