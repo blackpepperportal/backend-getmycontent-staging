@@ -1178,3 +1178,24 @@ function get_file_type($file) {
 
     return FILE_TYPE_IMAGE;   
 }
+
+function formatUrl($url) {
+
+    $parsed = parse_url($url);
+
+    if(empty($parsed['scheme'])) {
+
+        if(false === strpos($url, '://')) {
+
+            $url = 'https://' . ltrim($url, '/');
+
+        } else {
+
+            $url = 'https' . ltrim($url, '/');
+        }
+    }
+
+    return $url;
+
+    Log::info("url".$url);
+}
