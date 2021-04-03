@@ -74,6 +74,8 @@ class PaymentRepository {
 
             $message .= get_wallet_message($user_wallet_payment);
 
+            $message .= $request->message ? " - ".$request->message : "";
+
             $user_wallet_payment->message = $message;
 
             $user_wallet_payment->save();
