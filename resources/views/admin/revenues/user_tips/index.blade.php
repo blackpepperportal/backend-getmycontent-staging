@@ -52,6 +52,7 @@
                                     <th>{{tr('from_username')}}</th>
                                     <th>{{tr('to_username')}}</th>
                                     <th>{{tr('post')}}</th>
+                                    <th>{{tr('message')}}</th>
                                     <th>{{tr('amount')}}</th>
                                     <th>{{tr('admin_amount')}}</th>
                                     <th>{{tr('user_amount')}}</th>
@@ -86,6 +87,8 @@
                                         <br>
                                         <span class="text-gray">{{tr('date')}}: {{common_date($tips->paid_date, Auth::user()->timezone)}}</span>
                                     </td>
+
+                                    <td>{{ $tips->message ?? "-" }}</td>
 
                                     <td>{{ $tips->amount_formatted }}</td>
 
