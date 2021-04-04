@@ -1052,8 +1052,7 @@ class AdminUserController extends Controller
      */
     public function user_subscription_payments(Request $request) {
        
-        $base_query = \App\UserSubscriptionPayment::orderBy('created_at','desc')
-                      ->has('fromUser')->has('toUser');
+        $base_query = \App\UserSubscriptionPayment::orderBy('created_at', 'desc')->has('fromUser')->has('toUser');
 
         $search_key = $request->search_key;
 
@@ -1080,7 +1079,6 @@ class AdminUserController extends Controller
         }
 
         $user_subscriptions = $base_query->paginate(10);
-
 
         return view('admin.users.subscriptions.index')
                     ->with('page', 'user_subscriptions')

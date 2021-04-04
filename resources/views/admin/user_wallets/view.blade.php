@@ -35,7 +35,7 @@
 
             <div class="row">
 
-                <div class="col-xl-4 col-lg-6 col-12">
+                <div class="col-xl-3 col-lg-6 col-12">
                     <div class="card bg-warning">
                         <div class="card-content">
                             <div class="card-body">
@@ -53,7 +53,7 @@
                     </div>
                 </div>
 
-                <div class="col-xl-4 col-lg-6 col-12">
+                <div class="col-xl-3 col-lg-6 col-12">
                     <div class="card bg-success">
                         <div class="card-content">
                             <div class="card-body">
@@ -71,7 +71,25 @@
                     </div>
                 </div>
 
-                <div class="col-xl-4 col-lg-6 col-12">
+                <div class="col-xl-3 col-lg-6 col-12">
+                    <div class="card bg-info">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="media d-flex">
+                                    <div class="media-body white text-left">
+                                        <h3>{{$user_wallet->onhold_formatted}}</h3>
+                                        <span>{{tr('onhold')}}</span>
+                                    </div>
+                                    <div class="align-self-center">
+                                        <i class="icon-support white font-large-2 float-right"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-lg-6 col-12">
                     <div class="card bg-danger">
                         <div class="card-content">
                             <div class="card-body">
@@ -104,7 +122,7 @@
 								<th>{{ tr('payment_id') }} </th>
 								<th>{{ tr('payment_mode') }}</th>
 								<th>{{ tr('requested_amount') }}</th>
-								<th>{{ tr('paid_date') }}</th>
+                                <th>{{ tr('message') }}</th>
 								<th>{{ tr('status') }}</th>
 							</tr>
 						</thead>
@@ -113,41 +131,49 @@
 
 							@if($user_wallet_payments->isNotEmpty())
 
-							@foreach($user_wallet_payments as $i => $stardom_wallet_payment_details)
-							<tr>
-								<td>{{ $i+$user_wallet_payments->firstItem() }}</td>
+    							@foreach($user_wallet_payments as $i => $user_wallet_payment)
 
-								<td>{{ $stardom_wallet_payment_details->payment_id}}</td>
+        							<tr>
+        								<td>{{ $i+$user_wallet_payments->firstItem() }}</td>
 
-								<td>{{ $stardom_wallet_payment_details->payment_mode }}</td>
+        								<td>
+                                            {{ $user_wallet_payment->payment_id}}
+                                            <br>
+                                            <br>
+                                            <span class="text-gray">{{tr('date')}}: {{common_date($user_wallet_payment->paid_date, Auth::user()->timezone)}}</span>
+                                        </td>
 
-								<td>{{ $stardom_wallet_payment_details->requested_amount_formatted }}</td>
+        								<td>{{ $user_wallet_payment->payment_mode }}</td>
 
-								<td>
-									{{common_date($stardom_wallet_payment_details->paid_date,Auth::guard('admin')->user()->timezone)}}
-								</td>
+        								<td>{{ $user_wallet_payment->requested_amount_formatted }}
+                                            <br><br>
+                                            <span class="text-gray"> Admin: {{$user_wallet_payment->admin_amount_formatted}}</span>
+                                            <span class="text-gray"> User: {{$user_wallet_payment->user_amount_formatted}}</span>
+                                        </td>
 
-								<td>
-									@if($stardom_wallet_payment_details->status == PAID)
+                                        <td>{{ $user_wallet_payment->message }}</td>
 
-									<span class="btn btn-success btn-sm">{{ tr('paid') }}</span>
-									@else
+        								<td>
+        									@if($user_wallet_payment->status == PAID)
 
-									<span class="btn btn-warning btn-sm">{{ tr('not_paid') }}</span>
-									@endif
-								</td>
+        									<span class="btn btn-success btn-sm">{{ tr('paid') }}</span>
+        									@else
 
-							</tr>
+        									<span class="btn btn-warning btn-sm">{{ tr('not_paid') }}</span>
+        									@endif
+        								</td>
 
-							@endforeach
+        							</tr>
+
+    							@endforeach
 
 							@else
 
-							<tr colspan="8" class="text-center">
-								<td>
-									<h4>{{tr('no_results_found')}}</h4>
-								</td>
-							</tr>
+    							<tr colspan="8" class="text-center">
+    								<td>
+    									<h4>{{tr('no_results_found')}}</h4>
+    								</td>
+    							</tr>
 
 							@endif
 

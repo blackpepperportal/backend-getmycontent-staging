@@ -52,7 +52,7 @@ return [
 	"frontend_url" => "Frontend Url",
 	"currency" 	=>	"Currency",
 	"monthly_amount" => "Monthly Amount",
-	"yearly_amount" => "yearly Amount",
+	"yearly_amount" => "Yearly Amount",
 
 
 	"image_type" => "Image Type",
@@ -975,10 +975,10 @@ return [
 	"user_wallet_balance" => "Wallet Balance",
 	"from_username" => "From UserName",
 	"to_username" => "To UserName",
-	"view_user_subscriptions_payment" => "View Users Subscriptions Payment",
-	"users_subscription_payment" => "User Subscriptions Payment",
+	"view_user_subscriptions_payment" => "View Subscription Payment",
+	"users_subscription_payment" => "Subscription Payment",
 	"user_subscription_payment_not_found" => "Subscription payment not found !!",
-	"view_user_subscription_payment" => "View User Subscription Payment",
+	"view_user_subscription_payment" => "View Subscription Payment",
 	"user_amount" => "User Amount",
 	"update_premium" => "Update Premium Account",
     "user_follow_message"=>"User (:other_key) has been Following you",
@@ -1147,5 +1147,7 @@ return [
 	"select_image_type" => "Select Image Type",
 	"preview_file" => "Preview File",
 	"user_document_approved_text" => "Your ID Verification has been approved.",
-]
-?>
+
+	"added_at" => "Added At"
+
+];

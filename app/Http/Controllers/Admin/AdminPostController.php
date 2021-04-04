@@ -1244,7 +1244,7 @@ class AdminPostController extends Controller
      *
      * @created Sakthi
      *
-     * @updated 
+     * @updated Vidhya R
      *
      * @param 
      * 
@@ -1259,9 +1259,9 @@ class AdminPostController extends Controller
 
             $search_key = $request->search_key;
 
-            $base_query = $base_query->whereHas('user',function($query) use($search_key){
+            $base_query = $base_query->whereHas('favUser',function($query) use($search_key){
 
-                return $query->where('users.name','LIKE','%'.$search_key.'%');
+                return $query->where('users.name','LIKE','%'.$search_key.'%')->orWhere('users.username','LIKE','%'.$search_key.'%')->orWhere('users.email','LIKE','%'.$search_key.'%');
 
             });
 
@@ -1269,7 +1269,7 @@ class AdminPostController extends Controller
 
         $user = \App\User::find($request->user_id)??'';
 
-        if($request->user_id){
+        if($request->user_id) {
 
             $base_query->where('user_id', $request->user_id);
         }
@@ -1302,7 +1302,7 @@ class AdminPostController extends Controller
 
             DB::begintransaction();
 
-            $fav_user = \App\FavUser::find($request->fav_user_id);
+            $fav_user = \App\FavUser::where('fav_user_id', $request->fav_user_id)->where('user_id', $request->user_id)->first();
 
             if(!$fav_user) {
 
@@ -1561,7 +1561,7 @@ class AdminPostController extends Controller
 
             $email_data['is_invoice'] = 1;
 
-            Log::info("Timezone".print_r($email_data['timezone'], true));
+            // Log::info("Timezone".print_r($email_data['timezone'], true));
 
             $this->dispatch(new \App\Jobs\SendEmailJob($email_data));
 

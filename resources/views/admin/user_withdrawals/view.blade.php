@@ -6,13 +6,11 @@
 
 @section('breadcrumb')
 
-    
-
-    <li class="breadcrumb-item"><a href="{{route('admin.user_withdrawals')}}">{{tr('user_withdrawals')}}</a>
+    <li class="breadcrumb-item">
+        <a href="{{route('admin.user_withdrawals')}}">{{tr('user_withdrawals')}}</a>
     </li>
 
-    <li class="breadcrumb-item active">{{tr('view_user_withdrawals')}}</a>
-    </li>
+    <li class="breadcrumb-item active">{{tr('view_user_withdrawals')}}</li>
 
 @endsection
 
@@ -96,23 +94,24 @@
                                 <tbody>
                                     <tr>
                                         <td>{{tr('account_holder_name')}}</td>
-                                        <td>{{$billing_account_details->account_holder_name ?? "-"}}</td>
+                                        <td>{{$billing_account->account_holder_name ?? "-"}}</td>
                                     </tr>
                                     <tr>
                                         <td>{{tr('account_no')}}</td>
-                                        <td>{{$billing_account_details->account_number ?? "-"}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{{tr('ifsc_code')}}</td>
-                                        <td>{{$billing_account_details->ifsc_code ?? "-"}}</td>
+                                        <td>{{$billing_account->account_number ?? "-"}}</td>
                                     </tr>
                                     <tr>
                                         <td>{{ tr('bank_name') }}</td>
-                                        <td>{{$billing_account_details->bank_name ?? "-"}}</td>
+                                        <td>{{$billing_account->bank_name ?? "-"}}</td>
                                     </tr>
                                     <tr>
+                                        <td>{{tr('ifsc_code')}}</td>
+                                        <td>{{$billing_account->ifsc_code ?? "-"}}</td>
+                                    </tr>
+                                    
+                                    <tr>
                                         <td>{{tr('swift_code')}}</td>
-                                        <td>{{$billing_account_details->swift_code ?? "-"}}</td>
+                                        <td>{{$billing_account->swift_code ?? "-"}}</td>
                                     </tr>
                                     <tr>
                                         <td>{{ tr('amount') }}</td>

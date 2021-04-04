@@ -1083,7 +1083,7 @@ class UserAccountApiController extends Controller
             
             $card_info_from_stripe = $retrieve->card ? $retrieve->card : [];
 
-            \Log::info("card_info_from_stripe".print_r($card_info_from_stripe, true));
+            // \Log::info("card_info_from_stripe".print_r($card_info_from_stripe, true));
 
             if($customer && $card_info_from_stripe) {
 
