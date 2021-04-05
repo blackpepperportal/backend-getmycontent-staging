@@ -667,18 +667,17 @@ class AdminRevenueController extends Controller
 
             $user_withdrawal = \App\UserWithdrawal::where('id',$request->user_withdrawal_id)->first();
 
-
             if(!$user_withdrawal) { 
 
                 throw new Exception(tr('user_withdrawal_not_found'), 101);                
             }  
 
-            $billing_account_details = \App\UserBillingAccount::where('user_id', $user_withdrawal->user_id)->first();
+            $billing_account = \App\UserBillingAccount::where('user_id', $user_withdrawal->user_id)->first();
        
             return view('admin.user_withdrawals.view')
                 ->with('page', 'content_creator-withdrawals')
                 ->with('user_withdrawal', $user_withdrawal)
-                ->with('billing_account_details',$billing_account_details);
+                ->with('billing_account',$billing_account);
 
         } catch(Exception $e) {
 
@@ -721,6 +720,8 @@ class AdminRevenueController extends Controller
             $user_withdrawal->status = WITHDRAW_PAID;
             
             if($user_withdrawal->save()) {
+
+                \App\Repositories\PaymentRepository::user_wallet_update_withdraw_paynow($user_withdrawal->requested_amount, $user_withdrawal->user_id);
 
                 DB::commit();
 

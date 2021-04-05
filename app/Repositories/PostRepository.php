@@ -166,25 +166,28 @@ class PostRepository {
 
         $user_subscription_id = $user_subscription->id ?? 0;
 
-        // Check the user has subscribed for this post user plans
+        if(!$post->is_paid_post && !$post->amount) {
 
-        $current_date = Carbon::now()->format('Y-m-d');
+            // Check the user has subscribed for this post user plans
 
-        $check_user_subscription_payment = \App\UserSubscriptionPayment::where('user_subscription_id', $user_subscription_id)
-            ->where('from_user_id', $request->id)
-            ->where('is_current_subscription',YES)
-            ->whereDate('expiry_date','>=', $current_date)
-            ->where('to_user_id', $post_user->id)
-            ->count();
-        
-        if(!$check_user_subscription_payment) {
+            $current_date = Carbon::now()->format('Y-m-d');
 
-            $data['is_user_needs_pay'] = YES;
+            $check_user_subscription_payment = \App\UserSubscriptionPayment::where('user_subscription_id', $user_subscription_id)
+                ->where('from_user_id', $request->id)
+                ->where('is_current_subscription',YES)
+                ->whereDate('expiry_date','>=', $current_date)
+                ->where('to_user_id', $post_user->id)
+                ->count();
+            
+            if(!$check_user_subscription_payment) {
 
-            $data['post_payment_type'] = POSTS_PAYMENT_SUBSCRIPTION;
+                $data['is_user_needs_pay'] = YES;
 
-            $data['payment_text'] = tr('unlock_subscription_text', $user_subscription->monthly_amount_formatted ?? formatted_amount(0.00));
+                $data['post_payment_type'] = POSTS_PAYMENT_SUBSCRIPTION;
 
+                $data['payment_text'] = tr('unlock_subscription_text', $user_subscription->monthly_amount_formatted ?? formatted_amount(0.00));
+
+            }
         }
 
         $post_user_account_type = $post_user->user_account_type ?? USER_FREE_ACCOUNT;

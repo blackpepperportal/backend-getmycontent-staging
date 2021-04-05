@@ -10,7 +10,7 @@ class UserWallet extends Model
 
     protected $fillable = ['user_id', 'total', 'used', 'remaining'];
 
-	protected $appends = ['user_wallet_id','user_wallet_unique_id', 'total_formatted', 'used_formatted', 'remaining_formatted'];
+	protected $appends = ['user_wallet_id','user_wallet_unique_id', 'total_formatted', 'used_formatted', 'remaining_formatted', 'onhold_formatted'];
 
 	public function getUserWalletIdAttribute() {
 
@@ -32,9 +32,9 @@ class UserWallet extends Model
         return formatted_amount($this->used);
     }
 
-     public function getOnHoldFormattedAttribute() {
+    public function getOnholdFormattedAttribute() {
 
-        return formatted_amount($this->on_hold);
+        return formatted_amount($this->onhold);
     }
 
     public function getRemainingFormattedAttribute() {

@@ -38,6 +38,7 @@
 
                     <div class="card-body card-dashboard">
 
+                        @include('admin.users._followings_search')
                         <table class="table table-striped table-bordered sourced-data">
                             
                             <thead>

@@ -20,7 +20,7 @@ class CreateSubscriptionPaymentsTable extends Migration
             $table->integer('user_id');
             $table->string('payment_id')->default("");
             $table->float('amount')->default(0.00);
-            $table->string('payment_mode')->default(COD);
+            $table->string('payment_mode')->default(CARD);
             $table->integer('is_current_subscription')->default(0);
             $table->datetime('expiry_date')->nullable();
             $table->datetime('paid_date')->nullable();

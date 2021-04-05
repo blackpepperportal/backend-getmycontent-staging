@@ -198,15 +198,15 @@ class PaymentRepository {
 
             if($user_wallet_payment->amount_type == WALLET_AMOUNT_TYPE_ADD) {
 
-                $user_wallet->total += $user_wallet_payment->paid_amount;
+                $user_wallet->total += $user_wallet_payment->user_amount;
 
-                $user_wallet->remaining += $user_wallet_payment->paid_amount;
+                $user_wallet->remaining += $user_wallet_payment->user_amount;
 
             } else {
 
-                $user_wallet->used += $user_wallet_payment->paid_amount;
+                $user_wallet->used += $user_wallet_payment->user_amount;
 
-                $user_wallet->remaining -= $user_wallet_payment->paid_amount;
+                $user_wallet->remaining -= $user_wallet_payment->user_amount;
             }
 
             $user_wallet->save();
@@ -1076,9 +1076,9 @@ class PaymentRepository {
             $to_user_inputs = [
                 'id' => $post->user_id,
                 'received_from_user_id' => $request->id,
-                'total' => $post_payment->user_amount, 
-                'user_pay_amount' => $post_payment->user_amount,
-                'paid_amount' => $post_payment->user_amount,
+                'total' => $post_payment->paid_amount, 
+                'user_pay_amount' => $post_payment->paid_amount,
+                'paid_amount' => $post_payment->paid_amount,
                 'payment_type' => WALLET_PAYMENT_TYPE_CREDIT,
                 'amount_type' => WALLET_AMOUNT_TYPE_ADD,
                 'payment_id' => $post_payment->payment_id,
@@ -1321,9 +1321,9 @@ class PaymentRepository {
                 'id' => $user_subscription_payment->to_user_id,
                 'payment_mode' => $request->payment_mode,
                 'received_from_user_id' => $user_subscription_payment->from_user_id,
-                'total' => $user_subscription_payment->user_amount, 
-                'user_pay_amount' => $user_subscription_payment->user_amount,
-                'paid_amount' => $user_subscription_payment->user_amount,
+                'total' => $user_subscription_payment->amount, 
+                'user_pay_amount' => $user_subscription_payment->amount,
+                'paid_amount' => $user_subscription_payment->amount,
                 'user_amount' => $user_subscription_payment->user_amount,
                 'admin_amount' => $user_subscription_payment->admin_amount,
                 'payment_type' => WALLET_PAYMENT_TYPE_CREDIT,
@@ -1381,9 +1381,9 @@ class PaymentRepository {
             $to_user_inputs = [
                 'id' => $request->to_user_id,
                 'received_from_user_id' => $request->id,
-                'total' => $user_tip->user_amount, 
-                'user_pay_amount' => $user_tip->user_amount,
-                'paid_amount' => $user_tip->user_amount,
+                'total' => $user_tip->amount, 
+                'user_pay_amount' => $user_tip->amount,
+                'paid_amount' => $user_tip->amount,
                 'payment_type' => WALLET_PAYMENT_TYPE_CREDIT,
                 'amount_type' => WALLET_AMOUNT_TYPE_ADD,
                 'payment_id' => $user_tip->payment_id,

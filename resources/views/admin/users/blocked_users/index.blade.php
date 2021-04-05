@@ -40,6 +40,8 @@
                 <div class="card-content collapse show">
 
                     <div class="card-body card-dashboard">
+                     
+                       @include('admin.users.blocked_users._search')
 
                         <table class="table table-striped table-bordered sourced-data">
 
@@ -47,6 +49,7 @@
                                 <tr>
                                     <th>{{ tr('s_no') }}</th>
                                     <th>{{ tr('name') }}</th>
+                                    <th>{{ tr('email') }}</th>
                                     <th>{{ tr('blocked_count') }}</th>
                                     <th>{{ tr('action') }}</th>
                                 </tr>
@@ -66,6 +69,11 @@
                                         </a>
 
                                     </td>
+
+                                    <td>
+                                            {{$user->blockeduser->email ?? ''}}
+                                    </td>
+
 
                                     <td>
                                          <a href="{{route('admin.block_users.view' , ['user_id' => $user->blocked_to])}}" class="custom-a">

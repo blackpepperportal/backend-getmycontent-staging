@@ -88,7 +88,7 @@
                                         <span class="text-gray">{{tr('date')}}: {{common_date($tips->paid_date, Auth::user()->timezone)}}</span>
                                     </td>
 
-                                    <td>{{ $tips->message ?? "-" }}</td>
+                                    <td>{{ substr($tips->message ?? "-" , 0, 25) }}</td>
 
                                     <td>{{ $tips->amount_formatted }}</td>
 

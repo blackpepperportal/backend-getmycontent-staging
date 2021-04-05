@@ -4,6 +4,7 @@
 
 @section('breadcrumb')
 
+<li class="breadcrumb-item"><a href="">{{ tr('payments') }}</a></li>
 
 <li class="breadcrumb-item">
     <a href="{{ route('admin.users_subscriptions.index') }}">{{ tr('tip_payments') }}</a>
@@ -37,6 +38,18 @@
                     <div class="card-body">
 
                         <div class="row">
+
+                            @if($user_tip->message)
+
+                            <div class="col-md-12">
+
+                                <h5 class="text-uppercase"><b>{{tr('message')}}:</b></h5>
+
+                                <p class="text-muted">{{$user_tip->message}}
+
+                            </div>
+
+                            @endif
 
                             <div class="col-md-6">
 
@@ -118,8 +131,6 @@
                                 <table class="table table-bordered table-striped tab-content">
 
                                     <tbody>
-
-
 
                                         <tr>
                                             <td>{{ tr('paid_date') }}</td>
