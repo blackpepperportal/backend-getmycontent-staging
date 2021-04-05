@@ -1148,6 +1148,11 @@ return [
 	"preview_file" => "Preview File",
 	"user_document_approved_text" => "Your ID Verification has been approved.",
 
-	"added_at" => "Added At"
+	"added_at" => "Added At",
+	"followings_search_placeholder"=>"Search by Follower name",
+	"followers_search_placeholder"=>"Search by Username",
+	"billing_accounts"=>"Billing Accounts",
+
+	"post_payments_message"=>"You received a post payment (:other_key) from ",
 
 ];
