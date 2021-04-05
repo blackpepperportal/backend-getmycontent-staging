@@ -703,14 +703,20 @@ class PostsApiController extends Controller
                 $card_payment_data = $card_payment_response->data;
 
                 $request->request->add(['paid_amount' => $card_payment_data->paid_amount, 'payment_id' => $card_payment_data->payment_id, 'paid_status' => $card_payment_data->paid_status]);
-
+                
             }
 
             $payment_response = PaymentRepo::post_payments_save($request, $post)->getData();
-
+            
             if($payment_response->success) {
                 
                 DB::commit();
+
+                $job_data['post_payments'] = $request->all();
+
+                $job_data['timezone'] = $this->timezone;
+
+                $this->dispatch(new \App\Jobs\PostPaymentJob($job_data));
 
                 return $this->sendResponse(api_success(140), 140, $payment_response->data);
 
@@ -2119,6 +2125,12 @@ class PostsApiController extends Controller
             $payment_response = PaymentRepo::post_payments_save($request, $post)->getData();
 
             if($payment_response->success) {
+                
+                $job_data['post_payments'] = $request->all();
+
+                $job_data['timezone'] = $this->timezone;
+
+                $this->dispatch(new \App\Jobs\PostPaymentJob($job_data));
                 
                 DB::commit();
 
