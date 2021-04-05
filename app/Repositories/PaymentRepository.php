@@ -1389,7 +1389,8 @@ class PaymentRepository {
                 'payment_id' => $user_tip->payment_id,
                 'user_amount' => $user_tip->user_amount,
                 'admin_amount' => $user_tip->admin_amount,
-                'usage_type' => USAGE_TYPE_TIP
+                'usage_type' => USAGE_TYPE_TIP,
+                'message' => $request->message
             ];
 
             $to_user_request = new \Illuminate\Http\Request();
