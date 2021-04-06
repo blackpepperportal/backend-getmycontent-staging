@@ -754,5 +754,3 @@ class Helper {
     }
 
 }
-
-

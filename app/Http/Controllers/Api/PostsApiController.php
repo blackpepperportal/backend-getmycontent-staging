@@ -74,8 +74,6 @@ class PostsApiController extends Controller
 
             $data['user'] = $this->loginUser;
 
-            Log::info("HHHDHDHDDH".print_r($data, true));
-
             return $this->sendResponse($message = '' , $code = '', $data);
 
         } catch(Exception $e) {
@@ -309,10 +307,9 @@ class PostsApiController extends Controller
 
             $post->publish_time = date('Y-m-d H:i:s', strtotime($publish_time));
             
+            if(!$post->content) {
 
-            if(!$post->content){
-
-                throw new Exception(api_error(180), 180);  
+                // throw new Exception(api_error(180), 180);  
             }
 
             if($post->save()) {
@@ -706,14 +703,20 @@ class PostsApiController extends Controller
                 $card_payment_data = $card_payment_response->data;
 
                 $request->request->add(['paid_amount' => $card_payment_data->paid_amount, 'payment_id' => $card_payment_data->payment_id, 'paid_status' => $card_payment_data->paid_status]);
-
+                
             }
 
             $payment_response = PaymentRepo::post_payments_save($request, $post)->getData();
-
+            
             if($payment_response->success) {
                 
                 DB::commit();
+
+                $job_data['post_payments'] = $request->all();
+
+                $job_data['timezone'] = $this->timezone;
+
+                $this->dispatch(new \App\Jobs\PostPaymentJob($job_data));
 
                 return $this->sendResponse(api_success(140), 140, $payment_response->data);
 
@@ -804,7 +807,8 @@ class PostsApiController extends Controller
                 'paid_amount' => $post->amount,
                 'payment_type' => WALLET_PAYMENT_TYPE_PAID,
                 'amount_type' => WALLET_AMOUNT_TYPE_MINUS,
-                'payment_id' => 'WPP-'.rand()
+                'payment_id' => 'WPP-'.rand(),
+                'usage_type' => USAGE_TYPE_PPV
             ]);
 
             $wallet_payment_response = PaymentRepo::user_wallets_payment_save($request)->getData();
@@ -1686,7 +1690,6 @@ class PostsApiController extends Controller
                 
                 DB::commit();
                 
-                
                 $job_data['user_tips'] = $request->all();
 
                 $job_data['timezone'] = $this->timezone;
@@ -1777,7 +1780,7 @@ class PostsApiController extends Controller
                 'payment_type' => WALLET_PAYMENT_TYPE_PAID,
                 'amount_type' => WALLET_AMOUNT_TYPE_MINUS,
                 'payment_id' => 'WPP-'.rand(),
-                ''
+                'usage_type' => USAGE_TYPE_TIP
             ]);
 
             $wallet_payment_response = PaymentRepo::user_wallets_payment_save($request)->getData();
@@ -1803,7 +1806,8 @@ class PostsApiController extends Controller
                     'paid_amount' => $request->amount,
                     'payment_type' => WALLET_PAYMENT_TYPE_CREDIT,
                     'amount_type' => WALLET_AMOUNT_TYPE_ADD,
-                    'payment_id' => 'CD-'.rand()
+                    'payment_id' => 'CD-'.rand(),
+                    'usage_type' => USAGE_TYPE_TIP
                 ];
 
                 $to_user_request = new \Illuminate\Http\Request();
@@ -2121,6 +2125,12 @@ class PostsApiController extends Controller
             $payment_response = PaymentRepo::post_payments_save($request, $post)->getData();
 
             if($payment_response->success) {
+                
+                $job_data['post_payments'] = $request->all();
+
+                $job_data['timezone'] = $this->timezone;
+
+                $this->dispatch(new \App\Jobs\PostPaymentJob($job_data));
                 
                 DB::commit();
 

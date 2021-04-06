@@ -233,10 +233,14 @@ class CommonRepository {
 
                     $data['payment_text'] = tr('unlock_subscription_text', $user_subscription->monthly_amount_formatted);
 
+                    $data['unsubscribe_btn_status'] = NO;
+
                 }
+            
             }
 
         } else {
+            
             $data['is_free_account'] = YES;
         }
 

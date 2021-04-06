@@ -160,6 +160,34 @@ class PostRepository {
 
             $data['is_free_account'] =  YES;
  
+        } else {
+
+        }
+
+        $user_subscription_id = $user_subscription->id ?? 0;
+
+        if(!$post->is_paid_post && !$post->amount) {
+
+            // Check the user has subscribed for this post user plans
+
+            $current_date = Carbon::now()->format('Y-m-d');
+
+            $check_user_subscription_payment = \App\UserSubscriptionPayment::where('user_subscription_id', $user_subscription_id)
+                ->where('from_user_id', $request->id)
+                ->where('is_current_subscription',YES)
+                ->whereDate('expiry_date','>=', $current_date)
+                ->where('to_user_id', $post_user->id)
+                ->count();
+            
+            if(!$check_user_subscription_payment) {
+
+                $data['is_user_needs_pay'] = YES;
+
+                $data['post_payment_type'] = POSTS_PAYMENT_SUBSCRIPTION;
+
+                $data['payment_text'] = tr('unlock_subscription_text', $user_subscription->monthly_amount_formatted ?? formatted_amount(0.00));
+
+            }
         }
 
         $post_user_account_type = $post_user->user_account_type ?? USER_FREE_ACCOUNT;
@@ -190,37 +218,6 @@ class PostRepository {
 
             }
 
-            // Check the user has subscribed for this post user plans
-
-            $user_subscription = \App\UserSubscription::where('user_id', $post_user->id)->first();
-
-            if($user_subscription) {
-
-                $current_date = Carbon::now()->format('Y-m-d');
-
-                $check_user_subscription_payment = \App\UserSubscriptionPayment::where('user_subscription_id', $user_subscription->id)
-                    ->where('from_user_id', $request->id)
-                    ->where('is_current_subscription',YES)
-                    ->whereDate('expiry_date','>=',$current_date)
-                    ->where('to_user_id', $post_user->id)
-                    ->count();
-                
-                if(!$check_user_subscription_payment) {
-
-                    $data['is_user_needs_pay'] = YES;
-
-                    $data['post_payment_type'] = POSTS_PAYMENT_SUBSCRIPTION;
-
-                    $data['payment_text'] = tr('unlock_subscription_text', $user_subscription->monthly_amount_formatted);
-
-                }
-
-
-                // $data['is_user_subscribed'] = check_user_subscribed($post_user,$request);
-
-               
-            }
-
         } else {
 
         }
@@ -242,9 +239,8 @@ class PostRepository {
                 $data['payment_text'] = tr('unlock_post_text', $post->amount_formatted);
             }
         
-    
-
             // $data['is_user_subscribed'] = check_user_subscribed($post_user,$request);
+       
         }
 
         post_end:

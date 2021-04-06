@@ -77,7 +77,12 @@
                                         </a>
                                     </td>
 
-                                    <td>{{ $post_payment->payment_id }}</td>
+                                    <td>
+                                        {{ $post_payment->payment_id }}
+                                        <br>
+                                        <br>
+                                        <span class="text-gray">{{tr('date')}}: {{common_date($post_payment->paid_date, Auth::user()->timezone)}}</span>
+                                    </td>
 
                                     <td>
                                         {{ $post_payment->paid_amount_formatted}}

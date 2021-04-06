@@ -54,6 +54,7 @@
 
                                             <div class="col">
                                                 <h3 class="card-title">{{ $user->name }}</h3>
+                                                <p>@ {{$user->username}}</p>
                                                 <span class="text-muted">{{ $user->email }}</span>
                                             </div>
 
@@ -88,12 +89,6 @@
                                                 <th>{{tr('email')}}</th>
                                                 <td>{{$user->email}}</td>
                                             </tr>
-
-                                            <tr>
-                                                <th>{{tr('payment_mode')}}</th>
-                                                <td>{{$user->payment_mode ?: tr('not_available')}}</td>
-                                            </tr>
-
                                             <tr>
                                                 <th>{{tr('login_type')}}</th>
                                                 <td class="text-capitalize">{{$user->login_by ?: tr('not_available')}}</td>
@@ -167,6 +162,7 @@
                                             </tr>
 
                                             @if($user->user_account_type == USER_PREMIUM_ACCOUNT)
+                                            
                                             <tr>
                                                 <th>{{tr('monthly_amount')}}</th>
                                                 <td>
@@ -180,6 +176,7 @@
                                                     {{($user->userSubscription) ? formatted_amount($user->userSubscription->yearly_amount) : '-'}}
                                                 </td>
                                             </tr>
+
                                             @endif
 
                                             <tr>

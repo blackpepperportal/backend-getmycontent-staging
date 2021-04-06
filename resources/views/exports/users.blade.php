@@ -82,41 +82,41 @@
 
         <!--- HEADER END  -->
 
-        @foreach($data as $i => $user_details)
+        @foreach($data as $i => $user)
 
         <tr @if($i % 2 == 0) class="row_col_design" @endif >
 
             <td>{{$i+1}}</td>
 
-            <td>{{$user_details->name}}</td>
+            <td>{{$user->name}}</td>
 
-            <td>{{$user_details->email}}</td>
+            <td>{{$user->email}}</td>
 
-            <td>{{$user_details->mobile}}</td>
+            <td>{{$user->mobile}}</td>
 
             <td>
-                @if($user_details->picture) {{$user_details->picture}} @else {{asset('admin-css/dist/img/avatar.png')}} @endif
+                @if($user->picture) {{$user->picture}} @else {{asset('admin-css/dist/img/avatar.png')}} @endif
             </td>
 
-            <td>{{$user_details->about}}</td>
+            <td>{{$user->about}}</td>
 
-            <td >{{$user_details->address}}</td>
+            <td >{{$user->address}}</td>
 
-            <td >{{$user_details->user_type}}</td>
+            <td >{{$user->user_type}}</td>
 
-            <td >{{$user_details->user_account_type}}</td>
+            <td >{{$user->user_account_type}}</td>
 
-            <td >{{$user_details->payment_mode}}</td>
+            <td >{{$user->payment_mode}}</td>
 
-            <td >{{$user_details->device_type}}</td>
+            <td >{{$user->device_type}}</td>
 
-            <td >{{$user_details->amount_paid}}</td>
+            <td >{{$user->amount_paid}}</td>
 
-            <td >{{convertTimeToUSERzone($user_details->expiry_date, Auth::guard('admin')->user()->timezone, 'd-m-Y H:i a')}}</td>
+            <td >{{convertTimeToUSERzone($user->expiry_date, Auth::guard('admin')->user()->timezone, 'd-m-Y H:i a')}}</td>
 
-            <td >{{$user_details->no_of_days}}</td>
+            <td >{{$user->no_of_days}}</td>
 
-            @if($user_details->status == USER_APPROVED) 
+            @if($user->status == USER_APPROVED) 
             <td >{{tr('approved')}}</td>
 
             @else
@@ -124,9 +124,9 @@
 
             @endif
 
-            <td>{{convertTimeToUSERzone($user_details->created_at, Auth::guard('admin')->user()->timezone, 'd-m-Y H:i a')}}</td>
+            <td>{{convertTimeToUSERzone($user->created_at, Auth::guard('admin')->user()->timezone, 'd-m-Y H:i a')}}</td>
 
-            <td>{{convertTimeToUSERzone($user_details->updated_at, Auth::guard('admin')->user()->timezone, 'd-m-Y H:i a')}}</td>
+            <td>{{convertTimeToUSERzone($user->updated_at, Auth::guard('admin')->user()->timezone, 'd-m-Y H:i a')}}</td>
 
         </tr>
 
