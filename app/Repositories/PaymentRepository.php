@@ -1163,7 +1163,7 @@ class PaymentRepository {
 
             $user_subscription_payment->payment_id = $request->payment_id ?? "NO-".rand();
 
-            $user_subscription_payment->status = PAID_STATUS;
+            $user_subscription_payment->status = $request->payment_status ?? PAID_STATUS;
 
             $user_subscription_payment->is_current_subscription = YES;
 
@@ -1179,6 +1179,7 @@ class PaymentRepository {
 
             $user_subscription_payment->cancel_reason = $request->cancel_reason ?? '';
 
+            $user_subscription_payment->trans_token = $request->trans_token ?? '';
             // Commission calculation & update the earnings to other user wallet
 
             $admin_commission_in_per = Setting::get('subscription_admin_commission', 1)/100;
@@ -1191,21 +1192,24 @@ class PaymentRepository {
 
             $user_subscription_payment->user_amount = $user_amount ?? 0.00;
 
-            $user_subscription_payment->status = PAID;
+            $user_subscription_payment->status = $request->payment_status ?? PAID;
 
             $user_subscription_payment->save();
-
+            
             // Add to post user wallet
+            if($user_subscription_payment->status == PAID_STATUS) {
 
-            if($total > 0) {
-                self::user_subscription_payments_wallet_update($request, $user_subscription, $user_subscription_payment);
+                if($total > 0) {
+                    self::user_subscription_payments_wallet_update($request, $user_subscription, $user_subscription_payment);
+                }
+
+                $request->request->add(['user_id' => $user->id]);
+
+                \App\Repositories\CommonRepository::follow_user($request);
+
             }
-
-            $request->request->add(['user_id' => $user->id]);
-
-            \App\Repositories\CommonRepository::follow_user($request);
-
-            $data = ['user_type' => SUBSCRIBED_USER, 'payment_id' => $request->payment_id];
+            
+            $data = ['user_type' => SUBSCRIBED_USER, 'payment_id' => $request->payment_id ?? $user_subscription_payment->payment_id];
 
             $data['total_followers'] = \App\Follower::where('user_id', $request->id)->where('status', YES)->count();
 
@@ -1319,7 +1323,7 @@ class PaymentRepository {
 
             $to_user_inputs = [
                 'id' => $user_subscription_payment->to_user_id,
-                'payment_mode' => $request->payment_mode,
+                'payment_mode' => $user_subscription_payment->payment_mode,
                 'received_from_user_id' => $user_subscription_payment->from_user_id,
                 'total' => $user_subscription_payment->amount, 
                 'user_pay_amount' => $user_subscription_payment->amount,

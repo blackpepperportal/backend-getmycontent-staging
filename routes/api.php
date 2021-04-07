@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
+Route::group(['prefix' => 'user' ,'as' => 'user.', 'middleware' => 'cors'], function() {
 
     Route::get('get_settings_json', function () {
 
@@ -365,5 +365,15 @@ Route::group(['prefix' => 'user' , 'middleware' => 'cors'], function() {
     Route::post('posts_payment_by_paypal','Api\PostsApiController@posts_payment_by_paypal');
 
     Route::post('user_tips_history','Api\UserAccountApiController@user_tips_history');
+
+    Route::post('user_subscriptions_payment_by_paypal_direct','Api\PaypalPaymentController@user_subscriptions_payment_by_paypal_direct');
+
+    Route::post('tips_payment_by_paypal_direct','Api\PaypalPaymentController@tips_payment_by_paypal_direct');
+
+    Route::post('posts_payment_by_paypal_direct','Api\PaypalPaymentController@posts_payment_by_paypal_direct');
+
+    Route::get('ppv_payment/cancel', 'Api\PaypalPaymentController@ppv_payment_cancel')->name('ppv_payment.cancel');
+        
+    Route::get('ppv_payment/success', 'Api\PaypalPaymentController@ppv_payment_success')->name('ppv_payment.success');
 
 });
