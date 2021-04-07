@@ -386,7 +386,7 @@ class PaypalPaymentController extends Controller
 
             		DB::commit();
 
-		            return $this->sendResponse(api_success(146), 146, $return);
+		            return $this->sendResponse($message = api_success(162), $code = 162, $return);
 
                 } else {
 
@@ -575,24 +575,82 @@ class PaypalPaymentController extends Controller
 
             $request->request->add(['payment_mode'=> PAYPAL,'paid_amount' => $user_pay_amount, 'payment_id' => $request->payment_id]);
 
-            $payment_response = PaymentRepo::post_payments_save($request, $post)->getData();
+            if($user_pay_amount > 0) {
 
-            if($payment_response->success) {
+                $data = [];
+
+                $data['items'] = [
+                    [
+                        'name' => Setting::get('site_name'),
+                        'price' => $user_pay_amount,
+                        'desc'  => 'PPV Payment for '.$post->unique_id,
+                        'qty' => 1
+                    ]
+                ];
+          
+                $data['invoice_id'] = $post->id;
+
+                $data['invoice_description'] = $post->unique_id;
+
+                $data['return_url'] = route('user.posts_payment.success');
+
+                $data['cancel_url'] = route('user.posts_payment.cancel');
+
+                $data['total'] = $user_pay_amount;
+          
+                $provider = new ExpressCheckout;
+          
+                $response = $provider->setExpressCheckout($data);
+          
+                $response = $provider->setExpressCheckout($data, true);
                 
-                $job_data['post_payments'] = $request->all();
+                if (in_array(strtoupper($response['ACK']), ['SUCCESS', 'SUCCESSWITHWARNING'])) {
+                    
+                    $request->request->add([
+		            	'payment_status' => UNPAID,
+		            	'trans_token' => $response['TOKEN'],
+		        	]);
 
-                $job_data['timezone'] = $this->timezone;
+                    $payment_response = PaymentRepo::post_payments_save($request, $post)->getData();
 
-                $this->dispatch(new \App\Jobs\PostPaymentJob($job_data));
+		            $return['redirect_url'] = $response['paypal_link'];
+
+		            if(!$payment_response->success) {
                 
-                DB::commit();
+                		throw new Exception($payment_response->error, $payment_response->error_code);
+                
+            		}
 
-                return $this->sendResponse(api_success(140), 140, $payment_response->data);
+            		DB::commit();
+
+		            return $this->sendResponse($message = api_success(162), $code = 162, $return);
+
+                } else {
+
+                	throw new Exception(api_error(113), 113);
+	                    
+                }
 
             } else {
 
-                throw new Exception($payment_response->error, $payment_response->error_code);
-                
+	            $payment_response = PaymentRepo::post_payments_save($request, $post)->getData();
+
+	            if($payment_response->success) {
+	                
+	                $job_data['post_payments'] = $request->all();
+
+	                $job_data['timezone'] = $this->timezone;
+
+	                $this->dispatch(new \App\Jobs\PostPaymentJob($job_data));
+	                
+	                DB::commit();
+
+	                return $this->sendResponse(api_success(140), 140, $payment_response->data);
+
+	            } else {
+
+	                throw new Exception($payment_response->error, $payment_response->error_code);
+	            }  
             }
         
         } catch(Exception $e) {
@@ -602,6 +660,94 @@ class PaypalPaymentController extends Controller
             return $this->sendError($e->getMessage(), $e->getCode());
         
         }
+
+    }
+
+    /**
+     * @method posts_payment_success()     
+     *
+     * @uses subscription payment success
+     *
+     * cretaed Bhawya
+     *   
+     * updated Bhawya
+     *
+     * @param 
+     *
+     * @return success/failure message
+     */
+    public function posts_payment_success(Request $request)
+    {   
+        
+        $provider = new ExpressCheckout;
+
+        $response = $provider->getExpressCheckoutDetails($request->token);
+
+        $post_id = explode('_', $response['INVNUM'])[0];
+
+        $post_payment = \App\PostPayment::where('trans_token', $response['TOKEN'])->first();
+        
+        if (in_array(strtoupper($response['ACK']), ['SUCCESS', 'SUCCESSWITHWARNING'])) {
+
+        	$post_payment->status = PAID;
+
+            $post_payment->save();
+            
+            $post = \App\Post::PaidApproved()->firstWhere('posts.id',  $post_id);
+
+        	$request->request->add(['post_id' => $post->id, 'user_id' => $post_payment->user_id]);
+
+            PaymentRepo::post_payment_wallet_update($request, $post,$post_payment);
+
+        	$job_data['post_payments'] = $request->all();
+
+	        $job_data['timezone'] = $this->timezone;
+
+	       	$this->dispatch(new \App\Jobs\PostPaymentJob($job_data));
+
+            $response_array = [ 'success' => true, 'message' => tr('payment_success'), 'amount' => $post_payment->paid_amount];
+
+            return view('paypal.paypal-response')
+                    ->with('data', $response_array);
+
+        } else {
+
+        	$post_payment->status = UNPAID;
+
+        	$post_payment->save();
+
+            $response_array = ['success'=>false, 'error_messages'=>tr('payment_failure')];
+
+           	return view('paypal.paypal-response')
+                ->with('data', $response_array);
+
+        }
+  
+    }
+
+
+    /**
+     * @method posts_payment_cancel()     
+     *
+     * @uses
+     *
+     * cretaed Bhawya
+     *   
+     * updated Bhawya  
+     *
+     * @param
+     *
+     * @return
+     */
+    public function posts_payment_cancel(Request $request)
+    {
+ 	
+        $user_tip = \App\PostPayment::where('trans_token', $request->token)->first();
+
+        $response_array = ['success'=>false, 'error_messages'=>tr('payment_failure')];
+
+        return view('paypal.paypal-response')
+            ->with('data', $response_array);
 
     }
 }

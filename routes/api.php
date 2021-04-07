@@ -380,4 +380,8 @@ Route::group(['prefix' => 'user' ,'as' => 'user.', 'middleware' => 'cors'], func
 
     Route::post('posts_payment_by_paypal_direct','Api\PaypalPaymentController@posts_payment_by_paypal_direct');
 
+    Route::get('posts_payment/cancel', 'Api\PaypalPaymentController@posts_payment_cancel')->name('posts_payment.cancel');
+        
+    Route::get('posts_payment/success', 'Api\PaypalPaymentController@posts_payment_success')->name('posts_payment.success');
+
 });

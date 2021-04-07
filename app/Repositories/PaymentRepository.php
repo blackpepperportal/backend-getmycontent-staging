@@ -886,14 +886,19 @@ class PaymentRepository {
 
             $post_payment->paid_date = date('Y-m-d H:i:s');
 
-            $post_payment->status = PAID;
+            $post_payment->status = $request->payment_status ?? PAID;
+
+            $post_payment->trans_token = $request->trans_token ?? '';
 
             $post_payment->save();
 
             // Add to post user wallet
+            if($post_payment->status == PAID) {
 
-            self::post_payment_wallet_update($request, $post, $post_payment);
+                self::post_payment_wallet_update($request, $post, $post_payment);
 
+            }
+            
             $response = ['success' => true, 'message' => 'paid', 'data' => [ 'payment_id' => $request->payment_id, 'post' => $post]];
 
             return response()->json($response, 200);
@@ -1079,7 +1084,7 @@ class PaymentRepository {
 
             $to_user_inputs = [
                 'id' => $post->user_id,
-                'received_from_user_id' => $request->id,
+                'received_from_user_id' => $post_payment->user_id,
                 'total' => $post_payment->paid_amount, 
                 'user_pay_amount' => $post_payment->paid_amount,
                 'paid_amount' => $post_payment->paid_amount,
