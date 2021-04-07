@@ -1033,14 +1033,18 @@ class PaymentRepository {
 
             $user_tip->paid_date = date('Y-m-d H:i:s');
 
-            $user_tip->status = PAID;
+            $user_tip->status = $request->payment_status ?? PAID;
+
+            $user_tip->trans_token = $request->trans_token ?? '';
 
             $user_tip->save();
 
             // Add to post user wallet
 
-            self::tips_payment_wallet_update($request, $user_tip);
-
+            if($user_tip->status == PAID) {
+                self::tips_payment_wallet_update($request, $user_tip);
+            }
+            
             $response = ['success' => true, 'message' => 'paid', 'data' => [ 'payment_id' => $request->payment_id]];
 
             return response()->json($response, 200);

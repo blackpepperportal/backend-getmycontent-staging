@@ -368,12 +368,16 @@ Route::group(['prefix' => 'user' ,'as' => 'user.', 'middleware' => 'cors'], func
 
     Route::post('user_subscriptions_payment_by_paypal_direct','Api\PaypalPaymentController@user_subscriptions_payment_by_paypal_direct');
 
+    Route::get('user_subscriptions_payment/cancel', 'Api\PaypalPaymentController@user_subscriptions_payment_cancel')->name('user_subscriptions_payment.cancel');
+        
+    Route::get('user_subscriptions_payment/success', 'Api\PaypalPaymentController@user_subscriptions_payment_success')->name('user_subscriptions_payment.success');
+
     Route::post('tips_payment_by_paypal_direct','Api\PaypalPaymentController@tips_payment_by_paypal_direct');
 
-    Route::post('posts_payment_by_paypal_direct','Api\PaypalPaymentController@posts_payment_by_paypal_direct');
-
-    Route::get('ppv_payment/cancel', 'Api\PaypalPaymentController@ppv_payment_cancel')->name('ppv_payment.cancel');
+    Route::get('tips_payment/cancel', 'Api\PaypalPaymentController@tips_payment_cancel')->name('tips_payment.cancel');
         
-    Route::get('ppv_payment/success', 'Api\PaypalPaymentController@ppv_payment_success')->name('ppv_payment.success');
+    Route::get('tips_payment/success', 'Api\PaypalPaymentController@tips_payment_success')->name('tips_payment.success');
+
+    Route::post('posts_payment_by_paypal_direct','Api\PaypalPaymentController@posts_payment_by_paypal_direct');
 
 });
