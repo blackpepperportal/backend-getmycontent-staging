@@ -274,3 +274,13 @@ if(!defined('USAGE_TYPE_TIP')) define('USAGE_TYPE_TIP', 'tip');
 if(!defined('USAGE_TYPE_SEND_MONEY')) define('USAGE_TYPE_SEND_MONEY', 'Sent Money');
 
 if(!defined('USAGE_TYPE_WITHDRAW')) define('USAGE_TYPE_WITHDRAW', 'withdraw');
+
+
+
+if(!defined('SORT_BY_HIGH')) define('SORT_BY_HIGH',1);
+
+if(!defined('SORT_BY_LOW')) define('SORT_BY_LOW',2);
+
+if(!defined('SORT_BY_FREE')) define('SORT_BY_FREE',3);
+
+if(!defined('SORT_BY_PAID')) define('SORT_BY_PAID',4);

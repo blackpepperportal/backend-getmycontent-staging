@@ -1154,5 +1154,11 @@ return [
 	"billing_accounts"=>"Billing Accounts",
 
 	"post_payments_message"=>"You received a post payment (:other_key) from ",
+	 
+	"sort_by_high"=>"High",
+	"sort_by_low"=>"Low",
+	"sort_by_paid"=>"Paid",
+	"sort_by_free"=>"Free",
+
 
 ];
