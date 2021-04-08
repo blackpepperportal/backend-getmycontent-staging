@@ -2152,5 +2152,74 @@ class PostsApiController extends Controller
 
     }
 
+    /**
+     * @method explore()
+     *
+     * @uses To display random posts
+     *
+     * @created Arun
+     *
+     * @updated 
+     *
+     * @param request id
+     *
+     * @return JSON Response
+     */
+    public function explore(Request $request) {
+
+        try {
+
+            $user_id = $request->id;
+
+            $report_posts = report_posts($request->id);
+
+            $blocked_users = blocked_users($request->id);
+
+            $free_post = Post::where('is_paid_post',UNPAID)->pluck('id');
+
+            $paid_post = Post::PaidApproved()
+                        ->whereHas('postPayments', function($q) use ($user_id) {
+
+                            return $q->Where('post_payments.user_id','=',$user_id);
+
+                        })->pluck('id');
+
+            $posts_id = $free_post->merge($paid_post);
+
+            $posts = $total_query = Post::Approved()
+                ->where('posts.user_id', '!=' ,$user_id)
+                ->whereHas('postFiles')
+                ->whereNotIn('posts.user_id',$blocked_users)
+                ->whereNotIn('posts.id',$report_posts)
+                ->whereIn('id', $posts_id)
+                ->inRandomOrder()
+                ->skip($this->skip)
+                ->take($this->take)
+                ->get();
+
+            $posts = $posts->map(function ($post, $key) use ($request) {
+
+                $postFiles = \App\PostFile::where('post_id', $post->post_id)->OriginalResponse()->first();
+
+                $post->file_type = $postFiles->file_type;
+
+                $post->post_image = $postFiles->file_type == "image" ? $postFiles->post_file : $postFiles->preview_file;
+
+                return $post;
+            });
+
+            $data['posts'] = $posts ?? [];
+
+            $data['total'] = $total_query->count() ?? 0;
+
+            return $this->sendResponse($message = '' , $code = '', $data);
+
+        } catch(Exception $e) {
+
+            return $this->sendError($e->getMessage(), $e->getCode());
+        
+        }
+    
+    }
 
 }

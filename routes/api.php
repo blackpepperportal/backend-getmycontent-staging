@@ -389,4 +389,6 @@ Route::group(['prefix' => 'user' ,'as' => 'user.', 'middleware' => 'cors'], func
         
     Route::get('posts_payment/success', 'Api\PaypalPaymentController@posts_payment_success')->name('posts_payment.success');
 
+    Route::post('explore','Api\PostsApiController@explore');
+
 });
