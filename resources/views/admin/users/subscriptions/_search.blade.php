@@ -21,8 +21,9 @@
                 <option class="select-color" value="{{SORT_BY_PAID}}" @if(Request::get('status') == SORT_BY_PAID && Request::get('status')!='' ) selected @endif>{{tr('sort_by_paid')}}</option>
 
             </select>
-           <input type="hidden" id="account_type" name="account_type" value="{{Request::get('account_type') ?? ''}}">
         </div>
+
+        
         <div class="col-xs-12 col-sm-12 col-lg-6 col-md-12">
 
             <div class="input-group">
