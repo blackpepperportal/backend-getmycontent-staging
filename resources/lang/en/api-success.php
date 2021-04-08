@@ -122,6 +122,8 @@ return [
 
     161 => 'Valid Username',
 
+    162 => 'Redirection Success',
+
     3000 => 'The chat deleted',
 
 ];

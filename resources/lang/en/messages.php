@@ -1154,5 +1154,8 @@ return [
 	"billing_accounts"=>"Billing Accounts",
 
 	"post_payments_message"=>"You received a post payment (:other_key) from ",
+	'payment_failure'=>'Payment Failed',
+	'success'=>'Success',
+	'failure'=>'Failed',
 
 ];
