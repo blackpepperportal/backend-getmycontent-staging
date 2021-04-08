@@ -1160,5 +1160,8 @@ return [
 	"sort_by_paid"=>"Paid",
 	"sort_by_free"=>"Free",
 
+	'payment_failure'=>'Payment Failed',
+	'success'=>'Success',
+	'failure'=>'Failed',
 
 ];

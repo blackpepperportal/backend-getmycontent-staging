@@ -2573,8 +2573,6 @@ class UserAccountApiController extends Controller
 
     }
 
-
-
      /** 
      * @method user_subscriptions_payment_by_paypal()
      *
@@ -2756,6 +2754,5 @@ class UserAccountApiController extends Controller
         }
 
     }
-
 
 }
