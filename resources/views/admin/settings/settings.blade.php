@@ -110,9 +110,9 @@ hr {
 
 @section('content')
 
-<div class="row">
+<div class="row settings-sec">
     
-     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 fansclub-tab-menu">
+     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 fansclub-tab-menu resp-mrg-btm-xs">
         
         <div class="list-group">
             <a href="#" class="list-group-item active text-left text-uppercase">
@@ -175,7 +175,7 @@ hr {
 
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-12 col-xl-6 col-lg-6">
 
                             <div class="form-group">
                                 <label for="site_name">{{tr('site_name')}} *</label>
@@ -201,7 +201,7 @@ hr {
 
                         </div>
 
-                        <div class="col-lg-6">
+                        <div class="col-xl-6 col-lg-6 col-md-12">
 
                             <div class="form-group">
 

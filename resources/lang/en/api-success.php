@@ -123,6 +123,8 @@ return [
     161 => 'Valid Username',
 
     180 => 'The user category update success',
+    
+    162 => 'Redirection Success',
 
     3000 => 'The chat deleted',
 

@@ -26,7 +26,7 @@
 
         <div class="col-12">
 
-            <div class="card">
+            <div class="card report-post-sec">
 
                 <div class="card-header border-bottom border-gray">
 
@@ -118,7 +118,7 @@
 
                         </table>
 
-                        <div class="pull-right" id="paglink">{{ $report_posts->appends(request()->input())->links() }}</div>
+                        <div class="pull-right resp-float-unset" id="paglink">{{ $report_posts->appends(request()->input())->links() }}</div>
 
                     </div>
 

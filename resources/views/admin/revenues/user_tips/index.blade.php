@@ -20,7 +20,7 @@
 
         <div class="col-12">
 
-            <div class="card">
+            <div class="card user-tips-sec">
 
                 <div class="card-header border-bottom border-gray">
 
@@ -44,7 +44,7 @@
 
                         @include('admin.revenues.user_tips._search')
 
-                        <table class="table table-striped table-bordered sourced-data">
+                        <table class="table table-striped table-bordered sourced-data table-responsive">
 
                             <thead>
                                 <tr>
@@ -52,6 +52,7 @@
                                     <th>{{tr('from_username')}}</th>
                                     <th>{{tr('to_username')}}</th>
                                     <th>{{tr('post')}}</th>
+                                    <th>{{tr('message')}}</th>
                                     <th>{{tr('amount')}}</th>
                                     <th>{{tr('admin_amount')}}</th>
                                     <th>{{tr('user_amount')}}</th>
@@ -81,7 +82,13 @@
                                         @else
                                         {{tr('not_available') }}
                                         @endif
+
+                                        <br>
+                                        <br>
+                                        <span class="text-gray">{{tr('date')}}: {{common_date($tips->paid_date, Auth::user()->timezone)}}</span>
                                     </td>
+
+                                    <td>{{ substr($tips->message ?? "-" , 0, 25) }}</td>
 
                                     <td>{{ $tips->amount_formatted }}</td>
 
@@ -126,7 +133,7 @@
                             </tbody>
 
                         </table>
-                        <div class="pull-right" id="paglink">{{ $user_tips->appends(request()->input())->links() }}</div>
+                        <div class="pull-right resp-float-unset" id="paglink">{{ $user_tips->appends(request()->input())->links() }}</div>
 
 
                     </div>

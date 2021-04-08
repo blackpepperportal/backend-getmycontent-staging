@@ -26,7 +26,7 @@
 
         <div class="col-12">
 
-            <div class="card">
+            <div class="card view-post-sec">
 
                 <div class="card-header border-bottom border-gray">
 
@@ -96,7 +96,7 @@
 
                         @include('admin.posts._search')
 
-                        <table class="table table-striped table-bordered sourced-data">
+                        <table class="table table-striped table-bordered sourced-data table-responsive">
 
                             <thead>
                                 <tr>
@@ -218,7 +218,7 @@
 
                         </table>
 
-                        <div class="pull-right" id="paglink">{{ $posts->appends(request()->input())->links() }}</div>
+                        <div class="pull-right resp-float-unset" id="paglink">{{ $posts->appends(request()->input())->links() }}</div>
 
                     </div>
 

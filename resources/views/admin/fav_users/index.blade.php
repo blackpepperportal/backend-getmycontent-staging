@@ -26,7 +26,7 @@
 
                 <div class="card-header border-bottom border-gray">
 
-                    <h4 class="card-title">{{ tr('view_favourite_users') }} - <a href="{{ route('admin.users.view',['user_id'=>$user->id ?? '']) }}">{{$user->name}}</a>
+                    <h4 class="card-title">{{ tr('view_favourite_users') }} @if($user)- <a href="{{ route('admin.users.view',['user_id'=>$user->id ?? '']) }}">{{$user->name}}</a> @endif
                     
                     </h4>
 
@@ -40,12 +40,13 @@
 
                         @include('admin.fav_users._search')
                         
-                        <table class="table table-striped table-bordered sourced-data">
+                        <table class="table table-striped table-bordered sourced-data table-responsive">
                             
                             <thead>
                                 <tr>
                                     <th>{{ tr('s_no') }}</th>
                                     <th>{{ tr('username') }}</th>
+                                    <th>{{ tr('added_at') }}</th>
                                     <th>{{ tr('action') }}</th>
                                 </tr>
                             </thead>
@@ -58,11 +59,15 @@
                                     <td>{{ $i + $fav_users->firstItem() }}</td>
 
                                     <td>
-                                        <a href="{{  route('admin.users.view' , ['user_id' => $fav_user->fav_user_id] )  }}">
-                                        {{ $fav_user->fav_username ?? "-" }}
+                                        <a href="{{route('admin.users.view', ['user_id' => $fav_user->fav_user_id])}}">
+                                        {{ $fav_user->favUser->name ?? "-" }}
                                         </a>
                                     </td>
 
+                                    <td>
+                                        
+                                        {{common_date($fav_user->created_at, Auth::user()->timezone)}}
+                                    </td>
                                    
                                     <td>
                                     
@@ -82,7 +87,7 @@
 
                                                 @else
 
-                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('fav_user_delete_confirmation' , $fav_user->favUser->name ?? '') }}&quot;);" href="{{ route('admin.fav_users.delete', ['fav_user_id' => $fav_user->fav_user_id,'user_id' => $fav_user->user_id] ) }}">&nbsp;{{ tr('delete') }}</a>
+                                                    <a class="dropdown-item" onclick="return confirm(&quot;{{ tr('fav_user_delete_confirmation' , $fav_user->favUser->name ?? '') }}&quot;);" href="{{ route('admin.fav_users.delete', ['fav_user_id' => $fav_user->fav_user_id, 'user_id' => $fav_user->user_id] ) }}">&nbsp;{{ tr('delete') }}</a>
 
                                                 @endif
 

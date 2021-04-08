@@ -22,7 +22,7 @@
     
     <div class="row match-height">
     
-        <div class="col-lg-12">
+        <div class="col-lg-12 col-md-12">
 
             <div class="card">
                 
@@ -39,7 +39,7 @@
 
                         <div class="card-group">
 
-                            <div class="card mb-4">
+                            <div class="card card-margin-btm-zero">
 
                                 <div class="card-body">
 
@@ -51,7 +51,7 @@
 
                             </div>
                           
-                            <div class="card mb-4">
+                            <div class="card card-margin-btm-zero">
 
                                 <div class="card-body">
 
@@ -117,13 +117,13 @@
                                             
                                         
                                         @if(Setting::get('is_demo_control_enabled') == NO)
-                                            <div class="col-md-4 col-lg-4">
+                                            <div class="col-md-4 col-lg-4 resp-mrg-btm-xs">
 
                                                 <a href="{{ route('admin.static_pages.edit', ['static_page_id'=> $static_page->id] ) }}" class="btn btn-primary btn-block">{{tr('edit')}}</a>
                                                 
                                             </div>                              
 
-                                            <div class="col-md-4 col-lg-4">
+                                            <div class="col-md-4 col-lg-4 resp-mrg-btm-xs">
                                                 <a onclick="return confirm(&quot;{{tr('static_page_delete_confirmation' , $static_page->title)}}&quot;);" href="{{ route('admin.static_pages.delete', ['static_page_id'=> $static_page->id] ) }}" class="btn btn-danger btn-block">
                                                     {{ tr('delete') }}
                                                 </a>
@@ -132,13 +132,13 @@
 
                                         @else
                                         
-                                            <div class="col-md-4 col-lg-4">
+                                            <div class="col-md-4 col-lg-4 resp-mrg-btm-xs">
                                                 
                                                 <button class="btn btn-primary btn-block" disabled>{{ tr('edit') }}</button>
 
                                             </div>
                                             
-                                            <div class="col-md-4 col-lg-4">
+                                            <div class="col-md-4 col-lg-4 resp-mrg-btm-xs">
                                                 
                                                 <button class="btn btn-warning btn-block" disabled>{{ tr('delete') }}</button>
                                             </div>

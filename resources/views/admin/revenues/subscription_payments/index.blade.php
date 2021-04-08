@@ -41,7 +41,7 @@
 
                         @include('admin.revenues.subscription_payments._search')
 
-                        <table class="table table-striped table-bordered sourced-data">
+                        <table class="table table-striped table-bordered sourced-data table-responsive">
                             
                             <thead>
                                 <tr>
@@ -62,7 +62,12 @@
                                 <tr>
                                     <td>{{ $i+$subscription_payments->firstItem() }}</td>
 
-                                    <td> <a href="{{ route('admin.subscription_payments.view', ['subscription_payment_id' => $subscription_payment->id] ) }}">{{$subscription_payment->payment_id}}</a></td>
+                                    <td> <a href="{{ route('admin.subscription_payments.view', ['subscription_payment_id' => $subscription_payment->id] ) }}">{{$subscription_payment->payment_id}}</a>
+
+                                        <br>
+                                        <br>
+                                        <span class="text-gray">{{tr('date')}}: {{common_date($subscription_payment->paid_date, Auth::user()->timezone)}}</span>
+                                    </td>
 
                                     <td>
                                         <a href="{{  route('admin.users.view' , ['user_id' => $subscription_payment->user_id] )  }}">

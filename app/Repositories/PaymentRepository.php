@@ -50,6 +50,8 @@ class PaymentRepository {
 
             $user_wallet_payment->amount_type = $request->amount_type ?: WALLET_AMOUNT_TYPE_ADD;
 
+            $user_wallet_payment->usage_type = $request->usage_type ?: "";
+
             $user_wallet_payment->currency = Setting::get('currency') ?? "$";
 
             $user_wallet_payment->payment_mode = $request->payment_mode ?? CARD;
@@ -68,7 +70,13 @@ class PaymentRepository {
 
             $user_wallet_payment->save();
 
-            $user_wallet_payment->message = get_wallet_message($user_wallet_payment);
+            $message = strtoupper($request->usage_type)." - " ?: "";
+
+            $message .= get_wallet_message($user_wallet_payment);
+
+            $message .= $request->message ? " - ".$request->message : "";
+
+            $user_wallet_payment->message = $message;
 
             $user_wallet_payment->save();
 
@@ -190,15 +198,15 @@ class PaymentRepository {
 
             if($user_wallet_payment->amount_type == WALLET_AMOUNT_TYPE_ADD) {
 
-                $user_wallet->total += $user_wallet_payment->paid_amount;
+                $user_wallet->total += $user_wallet_payment->user_amount;
 
-                $user_wallet->remaining += $user_wallet_payment->paid_amount;
+                $user_wallet->remaining += $user_wallet_payment->user_amount;
 
             } else {
 
-                $user_wallet->used += $user_wallet_payment->paid_amount;
+                $user_wallet->used += $user_wallet_payment->user_amount;
 
-                $user_wallet->remaining -= $user_wallet_payment->paid_amount;
+                $user_wallet->remaining -= $user_wallet_payment->user_amount;
             }
 
             $user_wallet->save();
@@ -878,14 +886,19 @@ class PaymentRepository {
 
             $post_payment->paid_date = date('Y-m-d H:i:s');
 
-            $post_payment->status = PAID;
+            $post_payment->status = $request->payment_status ?? PAID;
+
+            $post_payment->trans_token = $request->trans_token ?? '';
 
             $post_payment->save();
 
             // Add to post user wallet
+            if($post_payment->status == PAID) {
 
-            self::post_payment_wallet_update($request, $post, $post_payment);
+                self::post_payment_wallet_update($request, $post, $post_payment);
 
+            }
+            
             $response = ['success' => true, 'message' => 'paid', 'data' => [ 'payment_id' => $request->payment_id, 'post' => $post]];
 
             return response()->json($response, 200);
@@ -1007,7 +1020,11 @@ class PaymentRepository {
 
             $user_tip->amount = $total = $request->paid_amount ?? 0.00;
 
-             // Commission calculation
+            $user_tip->message = $request->message ?: "";
+
+            $user_tip->user_wallet_payment_id = $request->user_wallet_payment_id ?? 0;
+
+            // Commission calculation
 
             $tips_admin_commission_in_per = Setting::get('tips_admin_commission', 1)/100;
 
@@ -1021,14 +1038,18 @@ class PaymentRepository {
 
             $user_tip->paid_date = date('Y-m-d H:i:s');
 
-            $user_tip->status = PAID;
+            $user_tip->status = $request->payment_status ?? PAID;
+
+            $user_tip->trans_token = $request->trans_token ?? '';
 
             $user_tip->save();
 
             // Add to post user wallet
 
-            self::tips_payment_wallet_update($request, $user_tip);
-
+            if($user_tip->status == PAID) {
+                self::tips_payment_wallet_update($request, $user_tip);
+            }
+            
             $response = ['success' => true, 'message' => 'paid', 'data' => [ 'payment_id' => $request->payment_id]];
 
             return response()->json($response, 200);
@@ -1063,15 +1084,16 @@ class PaymentRepository {
 
             $to_user_inputs = [
                 'id' => $post->user_id,
-                'received_from_user_id' => $request->id,
-                'total' => $post_payment->user_amount, 
-                'user_pay_amount' => $post_payment->user_amount,
-                'paid_amount' => $post_payment->user_amount,
+                'received_from_user_id' => $post_payment->user_id,
+                'total' => $post_payment->paid_amount, 
+                'user_pay_amount' => $post_payment->paid_amount,
+                'paid_amount' => $post_payment->paid_amount,
                 'payment_type' => WALLET_PAYMENT_TYPE_CREDIT,
                 'amount_type' => WALLET_AMOUNT_TYPE_ADD,
                 'payment_id' => $post_payment->payment_id,
                 'admin_amount' => $post_payment->admin_amount,
                 'user_amount' => $post_payment->user_amount,
+                'usage_type' => USAGE_TYPE_PPV
             ];
 
             $to_user_request = new \Illuminate\Http\Request();
@@ -1150,7 +1172,7 @@ class PaymentRepository {
 
             $user_subscription_payment->payment_id = $request->payment_id ?? "NO-".rand();
 
-            $user_subscription_payment->status = PAID_STATUS;
+            $user_subscription_payment->status = $request->payment_status ?? PAID_STATUS;
 
             $user_subscription_payment->is_current_subscription = YES;
 
@@ -1166,6 +1188,7 @@ class PaymentRepository {
 
             $user_subscription_payment->cancel_reason = $request->cancel_reason ?? '';
 
+            $user_subscription_payment->trans_token = $request->trans_token ?? '';
             // Commission calculation & update the earnings to other user wallet
 
             $admin_commission_in_per = Setting::get('subscription_admin_commission', 1)/100;
@@ -1178,21 +1201,24 @@ class PaymentRepository {
 
             $user_subscription_payment->user_amount = $user_amount ?? 0.00;
 
-            $user_subscription_payment->status = PAID;
+            $user_subscription_payment->status = $request->payment_status ?? PAID;
 
             $user_subscription_payment->save();
-
+            
             // Add to post user wallet
+            if($user_subscription_payment->status == PAID_STATUS) {
 
-            if($total > 0) {
-                self::user_subscription_payments_wallet_update($request, $user_subscription, $user_subscription_payment);
+                if($total > 0) {
+                    self::user_subscription_payments_wallet_update($request, $user_subscription, $user_subscription_payment);
+                }
+
+                $request->request->add(['user_id' => $user->id]);
+
+                \App\Repositories\CommonRepository::follow_user($request);
+
             }
-
-            $request->request->add(['user_id' => $user->id]);
-
-            \App\Repositories\CommonRepository::follow_user($request);
-
-            $data = ['user_type' => SUBSCRIBED_USER, 'payment_id' => $request->payment_id];
+            
+            $data = ['user_type' => SUBSCRIBED_USER, 'payment_id' => $request->payment_id ?? $user_subscription_payment->payment_id];
 
             $data['total_followers'] = \App\Follower::where('user_id', $request->id)->where('status', YES)->count();
 
@@ -1306,16 +1332,17 @@ class PaymentRepository {
 
             $to_user_inputs = [
                 'id' => $user_subscription_payment->to_user_id,
-                'payment_mode' => $request->payment_mode,
+                'payment_mode' => $user_subscription_payment->payment_mode,
                 'received_from_user_id' => $user_subscription_payment->from_user_id,
-                'total' => $user_subscription_payment->user_amount, 
-                'user_pay_amount' => $user_subscription_payment->user_amount,
-                'paid_amount' => $user_subscription_payment->user_amount,
+                'total' => $user_subscription_payment->amount, 
+                'user_pay_amount' => $user_subscription_payment->amount,
+                'paid_amount' => $user_subscription_payment->amount,
                 'user_amount' => $user_subscription_payment->user_amount,
                 'admin_amount' => $user_subscription_payment->admin_amount,
                 'payment_type' => WALLET_PAYMENT_TYPE_CREDIT,
                 'amount_type' => WALLET_AMOUNT_TYPE_ADD,
-                'payment_id' => $user_subscription_payment->payment_id
+                'payment_id' => $user_subscription_payment->payment_id,
+                'usage_type' => USAGE_TYPE_SUBSCRIPTION
             ];
 
 
@@ -1367,14 +1394,16 @@ class PaymentRepository {
             $to_user_inputs = [
                 'id' => $request->to_user_id,
                 'received_from_user_id' => $request->id,
-                'total' => $user_tip->user_amount, 
-                'user_pay_amount' => $user_tip->user_amount,
-                'paid_amount' => $user_tip->user_amount,
+                'total' => $user_tip->amount, 
+                'user_pay_amount' => $user_tip->amount,
+                'paid_amount' => $user_tip->amount,
                 'payment_type' => WALLET_PAYMENT_TYPE_CREDIT,
                 'amount_type' => WALLET_AMOUNT_TYPE_ADD,
                 'payment_id' => $user_tip->payment_id,
                 'user_amount' => $user_tip->user_amount,
                 'admin_amount' => $user_tip->admin_amount,
+                'usage_type' => USAGE_TYPE_TIP,
+                'message' => $request->message
             ];
 
             $to_user_request = new \Illuminate\Http\Request();

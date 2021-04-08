@@ -39,7 +39,7 @@
                             
                             <div class="col-md-6">
 
-                                <table class="table table-bordered table-striped tab-content">
+                                <table class="table table-bordered table-striped tab-content table-responsive">
                        
                                     <tbody>
 
@@ -89,7 +89,7 @@
 
                             <div class="col-md-6">
                                 
-                                 <table class="table table-bordered table-striped tab-content">
+                                 <table class="table table-bordered table-striped tab-content table-responsive">
                        
                                     <tbody>
 

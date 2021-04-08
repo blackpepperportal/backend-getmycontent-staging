@@ -29,9 +29,10 @@ class PostFile extends Model
      */
     public function scopeOriginalResponse($query) {
 
-        return $query->select(
+        return 
+            $query->select(
             'post_files.*',
-            'post_files.file as post_file',
+            'post_files.file as post_file'
             );
     
     }
@@ -45,7 +46,7 @@ class PostFile extends Model
 
         return $query->select(
             'post_files.*',
-            'post_files.blur_file as post_file',
+            'post_files.blur_file as post_file'
             );
     
     }

@@ -52,7 +52,7 @@ return [
 	"frontend_url" => "Frontend Url",
 	"currency" 	=>	"Currency",
 	"monthly_amount" => "Monthly Amount",
-	"yearly_amount" => "yearly Amount",
+	"yearly_amount" => "Yearly Amount",
 
 
 	"image_type" => "Image Type",
@@ -379,6 +379,7 @@ return [
 	"is_account_email_verification" => "Is Account email verification enabled",
 	"is_email_notification" => "Is email notification",
 	"is_email_configured" => "Is email configured",
+	"is_multilanguage_support" => "Is multi-language support enabled?",
 	"is_push_notification" => "Is push notification",
 	"admin_take_count" => "Admin Take Count",
 	"demo_admin_email" => "Demo - Admin Email",
@@ -974,10 +975,10 @@ return [
 	"user_wallet_balance" => "Wallet Balance",
 	"from_username" => "From UserName",
 	"to_username" => "To UserName",
-	"view_user_subscriptions_payment" => "View Users Subscriptions Payment",
-	"users_subscription_payment" => "User Subscriptions Payment",
+	"view_user_subscriptions_payment" => "View Subscription Payment",
+	"users_subscription_payment" => "Subscription Payment",
 	"user_subscription_payment_not_found" => "Subscription payment not found !!",
-	"view_user_subscription_payment" => "View User Subscription Payment",
+	"view_user_subscription_payment" => "View Subscription Payment",
 	"user_amount" => "User Amount",
 	"update_premium" => "Update Premium Account",
     "user_follow_message"=>"User (:other_key) has been Following you",
@@ -1159,12 +1160,7 @@ return [
 
 	"remove_badge" => "Remove Badge",
 	"add_badge" => "Add Badge",
-	"user_document_none" => "The user haven't uploaded any documents.",
-	"user_document_veification_pending" => "The user updated documents not yet verified by Admin.",
-	"user_document_approved" => "The user updated documents approved by Admin.",
-	"user_document_declined" => "The user updated documents decined by Admin.",
 
-	"is_mailgun_email_validate" => "Is Mailgun - Email Validate Enabled?",
 	"u_category_name_exists"=>"The category name already exists",
 	"u_category_approve_confirmation" => "Do you want approve this Categories",
 	"u_category_approve_failed"=>"Approve Category  failed!!",
@@ -1175,5 +1171,27 @@ return [
 	"admin_u_categories_decline_success"=>"User Categories  has been declined successfully",
 	"admin_u_categories_delete_success"=>"User Categories  has been deleted successfully",
 	"admin_u_categories_delete_confirmation"=>"Do you want to delete this categories ?",
-]
-?>
+
+	"user_document_none" => "You haven't uploaded any documents.",
+	"user_document_veification_pending" => "The uploaded documents are not yet verified.",
+	"user_document_approved" => "The uploaded documents are approved.",
+	"user_document_declined" => "The uploaded documents are decined.",
+	"snapchat_link" => "Snapchat Link",
+
+	"image" => "Image",
+	"video" => "Video",
+	"select_image_type" => "Select Image Type",
+	"preview_file" => "Preview File",
+	"user_document_approved_text" => "Your ID Verification has been approved.",
+
+	"added_at" => "Added At",
+	"followings_search_placeholder"=>"Search by Follower name",
+	"followers_search_placeholder"=>"Search by Username",
+	"billing_accounts"=>"Billing Accounts",
+
+	"post_payments_message"=>"You received a post payment (:other_key) from ",
+	'payment_failure'=>'Payment Failed',
+	'success'=>'Success',
+	'failure'=>'Failed',
+
+];

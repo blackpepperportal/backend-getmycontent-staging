@@ -713,8 +713,7 @@ class Helper {
            
             $url = asset(Storage::url($output_file_path));
 
-        }
-        else{
+        } else {
 
             $extension = $input_file->getClientOriginalExtension();
 
@@ -755,5 +754,3 @@ class Helper {
     }
 
 }
-
-

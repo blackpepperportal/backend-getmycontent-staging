@@ -53,6 +53,23 @@ class AdminUserController extends Controller
 
         $base_query = \App\User::orderBy('created_at','desc');
 
+
+
+        $page = 'users'; $sub_page = 'users-view';
+
+        $title = tr('view_users');
+
+        if($request->account_type!='') {
+
+            $page = $request->account_type == USER_FREE_ACCOUNT ? 'users-free' : 'users-premium'; $sub_page = '';
+
+            $title = $request->account_type == USER_FREE_ACCOUNT ? tr('free_users') : tr('premium_users');
+
+            $base_query = $base_query->where('users.user_account_type', $request->account_type);
+
+        } 
+
+
         if($request->search_key) {
 
             $base_query = $base_query
@@ -61,6 +78,7 @@ class AdminUserController extends Controller
                     ->orWhere('users.mobile','LIKE','%'.$request->search_key.'%');
         }
 
+        
         if($request->status) {
 
             switch ($request->status) {
@@ -99,19 +117,7 @@ class AdminUserController extends Controller
             }
         }
 
-        $page = 'users'; $sub_page = 'users-view';
-
-        $title = tr('view_users');
-
-        if($request->has('account_type')) {
-
-            $page = $request->account_type == USER_FREE_ACCOUNT ? 'users-free' : 'users-premium'; $sub_page = '';
-
-            $title = $request->account_type == USER_FREE_ACCOUNT ? tr('free_users') : tr('premium_users');
-
-            $base_query = $base_query->where('users.user_account_type', $request->account_type);
-
-        } 
+       
       
         $users = $base_query->paginate($this->take);
 
@@ -307,6 +313,8 @@ class AdminUserController extends Controller
 
             $user->twitch_link = $request->filled('twitch_link') ? $request->twitch_link : "";
 
+            $user->snapchat_link = $request->filled('snapchat_link') ? $request->snapchat_link : "";
+            
             $username = $request->username ?: $user->username;
 
 
@@ -844,7 +852,22 @@ class AdminUserController extends Controller
 
         $blocked_users = blocked_users($request->follower_id);
 
-        $user_followers = \App\Follower::whereNotIn('user_id',$blocked_users)->where('follower_id',$request->follower_id)->where('status', YES)->paginate($this->take);
+        $base_query = \App\Follower::whereNotIn('user_id',$blocked_users)->where('follower_id',$request->follower_id)->where('status', YES);
+
+        $search_key = $request->search_key;
+
+        if($search_key) {
+
+            $base_query = $base_query
+                        ->whereHas('user',function($query) use($search_key) {
+
+                            return $query->where('users.name','LIKE','%'.$search_key.'%');
+
+                        });
+        }
+
+
+        $user_followers = $base_query->paginate($this->take);
 
         return view('admin.users.followers')
                 ->with('page', 'users')
@@ -884,9 +907,23 @@ class AdminUserController extends Controller
 
         }
 
+        $search_key = $request->search_key;
+
         $blocked_users = blocked_users($request->user_id);
 
-        $followings = \App\Follower::whereNotIn('follower_id',$blocked_users)->where('user_id', $request->user_id)->where('status', YES)->paginate($this->take);
+        $base_query =  \App\Follower::whereNotIn('follower_id',$blocked_users)->where('user_id', $request->user_id)->where('status', YES);
+
+        if($search_key) {
+
+            $base_query = $base_query
+                        ->whereHas('followerDetails',function($query) use($search_key) {
+
+                            return $query->where('users.name','LIKE','%'.$search_key.'%');
+
+                        });
+        }
+
+        $followings =  $base_query->paginate($this->take);
 
         return view('admin.users.followings')
                 ->with('page','users')
@@ -1071,8 +1108,7 @@ class AdminUserController extends Controller
      */
     public function user_subscription_payments(Request $request) {
        
-        $base_query = \App\UserSubscriptionPayment::orderBy('created_at','desc')
-                      ->has('fromUser')->has('toUser');
+        $base_query = \App\UserSubscriptionPayment::orderBy('created_at', 'desc')->has('fromUser')->has('toUser');
 
         $search_key = $request->search_key;
 
@@ -1099,7 +1135,6 @@ class AdminUserController extends Controller
         }
 
         $user_subscriptions = $base_query->paginate(10);
-
 
         return view('admin.users.subscriptions.index')
                     ->with('page', 'user_subscriptions')
@@ -1167,6 +1202,21 @@ class AdminUserController extends Controller
 
         $base_query = \App\BlockUser::select('block_users.*', DB::raw('count(`blocked_to`) as blocked_count'))
                       ->has('blockeduser')->groupBy('blocked_to')->orderBy('created_at','desc');
+
+        
+        $search_key = $request->search_key;
+
+        if($search_key) {
+
+            $base_query = $base_query
+                        ->whereHas('blockeduser',function($query) use($search_key) {
+
+                            return $query->where('users.name','LIKE','%'.$search_key.'%')
+                                     ->orWhere('users.email','LIKE','%'.$search_key.'%');
+
+                        });
+        }
+
 
         $block_users = $base_query->paginate($this->take);
 
@@ -1423,7 +1473,7 @@ class AdminUserController extends Controller
     }
 
     /**
-     * @method bank_details_index()
+     * @method billing_accounts_index()
      *
      * @uses To list out user banking details
      *
@@ -1437,7 +1487,7 @@ class AdminUserController extends Controller
      *
      */
 
-    public function bank_details_index(Request $request) {
+    public function billing_accounts_index(Request $request) {
        
         $base_query = \App\UserBillingAccount::orderBy('created_at','desc');
 

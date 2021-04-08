@@ -200,6 +200,13 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="snapchat_link">{{ tr('snapchat_link') }}</label>
+                                            <input type="url" id="snapchat_link" name="snapchat_link" class="form-control" placeholder="{{ tr('snapchat_link') }}" value="{{ $user->snapchat_link ?: old('snapchat_link') }}">
+                                        </div>
+                                    </div>
+
                                 </div>
 
                                 <div class="row">

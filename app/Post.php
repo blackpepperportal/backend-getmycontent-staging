@@ -87,6 +87,11 @@ class Post extends Model
 	   return $this->belongsTo(User::class, 'user_id');
 	}
 
+	public function postBookmark() {
+
+	    return $this->belongsTo(PostBookmark::class, 'post_id', 'post_id');
+	 }
+
 	public function postFiles() {
 
 	   return $this->hasMany(PostFile::class, 'post_id');

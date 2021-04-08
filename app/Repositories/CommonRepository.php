@@ -138,7 +138,7 @@ class CommonRepository {
 
             $job_data['follower'] = $follower;
 
-            $job_data['timezone'] = $request->timezone;
+            $job_data['timezone'] = $request->timezone ?? '';
 
             dispatch(new \App\Jobs\FollowUserJob($job_data));
 
@@ -233,10 +233,14 @@ class CommonRepository {
 
                     $data['payment_text'] = tr('unlock_subscription_text', $user_subscription->monthly_amount_formatted);
 
+                    $data['unsubscribe_btn_status'] = NO;
+
                 }
+            
             }
 
         } else {
+            
             $data['is_free_account'] = YES;
         }
 

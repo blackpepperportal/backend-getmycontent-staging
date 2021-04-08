@@ -1,12 +1,13 @@
 @extends('layouts.admin')
 
-@section('content-header', tr('users_subscription_payment'))
+@section('content-header', tr('subscription_payments'))
 
 @section('breadcrumb')
 
+<li class="breadcrumb-item"><a href="">{{ tr('payments') }}</a></li>
 
 <li class="breadcrumb-item">
-    <a href="{{ route('admin.users_subscriptions.index') }}">{{ tr('users_subscription_payment') }}</a>
+    <a href="{{ route('admin.users_subscriptions.index') }}">{{ tr('subscription_payments') }}</a>
 </li>
 
 <li class="breadcrumb-item active" aria-current="page">
@@ -40,7 +41,7 @@
 
                             <div class="col-md-6">
 
-                                <table class="table table-bordered table-striped tab-content">
+                                <table class="table table-bordered table-striped tab-content table-responsive-sm">
 
                                     <tbody>
 
@@ -112,7 +113,7 @@
 
                             <div class="col-md-6">
 
-                                <table class="table table-bordered table-striped tab-content">
+                                <table class="table table-bordered table-striped tab-content table-responsive-sm">
 
                                     <tbody>
 

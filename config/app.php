@@ -183,7 +183,8 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Benwilkins\FCM\FcmNotificationServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
-        Pawlox\VideoThumbnail\VideoThumbnailServiceProvider::class
+        Pawlox\VideoThumbnail\VideoThumbnailServiceProvider::class,
+        Srmklive\PayPal\Providers\PayPalServiceProvider::class
     ],
 
     /*

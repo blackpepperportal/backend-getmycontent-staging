@@ -977,7 +977,7 @@ function document_status_text_formatted($status) {
     $status_list = [
         USER_DOCUMENT_NONE => tr('user_document_none'), 
         USER_DOCUMENT_PENDING => tr('user_document_veification_pending'),
-        USER_DOCUMENT_APPROVED => tr('user_document_approved'), 
+        USER_DOCUMENT_APPROVED => tr('user_document_approved_text'), 
         USER_DOCUMENT_DECLINED => tr('user_document_declined')
     ];
 
@@ -1153,4 +1153,49 @@ function check_user_subscribed($post_user,$request) {
 
 function emptyObject() {
     return (Object)[];
+}
+
+
+function get_file_type($file) {
+
+    $imagemimes = ['image/png', 'image/jpeg', 'image/jpg']; //Add more mimes that you want to support
+    
+    $videomimes = ['video/mp4', 'video/mov', 'video/webm', 'video/flv', 'video/avi', 'video/mkv']; //Add more mimes that you want to support
+    
+    $audiomimes = ['audio/mpeg', 'audio/mp3']; //Add more mimes that you want to support
+
+    if(in_array($file->getMimeType() ,$imagemimes)) {
+        return FILE_TYPE_IMAGE;
+    }
+    //Validate video
+    if (in_array($file->getMimeType() ,$videomimes)) {
+        return FILE_TYPE_VIDEO;
+    }
+    //validate audio
+    if (in_array($file->getMimeType() ,$audiomimes)) {
+        return FILE_TYPE_AUDIO;
+    }
+
+    return FILE_TYPE_IMAGE;   
+}
+
+function formatUrl($url) {
+
+    $parsed = parse_url($url);
+
+    if(empty($parsed['scheme'])) {
+
+        if(false === strpos($url, '://')) {
+
+            $url = 'https://' . ltrim($url, '/');
+
+        } else {
+
+            $url = 'https' . ltrim($url, '/');
+        }
+    }
+
+    return $url;
+
+    Log::info("url".$url);
 }

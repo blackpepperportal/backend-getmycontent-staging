@@ -22,7 +22,7 @@
 
         <div class="col-12">
 
-            <div class="card">
+            <div class="card user-wallet-sec">
 
                 <div class="card-header border-bottom border-gray">
 
@@ -37,7 +37,7 @@
 
                         @include('admin.user_wallets._search')
 
-                        <table class="table table-striped table-bordered sourced-data">
+                        <table class="table table-striped table-bordered sourced-data table-responsive">
                             
                             <thead>
                                 <tr>
@@ -54,30 +54,30 @@
                            
                             <tbody>
 
-                                @foreach($user_wallets as $i => $user_wallet_details)
+                                @foreach($user_wallets as $i => $user_wallet)
                                 <tr>
                                     <td>{{ $i+$user_wallets->firstItem() }}</td>
 
-                                    <td> <a href="{{ route('admin.user_wallets.view', ['user_id' => $user_wallet_details->user_id] ) }}">{{ $user_wallet_details->unique_id}}</a></td>
+                                    <td> <a href="{{ route('admin.user_wallets.view', ['user_id' => $user_wallet->user_id] ) }}">{{ $user_wallet->unique_id}}</a></td>
 
                                     <td>
-                                        <a href="{{  route('admin.users.view' , ['user_id' => $user_wallet_details->user_id] )  }}">
-                                        {{ $user_wallet_details->user->name ?? "-" }}
+                                        <a href="{{  route('admin.users.view' , ['user_id' => $user_wallet->user_id] )  }}">
+                                        {{ $user_wallet->user->name ?? "-" }}
                                         </a>
                                     </td>
 
-                                    <td>{{ $user_wallet_details->total_formatted }}</td>
+                                    <td>{{ $user_wallet->total_formatted }}</td>
 
                                     <td>
-                                        {{ $user_wallet_details->onhold_formatted}}
+                                        {{ $user_wallet->onhold_formatted}}
                                     </td>
 
                                     <td>
-                                        {{ $user_wallet_details->used_formatted}}
+                                        {{ $user_wallet->used_formatted}}
                                     </td>
 
                                     <td>
-                                        {{ $user_wallet_details->remaining_formatted}}
+                                        {{ $user_wallet->remaining_formatted}}
                                     </td>
 
                                     <td>
@@ -88,7 +88,7 @@
 
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                <a class="dropdown-item" href="{{ route('admin.user_wallets.view', ['user_id' => $user_wallet_details->user_id] ) }}">&nbsp;{{ tr('view') }}</a> 
+                                                <a class="dropdown-item" href="{{ route('admin.user_wallets.view', ['user_id' => $user_wallet->user_id] ) }}">&nbsp;{{ tr('view') }}</a> 
 
                                             </div>
 
@@ -104,7 +104,7 @@
                         
                         </table>
 
-                        <div class="pull-right" id="paglink">{{ $user_wallets->appends(request()->input())->links() }}</div>
+                        <div class="pull-right resp-float-unset" id="paglink">{{ $user_wallets->appends(request()->input())->links() }}</div>
 
                     </div>
 

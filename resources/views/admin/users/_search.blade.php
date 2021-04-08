@@ -27,7 +27,7 @@
                 <option class="select-color" value="{{SORT_BY_DOCUMENT_PENDING}}" @if(Request::get('status') == SORT_BY_DOCUMENT_PENDING && Request::get('status')!='' ) selected @endif>{{tr('document_pending')}}</option>
 
             </select>
-
+           <input type="hidden" id="account_type" name="account_type" value="{{Request::get('account_type') ?? ''}}">
         </div>
 
         <div class="col-xs-12 col-sm-12 col-lg-6 col-md-12">
@@ -43,7 +43,7 @@
                         <i class="fa fa-search" aria-hidden="true"></i>
                     </button>
 
-                    <a href="{{route('admin.users.index')}}" class="btn btn-default reset-btn">
+                    <a href="{{route('admin.users.index',['account_type'=>Request::get('account_type') ?? ''])}}" class="btn btn-default reset-btn">
                         <span class="glyphicon glyphicon-search"> <i class="fa fa-eraser" aria-hidden="true"></i>
                         </span>
                     </a>

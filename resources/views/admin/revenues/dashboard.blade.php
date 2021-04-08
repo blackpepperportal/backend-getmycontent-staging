@@ -18,7 +18,7 @@
 
         <div class="col-12">
 
-            <div class="card">
+            <div class="card revenue-dashboard-sec">
 
                 <div class="card-header border-bottom border-gray">
 
@@ -193,17 +193,17 @@
 
                             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
 
-                                <div class="card card-box">
+                                <!-- <div class="card card-box">
+
+                                <div class="card-body no-padding height-9">
 
                                     <div class="card-head">
                                       <div class="card-header card-title">{{tr('revenues')}}</div>
                                     </div>
 
-                                    <div class="card-body no-padding height-9">
-                                        <div class="row">
-                                            <canvas id="bar-chart"></canvas>
-                                        </div>
-                                    </div>
+                                    
+                                  </div> -->
+                                  <canvas id="bar-chart"></canvas>
 
                                 </div>
 
@@ -220,7 +220,6 @@
         </div>
 
     </div>
-
 </section>
 
 
@@ -228,11 +227,12 @@
 
 @section('scripts')
 
-    <script src="{{asset('admin-assets/dashboard-assets/assets/plugins/chart-js/Chart.bundle.js')}}" ></script>
+    <!-- <script src="{{asset('admin-assets/dashboard-assets/assets/plugins/chart-js/Chart.bundle.js')}}" ></script>
 
-    <script src="{{asset('admin-assets/dashboard-assets/assets/plugins/chart-js/utils.js')}}" ></script>
+    <script src="{{asset('admin-assets/dashboard-assets/assets/plugins/chart-js/utils.js')}}" ></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
 
         $(document).ready(function() {
 
@@ -277,6 +277,42 @@
             });
         });
 
+        </script> -->
+        <script>
+             if ($('#bar-chart').length) {
+                new Chart($("#bar-chart"), {
+                type: 'bar',
+                data: {
+                    labels: [<?php foreach ($data->analytics->last_x_days_revenues as $key => $value)       {
+                                echo '"'.$value->date.'"'.',';
+                            } 
+                            ?>],
+                    datasets: [{
+                        label: "Post Earnings",
+                        backgroundColor: ["#b1cfec", "#7ee5e5", "#66d1d1", "#f77eb9", "#4d8af0", "#b1cfec", "#7ee5e5", "#66d1d1", "#f77eb9", "#4d8af0"],
+                        data: [<?php 
+                                foreach ($data->analytics->last_x_days_revenues as $value) {
+                                    echo $value->total_post_earnings.',';
+                                }
+
+                            ?>]
+                    },
+                    {
+                        label: "Subscription Earnings",
+                        backgroundColor: ["#b1cfec", "#7ee5e5", "#66d1d1", "#f77eb9", "#4d8af0", "#b1cfec", "#7ee5e5", "#66d1d1", "#f77eb9", "#4d8af0"],
+                        data: [<?php 
+                                foreach ($data->analytics->last_x_days_revenues as $value) {
+                                    echo $value->total_subscription_earnings.',';
+                                }
+
+                            ?>]
+                    }]
+                },
+                options: {
+                    legend: { display: false },
+                }
+            });
+    }
         </script>
 
 @endsection
