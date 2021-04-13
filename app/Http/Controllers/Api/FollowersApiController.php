@@ -360,7 +360,7 @@ class FollowersApiController extends Controller
 
             $blocked_user_ids = blocked_users($request->id);
 
-            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('user_id',$blocked_user_ids)->whereHas('user')->where('follower_id', $request->id)->where('');
+            $base_query = $total_query = Follower::CommonResponse()->whereNotIn('user_id',$blocked_user_ids)->whereHas('user')->where('follower_id', $request->id);
 
             $followers = $base_query->skip($this->skip)->take($this->take)->orderBy('followers.created_at', 'desc')->get();
 

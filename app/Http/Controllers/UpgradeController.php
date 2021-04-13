@@ -53,7 +53,7 @@ class UpgradeController extends Controller
 
             \App\Follower::whereIn('follower_id', [$change_expiry_user_ids])->where('user_id', $user_subscription->user_id)->delete();
             
-            \App\UserSubscriptionPayment::where('user_subscription_id', 0)->where('to_user_id', $user_subscription->user_id)->update(['is_current_subscription' => NO, 'expiry_date' => date('Y-m-d H:i:s'), 'cancel_reason' => 'Model added subscription']);
+            \App\UserSubscriptionPayment::where('user_subscription_id', 0)->where('to_user_id', $user_subscription->user_id)->update(['is_current_subscription' => NO, 'expiry_date' => date('Y-m-d H:i:s'),'cancel_reason' => 'Model added subscription']);
         }
 
             return $this->sendResponse("", "", $data = ['user_subscriptions' => $user_subscriptions->count() ?? 0]);
