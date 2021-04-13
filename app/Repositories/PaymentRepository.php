@@ -1153,6 +1153,12 @@ class PaymentRepository {
                 if (strtotime($previous_payment->expiry_date) >= strtotime(date('Y-m-d H:i:s'))) {
                     $user_subscription_payment->expiry_date = date('Y-m-d H:i:s', strtotime("+{$plan_formatted}", strtotime($previous_payment->expiry_date)));
                 }
+
+                $previous_payment->is_current_subscription = NO;
+
+                $previous_payment->cancel_reason = 'Other plan subscribed';
+
+                $previous_payment->save();
             }
 
             $user_subscription_payment->user_subscription_id = $user_subscription->id ?? 0;
