@@ -908,7 +908,7 @@ class PostsApiController extends Controller
             $rules = [
                 'comment' => 'required',
                 'post_id' => 'required|exists:posts,id',
-                'post_comment_id'=>'nullable:exists:post_comments,id'
+                'post_comment_id'=>'nullable|exists:post_comments,id'
             ];
 
             $custom_errors = ['post_id.required' => api_error(146)];
@@ -968,7 +968,9 @@ class PostsApiController extends Controller
 
             $data = $post_comment;
 
-            return $this->sendResponse(api_success(141), 141, $data);
+            $code = $request->post_comment_id ? 163 : 141;
+
+            return $this->sendResponse(api_success($code), $code, $data);
             
         } catch(Exception $e){ 
 
