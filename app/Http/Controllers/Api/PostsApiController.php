@@ -907,7 +907,8 @@ class PostsApiController extends Controller
 
             $rules = [
                 'comment' => 'required',
-                'post_id' => 'required|exists:posts,id'
+                'post_id' => 'required|exists:posts,id',
+                'post_comment_id'=>'nullable:exists:post_comments,id'
             ];
 
             $custom_errors = ['post_id.required' => api_error(146)];
@@ -939,9 +940,23 @@ class PostsApiController extends Controller
             
             $custom_request = new Request();
 
-            $custom_request->request->add(['user_id' => $request->id, 'post_id' => $request->post_id, 'comment' => $request->comment]);
 
-            $post_comment = \App\PostComment::create($custom_request->request->all());
+            if($request->post_comment_id){
+
+                $custom_request->request->add(['id'=>$request->post_comment_id,'user_id' => $request->id, 'post_id' => $request->post_id, 'comment' => $request->comment]);
+
+                \App\PostComment::where('id',$request->post_comment_id)->update($custom_request->request->all());
+
+                $post_comment = \App\PostComment::find($request->post_comment_id);
+            }
+            else{
+
+               $custom_request->request->add(['user_id' => $request->id, 'post_id' => $request->post_id, 'comment' => $request->comment]);
+
+               $post_comment = \App\PostComment::create($custom_request->request->all());
+
+            }
+
 
             DB::commit(); 
 
