@@ -124,6 +124,8 @@ return [
 
     162 => 'Redirection Success',
 
+    163 => 'Comment Updated',
+
     3000 => 'The chat deleted',
 
 ];
