@@ -1163,6 +1163,7 @@ return [
 	'payment_failure'=>'Payment Failed',
 	'success'=>'Success',
 	'failure'=>'Failed',
-	'watermark_logo'=>'Watermark Logo'
+	'watermark_logo'=>'Watermark Logo',
+	'is_watermark_logo_enabled'=>'Is Watermark Logo Enabled ?'
 
 ];

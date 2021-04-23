@@ -200,6 +200,7 @@ hr {
                             @endif<br><br>
 
 
+                            @if(Setting::get('is_watermark_logo_enabled'))
                             <div class="form-group">
                                 <label for="watermark_logo">{{tr('watermark_logo')}} *</label>
                                 <p class="txt-warning">{{tr('png_image_note')}}</p>
@@ -210,6 +211,8 @@ hr {
 
                                 <img class="img img-thumbnail m-b-20" style="width: 40%" src="{{Setting::get('watermark_logo')}}" alt="{{Setting::get('site_name')}}"> 
 
+                            @endif
+                        
                             @endif
 
                         </div>

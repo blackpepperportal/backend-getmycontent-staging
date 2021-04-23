@@ -13,6 +13,10 @@ class WatermarkLogoSeeder extends Seeder
     {
         //
         \DB::table('settings')->insert([
+            [
+		        'key' => 'is_watermark_logo_enabled',
+		        'value' => NO
+		    ],
     		[
 		        'key' => 'watermark_logo',
 		        'value' => env('APP_URL').'/watermark.png'
