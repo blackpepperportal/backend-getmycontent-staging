@@ -199,6 +199,23 @@
                                                     
                                                         </div>
 
+
+                                                        <div class="form-group col-md-6">
+                                                                       
+                                                                       <label>{{ tr('is_watermark_logo_enabled') }}</label>
+                                                                       <br>
+                                                                       <label>
+                                                                           <input required type="radio" name="is_watermark_logo_enabled" value="1" class="flat-red" @if(Setting::get('is_watermark_logo_enabled') == 1) checked @endif>
+                                                                           {{tr('yes')}}
+                                                                       </label>
+           
+                                                                       <label>
+                                                                           <input required type="radio" name="is_watermark_logo_enabled" class="flat-red"  value="0" @if(Setting::get('is_watermark_logo_enabled') == 0) checked @endif>
+                                                                           {{tr('no')}}
+                                                                       </label>
+                                                               
+                                                                   </div>
+
                                                         <div class="row">
 
                                                         <div class="col-md-12">
