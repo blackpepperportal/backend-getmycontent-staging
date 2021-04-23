@@ -431,6 +431,8 @@ class PostsApiController extends Controller
 
                     $post_file->preview_file = asset('storage/'.$folder_path.$filename_img);
 
+                    if(Setting::get('is_watermark_logo_enabled')){
+
                     $ffmpeg = \FFMpeg\FFMpeg::create();
 
                     $watermark_image =  public_path("storage/".FILE_PATH_SITE.get_video_end(Setting::get('watermark_logo')));
@@ -446,7 +448,8 @@ class PostsApiController extends Controller
                         ->watermark($watermark_image)->synchronize();
     
                     $video->save(new \FFMpeg\Format\Video\X264('libmp3lame', 'libx264'), $new_video_path);
-
+                      
+                    }
                 }
 
                 $post_file->save();
