@@ -16,6 +16,8 @@ use Excel;
 
 use App\Exports\UsersExport;
 
+use Image;
+
 class AdminUserController extends Controller
 {
     /**
@@ -317,6 +319,7 @@ class AdminUserController extends Controller
                 }
 
                 $user->picture = Helper::storage_upload_file($request->file('picture'), COMMON_FILE_PATH);
+          
             }
 
             if($request->hasFile('cover') != "") {

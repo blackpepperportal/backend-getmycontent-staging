@@ -184,7 +184,7 @@ return [
         Benwilkins\FCM\FcmNotificationServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Pawlox\VideoThumbnail\VideoThumbnailServiceProvider::class,
-        Srmklive\PayPal\Providers\PayPalServiceProvider::class
+        Srmklive\PayPal\Providers\PayPalServiceProvider::class,
     ],
 
     /*
@@ -244,7 +244,7 @@ return [
         'FCM'      => LaravelFCM\Facades\FCM::class,
         'FCMGroup' => LaravelFCM\Facades\FCMGroup::class, // Optional
         'PDF' => Barryvdh\DomPDF\Facade::class,
-        'VideoThumbnail' => Pawlox\VideoThumbnail\Facade\VideoThumbnail::class
+        'VideoThumbnail' => Pawlox\VideoThumbnail\Facade\VideoThumbnail::class,
     ],
 
 ];
