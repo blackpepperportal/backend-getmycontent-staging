@@ -1205,3 +1205,72 @@ function get_video_end($video_url) {
     $result = end($url);
     return $result;
 }
+
+/**
+ * @method add_watermark_to_image()
+ *
+ * @uses add watermark to image
+ * 
+ * @created Ganesh
+ *
+ * @updated Ganesh
+ * 
+ */
+function add_watermark_to_image($storage_file_path){
+
+     $watermark_image_path =  public_path("storage/".FILE_PATH_SITE.get_video_end(Setting::get('watermark_logo')));
+
+     $fileType = pathinfo($storage_file_path,PATHINFO_EXTENSION); 
+
+     $watermark_file_type = pathinfo($watermark_image_path,PATHINFO_EXTENSION); 
+
+     if($watermark_file_type == 'jpg' || $watermark_file_type == 'jpeg'){
+
+        $watermarkImg = imagecreatefromjpeg($watermark_image_path); 
+     }
+     else{
+
+        $watermarkImg = imagecreatefrompng($watermark_image_path); 
+     }
+         
+    // Allow certain file formats 
+       $allowTypes = array('jpg','png','jpeg'); 
+  
+       if(in_array($fileType,$allowTypes)) {
+
+        switch($fileType){ 
+            case 'jpg': 
+                $im = imagecreatefromjpeg($storage_file_path); 
+                break; 
+            case 'jpeg': 
+                $im = imagecreatefromjpeg($storage_file_path); 
+                break; 
+            case 'png': 
+                $im = imagecreatefrompng($storage_file_path); 
+                break; 
+            default: 
+                $im = imagecreatefromjpeg($storage_file_path); 
+        } 
+         
+        $sx = imagesx($watermarkImg); 
+        $sy = imagesy($watermarkImg); 
+       
+        imagecopy($im, $watermarkImg, imagesx($im) - $sx - 0, imagesy($im) - $sy - 0, 0, 0, imagesx($watermarkImg), imagesy($watermarkImg)); 
+       
+        if($fileType == 'jpeg' || $fileType == 'jpg'){
+
+            imagejpeg($im, $storage_file_path); 
+
+        }
+        
+        else{
+
+            imagepng($im, $storage_file_path); 
+        }
+
+        imagedestroy($im); 
+
+    }
+
+
+}
