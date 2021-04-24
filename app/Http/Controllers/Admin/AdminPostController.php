@@ -232,11 +232,44 @@ class AdminPostController extends Controller
 
                                 $preview_file = asset('storage/'.$folder_path.$filename_img);
 
+                               
                             }
                             
                             $post_file->preview_file = $preview_file ?? Setting::get('post_video_placeholder');
 
                         }
+
+
+                        if(Setting::get('is_watermark_logo_enabled') && Setting::get('watermark_logo')){
+
+                            if($request->file_type == FILE_TYPE_IMAGE){
+
+                                $storage_file_path = public_path("storage/".$folder_path.get_video_end($post_file_url)); 
+               
+                                add_watermark_to_image($storage_file_path);
+                           }
+
+
+                            $ffmpeg = \FFMpeg\FFMpeg::create();
+        
+                            $watermark_image =  public_path("storage/".FILE_PATH_SITE.get_video_end(Setting::get('watermark_logo')));
+                           
+                            $video_file = public_path("storage/".$folder_path.get_video_end($post_file_url)); 
+                            
+                            $new_video_path = public_path("storage/".$folder_path."water-".get_video_end($post_file_url)); 
+            
+                            $video = $ffmpeg->open($video_file);
+            
+                            $video
+                                ->filters()
+                                ->watermark($watermark_image)->synchronize();
+            
+                            $video->save(new \FFMpeg\Format\Video\X264('libmp3lame', 'libx264'), $new_video_path);
+                              
+                       }
+
+                       
+           
 
                         $post_file->save();
 
