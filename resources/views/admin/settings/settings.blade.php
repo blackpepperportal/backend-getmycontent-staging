@@ -197,6 +197,22 @@ hr {
 
                                 <img class="img img-thumbnail m-b-20" style="width: 40%" src="{{Setting::get('site_logo')}}" alt="{{Setting::get('site_name')}}"> 
 
+                            @endif<br><br>
+
+
+                            @if(Setting::get('is_watermark_logo_enabled'))
+                            <div class="form-group">
+                                <label for="watermark_logo">{{tr('watermark_logo')}} *</label>
+                                <p class="txt-warning">{{tr('png_image_note')}}</p>
+                                <input type="file" class="form-control" id="watermark_logo" name="watermark_logo" accept="image/png" placeholder="{{tr('watermark_logo')}}">
+                            </div>
+
+                            @if(Setting::get('watermark_logo'))
+
+                                <img class="img img-thumbnail m-b-20" style="width: 40%" src="{{Setting::get('watermark_logo')}}" alt="{{Setting::get('site_name')}}"> 
+
+                            @endif
+                        
                             @endif
 
                         </div>

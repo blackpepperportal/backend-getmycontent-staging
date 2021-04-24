@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call(VerifiedBadgeSeeder::class);
         $this->call(MultiLanguageSeeder::class);
         $this->call(UserWelcomeSeeder::class);
+        $this->call(WatermarkLogoSeeder::class);
+
 
     }
 }
