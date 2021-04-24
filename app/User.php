@@ -41,7 +41,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = ['user_id', 'user_unique_id', 'is_notification', 'is_document_verified_formatted', 'total_followers', 'total_followings', 'user_account_type_formatted', 'total_posts', 'total_fav_users', 'total_bookmarks', 'is_subscription_enabled', 'share_link','orders_count','tipped_amount', 'is_user_online', 'is_welcome_steps'];
+    protected $appends = ['user_id', 'user_unique_id', 'is_notification', 'is_document_verified_formatted', 'total_followers', 'total_followings', 'user_account_type_formatted', 'total_posts', 'total_fav_users', 'total_bookmarks', 'is_subscription_enabled', 'share_link','orders_count','tipped_amount', 'is_user_online', 'is_welcome_steps','verified_badge_file'];
 
     public function getIsWelcomeStepsAttribute() {
 
@@ -128,6 +128,15 @@ class User extends Authenticatable
         
         return $count;
 
+    }
+
+    public function getVerifiedBadgeFileAttribute() {
+
+        $verified_badge_file = $this->is_verified_badge ? Setting::get('verified_badge_file') ? '';
+
+        // unset($this->user);
+
+        return $verified_badge_file ?? "";
     }
 
     public function getTotalBookmarksAttribute() {

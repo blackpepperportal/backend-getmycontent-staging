@@ -1199,3 +1199,9 @@ function formatUrl($url) {
 
     Log::info("url".$url);
 }
+
+function get_video_end($video_url) {
+    $url = explode('/',$video_url);
+    $result = end($url);
+    return $result;
+}

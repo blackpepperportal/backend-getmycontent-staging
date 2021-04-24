@@ -392,11 +392,11 @@ class PostsApiController extends Controller
     public function post_files_upload(Request $request) {
 
         try {
-            
+           
             $rules = [
                 'file' => 'required|file',
                 'file_type' => 'required',
-                'post_id' => 'nullable|posts,id'
+                'post_id' => 'nullable|exists:posts,id'
             ];
 
             Helper::custom_validator($request->all(),$rules);
@@ -404,9 +404,9 @@ class PostsApiController extends Controller
             $filename = rand(1,1000000).'-post-'.$request->file_type;
 
             $folder_path = POST_PATH.$request->id.'/';
-
+            
             $post_file_url = Helper::post_upload_file($request->file, $folder_path, $filename);
-
+            
             $ext = $request->file->getClientOriginalExtension();
 
             if($post_file_url) {
@@ -431,6 +431,25 @@ class PostsApiController extends Controller
 
                     $post_file->preview_file = asset('storage/'.$folder_path.$filename_img);
 
+                    if(Setting::get('is_watermark_logo_enabled')){
+
+                    $ffmpeg = \FFMpeg\FFMpeg::create();
+
+                    $watermark_image =  public_path("storage/".FILE_PATH_SITE.get_video_end(Setting::get('watermark_logo')));
+                   
+                    $video_file = public_path("storage/".$folder_path.get_video_end($post_file_url)); 
+                    
+                    $new_video_path = public_path("storage/".$folder_path."water-".get_video_end($post_file_url)); 
+    
+                    $video = $ffmpeg->open($video_file);
+    
+                    $video
+                        ->filters()
+                        ->watermark($watermark_image)->synchronize();
+    
+                    $video->save(new \FFMpeg\Format\Video\X264('libmp3lame', 'libx264'), $new_video_path);
+                      
+                    }
                 }
 
                 $post_file->save();
@@ -907,7 +926,8 @@ class PostsApiController extends Controller
 
             $rules = [
                 'comment' => 'required',
-                'post_id' => 'required|exists:posts,id'
+                'post_id' => 'required|exists:posts,id',
+                'post_comment_id'=>'nullable|exists:post_comments,id'
             ];
 
             $custom_errors = ['post_id.required' => api_error(146)];
@@ -939,9 +959,23 @@ class PostsApiController extends Controller
             
             $custom_request = new Request();
 
-            $custom_request->request->add(['user_id' => $request->id, 'post_id' => $request->post_id, 'comment' => $request->comment]);
 
-            $post_comment = \App\PostComment::create($custom_request->request->all());
+            if($request->post_comment_id){
+
+                $custom_request->request->add(['id'=>$request->post_comment_id,'user_id' => $request->id, 'post_id' => $request->post_id, 'comment' => $request->comment]);
+
+                \App\PostComment::where('id',$request->post_comment_id)->update($custom_request->request->all());
+
+                $post_comment = \App\PostComment::find($request->post_comment_id);
+            }
+            else{
+
+               $custom_request->request->add(['user_id' => $request->id, 'post_id' => $request->post_id, 'comment' => $request->comment]);
+
+               $post_comment = \App\PostComment::create($custom_request->request->all());
+
+            }
+
 
             DB::commit(); 
 
@@ -953,7 +987,9 @@ class PostsApiController extends Controller
 
             $data = $post_comment;
 
-            return $this->sendResponse(api_success(141), 141, $data);
+            $code = $request->post_comment_id ? 163 : 141;
+
+            return $this->sendResponse(api_success($code), $code, $data);
             
         } catch(Exception $e){ 
 

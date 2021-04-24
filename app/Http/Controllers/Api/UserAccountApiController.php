@@ -871,7 +871,24 @@ class UserAccountApiController extends Controller
 
                         $user_subscription = new \App\UserSubscription;
 
+                        $change_expiry_user_ids = \App\UserSubscriptionPayment::where('user_subscription_id', 0)->where('to_user_id', $request->id)->pluck('from_user_id');
+
+                        \App\Follower::whereIn('user_id', $change_expiry_user_ids)->where('follower_id', $request->id)->delete();
+
                         \App\UserSubscriptionPayment::where('user_subscription_id', 0)->where('to_user_id', $request->id)->update(['is_current_subscription' => NO, 'expiry_date' => date('Y-m-d H:i:s'), 'cancel_reason' => 'Model added subscription']);
+
+                    }
+
+                    if($user_subscription->monthly_amount == 0.00 || $user_subscription->yearly_amount == 0.00) {
+
+                        if($request->monthly_amount > 0.00 || $request->yearly_amount > 0.00) {
+
+                            $change_expiry_user_ids = \App\UserSubscriptionPayment::where('user_subscription_id', 0)->where('to_user_id', $request->id)->pluck('from_user_id')->implode(',') ?? "";
+
+                            \App\Follower::whereIn('follower_id', [$change_expiry_user_ids])->where('user_id', $request->id)->delete();
+                            
+                            \App\UserSubscriptionPayment::where('user_subscription_id', 0)->where('to_user_id', $request->id)->update(['is_current_subscription' => NO, 'expiry_date' => date('Y-m-d H:i:s'), 'cancel_reason' => 'Model added subscription']);
+                        }
 
                     }
 
@@ -2603,6 +2620,8 @@ class UserAccountApiController extends Controller
         }
 
     }
+
+
 
      /** 
      * @method user_subscriptions_payment_by_paypal()
