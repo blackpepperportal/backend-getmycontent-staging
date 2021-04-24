@@ -320,7 +320,6 @@ class AdminUserController extends Controller
 
                 $user->picture = Helper::storage_upload_file($request->file('picture'), COMMON_FILE_PATH);
           
-                add_watermark_to_image($user->picture);
             }
 
             if($request->hasFile('cover') != "") {
