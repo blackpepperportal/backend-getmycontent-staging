@@ -1255,7 +1255,7 @@ function add_watermark_to_image($storage_file_path){
         $sx = imagesx($watermarkImg); 
         $sy = imagesy($watermarkImg); 
        
-        imagecopy($im, $watermarkImg, imagesx($im) - $sx - 0, imagesy($im) - $sy - 0, 0, 0, imagesx($watermarkImg), imagesy($watermarkImg)); 
+        imagecopy($im, $watermarkImg, 0, 0, 0, 0, imagesx($watermarkImg), imagesy($watermarkImg)); 
        
         if($fileType == 'jpeg' || $fileType == 'jpg'){
 
