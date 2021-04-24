@@ -431,7 +431,7 @@ class PostsApiController extends Controller
 
                     $post_file->preview_file = asset('storage/'.$folder_path.$filename_img);
 
-                    if(Setting::get('is_watermark_logo_enabled')){
+                    if(Setting::get('is_watermark_logo_enabled') && Setting::get('watermark_logo')){
 
                     $ffmpeg = \FFMpeg\FFMpeg::create();
 
@@ -455,6 +455,14 @@ class PostsApiController extends Controller
                 $post_file->save();
 
             }
+
+            if($request->file_type=='image' && Setting::get('is_watermark_logo_enabled') && Setting::get('watermark_logo')){
+
+                 $storage_file_path = public_path("storage/".$folder_path.get_video_end($post_file_url)); 
+
+                 add_watermark_to_image($storage_file_path);
+            }
+
 
             $data['file'] = $post_file_url;
 
