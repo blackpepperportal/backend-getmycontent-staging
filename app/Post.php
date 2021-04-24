@@ -8,7 +8,7 @@ class Post extends Model
 {
 	protected $hidden = ['id','unique_id'];
 
-	protected $appends = ['amount_formatted','post_id','post_unique_id', 'username', 'user_displayname','user_picture', 'user_unique_id', 'total_likes', 'total_comments','is_verified_badge'];
+	protected $appends = ['amount_formatted','post_id','post_unique_id', 'username', 'user_displayname','user_picture', 'user_unique_id', 'total_likes', 'total_comments','is_verified_badge','verified_badge_file'];
 
 	public function getAmountFormattedAttribute() {
 
@@ -81,6 +81,15 @@ class Post extends Model
 	    return $this->postComments->count();
 
 	}
+
+	public function getVerifiedBadgeFileAttribute() {
+
+        $verified_badge_file = $this->user->is_verified_badge ? Setting::get('verified_badge_file') ? '';
+
+        // unset($this->user);
+
+        return $verified_badge_file ?? "";
+    }
 
 	public function user() {
 
