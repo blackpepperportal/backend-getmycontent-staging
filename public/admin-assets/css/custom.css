@@ -258,3 +258,13 @@ img {
 .text-gray {
   color: #697488;
 }
+
+.dataTables_wrapper .dropdown-menu.show{
+  overflow:auto;
+  height: 6em;
+  padding:0!important;
+}
+
+/* .dataTables_wrapper ::-webkit-scrollbar {
+  display: none;
+} */

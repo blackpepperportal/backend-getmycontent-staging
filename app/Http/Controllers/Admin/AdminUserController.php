@@ -16,6 +16,8 @@ use Excel;
 
 use App\Exports\UsersExport;
 
+use Image;
+
 class AdminUserController extends Controller
 {
     /**
@@ -317,6 +319,7 @@ class AdminUserController extends Controller
                 }
 
                 $user->picture = Helper::storage_upload_file($request->file('picture'), COMMON_FILE_PATH);
+          
             }
 
             if($request->hasFile('cover') != "") {
@@ -1087,7 +1090,7 @@ class AdminUserController extends Controller
      */
     public function user_subscription_payments(Request $request) {
        
-        $base_query = \App\UserSubscriptionPayment::orderBy('created_at', 'desc')->has('fromUser')->has('toUser');
+        $base_query = \App\UserSubscriptionPayment::has('fromUser')->has('toUser');
 
         $search_key = $request->search_key;
 
@@ -1112,6 +1115,42 @@ class AdminUserController extends Controller
 
             $user = \App\User::find($request->from_user_id);
         }
+
+
+        if($request->status) {
+
+            switch ($request->status) {
+
+                case SORT_BY_HIGH:
+                    $base_query = $base_query->orderBy('amount','desc');
+                    break;
+
+                case SORT_BY_LOW:
+                    $base_query = $base_query->orderBy('amount','asc');
+                    break;
+
+                case SORT_BY_FREE:
+                    $base_query = $base_query->where('amount',0.00);
+                    break;
+
+                case SORT_BY_PAID:
+
+                    $base_query = $base_query->where('amount','!=',0.00);
+
+                    break;
+               
+                default:
+                    $base_query = $base_query->orderBy('created_at','desc');
+                    
+                    break;
+            }
+        }
+        else{
+
+            $base_query = $base_query->orderBy('created_at','desc');
+        }
+
+       
 
         $user_subscriptions = $base_query->paginate(10);
 

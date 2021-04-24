@@ -20,3 +20,5 @@ Route::get('/', 'HomeController@index');
 Route::get('/home', 'AdminController@index')->name('home');
 
 Route::get('settings_generate_json', 'ApplicationController@settings_generate_json')->name('settings_generate_json');
+
+Route::get('free_subscriptions_clear', 'UpgradeController@free_subscriptions_clear')->name('free_subscriptions_clear');

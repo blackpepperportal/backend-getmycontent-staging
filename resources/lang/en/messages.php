@@ -1154,8 +1154,16 @@ return [
 	"billing_accounts"=>"Billing Accounts",
 
 	"post_payments_message"=>"You received a post payment (:other_key) from ",
+	 
+	"sort_by_high"=>"High",
+	"sort_by_low"=>"Low",
+	"sort_by_paid"=>"Paid",
+	"sort_by_free"=>"Free",
+
 	'payment_failure'=>'Payment Failed',
 	'success'=>'Success',
 	'failure'=>'Failed',
+	'watermark_logo'=>'Watermark Logo',
+	'is_watermark_logo_enabled'=>'Is Watermark Logo Enabled ?'
 
 ];
