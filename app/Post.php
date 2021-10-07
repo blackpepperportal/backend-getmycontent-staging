@@ -54,7 +54,7 @@ class Post extends Model
 
 	public function getIsVerifiedBadgeAttribute() {
 
-		$is_verified_badge = $this->user->is_verified_badge ?? "";
+		$is_verified_badge = $this->user->is_verified_badge ?? 0;
 
 		// unset($this->user);
 
@@ -84,7 +84,9 @@ class Post extends Model
 
 	public function getVerifiedBadgeFileAttribute() {
 
-        $verified_badge_file = $this->user->is_verified_badge ? \Setting::get('verified_badge_file') : '';
+		$is_verified_badge = $this->user->is_verified_badge ?? 0;
+
+        $verified_badge_file = $is_verified_badge ? \Setting::get('verified_badge_file') : '';
 
         // unset($this->user);
 
